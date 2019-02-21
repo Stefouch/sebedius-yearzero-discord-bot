@@ -209,8 +209,16 @@ class YZRoll {
 		else return result <= 2;
 	}
 
+	/**
+	 * Returns the description of the roll.
+	 * @returns {string} The roll described in one sentence
+	 */
 	toString() {
-		return 'Roll' + this.title;
+		let str = `${(this.title) ? `${this.title} ` : ''}Roll${(this.pushed) ? ' (pushed)' : ''}:`;
+		str += `base[${this.dice.base.toString()}], skill[${this.dice.skill.toString()}], gear[${this.dice.gear.toString()}]`;
+		if (this.artifactDie.size) str += `, D${this.artifactDie.size} (${this.artifactDie.result})`;
+
+		return str;
 	}
 }
 
