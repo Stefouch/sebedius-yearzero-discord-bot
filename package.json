@@ -8,9 +8,6 @@
     "start": "node .",
     "lint": "eslint ."
   },
-  "engines": {
-    "node": "8.4.0"
-  },
   "keywords": [
     "myz",
     "dice",
