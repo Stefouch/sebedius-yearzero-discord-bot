@@ -15,7 +15,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
   * `roll d6|d66|d666 [name]` : Rolls a D6, D66, or D666 for MYZ.
   * `roll Xd|Xd6 [name]`: Rolls X D6 and sums their results.
   * `roll res d6|d8|d10|d12 [name]`: Rolls a Resource Die. *(Imported from Forbidden Lands.)*
-  * `roll [Wb][Xs][Yg][Za] [--fullauto] [name]\`: Rolls a pool of dice following the rules of MYZ:
+  * `roll [Wb][Xs][Yg][Za] [name] [--fullauto]`: Rolls a pool of dice following the rules of MYZ:
     * `W b` : Rolls W base dice (yellow color).
     * `X s` : Rolls X skill dice (green color).
     * `Y g` : Rolls Y gear dice (black color).
