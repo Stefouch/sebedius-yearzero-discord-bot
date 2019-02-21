@@ -1,0 +1,23 @@
+{
+	"id": "543110732913311774",
+	"update": "2019-02-13",
+	"name": "Alma",
+	"loc": "G14",
+	"bosses": ["Boss Kim-Jung-Un (Kingpine)", "Boss Fortyfore (Cultist)", "Boss Starlord (Revolutionary)", "Boss Trump (PC)"],
+	"pop": {
+		"starting": 255,
+		"current": 250
+	},
+	"dev": {
+		"food": 6,
+		"culture": 2,
+		"tech": 5,
+		"warfare": 6,
+		"battle": 2
+	},
+	"projects": [
+		["Hunting Party", 3, 4],
+		["Defenses", 3, 8],
+		["Expedition Warfare", 0, 2]
+	]
+}

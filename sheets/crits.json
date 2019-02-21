@@ -1,0 +1,560 @@
+{
+	"myz": {
+		"damage": [
+			{
+				"ref": 11,
+				"injury": "Lost Breath",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": 12,
+				"injury": "Stunned",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": 13,
+				"injury": "Sprained Wrist",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Shoot and Fight.",
+				"healingTime": 1
+			},
+			{
+				"ref": 14,
+				"injury": "Sprained Ankle",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Move and Sneak.",
+				"healingTime": 1
+			},
+			{
+				"ref": 15,
+				"injury": "Concussion",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Scout and Comprehend.",
+				"healingTime": 1
+			},
+			{
+				"ref": 16,
+				"injury": "Damaged Shin",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Move and Sneak.",
+				"healingTime": 2
+			},
+			{
+				"ref": 21,
+				"injury": "Broken Nose",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Manipulate, +1 Intimidate, Tracker mutation disabled.",
+				"healingTime": 2
+			},
+			{
+				"ref": 22,
+				"injury": "Broken Fingers",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Shoot and Fight.",
+				"healingTime": 2
+			},
+			{
+				"ref": 23,
+				"injury": "Broken Toes",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Move and Sneak.",
+				"healingTime": 2
+			},
+			{
+				"ref": 24,
+				"injury": "Teeth Knocked Out",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Manipulate, +1 Intimidate.",
+				"healingTime": 2
+			},
+			{
+				"ref": 25,
+				"injury": "Groin Hit",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You suffer one point of damage for every roll you make to Force, Move or Fight.",
+				"healingTime": 2
+			},
+			{
+				"ref": 26,
+				"injury": "Thigh Wound",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−2 to Move and Sneak.",
+				"healingTime": 2
+			},
+			{
+				"ref": 31,
+				"injury": "Biceps Wound",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−2 to Shoot and Fight.",
+				"healingTime": 2
+			},
+			{
+				"ref": 32,
+				"injury": "Severed Achilles Tendon",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−2 to Move and Sneak.",
+				"healingTime": 2
+			},
+			{
+				"ref": 33,
+				"injury": "Dislocated Shoulder",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−3 to Force and Fight, can not use two-handed weapons.",
+				"healingTime": 1
+			},
+			{
+				"ref": 34,
+				"injury": "Broken Ribs",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−2 to Move and Fight.",
+				"healingTime": 2
+			},
+			{
+				"ref": 35,
+				"injury": "Broken Forearm",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can not use two-handed weapons.",
+				"healingTime": 3
+			},
+			{
+				"ref": 36,
+				"injury": "Broken Leg",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−2 to Move and Sneak.",
+				"healingTime": 3
+			},
+			{
+				"ref": 41,
+				"injury": "Ear Torn Off",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−1 to Scout, Sonar mutation disabled.",
+				"healingTime": 3
+			},
+			{
+				"ref": 42,
+				"injury": "Gouged Eye",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "−2 to Shoot and Scout.",
+				"healingTime": 3
+			},
+			{
+				"ref": 43,
+				"injury": "Punctured Lung",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "−2 to Endure and Move.",
+				"healingTime": 2
+			},
+			{
+				"ref": 44,
+				"injury": "Damaged Kidney",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "You suffer one point of damage for every roll you make to Force, Move or Fight.",
+				"healingTime": 3
+			},
+			{
+				"ref": 45,
+				"injury": "Crushed Knee",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "−2 to Move and Sneak.",
+				"healingTime": 4
+			},
+			{
+				"ref": 46,
+				"injury": "Crushed Elbow",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "−2 to Force and Fight, can not use two-handed weapons.",
+				"healingTime": 4
+			},
+			{
+				"ref": 51,
+				"injury": "Crushed Foot",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "−2 to Move and Sneak.",
+				"healingTime": 4
+			},
+			{
+				"ref": 52,
+				"injury": "Bleeding Gut",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "You suffer one point of damage for every roll you make to Force, Move or Fight.",
+				"healingTime": 1
+			},
+			{
+				"ref": 53,
+				"injury": "Crushed Face",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "−2 to Manipulate.",
+				"healingTime": 4
+			},
+			{
+				"ref": 54,
+				"injury": "Busted Intestine",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "You suffer one Rot Point per hour until Healed.",
+				"healingTime": 2
+			},
+			{
+				"ref": 55,
+				"injury": "Damaged Spine",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Paralyzed from the waist down. Effect is permanent unless Healed during healing time.",
+				"healingTime": 4
+			},
+			{
+				"ref": 56,
+				"injury": "Neck Injury",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Paralyzed from the neck down. Effect is permanent unless Healed during healing time.",
+				"healingTime": 4
+			},
+			{
+				"ref": 61,
+				"injury": "Internal Bleeding",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "minutes",
+				"effect": "You suffer one point of damage for every roll you make to Force, Move or Fight.",
+				"healingTime": 2
+			},
+			{
+				"ref": 62,
+				"injury": "Severed Arm Artery",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "minutes",
+				"effect": "−1 to Endure and Move.",
+				"healingTime": 1
+			},
+			{
+				"ref": 63,
+				"injury": "Severed Leg Artery",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "minutes",
+				"effect": "−1 to Endure and Move.",
+				"healingTime": 1
+			},
+			{
+				"ref": 64,
+				"injury": "Severed Jugular",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "turns",
+				"effect": "−1 to Endure and Move.",
+				"healingTime": 1
+			},
+			{
+				"ref": 65,
+				"injury": "Pierced Heart",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your heart beats one last time, then you die. Time to make a new PC.",
+				"healingTime": 0
+			},
+			{
+				"ref": 66,
+				"injury": "Crushed Skull",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You die instantly, and will never see Eden.",
+				"healingTime": 0
+			}
+		],
+		"nonTypical": {
+			"ref": 111,
+			"injury": "Non-Typical Damage",
+			"lethal": true,
+			"healMalus": 0,
+			"timeLimit": 1,
+			"timeLimitUnit": "days",
+			"effect": "You remain unconscious until you die or are Healed.",
+			"healingTime": 0
+		},
+		"pushed": {
+			"ref": 112,
+			"injury": "Pushed Roll Damage",
+			"lethal": false,
+			"healMalus": 0,
+			"timeLimit": 0,
+			"timeLimitUnit": "",
+			"effect": "No effect.",
+			"healingTime": 0
+		}
+	},
+	"fbl": {
+		"horror": [
+			{
+				"ref": [11, 16],
+				"injury": "Trembling",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Penalty –1 to all rolls for Agility.",
+				"healingTime": 1
+			},
+			{
+				"ref": 21,
+				"injury": "White Hair",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your hair turns white.",
+				"healingTime": -1
+			},
+			{
+				"ref": [22, 24],
+				"injury": "Anxious",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Penalty –1 to all rolls for Wits.",
+				"healingTime": 1
+			},
+			{
+				"ref": [25, 31],
+				"injury": "Sullen",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Penalty –1 to all rolls for Empathy.",
+				"healingTime": 1
+			},
+			{
+				"ref": [32, 35],
+				"injury": "Nightmares",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours) spent sleeping. Failure means that the sleep doesn't count.",
+				"healingTime": 1
+			},
+			{
+				"ref": [36, 41],
+				"injury": "Nocturnal",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You can only sleep during the light part of the day.",
+				"healingTime": 2
+			},
+			{
+				"ref": [42, 43],
+				"injury": "Phobic",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You are terrified by something related to what Broke you. The GM decides what it is. You suffer 1 point of damage to Wits each round within Near range of the object of your phobia.",
+				"healingTime": 2
+			},
+			{
+				"ref": [44, 45],
+				"injury": "Drunkard",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You must drink wine or mead every day, or suffer 1 point of damage to Agility.",
+				"healingTime": 3
+			},
+			{
+				"ref": [46, 51],
+				"injury": "Claustrophobic",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Every turn (15 minutes) in a confined environment, you suffer 1 point of damage to Wits.",
+				"healingTime": 2
+			},
+			{
+				"ref": 52,
+				"injury": "Mythomania",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You cannot stop yourself from lying. About everything. *(The effect should be roleplayed.)*",
+				"healingTime": 2
+			},
+			{
+				"ref": [53, 54],
+				"injury": "Paranoia",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You are certain that someone is out to get you. *(The effect should be roleplayed.)*",
+				"healingTime": 2
+			},
+			{
+				"ref": 55,
+				"injury": "Delusion",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You are totally convinced of something that is totally untrue. *(For example that a certain kin doesn't exist.)*",
+				"healingTime": 3
+			},
+			{
+				"ref": 56,
+				"injury": "Hallucinations",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours). If you fail, you suffer a powerful hallucination. The GM determines the details.",
+				"healingTime": 3
+			},
+			{
+				"ref": [61, 62],
+				"injury": "Altered Personality",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your personality is altered in a fundamental way. Determine how together with the GM. *(The effect should be roleplayed.)*",
+				"healingTime": -1
+			},
+			{
+				"ref": 63,
+				"injury": "Amnesia",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You lose all memory, and cannot recollect who you or the other adventurers are. *(The effect should be roleplayed.)*",
+				"healingTime": 1
+			},
+			{
+				"ref": [64, 65],
+				"injury": "Catatonic",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You stare blankly into oblivion, and do not respond to any stimuli.",
+				"healingTime": 1
+			},
+			{
+				"ref": 66,
+				"injury": "Heart Attack",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your heart stops, and you die of pure fright.",
+				"healingTime": 0
+			}
+		]
+	}
+}

@@ -1,0 +1,83 @@
+{
+	"id": "435346950104154113",
+	"update": "2019-02-12",
+	"pseudo": "Morduk",
+	"name": "Ced",
+	"gender": "M",
+	"kin": "Human Mutant",
+	"role": "Slave",
+	"description": "",
+	"appearance": {
+		"face": "You don't want to look at it!!!",
+		"body": "Skinny with a lot of scars.",
+		"clothing": "Used pants, with a chain as belt."
+	},
+	"attributes": { "strength": 5, "agility": 3, "wits": 4, "empathy": 2 },
+	"traumas": { "damage": 5, "fatigue": 0, "confusion": 0, "doubt": 0 },
+	"conditions": {
+		"broken": true,
+		"starving": false,
+		"dehydrated": false,
+		"sleepless": false,
+		"hypothermic": false
+	},
+	"crits": [],
+	"skills": {
+		"endure": 2,
+		"force": 3,
+		"fight": 0,
+		"sneak": 0,
+		"move": 0,
+		"shoot": 0,
+		"scout": 0,
+		"comprehend": 2,
+		"knowTheZone": 0,
+		"senseEmotion": 0,
+		"manipulate": 0,
+		"heal": 0,
+		"ShakeItOff": 3
+	},
+	"talents": ["Cynic", "Rebel", "Hard Hitter"],
+	"mutations": ["Amphibian"],
+	"mana": { "mutation": 5, "feral": 0 },
+	"rot": 7,
+	"permanentRot": 1,
+	"xp": 8,
+	"gear": [
+		["4x water", 1],
+		["4x water of unknown quality", 1],
+		["Tissus noir-jaune-rouge", 1],
+		["4x grub", 1],
+		["Notebook (light) [GM:!ReadMe]", 0.5],
+		["Spiked Bat", 1],
+		["Wrench (Artifact)", 1],
+		["Protective Suit (Artifact)", 1],
+		["2x bullets", 0.10],
+		["Love Letter (tiny)", 0]
+	],
+	"weapons": [
+		{
+			"name": "Spiked Bat",
+			"bonus": 2,
+			"damage": 2,
+			"range": "Arm",
+			"special": ""
+		},
+		{
+			"name": "Wrench",
+			"bonus": 2,
+			"damage": 1,
+			"range": "Arm",
+			"special": "Jury-Rig +3D"
+		}
+	],
+	"armors": [
+		{
+			"name": "Protective Suit (Artifact)",
+			"location": "All",
+			"rating": 0,
+			"rotRating": 6
+		}
+	],
+	"den": []
+}

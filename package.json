@@ -1,0 +1,28 @@
+{
+  "name": "myz_discord_bot",
+  "version": "1.0.0",
+  "description": "A Bot Compagnon for MYZ. It can roll dice.",
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "lint": "eslint ."
+  },
+  "engines": { "node": "8.4.0" },
+  "keywords": [
+    "myz",
+    "dice",
+    "roll"
+  ],
+  "author": "Stefouch",
+  "license": "MIT",
+  "bugs": {
+	  "email": "support@mtgtreachery.net"
+  },
+  "homepage": "https://mtgtreachery.net/zonemap/",
+  "dependencies": {
+    "discord.js": "^11.4.2",
+    "dotenv": "^6.2.0",
+    "eslint": "^5.13.0"
+  }
+}
