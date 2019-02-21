@@ -8,7 +8,9 @@
     "start": "node .",
     "lint": "eslint ."
   },
-  "engines": { "node": "8.4.0" },
+  "engines": {
+    "node": "8.4.0"
+  },
   "keywords": [
     "myz",
     "dice",
@@ -17,10 +19,11 @@
   "author": "Stefouch",
   "license": "MIT",
   "bugs": {
-	  "email": "support@mtgtreachery.net"
+    "email": "support@mtgtreachery.net"
   },
   "homepage": "https://mtgtreachery.net/zonemap/",
   "dependencies": {
+    "discord": "^0.8.2",
     "discord.js": "^11.4.2",
     "dotenv": "^6.2.0",
     "eslint": "^5.13.0"
