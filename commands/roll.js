@@ -37,7 +37,7 @@ module.exports = {
 
 					if (args.includes('--fullauto')) roll.setFullAuto(true);
 
-					console.log('[ROLL] - Rolled:', roll);
+					console.log('[ROLL] - Rolled:', roll.toString());
 
 					sendMessageForRollResults(roll, message);
 				}
@@ -140,7 +140,7 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 					if (!roll.isFullAuto) reactionCollector.stop();
 
 					const pushedRoll = roll.push();
-					console.log('[ROLL] - Roll pushed:', pushedRoll);
+					console.log('[ROLL] - Roll pushed:', pushedRoll).toString();
 
 					if (!rollMessage.deleted) rollMessage.edit(getDiceEmojis(pushedRoll), { embed: getEmbedDiceResults(pushedRoll, triggeringMessage) });
 				});
