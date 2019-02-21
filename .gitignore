@@ -76,5 +76,6 @@ typings/
 # FuseBox cache
 .fusebox/
 
-# Todo list
+# Stefouch
 todo.txt
+.archives/
