@@ -140,7 +140,7 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 					if (!roll.isFullAuto) reactionCollector.stop();
 
 					const pushedRoll = roll.push();
-					console.log('[ROLL] - Roll pushed:', pushedRoll).toString();
+					console.log('[ROLL] - Roll pushed:', pushedRoll.toString());
 
 					if (!rollMessage.deleted) rollMessage.edit(getDiceEmojis(pushedRoll), { embed: getEmbedDiceResults(pushedRoll, triggeringMessage) });
 				});
