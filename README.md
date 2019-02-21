@@ -8,7 +8,7 @@ https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=b
 
 ## Available Commands
 
-Commands are triggered with the prefix `!`. This prefix can be configured for your server.
+Commands are triggered with the prefix `!`. This prefix can be configured for your server. Most of the commands can be executed from channels and privately through DMs.
 
 * `help` : The bot's manual. Read it!
 * `roll <dice> [name]` : Rolls dice for the Mutant: Year Zero roleplaying game. See possible outcome:
@@ -26,7 +26,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
   * `pushed` or `p` : Critical injury for pushed damage (none).
   * `horror` or `h` : The *Forbidden Lands* Horror traumas, adapted for MYZ.
 * `scrap [quantity]` : Gets you a bunch of scrap.
-* `setconf prefix [value]` : Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
+* `setconf prefix [value]` : Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
 ## Permissions
 
