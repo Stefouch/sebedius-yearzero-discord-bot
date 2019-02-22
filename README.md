@@ -28,6 +28,28 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `scrap [quantity]` : Gets you a bunch of scrap.
 * `setconf prefix [value]` : Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
+### Dice Cap
+
+The maximum number of dice that can be rolled at once is capped at 20 per die type (base/skill/gear).
+
+### Pushing
+
+The push option for the MYZ dice pool roll is available for 60 seconds.
+
+### Roll Examples
+
+`roll 4b1g` : rolls for 4 base and 1 gear dice.
+
+`roll 5b3s Shake-It Off!` : rolls for 5 base, 3 skill dice, named "Shake-It Off!".
+
+`roll 4b3s2g10a Uber ROLL --fullauto` : rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
+
+`roll d66` : rolls a D66 (D6 x 10 + D6).
+
+`roll 2d` : rolls 2D6 and sums their results.
+
+`roll res d8 Torches` : rolls a D8 Resource Die for Torches.
+
 ## Permissions
 
 This is a detailed list of needed permissions:
