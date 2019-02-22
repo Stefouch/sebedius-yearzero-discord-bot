@@ -79,5 +79,5 @@ typings/
 # Stefouch
 .archives/
 watch.json
-todo.txt
+todo.md
 package-lock.json
