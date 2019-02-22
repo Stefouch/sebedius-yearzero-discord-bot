@@ -72,11 +72,14 @@ bot.on('message', message => {
 
 	// Exits early if no prefix, and
 	// prevents bot from responding to its own messages.
-	const prefixRegex = new RegExp(`^(<@!?${bot.user.id}>|\\${prefix})\\s*`);
-	if (!prefixRegex.test(message.content) || message.author.bot) return;
+	// const prefixRegex = new RegExp(`^(<@!?${bot.user.id}>|\\${prefix})\\s*`);
+	// const prefixRegex = new RegExp(`^(<@!?${bot.user.id}>)\\s*`);
+	// if (!prefixRegex.test(message.content) || message.author.bot) return;
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	const [, matchedPrefix] = message.content.match(prefixRegex);
-	const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
+	// const [, matchedPrefix] = message.content.match(prefixRegex);
+	// const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
+	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
 	// Ping-pong!

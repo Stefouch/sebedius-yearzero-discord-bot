@@ -6,6 +6,8 @@ module.exports = {
 	name: 'help',
 	description: 'List all availabe commands or info about a specific command.',
 	aliases: ['commands', 'aide', 'hjälp', 'hjalp'],
+	guildOnly: false,
+	args: false,
 	usage: '[command name]',
 	execute(args, message) {
 		const data = [];
@@ -48,6 +50,12 @@ module.exports = {
 		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), false);
 		if (command.usage) embed.addField('Usage', `${prefix}${command.name} ${command.usage}`, false);
 		if (command.description) embed.addField('Description', command.description, true);
+
+		if (command.moreDescriptions) {
+			for(const desc of command.moreDescriptions) {
+				embed.addField(desc[0], desc[1], true);
+			}
+		}
 
 		message.channel.send(embed);
 	},

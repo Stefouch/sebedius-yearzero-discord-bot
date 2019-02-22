@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Config = require('../config.json');
 const { rand } = require('../utils/utils.js');
+const { RichEmbed } = require('discord.js');
 
 // Loading the available scrap.
 let scrapList;
@@ -50,7 +51,7 @@ module.exports = {
 
 		const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
 
-		const embed = {
+		const embed = new RichEmbed({
 			color: authorColor,
 			title: `Scrap Item${(qty > 1) ? 's' : ''} Found`,
 			author: {
@@ -58,9 +59,8 @@ module.exports = {
 				icon_url: message.author.avatarURL,
 			},
 			description: text,
-			timestamp: new Date(),
-		};
+		});
 
-		message.channel.send({ embed: embed });
+		message.channel.send(embed);
 	},
 };

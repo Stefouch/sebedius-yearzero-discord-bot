@@ -49,6 +49,6 @@ module.exports = {
 function getCommandDescription() {
 	let desc = 'Sets the bot\'s configuration for this server. See possible parameters:';
 	desc += '\n`prefix [value]` : Gets or sets the prefix for triggering the commands of this bot.';
-	desc += '\n`icons <myz|fbl>` : Uses MYZ or FBL dice icons (default is MYZ).';
+	// desc += '\n`icons <myz|fbl>` : Uses MYZ or FBL dice icons (default is MYZ).';
 	return desc;
 }

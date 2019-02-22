@@ -2,38 +2,73 @@ const Config = require('../config.json');
 const YZRoll = require('../utils/YZRoll.js');
 const { RichEmbed } = require('discord.js');
 
+const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
+
 module.exports = {
 	name: 'roll',
-	description: getCommandDescription(),
+	description: `Rolls dice for the Mutant: Year Zero roleplaying game. Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+	moreDescriptions: [
+		[
+			'Single Dice',
+			'`roll d6|d66|d666 [name]` - Rolls a D6, D66, or D666 for MYZ.'
+			+ '\n`roll Xd [name]` - Rolls X D6 and sums their results.'
+			+ '\n`roll res d6|d8|d10|d12 [name]` - Rolls a Resource Die.',
+		],
+		[
+			'Pool of Dice',
+			'`roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` - Rolls a pool of dice following the rules of MYZ:'
+			+ '\n• `X b` - Rolls X base dice (yellow color).'
+			+ '\n• `Y s` - Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.'
+			+ '\n• `Z g` - Rolls Z gear dice (black color).'
+			+ '\n• `Artifact Die` - Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
+			+ '\n• `--fullauto` - Allows unlimited pushes.'
+			+ '\n\n*Example:* `roll 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
+		],
+		[
+			'Pushing',
+			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon below the message.`
+			+ ' Only the user who initially rolled the dice can push them.'
+			+ `\nPushing is available for ${Config.commands.roll.pushCooldown / 1000} seconds.`
+			+ ' Four spaces separates the keeped dice from the new rolled ones.',
+		],
+	],
 	aliases: ['rolls', 'r', 'lance', 'lancer', 'slå', 'sla'],
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [name]',
+	usage: '<dice>',
 	execute(args, message) {
 		const rollArgument = args.shift();
 
 		if (rollArgument.length) {
 
-			if (/^(\d{1,2}[bsga]){1,4}$/i.test(rollArgument)) {
-				const diceArguments = rollArgument.match(/\d{1,2}[bsga]/gi);
+			if (/^(\d{1,2}[bsgn]){1,4}$/i.test(rollArgument)) {
+				const diceArguments = rollArgument.match(/\d{1,2}[bsgn]/gi);
 
 				if (diceArguments.length) {
-					let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, artifactDieSize = 0;
+					let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
+					let artifactDieSize = 0;
 
 					for (const dieArg of diceArguments) {
 						const dieType = dieArg.slice(-1).toLowerCase();
-						const diceQty = Math.min(Number(dieArg.slice(0, -1)) || 0, Config.commands.roll.max);
+						const diceQty = Number(dieArg.slice(0, -1)) || 0;
 						switch (dieType) {
 						case 'b': baseDiceQty = diceQty; break;
 						case 's': skillDiceQty = diceQty; break;
 						case 'g': gearDiceQty = diceQty; break;
-						case 'a': artifactDieSize = Math.min(diceQty, 12); break;
+						case 'n': negDiceQty = diceQty; break;
 						}
+					}
+
+					if (ARTIFACT_DIE_REGEX.test(args[0])) {
+						// Uses shift() to excise this part from the roll's name.
+						const artifactDieArgument = args.shift();
+						const [, matchedSize] = artifactDieArgument.match(ARTIFACT_DIE_REGEX);
+						artifactDieSize = Math.min(matchedSize, 12);
 					}
 
 					// Rolls the dice.
 					const rollTitle = args.join(' ').replace('--', '–');
-					const roll = new YZRoll(message.author.id, baseDiceQty, skillDiceQty, gearDiceQty, artifactDieSize, rollTitle);
+					const roll = new YZRoll(message.author.id, baseDiceQty, skillDiceQty, gearDiceQty, negDiceQty, artifactDieSize, rollTitle);
 
 					if (args.includes('--fullauto')) roll.setFullAuto(true);
 
@@ -45,31 +80,31 @@ module.exports = {
 			}
 			else if (/^d666$/i.test(rollArgument)) {
 				const rollTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 3, 0, 0, 0, rollTitle);
+				const roll = new YZRoll(message.author.id, 3, 0, 0, 0, 0, rollTitle);
 				sendMessageForD6(roll, message, 'BASESIX');
 			}
 			else if (/^d66$/i.test(rollArgument)) {
 				const rollTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 2, 0, 0, 0, rollTitle);
+				const roll = new YZRoll(message.author.id, 2, 0, 0, 0, 0, rollTitle);
 				sendMessageForD6(roll, message, 'BASESIX');
 			}
 			else if (/^d6$/i.test(rollArgument)) {
 				const rollTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 1, 0, 0, 0, rollTitle);
+				const roll = new YZRoll(message.author.id, 1, 0, 0, 0, 0, rollTitle);
 				sendMessageForD6(roll, message, 'BASESIX');
 			}
 			else if (/^\d+d6?$/i.test(rollArgument)) {
 				const rollTitle = args.join(' ');
-				const nb = Math.min(rollArgument.match(/(^\d+)/).pop(), Config.commands.roll.max);
-				const roll = new YZRoll(message.author.id, nb, 0, 0, 0, rollTitle);
+				const [, nb] = rollArgument.match(/(^\d+)/);
+				const roll = new YZRoll(message.author.id, nb, 0, 0, 0, 0, rollTitle);
 				sendMessageForD6(roll, message, 'ADD');
 			}
 			// Resource Die.
 			else if (rollArgument === 'res') {
-				const resourceDie = args.shift();
+				const resourceDieArgument = args.shift();
 
-				if (/^d(6|8|10|12)$/i.test(resourceDie)) {
-					const size = resourceDie.match(/(6|8|10|12)/).pop();
+				if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
+					const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
 					const resTitle = args.join(' ');
 					const roll = new YZRoll(message.author.id, 0, 0, 0, size, resTitle);
 					sendMessageForResourceDie(roll, message);
@@ -89,35 +124,13 @@ module.exports = {
 };
 
 /**
- * Detailed description of the command.
- * @returns {string} The command's detailed description
- */
-function getCommandDescription() {
-	let desc = 'This command rolls dice for the Mutant: Year Zero roleplaying game. See possible outcome:';
-	desc += `\n\`${Config.defaultPrefix}roll d6|d66|d666 [name]\`: Rolls a D6, D66, or D666 for MYZ.`;
-	desc += `\n\`${Config.defaultPrefix}roll Xd|Xd6 [name]\`: Rolls X D6 and sums their results.`;
-	desc += `\n\`${Config.defaultPrefix}roll res d6|d8|d10|d12 [name]\`: Rolls a Resource Die.`;
-	desc += `\n\`${Config.defaultPrefix}roll [Wb][Xs][Yg][Za] [name]\`: Rolls a pool of dice following the rules of MYZ:`;
-	desc += '\n• `[Wb]`: Rolls W base dice (yellow color).';
-	desc += '\n• `[Xs]`: Rolls X skill dice (green color).';
-	desc += '\n• `[Yg]`: Rolls Y gear dice (black color).';
-	desc += '\n• `[Za]`: Rolls an Artifact Die with Z faces, adapted from *Forbidden Lands*.';
-	desc += `\n   *(e.g.* \`${Config.defaultPrefix}roll 5b3s2g\` *rolls for 5 base, 3 skill and 2 gear dice.)*`;
-	desc += `\nTo push the roll, click the ${Config.commands.roll.pushIcon} reaction icon below the message.`;
-	desc += ' Only the roller can push their dice.';
-	desc += '\nThe option `--fullauto` allows for unlimited pushes.';
-	desc += `\nPushing is available for ${Config.commands.roll.pushCooldown / 1000} seconds.`;
-	desc += ` Max ${Config.commands.roll.max} dice per type can be rolled at once. If you try to roll more, it won't happen.`;
-	desc += ' Four spaces separates the keeped dice from the new rolled ones.';
-	return desc;
-}
-
-/**
  * Sends a message with the roll results.
  * @param {YZRoll} roll The roll
  * @param {Discord.Message} triggeringMessage The triggering message
  */
 function sendMessageForRollResults(roll, triggeringMessage) {
+	if (roll.getDicePoolSize() > Config.commands.roll.max) return triggeringMessage.reply('Can\'t roll that, too many dice!');
+
 	triggeringMessage.channel.send(getDiceEmojis(roll), getEmbedDiceResults(roll, triggeringMessage))
 		.then(rollMessage => {
 			if (!roll.pushed || roll.isFullAuto) {
@@ -252,6 +265,8 @@ function getTextForArtifactDieResult(artifactDie) {
  * @param {string} method "ADD" or "BASESIX"
  */
 function sendMessageForD6(roll, message, method) {
+	if (roll.getDicePoolSize() > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
+
 	const customEmojis = Config.icons.myz.base;
 
 	let diceReply = '';
@@ -278,6 +293,8 @@ function sendMessageForD6(roll, message, method) {
 }
 
 function sendMessageForResourceDie(roll, message) {
+	if (roll.getDicePoolSize() > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
+
 	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die = (${roll.artifactDie.result})`;
 
 	const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
