@@ -5,20 +5,22 @@
  * @author	Stefouch
  * ===========================================================
  */
-// First we load the ENV variables (e.g. bot's token).
+// First, loads the ENV variables (e.g. bot's token).
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').load();
 }
 
-// Initializing requirements.
+// Initializes requirements.
 const fs = require('fs');
 const Config = require('./config.json');
 const db = require('./database.js');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
+
+// Initializes global constants.
 let prefix = Config.defaultPrefix;
 
-// Loading the available commands.
+// Loads the available commands.
 bot.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
@@ -70,19 +72,20 @@ bot.on('message', message => {
 		}
 	}
 
+	// Answers bot's mentions and exits early.
+	// Note: the regex constant cannot be put in global,
+	// because bot.user.id will only be defined after some time.
+	const botMentionRegex = new RegExp(`^(<@!?${bot.user.id}>)\\s*`);
+	if (botMentionRegex.test(message.content)) return message.reply(`Hi! You can use \`${prefix}\` as my prefix.`);
+
 	// Exits early if no prefix, and
 	// prevents bot from responding to its own messages.
-	// const prefixRegex = new RegExp(`^(<@!?${bot.user.id}>|\\${prefix})\\s*`);
-	// const prefixRegex = new RegExp(`^(<@!?${bot.user.id}>)\\s*`);
-	// if (!prefixRegex.test(message.content) || message.author.bot) return;
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
-	// const [, matchedPrefix] = message.content.match(prefixRegex);
-	// const args = message.content.slice(matchedPrefix.length).trim().split(/ +/);
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
-	// Ping-pong!
+	// Tiny commands: !ping & !prefix.
 	if (commandName === 'ping') return message.channel.send('Pong!');
 	else if (commandName === 'prefix') return message.reply(`You can use \`${prefix}\` as my prefix.`);
 

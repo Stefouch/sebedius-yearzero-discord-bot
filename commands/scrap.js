@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Config = require('../config.json');
+const YZEmbed = require('../utils/YZEmbed.js');
 const { rand } = require('../utils/utils.js');
-const { RichEmbed } = require('discord.js');
 
 // Loading the available scrap.
 let scrapList;
@@ -49,17 +49,7 @@ module.exports = {
 		});
 		text = text.replace(/D6/gmi, rand(1, 6));
 
-		const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
-
-		const embed = new RichEmbed({
-			color: authorColor,
-			title: `Scrap Item${(qty > 1) ? 's' : ''} Found`,
-			author: {
-				name: message.author.username,
-				icon_url: message.author.avatarURL,
-			},
-			description: text,
-		});
+		const embed = new YZEmbed(`Scrap Item${(qty > 1) ? 's' : ''} Found`, text, message);
 
 		message.channel.send(embed);
 	},

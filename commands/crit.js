@@ -1,7 +1,8 @@
 const Config = require('../config.json');
 const Crits = require('../sheets/crits.json');
+const YZEmbed = require('../utils/YZEmbed.js');
 const { rand, mod, rollD6 } = require('../utils/utils.js');
-const { RichEmbed } = require('discord.js');
+
 
 module.exports = {
 	name: 'crit',
@@ -70,9 +71,15 @@ module.exports = {
 		if (!criticalInjury) return message.reply('The critical injury wasn\'t found.');
 
 		// Builds and sends the message.
-		const reply = `${message.author.toString()} rolled for a critical injury:`;
+		let die1 = 0, die2 = 0;
+		if (critRoll) {
+			die1 = Math.floor(critRoll / 10);
+			die2 = mod(critRoll, 10);
+		}
+		const icon1 = Config.icons.myz.base[die1];
+		const icon2 = Config.icons.myz.base[die2];
 
-		message.channel.send(reply, { embed: getEmbedCrit(critRoll, criticalInjury, message) })
+		message.channel.send(`${(critRoll >= 11 && critRoll <= 66) ? icon1 + icon2 : ''}`, getEmbedCrit(criticalInjury, message))
 			.then(() => {
 				if (!args.regIncludes(/^[1-6][1-6]$/)
 					&& (criticalInjury.ref === 65 || criticalInjury.ref === 66)) {
@@ -90,33 +97,12 @@ module.exports = {
 
 /**
  * Gets details for a critical injury.
- * @param {number} critRoll The roll obtained for the critical injury reference
  * @param {Object} crit Object containing all infos for the critical injury
  * @param {Discord.Message} message The triggering message
  * @returns {Discord.RichEmbed} Discord embed message
  */
-function getEmbedCrit(critRoll, crit, message) {
-	let die1 = 0, die2 = 0;
-	if (critRoll) {
-		die1 = Math.floor(critRoll / 10);
-		die2 = mod(critRoll, 10);
-	}
-	const icon1 = Config.icons.myz.base[die1];
-	const icon2 = Config.icons.myz.base[die2];
-	const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
-
-	const embed = new RichEmbed({
-		color: authorColor,
-		title: `${(critRoll >= 11 && critRoll <= 66) ? `${icon1}${icon2} ` : ''}**${crit.injury}**`,
-		author: {
-			name: message.author.username,
-			icon_url: message.author.avatarURL,
-		},
-		description: crit.effect,
-		fields: [],
-		// timestamp: new Date(),
-		// footer: { text: 'Critical Injury' },
-	});
+function getEmbedCrit(crit, message) {
+	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, message, true);
 
 	if (crit.healingTime) {
 		let title, text;

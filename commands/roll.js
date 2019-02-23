@@ -1,6 +1,6 @@
 const Config = require('../config.json');
 const YZRoll = require('../utils/YZRoll.js');
-const { RichEmbed } = require('discord.js');
+const YZEmbed = require('../utils/YZEmbed.js');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
@@ -223,18 +223,9 @@ function getDiceEmojis(roll) {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedDiceResults(roll, message) {
-	const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
-	const embed = new RichEmbed({
-		color: authorColor,
-		title: roll.title,
-		author: {
-			name: message.author.username,
-			icon_url: message.author.avatarURL,
-		},
-		description: `Successes: **${roll.sixes}**\nTraumas: **${roll.attributeTrauma}**\nGear damage: **${roll.gearDamage}**`,
-	});
+	const desc = `Successes: **${roll.sixes}**\nTraumas: **${roll.attributeTrauma}**\nGear damage: **${roll.gearDamage}**`;
+	const embed = new YZEmbed(roll.title, desc, message, true);
 	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}x ` : ''}Pushed`);
-
 	return embed;
 }
 
@@ -278,16 +269,7 @@ function sendMessageForD6(roll, message, method) {
 	else desc += 0;
 	desc += '**';
 
-	const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
-	const embed = new RichEmbed({
-		color: authorColor,
-		title: roll.title,
-		author: {
-			name: message.author.username,
-			icon_url: message.author.avatarURL,
-		},
-		description: desc,
-	});
+	const embed = new YZEmbed(roll.title, desc, message, true);
 
 	message.channel.send(diceReply, embed);
 }
@@ -297,16 +279,7 @@ function sendMessageForResourceDie(roll, message) {
 
 	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die = (${roll.artifactDie.result})`;
 
-	const authorColor = (message.channel.type === 'text') ? message.member.colorRole.color : 0x1AA29B;
-	const embed = new RichEmbed({
-		color: authorColor,
-		title: roll.title,
-		author: {
-			name: message.author.username,
-			icon_url: message.author.avatarURL,
-		},
-		description: desc,
-	});
+	const embed = new YZEmbed(roll.title, desc, message, true);
 
 	if (roll.hasLostResourceStep()) {
 		const resSizes = [0, 6, 8, 10, 12];

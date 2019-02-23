@@ -186,8 +186,8 @@ class YZRoll {
 
 	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {string} type "base", "skill" or "gear" (default is "base")
-	 * @returns {number} The result
+	 * @param {string} type "base", "skill", "gear" or "neg/negative" (default is "base")
+	 * @returns {number} The summed result
 	 */
 	sum(type = 'BASE') {
 		type = type.toLowerCase();
@@ -205,8 +205,8 @@ class YZRoll {
 
 	/**
 	 * Gets the base-six sticky-result of the dice of a certain type.
-	 * @param {string} type "base", "skill" or "gear" (default is "base")
-	 * @returns {number} The result
+	 * @param {string} type "base", "skill", "gear" or "neg/negative" (default is "base")
+	 * @returns {number} The sticked result
 	 */
 	baseSix(type = 'BASE') {
 		type = type.toLowerCase();

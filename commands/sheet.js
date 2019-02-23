@@ -1,12 +1,11 @@
 const fs = require('fs');
 const Discord = require('discord.js');
 const Config = require('../config.json');
-const { rand } = require('../utils/utils.js');
 
 module.exports = {
 	name: 'sheet',
 	description: getCommandDescription(),
-	aliases: [ 's', 'player', 'charactersheet'],
+	aliases: [ 'player', 'charactersheet'],
 	guildOnly: false,
 	args: false,
 	usage: '[options]',
@@ -27,7 +26,7 @@ module.exports = {
 
 		// Loads the available character sheets.
 		const players = new Discord.Collection();
-		const sheetFiles = fs.readdirSync('./sheets').filter(file => file.endsWith('.charsheet.json'));
+		const sheetFiles = fs.readdirSync('./sheets').filter(file => file.endsWith('.charactersheet.json'));
 
 		for (const file of sheetFiles) {
 			const player = require('../sheets/' + file);

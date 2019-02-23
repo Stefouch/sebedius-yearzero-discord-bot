@@ -28,6 +28,9 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
   * `pushed` or `p` - Critical injury for pushed damage (none).
   * `horror` or `h` - The *Forbidden Lands* Horror traumas, adapted for MYZ.
 * `scrap [quantity]` - Gets you a bunch of scrap.
+* `rumor` - Tells a random rumor. *(Thanks to Myrmidon.)*
+* `mutation` - Draws a random mutation (no details).
+* `arkthreat` - Draws a random threat against the Ark (no details).
 * `setconf prefix [value]` - Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
 ### Dice Cap
