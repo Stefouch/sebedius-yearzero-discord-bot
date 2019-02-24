@@ -7,10 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.2.1] - 2019-02-24
 ### Added
 - New command: `!admin` - Performs bot's maintenance. Only available for the bot's owner.
+- New function `list()` to `database.js`.
+- Extra documentation to `database.js`.
 
 ### Fixed
 - A bug introduced with the last release. Member with no role could'nt execute bot's commands.
 - A thrown error when pushing rolls in DMs.
+- Some rumors typos in `rumors.json`.
+
+### Removed
+- Some useless data in `config.json`.
 
 ## [1.2.0] - 2019-02-23
 ### Added
@@ -25,14 +31,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for negative dice rolls.
 - Negative dice icon emojis (red).
 
-### Fixed
-- A bug related to setting custom prefixes.
-
 ### Changed
 - Modified the dice cap to 42.
 - Updated "README.md".
 - Updated various commands' help messages.
 - Greatly improved the help for the "!roll" command.
+
+### Fixed
+- A bug related to setting custom prefixes.
 
 ### Removed
 - Scrap list timestamp.

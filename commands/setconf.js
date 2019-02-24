@@ -16,10 +16,6 @@ module.exports = {
 					db.set(`prefix_${message.guild.id}`, args[1]);
 					message.channel.send(`My prefix has been set to: "${args[1]}"`);
 				}
-				else if (args[0] === 'icons') {
-					db.set(`diceIconSet_${message.guild.id}`, args[1]);
-					message.channel.send(`My dice icons set has been set to: "${args[1]}"`);
-				}
 				else {
 					message.reply(`"${args[0]}" is not a valid parameter.`);
 				}
