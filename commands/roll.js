@@ -161,7 +161,7 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 				// LISTENER on END.
 				collector.on('end', () => {
 					try {
-						if (!rollMessage.deleted) {
+						if (!rollMessage.deleted && rollMessage.channel.type === 'text') {
 							rollMessage.clearReactions(reaction => {
 								return reaction.emoji.name === pushIcon;
 							});

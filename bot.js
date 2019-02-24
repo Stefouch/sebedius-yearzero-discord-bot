@@ -112,7 +112,7 @@ bot.on('message', message => {
 	}
 
 	try {
-		console.log(`[COMMAND] - Command received from ${message.author.tag}: ${command.name}`, args);
+		console.log(`[COMMAND] - Command received from ${message.author.tag}: ${command.name}`, args.toString());
 		command.execute(args, message);
 	}
 	catch (error) {
