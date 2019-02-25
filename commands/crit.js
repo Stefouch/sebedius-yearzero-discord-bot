@@ -1,12 +1,16 @@
 const Config = require('../config.json');
 const Crits = require('../sheets/crits.json');
 const YZEmbed = require('../utils/YZEmbed.js');
-const { rand, mod, rollD6 } = require('../utils/utils.js');
+const { rand, rollD6 } = require('../utils/utils.js');
 
 
 module.exports = {
 	name: 'crit',
-	description: 'Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:\n• `nt` or `nontypical` : Critical injury for non-typical damage.\n• `p` or `pushed` : Critical injury for pushed damage (none).\n• `h` or `horror` : The *Forbidden Lands• Horror traumas, adapted for MYZ.',
+	description: 'Rolls for a random critical injury. You may specify a table or a numeric value.'
+		+ ' The default is the damage table. Other available tables are:'
+		+ '\n• `nt` or `nontypical` : Critical injury for non-typical damage.'
+		+ '\n• `p` or `pushed` : Critical injury for pushed damage (none).'
+		+ '\n• `h` or `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.',
 	aliases: ['ci', 'injury'],
 	guildOnly: false,
 	args: false,
@@ -15,26 +19,26 @@ module.exports = {
 		let critTable, critRoll, criticalInjury;
 
 		// Specified injuries.
-		if (args.includes('nontypical') || args.includes('nt')) {
+		if (/^(nontypical|nt)$/i.test(args[0])) {
 			critRoll = 0;
 			criticalInjury = Crits.myz.nonTypical;
 		}
-		else if (args.includes('pushed') || args.includes('p')) {
+		else if (/^(pushed|p)$/i.test(args[0])) {
 			critRoll = 0;
 			criticalInjury = Crits.myz.pushed;
 		}
 		// If not specified, gets a critical table.
 		else {
-			if (args.includes('horror') || args.includes('h')) critTable = Crits.fbl.horror;
+			if (/^(horror|h)$/i.test(args[0])) critTable = Crits.fbl.horror;
 			// Default table = myz-damage.
 			else critTable = Crits.myz.damage;
 
 			// Checks if we look for a specific value of that table.
 			// regIndexOf returns -1 if not found.
-			const specific = args.regIndexOf(/^[1-6][1-6]$/);
+			const specific = args.regIndexOf(/^[1-6]{2}$/);
 			if (specific >= 0) {
 				// Creates the roll value out of the specified argument.
-				critRoll = Number(args[specific]);
+				critRoll = +args[specific];
 			}
 			// Otherwise, gets a random injury.
 			else {
@@ -47,10 +51,13 @@ module.exports = {
 				// If the critical injury reference is one value, it's a number.
 				if (typeof crit.ref === 'number') {
 
-					if (crit.ref === critRoll) criticalInjury = crit;
+					if (crit.ref === critRoll) {
+						criticalInjury = crit;
+						break;
+					}
 				}
 				// If the critical injury reference is a range, it's an array with length 2.
-				else if (Array.isArray(crit.ref)) {
+				else if (crit.ref instanceof Array) {
 
 					if (crit.ref.length >= 2) {
 
@@ -58,6 +65,7 @@ module.exports = {
 						// crit.ref[1]: maximum
 						if (critRoll >= crit.ref[0] && critRoll <= crit.ref[1]) {
 							criticalInjury = crit;
+							break;
 						}
 					}
 				}
@@ -74,14 +82,14 @@ module.exports = {
 		let die1 = 0, die2 = 0;
 		if (critRoll) {
 			die1 = Math.floor(critRoll / 10);
-			die2 = mod(critRoll, 10);
+			die2 = critRoll % 10;
 		}
 		const icon1 = Config.icons.myz.base[die1];
 		const icon2 = Config.icons.myz.base[die2];
 
 		message.channel.send(`${(critRoll >= 11 && critRoll <= 66) ? icon1 + icon2 : ''}`, getEmbedCrit(criticalInjury, message))
 			.then(() => {
-				if (!args.regIncludes(/^[1-6][1-6]$/)
+				if (!args.regIncludes(/^[1-6]{2}$/)
 					&& (criticalInjury.ref === 65 || criticalInjury.ref === 66)) {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
@@ -90,7 +98,7 @@ module.exports = {
 				}
 			})
 			.catch(error => {
-				console.error('[ERROR] - Cannot send the coffin emoji', error);
+				console.error('[ERROR] - [CRIT] - Cannot send the coffin emoji', error);
 			});
 	},
 };
@@ -107,7 +115,7 @@ function getEmbedCrit(crit, message) {
 	if (crit.healingTime) {
 		let title, text;
 
-		// -1 means permanent.
+		// -1 means permanent effect.
 		if (crit.healingTime === -1) {
 			title = 'Permanent';
 			text = 'These effects are permanent.';
@@ -116,7 +124,6 @@ function getEmbedCrit(crit, message) {
 			title = 'Healing Time';
 			text = `${rollD6(crit.healingTime)} days until end of effects.`;
 		}
-		// embed.fields.push({ name: title, value: text, inline: true });
 		embed.addField(title, text, true);
 	}
 
@@ -135,7 +142,6 @@ function getEmbedCrit(crit, message) {
 		else {
 			text += '💀💀💀';
 		}
-		// embed.fields.push({ name: 'Lethality', value: text, inline: true });
 		embed.addField('Lethality', text, true);
 	}
 

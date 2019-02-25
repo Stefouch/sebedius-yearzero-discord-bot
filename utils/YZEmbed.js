@@ -11,15 +11,15 @@ class YZEmbed extends RichEmbed {
 	constructor(title, description, triggeringMessage = null, hasAuthor = false) {
 		super({
 			color: 0x1AA29B,
-			title: title,
-			description: description,
+			title,
+			description,
 		});
 
 		if (triggeringMessage) {
 
 			if (triggeringMessage.channel.type === 'text') {
 
-				if (triggeringMessage.member.displayColor) {
+				if (typeof triggeringMessage.member.displayColor !== 'undefined') {
 					this.setColor(triggeringMessage.member.displayColor);
 				}
 			}

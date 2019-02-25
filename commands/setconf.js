@@ -2,49 +2,37 @@ const db = require('../database.js');
 
 module.exports = {
 	name: 'setconf',
-	description: getCommandDescription(),
-	// aliases: ['set-configuration'],
+	description: 'Sets the bot\'s configuration for this server. See possible parameters:'
+		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.',
 	guildOnly: true,
 	args: true,
-	usage: '<parameter> <value>',
+	usage: '<parameter> [new value]',
 	execute(args, message) {
+		// Exits early if the message's author doesn't have the ADMINISTRATOR Permission.
+		if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('This command is only available for admins.');
+
+		// The property command.args = true,
+		// so no need to check args[0].
+		const key = args[0].toLowerCase();
+		const newKeyVal = args[1];
+
 		// SET
-		if (message.member.hasPermission('ADMINISTRATOR')) {
-			if (args[0] && args[1]) {
+		if (typeof newKeyVal !== 'undefined') {
 
-				if (args[0] === 'prefix') {
-					db.set(`prefix_${message.guild.id}`, args[1]);
-					message.channel.send(`My prefix has been set to: "${args[1]}"`);
-				}
-				else {
-					message.reply(`"${args[0]}" is not a valid parameter.`);
-				}
+			if (key === 'prefix') {
+				db.set(`prefix_${message.guild.id}`, newKeyVal);
+				message.channel.send(`My prefix has been set to: "${newKeyVal}"`);
 			}
-			// GET
-			else if (args[0]) {
-				const value = db.get(`${args[0]}_${message.guild.id}`);
-
-				if (value) {
-					message.channel.send(`Parameter: "${args[0]}" = "${value}"`);
-				}
-				else {
-					message.reply(`"${args[0]}" is not a valid parameter.`);
-				}
+			else {
+				message.reply(`"${key}" is not a valid parameter.`);
 			}
 		}
+		// GET
 		else {
-			message.reply('This command is only available for admins.');
+			const value = db.get(`${key}_${message.guild.id}`);
+
+			if (value) message.channel.send(`Parameter: "${key}" = "${value}"`);
+			else message.reply(`"${key}" is not a valid parameter.`);
 		}
 	},
 };
-
-/**
- * Detailed description of the command.
- * @returns {string} The command's detailed description
- */
-function getCommandDescription() {
-	let desc = 'Sets the bot\'s configuration for this server. See possible parameters:';
-	desc += '\n`prefix [value]` : Gets or sets the prefix for triggering the commands of this bot.';
-	// desc += '\n`icons <myz|fbl>` : Uses MYZ or FBL dice icons (default is MYZ).';
-	return desc;
-}

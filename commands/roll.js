@@ -6,22 +6,23 @@ const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
 	name: 'roll',
-	description: `Rolls dice for the Mutant: Year Zero roleplaying game. Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+	description: 'Rolls dice for the Mutant: Year Zero roleplaying game.'
+		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 	moreDescriptions: [
 		[
 			'Single Dice',
-			'`roll d6|d66|d666 [name]` - Rolls a D6, D66, or D666 for MYZ.'
-			+ '\n`roll Xd [name]` - Rolls X D6 and sums their results.'
-			+ '\n`roll res d6|d8|d10|d12 [name]` - Rolls a Resource Die.',
+			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for MYZ.'
+			+ '\n`roll Xd [name]` – Rolls X D6 and sums their results.'
+			+ '\n`roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die.',
 		],
 		[
 			'Pool of Dice',
-			'`roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` - Rolls a pool of dice following the rules of MYZ:'
-			+ '\n• `X b` - Rolls X base dice (yellow color).'
-			+ '\n• `Y s` - Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.'
-			+ '\n• `Z g` - Rolls Z gear dice (black color).'
-			+ '\n• `Artifact Die` - Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
-			+ '\n• `--fullauto` - Allows unlimited pushes.'
+			'`roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:'
+			+ '\n• `X b` – Rolls X base dice (yellow color).'
+			+ '\n• `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.'
+			+ '\n• `Z g` – Rolls Z gear dice (black color).'
+			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
+			+ '\n• `--fullauto` – Allows unlimited pushes.'
 			+ '\n\n*Example:* `roll 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
 		],
 		[
@@ -39,82 +40,80 @@ module.exports = {
 	execute(args, message) {
 		const rollArgument = args.shift();
 
-		if (rollArgument.length) {
+		// Exits early if no argument.
+		// Though, this check isn't really necessary as "command.args = true".
+		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
 
-			if (/^(\d{1,2}[bsgn]){1,4}$/i.test(rollArgument)) {
-				const diceArguments = rollArgument.match(/\d{1,2}[bsgn]/gi);
+		if (/^(\d{1,2}[bsgn]){1,4}$/i.test(rollArgument)) {
+			const diceArguments = rollArgument.match(/\d{1,2}[bsgn]/gi);
 
-				if (diceArguments.length) {
-					let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
-					let artifactDieSize = 0;
+			if (diceArguments.length) {
+				let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
+				let artifactDieSize = 0;
 
-					for (const dieArg of diceArguments) {
-						const dieType = dieArg.slice(-1).toLowerCase();
-						const diceQty = Number(dieArg.slice(0, -1)) || 0;
-						switch (dieType) {
-						case 'b': baseDiceQty = diceQty; break;
-						case 's': skillDiceQty = diceQty; break;
-						case 'g': gearDiceQty = diceQty; break;
-						case 'n': negDiceQty = diceQty; break;
-						}
+				for (const dieArg of diceArguments) {
+					const dieTypeChar = dieArg.slice(-1).toLowerCase();
+					const diceQty = Number(dieArg.slice(0, -1)) || 0;
+					switch (dieTypeChar) {
+					case 'b': baseDiceQty = diceQty; break;
+					case 's': skillDiceQty = diceQty; break;
+					case 'g': gearDiceQty = diceQty; break;
+					case 'n': negDiceQty = diceQty; break;
 					}
-
-					if (ARTIFACT_DIE_REGEX.test(args[0])) {
-						// Uses shift() to excise this part from the roll's name.
-						const artifactDieArgument = args.shift();
-						const [, matchedSize] = artifactDieArgument.match(ARTIFACT_DIE_REGEX);
-						artifactDieSize = Math.min(matchedSize, 12);
-					}
-
-					// Rolls the dice.
-					const rollTitle = args.join(' ').replace('--', '–');
-					const roll = new YZRoll(message.author.id, baseDiceQty, skillDiceQty, gearDiceQty, negDiceQty, artifactDieSize, rollTitle);
-
-					if (args.includes('--fullauto')) roll.setFullAuto(true);
-
-					console.log('[ROLL] - Rolled:', roll.toString());
-
-					sendMessageForRollResults(roll, message);
 				}
-			// checks d666 or d66 or d6.
-			}
-			else if (/^d666$/i.test(rollArgument)) {
-				const rollTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 3, 0, 0, 0, 0, rollTitle);
-				sendMessageForD6(roll, message, 'BASESIX');
-			}
-			else if (/^d66$/i.test(rollArgument)) {
-				const rollTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 2, 0, 0, 0, 0, rollTitle);
-				sendMessageForD6(roll, message, 'BASESIX');
-			}
-			else if (/^d6$/i.test(rollArgument)) {
-				const rollTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 1, 0, 0, 0, 0, rollTitle);
-				sendMessageForD6(roll, message, 'BASESIX');
-			}
-			else if (/^\d+d6?$/i.test(rollArgument)) {
-				const rollTitle = args.join(' ');
-				const [, nb] = rollArgument.match(/(^\d+)/);
-				const roll = new YZRoll(message.author.id, nb, 0, 0, 0, 0, rollTitle);
-				sendMessageForD6(roll, message, 'ADD');
-			}
-			// Resource Die.
-			else if (rollArgument === 'res') {
-				const resourceDieArgument = args.shift();
 
-				if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
-					const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
-					const resTitle = args.join(' ');
-					const roll = new YZRoll(message.author.id, 0, 0, 0, size, resTitle);
-					sendMessageForResourceDie(roll, message);
+				if (ARTIFACT_DIE_REGEX.test(args[0])) {
+					// Uses shift() to excise this part from the roll's name.
+					const artifactDieArgument = args.shift();
+					const [, matchedSize] = artifactDieArgument.match(ARTIFACT_DIE_REGEX);
+					artifactDieSize = Math.min(matchedSize, 12);
 				}
-				else {
-					message.reply('This Resource Die is not possible.');
-				}
+
+				// Rolls the dice.
+				const rollTitle = args.join(' ').replace('--', '–');
+				const roll = new YZRoll(message.author.id, baseDiceQty, skillDiceQty, gearDiceQty, negDiceQty, artifactDieSize, rollTitle);
+
+				if (args.includes('--fullauto')) roll.setFullAuto(true);
+
+				console.log('[ROLL] - Rolled:', roll.toString());
+
+				sendMessageForRollResults(roll, message);
+			}
+		// checks d666 or d66 or (N)d6.
+		}
+		else if (/^d666$/i.test(rollArgument)) {
+			const rollTitle = args.join(' ');
+			const roll = new YZRoll(message.author.id, 3, 0, 0, 0, 0, rollTitle);
+			sendMessageForD6(roll, message, 'BASESIX');
+		}
+		else if (/^d66$/i.test(rollArgument)) {
+			const rollTitle = args.join(' ');
+			const roll = new YZRoll(message.author.id, 2, 0, 0, 0, 0, rollTitle);
+			sendMessageForD6(roll, message, 'BASESIX');
+		}
+		else if (/^d6$/i.test(rollArgument)) {
+			const rollTitle = args.join(' ');
+			const roll = new YZRoll(message.author.id, 1, 0, 0, 0, 0, rollTitle);
+			sendMessageForD6(roll, message, 'BASESIX');
+		}
+		else if (/^\d+d6?$/i.test(rollArgument)) {
+			const rollTitle = args.join(' ');
+			const [, nb] = rollArgument.match(/(^\d+)/);
+			const roll = new YZRoll(message.author.id, nb, 0, 0, 0, 0, rollTitle);
+			sendMessageForD6(roll, message, 'ADD');
+		}
+		// Resource Die.
+		else if (rollArgument === 'res') {
+			const resourceDieArgument = args.shift();
+
+			if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
+				const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
+				const resTitle = args.join(' ');
+				const roll = new YZRoll(message.author.id, 0, 0, 0, size, resTitle);
+				sendMessageForResourceDie(roll, message);
 			}
 			else {
-				message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
+				message.reply('This Resource Die is not possible.');
 			}
 		}
 		else {

@@ -4,7 +4,6 @@ const db = require('../database.js');
 module.exports = {
 	name: 'admin',
 	description: 'Performs bot\'s maintenance. Only available for the bot\'s owner.',
-	// aliases: [''],
 	guildOnly: true,
 	args: true,
 	// usage: '',
@@ -18,8 +17,13 @@ module.exports = {
 			const data = db.list();
 			message.author.send(data);
 		}
-		if (args.includes('maintenance')) {
-			bot.user.setPresence({ game: { name: '🚧 On Maintenance', type: 'WATCHING' }, status: 'dnd', afk: true });
+
+		if (args.includes('maintenance') || args.includes('idle')) {
+			bot.user.setPresence({
+				game: { name: '🚧 On Maintenance', type: 'WATCHING' },
+				status: 'dnd',
+				afk: true,
+			});
 		}
 		// Lists servers the bot is connected to
 		// and updates the bot's activity according to the updated value.
@@ -28,13 +32,18 @@ module.exports = {
 			bot.guilds.forEach(guild => {
 				guilds.push(`* ${guild.name} (${guild.id})`);
 			});
-			message.author.send('List of guilds:\n' + guilds.join('\n'));
-			setActivity(bot, guilds.length);
+			message.author.send(`List of guilds:\n${guilds.join('\n')}`);
+			setOnlineActivity(bot, guilds.length);
 		}
 	},
 };
 
-function setActivity(client, serverQty) {
+/**
+ * Sets the bot's activity to online.
+ * @param {Discord.client} client The bot's client
+ * @param {number} serverQty Quantity of servers the bot is connected to.
+ */
+function setOnlineActivity(client, serverQty) {
 	client.user.setActivity(`MYZ on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 	client.user.setPresence({ status: 'online', afk: false });
 }

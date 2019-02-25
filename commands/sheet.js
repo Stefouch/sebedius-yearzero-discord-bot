@@ -4,7 +4,8 @@ const Config = require('../config.json');
 
 module.exports = {
 	name: 'sheet',
-	description: getCommandDescription(),
+	description: 'Shows your character sheet. Available options are:'
+		+ '\n`-n|--name charactername` – Shows one specific character sheet. Only for the GM.',
 	aliases: [ 'player', 'charactersheet'],
 	guildOnly: false,
 	args: false,
@@ -72,17 +73,6 @@ module.exports = {
 		}
 	},
 };
-
-/**
- * Detailed description of the command.
- * @returns {string} The command's detailed description
- */
-function getCommandDescription() {
-	let desc = 'Shows your character sheet. Available options are:';
-	desc += '\n`-n|--name charactername` → Shows one specific character sheet. Only for the GM.';
-	desc += '\n`-pm|-dm|--private` → Sends the sheet privately by DM.';
-	return desc;
-}
 
 /**
  * Gets an Embed for the Character Sheet.
