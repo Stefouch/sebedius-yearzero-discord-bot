@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Code cleansing.
 
+### Fixed
+- Proper name for YZEmbed.
+
 ## [1.2.1] - 2019-02-24
 ### Added
 - New command: `!admin` - Performs bot's maintenance. Only available for the bot's owner.
