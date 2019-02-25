@@ -39,8 +39,10 @@ module.exports = {
 	rand(min, max) {
 		return Math.floor(Math.random() * (max - min + 1) + min);
 	},
+
 	/**
 	 * Calculates the modulus, the remainder of an integer division.
+	 * @deprecated Use operator '%' instead.
 	 * @param {number} dividend Dividend
 	 * @param {number} divisor Divisor
 	 * @returns {number} Modulus
@@ -48,16 +50,26 @@ module.exports = {
 	mod(dividend, divisor) {
 		return dividend - divisor * Math.floor(dividend / divisor);
 	},
+
 	/**
-	 * Rolls and adds the results of several D6.
+	 * Rolls and sums the results of several D6.
 	 * @param {number} nb How many D6 to roll
 	 * @returns {number} Added results
 	 */
 	rollD6(nb) {
-		let roll = 0;
+		let result = 0;
 		for (let i = 0; i < nb; i++) {
-			roll += module.exports.rand(1, 6);
+			result += module.exports.rand(1, 6);
 		}
-		return roll;
+		return result;
+	},
+
+	/**
+	 * Lowers the first character of a string.
+	 * @param {string} str The string to process
+	 * @returns {string} The processed string
+	 */
+	strLcFirst(str) {
+		return str.charAt(0).toLowerCase() + str.slice(1);
 	},
 };
