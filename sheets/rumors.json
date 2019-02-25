@@ -1,11 +1,11 @@
 {
 	"author": "Myrmidon",
 	"version": "1.0",
-	"init": "A rumor has it",
-	"myz": [
+	"title": "A rumor has it",
+	"stories": [
 		{
-			"start": "That [a mutant was / some mutants were] attacked by",
-			"ends": [
+			"head": "That [a mutant was / some mutants were] attacked by",
+			"bodies": [
 				"A swarm of [Tiny Spiders / Beetles / leeches / some sort of flying insects / scrap crows / zone rats]",
 				"A large ‘rope like’ creature that slid along the ground. It was very fast, had large fangs, and tough skin (scales).",
 				"A ‘log monster’ while traveling in a marsh. The mutants were walking on what they thought was a large fallen tree trunk laying in the water when it suddenly thrashed into motion in a blur of giant teeth.",
@@ -21,8 +21,8 @@
 			]
 		},
 		{
-			"start":"That a mutant saw",
-			"ends":[
+			"head":"That a mutant saw",
+			"bodies":[
 				"A series of gigantic tracks or foot prints, each one bigger than a building. (Rot-Zilla?)",
 				"Enormous vehicle tracks heading through the Zone. The vehicle must have been huge as it looked like it knocked down buildings in its path.",
 				"A giant metal [spider / insect] hunting among the ruins out in the Zone.",
@@ -50,8 +50,8 @@
 			]
 		},
 		{
-			"start": "That a mutant heard",
-			"ends":[
+			"head": "That a mutant heard",
+			"bodies":[
 				"The sound of loud machinery. When the mutant arrived at the place the sound had come from, they saw dust clouds in the distance and found a series of ‘wheel’ marks. But the wheel marks didn’t make any sense. The wheel marks couldn’t have been from a wagon because they crossed and re-crossed each other multiple times according to the mutant who saw them. ",
 				"An incredibly loud ‘Boom!’ in the distance while in the Zone. The sound was loud enough to knock pieces of debris off nearby ruins and send them clattering to the ground as well as scare the wits out of those who experienced it. But once everyone’s ears stopped ringing, exploration of the surrounding area could produce no clues as to the source of the noise.",
 				"The ghosts of the ancients ringing ‘Ghost bells’. The mutant claims to have entered a building with a tall tower containing metal bells. Inside they found rows of long wooden benches and the skeletons of many ancients huddled together there. While exploring, they suddenly heard tinkling and chiming sounds clearly coming from the tower above, but the rope and bells were not moving at all! The mutant fled vowing never to return! (There is a set of wind chimes in the steeple that weren’t visible to mutant in question.) ",
@@ -61,8 +61,8 @@
 			]
 		},
 		{
-			"start": "That a mutant found",
-			"ends":[
+			"head": "That a mutant found",
+			"bodies":[
 				"A hole in the ground that ‘supposedly’ suddenly shoots out large amounts of clean water at random intervals and then stops again without warning. (It could be a natural geyser or perhaps a broken pipe from some ancient facility that is still partially functioning.)",
 				"A boulder that leaks [blood / tar / resin / black goo / green goo / foul smelling water] from numerous cracks in its surface without any clue as to the source of the fluid.",
 				"A silent, slowly spinning featureless gray metal cube hovering 5 feet above the ground. Apparently, the weather of the Zone has had no effect upon the cube as it was untouched by rust or decay, and nothing could stop the cube from spinning. Even with 3 or 4 mutants working together and pushing / pulling with all their might, they only managed to move the cube a few inches in any direction. ",
@@ -83,8 +83,8 @@
 			]
 		},
 		{
-			"start": "That in the ark",
-			"ends":[
+			"head": "That in the ark",
+			"bodies":[
 				"The famous Chronicler ‘[Name goes here]’ is set to release a new [story / play / drama] any day now. Anticipation among the bored residents of the Ark is virtually at a breaking point. If something doesn’t materialize soon, a riot might break out. ",
 				"An unnamed [Fixer / Boss / Enforcer] is attempting to set up a [mutant / Zone Dog / Zone Ghoul / Zone monster] gladiatorial style fighting ring. While some of the people are against the idea, others are for anything that will break up the monotony of daily life in the Ark.",
 				"A mutant is claiming to know where proof that the ancients aren’t all dead can be found. This mutant claims that the ancients simply abandoned ‘the world’ for the nearby planet called ‘Moon’ once things got bad. And that even now they are looking down (hence the giant ‘face’ that can be seen in the night sky) and judging the people of the Ark to determine their worthiness to join the ancients. The more outrageous versions of this rumor also claim the members of the Dawn Vault are secretly in communication with the ancients, and the reason they’re collecting artifacts is so that they can build their own ‘sky-ship’ and rejoin the ancients. ",
