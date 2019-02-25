@@ -16,8 +16,9 @@ class YZEmbed extends RichEmbed {
 		});
 
 		if (triggeringMessage) {
+			const isTextChannel = triggeringMessage.channel.type === 'text';
 
-			if (triggeringMessage.channel.type === 'text') {
+			if (isTextChannel) {
 
 				if (typeof triggeringMessage.member.displayColor !== 'undefined') {
 					this.setColor(triggeringMessage.member.displayColor);
@@ -25,8 +26,9 @@ class YZEmbed extends RichEmbed {
 			}
 
 			if (hasAuthor) {
+				const name = isTextChannel ? triggeringMessage.member.displayName : triggeringMessage.author.username;
 				this.setAuthor(
-					triggeringMessage.author.username,
+					name,
 					triggeringMessage.author.avatarURL
 				);
 			}
