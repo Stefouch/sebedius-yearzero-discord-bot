@@ -27,7 +27,7 @@ module.exports = {
 
 		// Loads the available character sheets.
 		const players = new Discord.Collection();
-		const sheetFiles = fs.readdirSync('./sheets').filter(file => file.endsWith('.charactersheet.json'));
+		const sheetFiles = fs.readdirSync('./sheets/charactersheets').filter(file => file.endsWith('.charactersheet.json'));
 
 		for (const file of sheetFiles) {
 			const player = require('../sheets/' + file);
