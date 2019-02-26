@@ -39,7 +39,7 @@ module.exports = {
 		const index = args.regIndexOf(/^(-n|--name)$/i);
 		const nameToSearch = args[index + 1];
 
-		if (index >= 0 && typeof nameToSearch !== 'undefined' && message.author.id === Config.gm.id) {
+		if (index >= 0 && typeof nameToSearch !== 'undefined') {
 			const pl = players.find('pseudo', nameToSearch) || players.find('name', nameToSearch);
 
 			if (pl) {
@@ -66,10 +66,10 @@ module.exports = {
 
 		// Sends a message with the details.
 		if (args.regIndexOf(/^(-pm|-dm|--private)$/i) >= 0) {
-			message.author.send({ embed: embedSheet });
+			message.author.send(embedSheet);
 		}
 		else {
-			message.channel.send({ embed: embedSheet });
+			message.channel.send(embedSheet);
 		}
 	},
 };
