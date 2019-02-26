@@ -4,8 +4,8 @@
  * and return the index of the first element which matches the provided
  * regular expression.
  * Note: This will not match on objects.
- * @param  {RegExp} rx The regular expression to test with. E.g. /-ba/gim
- * @returns {Numeric} -1 means not found
+ * @param {RegExp} rx The regular expression to test with. E.g. /-ba/gim
+ * @returns {number} -1 means not found
  */
 if (typeof Array.prototype.regIndexOf === 'undefined') {
 	Array.prototype.regIndexOf = function(rx) {
@@ -45,7 +45,7 @@ module.exports = {
 	 * @deprecated Use operator '%' instead.
 	 * @param {number} dividend Dividend
 	 * @param {number} divisor Divisor
-	 * @returns {number} Modulus
+	 * @returns {number}
 	 */
 	mod(dividend, divisor) {
 		return dividend - divisor * Math.floor(dividend / divisor);

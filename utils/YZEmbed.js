@@ -5,8 +5,8 @@ class YZEmbed extends RichEmbed {
 	 * A Discord.RichEmbed with predefined properties.
 	 * @param {string} title The embed's title
 	 * @param {string} description The embed's description
-	 * @param {Discord.Message} triggeringMessage The triggering message (default is null)
-	 * @param {boolean} hasAuthor Shows or not the triggering message's author (default is false)
+	 * @param {?Discord.Message} [triggeringMessage=null] The triggering message (default is null)
+	 * @param {boolean} [hasAuthor=false] Shows or not the triggering message's author (default is false)
 	 */
 	constructor(title, description, triggeringMessage = null, hasAuthor = false) {
 		super({

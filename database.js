@@ -34,7 +34,7 @@ module.exports = {
 	/**
 	 * Gets the value of a key in the JSON database.
 	 * @param {string} key The database's key
-	 * @returns {string} The value of the key
+	 * @returns {string}
 	 */
 	get(key) {
 		const content = fs.readFileSync(DB_PATH, 'utf8');
@@ -44,7 +44,7 @@ module.exports = {
 
 	/**
 	 * Gets the list of all values in the database.
-	 * @returns {Array} An array with all keys and their values
+	 * @returns {string[]} An array with all keys and their values
 	 */
 	list() {
 		const data = [];

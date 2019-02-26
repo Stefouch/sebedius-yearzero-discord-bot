@@ -104,10 +104,10 @@ module.exports = {
 };
 
 /**
- * Gets details for a critical injury.
+ * Gets the details for a critical injury.
  * @param {Object} crit Object containing all infos for the critical injury
  * @param {Discord.Message} message The triggering message
- * @returns {Discord.RichEmbed} Discord embed message
+ * @returns {YZEmbed} A rich embed
  */
 function getEmbedCrit(crit, message) {
 	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, message, true);
