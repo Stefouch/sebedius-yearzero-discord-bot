@@ -4,8 +4,8 @@ class YZRoll {
 	/**
 	 * A Year Zero Roll object.
 	 * @param {string} author The author of the roll
-	 * @param {DicePool} diceData Dice data (see DicePool)
-	 * @param {string} [title=null] The title/name of the roll
+	 * @param {?DicePool} diceData Dice data (see DicePool)
+	 * @param {?string} [title=null] The title/name of the roll
 	 */
 	constructor(author, diceData, title = null) {
 		/**
@@ -52,7 +52,7 @@ class YZRoll {
 		this.dice = { base: [], skill: [], neg: [], gear: [] };
 		for (const type in this.dice) {
 			const qty = +diceData[type] || 0;
-			for (let d = 0; d < qty; d++) this.dice[type].push(rand(1, 6));
+			this.addDice(qty, type);
 		}
 
 		/**
@@ -74,6 +74,18 @@ class YZRoll {
 	}
 
 	/**
+	 * The total number of dice in the roll.
+	 * @type {number}
+	 * @readonly
+	 */
+	get size() {
+		return this.dice.base.length
+			+ this.dice.skill.length
+			+ this.dice.gear.length
+			+ this.dice.neg.length;
+	}
+
+	/**
 	 * The quantity of sixes (successes).
 	 * *(Don't forget to roll the Artifact Die before counting successes.)*
 	 * @type {number}
@@ -88,7 +100,7 @@ class YZRoll {
 	}
 
 	/**
-	 * The quantity of traumas ("1" on skill dice).
+	 * The quantity of traumas ("1" on base dice).
 	 * @type {number}
 	 * @readonly
 	 */
@@ -141,18 +153,6 @@ class YZRoll {
 	}
 
 	/**
-	 * Gets the total number of dice in the roll.
-	 * @returns {number}
-	 * @readonly
-	 */
-	get size() {
-		return this.dice.base.length
-			+ this.dice.skill.length
-			+ this.dice.gear.length
-			+ this.dice.neg.length;
-	}
-
-	/**
 	 * Pushes the roll, following the MYZ rules.
 	 * @returns {YZRoll} The pushed roll.
 	 */
@@ -197,39 +197,70 @@ class YZRoll {
 	}
 
 	/**
+	 * Adds a number of base dice to the roll.
+	 * @param {number} qty The quantity to add
+	 */
+	addBaseDice(qty) {
+		this.addDice(qty, 'base');
+	}
+
+	/**
+	 * Adds a number of skill dice to the roll.
+	 * @param {number} qty The quantity to add
+	 */
+	addSkillDice(qty) {
+		this.addDice(qty, 'skill');
+	}
+
+	/**
+	 * Adds a number of gear dice to the roll.
+	 * @param {number} qty The quantity to add
+	 */
+	addGearDice(qty) {
+		this.addDice(qty, 'gear');
+	}
+
+	/**
+	 * Adds a number of negative dice to the roll.
+	 * @param {number} qty The quantity to add
+	 */
+	addNegDice(qty) {
+		this.addDice(qty, 'neg');
+	}
+
+	/**
+	 * Adds a number of dice to the roll.
+	 * @param {number} qty The quantity to add
+	 * @param {string} type The type of dice to add ("base", "skill", "gear" or "neg")
+	 */
+	addDice(qty, type) {
+		if (this.dice.hasOwnProperty(type)) {
+			for (let d = 0; d < qty; d++) this.dice[type].push(rand(1, 6));
+		}
+	}
+
+	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {string} [type='BASE'] "base", "skill", "gear" or "neg/negative" (default is "base")
+	 * @param {string} [type='base'] "base", "skill", "gear" or "neg" (default is "base")
 	 * @returns {number} The summed result
 	 */
-	sum(type = 'BASE') {
-		type = type.toLowerCase();
+	sum(type = 'base') {
 		let result = 0;
-
-		if (type === 'base' || type === 'skill' || type === 'gear'
-			|| type === 'neg' || type === 'negative') {
-
-			for (const value of this.dice[type]) {
-				result += value;
-			}
+		if (this.dice.hasOwnProperty(type)) {
+			for (const value of this.dice[type]) result += value;
 		}
 		return result;
 	}
 
 	/**
 	 * Gets the base-six sticky-result of the dice of a certain type.
-	 * @param {string} [type='BASE'] "base", "skill", "gear" or "neg/negative" (default is "base")
+	 * @param {string} [type='BASE'] "base", "skill", "gear" or "neg" (default is "base")
 	 * @returns {number} The sticked result
 	 */
-	baseSix(type = 'BASE') {
-		type = type.toLowerCase();
+	baseSix(type = 'base') {
 		let result = '';
-
-		if (type === 'base' || type === 'skill' || type === 'gear'
-			|| type === 'neg' || type === 'negative') {
-
-			for (const value of this.dice[type]) {
-				result += value;
-			}
+		if (this.dice.hasOwnProperty(type)) {
+			for (const value of this.dice[type]) result += value;
 		}
 		return Number(result);
 	}
@@ -251,11 +282,17 @@ class YZRoll {
 	toString() {
 		let str = `${(this.title) ? `${this.title} ` : ''}Roll${(this.pushed) ? ' (pushed)' : ''}:`;
 		str += ` base[${this.dice.base.toString()}], skill[${this.dice.skill.toString()}], gear[${this.dice.gear.toString()}]`;
+
 		if (this.hasNegative) str += `, neg[${this.dice.neg.toString()}]`;
 		if (this.artifactDie.size) str += `, D${this.artifactDie.size} (${this.artifactDie.result})`;
 
 		return str;
 	}
+
+	/* static get BASE() { return 'base'; }
+	static get SKILL() { return 'skill'; }
+	static get GEAR() { return 'gear'; }
+	static get NEG() { return 'neg'; } */
 
 	/**
 	 * Counts the values in a roll.
