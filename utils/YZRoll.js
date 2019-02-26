@@ -1,12 +1,20 @@
 const { rand } = require('./utils.js');
 
 class YZRoll {
-	constructor(author, baseDiceQty, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, artifactDieSize = 0, title = '') {
+	/**
+	 * A Year Zero Roll object.
+	 * @param {string} author The author of the roll
+	 * @param {DicePool} diceData Dice data (see DicePool)
+	 * @param {string} [title=null] The title/name of the roll
+	 */
+	constructor(author, diceData, title = null) {
 		/**
 		 * The author of the roll.
+		 * @name YZRoll#author
 		 * @type {string}
+		 * @readonly
 		 */
-		this.author = author;
+		Object.defineProperty(this, 'author', { value: author });
 
 		/**
 		 * The title/name of the roll.
@@ -33,56 +41,77 @@ class YZRoll {
 		 */
 		this.isFullAuto = false;
 
+		if (diceData) this.setup(diceData);
+	}
+
+	setup(diceData) {
 		/**
 		 * The dice of the roll.
-		 * @type {Object<(Array<number>, Array<number>, Array<number>, Array<number>)>}
+		 * @type {Object<number[]>}
 		 */
 		this.dice = { base: [], skill: [], neg: [], gear: [] };
-		for (let b = 0; b < baseDiceQty; b++) { this.dice.base.push(rand(1, 6)); }
-		for (let s = 0; s < skillDiceQty; s++) { this.dice.skill.push(rand(1, 6)); }
-		for (let n = 0; n < negDiceQty; n++) { this.dice.neg.push(rand(1, 6)); }
-		for (let g = 0; g < gearDiceQty; g++) { this.dice.gear.push(rand(1, 6)); }
-
-		/**
-		 * Tells if there are negative dice.
-		 * @type {boolean}
-		 */
-		this.hasNegative = this.dice.neg.length > 0;
+		for (const type in this.dice) {
+			const qty = +diceData[type] || 0;
+			for (let d = 0; d < qty; d++) this.dice[type].push(rand(1, 6));
+		}
 
 		/**
 		 * The artifact die of the roll.
 		 * @type {Object}
 		 */
 		this.artifactDie = {
-			size: Number(artifactDieSize),
+			size: Number(diceData.artifactDie),
 			result: 0,
-			success: 0,
+			get success() { return ARTIFACT_STUNTS[this.result]; },
 		};
 		this.rollArtifactDie();
 
 		/**
-		 * The quantity of sixes.
-		 * @type {number}
-		 */
-		this.sixes = this.getSixes();
-
-		/**
-		 * The quantity of traumas ("1").
-		 * @type {number}
-		 */
-		this.attributeTrauma = 0;
-
-		/**
-		 * The quantity of gear damage ("1").
-		 * @type {number}
-		 */
-		this.gearDamage = 0;
-
-		/**
 		 * The quantity of dice keeped between pushes.
-		 * @type {Object<(number, number, number, number)>}
+		 * @type {Object<number>}
 		 */
 		this.keeped = { base: 0, skill: 0, neg: 0, gear: 0 };
+	}
+
+	/**
+	 * The quantity of sixes (successes).
+	 * *(Don't forget to roll the Artifact Die before counting successes.)*
+	 * @type {number}
+	 * @readonly
+	 */
+	get sixes() {
+		return YZRoll.count(6, this.dice.base)
+			+ YZRoll.count(6, this.dice.skill)
+			+ YZRoll.count(6, this.dice.gear)
+			- YZRoll.count(6, this.dice.neg)
+			+ this.artifactDie.success;
+	}
+
+	/**
+	 * The quantity of traumas ("1" on skill dice).
+	 * @type {number}
+	 * @readonly
+	 */
+	get attributeTrauma() {
+		return (this.pushed > 0) ? YZRoll.count(1, this.dice.base) : 0;
+	}
+
+	/**
+	 * The quantity of gear damage ("1" on gear dice).
+	 * @type {number}
+	 * @readonly
+	 */
+	get gearDamage() {
+		return (this.pushed > 0) ? YZRoll.count(1, this.dice.gear) : 0;
+	}
+
+	/**
+	 * Tells if there are negative dice.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get hasNegative() {
+		return this.dice.neg.length > 0;
 	}
 
 	/**
@@ -105,36 +134,22 @@ class YZRoll {
 	 */
 	rollArtifactDie() {
 		if (this.artifactDie.size) {
-
 			if (this.artifactDie.result < 6) {
 				this.artifactDie.result = rand(1, this.artifactDie.size);
 			}
-			this.artifactDie.success = ARTIFACT_STUNTS[this.artifactDie.result];
 		}
 	}
 
 	/**
 	 * Gets the total number of dice in the roll.
-	 * @returns {number} The total number of dice
+	 * @returns {number}
+	 * @readonly
 	 */
-	getDicePoolSize() {
+	get size() {
 		return this.dice.base.length
 			+ this.dice.skill.length
 			+ this.dice.gear.length
 			+ this.dice.neg.length;
-	}
-
-	/**
-	 * Gets the total number of successes.
-	 * Don't forget to roll the Artifact Die before counting successes.
-	 * @returns {number} The number of successes
-	 */
-	getSixes() {
-		return myzCountResults(6, this.dice.base)
-			+ myzCountResults(6, this.dice.skill)
-			+ myzCountResults(6, this.dice.gear)
-			- myzCountResults(6, this.dice.neg)
-			+ this.artifactDie.success;
 	}
 
 	/**
@@ -144,10 +159,10 @@ class YZRoll {
 	push() {
 		// Indications before pushing.
 		this.keeped = {
-			base: myzCountResults(6, this.dice.base) + myzCountResults(1, this.dice.base),
-			skill: myzCountResults(6, this.dice.skill),
-			neg: myzCountResults(6, this.dice.neg),
-			gear: myzCountResults(6, this.dice.gear) + myzCountResults(1, this.dice.gear),
+			base: YZRoll.count(6, this.dice.base) + YZRoll.count(1, this.dice.base),
+			skill: YZRoll.count(6, this.dice.skill),
+			neg: YZRoll.count(6, this.dice.neg),
+			gear: YZRoll.count(6, this.dice.gear) + YZRoll.count(1, this.dice.gear),
 		};
 
 		this.pushed++;
@@ -158,7 +173,7 @@ class YZRoll {
 			const diceQty = rolledDice.length;
 
 			if (diceQty) {
-				const filteredDice = rolledDice.filter((value, index, arr) => {
+				const filteredDice = rolledDice.filter(value => {
 					if (type === 'skill' || type === 'neg') {
 						return value === 6;
 					}
@@ -176,9 +191,6 @@ class YZRoll {
 			}
 		}
 		this.rollArtifactDie();
-		this.sixes = this.getSixes();
-		this.attributeTrauma = myzCountResults(1, this.dice.base);
-		this.gearDamage = myzCountResults(1, this.dice.gear);
 		this.updateTimestamp();
 
 		return this;
@@ -186,7 +198,7 @@ class YZRoll {
 
 	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {string} type "base", "skill", "gear" or "neg/negative" (default is "base")
+	 * @param {string} [type='BASE'] "base", "skill", "gear" or "neg/negative" (default is "base")
 	 * @returns {number} The summed result
 	 */
 	sum(type = 'BASE') {
@@ -205,7 +217,7 @@ class YZRoll {
 
 	/**
 	 * Gets the base-six sticky-result of the dice of a certain type.
-	 * @param {string} type "base", "skill", "gear" or "neg/negative" (default is "base")
+	 * @param {string} [type='BASE'] "base", "skill", "gear" or "neg/negative" (default is "base")
 	 * @returns {number} The sticked result
 	 */
 	baseSix(type = 'BASE') {
@@ -224,7 +236,7 @@ class YZRoll {
 
 	/**
 	 * Tells if the Resource Die lost one step.
-	 * @param {number} result The result to evaluate (default is ArtifactDie.result)
+	 * @param {?number} [result=null] The result to evaluate (default is ArtifactDie.result)
 	 * @returns {boolean} True if the Resource Die value <= 2 (lost a step)
 	 */
 	hasLostResourceStep(result = null) {
@@ -244,6 +256,28 @@ class YZRoll {
 
 		return str;
 	}
+
+	/**
+	 * Counts the values in a roll.
+	 * @param {number} face The value to count
+	 * @param {Array<number>} rolledDice The rolled results
+	 * @returns {number} The quantity of <face>
+	 */
+	static count(face, rolledDice) {
+		let count = 0;
+
+		// Counts only if there is something to count.
+		if (rolledDice.length) {
+
+			for (const dieValue of rolledDice) {
+
+				if (dieValue === face) {
+					count++;
+				}
+			}
+		}
+		return count;
+	}
 }
 
 module.exports = YZRoll;
@@ -255,34 +289,30 @@ module.exports = YZRoll;
 const ARTIFACT_STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 
 /**
- * Counts the values in a roll.
- * @param {number} face The value to count
- * @param {Array<number>} rolledDice The rolled results
- * @returns {number} The quantity of <face>
- */
-function myzCountResults(face, rolledDice) {
-	let count = 0;
-
-	// Counts only if there is something to count.
-	if (rolledDice.length) {
-
-		for (const dieValue of rolledDice) {
-
-			if (dieValue === face) {
-				count++;
-			}
-		}
-	}
-	return count;
-}
-
-/**
- * Resolves a string.
- * @param {StringResolvable} data The data to resolve into a string
- * @returns {string} The string resolved
+ * Resolves a StringResolvable to a string.
+ * @param {StringResolvable} data The string resolvable to resolve
+ * @returns {string}
  */
 function resolveString(data) {
 	if (typeof data === 'string') return data;
 	if (data instanceof Array) return data.join(', ');
 	return String(data);
 }
+
+/**
+ * @typedef {string|Array|*} StringResolvable
+ * Data that can be resolved to give a string. This can be:
+ * * A string
+ * * An array (joined with a new line delimiter to give a string)
+ * * Any value
+ */
+
+/**
+ * @typedef {Object} DicePool
+ * An object where you specify dice quantities.
+ * * `base:` The quantity of base dice (yellow color)
+ * * `skill:` The quantity of skill dice (green color)
+ * * `gear:` The quantity of gear dice (black color)
+ * * `neg:` The quantity of negative dice (red color)
+ * * `artifactDie:` The size of an artifact die
+ */

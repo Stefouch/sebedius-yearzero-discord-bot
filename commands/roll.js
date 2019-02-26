@@ -71,7 +71,17 @@ module.exports = {
 
 				// Rolls the dice.
 				const rollTitle = args.join(' ').replace('--', '–');
-				const roll = new YZRoll(message.author.id, baseDiceQty, skillDiceQty, gearDiceQty, negDiceQty, artifactDieSize, rollTitle);
+				const roll = new YZRoll(
+					message.author,
+					{
+						base: baseDiceQty,
+						skill: skillDiceQty,
+						gear: gearDiceQty,
+						neg: negDiceQty,
+						artifactDie: artifactDieSize,
+					},
+					rollTitle
+				);
 
 				if (args.includes('--fullauto')) roll.setFullAuto(true);
 
@@ -83,23 +93,23 @@ module.exports = {
 		}
 		else if (/^d666$/i.test(rollArgument)) {
 			const rollTitle = args.join(' ');
-			const roll = new YZRoll(message.author.id, 3, 0, 0, 0, 0, rollTitle);
+			const roll = new YZRoll(message.author.id, { base: 3 }, rollTitle);
 			sendMessageForD6(roll, message, 'BASESIX');
 		}
 		else if (/^d66$/i.test(rollArgument)) {
 			const rollTitle = args.join(' ');
-			const roll = new YZRoll(message.author.id, 2, 0, 0, 0, 0, rollTitle);
+			const roll = new YZRoll(message.author.id, { base: 2 }, rollTitle);
 			sendMessageForD6(roll, message, 'BASESIX');
 		}
 		else if (/^d6$/i.test(rollArgument)) {
 			const rollTitle = args.join(' ');
-			const roll = new YZRoll(message.author.id, 1, 0, 0, 0, 0, rollTitle);
+			const roll = new YZRoll(message.author.id, { base: 1 }, rollTitle);
 			sendMessageForD6(roll, message, 'BASESIX');
 		}
 		else if (/^\d+d6?$/i.test(rollArgument)) {
 			const rollTitle = args.join(' ');
 			const [, nb] = rollArgument.match(/(^\d+)/);
-			const roll = new YZRoll(message.author.id, nb, 0, 0, 0, 0, rollTitle);
+			const roll = new YZRoll(message.author.id, { base: nb }, rollTitle);
 			sendMessageForD6(roll, message, 'ADD');
 		}
 		// Resource Die.
@@ -109,7 +119,7 @@ module.exports = {
 			if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
 				const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
 				const resTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, 0, 0, 0, size, resTitle);
+				const roll = new YZRoll(message.author.id, { artifactDie: size }, resTitle);
 				sendMessageForResourceDie(roll, message);
 			}
 			else {
@@ -128,7 +138,7 @@ module.exports = {
  * @param {Discord.Message} triggeringMessage The triggering message
  */
 function sendMessageForRollResults(roll, triggeringMessage) {
-	if (roll.getDicePoolSize() > Config.commands.roll.max) return triggeringMessage.reply('Can\'t roll that, too many dice!');
+	if (roll.size > Config.commands.roll.max) return triggeringMessage.reply('Can\'t roll that, too many dice!');
 
 	triggeringMessage.channel.send(getDiceEmojis(roll), getEmbedDiceResults(roll, triggeringMessage))
 		.then(rollMessage => {
@@ -255,7 +265,7 @@ function getTextForArtifactDieResult(artifactDie) {
  * @param {string} method "ADD" or "BASESIX"
  */
 function sendMessageForD6(roll, message, method) {
-	if (roll.getDicePoolSize() > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
+	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
 
 	const customEmojis = Config.icons.myz.base;
 
@@ -274,7 +284,7 @@ function sendMessageForD6(roll, message, method) {
 }
 
 function sendMessageForResourceDie(roll, message) {
-	if (roll.getDicePoolSize() > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
+	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
 
 	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die = (${roll.artifactDie.result})`;
 
