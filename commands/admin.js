@@ -1,6 +1,5 @@
 const Config = require('../config.json');
 const db = require('../database.js');
-const v = require('../utils/version.js');
 
 module.exports = {
 	name: 'admin',
@@ -17,10 +16,6 @@ module.exports = {
 		if (args.includes('database') || args.includes('db')) {
 			const data = db.list();
 			message.author.send(data);
-		}
-
-		if (args.includes('version') || args.includes('v')) {
-			message.channel.send(`My source code version is: **${v.getVersion('./CHANGELOG.md')}**`);
 		}
 
 		if (args.includes('maintenance') || args.includes('idle')) {

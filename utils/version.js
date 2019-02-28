@@ -1,19 +1,20 @@
 const fs = require('fs');
 
+const versionfile = './CHANGELOG.md';
+
 module.exports = {
 	/**
 	 * A simple function that returns the version of the bot.
-	 * @param {string} file The path of CHANGELOG.md
 	 * @returns {string}
 	 */
-	getVersion(file) {
+	get version() {
 		let fileContent;
 
 		try {
-			fileContent = fs.readFileSync(file, 'utf8');
+			fileContent = fs.readFileSync(versionfile, 'utf8');
 		}
 		catch(error) {
-			console.error(`[ERROR] - Unable to load "${file}"`, error);
+			console.error(`[ERROR] - Unable to load "${versionfile}"`, error);
 		}
 
 		if (!fileContent) return 0;

@@ -14,7 +14,6 @@ if (process.env.NODE_ENV !== 'production') {
 const fs = require('fs');
 const Config = require('./config.json');
 const db = require('./database.js');
-const v = require('./utils/version.js');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
@@ -37,7 +36,6 @@ for (const file of commandFiles) {
 bot.on('ready', () => {
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
-	console.log(`| BOT version: ${v.getVersion('./CHANGELOG.md')}`);
 	console.log(`| Logged in as: ${bot.user.username} (${bot.user.id})`);
 	console.log('|===========================================================');
 
