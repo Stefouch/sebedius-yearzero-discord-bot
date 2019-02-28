@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - A bug that broke the resource die roll.
+- A bug related to the `!mutation` command not working with argument `all`.
 
 ## [1.2.3] - 2019-02-26
 ### Added
