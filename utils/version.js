@@ -6,6 +6,7 @@ module.exports = {
 	/**
 	 * A simple function that returns the version of the bot.
 	 * @returns {string}
+	 * @readonly
 	 */
 	get version() {
 		let fileContent;
