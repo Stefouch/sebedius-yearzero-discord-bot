@@ -1,7 +1,0 @@
-
-
-class Threat {
-	constructor(params) {
-		//
-	}
-}

@@ -4,9 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.2.4] - 2019-02-27
+## [1.3.0] - 2019-02-28
 ### Added
+- New command: `!artifact` - Draws a random artifact.
+- New command: `!threat` - Draws a random Zone threat.
 - 80 additional scrap items, for a total of 297.
+
+### Fixed
+- A bug that broke the resource die roll.
 
 ## [1.2.3] - 2019-02-26
 ### Added
@@ -41,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New command: `!rumor` - Tells a random rumor.
 - New command: `!mutation` - Draws a random mutation.
-- New command: `!arkthreat` - Draws a random threat against the Ark.
+
 - Bot's response to its mention, which lets him answer its prefix.
 - New JS Class: YZEmbed (extends Discord.RichEmbed with predefined properties).
 

@@ -1,5 +1,5 @@
 const Config = require('../config.json');
-const Crits = require('../sheets/crits.json');
+const Crits = require('./data/crits.json');
 const YZEmbed = require('../utils/YZEmbed.js');
 const { rand, rollD6 } = require('../utils/utils.js');
 

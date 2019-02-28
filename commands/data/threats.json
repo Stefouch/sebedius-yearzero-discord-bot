@@ -1,0 +1,33 @@
+{
+	"myz": {
+		"humanoid": [
+			{
+				"name": "Amnesiac",
+				"ktzMalus": -2,
+				"description": "A human woman staggers through the Zone. Her eyes are glazed over and seem to focus on some imagined horror. She mumbles alien words, barely audible. She wears dirty and torn coveralls with strange markings. She doesn’t respond to the PCs and collapses on the ground if they try to stop her. Unless Healed, she dies in a couple of hours. If she survives the PCs can talk to her, but her dialect is foreign and she seems to have lost all memory of who she is and where she came from. She might have a clue to the location of Eden (Chapter 16).\nIf you have played the Threat Card called The Man on the Beach (page 148), the PCs can recog-nize both the clothing and the dialect – the woman has the same. She also reacts in a similar way if brought to the Ark. Just like the man on the beach, the woman is one of the cryo-frozen lab assistants from Project Eden – see Chapter 16.",
+				"attributes": {
+					"strength": 2,
+					"agility": 2,
+					"wits": 4,
+					"empathy": 2
+				},
+				"skills": {
+					"comprehend": 2,
+					"heal": 1
+				},
+				"mutations": null,
+				"gear": []
+			},
+			{
+				"name": "Beast Mutant",
+				"ktzMalus": -1,
+				"description": "Out in the Zone, there is a tribe of beings that are different from all others. They are not human mutants and they are not wild beasts – they are both.They are animals, but they walk upright on theirhind legs, use tools and have a spoken language –primitive and coarse, but a language nonetheless.They are newcomers to the Zone, on their guard oreven hostile to strangers. Despite their few numbersthe beast mutants seem to belong to several different species – some look like ragged dogs or wolves,others are short and rodent-like, and a third varietyare monkey-like climbers.\nThe truth is that the beast mutants – like thePeople themselves – can trace their origin to thegenetics labs of the Ancients, bred to be able tosurvive the harsh world after the Apocalypse. Theyare animals given parts of the human intellect andfine motor skills. The small tribe that recently arrived in the Zone has fled from an old research facility located in a distant mountain range, wheremany of their kin still are being held captive by themysterious Watchers. The escapees have journeyedto the area of the Zone to find a new home.\nThe beast mutants and their origin will be explored in a future expansion to Mutant: Year Zero.",
+				"variants": [
+					{
+						"name": "Dog"
+					}
+				]
+			}
+		]
+	}
+}

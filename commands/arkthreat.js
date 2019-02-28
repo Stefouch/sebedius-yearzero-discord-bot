@@ -1,4 +1,4 @@
-const ArkThreats = require('../sheets/ark-threats.list.json');
+const ArkThreats = require('./data/ark-threats.list.json');
 const YZEmbed = require('../utils/YZEmbed.js');
 const { rand } = require('../utils/utils.js');
 

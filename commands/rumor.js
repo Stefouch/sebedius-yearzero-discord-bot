@@ -1,4 +1,4 @@
-const Rumors = require('../sheets/rumors.json');
+const Rumors = require('./data/rumors.json');
 const YZEmbed = require('../utils/YZEmbed.js');
 const { rand, strLcFirst } = require('../utils/utils.js');
 

@@ -1,11 +1,11 @@
-const Mutations = require('../sheets/mutations.list.json');
+const Mutations = require('./data/mutations.list.json');
 const YZEmbed = require('../utils/YZEmbed.js');
 const { rand } = require('../utils/utils.js');
 
 module.exports = {
 	name: 'mutation',
 	description: 'Draws a random mutation.',
-	aliases: ['mut'],
+	aliases: ['mut', 'muta'],
 	guildOnly: false,
 	args: false,
 	// usage: '[numeric]',

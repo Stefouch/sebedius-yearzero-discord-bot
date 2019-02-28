@@ -6,9 +6,9 @@ const { rand, rollD6 } = require('../utils/utils.js');
 // Loading the available scrap.
 let scrapList;
 try {
-	const scrapContent = fs.readFileSync('./sheets/scrap.list', 'utf8');
+	const scrapContent = fs.readFileSync('./commands/data/scrap.list', 'utf8');
 	scrapList = scrapContent.split('\n');
-	console.log('[+] - Scrap list loaded: sheets/scrap.list');
+	console.log('[+] - Scrap list loaded: data/scrap.list');
 }
 catch(error) {
 	console.error('[ERROR] - Unable to load the scrap list:', error);

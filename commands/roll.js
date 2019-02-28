@@ -157,8 +157,6 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 
 				// LISTENER on COLLECT.
 				collector.on('collect', (reaction, reactionCollector) => {
-					console.log('[ROLL] - [ReactionCollector] - Roll pushed.');
-
 					if (!roll.isFullAuto) reactionCollector.stop();
 
 					const pushedRoll = roll.push();

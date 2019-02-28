@@ -65,6 +65,15 @@ module.exports = {
 	},
 
 	/**
+	 * Capitalizes the first letter of a string.
+	 * @param {string} str The string to process
+	 * @returns {string} The processed string
+	 */
+	capitalize(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	},
+
+	/**
 	 * Lowers the first character of a string.
 	 * @param {string} str The string to process
 	 * @returns {string} The processed string

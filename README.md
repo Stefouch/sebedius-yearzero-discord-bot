@@ -30,6 +30,8 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `scrap [quantity]` - Gets you a bunch of scrap.
 * `rumor` - Tells a random rumor. *(Thanks to Myr Midon's work.)*
 * `mutation` - Draws a random mutation (no details).
+* `artifact` - Draws a random artifact (no details).
+* `threat` - Draws a random Zone threat (no details).
 * `arkthreat` - Draws a random threat against the Ark (no details).
 * `setconf prefix [value]` - Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
