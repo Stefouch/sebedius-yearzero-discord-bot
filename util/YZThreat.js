@@ -1,18 +1,14 @@
-class YZThreat {
-	/**
-	 * Defines a Threat.
-	 * @param {Object} data Threat's props
-	 */
+const YZCharacter = require('./YZCharacter');
+
+class YZThreat extends YZCharacter {
 	constructor(data) {
-		Object.defineProperty(this, Symbol('id'), {
-			value: Math.floor(Math.random() * Date.now()),
-		});
-		this.name = data.name || null;
-		this.description = data.description || null;
+		super(data);
+
+		/**
+		 * The initial malus to any "Know the Zone" skill roll.
+		 * @type {number} Default is 0
+		 */
 		this.ktzMalus = data.ktzMalus || 0;
-		this.attributes = data.attributes || {};
-		this.skills = data.skills || {};
-		this.gear = data.gear || null;
 	}
 }
 
