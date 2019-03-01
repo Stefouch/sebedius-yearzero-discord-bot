@@ -1,7 +1,7 @@
 const fs = require('fs');
 const Config = require('../config.json');
-const YZEmbed = require('../utils/YZEmbed.js');
-const { rand, rollD6 } = require('../utils/utils.js');
+const YZEmbed = require('../util/YZEmbed');
+const { rand, random, sumD6, rollD666, rollD66 } = require('../util/Util');
 
 // Loading the available scrap.
 let scrapList;
@@ -30,15 +30,14 @@ module.exports = {
 		}
 
 		for (let i = 0; i < qty; i++) {
-			const roll = rand(1, scrapList.length) - 1;
-			const scrap = scrapList[roll];
+			const scrap = random(scrapList);
 
 			desc += `\n– ${scrap}`;
 		}
 		// Dice replacements.
-		desc = desc.replace(/D666/gmi, rand(1, 6) * 100 + rand(1, 6) * 10 + rand(1, 6));
-		desc = desc.replace(/D66/gmi, rand(1, 6) * 10 + rand(1, 6));
-		desc = desc.replace(/(\d)D6/gmi, (match, p1) => rollD6(p1));
+		desc = desc.replace(/D666/gmi, rollD666());
+		desc = desc.replace(/D66/gmi, rollD66());
+		desc = desc.replace(/(\d)D6/gmi, (match, p1) => sumD6(p1));
 		desc = desc.replace(/D6/gmi, rand(1, 6));
 
 		const title = `Scrap Item${(qty > 1) ? 's' : ''} Found`;

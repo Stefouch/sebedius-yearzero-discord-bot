@@ -1,6 +1,6 @@
 const Threats = require('./data/threats.list.json');
-const YZEmbed = require('../utils/YZEmbed.js');
-const { rand, capitalize } = require('../utils/utils.js');
+const YZEmbed = require('../util/YZEmbed');
+const { rand, rollD66, capitalize } = require('../util/Util');
 
 module.exports = {
 	name: 'threat',
@@ -17,7 +17,7 @@ module.exports = {
 		else type = 'phenomenons';
 
 		const threats = Threats.myz[type];
-		const rnd = rand(1, 6) * 10 + rand(1, 6);
+		const rnd = rollD66();
 		let threat;
 
 		for (let i = rnd; i > 10; i--) {
@@ -29,6 +29,7 @@ module.exports = {
 
 		const typeStr = capitalize(type).slice(0, -1);
 		const embed = new YZEmbed('Zone Threat', `${typeStr} – ${threat}`);
+
 		message.channel.send(embed);
 	},
 };

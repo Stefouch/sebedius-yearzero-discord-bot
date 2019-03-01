@@ -1,6 +1,6 @@
 const Config = require('../config.json');
-const YZRoll = require('../utils/YZRoll.js');
-const YZEmbed = require('../utils/YZEmbed.js');
+const YZRoll = require('../util/YZRoll');
+const YZEmbed = require('../util/YZEmbed');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 

@@ -1,6 +1,6 @@
 const Artos = require('./data/artifacts.list.json');
-const YZEmbed = require('../utils/YZEmbed.js');
-const { rand } = require('../utils/utils.js');
+const YZEmbed = require('../util/YZEmbed');
+const { random } = require('../util/Util');
 
 module.exports = {
 	name: 'artifact',
@@ -17,13 +17,11 @@ module.exports = {
 	usage: '[all | meta gla mech ely astra]',
 	execute(args, message) {
 		// Lists all legal books
-		// Using a "Set" object instead of a simple Array,
-		// because of easy deletion (see later in the code).
-		const legalBooks = new Set();
-		for (const book in Artos) legalBooks.add(book);
+		const legalBooks = new Array();
+		for (const book in Artos) legalBooks.push(book);
 
 		// If "all", adds all books.
-		if (args.includes('all')) args = args.concat([...legalBooks]);
+		if (args.includes('all')) args = args.concat(legalBooks);
 		// Default book should be MYZ.
 		if (!args.includes('myz')) args.push('myz');
 
@@ -34,17 +32,14 @@ module.exports = {
 		// Adds artifacts
 		args.forEach(arg => {
 			arg = arg.toLowerCase();
-			if (legalBooks.has(arg)) {
-				Artos[arg].forEach(arto => {
-					artifacts.add(arto);
-				});
-				legalBooks.delete(arg);
+			if (legalBooks.includes(arg)) {
+				Artos[arg].forEach(arto => artifacts.add(arto));
 			}
 		});
-		const nb = rand(1, artifacts.size) - 1;
-		const artifact = [...artifacts][nb];
 
+		const artifact = random(artifacts);
 		const embed = new YZEmbed('Artifact', artifact);
+
 		message.channel.send(embed);
 	},
 };

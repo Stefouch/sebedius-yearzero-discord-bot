@@ -1,7 +1,7 @@
 const Config = require('../config.json');
 const Crits = require('./data/crits.json');
-const YZEmbed = require('../utils/YZEmbed.js');
-const { rand, rollD6 } = require('../utils/utils.js');
+const YZEmbed = require('../util/YZEmbed');
+const { sumD6, rollD66 } = require('../util/Util');
 
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
 			}
 			// Otherwise, gets a random injury.
 			else {
-				critRoll = rand(1, 6) * 10 + rand(1, 6);
+				critRoll = rollD66();
 			}
 
 			// Iterates each critical injury from the defined table.
@@ -94,7 +94,7 @@ module.exports = {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
 						message.channel.send('⚰');
-					}, rand(2, 6) * 1000);
+					}, rollD66() * 150);
 				}
 			})
 			.catch(error => {
@@ -122,7 +122,7 @@ function getEmbedCrit(crit, message) {
 		}
 		else {
 			title = 'Healing Time';
-			text = `${rollD6(crit.healingTime)} days until end of effects.`;
+			text = `${sumD6(crit.healingTime)} days until end of effects.`;
 		}
 		embed.addField(title, text, true);
 	}
@@ -136,7 +136,7 @@ function getEmbedCrit(crit, message) {
 			if (crit.healMalus) {
 				text += ` (modified by **${crit.healMalus}**)`;
 			}
-			text += ` within the next **${rollD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
+			text += ` within the next **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
 			text += ' or the character will die.';
 		}
 		else {

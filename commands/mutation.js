@@ -1,6 +1,6 @@
 const Muts = require('./data/mutations.list.json');
-const YZEmbed = require('../utils/YZEmbed.js');
-const { rand } = require('../utils/utils.js');
+const YZEmbed = require('../util/YZEmbed');
+const { random } = require('../util/Util');
 
 module.exports = {
 	name: 'mutation',
@@ -15,13 +15,11 @@ module.exports = {
 	usage: '[all | gla zc2 zc5]',
 	execute(args, message) {
 		// Lists all legal books
-		// Using a "Set" object instead of a simple Array,
-		// because of easy deletion (see later in the code).
-		const legalBooks = new Set();
-		for (const book in Muts) legalBooks.add(book);
+		const legalBooks = new Array();
+		for (const book in Muts) legalBooks.push(book);
 
 		// If "all", adds all books.
-		if (args.includes('all')) args = args.concat([...legalBooks]);
+		if (args.includes('all')) args = args.concat(legalBooks);
 		// Default book should be MYZ.
 		if (!args.includes('myz')) args.push('myz');
 
@@ -32,17 +30,14 @@ module.exports = {
 		// Adds artifacts
 		args.forEach(arg => {
 			arg = arg.toLowerCase();
-			if (legalBooks.has(arg)) {
-				Muts[arg].forEach(mut => {
-					mutations.add(mut);
-				});
-				legalBooks.delete(arg);
+			if (legalBooks.includes(arg)) {
+				Muts[arg].forEach(mut => mutations.add(mut));
 			}
 		});
-		const nb = rand(1, mutations.size) - 1;
-		const mutation = [...mutations][nb];
 
+		const mutation = random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
+
 		message.channel.send(embed);
 	},
 };
