@@ -1,11 +1,17 @@
-const { rand } = require('./utils.js');
+const { rand } = require('./Util');
+
+/**
+ * Number of stunts according to the artifact die's face.
+ * @type {Array<number>}
+ */
+const ARTIFACT_STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 
 class YZRoll {
 	/**
 	 * A Year Zero Roll object.
 	 * @param {string} author The author of the roll
 	 * @param {?DicePool} diceData Dice data (see DicePool)
-	 * @param {?string} [title=null] The title/name of the roll
+	 * @param {string} [title=null] The title/name of the roll
 	 */
 	constructor(author, diceData, title = null) {
 		/**
@@ -47,7 +53,11 @@ class YZRoll {
 	setup(diceData) {
 		/**
 		 * The dice of the roll.
-		 * @type {Object<number[]>}
+		 * @type {Object}
+		 * @property {number} base
+		 * @property {number} skill
+		 * @property {number} neg
+		 * @property {number} gear
 		 */
 		this.dice = { base: [], skill: [], neg: [], gear: [] };
 		for (const type in this.dice) {
@@ -58,6 +68,9 @@ class YZRoll {
 		/**
 		 * The artifact die of the roll.
 		 * @type {Object}
+		 * @property {number} size
+		 * @property {number} result
+		 * @property {number} success
 		 */
 		this.artifactDie = {
 			size: Number(diceData.artifactDie),
@@ -68,7 +81,11 @@ class YZRoll {
 
 		/**
 		 * The quantity of dice keeped between pushes.
-		 * @type {Object<number>}
+		 * @type {Object}
+		 * @property {number} base
+		 * @property {number} skill
+		 * @property {number} neg
+		 * @property {number} gear
 		 */
 		this.keeped = { base: 0, skill: 0, neg: 0, gear: 0 };
 	}
@@ -320,12 +337,6 @@ class YZRoll {
 module.exports = YZRoll;
 
 /**
- * Number of stunts according to the artifact die's face.
- * @type {Array<number>}
- */
-const ARTIFACT_STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
-
-/**
  * Resolves a StringResolvable to a string.
  * @param {StringResolvable} data The string resolvable to resolve
  * @returns {string}
@@ -347,9 +358,9 @@ function resolveString(data) {
 /**
  * @typedef {Object} DicePool
  * An object where you specify dice quantities.
- * * `base:` The quantity of base dice (yellow color)
- * * `skill:` The quantity of skill dice (green color)
- * * `gear:` The quantity of gear dice (black color)
- * * `neg:` The quantity of negative dice (red color)
- * * `artifactDie:` The size of an artifact die
+ * @property {number} [base] The quantity of base dice (yellow color)
+ * @property {number} [skill] The quantity of skill dice (green color)
+ * @property {number} [gear] The quantity of gear dice (black color)
+ * @property {number} [neg] The quantity of negative dice (red color)
+ * @property {number} [artifactDie] The size of an artifact die
  */
