@@ -1,6 +1,6 @@
 const { defaultPrefix } = require('../config.json');
 const db = require('../database.js');
-const v = require('../utils/version.js');
+const { version } = require('../util/version');
 const { RichEmbed } = require('discord.js');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 
 		if (!args.length) {
 			data.push('**Mutant: Year Zero** Discord Bot');
-			data.push(`Deployed version: **${v.version}**`);
+			data.push(`Deployed version: **${version}**`);
 			data.push('\nHere\'s a list of all my commands:');
 			data.push(commands.map(command => command.name).join(', '));
 			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
