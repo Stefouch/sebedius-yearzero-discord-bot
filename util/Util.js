@@ -110,6 +110,13 @@ class Util {
 		return Util.rand(1, 6) * 10 + Util.rand(1, 6);
 	}
 
+	static mapToJson(map) {
+		return JSON.stringify([...map]);
+	}
+	static jsonToMap(jsonStr) {
+		return new Map(JSON.parse(jsonStr));
+	}
+
 	/**
 	* Shallow-copies an object with its class/prototype intact.
 	* @param {Object} obj Object to clone
