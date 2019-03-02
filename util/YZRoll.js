@@ -47,10 +47,10 @@ class YZRoll {
 		 */
 		this.isFullAuto = false;
 
-		if (diceData) this.setup(diceData);
+		if (diceData) this._diceSetup(diceData);
 	}
 
-	setup(diceData) {
+	_diceSetup(diceData) {
 		/**
 		 * The dice of the roll.
 		 * @type {Object}
