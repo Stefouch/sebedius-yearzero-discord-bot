@@ -51,7 +51,7 @@ class YZCharacter {
 		 * @property {number} wits
 		 * @property {number} empathy
 		 */
-		this.attributes = this.parseAttributes(data.attributes);
+		this.attributes = this._parseAttributes(data.attributes);
 
 		/**
 		 * The traumas of the character.
@@ -61,7 +61,7 @@ class YZCharacter {
 		 * @property {number} wits
 		 * @property {number} empathy
 		 */
-		this.traumas = this.parseAttributes(0);
+		this.traumas = this._parseAttributes(0);
 
 		/**
 		 * The health's conditions of the character.
@@ -80,6 +80,7 @@ class YZCharacter {
 				}
 			}
 		}
+
 		/**
 		 * The critical injuries of the character.
 		 * @type {string[]}
@@ -127,7 +128,7 @@ class YZCharacter {
 		this.rot = data.rot || 0;
 
 		/**
-		 * The number of permanent points.
+		 * The number of permanent Rot points.
 		 * @type {number}
 		 */
 		this.permanentRot = data.permanentRot || 0;
@@ -144,8 +145,9 @@ class YZCharacter {
 		this.gear = new Map(data.gear);
 	}
 
-	parseAttributes(data) {
+	_parseAttributes(data) {
 		let str = 0, agi = 0, wit = 0, emp = 0;
+
 		if (typeof data === 'number') {
 			str = agi = wit = emp = data;
 		}
@@ -159,6 +161,10 @@ class YZCharacter {
 			wit = data.wits || 0;
 			emp = data.empathy || 0;
 		}
+		else {
+			throw new TypeError('Attributes data type is incorrect!');
+		}
+
 		return {
 			strength: Math.max(str, 0),
 			agility: Math.max(agi, 0),
@@ -167,15 +173,11 @@ class YZCharacter {
 		};
 	}
 
-	// Attributes shortcuts
-	/* get str() { return this.attributes.strength; }
-	set str(val) { if(typeof val === 'number') this.attributes.strength = val; }
-	get agi() { return this.attributes.agility; }
-	set agi(val) { if(typeof val === 'number') this.attributes.agility = val; }
-	get wit() { return this.attributes.wits; }
-	set wit(val) { if(typeof val === 'number') this.attributes.wits = val; }
-	get emp() { return this.attributes.empathy; }
-	set emp(val) { if(typeof val === 'number') this.attributes.empathy = val; } */
+	// Attributes getters shortcuts
+	get str() { return this.attributes.strength - this.traumas.strength; }
+	get agi() { return this.attributes.agility - this.traumas.agility; }
+	get wit() { return this.attributes.wits - this.traumas.wits; }
+	get emp() { return this.attributes.empathy - this.traumas.empathy; }
 }
 
 module.exports = YZCharacter;
