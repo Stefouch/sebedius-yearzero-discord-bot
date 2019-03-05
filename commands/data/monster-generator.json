@@ -57,12 +57,12 @@
 			"11": {
 				"name": "Claws",
 				"range": "Arm",
-				"damage": [0, 1, 1, 1, 2, 2, 2, 2, 2, 3]
+				"damage": [1, 1, 1, 2, 2, 2, 2, 2, 3]
 			},
 			"21": {
 				"name": "Bite",
 				"range": "Arm",
-				"damage": [0, 1, 1, 1, 2, 2, 3]
+				"damage": [1, 1, 1, 2, 2, 3]
 			},
 			"31": {
 				"name": "Venimous Bite",
@@ -83,15 +83,19 @@
 			"41": {
 				"name": "Kick",
 				"range": "Arm",
-				"damage": [0, 1, 1, 1, 2, 2, 2, 2, 2, 3]
+				"damage": [1, 1, 1, 2, 2, 2, 2, 2, 3]
 			},
 			"51": {
 				"name": "Horns",
 				"range": "Arm",
-				"damage": [0, 1, 1, 1, 2, 2, 3, 3, 3, 4]
+				"damage": [1, 1, 1, 2, 2, 3, 3, 3, 4]
 			},
 			"61": 2,
-			"66": "Unique"
+			"66": {
+				"name": "Unique",
+				"range": "Long",
+				"damage": 5
+			}
 		}
 	},
 	"skills": {
@@ -122,9 +126,9 @@
 		"data": {
 			"2": ["Flock", "4D6"],
 			"4": ["Pack", "2D6"],
-			"6": ["Loner", 1],
+			"6": ["Loner", "1"],
 			"10": ["Family", "1D6"],
-			"12": ["Swarm *(+3 Strength, can only be damaged by flamethrowers and mutations)*", -1]
+			"12": ["Swarm *(+3 Strength, can only be damaged by flamethrowers and mutations)*", "-1"]
 		}
 	},
 	"location": {
