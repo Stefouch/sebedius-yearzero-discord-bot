@@ -16,9 +16,10 @@ class YZCharacter {
 		 */
 		Object.defineProperty(this, Symbol('id'), {
 			value: Math.floor(Math.random() * Date.now()),
+			enumerable: true,
 		});
 
-		if (!data) throw new Error('No data entered for character!');
+		if (!data) throw new Error('No data entered for the character!');
 
 		/**
 		 * The name of the character.
