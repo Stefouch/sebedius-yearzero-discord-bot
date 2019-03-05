@@ -4,15 +4,16 @@ const { random } = require('../util/Util');
 
 module.exports = {
 	name: 'mutation',
-	description: 'Draws a random mutation from the MYZ core rulebook. Addition available sources are:'
-		+ '\n• `gla` – Mutant: GenLab Alpha'
-		+ '\n• `zc2` – Zone Compendium 2: Dead Blue Sea'
-		+ '\n• `zc5` – Zone Compendium 5: Hotel Imperator'
+	description: 'Draws a random mutation from the MYZ core rulebook. Available sources are:'
+		+ '\n• `gla` – Adds *Mutant: GenLab Alpha* mutations'
+		+ '\n• `zc2` – Adds *Zone Compendium 2: Dead Blue Sea* mutations'
+		+ '\n• `zc5` – Adds *Zone Compendium 5: Hotel Imperator* mutations'
+		+ '\n• `psi` – Draws only from Psionic/mental mutations'
 		+ '\nUse `all` to pick from all book sources.',
 	aliases: ['mut', 'muta'],
 	guildOnly: false,
 	args: false,
-	usage: '[all | gla zc2 zc5]',
+	usage: '[all | gla zc2 zc5 psi]',
 	execute(args, message) {
 		// Lists all legal books
 		const legalBooks = new Array();
@@ -21,7 +22,7 @@ module.exports = {
 		// If "all", adds all books.
 		if (args.includes('all')) args = args.concat(legalBooks);
 		// Default book should be MYZ.
-		if (!args.includes('myz')) args.push('myz');
+		if (!args.includes('myz') && !args.includes('psi')) args.push('myz');
 
 		// Using a "Set" object instead of a simple Array,
 		// because it avoids duplicates.
