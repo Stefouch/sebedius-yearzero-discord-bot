@@ -10,8 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A new `psi` category for the `!mutation` command.
 
 ### Fixed
-- A typoe error in the mutations list.
-- A typo error in `rumors.json`.
+- A typo error in the mutations list.
+- A typo error in the rumors list.
 
 ## [1.3.0] - 2019-02-28
 ### Added
