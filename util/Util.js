@@ -118,7 +118,8 @@ class Util {
 	 * @returns {number}
 	 */
 	static parseRoll(rollStr) {
-		let roll = rollStr.replace(/D666/gmi, Util.rollD666());
+		let roll = '' + rollStr;
+		roll = roll.replace(/D666/gmi, Util.rollD666());
 		roll = roll.replace(/D66/gmi, Util.rollD66());
 		roll = roll.replace(/(\d)D6/gmi, (match, p1) => Util.sumD6(p1));
 		roll = roll.replace(/D6/gmi, Util.rand(1, 6));
