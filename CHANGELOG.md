@@ -5,13 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- New command: `!monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
+- A new `psi` category for the `!mutation` command.
+
 ### Fixed
+- A typoe error in the mutations list.
 - A typo error in `rumors.json`.
 
 ## [1.3.0] - 2019-02-28
 ### Added
-- New command: `!artifact` - Draws a random artifact.
-- New command: `!threat` - Draws a random Zone threat.
+- New command: `!artifact` – Draws a random artifact.
+- New command: `!threat` – Draws a random Zone threat.
 - 80 additional scrap items, for a total of 297.
 
 ### Fixed
@@ -31,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.1] - 2019-02-24
 ### Added
-- New command: `!admin` - Performs bot's maintenance. Only available for the bot's owner.
+- New command: `!admin` – Performs bot's maintenance. Only available for the bot's owner.
 
 ### Fixed
 - A bug introduced with the last release. Member with no role could'nt execute bot's commands.
@@ -40,8 +45,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.2.0] - 2019-02-23
 ### Added
-- New command: `!rumor` - Tells a random rumor.
-- New command: `!mutation` - Draws a random mutation.
+- New command: `!rumor` – Tells a random rumor.
+- New command: `!mutation` – Draws a random mutation.
 
 - Bot's response to its mention, which lets him answer its prefix.
 - New JS Class: YZEmbed (extends Discord.RichEmbed with predefined properties).
