@@ -1,0 +1,288 @@
+{
+	"size": {
+		"roll": "D66",
+		"define": "Strength",
+		"data": {
+			"11": ["Puny", 1],
+			"15": ["Small", 2],
+			"22": ["Average", 3],
+			"34": ["Massive", 4],
+			"45": ["Enormous", 8],
+			"56": ["Huge", 10],
+			"53": ["Gargantuan", 12]
+		}
+	},
+	"type": {
+		"roll": "D66",
+		"define": "Agility",
+		"data": {
+			"11": ["Sluggish herbivore", 0],
+			"19": ["Herbivore", 1],
+			"29": ["Gatherer", 2],
+			"37": ["Scavenger", 4],
+			"45": ["Predator", 6],
+			"63": ["Aggressive predator", 8]
+		}
+	},
+	"limbs": {
+		"roll": "2D6",
+		"define": "Number of action",
+		"data": {
+			"2": "No leg",
+			"4": "Two legs",
+			"6": "Four legs",
+			"8": "Wings",
+			"10": "Six legs",
+			"11": "Two legs, two arms",
+			"12": "A multitude of legs!"
+		}
+	},
+	"body": {
+		"roll": "2D6",
+		"define": "Armor",
+		"data": {
+			"2": ["Skin", 0],
+			"4": ["Soft fur", 0],
+			"6": ["Thick fur", 1],
+			"8": ["Scales", 2],
+			"10": ["Shell", 4],
+			"11": ["Bone plates", 6],
+			"12": ["Armored skin", 8]
+		}
+	},
+	"weapons": {
+		"roll": "D66",
+		"define": "Attacks",
+		"data": {
+			"11": {
+				"name": "Claws",
+				"range": "Arm",
+				"damage": [0, 1, 1, 1, 2, 2, 2, 2, 2, 3]
+			},
+			"21": {
+				"name": "Bite",
+				"range": "Arm",
+				"damage": [0, 1, 1, 1, 2, 2, 3]
+			},
+			"31": {
+				"name": "Venimous Bite",
+				"range": "Arm",
+				"damage": {
+					"roll": "1D6",
+					"data": {
+						"1": "Nerve Poison",
+						"4": "Hallucinogenic Poison, see page 183 of *Mutant: Year Zero*"
+					}
+				}
+			},
+			"35": {
+				"name": "Acid Spit",
+				"range": "Near",
+				"damage": 1
+			},
+			"41": {
+				"name": "Kick",
+				"range": "Arm",
+				"damage": [0, 1, 1, 1, 2, 2, 2, 2, 2, 3]
+			},
+			"51": {
+				"name": "Horns",
+				"range": "Arm",
+				"damage": [0, 1, 1, 1, 2, 2, 3, 3, 3, 4]
+			},
+			"61": 2,
+			"66": "Unique"
+		}
+	},
+	"skills": {
+		"roll": "D66",
+		"define": "Skills",
+		"data": {
+			"11": [],
+			"31": ["move"],
+			"41": ["fight", "shoot"],
+			"61": ["fight", "shoot", "move"],
+			"65": ["fight", "shoot", "move", "endure"]
+		}
+	},
+	"skillLevels": {
+		"roll": "D66",
+		"define": "Skill level",
+		"data": {
+			"11": 1,
+			"31": 2,
+			"51": 3,
+			"61": 4,
+			"66": 5
+		}
+	},
+	"numbers": {
+		"roll": "2D6",
+		"define": "Quantity of monsters",
+		"data": {
+			"2": ["Flock", "4D6"],
+			"4": ["Pack", "2D6"],
+			"6": ["Loner", 1],
+			"10": ["Family", "1D6"],
+			"12": ["Swarm *(+3 Strength, can only be damaged by flamethrowers and mutations)*", -1]
+		}
+	},
+	"location": {
+		"roll": "D66",
+		"define": "Lair",
+		"data": {
+			"11": "Burrow",
+			"21": "Ruin",
+			"31": "Water hole",
+			"41": "Tree/high ground",
+			"51": "Wreck",
+			"61": "Crater"
+		}
+	},
+	"mutations": {
+		"roll": "1D6",
+		"define": "Number of mutations",
+		"data": {
+			"1": 0,
+			"4": 1,
+			"5": 2,
+			"6": 3
+		}
+	},
+	"gender": {
+		"roll": "1D6",
+		"define": "Gender",
+		"data": {
+			"1": "Male",
+			"3": "Female",
+			"5": "Hermaphroditic",
+			"6": "Undetermined"
+		}
+	},
+	"traits": {
+		"roll": "D66",
+		"define": "Monster's personality",
+		"data": {
+			"11": "Affectionate",
+			"12": "Timid",
+			"13": "Reeking",
+			"14": "Hoarder",
+			"15": "Aggressive",
+			"16": "Colorful",
+			"21": "Playful",
+			"22": "Starving",
+			"23": "Wounded",
+			"24": "In heat",
+			"25": "Slimy",
+			"26": "Bloodthirsty",
+			"31": "Intelligent",
+			"32": "Horrifying",
+			"33": "Sleepy",
+			"34": "Irritated",
+			"35": "Lonely",
+			"36": "Curious",
+			"37": "Roaring",
+			"38": "Rot-afflicted",
+			"39": "Scrawny",
+			"40": "Fat",
+			"41": "Fast",
+			"42": "Motherly",
+			"43": "Confused",
+			"44": "Insane",
+			"45": "Stressed",
+			"46": "Dejected",
+			"51": "Scabbed",
+			"52": "Chewer",
+			"53": "Cute",
+			"54": "Ugly",
+			"55": "Stupid",
+			"56": "Lazy",
+			"61": 2,
+			"66": "Machine"
+		}
+	},
+	"namePrefix": {
+		"roll": "D66",
+		"define": "The prefix of the creature's name",
+		"data": {
+			"11": "Lurk",
+			"12": "Soot",
+			"13": "Scorch",
+			"14": "Blight",
+			"15": "Snapper",
+			"16": "Razor",
+			"21": "Thunder",
+			"22": "Blister",
+			"23": "Gore",
+			"24": "Earth",
+			"25": "Rock",
+			"26": "Water",
+			"31": "Dune",
+			"32": "Bog",
+			"33": "Storm",
+			"34": "Stink",
+			"35": "Blood",
+			"36": "Taint",
+			"41": "Copper",
+			"42": "Iron",
+			"43": "Steel",
+			"44": "Rot",
+			"45": "Scrap",
+			"46": "Howl",
+			"51": "Burst",
+			"52": "Steppe",
+			"53": "Slate",
+			"54": "Salt",
+			"55": "Grin",
+			"56": "Sugar",
+			"61": "Whisper",
+			"62": "Sickle",
+			"63": "Glow",
+			"64": "Reaper",
+			"65": "Doom",
+			"66": "Burrow"
+		}
+	},
+	"nameSuffix": {
+		"roll": "D66",
+		"define": "The suffix of the creature's name",
+		"data": {
+			"11": "toad",
+			"12": "swine",
+			"13": "hound",
+			"14": "swarm",
+			"15": "glider",
+			"16": "blob",
+			"21": "owl",
+			"22": "bat",
+			"23": "roller",
+			"24": "ling",
+			"25": "raptor",
+			"26": "wraith",
+			"31": "fish",
+			"32": "worm",
+			"33": "rodent",
+			"34": "sponge",
+			"35": "flower",
+			"36": "cat",
+			"41": "crawler",
+			"42": "ape",
+			"43": "slug",
+			"44": "dancer",
+			"45": "bug",
+			"46": "vermin",
+			"51": "behemoth",
+			"52": "gnat",
+			"53": "eater",
+			"54": "stalker",
+			"55": "orb",
+			"56": "flapper",
+			"61": "adder",
+			"62": "monster",
+			"63": "hawk",
+			"64": "bird",
+			"65": "leech",
+			"66": "lizard"
+		}
+	}
+}
