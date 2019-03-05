@@ -16,7 +16,7 @@
 		"Mind Terror",
 		"Puppeteer",
 		"Parasite",
-		"Pathokenisis",
+		"Pathokinesis",
 		"Pyrokenisis",
 		"Reptilian",
 		"Rot-Eater",
@@ -41,5 +41,16 @@
 		"Clairvoyance *(ZC5: Hotel Imperator)*",
 		"Electric *(ZC5: Hotel Imperator)*",
 		"Telekinetic *(ZC5: Hotel Imperator)*"
+	],
+	"psi": [
+		"Beast Master *(Mutant: GenLab Alpha)*",
+		"Clairvoyance *(ZC5: Hotel Imperator)*",
+		"CryoKinesis *(ZC2: Dead Blue Sea)*",
+		"Mind Terror",
+		"Pathokinesis",
+		"Puppeteer",
+		"Pyrokenisis",
+		"Telekinetic *(ZC5: Hotel Imperator)*",
+		"Telepathy"
 	]
 }
