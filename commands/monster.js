@@ -1,6 +1,5 @@
-const GeneratorData = require('./data/monster-generator.json');
 const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const MonGen = require('../util/YZMonsterGenerator');
 
 module.exports = {
 	name: 'monster',
@@ -11,21 +10,6 @@ module.exports = {
 	args: false,
 	// usage: '[]',
 	execute(args, message) {
-		// Monster object.
-		const monster = {};
-
-		for (const param in GeneratorData) {
-			// Gets the roll for the parameter.
-			const roll = Util.parseRoll(GeneratorData[param].roll);
-
-			// Finds the 
-			const data = GeneratorData[param].data;
-			for (let i = roll; i > 0; i--) {
-				if (`${i}` in threats && rnd >= i) {
-					threat = threats[`${i}`];
-					break;
-				}
-			}
-		}
+		//
 	},
 };
