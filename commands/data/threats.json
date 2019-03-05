@@ -1,22 +1,18 @@
 {
 	"myz": {
-		"humanoid": [
+		"humanoids": [
 			{
 				"name": "Amnesiac",
 				"ktzMalus": -2,
 				"description": "A human woman staggers through the Zone. Her eyes are glazed over and seem to focus on some imagined horror. She mumbles alien words, barely audible. She wears dirty and torn coveralls with strange markings. She doesn’t respond to the PCs and collapses on the ground if they try to stop her. Unless Healed, she dies in a couple of hours. If she survives the PCs can talk to her, but her dialect is foreign and she seems to have lost all memory of who she is and where she came from. She might have a clue to the location of Eden (Chapter 16).\nIf you have played the Threat Card called The Man on the Beach (page 148), the PCs can recog-nize both the clothing and the dialect – the woman has the same. She also reacts in a similar way if brought to the Ark. Just like the man on the beach, the woman is one of the cryo-frozen lab assistants from Project Eden – see Chapter 16.",
-				"attributes": {
-					"strength": 2,
-					"agility": 2,
-					"wits": 4,
-					"empathy": 2
-				},
+				"attributes": [2, 2, 4, 2],
 				"skills": {
 					"comprehend": 2,
 					"heal": 1
 				},
 				"mutations": null,
-				"gear": []
+				"gear": [],
+				"source": 171
 			},
 			{
 				"name": "Beast Mutant",
@@ -24,10 +20,336 @@
 				"description": "Out in the Zone, there is a tribe of beings that are different from all others. They are not human mutants and they are not wild beasts – they are both.They are animals, but they walk upright on theirhind legs, use tools and have a spoken language –primitive and coarse, but a language nonetheless.They are newcomers to the Zone, on their guard oreven hostile to strangers. Despite their few numbersthe beast mutants seem to belong to several different species – some look like ragged dogs or wolves,others are short and rodent-like, and a third varietyare monkey-like climbers.\nThe truth is that the beast mutants – like thePeople themselves – can trace their origin to thegenetics labs of the Ancients, bred to be able tosurvive the harsh world after the Apocalypse. Theyare animals given parts of the human intellect andfine motor skills. The small tribe that recently arrived in the Zone has fled from an old research facility located in a distant mountain range, wheremany of their kin still are being held captive by themysterious Watchers. The escapees have journeyedto the area of the Zone to find a new home.\nThe beast mutants and their origin will be explored in a future expansion to Mutant: Year Zero.",
 				"variants": [
 					{
-						"name": "Dog"
+						"name": "Dog",
+						"attributes": [4, 5, 3, 2],
+						"skills": { "fight": 1, "move": 1 }
+					},
+					{
+						"name": "Bear",
+						"attributes": [5, 4, 2, 3],
+						"skills": { "fight": 2 }
+					},
+					{
+						"name": "Rodent",
+						"attributes": [2, 5, 5, 2],
+						"skills": { "sneak": 2 }
+					},
+					{
+						"name": "Monkey",
+						"attributes": [3, 5, 4, 2],
+						"skills": { "move": 2 }
 					}
-				]
+				],
+				"gear": [
+					["Scrap spear", 1],
+					["Slingshot", 1],
+					["Fangs (weapon damage 2, no Gear Bonus", 1]
+				],
+				"source": 171
+			},
+			{
+				"name": "Cannibals",
+				"ktzMalus": 0,
+				"description": "A group of wiry mutants wearing rags and white face paint. These mutants come from an Ark where the scientists died early on (see Chapter 16), and the abandoned children developed a very brutal society. They are sly and bloodthirsty, and they hunger for fresh mutant meat. They can’t easily be reasoned with (modification -3 to any Manipulation attempt, and even a successful roll will only buy the PCs time until the cannibals get hungry again). Only a very clear show of force will deter the cannibals. Any fallen mutants in their own ranks will soon become grub for the survivors.",
+				"attributes": [5, 4, 3, 2],
+				"skills": {
+					"fight": 2,
+					"move": 1
+				},
+				"mutations": 1,
+				"gear": [
+					["Scrap spear or slingshot", 1]
+				],
+				"source": 172
+			},
+			{
+				"name": "Doom Cultists",
+				"ktzMalus": 0,
+				"description": "A small band of mutants, expelled from their Ark years ago, who worship a particular ruin or artifact in the Zone. They have lost all common sense and live only to worship the object, which they think will bring the Ancients back to Earth. The cultists may try to recruit PCs and NPCs, or capture them to sacrifice them to their deity. The cult may be in possession of a clue to Eden (Chapter 16).",
+				"attributes": [3, 2, 3, 4],
+				"skills": {
+					"fight": 1,
+					"manipulate": 2
+				},
+				"mutations": 1,
+				"gear": [
+					["Scrap weapons", 1]
+				],
+				"source": 172
+			},
+			{
+				"name": "Exiled Mutant",
+				"ktzMalus": 0,
+				"description": "A dozen mutants in a sorry state. Their clothes are in tatters, some are limping, others have untreated and infected wounds. They are all starving and badly contaminated by the Rot. Some might even be infected by Parasite Fungus (page 180) or the Gutfish (page 179). These mutants come from another Ark, but have been exiled for some reason. They beg the PCs for help, but they also take the first chance they get to attack and steal the PCs grub – or worse. If the PCs are friendly, the exiles can tell them about their Ark – and they might even have a clue about the location of Eden (Chapter 16).",
+				"attributes": [2, 2, 2, 2],
+				"skills": {
+					"move": 1,
+					"fight": 1
+				},
+				"mutations": 1,
+				"gear": [
+					["Blunt instrument or slingshot", 1]
+				],
+				"special": "Physical contact with one of the exiles counts as a Rot attack (page 126).",
+				"source": 172
+			},
+			{
+				"name": "Expedition from another ark",
+				"ktzMalus": 1,
+				"description": "An expedition, not unlike the PCs’ own, but from another Ark. The strangers are about as many as the PCs. If they haven’t met mutants from another Ark before (through the Threat Card called “The Other People”, see page 150), this meeting can be a turning point in the history of both peoples. The expedition may have an artifact with a clue leading to the location of Eden (Chapter 16).",
+				"variants": [
+					{
+						"name": "Enforcer",
+						"attributes": [5, 3, 2, 2],
+						"skills": { "intimidate": 3, "fight": 2, "force": 1 }
+					},
+					{
+						"name": "Gearhead",
+						"attributes": [2, 2, 5, 3],
+						"skills": { "juryRig": 3, "comprehend": 2, "scout": 1 }
+					},
+					{
+						"name": "Stalker",
+						"attributes": [2, 5, 3, 2],
+						"skills": { "findThePath": 3, "shoot": 2, "sneak": 1 }
+					},
+					{
+						"name": "Fixer",
+						"attributes": [2, 2, 3, 5],
+						"skills": { "MakeADeal": 3, "manipulate": 2, "move": 1 }
+					},
+					{
+						"name": "Dog Handler",
+						"attributes": [3, 4, 3, 2],
+						"skills": { "sicADog": 3, "shoot": 2, "sneak": 1 }
+					},
+					{
+						"name": "Chronicler",
+						"attributes": [2, 2, 4, 4],
+						"skills": { "inspire": 3, "comprehend": 2, "heal": 1 }
+					},
+					{
+						"name": "Boss",
+						"attributes": [3, 3, 2, 4],
+						"skills": { "command": 3, "shoot": 2, "fight": 1 }
+					},
+					{
+						"name": "Slave",
+						"attributes": [4, 4, 2, 2],
+						"skills": { "shakeItOff": 3, "endure": 2, "fight": 1 }
+					},
+					{
+						"name": "Random Dude",
+						"attributes": [3, 3, 3, 3],
+						"skills": null
+					}
+				],
+				"mutations": 1,
+				"gear": [
+					["Spiked bat or scrap rifle", 1]
+				],
+				"source": 173
+			},
+			{
+				"name": "Helldrives",
+				"ktzMalus": 0,
+				"description": "Thunder  as  from  an  approaching  storm  rolls across the zonelands. Soon, a horde of bizarre vehicles comes rolling. Cars, buses, motorcycles and trucks – all adorned with sharp spikes, skulls and scrap. The feared Helldrivers are mutants who left their Ark long ago and were lucky enough to come across a big garage with operational vehicles from the Old Age.",
+				"attributes": [4, 5, 2, 3],
+				"skills": {
+					"shoot": 3,
+					"fight": 2,
+					"juryRig": 1
+				},
+				"mutations": 1,
+				"gear": [
+					["Bicycle chain", 1],
+					["Scrap rifle", 1],
+					["Scrap armor (Armor Rating 3)", 1]
+				],
+				"source": 173
+			},
+			{
+				"name": "Morlocks",
+				"ktzMalus": 0,
+				"description": "Some degenerate wild mutants from lost Arks have taken refuge underground, in tunnels and shelters. These are called morlocks. During the years, the morlocks  have  lost  what  little  civilization  they started with. Now, they are little more than savages and communicate with grunts and snarls. They are not hostile to strangers, but on their guard. If given something in return, they can provide help or information. If attacked, they defend themselves with animal ferocity. They may be in possession of an artifact that gives a clue to the location of Eden (Chapter 16).",
+				"attributes": [2, 3, 5, 2],
+				"skills": {
+					"move": 2,
+					"fight": 1
+				},
+				"mutations": 1,
+				"gear": [
+					["Scrap spear", 1]
+				],
+				"source": 173
+			},
+			{
+				"name": "Nova Cultists",
+				"ktzMalus": -1,
+				"description": "A procession of men and women with shaved heads, dressed in long robes. They leave some cloth bundles on the ground and leave quietly. If the PCs investigate, they find that each bundle contains a small mutant baby. They are hypothermic and weak, and will die unless the PCs Heal them. Any surviving children will develop powerful mental mutations. The robed people belong to the mythical Nova Cult (page 152). If the PCs confront the cultists, they treat them like air or are spoken to like children. If the PCs resort to violence, the cultists won’t hesitate to use their mental mutations. If the PCs are careful, they can track the cultists back to their lair (page 212).",
+				"attributes": [2, 3, 5, 4],
+				"skills": {
+					"move": 1,
+					"heal": 1
+				},
+				"mutations": 1,
+				"gear": [],
+				"source": 173
+			},
+			{
+				"name": "Patrol from the Ark",
+				"ktzMalus": 999,
+				"description": "This patrol from the PCs’ own Ark has found a valuable artifact, or they say they know where to find one. The leader either wants help to bring the artifact back to the Ark, or help to retrieve it. One of the members of the patrol can very well be an NPC that a PC has a relationship to.",
+				"variants": [
+					{
+						"name": "Enforcer",
+						"attributes": [5, 3, 2, 2],
+						"skills": { "intimidate": 3, "fight": 2, "force": 1 }
+					},
+					{
+						"name": "Gearhead",
+						"attributes": [2, 2, 5, 3],
+						"skills": { "juryRig": 3, "comprehend": 2, "scout": 1 }
+					},
+					{
+						"name": "Stalker",
+						"attributes": [2, 5, 3, 2],
+						"skills": { "findThePath": 3, "shoot": 2, "sneak": 1 }
+					},
+					{
+						"name": "Fixer",
+						"attributes": [2, 2, 3, 5],
+						"skills": { "MakeADeal": 3, "manipulate": 2, "move": 1 }
+					},
+					{
+						"name": "Dog Handler",
+						"attributes": [3, 4, 3, 2],
+						"skills": { "sicADog": 3, "shoot": 2, "sneak": 1 }
+					},
+					{
+						"name": "Chronicler",
+						"attributes": [2, 2, 4, 4],
+						"skills": { "inspire": 3, "comprehend": 2, "heal": 1 }
+					},
+					{
+						"name": "Boss",
+						"attributes": [3, 3, 2, 4],
+						"skills": { "command": 3, "shoot": 2, "fight": 1 }
+					},
+					{
+						"name": "Slave",
+						"attributes": [4, 4, 2, 2],
+						"skills": { "shakeItOff": 3, "endure": 2, "fight": 1 }
+					},
+					{
+						"name": "Random Dude",
+						"attributes": [3, 3, 3, 3],
+						"skills": null
+					}
+				],
+				"mutations": 1,
+				"gear": [
+					["Spiked bat", 1],
+					["Scrap knife", 0.5],
+					["Scrap rifle", 1]
+				],
+				"source": 174
+			},
+			{
+				"name": "Scrap Oracle",
+				"ktzMalus": -1,
+				"description": "A short and stocky mutant, dressed in a bizarre outfit made of scrap of all shapes and sizes. He’s an oddball character with powerful mental mutations, a telepath that can see visions of the PCs’ possible future. His powers can help the PCs interpret a clue to Eden or guide them in some other way. You can use the scrap oracle to nudge the PCs in some direction that you’d like the campaign to go.",
+				"attributes": [2, 3, 4, 3],
+				"skills": {
+					"manipulate": 2
+				},
+				"mutations": ["Telephaty", "Pathokinesis", "Rot-Eater"],
+				"gear": [],
+				"source": 174
+			},
+			{
+				"name": "Wanderers",
+				"ktzMalus": -1,
+				"description": "A scrawny and grim-faced band of humans in tattered clothes with a strange look come walking through the zonelands. They are on their guard but not hostile. If the PCs show that they mean no harm, the wanderers can tell – in a strange and foreign dialect – that they have walked for years from a mountain range far away. They ask for grub and water. They want to know where the PCs’ settlement is, and may get hostile if they refuse to answer.",
+				"attributes": [4, 3, 4, 3],
+				"skills": {
+					"shoot": 3,
+					"fight": 2,
+					"comprehend": 1
+				},
+				"mutations": null,
+				"gear": [
+					["Scrap knife", 0.5],
+					["Scrap axe", 1],
+					["One or more artifacts", 1]
+				],
+				"source": 175
+			},
+			{
+				"name": "Water Trader",
+				"ktzMalus": 0,
+				"description": "A lonesome traveler who defies the dangers of the zonelands to trade with clean water. He’s a tall mutant pulling a simple cart, followed by two scrawny mutts. On the cart there are old plastic bottles, big jerrycans and a strange contraption built of pipes and bottles (a Jury-Rigged purification set). The water trader is friendly sort and always ready to do business – and quite ready to defend himself if he needs to. He knows much about the Zone and can tell the PCs where other settlements are located. He may also have a clue to Eden, which he could trade for. He will ask where the PCs live and will try to get to the Ark to do business.",
+				"attributes": [2, 3, 4, 5],
+				"skills": {
+					"manipulate": 2,
+					"shoot": 1,
+					"juryRig": 1
+				},
+				"mutations": 1,
+				"gear": [
+					["Scrap pistol", 1],
+					["5x Bullets", 0.5]
+				],
+				"special": "The water trader can sell Rot-free water. It may contain spawn of Gutfish however (page 179). The price – as always – is a matter of demand. The more desperate for water the PCs are, the more the trader will charge for it.",
+				"source": 175
+			},
+			{
+				"name": "Wreckers",
+				"ktzMalus": 0,
+				"description": "A surprisingly intact big old vehicle wreck sits in a clearing in the Zone. Its windows are dirty and its hatches locked. The wreck is a trap. A band of savage mutants or Zone-Ghouls uses it as bait for unwitting Zone travelers. Their typical plan is simple: They charge out and try attack their victims before they see what’s coming. They will steal everything and take any survivors as slaves in their tribe. The wreckers haven’t been able to open the armored car themselves. If the PCs manage to get in, they will find an artifact. The car engine is decayed beyond repair.",
+				"attributes": [3, 4, 3, 2],
+				"skills": {
+					"fight": 3,
+					"shoot": 2,
+					"sneak": 1
+				},
+				"mutations": 1,
+				"gear": [
+					["Spiked bat", 1],
+					["Slingshot", 1]
+				],
+				"source": 175
+			},
+			{
+				"name": "Zone-Ghouls",
+				"ktzMalus": 0,
+				"description": "When Stalkers tell harrowing stories by the trashcan fires in the Ark, they are most often about the Zone-Ghouls. These aggressive people live like nomads in the Zone, moving in the shadows and attacking other travelers without warning. They are most active at night. There are many rumors about the Zone-Ghouls – it is said that they flay and eat mutants taken captive. Zone-Ghouls are generally shorter than mutants, and they move in large groups. They hide their faces in hoods or masks made of scrap from the Old Age, and often wear scavenged plastic cloaks to protect them against sunlight and acid rains. Their hands and feet are wrapped in plastic or cloth.",
+				"attributes": [3, 4, 3, 2],
+				"skills": {
+					"move": 3,
+					"shoot": 2,
+					"fight": 1
+				},
+				"mutations": null,
+				"gear": [
+					["Bicycle chain", 1],
+					["slingshot", 1]
+				],
+				"special": "In direct sunlight, the Zone-Ghouls take one point of damage per hour, despite their protective clothing.",
+				"source": 176
 			}
-		]
+		],
+		"monsters": [
+			{
+				"name": "Acid Grass",
+				"ktzMalus": -1,
+				"description": "A field of tall grass. A sharp smell hangs in the air, and in the undergrowth remains of dead animals can be seen. The grass moves back and forth as if in a wind – despite the air being dead calm here. The grassy field is actually a predatory plant. If any animal or mutant walk in to the grass, it will start to entangle itself into the victim’s feet, legs and gear. Then, the grass starts to excrete a potent acid, slowly melting the target into a stinking sludge that the grass can feed on.",
+				"attributes": [10, 0, 0, 0],
+				"skills": {},
+				"special": "A PC who actively and successfully Scouts the area will notice the old bones in the grass. Anyone moving into the field is immediately attacked by six Base Dice. On a hit, the victim is snared and suffers one point of damage from the acid. To get free, the victim needs to make a Force roll (others can help, page 48). Until then, he suffers another point of damage every turn. The grass can only be damaged by fire. Count its total Strength as 10. When it reaches zero, the grass is dead and the area can be passed without risk.",
+				"source": 176
+			}
+		],
+		"phenomenons": []
 	}
 }
