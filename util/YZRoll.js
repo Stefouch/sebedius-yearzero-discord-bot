@@ -20,7 +20,10 @@ class YZRoll {
 		 * @type {string}
 		 * @readonly
 		 */
-		Object.defineProperty(this, 'author', { value: author });
+		Object.defineProperty(this, 'author', {
+			value: author,
+			enumerable: true,
+		});
 
 		/**
 		 * The title/name of the roll.
