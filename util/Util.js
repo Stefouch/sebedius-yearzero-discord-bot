@@ -110,6 +110,21 @@ class Util {
 		return Util.rand(1, 6) * 10 + Util.rand(1, 6);
 	}
 
+	/**
+	 * Parses a roll string into a random number. Supported formats:
+	 * * D6, D66, D666
+	 * * XD6
+	 * @param {string} rollStr The string to parse
+	 * @returns {number}
+	 */
+	static parseRoll(rollStr) {
+		let roll = rollStr.replace(/D666/gmi, Util.rollD666());
+		roll = roll.replace(/D66/gmi, Util.rollD66());
+		roll = roll.replace(/(\d)D6/gmi, (match, p1) => Util.sumD6(p1));
+		roll = roll.replace(/D6/gmi, Util.rand(1, 6));
+		return roll;
+	}
+
 	static mapToJson(map) {
 		return JSON.stringify([...map]);
 	}
