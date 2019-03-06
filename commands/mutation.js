@@ -1,6 +1,6 @@
-const Muts = require('./data/mutations.list.json');
+const Muts = require('../data/mutations.list.json');
 const YZEmbed = require('../util/YZEmbed');
-const { random } = require('../util/Util');
+const Util = require('../util/Util');
 
 module.exports = {
 	name: 'mutation',
@@ -36,7 +36,7 @@ module.exports = {
 			}
 		});
 
-		const mutation = random(mutations);
+		const mutation = Util.random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
 
 		return message.channel.send(embed);

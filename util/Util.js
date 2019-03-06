@@ -82,6 +82,16 @@ class Util {
 	}
 
 	/**
+	 * Transforms a camelCase string into a normal one with spaces.
+	 * @param {string} str The string to process
+	 * @returns {string} The processed string
+	 */
+	static strCamelToNorm(str) {
+		let str2 = str.replace(/([A-Z])/g, ' $1');
+		return Util.capitalize(str2);
+	}
+
+	/**
 	 * Rolls and sums the results of several D6.
 	 * @param {number} nb How many D6 to roll
 	 * @returns {number} Added results
@@ -131,6 +141,18 @@ class Util {
 	}
 	static jsonToMap(jsonStr) {
 		return new Map(JSON.parse(jsonStr));
+	}
+
+	/**
+	 * Checks if a value is an Object.
+	 * Does not count Arrays.
+	 * @param {*} val Value to check
+	 * @returns {boolean}
+	 */
+	static isObject(val) {
+		if (val === null) return false;
+		if (val instanceof Array) return false;
+		return ((typeof val === 'function') || (typeof val === 'object'));
 	}
 
 	/**

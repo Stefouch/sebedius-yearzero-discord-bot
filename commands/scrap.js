@@ -1,12 +1,12 @@
 const fs = require('fs');
 const Config = require('../config.json');
 const YZEmbed = require('../util/YZEmbed');
-const { rand, random, sumD6, rollD666, rollD66 } = require('../util/Util');
+const Util = require('../util/Util');
 
 // Loading the available scrap.
 let scrapList;
 try {
-	const scrapContent = fs.readFileSync('./commands/data/scrap.list', 'utf8');
+	const scrapContent = fs.readFileSync('./data/scrap.list', 'utf8');
 	scrapList = scrapContent.split('\n');
 	console.log('[+] - Scrap list loaded: data/scrap.list');
 }
@@ -30,15 +30,15 @@ module.exports = {
 		}
 
 		for (let i = 0; i < qty; i++) {
-			const scrap = random(scrapList);
+			const scrap = Util.random(scrapList);
 
 			desc += `\n– ${scrap}`;
 		}
 		// Dice replacements.
-		desc = desc.replace(/D666/gmi, rollD666());
-		desc = desc.replace(/D66/gmi, rollD66());
-		desc = desc.replace(/(\d)D6/gmi, (match, p1) => sumD6(p1));
-		desc = desc.replace(/D6/gmi, rand(1, 6));
+		desc = desc.replace(/D666/gmi, Util.rollD666());
+		desc = desc.replace(/D66/gmi, Util.rollD66());
+		desc = desc.replace(/(\d)D6/gmi, (match, p1) => Util.sumD6(p1));
+		desc = desc.replace(/D6/gmi, Util.rand(1, 6));
 
 		const title = `Scrap Item${(qty > 1) ? 's' : ''} Found`;
 		const embed = new YZEmbed(title, desc, message, true);

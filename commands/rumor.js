@@ -1,6 +1,6 @@
-const Rumors = require('./data/rumors.json');
+const Rumors = require('../data/rumors.json');
 const YZEmbed = require('../util/YZEmbed');
-const { random, strLcFirst } = require('../util/Util');
+const Util = require('../util/Util');
 
 module.exports = {
 	name: 'rumor',
@@ -8,14 +8,14 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	execute(args, message) {
-		const rumorStory = random(Rumors.stories);
+		const rumorStory = Util.random(Rumors.stories);
 
 		// RumorStory is an Object with:
 		// rumor.head: string
 		// rumor.bodies: Array<string> (multiple possible ends)
 		const rumorHead = rumorStory.head;
-		const rumorBody = random(rumorStory.bodies);
-		let rumorText = `${rumorHead} ${strLcFirst(rumorBody)}`;
+		const rumorBody = Util.random(rumorStory.bodies);
+		let rumorText = `${rumorHead} ${Util.strLcFirst(rumorBody)}`;
 
 		// Replaces all "[ ... / ... ]" by arrays,
 		// then chooses one of the values at random.
@@ -24,7 +24,7 @@ module.exports = {
 			let text = '';
 			const options = p1.split('/');
 			if (options.length) {
-				text += `**${random(options).trim()}**`;
+				text += `**${Util.random(options).trim()}**`;
 			}
 			return text;
 		});

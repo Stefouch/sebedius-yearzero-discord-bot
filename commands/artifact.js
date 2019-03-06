@@ -1,4 +1,4 @@
-const Artos = require('./data/artifacts.list.json');
+const Artos = require('../data/artifacts.list.json');
 const YZEmbed = require('../util/YZEmbed');
 const { random } = require('../util/Util');
 

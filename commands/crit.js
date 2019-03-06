@@ -1,7 +1,7 @@
 const Config = require('../config.json');
-const Crits = require('./data/crits.json');
+const Crits = require('../data/crits.json');
 const YZEmbed = require('../util/YZEmbed');
-const { sumD6, rollD66 } = require('../util/Util');
+const Util = require('../util/Util');
 
 
 module.exports = {
@@ -42,7 +42,7 @@ module.exports = {
 			}
 			// Otherwise, gets a random injury.
 			else {
-				critRoll = rollD66();
+				critRoll = Util.rollD66();
 			}
 
 			// Iterates each critical injury from the defined table.
@@ -94,7 +94,7 @@ module.exports = {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
 						message.channel.send('⚰');
-					}, rollD66() * 150);
+					}, Util.rollD66() * 150);
 				}
 			})
 			.catch(error => {
@@ -122,9 +122,9 @@ function getEmbedCrit(crit, message) {
 		}
 		else {
 			title = 'Healing Time';
-			text = `${sumD6(crit.healingTime)} days until end of effects.`;
+			text = `${Util.sumD6(crit.healingTime)} days until end of effects.`;
 		}
-		embed.addField(title, text, true);
+		embed.addField(title, text, false);
 	}
 
 	if (crit.lethal) {
@@ -136,13 +136,13 @@ function getEmbedCrit(crit, message) {
 			if (crit.healMalus) {
 				text += ` (modified by **${crit.healMalus}**)`;
 			}
-			text += ` within the next **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
+			text += ` within the next **${Util.sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
 			text += ' or the character will die.';
 		}
 		else {
 			text += '💀💀💀';
 		}
-		embed.addField('Lethality', text, true);
+		embed.addField('Lethality', text, false);
 	}
 
 	return embed;

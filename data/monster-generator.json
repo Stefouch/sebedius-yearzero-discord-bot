@@ -67,7 +67,8 @@
 			"31": {
 				"name": "Venimous Bite",
 				"range": "Arm",
-				"damage": {
+				"damage": [1, 1, 1, 2, 2, 3],
+				"special": {
 					"roll": "1D6",
 					"data": {
 						"1": "Nerve Poison",
@@ -128,7 +129,7 @@
 			"4": ["Pack", "2D6"],
 			"6": ["Loner", "1"],
 			"10": ["Family", "1D6"],
-			"12": ["Swarm *(+3 Strength, can only be damaged by flamethrowers and mutations)*", "-1"]
+			"12": ["Swarm", "-1"]
 		}
 	},
 	"location": {

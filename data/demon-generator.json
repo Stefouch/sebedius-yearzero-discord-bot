@@ -1,0 +1,265 @@
+{
+	"form": {
+		"roll": "D66",
+		"data": {
+			"11": {
+				"form": "Humanoid",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": "D6"
+			},
+			"25": {
+				"form": "Minotaur",
+				"attributes": ["D6+5", 3, 3, 3],
+				"armor": "D6"
+			},
+			"31": {
+				"form": "Goat",
+				"attributes": ["D6+3", 4, 3, 3],
+				"armor": "D6"
+			},
+			"33": {
+				"form": "Bear",
+				"attributes": ["D6+6", 3, 3, 3],
+				"armor": "D6"
+			},
+			"35": {
+				"form": "Snake",
+				"attributes": ["D6+4", 4, 3, 3],
+				"armor": "D6"
+			},
+			"41": {
+				"form": "Undead",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": "D6"
+			},
+			"43": {
+				"form": "Spider",
+				"attributes": ["D6+5", 4, 3, 3],
+				"armor": "D6"
+			},
+			"45": {
+				"form": "Serpent",
+				"attributes": ["D6+3", 4, 3, 3],
+				"armor": "D6"
+			},
+			"51": {
+				"form": "Wolf",
+				"attributes": ["D6+4", 4, 3, 3],
+				"armor": "D6"
+			},
+			"53": {
+				"form": "Insect",
+				"attributes": ["D6+2", 3, 3, 3],
+				"armor": "D6"
+			},
+			"55": {
+				"form": "Wolfkin",
+				"attributes": ["D6+4", 4, 3, 3],
+				"armor": "D6"
+			},
+			"61": {
+				"form": "Giant Crab",
+				"attributes": ["D6+5", 2, 3, 3],
+				"armor": "D6+3"
+			},
+			"63": {
+				"form": "Giant Toad",
+				"attributes": ["D6+5", 2, 3, 3],
+				"armor": "D6"
+			},
+			"64": {
+				"form": "Squid",
+				"attributes": ["D6+4", 2, 3, 3],
+				"armor": "D6",
+				"effect": "RUN is a slow action on land."
+			},
+			"65": {
+				"form": "Fog",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": 0,
+				"effect": "Not hurt by physical weapons."
+			},
+			"66": {
+				"form": "Shadow",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": 0,
+				"effect": "Not hurt by physical weapons."
+			}
+		}
+	},
+	"abilities": {
+		"roll": "D66",
+		"data": {
+			"11": ["Stoneskin", "Armor Rating +6"],
+			"13": ["Giant", "Strength +2D6"],
+			"15": ["Burning Body", "Immune to fire."],
+			"21": ["Made of Ice", "Armor Rating +2"],
+			"23": ["Mummified", "Fear attack D6+5"],
+			"25": ["Slimy", "Can move through very small openings."],
+			"31": ["Unnaturally Beautiful", "+2 Manipulation"],
+			"33": ["Covered by Sores", "Infectious Touch, Virulence D6+5"],
+			"35": ["Feathers", "Armor Rating +2"],
+			"41": ["Wings", "Can fly, Movement Rating 3"],
+			"44": ["Filled by Light", "Fear attack D6+5"],
+			"46": ["Covered in Vines", "Armor Rating +3"],
+			"51": ["Transparent", "All attacks get a –3 penalty"],
+			"54": ["Covered by Eyes", "Draw one extra initiative card, discard the worst one. "],
+			"55": ["No Eyes", "Draw one extra initiative card, discard the best one."],
+			"56": 2
+		}
+	},
+	"attacks": {
+		"roll": "D66",
+		"count": 2,
+		"data": {
+			"11": {
+				"name": "Claws",
+				"base": "D6+4",
+				"damage": [1, 1, 2, 2, 2, 3],
+				"range": "Arm"
+			},
+			"16": {
+				"name": "Teeth",
+				"base": "D6+5",
+				"damage": [1, 1, 2, 2, 2, 3],
+				"range": "Arm"
+			},
+			"23": {
+				"name": "Horn",
+				"base": "D6+6",
+				"damage": [2, 2, 2, 2, 3, 3],
+				"range": "Arm"
+			},
+			"26": {
+				"name": "Tentacles",
+				"base": "D6+4",
+				"damage": [1, 1, 2, 2, 2, 2],
+				"range": "Near",
+				"special": "Then GRAPPLED"
+			},
+			"33": {
+				"name": "Fire",
+				"base": "D6+6",
+				"damage": 1,
+				"range": "Near",
+				"special": "The victim continues to take damage every round until the fire is put out with a successful MOVE roll."
+			},
+			"36": {
+				"name": "Cold",
+				"base": "D6+5",
+				"damage": 1,
+				"range": "Near",
+				"special": "The victim also instantly becomes COLD."
+			},
+			"42": {
+				"name": "Roar",
+				"base": 0,
+				"damage": 0,
+				"range": "Near",
+				"special": "Fear attack: strength D3+6"
+			},
+			"46": {
+				"name": "Killing Glaze",
+				"base": 0,
+				"damage": 0,
+				"range": "Near",
+				"special": "Fear attack: strength D6+5"
+			},
+			"52": {
+				"define": "Heavy Weapon",
+				"roll": "1D6",
+				"data": {
+					"1": {
+						"name": "Longsword",
+						"base": "D6+5+2",
+						"damage": 2,
+						"range": "Arm",
+						"special": "Heavy, Edged, Pointed, Parrying"
+					},
+					"2": {
+						"name": "Two-handed Sword",
+						"base": "D6+5+2",
+						"damage": 3,
+						"range": "Arm",
+						"special": "Heavy, Edged, Pointed, Parrying"
+					},
+					"3": {
+						"name": "Heavy Warhammer",
+						"base": "D6+5+2",
+						"damage": 3,
+						"range": "Arm",
+						"special": "Heavy, Blunt, Hook"
+					},
+					"4": {
+						"name": "Morningstar",
+						"base": "D6+5+2",
+						"damage": 2,
+						"range": "Arm",
+						"special": "Blunt"
+					},
+					"5": {
+						"name": "Two-handed Axe",
+						"base": "D6+5+2",
+						"damage": 3,
+						"range": "Arm",
+						"special": "Heavy, Edged, Hook"
+					},
+					"6": {
+						"name": "Trident",
+						"base": "D6+5+1",
+						"damage": 2,
+						"range": "Near",
+						"special": "Pointed, Hook"
+					}
+				}
+			},
+			"61": 3,
+			"66": 4
+		}
+	},
+	"strengths": {
+		"roll": "D66",
+		"data": {
+			"11": ["Immune to weapons", "Only unarmed attacks and spells can hurt the demon."],
+			"15": ["Immune to fire", "Cannot be hurt by fire."],
+			"23": ["Immune to cold", "Cold has no effect."],
+			"26": ["Lightning fast", "Draws two initiative cards and gets to act on both turns."],
+			"33": ["Immune to physical attacks", "Physical attacks are ineffective."],
+			"35": ["Parasite", "By touching its victim, the demon can take control over it. This works as the PUPPETEER spell with Power Level 3."],
+			"41": ["Regenerative", "Regains D3 Strength every round."],
+			"44": ["Paralyzing", "A victim touched by the demon is affected by a paralyzing poison with Potency D6+5."],
+			"46": ["Poisonous", "A victim touched by the demon is affected by a lethal poison with Potency D6+5."],
+			"52": ["Shapeshifter", "Can change shape into any creature. The copy is perfect except for one small detail (such as eye color)."],
+			"55": ["Immaterial", "Can move through solid matter."],
+			"61": ["Floating", "Does not touch the ground. Can float up to 10 meters from the ground."],
+			"63": ["Teleportation", "Can instantly teleport to anywhere within LONG range every other round."],
+			"65": 2
+		}
+	},
+	"weaknesses": {
+		"roll": "D66",
+		"data": {
+			"11": ["Water", "Suffers D3 damage when splashed by water."],
+			"14": ["Fire", "Takes double damage from fire."],
+			"16": ["Cold", "Takes double damage from cold."],
+			"22": ["Light", "Sensitive to light and must move away from strong light sources. If not possible, takes D3 damage from a minor light source (such as a torch) and D6 damage from a major light source (such as the sun) every round."],
+			"25": ["Silver", "Takes double damage from weapons made of silver."],
+			"32": ["Gold", "Takes double damage from weapons made of gold."],
+			"34": ["Children", "Cannot stand the sight of children and must move away from them. If unable to do so, the demon takes D3 damage every round."],
+			"36": ["Elves", "Cannot stand the sight of elves and must move away from them. If unable to do so, the demon takes D3 damage every round."],
+			"42": ["Dwarves", "Cannot stand the sight of dwarves and must move away from them. If unable to do so, the demon takes D3 damage every round."],
+			"44": ["Holy Symbols", "Cannot stand the sight of holy symbols and must move away from them. If unable to do so, the demon takes D3 damage every round."],
+			"53": ["Music", "Cannot stand the sound of music or melodies and must move away from the sound. If unable to do so, the demon takes D3 damage every round."],
+			"61": ["Soil", "Takes D3 damage from contact with soil."],
+			"64": ["Wood", "Takes double damage from weapons made of wood."]
+		}
+	},
+	"skills": {
+		"scout": "D6-1",
+		"sneak": "D6-1",
+		"move": "D6-1",
+		"lore": "D6-1",
+		"insight": "D6-1",
+		"manipulation": "D6-1"
+	}
+}
