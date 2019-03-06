@@ -1,41 +1,50 @@
+const YZGenerator = require('./YZGenerator');
+const GeneratorData = require('../data/monster-generator.json');
+const Muts = require('../data/mutations.list.json');
 const Util = require('./Util');
-const GeneratorData = require('../commands/data/monster-generator.json');
-const Muts = require('../commands/data/mutations.list.json');
 
-class YZMonsterGenerator {
+class YZMonsterGenerator extends YZGenerator {
 	constructor() {
+		super(GeneratorData);
 		/**
 		 * The name of the creature.
 		 * @type {string}
 		 */
-		this.name = this.getElemFromParam('namePrefix')
-			+ this.getElemFromParam('nameSuffix');
+		this.name = super.getElemFromParam('namePrefix')
+			+ super.getElemFromParam('nameSuffix');
 
 		/**
 		 * The gender of the creature.
 		 * @type {string}
 		 */
-		this.gender = this.getElemFromParam('gender');
+		this.gender = super.getElemFromParam('gender');
 
 		/**
-		 * The creature's personality trait.
-		 * @type {string}
+		 * Holds verbose descriptions for the creature.
+		 * @type {Object}
+		 * @property {string} personality
 		 */
-		this.personality = this.getMultipleElemFromParam('traits').join(', ');
+		this.descriptions = {};
+
+		/**
+		 * The creature's personality trait(s) in an Array.
+		 * @type {string[]}
+		 */
+		this.descriptions.traits = super.getMultipleElemFromParam('traits');
 
 		/**
 		 * The creature's favorite place of wandering.
 		 * @type {string}
 		 */
-		this.locationDescription = this.getElemFromParam('location');
+		this.descriptions.location = super.getElemFromParam('location');
 
 		// Number of creatures.
-		const numbersElem = this.getElemFromParam('numbers');
+		const numbersElem = super.getElemFromParam('numbers');
 		/**
 		 * The creature's quantity verbose description.
 		 * @type {string}
 		 */
-		this.qtyDescription = numbersElem[0];
+		this.descriptions.number = numbersElem[0];
 		/**
 		 * How many creatures are spawning.
 		 * * Swarms have qty `-1`
@@ -46,15 +55,15 @@ class YZMonsterGenerator {
 		/**
 		 * List of mutations the creature have.
 		 */
-		this.mutations = this.createMutations(this.getElemFromParam('mutations'));
+		this.mutations = this.createMutations(super.getElemFromParam('mutations'));
 
 		// The size of the creature.
-		const sizeElem = this.getElemFromParam('size');
+		const sizeElem = super.getElemFromParam('size');
 		/**
 		 * The creature's size verbose description.
-		 * @type {string[2]}
+		 * @type {string}
 		 */
-		this.sizeDescription = sizeElem[0];
+		this.descriptions.size = sizeElem[0];
 		/**
 		 * The creature's Strength.
 		 * @type {number}
@@ -62,12 +71,12 @@ class YZMonsterGenerator {
 		this.str = +sizeElem[1];
 
 		// The type of the creature.
-		const typeElem = this.getElemFromParam('type');
+		const typeElem = super.getElemFromParam('type');
 		/**
 		 * The creature's type verbose description.
 		 * @type {string}
 		 */
-		this.typeDescription = typeElem[0];
+		this.descriptions.type = typeElem[0];
 		/**
 		 * The creature's Agility.
 		 * @type {number}
@@ -75,12 +84,12 @@ class YZMonsterGenerator {
 		this.agi = +typeElem[1];
 
 		// The body and shape of the creature.
-		const bodyElem = this.getElemFromParam('body');
+		const bodyElem = super.getElemFromParam('body');
 		/**
 		 * The creature's body/shape verbose description.
 		 * @type {string}
 		 */
-		this.bodyDescription = bodyElem[0];
+		this.descriptions.body = bodyElem[0];
 		/**
 		 * The creature's Armor Rating.
 		 * @type {number}
@@ -91,7 +100,7 @@ class YZMonsterGenerator {
 		 * Number of legs for the creature.
 		 * @type {string}
 		 */
-		this.limbsDescription = this.getElemFromParam('limbs');
+		this.descriptions.limbs = super.getElemFromParam('limbs');
 
 		/**
 		 * The skills of the creature.
@@ -101,18 +110,32 @@ class YZMonsterGenerator {
 
 		/**
 		 * The creature's attacks.
-		 * @type {Object}
+		 * @type {Object[]}
 		 */
 		this.attacks = this.createAttacks();
 	}
 
 	/**
+	 * Tells if the creature is a swarm.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get swarm() { return (this.qty < 0); }
+
+	/**
+	 * Tells if the creature is a alone.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get loner() { return (this.qty === 1); }
+
+	/**
 	 * Creates an array with one or more attack object.
-	 * @returns {object[]}
+	 * @returns {Object[]}
 	 */
 	createAttacks() {
 		const attacks = [];
-		const fetchedAttacks = this.getMultipleElemFromParam('weapons');
+		const fetchedAttacks = super.getMultipleElemFromParam('weapons');
 
 		// Processes the damage.
 		for (const attack of fetchedAttacks) {
@@ -123,7 +146,7 @@ class YZMonsterGenerator {
 			else if (typeof attack.damage === 'object' && attack.damage !== null) {
 				const roll = Util.parseRoll(attack.damage.roll);
 				const data = attack.damage.data;
-				attack.damage = this.getElemFromData(roll, data);
+				attack.damage = super.getElemFromData(roll, data);
 			}
 			attacks.push(attack);
 		}
@@ -138,10 +161,10 @@ class YZMonsterGenerator {
 	 */
 	createSkills() {
 		const skills = {};
-		const fetchedSkills = this.getElemFromParam('skills');
+		const fetchedSkills = super.getElemFromParam('skills');
 
 		for (const skill of fetchedSkills) {
-			skills[skill] = this.getElemFromParam('skillLevels');
+			skills[skill] = super.getElemFromParam('skillLevels');
 		}
 
 		return (Object.entries(skills).length) ? skills : null;
@@ -162,65 +185,6 @@ class YZMonsterGenerator {
 		for (let i = 0; i < qty; i++) fetchedMutations.push(Util.random(mutations));
 
 		return (fetchedMutations.length) ? fetchedMutations : null;
-	}
-
-	/**
-	 * Gets at random an element from a specified parameter of the GeneratorData JSON file.
-	 * @param {string} param The parameter to search
-	 * @returns {*} Can be anything
-	 * @throws {RangeError} If the parameter wasn't found in the GeneratorData JSON file
-	 */
-	getElemFromParam(param) {
-		// Exits early and throws an error if the parameter doesn't exist.
-		if (!GeneratorData.hasOwnProperty(param)) throw new RangeError(`Parameter "${param}" not found!`);
-
-		// Rolls the parameter and finds the element.
-		const roll = Util.parseRoll(GeneratorData[param].roll);
-		const data = GeneratorData[param].data;
-		const elem = this.getElemFromData(roll, data);
-
-		return elem;
-	}
-
-	/**
-	 * Gets at random one or more elements from a specified parameter of the GeneratorData JSON file.
-	 * If the element is a number, more elements of that number will be fetched.
-	 * @param {string} param The parameter to search
-	 * @param {number} [count=1] How many elements to fetch.
-	 * @returns {Array<*>} An array of elements
-	 */
-	getMultipleElemFromParam(param, count = 1) {
-		const elems = new Set();
-
-		// Performs cycles.
-		while (count > 0) {
-			const elem = this.getElemFromParam(param);
-
-			if (typeof elem === 'number') count += elem;
-			else if (elems.has(elem)) count++;
-			else elems.add(elem);
-			count--;
-		}
-
-		return Array.from(elems);
-	}
-
-	/**
-	 * Gets an element by seed from seeded data.
-	 * @param {number} roll The roll's seed
-	 * @param {Object} data The seeded data
-	 * @returns {*} Can be anything
-	 */
-	getElemFromData(roll, data) {
-		let elem;
-
-		for (let i = roll; i > 0; i--) {
-			if (i in data && roll >= i) {
-				elem = data[i];
-				break;
-			}
-		}
-		return elem;
 	}
 }
 
