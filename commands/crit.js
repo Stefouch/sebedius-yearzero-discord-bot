@@ -87,7 +87,7 @@ module.exports = {
 		const icon1 = Config.icons.myz.base[die1];
 		const icon2 = Config.icons.myz.base[die2];
 
-		message.channel.send(`${(critRoll >= 11 && critRoll <= 66) ? icon1 + icon2 : ''}`, getEmbedCrit(criticalInjury, message))
+		return message.channel.send(`${(critRoll >= 11 && critRoll <= 66) ? icon1 + icon2 : ''}`, getEmbedCrit(criticalInjury, message))
 			.then(() => {
 				if (!args.regIncludes(/^[1-6]{2}$/)
 					&& (criticalInjury.ref === 65 || criticalInjury.ref === 66)) {

@@ -39,6 +39,6 @@ module.exports = {
 		const mutation = random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
 
-		message.channel.send(embed);
+		return message.channel.send(embed);
 	},
 };

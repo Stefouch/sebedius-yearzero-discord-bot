@@ -34,6 +34,6 @@ module.exports = {
 		const typeStr = capitalize(type).slice(0, -1);
 		const embed = new YZEmbed('Zone Threat', `${typeStr} – ${threat}`);
 
-		message.channel.send(embed);
+		return message.channel.send(embed);
 	},
 };

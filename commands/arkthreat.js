@@ -10,6 +10,6 @@ module.exports = {
 	args: false,
 	execute(args, message) {
 		const embed = new YZEmbed('Threat Against the Ark', random(ArkThreats));
-		message.channel.send(embed);
+		return message.channel.send(embed);
 	},
 };

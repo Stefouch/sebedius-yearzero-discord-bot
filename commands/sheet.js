@@ -66,10 +66,10 @@ module.exports = {
 
 		// Sends a message with the details.
 		if (args.regIndexOf(/^(-pm|-dm|--private)$/i) >= 0) {
-			message.author.send(embedSheet);
+			return message.author.send(embedSheet);
 		}
 		else {
-			message.channel.send(embedSheet);
+			return message.channel.send(embedSheet);
 		}
 	},
 };

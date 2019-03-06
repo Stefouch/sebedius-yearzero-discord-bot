@@ -40,6 +40,6 @@ module.exports = {
 		const artifact = random(artifacts);
 		const embed = new YZEmbed('Artifact', artifact);
 
-		message.channel.send(embed);
+		return message.channel.send(embed);
 	},
 };

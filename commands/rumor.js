@@ -31,6 +31,6 @@ module.exports = {
 
 		const embed = new YZEmbed(`${Rumors.title} ...`, rumorText);
 
-		message.channel.send(embed);
+		return message.channel.send(embed);
 	},
 };
