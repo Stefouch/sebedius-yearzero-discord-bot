@@ -18,13 +18,13 @@ class FBLDemonGenerator extends YZGenerator {
 		this.gender;//*/
 
 		// =========================== DEMON'S FORM ===========================
-		const formObj = super.getElemFromParam('form');
+		const formObj = super.get('form');
 
 		/**
 		 * The Demon's form.
 		 * @type {string}
 		 */
-		this.form = formObj.form.toString();
+		this.form = formObj.form;
 
 		/**
 		 * Form effect.
@@ -55,25 +55,31 @@ class FBLDemonGenerator extends YZGenerator {
 		 */
 		this.armor = eval(Util.parseRoll(formObj.armor));
 
+		/**
+		 * Demon's icon.
+		 * @type {string}
+		 */
+		this.icon = formObj.symbol;
+
 		// ======================== DEMON'S ABILITIES =========================
 
 		/**
 		 * Demon's abilities.
 		 * @type {Map} Ability => Description
 		 */
-		this.abilities = new Map(super.getMultipleElemFromParam('abilities'));
+		this.abilities = new Map(super.getAll('abilities'));
 
 		/**
 		 * Demon's strengths.
 		 * @type {Map} Strength => Description
 		 */
-		this.strengths = new Map(super.getMultipleElemFromParam('strengths'));
+		this.strengths = new Map(super.getAll('strengths'));
 
 		/**
 		 * Demon's weaknesses.
 		 * @type {Map} Weakness => Description
 		 */
-		this.weaknesses = new Map(super.getMultipleElemFromParam('weaknesses'));
+		this.weaknesses = new Map(super.getAll('weaknesses'));
 
 		// ========================== DEMON'S SKILLS ==========================
 
@@ -110,24 +116,28 @@ class FBLDemonGenerator extends YZGenerator {
 	 * @returns {Object[]}
 	 */
 	createAttacks() {
-		const attacks = super.getMultipleElemFromParam('attacks', this.source, 5, 5);
+		const attacks = super.getAll('attacks');
 
-		// Processes the damage and any dice roll.
-		for (const attack of attacks) {
+		return attacks.map(atq => {
+			const returnAtq = {};
 
-			if (attack.hasOwnProperty('base')) attack.base = eval(Util.parseRoll(attack.base));
+			if (atq.hasOwnProperty('name')) returnAtq.name = atq.name;
 
-			if (attack.hasOwnProperty('damage')) {
+			if (atq.hasOwnProperty('base')) returnAtq.base = eval(Util.parseRoll(atq.base));
 
-				if (attack.damage instanceof Array) {
-					if (attack.damage.length === 6) attack.damage = attack.damage[Util.rand(1, 6) - 1];
+			if (atq.hasOwnProperty('damage')) {
+
+				if (atq.damage instanceof Array) {
+					if (atq.damage.length === 6) returnAtq.damage = atq.damage[Util.rand(1, 6) - 1];
 				}
 			}
 
-			if (attack.hasOwnProperty('special')) attack.special = Util.parseRoll(attack.special);
-		}
+			if (atq.hasOwnProperty('range')) returnAtq.range = atq.range;
 
-		return attacks;
+			if (atq.hasOwnProperty('special')) returnAtq.special = Util.parseRoll(atq.special);
+
+			return returnAtq;
+		});
 	}
 
 	/**
@@ -137,7 +147,7 @@ class FBLDemonGenerator extends YZGenerator {
 	 */
 	createSkills() {
 		const skillsObj = {};
-		const skills = super.getElemFromParam('skills');
+		const skills = super.get('skills');
 
 		for (const name in skills) {
 			skillsObj[name] = eval(Util.parseRoll(skills[name]));

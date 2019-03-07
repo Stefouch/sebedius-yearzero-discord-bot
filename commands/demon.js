@@ -14,7 +14,7 @@ module.exports = {
 
 		const embed = new YZEmbed(
 			`${demon.form.toUpperCase()} DEMON`,
-			'*Forbidden Lands Demon*'
+			`${demon.icon}`
 		);
 
 		// Demon's attributes & Armor Rating.
@@ -29,8 +29,8 @@ module.exports = {
 
 		embed.addField(
 			'Body',
-			`Armor Rating: ${demon.armor}`
-				+ (demon.formEffect) ? `\n${demon.formEffect}` : '',
+			`Armor Rating: **${demon.armor}**`
+				+ ((demon.formEffect) ? `\n${demon.formEffect}` : ''),
 			true
 		);
 

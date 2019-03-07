@@ -53,6 +53,7 @@
 	"weapons": {
 		"roll": "D66",
 		"define": "Attacks",
+		"array": true,
 		"data": {
 			"11": {
 				"name": "Claws",
@@ -111,15 +112,11 @@
 		}
 	},
 	"skillLevels": {
-		"roll": "D66",
-		"define": "Skill level",
-		"data": {
-			"11": 1,
-			"31": 2,
-			"51": 3,
-			"61": 4,
-			"66": 5
-		}
+		"11": 1,
+		"31": 2,
+		"51": 3,
+		"61": 4,
+		"66": 5
 	},
 	"numbers": {
 		"roll": "2D6",
@@ -167,6 +164,7 @@
 	"traits": {
 		"roll": "D66",
 		"define": "Monster's personality",
+		"array": true,
 		"data": {
 			"11": "Affectionate",
 			"12": "Timid",

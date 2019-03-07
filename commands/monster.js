@@ -44,8 +44,12 @@ module.exports = {
 		let skillsText = '';
 
 		if (monster.skills) {
-			for (const skill in monster.skills) {
-				skillsText += `\n${Util.strCamelToNorm(skill)}: **${monster.skills[skill]}**`;
+			for (const skName in monster.skills) {
+
+				if (skName === 'fight') { if (!monster.melee) continue; }
+				if (skName === 'shoot') { if (!monster.ranged) continue; }
+
+				skillsText += `\n${Util.strCamelToNorm(skName)}: **${monster.skills[skName]}**`;
 			}
 		}
 		else {

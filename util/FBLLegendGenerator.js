@@ -13,7 +13,7 @@ class FBLLegendGenerator extends YZGenerator {
 
 		// Completes the story.
 		for (const key in this.data) {
-			this.story += `${this.data[key].define}**${this.data[key].value[0].toLowerCase()}**`;
+			this.story += `${this.data[key].define}**${this.data[key].value.toLowerCase()}**`;
 		}
 
 		// Ends the story.

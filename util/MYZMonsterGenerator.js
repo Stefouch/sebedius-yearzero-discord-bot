@@ -10,14 +10,14 @@ class MYZMonsterGenerator extends YZGenerator {
 		 * The name of the creature.
 		 * @type {string}
 		 */
-		this.name = super.getElemFromParam('namePrefix')
-			+ super.getElemFromParam('nameSuffix');
+		this.name = super.get('namePrefix')
+			+ super.get('nameSuffix');
 
 		/**
 		 * The gender of the creature.
 		 * @type {string}
 		 */
-		this.gender = super.getElemFromParam('gender');
+		this.gender = super.get('gender');
 
 		// ===================== CREATURE'S DESCRIPTIONS ======================
 
@@ -32,16 +32,16 @@ class MYZMonsterGenerator extends YZGenerator {
 		 * The creature's personality trait(s) in an Array.
 		 * @type {string[]}
 		 */
-		this.descriptions.traits = super.getMultipleElemFromParam('traits');
+		this.descriptions.traits = super.getAll('traits');
 
 		/**
 		 * The creature's favorite place of wandering.
 		 * @type {string}
 		 */
-		this.descriptions.location = super.getElemFromParam('location');
+		this.descriptions.location = super.get('location');
 
 		// ======================= NUMBER OF CREATURES ========================
-		const numbersElem = super.getElemFromParam('numbers');
+		const numbersElem = super.get('numbers');
 
 		/**
 		 * The creature's quantity verbose description.
@@ -59,10 +59,10 @@ class MYZMonsterGenerator extends YZGenerator {
 		/**
 		 * List of mutations the creature have.
 		 */
-		this.mutations = this.getMutations(super.getElemFromParam('mutations'));
+		this.mutations = this.getMutations(super.get('mutations'));
 
 		// ========================= CREATURE'S SIZE ==========================
-		const sizeElem = super.getElemFromParam('size');
+		const sizeElem = super.get('size');
 
 		/**
 		 * The creature's size verbose description.
@@ -77,7 +77,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		this.str = +sizeElem[1];
 
 		// ========================= CREATURE'S TYPE ==========================
-		const typeElem = super.getElemFromParam('type');
+		const typeElem = super.get('type');
 		/**
 		 * The creature's type verbose description.
 		 * @type {string}
@@ -90,7 +90,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		this.agi = +typeElem[1];
 
 		// =========================== BODY & SHAPE ===========================
-		const bodyElem = super.getElemFromParam('body');
+		const bodyElem = super.get('body');
 
 		/**
 		 * The creature's body/shape verbose description.
@@ -108,7 +108,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		 * Number of legs for the creature.
 		 * @type {string}
 		 */
-		this.descriptions.limbs = super.getElemFromParam('limbs');
+		this.descriptions.limbs = super.get('limbs');
 
 		// ======================== CREATURE'S SKILLS =========================
 
@@ -142,12 +142,36 @@ class MYZMonsterGenerator extends YZGenerator {
 	get loner() { return (this.qty === 1); }
 
 	/**
+	 * Tells if the creature has melee attacks.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get melee() {
+		for (const atq of this.attacks) {
+			if (atq.range === 'Arm') return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Tells if the creature has ranged attacks.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get ranged() {
+		for (const atq of this.attacks) {
+			if (atq.range !== 'Arm') return true;
+		}
+		return false;
+	}
+
+	/**
 	 * Creates an array with one or more attack object.
 	 * @returns {Object[]}
 	 */
 	createAttacks() {
 		const attacks = [];
-		const fetchedAttacks = super.getMultipleElemFromParam('weapons');
+		const fetchedAttacks = super.getAll('weapons');
 
 		// Processes the damage.
 		for (const attack of fetchedAttacks) {
@@ -167,10 +191,10 @@ class MYZMonsterGenerator extends YZGenerator {
 	 */
 	createSkills() {
 		const skills = {};
-		const fetchedSkills = super.getElemFromParam('skills');
+		const fetchedSkills = super.getAll('skills');
 
-		for (const skill of fetchedSkills) {
-			skills[skill] = super.getElemFromParam('skillLevels');
+		for (const name of fetchedSkills) {
+			skills[name] = super.rollData(Util.rollD66(), super.get('skillLevels'));
 		}
 
 		return (Object.entries(skills).length) ? skills : null;
