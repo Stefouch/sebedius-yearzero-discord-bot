@@ -9,7 +9,7 @@ module.exports = {
 		+ '*Zone Compendium 1: The Lair of the Saurians*'
 		+ '\n The argument `demon` instead generates a random demon according to'
 		+ ' the tables found in the roleplaying game *Forbidden Lands*.',
-	aliases: ['generate-monster'],
+	aliases: ['generate-monster', 'creature'],
 	guildOnly: false,
 	args: false,
 	usage: '[demon]',
@@ -33,6 +33,7 @@ module.exports = {
 			`Strength: **${monster.str + +monster.swarm * 3}**\nAgility: **${monster.agi}**`,
 			true
 		);
+
 		embed.addField(
 			'Body',
 			`Armor Rating: **${monster.armor}**\n${monster.descriptions.limbs}`,
@@ -41,6 +42,7 @@ module.exports = {
 
 		// Creature's skill(s).
 		let skillsText = '';
+
 		if (monster.skills) {
 			for (const skill in monster.skills) {
 				skillsText += `\n${Util.strCamelToNorm(skill)}: **${monster.skills[skill]}**`;
@@ -49,6 +51,7 @@ module.exports = {
 		else {
 			skillsText += '*None*';
 		}
+
 		embed.addField('Skills', skillsText, true);
 
 		// Creature's attack(s).
@@ -65,6 +68,7 @@ module.exports = {
 				+ `${attack.range}${' '.repeat(Math.max(rangeColLen - attack.range.length, 0))}`
 				+ (attack.special ? attack.special : '–');
 		}
+
 		attacksText += '\n```';
 
 		embed.addField('Attacks', attacksText, false);

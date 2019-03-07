@@ -19,6 +19,8 @@ class MYZMonsterGenerator extends YZGenerator {
 		 */
 		this.gender = super.getElemFromParam('gender');
 
+		// ===================== CREATURE'S DESCRIPTIONS ======================
+
 		/**
 		 * Holds verbose descriptions for the creature.
 		 * @type {Object}
@@ -38,13 +40,15 @@ class MYZMonsterGenerator extends YZGenerator {
 		 */
 		this.descriptions.location = super.getElemFromParam('location');
 
-		// Number of creatures.
+		// ======================= NUMBER OF CREATURES ========================
 		const numbersElem = super.getElemFromParam('numbers');
+
 		/**
 		 * The creature's quantity verbose description.
 		 * @type {string}
 		 */
 		this.descriptions.number = numbersElem[0];
+
 		/**
 		 * How many creatures are spawning.
 		 * * Swarms have qty `-1`
@@ -55,22 +59,24 @@ class MYZMonsterGenerator extends YZGenerator {
 		/**
 		 * List of mutations the creature have.
 		 */
-		this.mutations = this.createMutations(super.getElemFromParam('mutations'));
+		this.mutations = this.getMutations(super.getElemFromParam('mutations'));
 
-		// The size of the creature.
+		// ========================= CREATURE'S SIZE ==========================
 		const sizeElem = super.getElemFromParam('size');
+
 		/**
 		 * The creature's size verbose description.
 		 * @type {string}
 		 */
 		this.descriptions.size = sizeElem[0];
+
 		/**
 		 * The creature's Strength.
 		 * @type {number}
 		 */
 		this.str = +sizeElem[1];
 
-		// The type of the creature.
+		// ========================= CREATURE'S TYPE ==========================
 		const typeElem = super.getElemFromParam('type');
 		/**
 		 * The creature's type verbose description.
@@ -83,13 +89,15 @@ class MYZMonsterGenerator extends YZGenerator {
 		 */
 		this.agi = +typeElem[1];
 
-		// The body and shape of the creature.
+		// =========================== BODY & SHAPE ===========================
 		const bodyElem = super.getElemFromParam('body');
+
 		/**
 		 * The creature's body/shape verbose description.
 		 * @type {string}
 		 */
 		this.descriptions.body = bodyElem[0];
+
 		/**
 		 * The creature's Armor Rating.
 		 * @type {number}
@@ -102,11 +110,15 @@ class MYZMonsterGenerator extends YZGenerator {
 		 */
 		this.descriptions.limbs = super.getElemFromParam('limbs');
 
+		// ======================== CREATURE'S SKILLS =========================
+
 		/**
 		 * The skills of the creature.
 		 * @type {object}
 		 */
 		this.skills = this.createSkills();
+
+		// ======================== CREATURE'S ATTACKS ========================
 
 		/**
 		 * The creature's attacks.
@@ -123,7 +135,7 @@ class MYZMonsterGenerator extends YZGenerator {
 	get swarm() { return (this.qty < 0); }
 
 	/**
-	 * Tells if the creature is a alone.
+	 * Tells if the creature is alone.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -143,11 +155,6 @@ class MYZMonsterGenerator extends YZGenerator {
 				if (this.str > attack.damage.length) attack.damage = attack.damage.pop();
 				else attack.damage = attack.damage[this.str];
 			}
-			else if (typeof attack.damage === 'object' && attack.damage !== null) {
-				const roll = Util.parseRoll(attack.damage.roll);
-				const data = attack.damage.data;
-				attack.damage = super.getElemFromData(roll, data);
-			}
 			attacks.push(attack);
 		}
 
@@ -157,7 +164,6 @@ class MYZMonsterGenerator extends YZGenerator {
 	/**
 	 * Creates an object with "skillName: level".
 	 * @returns {Object} Returns null if empty
-	 * @property {number} skillName
 	 */
 	createSkills() {
 		const skills = {};
@@ -175,7 +181,7 @@ class MYZMonsterGenerator extends YZGenerator {
 	 * @param {number} [qty=1] Quantity of mutations to return
 	 * @returns {string[]} Returns null if empty
 	 */
-	createMutations(qty = 1) {
+	getMutations(qty = 1) {
 		// Loads the list of mutations.
 		// Uses a Set object to avoid duplicates.
 		const mutations = new Set();

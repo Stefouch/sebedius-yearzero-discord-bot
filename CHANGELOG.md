@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A typo error in the mutations list.
 - A typo error in the rumors list.
+- Moved the "Diary" artifact to the metaplot category.
 
 ## [1.3.0] - 2019-02-28
 ### Added

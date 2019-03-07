@@ -5,11 +5,18 @@ class FBLLegendGenerator extends YZGenerator {
 	constructor() {
 		super(LegendData);
 
+		/**
+		 * The text of the legend.
+		 * @type {string}
+		 */
 		this.story = '';
 
-		for (const key in this.source) {
-			this.story += `${this.source[key].define}**${super.getElemFromParam(key).toLowerCase()}**`;
+		// Completes the story.
+		for (const key in this.data) {
+			this.story += `${this.data[key].define}**${this.data[key].value[0].toLowerCase()}**`;
 		}
+
+		// Ends the story.
 		this.story += '.';
 	}
 }

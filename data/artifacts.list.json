@@ -1,6 +1,7 @@
 {
 	"meta": [
 		"Cassette Player (Metaplot)",
+		"Diary (Metaplot)",
 		"ID Card (Metaplot)",
 		"Video Camera (Metaplot)"
 	],
@@ -18,7 +19,6 @@
 		"Comic Book",
 		"Compass",
 		"Crossbow",
-		"Diary",
 		"Diving Gear",
 		"Dress",
 		"Energy Pills",

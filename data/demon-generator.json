@@ -105,7 +105,7 @@
 			"51": ["Transparent", "All attacks get a –3 penalty"],
 			"54": ["Covered by Eyes", "Draw one extra initiative card, discard the worst one. "],
 			"55": ["No Eyes", "Draw one extra initiative card, discard the best one."],
-			"56": 2
+			"56": { "REROLL": 2 }
 		}
 	},
 	"attacks": {
@@ -213,8 +213,8 @@
 					}
 				}
 			},
-			"61": 3,
-			"66": 4
+			"61": { "REROLL": 3 },
+			"66": { "REROLL": 4 }
 		}
 	},
 	"strengths": {
@@ -233,7 +233,7 @@
 			"55": ["Immaterial", "Can move through solid matter."],
 			"61": ["Floating", "Does not touch the ground. Can float up to 10 meters from the ground."],
 			"63": ["Teleportation", "Can instantly teleport to anywhere within LONG range every other round."],
-			"65": 2
+			"65": { "REROLL": 2 }
 		}
 	},
 	"weaknesses": {

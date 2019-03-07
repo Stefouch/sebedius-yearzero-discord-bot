@@ -17,11 +17,30 @@ class FBLDemonGenerator extends YZGenerator {
 		 *
 		this.gender;//*/
 
-		// DEMON'S FORM
+		// =========================== DEMON'S FORM ===========================
 		const formObj = super.getElemFromParam('form');
 
-		this.form = formObj.form;
+		/**
+		 * The Demon's form.
+		 * @type {string}
+		 */
+		this.form = formObj.form.toString();
+
+		/**
+		 * Form effect.
+		 * @type {string}
+		 */
 		this.formEffect = formObj.effect || null;
+
+		/**
+		 * Demon's attributes.
+		 * @type {Object}
+		 * @property {number[]} attr [str, agi, wit, emp]
+		 * @property {number} str Strength
+		 * @property {number} agi Agility
+		 * @property {number} wit Wits
+		 * @property {number} emp Empathy
+		 */
 		this.attributes = {
 			attr: this.parseAttributes(formObj.attributes),
 			get str() { return this.attr[0]; },
@@ -29,17 +48,55 @@ class FBLDemonGenerator extends YZGenerator {
 			get wit() { return this.attr[2]; },
 			get emp() { return this.attr[3]; },
 		};
+
+		/**
+		 * Demon's Armor Rating.
+		 * @type {number}
+		 */
 		this.armor = eval(Util.parseRoll(formObj.armor));
 
-		// DEMON'S ABILITIES
+		// ======================== DEMON'S ABILITIES =========================
+
+		/**
+		 * Demon's abilities.
+		 * @type {Map} Ability => Description
+		 */
 		this.abilities = new Map(super.getMultipleElemFromParam('abilities'));
+
+		/**
+		 * Demon's strengths.
+		 * @type {Map} Strength => Description
+		 */
 		this.strengths = new Map(super.getMultipleElemFromParam('strengths'));
+
+		/**
+		 * Demon's weaknesses.
+		 * @type {Map} Weakness => Description
+		 */
 		this.weaknesses = new Map(super.getMultipleElemFromParam('weaknesses'));
 
-		// DEMON'S SKILLS
+		// ========================== DEMON'S SKILLS ==========================
+
+		/**
+		 * Demon's skills.
+		 * @type {Object} skillName: value
+		 */
 		this.skills = this.createSkills();
+
+		// ========================= DEMON'S ATTACKS ==========================
+
+		/**
+		 * Demon's attacks.
+		 * @type {Object}
+		 */
+		this.attacks = this.createAttacks();
 	}
 
+	/**
+	 * Iterates each value of the attributes array and parses any roll string.
+	 * @param {Array<string|number>} attributes [str, agi, wit, emp]
+	 * @returns {number[]}
+	 */
 	parseAttributes(attributes) {
 		const attr = [];
 		for (const attribut of attributes) {
@@ -53,21 +110,21 @@ class FBLDemonGenerator extends YZGenerator {
 	 * @returns {Object[]}
 	 */
 	createAttacks() {
-		const attacks = [];
-		const fetchedAttacks = super.getMultipleElemFromParam('weapons');
+		const attacks = super.getMultipleElemFromParam('attacks', this.source, 5, 5);
 
-		// Processes the damage.
-		for (const attack of fetchedAttacks) {
-			if (attack.damage instanceof Array) {
-				if (this.str > attack.damage.length) attack.damage = attack.damage.pop();
-				else attack.damage = attack.damage[this.str];
+		// Processes the damage and any dice roll.
+		for (const attack of attacks) {
+
+			if (attack.hasOwnProperty('base')) attack.base = eval(Util.parseRoll(attack.base));
+
+			if (attack.hasOwnProperty('damage')) {
+
+				if (attack.damage instanceof Array) {
+					if (attack.damage.length === 6) attack.damage = attack.damage[Util.rand(1, 6) - 1];
+				}
 			}
-			else if (typeof attack.damage === 'object' && attack.damage !== null) {
-				const roll = Util.parseRoll(attack.damage.roll);
-				const data = attack.damage.data;
-				attack.damage = super.getElemFromData(roll, data);
-			}
-			attacks.push(attack);
+
+			if (attack.hasOwnProperty('special')) attack.special = Util.parseRoll(attack.special);
 		}
 
 		return attacks;

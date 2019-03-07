@@ -1,265 +1,291 @@
 {
 	"A": {
 		"define": "A long time ago ",
-		"roll": "D66",
-		"data": {
-			"11": "Before the Shift (More than 1100 years ago)",
-			"13": "Before the Blood Mist (300–1100 years ago)",
-			"31": "During the Alder Wars (305–360 years ago)",
-			"44": "In the age of the Blood Mist (5–280 years ago)"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Before the Shift (More than 1100 years ago)",
+				"13": "Before the Blood Mist (300–1100 years ago)",
+				"31": "During the Alder Wars (305–360 years ago)",
+				"44": "In the age of the Blood Mist (5–280 years ago)"
+			}
 		}
 	},
 	"B": {
 		"define": " there was a ",
-		"roll": "D66",
-		"data": {
-			"11": "Bloodthirsty",
-			"12": "Vengeful",
-			"13": "Greedy",
-			"14": "Unhappy in love",
-			"15": "Ingenious",
-			"16": "Enterprising",
-			"21": "Kind",
-			"22": "Perseverant",
-			"23": "Treacherous Raven",
-			"25": "Moral Rust",
-			"31": "Skilled",
-			"33": "Stingy Treasure",
-			"35": "Vain",
-			"41": "Wise",
-			"43": "Beautiful Robber",
-			"45": "Honorable",
-			"51": "Jealous",
-			"53": "Cruel",
-			"55": "Determined",
-			"61": "Cunning",
-			"63": "Scared",
-			"65": "Evil"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Bloodthirsty",
+				"12": "Vengeful",
+				"13": "Greedy",
+				"14": "Unhappy in love",
+				"15": "Ingenious",
+				"16": "Enterprising",
+				"21": "Kind",
+				"22": "Perseverant",
+				"23": "Treacherous Raven",
+				"25": "Moral Rust",
+				"31": "Skilled",
+				"33": "Stingy Treasure",
+				"35": "Vain",
+				"41": "Wise",
+				"43": "Beautiful Robber",
+				"45": "Honorable",
+				"51": "Jealous",
+				"53": "Cruel",
+				"55": "Determined",
+				"61": "Cunning",
+				"63": "Scared",
+				"65": "Evil"
+			}
 		}
 	},
 	"C": {
 		"define": " ",
-		"roll": "D66",
-		"data": {
-			"11": "Elf",
-			"12": "Dwarf",
-			"13": "Peddler",
-			"14": "Smith",
-			"15": "Farmer",
-			"16": "Apprentice",
-			"21": "Druid",
-			"22": "Shepherd",
-			"23": "Sister",
-			"25": "Brother",
-			"31": "Rider",
-			"33": "Hunter",
-			"35": "Priest",
-			"41": "Sorcerer",
-			"43": "Chieftain",
-			"45": "Warrior",
-			"51": "Lord",
-			"53": "Prince",
-			"55": "Princess",
-			"61": "Queen",
-			"63": "King",
-			"65": {
-				"roll": "D6",
-				"data": {
-					"1": "Unit of Soldiers",
-					"2": "Village",
-					"3": "Cult",
-					"4": "Band of Robbers",
-					"5": "Cabal",
-					"6": "Monster"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Elf",
+				"12": "Dwarf",
+				"13": "Peddler",
+				"14": "Smith",
+				"15": "Farmer",
+				"16": "Apprentice",
+				"21": "Druid",
+				"22": "Shepherd",
+				"23": "Sister",
+				"25": "Brother",
+				"31": "Rider",
+				"33": "Hunter",
+				"35": "Priest",
+				"41": "Sorcerer",
+				"43": "Chieftain",
+				"45": "Warrior",
+				"51": "Lord",
+				"53": "Prince",
+				"55": "Princess",
+				"61": "Queen",
+				"63": "King",
+				"65": {
+					"roll": "D6",
+					"data": {
+						"1": "Unit of Soldiers",
+						"2": "Village",
+						"3": "Cult",
+						"4": "Band of Robbers",
+						"5": "Cabal",
+						"6": "Monster"
+					}
 				}
 			}
 		}
 	},
 	"D": {
 		"define": " who sought ",
-		"roll": "D66",
-		"data": {
-			"11": "A weapon",
-			"15": "A love",
-			"23": "A friend in need",
-			"31": "An enemy",
-			"35": "A treasure",
-			"43": "A map",
-			"51": "A family member",
-			"55": "An artifact",
-			"63": "A monster"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "A weapon",
+				"15": "A love",
+				"23": "A friend in need",
+				"31": "An enemy",
+				"35": "A treasure",
+				"43": "A map",
+				"51": "A family member",
+				"55": "An artifact",
+				"63": "A monster"
+			}
 		}
 	},
 	"E": {
 		"define": " because of ",
-		"roll": "D66",
-		"data": {
-			"11": "Love",
-			"15": "Friendship",
-			"21": "A promise",
-			"25": "A prophecy",
-			"34": "A bet",
-			"42": "Duty",
-			"46": "War",
-			"53": "Honor",
-			"56": "Insanity",
-			"62": "Dreams",
-			"64": "Greed"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Love",
+				"15": "Friendship",
+				"21": "A promise",
+				"25": "A prophecy",
+				"34": "A bet",
+				"42": "Duty",
+				"46": "War",
+				"53": "Honor",
+				"56": "Insanity",
+				"62": "Dreams",
+				"64": "Greed"
+			}
 		}
 	},
 	"F": {
 		"define": " and traveled to ",
-		"roll": "D66",
-		"data": {
-			"11": "A ruin",
-			"21": "A farm",
-			"23": "A grave",
-			"31": "A tower",
-			"35": "A castle",
-			"41": "A village",
-			"44": "A cave",
-			"54": "A hill",
-			"61": "A tree",
-			"64": "A water source"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "A ruin",
+				"21": "A farm",
+				"23": "A grave",
+				"31": "A tower",
+				"35": "A castle",
+				"41": "A village",
+				"44": "A cave",
+				"54": "A hill",
+				"61": "A tree",
+				"64": "A water source"
+			}
 		}
 	},
 	"G": {
 		"define": " located ",
-		"roll": "D6",
-		"data": {
-			"1": "Here",
-			"2": "Close by",
-			"3": "A day’s march away",
-			"4": "A few days off",
-			"5": "Far away",
-			"6": "On the other side of the Forbidden Lands"
+		"value": {
+			"roll": "D6",
+			"data": {
+				"1": "Here",
+				"2": "Close by",
+				"3": "A day’s march away",
+				"4": "A few days off",
+				"5": "Far away",
+				"6": "On the other side of the Forbidden Lands"
+			}
 		}
 	},
 	"H": {
 		"define": " in some ",
-		"roll": "D66",
-		"data": {
-			"11": "Ruins",
-			"15": "Marshlands",
-			"22": "Quagmire",
-			"25": "Plains",
-			"35": "Forest",
-			"45": "Hills",
-			"54": "Dark Forest",
-			"64": "Lake",
-			"65": "Mountains"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Ruins",
+				"15": "Marshlands",
+				"22": "Quagmire",
+				"25": "Plains",
+				"35": "Forest",
+				"45": "Hills",
+				"54": "Dark Forest",
+				"64": "Lake",
+				"65": "Mountains"
+			}
 		}
 	},
 	"I": {
 		"define": " in the direction of ",
-		"roll": "D8",
-		"data": {
-			"1": "North",
-			"2": "North­East",
-			"3": "East",
-			"4": "South-East",
-			"5": "South",
-			"6": "South-West",
-			"7": "West",
-			"8": "North­West"
+		"value": {
+			"roll": "D8",
+			"data": {
+				"1": "North",
+				"2": "North­East",
+				"3": "East",
+				"4": "South-East",
+				"5": "South",
+				"6": "South-West",
+				"7": "West",
+				"8": "North­West"
+			}
 		}
 	},
 	"J": {
 		"define": ". As the legend goes, it is said that he or she ",
-		"roll": "D66",
-		"data": {
-			"11": "Was betrayed",
-			"15": "Was murdered",
-			"23": "Was never seen again",
-			"31": "Starved to death",
-			"34": "Took his/her own life",
-			"41": "Died in battle",
-			"45": "Was enchanted",
-			"53": "Was possessed",
-			"61": "Came back changed",
-			"64": "Still searches"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Was betrayed",
+				"15": "Was murdered",
+				"23": "Was never seen again",
+				"31": "Starved to death",
+				"34": "Took his/her own life",
+				"41": "Died in battle",
+				"45": "Was enchanted",
+				"53": "Was possessed",
+				"61": "Came back changed",
+				"64": "Still searches"
+			}
 		}
 	},
 	"K": {
 		"define": " and that at the location there is ",
-		"roll": "D66",
-		"data": {
-			"11": "Gold, lots of gold",
-			"15": "A powerful artifact",
-			"23": "A suit of armor",
-			"31": "A weapon",
-			"34": "An invaluable book",
-			"41": "A large treasure",
-			"45": "A lost war chest",
-			"53": "The remains of an important person",
-			"61": "A dwarven artifact",
-			"64": "An elven ruby"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Gold, lots of gold",
+				"15": "A powerful artifact",
+				"23": "A suit of armor",
+				"31": "A weapon",
+				"34": "An invaluable book",
+				"41": "A large treasure",
+				"45": "A lost war chest",
+				"53": "The remains of an important person",
+				"61": "A dwarven artifact",
+				"64": "An elven ruby"
+			}
 		}
 	},
 	"L": {
 		"define": " but also ",
-		"roll": "D66",
-		"data": {
-			"11": "Aggressive",
-			"15": "Bloodthirsty",
-			"23": "Cruel",
-			"26": "Horrible",
-			"33": "Hungry",
-			"35": "Watchful",
-			"44": "Starved",
-			"51": "Greedy",
-			"55": "Insane",
-			"62": "Murderous",
-			"64": "Manic",
-			"66": "Hunting"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Aggressive",
+				"15": "Bloodthirsty",
+				"23": "Cruel",
+				"26": "Horrible",
+				"33": "Hungry",
+				"35": "Watchful",
+				"44": "Starved",
+				"51": "Greedy",
+				"55": "Insane",
+				"62": "Murderous",
+				"64": "Manic",
+				"66": "Hunting"
+			}
 		}
 	},
 	"M": {
 		"define": " ",
-		"roll": "D66",
-		"data": {
-			"11": "Wolfkin",
-			"15": "Slave Traders",
-			"23": "Orcs",
-			"26": "Ghosts",
-			"33": "Saurians",
-			"35": "Iron Guards",
-			"44": "Undead",
-			"51": "Robbers",
-			"55": "Goblins",
-			"62": "Ogres",
-			"64": {
-				"define": "Monsters",
-				"roll": "D66",
-				"data": {
-					"11": "Strangling Vine",
-					"13": "Gray Bear",
-					"16": "Nightwarg",
-					"23": "Ghost",
-					"25": "Ghoul",
-					"31": "Skeleton",
-					"33": "Restless Dead",
-					"35": "Wyvern",
-					"41": "Harpies",
-					"43": "Minotaur",
-					"44": "Ent",
-					"45": "Abyss Worm",
-					"46": "Giant Squid",
-					"51": "Sea Serpent",
-					"52": "Troll",
-					"53": "Death Knight",
-					"54": "Insectoids",
-					"55": "Bloodling",
-					"56": "Manticore",
-					"61": "Gryphon",
-					"62": "Giant",
-					"63": "Hydra",
-					"64": "Demon",
-					"65": "Drakewyrm",
-					"66": "Dragon"
-				}
-			},
-			"66": "Demons"
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Wolfkin",
+				"15": "Slave Traders",
+				"23": "Orcs",
+				"26": "Ghosts",
+				"33": "Saurians",
+				"35": "Iron Guards",
+				"44": "Undead",
+				"51": "Robbers",
+				"55": "Goblins",
+				"62": "Ogres",
+				"64": {
+					"define": "Monsters",
+					"roll": "D66",
+					"data": {
+						"11": "Strangling Vine",
+						"13": "Gray Bear",
+						"16": "Nightwarg",
+						"23": "Ghost",
+						"25": "Ghoul",
+						"31": "Skeleton",
+						"33": "Restless Dead",
+						"35": "Wyvern",
+						"41": "Harpies",
+						"43": "Minotaur",
+						"44": "Ent",
+						"45": "Abyss Worm",
+						"46": "Giant Squid",
+						"51": "Sea Serpent",
+						"52": "Troll",
+						"53": "Death Knight",
+						"54": "Insectoids",
+						"55": "Bloodling",
+						"56": "Manticore",
+						"61": "Gryphon",
+						"62": "Giant",
+						"63": "Hydra",
+						"64": "Demon",
+						"65": "Drakewyrm",
+						"66": "Dragon"
+					}
+				},
+				"66": "Demons"
+			}
 		}
 	}
 }
