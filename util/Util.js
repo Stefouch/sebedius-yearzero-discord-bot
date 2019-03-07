@@ -133,6 +133,7 @@ class Util {
 		roll = roll.replace(/D66/gmi, Util.rollD66());
 		roll = roll.replace(/(\d)D6/gmi, (match, p1) => Util.sumD6(p1));
 		roll = roll.replace(/D6/gmi, Util.rand(1, 6));
+		roll = roll.replace(/D8/gmi, Util.rand(1, 8));
 		return roll;
 	}
 

@@ -35,6 +35,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `arkthreat` - Draws a random threat against the Ark (no details).
 * `!monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 * `!demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
+* `!legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 * `setconf prefix [value]` - Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
 ### Dice Cap

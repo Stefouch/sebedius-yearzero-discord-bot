@@ -1,6 +1,6 @@
 const DemonCommand = require('./demon');
 const YZEmbed = require('../util/YZEmbed');
-const Monster = require('../util/YZMonsterGenerator');
+const Monster = require('../util/MYZMonsterGenerator');
 const Util = require('../util/Util');
 
 module.exports = {
@@ -14,6 +14,7 @@ module.exports = {
 	args: false,
 	usage: '[demon]',
 	execute(args, message) {
+		// ( !demon SHORTCUT )
 		// Exits early and executes !demon if argument "Demon".
 		if (args.includes('demon')) return DemonCommand.execute(['demon'], message);
 

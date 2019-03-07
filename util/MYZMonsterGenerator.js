@@ -1,11 +1,11 @@
 const YZGenerator = require('./YZGenerator');
-const GeneratorData = require('../data/monster-generator.json');
+const MonsterData = require('../data/monster-generator.json');
 const Muts = require('../data/mutations.list.json');
 const Util = require('./Util');
 
-class YZMonsterGenerator extends YZGenerator {
+class MYZMonsterGenerator extends YZGenerator {
 	constructor() {
-		super(GeneratorData);
+		super(MonsterData);
 		/**
 		 * The name of the creature.
 		 * @type {string}
@@ -188,4 +188,4 @@ class YZMonsterGenerator extends YZGenerator {
 	}
 }
 
-module.exports = YZMonsterGenerator;
+module.exports = MYZMonsterGenerator;

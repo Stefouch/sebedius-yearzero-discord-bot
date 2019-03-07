@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New command: `!monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 - New command: `!demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
+- New command: `!legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 - A new `psi` category for the `!mutation` command.
 
 ### Fixed

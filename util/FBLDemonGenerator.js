@@ -1,10 +1,10 @@
 const YZGenerator = require('./YZGenerator');
-const GeneratorData = require('../data/demon-generator.json');
+const DemonData = require('../data/demon-generator.json');
 const Util = require('./Util');
 
-class YZDemonGenerator extends YZGenerator {
+class FBLDemonGenerator extends YZGenerator {
 	constructor() {
-		super(GeneratorData);
+		super(DemonData);
 		/**
 		 * The name of the creature.
 		 * @type {string}
@@ -21,6 +21,7 @@ class YZDemonGenerator extends YZGenerator {
 		const formObj = super.getElemFromParam('form');
 
 		this.form = formObj.form;
+		this.formEffect = formObj.effect || null;
 		this.attributes = {
 			attr: this.parseAttributes(formObj.attributes),
 			get str() { return this.attr[0]; },
@@ -37,8 +38,6 @@ class YZDemonGenerator extends YZGenerator {
 
 		// DEMON'S SKILLS
 		this.skills = this.createSkills();
-
-
 	}
 
 	parseAttributes(attributes) {
@@ -91,4 +90,4 @@ class YZDemonGenerator extends YZGenerator {
 	}
 }
 
-module.exports = YZDemonGenerator;
+module.exports = FBLDemonGenerator;
