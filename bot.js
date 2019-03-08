@@ -14,6 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 const fs = require('fs');
 const Config = require('./config.json');
 const db = require('./database.js');
+const { test } = require('./test/Testing');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
@@ -54,6 +55,9 @@ bot.on('ready', () => {
 	// For example:
 	// client.user.setActivity('TV', { type: 'WATCHING' });
 	bot.user.setActivity(`MYZ on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
+
+	// Only for testing purposes.
+	if (process.env.NODE_ENV !== 'production') test();
 });
 
 /* !
