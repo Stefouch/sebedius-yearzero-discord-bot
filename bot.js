@@ -14,7 +14,7 @@ if (process.env.NODE_ENV !== 'production') {
 const fs = require('fs');
 const Config = require('./config.json');
 const db = require('./database.js');
-const { test } = require('./test/Testing');
+const { test } = require('./test/tests');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 

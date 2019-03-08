@@ -120,23 +120,6 @@ class Util {
 		return Util.rand(1, 6) * 10 + Util.rand(1, 6);
 	}
 
-	/**
-	 * Parses a roll string into a random number. Supported formats:
-	 * * D6, D66, D666
-	 * * XD6
-	 * @param {string} rollStr The string to parse
-	 * @returns {number}
-	 */
-	static parseRoll(rollStr) {
-		let roll = '' + rollStr;
-		roll = roll.replace(/D666/gmi, Util.rollD666());
-		roll = roll.replace(/D66/gmi, Util.rollD66());
-		roll = roll.replace(/(\d)D6/gmi, (match, p1) => Util.sumD6(p1));
-		roll = roll.replace(/D6/gmi, Util.rand(1, 6));
-		roll = roll.replace(/D8/gmi, Util.rand(1, 8));
-		return roll;
-	}
-
 	static mapToJson(map) {
 		return JSON.stringify([...map]);
 	}
@@ -145,7 +128,18 @@ class Util {
 	}
 
 	/**
-	 * Checks if a value is an Object.
+	 * Checks if is a number.
+	 * @param {*} x Value to check
+	 * @returns {boolean}
+	 */
+	isNumber(x) {
+		if (typeof x === 'number') return true;
+		if (/^0x[0-9a-f]+$/i.test(x)) return true;
+		return (/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x));
+	}
+
+	/**
+	 * Checks if is an Object.
 	 * Does not count Arrays.
 	 * @param {*} val Value to check
 	 * @returns {boolean}

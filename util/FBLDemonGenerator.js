@@ -1,5 +1,6 @@
 const YZGenerator = require('./YZGenerator');
 const DemonData = require('../data/demon-generator.json');
+const { RollParser } = require('./RollParser');
 const Util = require('./Util');
 
 class FBLDemonGenerator extends YZGenerator {
@@ -53,7 +54,8 @@ class FBLDemonGenerator extends YZGenerator {
 		 * Demon's Armor Rating.
 		 * @type {number}
 		 */
-		this.armor = eval(Util.parseRoll(formObj.armor));
+		// this.armor = eval(RollParser.parseAll(formObj.armor));
+		this.armor = RollParser.parse(formObj.armor);
 
 		/**
 		 * Demon's icon.
@@ -106,7 +108,7 @@ class FBLDemonGenerator extends YZGenerator {
 	parseAttributes(attributes) {
 		const attr = [];
 		for (const attribut of attributes) {
-			attr.push(eval(Util.parseRoll(attribut)));
+			attr.push(RollParser.parse(attribut));
 		}
 		return attr;
 	}
@@ -123,7 +125,7 @@ class FBLDemonGenerator extends YZGenerator {
 
 			if (atq.hasOwnProperty('name')) returnAtq.name = atq.name;
 
-			if (atq.hasOwnProperty('base')) returnAtq.base = eval(Util.parseRoll(atq.base));
+			if (atq.hasOwnProperty('base')) returnAtq.base = RollParser.parse(atq.base);
 
 			if (atq.hasOwnProperty('damage')) {
 
@@ -134,7 +136,7 @@ class FBLDemonGenerator extends YZGenerator {
 
 			if (atq.hasOwnProperty('range')) returnAtq.range = atq.range;
 
-			if (atq.hasOwnProperty('special')) returnAtq.special = Util.parseRoll(atq.special);
+			if (atq.hasOwnProperty('special')) returnAtq.special = RollParser.parseAll(atq.special);
 
 			return returnAtq;
 		});
@@ -150,7 +152,7 @@ class FBLDemonGenerator extends YZGenerator {
 		const skills = super.get('skills');
 
 		for (const name in skills) {
-			skillsObj[name] = eval(Util.parseRoll(skills[name]));
+			skillsObj[name] = RollParser.parse(skills[name]);
 		}
 
 		return skillsObj;

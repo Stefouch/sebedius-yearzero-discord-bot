@@ -1,66 +1,145 @@
 const Util = require('./Util');
 
-const ROLLREGEX = /(\d*)(?:[dD])(\d+)([+-]\d+)?/g;
+const ROLLREGEX = /(\d*)(?:[dD])(\d+)([+-]\d+)*/g;
 
 class RollParser {
 	constructor() {
-		throw new Error(`The ${this.constructor.name} class may not be instantiated.`);
+		throw new SyntaxError(`The ${this.constructor.name} class may not be instantiated.`);
 	}
-
-	static parse(rollString) {
+	/**
+	 * Parses a roll resolvable string into a Roll object.
+	 * @param {RollString} rollString A roll resolvable string
+	 * @returns {Roll}
+	 * @typedef {string} RollString A roll resolvable string
+	 */
+	static create(rollString) {
 		const roll = new Roll();
+		rollString = '' + rollString;
 		rollString.replace(ROLLREGEX, (match, p1, p2, p3, offset, string) => {
 			// COUNT
 			roll.count = +p1 || 1;
 			// TYPE
 			roll.base = +p2 || 6;
 			// MODIFIER
-			roll.modifier = +p3 || 0;
+			roll.modifier = (p3) ? eval(p3) : 0;
+			// console.log(match, p1, p2, p3);
+			// console.log(match, roll.count, roll.base, roll.modifier);
 		});
+		// console.log(roll);
 		return roll;
 	}
 
-	static parseString(str) {
+	/**
+	 * Parses and rolls a roll resolvable string.
+	 * @param {RollString} rollString A roll resolvable string
+	 * @returns {number}
+	 */
+	static parse(rollString) {
+		return RollParser.create(rollString).roll();
+	}
+
+	/**
+	 * Finds, parses and rolls all roll elements in a string.
+	 * @param {string} str String to parse
+	 * @returns {string} Replacements processed
+	 */
+	static parseAll(str) {
 		return str.replace(ROLLREGEX, match => {
-			const roll = RollParser.parse(match);
-			return roll.roll();
+			return RollParser.parse(match);
 		});
 	}
 }
 
 class Roll {
+	/**
+	 * Creates a Roll object.
+	 * @param {number|string} [count=1] Number of dice, or a roll resolvable string
+	 * @param {number} [base=6] Number of faces (base) on the dice
+	 * @param {number} [modifier=0] Additional modifier to the roll result
+	 */
 	constructor(count = 1, base = 6, modifier = 0) {
+		/**
+		 * Number of dice.
+		 * @type {number}
+		 */
 		this.count = count;
-		this.bas = base;
+
+		/**
+		 * Number of faces (base) on the dice.
+		 * @type {number}
+		 */
+		this.base = base;
+
+		/**
+		 * Additional modifier to the roll result.
+		 * @type {number}
+		 */
 		this.modifier = modifier;
 
-		Object.defineProperty(this, 'timestamp', {
+		/**
+		 * Records the roll's last result.
+		 * @type {number[]}
+		 */
+		this.lastResults = null;
+
+		/* Object.defineProperty(this, 'timestamp', {
 			value: Date.now(),
-		});
+		}); */
 		Object.defineProperty(this, 'id', {
 			value: Math.random().toString(36).substr(2, 6),
 		});
+
+		// Parses the first parameter (count) if it's a RollString.
+		if (typeof this.count === 'string') {
+			const roll = RollParser.create(count);
+			this.count = roll.count;
+			this.base = roll.base;
+			this.modifier = roll.modifier;
+		}
 	}
 
-	roll(repeat = 1) {
-		let result = 0;
+	/**
+	 * Tells if the base of the roll is glued.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get glued() { return Roll.isGlue(this.base); }
+
+	/**
+	 * Roll the dice.
+	 * @param {number} [repeat=1] Number of times the whole process is repeated
+	 * @param {boolean} [array=false] Forces the results to be returned individually in an array (default is *false*).
+	 * @throws {TypeError} If "repeat" or "roll.count" not a number
+	 * @returns {number}
+	 */
+	roll(repeat = 1, array = false) {
+		if (typeof repeat !== 'number') throw new TypeError(`Repeat argument (${repeat}) not a number!`);
+		if (typeof this.count !== 'number') throw new TypeError(`Roll.count (${this.count}) not a number!`);
+
+		const results = [];
 		let count = this.count || 1;
 
 		while (repeat > 0) {
 
 			while (count > 0) {
-				if (this.glued) result += Roll.glueRoll(this.base);
-				else result += Util.rand(1, this.base);
+				if (this.glued) results.push(Roll.glueRoll(this.base));
+				else results.push(Util.rand(1, this.base));
 				count--;
 			}
+
+			results.push(this.modifier);
+
 			repeat--;
 		}
 
-		return result;
+		this.lastResults = results;
+
+		if (array) return results;
+		else return results.reduce((pv, cv) => pv + cv, 0);
 	}
 
 	/**
-	 * Rolls centil dice.
+	 * Rolls glued dice.
 	 * @param {number|string} value Numeric value to roll.
 	 * @returns {number} Returns *false* if not a valid roll
 	 * @example
@@ -95,13 +174,6 @@ class Roll {
 		if (units.length > 1) return units.every((val, i, arr) => val === arr[0]);
 		else return false;
 	}
-
-	/**
-	 * Tells if the base of the roll is glued.
-	 * @type {boolean}
-	 * @readonly
-	 */
-	get glued() { return Roll.isGlue(this.base); }
 }
 
 Roll.prototype.toString = function() {

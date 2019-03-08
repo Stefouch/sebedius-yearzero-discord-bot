@@ -1,3 +1,4 @@
+const { RollParser } = require('./RollParser');
 const Util = require('./Util');
 
 /**
@@ -37,7 +38,7 @@ class YZGenerator {
 		 */
 		this.data = this.setup(dataToResolve);
 
-		console.log(this);
+		// console.log(this);
 	}
 
 	/**
@@ -66,7 +67,7 @@ class YZGenerator {
 
 				// Performs cycles.
 				while (count > 0) {
-					const roll = eval(Util.parseRoll(source.roll));
+					const roll = RollParser.parse(source.roll);
 					const data = source.data;
 					let elem = this.rollData(roll, data);
 

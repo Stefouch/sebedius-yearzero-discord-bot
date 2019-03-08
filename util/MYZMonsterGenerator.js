@@ -1,6 +1,7 @@
 const YZGenerator = require('./YZGenerator');
 const MonsterData = require('../data/monster-generator.json');
 const Muts = require('../data/mutations.list.json');
+const { RollParser } = require('./RollParser');
 const Util = require('./Util');
 
 class MYZMonsterGenerator extends YZGenerator {
@@ -54,7 +55,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		 * * Swarms have qty `-1`
 		 * @type {number}
 		 */
-		this.qty = +Util.parseRoll(numbersElem[1]);
+		this.qty = RollParser.parse(numbersElem[1]);
 
 		/**
 		 * List of mutations the creature have.
