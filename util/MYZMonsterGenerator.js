@@ -55,7 +55,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		 * * Swarms have qty `-1`
 		 * @type {number}
 		 */
-		this.qty = RollParser.parse(numbersElem[1]);
+		this.qty = RollParser.parseAndRoll(numbersElem[1]);
 
 		/**
 		 * List of mutations the creature have.

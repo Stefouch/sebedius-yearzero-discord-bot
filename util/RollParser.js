@@ -12,15 +12,14 @@ class RollParser {
 	 * @returns {Roll}
 	 * @typedef {string} RollString A roll resolvable string
 	 */
-	static create(rollString) {
+	static parse(rollString) {
+		if (Util.isNumber(rollString)) return new Roll(0, 0, rollString);
+
 		const roll = new Roll();
 		rollString = '' + rollString;
-		rollString.replace(ROLLREGEX, (match, p1, p2, p3, offset, string) => {
-			// COUNT
+		rollString.replace(ROLLREGEX, (match, p1, p2, p3) => {
 			roll.count = +p1 || 1;
-			// TYPE
-			roll.base = +p2 || 6;
-			// MODIFIER
+			roll.base = +p2 || 0;
 			roll.modifier = (p3) ? eval(p3) : 0;
 			// console.log(match, p1, p2, p3);
 			// console.log(match, roll.count, roll.base, roll.modifier);
@@ -34,8 +33,8 @@ class RollParser {
 	 * @param {RollString} rollString A roll resolvable string
 	 * @returns {number}
 	 */
-	static parse(rollString) {
-		return RollParser.create(rollString).roll();
+	static parseAndRoll(rollString) {
+		return RollParser.parse(rollString).roll();
 	}
 
 	/**
@@ -43,9 +42,9 @@ class RollParser {
 	 * @param {string} str String to parse
 	 * @returns {string} Replacements processed
 	 */
-	static parseAll(str) {
+	static supersede(str) {
 		return str.replace(ROLLREGEX, match => {
-			return RollParser.parse(match);
+			return RollParser.parseAndRoll(match);
 		});
 	}
 }
@@ -91,7 +90,7 @@ class Roll {
 
 		// Parses the first parameter (count) if it's a RollString.
 		if (typeof this.count === 'string') {
-			const roll = RollParser.create(count);
+			const roll = RollParser.parse(count);
 			this.count = roll.count;
 			this.base = roll.base;
 			this.modifier = roll.modifier;
@@ -117,7 +116,7 @@ class Roll {
 		if (typeof this.count !== 'number') throw new TypeError(`Roll.count (${this.count}) not a number!`);
 
 		const results = [];
-		let count = this.count || 1;
+		let count = this.count;
 
 		while (repeat > 0) {
 
