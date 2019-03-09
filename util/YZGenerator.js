@@ -150,7 +150,7 @@ class YZGenerator {
 	}
 
 	/**
-	 * Generates a roll-seed table.
+	 * Generates roll intervals for a seeded table.
 	 * @param {number} count Number of entries
 	 * @param {number} max D6 = 6, D66 = 36, etc...
 	 * @returns {number[]}
@@ -181,21 +181,35 @@ class YZGenerator {
 		return intervals;
 	}
 
-	static parseIntBaseD66(n) {
-		for (let i = 0; i < 36; i++) {
-			const d = i.toString(6);
-			console.log(`${i}: ${d}`);
-			
-			let R = 8;
-			
-			
+	static parseInt(number, base) {
+		const result = [];
+		while (number > 0) {
+			result.push(number % base);
+			number = Math.floor(number / base);
 		}
+		return +result.reverse().join('');
+	}
+
+	static parseIntBaseD66(number) {
+		let nb = number;
+		let base = 6;
+		let result = [];
+		while (number > 1) {
+			result.push((number % base) + 1);
+			number = Math.floor(number / base) + 1;
+			console.log(`${number}: ${result}`);
+		}
+		console.log(`Final: ${result.reverse().join('')}`);
+		// console.log(`Should be: ${nb.toString(6)}`);
+			
+			
+
 	}
 }
 
 // for (let i = 1; i < 101; i++) {
 	YZGenerator.createInvervals(25, 36);
-	YZGenerator.parseIntBaseD66(8);
+	YZGenerator.parseIntBaseD66(36);
 // }
 
 module.exports = YZGenerator;
