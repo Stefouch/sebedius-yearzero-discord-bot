@@ -4,7 +4,7 @@ class Util {
 	}
 
 	/**
-	 * Generates a random integer between <min> and <max>.
+	 * Generates a random integer between [min, max] (included).
 	 * @param {number} min Minimum threshold
 	 * @param {number} max Maximum threshold
 	 * @returns {number} The randomized integer
@@ -87,8 +87,8 @@ class Util {
 	 * @returns {string} The processed string
 	 */
 	static strCamelToNorm(str) {
-		let str2 = str.replace(/([A-Z])/g, ' $1');
-		return Util.capitalize(str2);
+		str = str.replace(/([A-Z])/g, ' $1');
+		return Util.capitalize(str);
 	}
 
 	/**
@@ -132,7 +132,7 @@ class Util {
 	 * @param {*} x Value to check
 	 * @returns {boolean}
 	 */
-	isNumber(x) {
+	static isNumber(x) {
 		if (typeof x === 'number') return true;
 		if (/^0x[0-9a-f]+$/i.test(x)) return true;
 		return (/^[-+]?(?:\d+(?:\.\d*)?|\.\d+)(e[-+]?\d+)?$/.test(x));
