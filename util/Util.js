@@ -14,6 +14,21 @@ class Util {
 	}
 
 	/**
+	 * Clamps a value to ensure it sits within a designated range.
+	 *
+	 * Called with no arguments, this function returns a value to fall
+	 * between 0 - 1, offering a useful shorthand for validating multipliers.
+	 *
+	 * @param {number} input Value to operate upon
+	 * @param {number} min Lower threshold; defaults to 0
+	 * @param {number} max Upper threshold; defaults to 1
+	 * @return {number}
+	 */
+	static clamp(input, min, max) {
+		return Math.min(Math.max(input, min || 0), undefined === max ? 1 : max);
+	}
+
+	/**
 	 * Gets a random element from an iterable object, which can be:
 	 * * A string
 	 * * An Array
@@ -22,6 +37,7 @@ class Util {
 	 * The object can also be non-iterable:
 	 * * A boolean: in this case, if it's true, it returns 0 or 1. If it's false, it always returns 0.
 	 * * A number: in this case, it returns a random integer between 0 and the given number non-included.
+	 *
 	 * @param {boolean|number|string|Array|Set|Map} data The iterable to randomize
 	 * @returns {*} An element chosen at random *(returns 'null' if found nothing)*
 	 */
@@ -53,6 +69,14 @@ class Util {
 	}
 
 	/**
+	 * Generates a string of random alphanumeric characters.
+	 * @param {number} [length=4] Number of characters to return
+	 */
+	static randomID(length = 4) {
+		return Math.random().toString(36).substr(2, (length || 4) + 2);
+	}
+
+	/**
 	 * Calculates the modulus, the remainder of an integer division.
 	 * @deprecated Use operator '%' instead.
 	 * @param {number} dividend Dividend
@@ -61,6 +85,18 @@ class Util {
 	 */
 	static mod(dividend, divisor) {
 		return dividend - divisor * Math.floor(dividend / divisor);
+	}
+
+	/**
+	 * Adds leading zeros when necessary.
+	 * @param {number} value The number being formatted
+	 * @param {number} min The minimum required length of the formatted number
+	 * @returns {string}
+	 */
+	static zeroise(value, min) {
+		let val = value.toString();
+		if (val.length < min) val = Array(min - val.length + 1).join('0') + val;
+		return val;
 	}
 
 	/**
@@ -89,6 +125,92 @@ class Util {
 	static strCamelToNorm(str) {
 		str = str.replace(/([A-Z])/g, ' $1');
 		return Util.capitalize(str);
+	}
+
+	/**
+	 * Converts a kebab-cased-string into a camelCasedString.
+	 * @param {string} input
+	 * @return {string}
+	 */
+	static kebabToCamelCase(input) {
+		return input.toLowerCase().replace(/([a-z])-+([a-z])/g, function(match, a, b) {
+			return a + b.toUpperCase();
+		});
+	}
+
+	/**
+	 * Converts a camelCased string to its kebab-cased equivalent.
+	 * Hilariously-named function entirely coincidental.
+	 * @param {string} string camelCasedStringToConvert
+	 * @return {string} input-string-served-in-kebab-form
+	 */
+	static camelToKebabCase(string) {
+		// Don't bother trying to transform a string that isn't well-formed camelCase.
+		if(!/^([a-z]+[A-Z])+[a-z]+$/.test(string)) return string;
+
+		return string.replace(/([a-z]+)([A-Z])/g, (match, before, after) => {
+			return before + '-' + after;
+		}).toLowerCase();
+	}
+
+	/**
+	 * Align a string by padding it with leading/trailing whitespace.
+	 * @param {string} input
+	 * @param {number} width Character width of the container
+	 * @param {number} axis Multiplier specifying axis of alignment:
+	 * * 0.0: Left-aligned
+	 * * 0.5: Centred
+	 * * 1.0: Right-aligned
+	 * * The default is 0.5 (centre-aligned).
+	 * @param {string} char Chracter to pad with. Defaults to space (U+0020)
+	 * @return {string}
+	 */
+	static alignText(input, width, axis, char) {
+		axis = undefined === axis ? 0.5 : axis;
+		char = char || ' ';
+		const emptySpace = width - input.length;
+
+		// Returns early if there's nothing to do here.
+		if (emptySpace < 1) return input;
+
+		const left = emptySpace * axis;
+		const right = emptySpace - left;
+
+		return char.repeat(Math.round(left)) + input + char.repeat(Math.round(right));
+	}
+
+	/**
+	 * Wraps a string to a specified line length.
+	 *
+	 * Words are pushed onto the following line, unless they exceed the line's total length limit.
+	 *
+	 * @param {string} input Block of text to wrap
+	 * @param {number} len Number of characters permitted on each line.
+	 * @return {string[]} An array of fold points, preserving any new-lines in the original text.
+	 */
+	static wordWrap(input, len) {
+		const length = len || 80;
+		const output = [];
+		for (let i = 0, l = input.length; i < l; i += length) {
+			let match, nl;
+			let segment = input.substring(i, i + length);
+
+			// Segment contains at least one newline.
+			if ((nl = segment.lastIndexOf('\n')) !== -1) {
+				output.push(segment.substring(0, nl + 1));
+				segment = segment.substring(nl + 1);
+			}
+
+			// We're attempting to cut on a non-whitespace character. Do something.
+			if (/\S/.test(input[(i + length) - 1]) && (match = segment.match(/\s(?=\S+$)/))) {
+				output.push(segment.substr(0, i + length > l ? l : (match.index + 1)));
+				i = (i - (match.input.length - match.index)) + 1;
+			}
+			else {
+				output.push(segment);
+			}
+		}
+		return output;
 	}
 
 	/**
@@ -128,6 +250,54 @@ class Util {
 	}
 
 	/**
+	 * Generates roll intervals for a seeded table.
+	 * @param {number} count Number of entries
+	 * @param {number} max Maximum size of the table.
+	 * * D66 = 36
+	 * @returns {number[number[]]} An Array of intervals, which are arrays with [min, max]
+	 */
+	static createIntervals(count, max) {
+		const interval = Math.floor(max / count);
+		const mod = max % count;
+		const intervals = [];
+		const cap = max - mod;
+		for (let i = 1; i <= cap; i++) {
+
+			if (i % interval === 0) {
+				const a = i + 1 - interval;
+				const b = (i === cap) ? max : i;
+				intervals.push([a, b]);
+			}
+		}
+
+		return intervals;
+	}
+
+	/**
+	 * Converts an integer to bijective (custom base) notation.
+	 * @param {number} int A positive integer above zero
+	 * @param {?string} [seq='123456'] Custom base (default is base-6)
+	 * @return {string} The number's value expressed in bijective custom base
+	 */
+	static convertToBijective(int, seq) {
+		const sequence = seq || '123456';
+		const length = sequence.length;
+
+		if (int <= 0) return int;
+		if (int <= length) return sequence[int - 1];
+
+		let index = (int % length) || length;
+		const result = [sequence[index - 1]];
+
+		while ((int = Math.floor((int - 1) / length)) > 0) {
+			index = (int % length) || length;
+			result.push(sequence[index - 1]);
+		}
+
+		return result.reverse().join('');
+	}
+
+	/**
 	 * Checks if is a number.
 	 * @param {*} x Value to check
 	 * @returns {boolean}
@@ -151,12 +321,75 @@ class Util {
 	}
 
 	/**
-	* Shallow-copies an object with its class/prototype intact.
-	* @param {Object} obj Object to clone
-	* @returns {Object}
-	*/
-	static cloneObject(obj) {
-		return Object.assign(Object.create(obj), obj);
+	 * Gets or sets the value of a cookie with the designated name.
+	 * @param {string} name Cookie's name
+	 * @param {string} value Value to assign to cookie. Passing NULL deletes the cookie.
+	 * @param {Object} options An object literal containing optional parameters to use when setting the cookie (expires/path/domain/secure).
+	 * @return {string} The cookie's existing value if a value wasn't passed to the function.
+	 */
+	static cookie(name, value, options) {
+		let cutoff, i, l, expires,
+			// eslint-disable-next-line no-undef
+			cookies = document.cookie;
+		const rSplit = /;\s*/g,
+			output = {},
+			decode = decodeURIComponent;
+
+		// If called without any arguments, or if an empty value's passed as our name parameter,
+		// return a hash of EVERY available cookie.
+		if (!name) {
+			for (cookies = cookies.split(rSplit), i = 0, l = cookies.length; i < l; ++i) {
+				if (cookies[i] && (cutoff = cookies[i].indexOf('='))) {
+					output[cookies[i].substr(0, cutoff)] = decode(cookies[i].substr(cutoff + 1));
+				}
+			}
+			return output;
+		}
+
+		/** Getter */
+		if (undefined === value) {
+			for (cookies = cookies.split(rSplit),
+			cutoff = name.length + 1,
+			i = 0,
+			l = cookies.length;
+				i < l; ++i) {
+				if (name + '=' === cookies[i].substr(0, cutoff)) {
+					return decode(cookies[i].substr(cutoff));
+				}
+			}
+			return null;
+		}
+
+		/** Setter */
+		else {
+			options = options || {};
+			expires = options.expires;
+
+			/** Delete a cookie */
+			if (value === null) value = '', expires = -1;
+
+			if (expires) {
+				// If we weren't passed a Date instance as our expiry point,
+				// typecast the expiry option to an integer and use as a number of days from now.
+				expires = (!expires.toUTCString ? new Date(Date.now() + (86400000 * expires)) : expires).toUTCString();
+			}
+
+			// eslint-disable-next-line no-undef
+			document.cookie = name + '=' + encodeURIComponent(value) + (expires ? '; expires=' + expires : '')
+				+ (options.path ? '; path=' + options.path : '')
+				+ (options.domain ? '; domain=' + options.domain : '')
+				+ (options.secure ? '; secure' : '');
+		}
+	}
+
+	/** @deprecated */
+	static parseInt(number, base) {
+		const result = [];
+		while (number > 0) {
+			result.push(number % base);
+			number = Math.floor(number / base);
+		}
+		return +result.reverse().join('');
 	}
 }
 
