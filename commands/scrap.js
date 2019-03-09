@@ -1,6 +1,7 @@
 const fs = require('fs');
 const Config = require('../config.json');
 const YZEmbed = require('../util/YZEmbed');
+const { RollParser } = require('../util/RollParser');
 const Util = require('../util/Util');
 
 // Loading the available scrap.
@@ -35,10 +36,7 @@ module.exports = {
 			desc += `\n– ${scrap}`;
 		}
 		// Dice replacements.
-		desc = desc.replace(/D666/gmi, Util.rollD666());
-		desc = desc.replace(/D66/gmi, Util.rollD66());
-		desc = desc.replace(/(\d)D6/gmi, (match, p1) => Util.sumD6(p1));
-		desc = desc.replace(/D6/gmi, Util.rand(1, 6));
+		desc = RollParser.supersede(desc);
 
 		const title = `Scrap Item${(qty > 1) ? 's' : ''} Found`;
 		const embed = new YZEmbed(title, desc, message, true);
