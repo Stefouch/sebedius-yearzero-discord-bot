@@ -1,11 +1,14 @@
 const YZEmbed = require('../util/YZEmbed');
 const Demon = require('../util/FBLDemonGenerator');
+const { RollParser } = require('../util/RollParser');
 const Util = require('../util/Util');
 
 module.exports = {
 	name: 'demon',
 	description: 'Generates a random demon according to the tables found in'
-		+ ' the roleplaying game *Forbidden Lands*',
+		+ ' the roleplaying game *Forbidden Lands*'
+		+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
+		+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
 	aliases: ['generate-demon'],
 	guildOnly: false,
 	args: false,
@@ -46,19 +49,30 @@ module.exports = {
 		embed.addField('Skills', skillsText, true);
 
 		// Demon's attack(s).
-		const nameColLen = 18, diceColLen = 8, dmgColLen = 10;
-		let attacksText = '```'
-			+ `\n Name${' '.repeat(nameColLen - 3)}`
-			+ `Base${' '.repeat(diceColLen - 4)}`
-			+ `Damage${' '.repeat(dmgColLen - 6)}`
-			+ 'Range\n' + '-'.repeat(nameColLen + diceColLen + dmgColLen + 9);
+		const intvlColLen = 7, nameColLen = 18, diceColLen = 6, dmgColLen = 8;
+		let attacksText = '```\n'
+			+ Util.alignText(demon.attacksRoll, intvlColLen, 0)
+			+ Util.alignText('Name', nameColLen, 0)
+			+ Util.alignText('Base', diceColLen, 0)
+			+ Util.alignText('Damage', dmgColLen, 0)
+			+ 'Range\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
 
 		for (const attack of demon.attacks) {
-			attacksText += `\n★${attack.name}${' '.repeat(Math.max(nameColLen - attack.name.length, 0) - 1)}`
-				+ `${attack.base}D${' '.repeat(Math.max(diceColLen - attack.base.toString().length, 0) - 1)}`
-				+ `${attack.damage}${' '.repeat(Math.max(dmgColLen - attack.damage.toString().length, 0))}`
-				+ `${attack.range}\n`
-				+ (attack.special ? ` Special: ${attack.special}\n` : '');
+			attacksText += '\n'
+				+ Util.alignText(`${attack.interval}`, intvlColLen, 0)
+				+ Util.alignText(`${attack.name}`, nameColLen, 0)
+				+ Util.alignText(`${attack.base}D`, diceColLen, 0)
+				+ Util.alignText(`${attack.damage}`, dmgColLen, 0)
+				+ `${attack.range}\n`;
+
+			if (attack.special) {
+				attacksText += ' ';
+				const lines = Util.wordWrap(attack.special, 42);
+
+				for (let i = 0; i < lines.length; i++) {
+					attacksText += ' '.repeat(intvlColLen) + lines[i] + '\n';
+				}
+			}
 		}
 
 		attacksText += '\n```';
@@ -69,11 +83,11 @@ module.exports = {
 		let abilitiesText = '';
 
 		for (const ability of demon.abilities) {
-			abilitiesText += `\n**${ability[0]}:** ${ability[1]}.`;
+			abilitiesText += `\n**${ability[0]}:** ${RollParser.supersede(ability[1])}.`;
 		}
 
 		for (const strength of demon.strengths) {
-			abilitiesText += `\n**${strength[0]}:** ${strength[1]}`;
+			abilitiesText += `\n**${strength[0]}:** ${RollParser.supersede(strength[1])}`;
 		}
 
 		embed.addField('Abilities', abilitiesText, false);

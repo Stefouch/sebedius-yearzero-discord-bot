@@ -59,17 +59,17 @@ module.exports = {
 		embed.addField('Skills', skillsText, true);
 
 		// Creature's attack(s).
-		const nameColLen = 15, dmgColLen = 10, rangeColLen = 9;
+		const nameColLen = 16, dmgColLen = 10, rangeColLen = 9;
 		let attacksText = '```'
-			+ `\nName${' '.repeat(nameColLen - 4)}`
-			+ `Damage${' '.repeat(dmgColLen - 6)}`
-			+ `Range${' '.repeat(rangeColLen - 5)}`
+			+ Util.alignText('\nName', nameColLen, 0)
+			+ Util.alignText('Damage', dmgColLen, 0)
+			+ Util.alignText('Range', rangeColLen, 0)
 			+ 'Special';
 
 		for (const attack of monster.attacks) {
-			attacksText += `\n${attack.name}${' '.repeat(Math.max(nameColLen - attack.name.length, 0))}`
-				+ `${attack.damage}${' '.repeat(Math.max(dmgColLen - attack.damage.toString().length, 0))}`
-				+ `${attack.range}${' '.repeat(Math.max(rangeColLen - attack.range.length, 0))}`
+			attacksText += Util.alignText(`\n${attack.name}`, nameColLen, 0)
+				+ Util.alignText(`${attack.damage}`, dmgColLen, 0)
+				+ Util.alignText(`${attack.range}`, rangeColLen, 0)
 				+ (attack.special ? attack.special : '–');
 		}
 
