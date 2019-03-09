@@ -148,68 +148,6 @@ class YZGenerator {
 
 		return elems;
 	}
-
-	/**
-	 * Generates roll intervals for a seeded table.
-	 * @param {number} count Number of entries
-	 * @param {number} max D6 = 6, D66 = 36, etc...
-	 * @returns {number[]}
-	 */
-	static createInvervals(count, max) {
-		const interval = Math.floor(max / count);
-		const mod = max % count;
-		// console.log(`count: ${count}, max: ${max}`);
-		// console.log(`=> interval: ${interval}, mod: ${mod}`);
-		const intervals = [];
-		const cap = max - mod;
-		for (let i = 1; i <= cap; i++) {
-
-			if (i % interval === 0) {
-				// console.log(` > ${i}: ${index}`);
-				// console.log(`[${i + 1 - interval}, ${i}]`);
-				// const r = [i + 1 - interval, i];
-				const a = i + 1 - interval;
-				const b = (i === cap) ? max : i;
-				intervals.push([a, b]);
-			}
-		}
-		/* const rn = intervals.map(arr => {
-			if (arr[0] === arr[1]) return '' + arr[0];
-			return `${arr[0]}–${arr[1]}`;
-		}); */
-		// console.log(rn);
-		return intervals;
-	}
-
-	static parseInt(number, base) {
-		const result = [];
-		while (number > 0) {
-			result.push(number % base);
-			number = Math.floor(number / base);
-		}
-		return +result.reverse().join('');
-	}
-
-	static parseIntBaseD66(number) {
-		let nb = number;
-		let base = 6;
-		let result = [];
-		while (number > 1) {
-			result.push((number % base) + 1);
-			number = Math.floor(number / base) + 1;
-			console.log(`${number}: ${result}`);
-		}
-		console.log(`Final: ${result.reverse().join('')}`);
-		// console.log(`Should be: ${nb.toString(6)}`);
-			
-			
-
-	}
 }
-
-// for (let i = 1; i < 101; i++) {
-	YZGenerator.createInvervals(25, 36);
-	YZGenerator.parseIntBaseD66(36);
-// }
 
 module.exports = YZGenerator;
