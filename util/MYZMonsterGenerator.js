@@ -195,7 +195,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		const fetchedSkills = super.getAll('skills');
 
 		for (const name of fetchedSkills) {
-			skills[name] = super.rollData(Util.rollD66(), super.get('skillLevels'));
+			skills[name] = YZGenerator.rollData(Util.rollD66(), super.get('skillLevels'));
 		}
 
 		return (Object.entries(skills).length) ? skills : null;
