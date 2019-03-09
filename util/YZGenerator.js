@@ -67,9 +67,9 @@ class YZGenerator {
 
 				// Performs cycles.
 				while (count > 0) {
-					const roll = RollParser.parse(source.roll);
+					const roll = RollParser.parseAndRoll(source.roll);
 					const data = source.data;
-					let elem = this.rollData(roll, data);
+					let elem = YZGenerator.rollData(roll, data);
 
 					// Rerolls if the elem is an Object with { REROLL: number }.
 					if (multiple && elem.hasOwnProperty('REROLL')) { count += elem.REROLL; }
@@ -111,7 +111,7 @@ class YZGenerator {
 	 * @throws {RangeError} If found nothing
 	 * @returns {*}
 	 */
-	rollData(roll, data) {
+	static rollData(roll, data) {
 		for (let i = +roll; i > 0; i--) {
 			const elemRef = `${i}`;
 			if (elemRef in data && +roll >= i) {
@@ -148,6 +148,54 @@ class YZGenerator {
 
 		return elems;
 	}
+
+	/**
+	 * Generates a roll-seed table.
+	 * @param {number} count Number of entries
+	 * @param {number} max D6 = 6, D66 = 36, etc...
+	 * @returns {number[]}
+	 */
+	static createInvervals(count, max) {
+		const interval = Math.floor(max / count);
+		const mod = max % count;
+		// console.log(`count: ${count}, max: ${max}`);
+		// console.log(`=> interval: ${interval}, mod: ${mod}`);
+		const intervals = [];
+		const cap = max - mod;
+		for (let i = 1; i <= cap; i++) {
+
+			if (i % interval === 0) {
+				// console.log(` > ${i}: ${index}`);
+				// console.log(`[${i + 1 - interval}, ${i}]`);
+				// const r = [i + 1 - interval, i];
+				const a = i + 1 - interval;
+				const b = (i === cap) ? max : i;
+				intervals.push([a, b]);
+			}
+		}
+		/* const rn = intervals.map(arr => {
+			if (arr[0] === arr[1]) return '' + arr[0];
+			return `${arr[0]}–${arr[1]}`;
+		}); */
+		// console.log(rn);
+		return intervals;
+	}
+
+	static parseIntBaseD66(n) {
+		for (let i = 0; i < 36; i++) {
+			const d = i.toString(6);
+			console.log(`${i}: ${d}`);
+			
+			let R = 8;
+			
+			
+		}
+	}
 }
+
+// for (let i = 1; i < 101; i++) {
+	YZGenerator.createInvervals(25, 36);
+	YZGenerator.parseIntBaseD66(8);
+// }
 
 module.exports = YZGenerator;
