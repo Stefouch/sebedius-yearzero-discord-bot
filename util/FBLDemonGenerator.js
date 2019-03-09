@@ -94,9 +94,39 @@ class FBLDemonGenerator extends YZGenerator {
 
 		/**
 		 * Demon's attacks.
-		 * @type {Object}
+		 * @type {Object[]}
 		 */
 		this.attacks = this.createAttacks();
+
+		// Adds a roll interval to each attacks.
+		const seeds = {
+			'1': 6,
+			'7': 8,
+			'9': 10,
+			'11': 66,
+			'67': 666,
+		};
+		const count = this.attacks.length;
+		const max = YZGenerator.rollData(count, seeds);
+
+		let intervals = Util.createIntervals(count, max);
+		intervals = intervals.map(arr => {
+			arr = arr.map(x => {
+				return Util.convertToBijective(x, '123456');
+			});
+			if (arr[0] === arr[1]) return '' + arr[0];
+			return `${arr[0]}–${arr[1]}`;
+		});
+
+		for (let i = 0; i < count; i++) {
+			this.attacks[i].interval = intervals[i];
+		}
+
+		/**
+		 * Roll for attacks intervals.
+		 * @type {string}
+		 */
+		this.attacksRoll = 'D' + max;
 	}
 
 	/**
