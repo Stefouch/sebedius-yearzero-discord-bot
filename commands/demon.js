@@ -46,20 +46,19 @@ module.exports = {
 		embed.addField('Skills', skillsText, true);
 
 		// Demon's attack(s).
-		const nameColLen = 18, diceColLen = 8, dmgColLen = 10, rangeColLen = 9;
+		const nameColLen = 18, diceColLen = 8, dmgColLen = 10;
 		let attacksText = '```'
-			+ `\nName${' '.repeat(nameColLen - 4)}`
+			+ `\n Name${' '.repeat(nameColLen - 3)}`
 			+ `Base${' '.repeat(diceColLen - 4)}`
 			+ `Damage${' '.repeat(dmgColLen - 6)}`
-			+ `Range${' '.repeat(rangeColLen - 5)}`
-			+ 'Special';
+			+ 'Range\n' + '-'.repeat(nameColLen + diceColLen + dmgColLen + 9);
 
 		for (const attack of demon.attacks) {
-			attacksText += `\n${attack.name}${' '.repeat(Math.max(nameColLen - attack.name.length, 0))}`
+			attacksText += `\n★${attack.name}${' '.repeat(Math.max(nameColLen - attack.name.length, 0) - 1)}`
 				+ `${attack.base}D${' '.repeat(Math.max(diceColLen - attack.base.toString().length, 0) - 1)}`
 				+ `${attack.damage}${' '.repeat(Math.max(dmgColLen - attack.damage.toString().length, 0))}`
-				+ `${attack.range}${' '.repeat(Math.max(rangeColLen - attack.range.length, 0))}`
-				+ (attack.special ? attack.special : '–');
+				+ `${attack.range}\n`
+				+ (attack.special ? ` Special: ${attack.special}\n` : '');
 		}
 
 		attacksText += '\n```';
