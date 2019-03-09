@@ -14,6 +14,7 @@ class RollParser {
 	 */
 	static parse(rollString) {
 		if (Util.isNumber(rollString)) return new Roll(0, 0, rollString);
+		// if (!ROLLREGEX.test(rollString)) return new Roll(0, 0, 0);
 
 		const roll = new Roll();
 		rollString = '' + rollString;
@@ -21,10 +22,7 @@ class RollParser {
 			roll.count = +p1 || 1;
 			roll.base = +p2 || 0;
 			roll.modifier = (p3) ? eval(p3) : 0;
-			// console.log(match, p1, p2, p3);
-			// console.log(match, roll.count, roll.base, roll.modifier);
 		});
-		// console.log(roll);
 		return roll;
 	}
 
@@ -89,12 +87,12 @@ class Roll {
 		});
 
 		// Parses the first parameter (count) if it's a RollString.
-		if (typeof this.count === 'string') {
+		/* if (typeof this.count === 'string') {
 			const roll = RollParser.parse(count);
 			this.count = roll.count;
 			this.base = roll.base;
 			this.modifier = roll.modifier;
-		}
+		} */
 	}
 
 	/**
