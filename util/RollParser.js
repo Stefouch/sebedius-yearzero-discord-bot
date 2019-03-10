@@ -4,8 +4,16 @@ const ROLLREGEX = /(\d*)(?:[dD])(\d+)([+-]\d+)*/g;
 
 class RollParser {
 	constructor() {
-		throw new SyntaxError(`The ${this.constructor.name} class may not be instantiated.`);
+		throw new Error(`The ${this.constructor.name} class may not be instantiated.`);
 	}
+
+	/**
+	 * The Regular Expression used to identify a roll resolvable string.
+	 * @type {RegExp}
+	 * @readonly
+	 */
+	static get ROLLREGEX() { return ROLLREGEX; }
+
 	/**
 	 * Parses a roll resolvable string into a Roll object.
 	 * @param {RollString} rollString A roll resolvable string
@@ -50,9 +58,9 @@ class RollParser {
 class Roll {
 	/**
 	 * Creates a Roll object.
-	 * @param {number|string} [count=1] Number of dice, or a roll resolvable string
-	 * @param {number} [base=6] Number of faces (base) on the dice
-	 * @param {number} [modifier=0] Additional modifier to the roll result
+	 * @param {?number|string} [count=1] Number of dice, or a roll resolvable string
+	 * @param {?number} [base=6] Number of faces (base) on the dice
+	 * @param {?number} [modifier=0] Additional modifier to the roll result
 	 */
 	constructor(count = 1, base = 6, modifier = 0) {
 		/**
@@ -96,16 +104,9 @@ class Roll {
 	}
 
 	/**
-	 * Tells if the base of the roll is glued.
-	 * @type {boolean}
-	 * @readonly
-	 */
-	get glued() { return Roll.isGlue(this.base); }
-
-	/**
 	 * Roll the dice.
-	 * @param {number} [repeat=1] Number of times the whole process is repeated
-	 * @param {boolean} [array=false] Forces the results to be returned individually in an array (default is *false*).
+	 * @param {?number} [repeat=1] Number of times the whole process is repeated
+	 * @param {?boolean} [array=false] Forces the results to be returned individually in an array (default is *false*).
 	 * @throws {TypeError} If "repeat" or "roll.count" not a number
 	 * @returns {number}
 	 */
@@ -135,18 +136,28 @@ class Roll {
 		else return results.reduce((pv, cv) => pv + cv, 0);
 	}
 
+	rollAndKeep(keep = this.count, array = false) {
+		this.roll();
+		const results = this.lastResults;
+	}
+
+	explode(cap = 10, array = false) {
+		this.roll();
+		const results = this.lastResults;
+	}
+
 	/**
 	 * Rolls glued dice.
 	 * @param {number|string} value Numeric value to roll.
-	 * @returns {number} Returns *false* if not a valid roll
+	 * @returns {number}
 	 * @example
 	 * let n = glueRoll(88); // returns D8 * 10 + D8.
 	 * let n = glueRoll(666); // returns D6 * 100 + D6 * 10 + D6.
-	 * let n = glueRoll(42); // returns *false*.
+	 * let n = glueRoll(42); // returns 42.
 	 */
 	static glueRoll(value) {
 		// Exits early if not valid.
-		if (!Roll.isGlue(value)) return false;
+		if (!Roll.isGlue(value)) return value;
 
 		// Rolls the dice.
 		const str = '' + value;
@@ -171,10 +182,17 @@ class Roll {
 		if (units.length > 1) return units.every((val, i, arr) => val === arr[0]);
 		else return false;
 	}
+
+	/**
+	 * Tells if the base of the roll is glued.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get glued() { return Roll.isGlue(this.base); }
 }
 
 Roll.prototype.toString = function() {
-	return `${this.count}d${this.base}` + (this.modifier !== 0 ? (this.modifier > 0 ? '+' : '–') : '');
+	return `${this.count}d${this.base}` + (this.modifier !== 0 ? (this.modifier > 0 ? '+' : '–') + this.modifier : '');
 };
 
 module.exports = { Roll, RollParser };
