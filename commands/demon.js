@@ -83,7 +83,7 @@ module.exports = {
 		let abilitiesText = '';
 
 		for (const ability of demon.abilities) {
-			abilitiesText += `\n**${ability[0]}:** ${RollParser.supersede(ability[1])}.`;
+			abilitiesText += `\n**${ability[0]}:** ${RollParser.supersede(ability[1])}`;
 		}
 
 		for (const strength of demon.strengths) {
