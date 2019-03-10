@@ -70,7 +70,7 @@ class Util {
 
 	/**
 	 * Generates a string of random alphanumeric characters.
-	 * @param {number} [length=4] Number of characters to return
+	 * @param {?number} [length=4] Number of characters to return
 	 */
 	static randomID(length = 4) {
 		return Math.random().toString(36).substr(2, (length || 4) + 2);
@@ -157,12 +157,12 @@ class Util {
 	 * Align a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container
-	 * @param {number} axis Multiplier specifying axis of alignment:
+	 * @param {?number} [axis=0.5] Multiplier specifying axis of alignment:
 	 * * 0.0: Left-aligned
 	 * * 0.5: Centred
 	 * * 1.0: Right-aligned
 	 * * The default is 0.5 (centre-aligned).
-	 * @param {string} char Chracter to pad with. Defaults to space (U+0020)
+	 * @param {?string} [char=' '] Chracter to pad with. Defaults to space (U+0020)
 	 * @return {string}
 	 */
 	static alignText(input, width, axis, char) {
@@ -185,7 +185,7 @@ class Util {
 	 * Words are pushed onto the following line, unless they exceed the line's total length limit.
 	 *
 	 * @param {string} input Block of text to wrap
-	 * @param {number} len Number of characters permitted on each line.
+	 * @param {?number} [len=80] Number of characters permitted on each line.
 	 * @return {string[]} An array of fold points, preserving any new-lines in the original text.
 	 */
 	static wordWrap(input, len) {
@@ -252,15 +252,17 @@ class Util {
 	/**
 	 * Generates roll intervals for a seeded table.
 	 * @param {number} count Number of entries
-	 * @param {number} max Maximum size of the table.
+	 * @param {?number} maximum Maximum size of the table.
 	 * * D66 = 36
 	 * @returns {number[number[]]} An Array of intervals, which are arrays with [min, max]
 	 */
-	static createIntervals(count, max) {
+	static createIntervals(count, maximum) {
+		const max = maximum || count;
 		const interval = Math.floor(max / count);
 		const mod = max % count;
 		const intervals = [];
 		const cap = max - mod;
+
 		for (let i = 1; i <= cap; i++) {
 
 			if (i % interval === 0) {
