@@ -23,7 +23,7 @@ module.exports = {
 		const embed = new YZEmbed(
 			`${monster.name.toUpperCase()}${monster.swarm ? 'S' : ` ⨯ ${monster.qty}`}`,
 			(monster.loner ? '' : `${monster.descriptions.number} of `)
-				+ ` *${monster.descriptions.traits.join(' and ')}* `
+				+ `*${monster.descriptions.traits.join(' and ')}* `
 				+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`
 		);
 
