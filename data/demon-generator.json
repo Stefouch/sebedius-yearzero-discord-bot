@@ -120,7 +120,7 @@
 			"44": ["Filled by Light", "Fear attack D6+5"],
 			"46": ["Covered in Vines", "Armor Rating +3"],
 			"51": ["Transparent", "All attacks get a –3 penalty"],
-			"54": ["Covered by Eyes", "Draw one extra initiative card, discard the worst one."],
+			"54": ["Covered by Eyes", "Draw one extra initiative card, discard the worst one. "],
 			"55": ["No Eyes", "Draw one extra initiative card, discard the best one."],
 			"56": { "REROLL": 2 }
 		}
