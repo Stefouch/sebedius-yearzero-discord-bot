@@ -65,14 +65,7 @@ module.exports = {
 				+ Util.alignText(`${attack.damage}`, dmgColLen, 0)
 				+ `${attack.range}\n`;
 
-			if (attack.special) {
-				attacksText += ' ';
-				const lines = Util.wordWrap(attack.special, 42);
-
-				for (let i = 0; i < lines.length; i++) {
-					attacksText += ' '.repeat(intvlColLen) + lines[i] + '\n';
-				}
-			}
+			if (attack.special) attacksText += `     > ${attack.special}\n`;
 		}
 
 		attacksText += '\n```';
@@ -83,7 +76,7 @@ module.exports = {
 		let abilitiesText = '';
 
 		for (const ability of demon.abilities) {
-			abilitiesText += `\n**${ability[0]}:** ${RollParser.supersede(ability[1])}.`;
+			abilitiesText += `\n**${ability[0]}:** ${RollParser.supersede(ability[1])}`;
 		}
 
 		for (const strength of demon.strengths) {
