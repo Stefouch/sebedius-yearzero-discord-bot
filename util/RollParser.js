@@ -1,6 +1,6 @@
 const Util = require('./Util');
 
-const ROLLREGEX = /(\d*)(?:[dD])(\d+)([+-]\d+)*/g;
+const ROLLREGEX = /(\d*)(?:[dD])(\d+)([+-]\d+)*/;
 
 class RollParser {
 	constructor() {
@@ -22,7 +22,7 @@ class RollParser {
 	 */
 	static parse(rollString) {
 		if (Util.isNumber(rollString)) return new Roll(0, 0, rollString);
-		// if (!ROLLREGEX.test(rollString)) return new Roll(0, 0, 0);
+		if (!ROLLREGEX.test(rollString)) return null;
 
 		const roll = new Roll();
 		rollString = '' + rollString;
@@ -40,7 +40,9 @@ class RollParser {
 	 * @returns {number}
 	 */
 	static parseAndRoll(rollString) {
-		return RollParser.parse(rollString).roll();
+		const roll = RollParser.parse(rollString);
+		if (roll instanceof Roll) return roll.roll();
+		return null;
 	}
 
 	/**
@@ -49,7 +51,8 @@ class RollParser {
 	 * @returns {string} Replacements processed
 	 */
 	static supersede(str) {
-		return str.replace(ROLLREGEX, match => {
+		const regex = new RegExp(ROLLREGEX, 'g');
+		return str.replace(regex, match => {
 			return RollParser.parseAndRoll(match);
 		});
 	}
