@@ -4,8 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [1.4.1] - 2019-03-11
 ### Fixed
+- Fixed Insect Demon's icon in `demon` embed messages: Is now 🐞 *(lady beetle)* instead of 🐜 *(ant)*. The ant emoji was difficult to see on Discord's dark themes.
+- Fixed Undead Demon's icon in `demon` embed messages: Is now 💀 *(skull)* instead of 🧟 *(zombie)*. The zombie emoji isn't supported by Discord.
+- Fixed words wrapping in `demon` embed messages.
 - Removed a useless extra dot in `demon` embed messages.
 - Removed a useless extra space in `monster` embed messages.
 
