@@ -154,7 +154,7 @@ class Util {
 	}
 
 	/**
-	 * Align a string by padding it with leading/trailing whitespace.
+	 * Aligns a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container
 	 * @param {?number} [axis=0.5] Multiplier specifying axis of alignment:
@@ -254,6 +254,7 @@ class Util {
 	 * @param {number} count Number of entries
 	 * @param {?number} maximum Maximum size of the table.
 	 * * D66 = 36
+	 * * D666 = 216
 	 * @returns {number[number[]]} An Array of intervals, which are arrays with [min, max]
 	 */
 	static createIntervals(count, maximum) {
