@@ -36,7 +36,7 @@
 				"form": "Undead",
 				"attributes": ["D6+3", 3, 3, 3],
 				"armor": "D6",
-				"symbol": "🧟"
+				"symbol": "💀"
 			},
 			"43": {
 				"form": "Spider",
@@ -60,7 +60,7 @@
 				"form": "Insect",
 				"attributes": ["D6+2", 3, 3, 3],
 				"armor": "D6",
-				"symbol": "🐜"
+				"symbol": "🐞"
 			},
 			"55": {
 				"form": "Wolfkin",
