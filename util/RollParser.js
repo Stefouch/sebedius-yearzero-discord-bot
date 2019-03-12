@@ -150,6 +150,24 @@ class Roll {
 	}
 
 	/**
+	 * Counts the number of values in a roll.
+	 * @param {number|string} value The value to count
+	 * @returns {number} *null* if the dice weren't rolled previously.
+	 */
+	countValues(value) {
+		const val = +value || 0;
+		let count = 0;
+
+		if (this.lastResults) {
+			this.lastResults.forEach(d => {
+				if (d === val) count++;
+			});
+			return count;
+		}
+		return null;
+	}
+
+	/**
 	 * Rolls glued dice.
 	 * @param {number|string} value Numeric value to roll.
 	 * @returns {number}
