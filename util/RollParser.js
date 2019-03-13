@@ -61,7 +61,7 @@ class RollParser {
 class Roll {
 	/**
 	 * Creates a Roll object.
-	 * @param {?number|string} [count=1] Number of dice, or a roll resolvable string
+	 * @param {?number} [count=1] Number of dice
 	 * @param {?number} [base=6] Number of faces (base) on the dice
 	 * @param {?number} [modifier=0] Additional modifier to the roll result
 	 */
@@ -96,42 +96,26 @@ class Roll {
 		Object.defineProperty(this, 'id', {
 			value: Math.random().toString(36).substr(2, 6),
 		});
-
-		// Parses the first parameter (count) if it's a RollString.
-		/* if (typeof this.count === 'string') {
-			const roll = RollParser.parse(count);
-			this.count = roll.count;
-			this.base = roll.base;
-			this.modifier = roll.modifier;
-		} */
 	}
 
 	/**
 	 * Roll the dice.
-	 * @param {?number} [repeat=1] Number of times the whole process is repeated
 	 * @param {?boolean} [array=false] Forces the results to be returned individually in an array (default is *false*).
 	 * @throws {TypeError} If "repeat" or "roll.count" not a number
-	 * @returns {number}
+	 * @returns {number|number[]} If an array, the last element is the modifier.
 	 */
-	roll(repeat = 1, array = false) {
-		if (typeof repeat !== 'number') throw new TypeError(`Repeat argument (${repeat}) not a number!`);
+	roll(array = false) {
 		if (typeof this.count !== 'number') throw new TypeError(`Roll.count (${this.count}) not a number!`);
 
 		const results = [];
 		let count = this.count;
 
-		while (repeat > 0) {
-
-			while (count > 0) {
-				if (this.glued) results.push(Roll.glueRoll(this.base));
-				else results.push(Util.rand(1, this.base));
-				count--;
-			}
-
-			results.push(this.modifier);
-
-			repeat--;
+		while (count > 0) {
+			if (this.glued) results.push(Roll.glueRoll(this.base));
+			else results.push(Util.rand(1, this.base));
+			count--;
 		}
+		results.push(this.modifier);
 
 		this.lastResults = results;
 
@@ -144,26 +128,20 @@ class Roll {
 		const results = this.lastResults;
 	}
 
-	explode(cap = 10, array = false) {
+	explode(depth = 0, cap = this.base, array = false) {
 		this.roll();
 		const results = this.lastResults;
 	}
 
 	/**
 	 * Counts the number of values in a roll.
+	 * Ignores the modifier.
 	 * @param {number|string} value The value to count
-	 * @returns {number} *null* if the dice weren't rolled previously.
+	 * @returns {number} Returns *null* if the dice weren't rolled previously.
 	 */
 	countValues(value) {
 		const val = +value || 0;
-		let count = 0;
-
-		if (this.lastResults) {
-			this.lastResults.forEach(d => {
-				if (d === val) count++;
-			});
-			return count;
-		}
+		if (this.lastResults) return this.lastResults.slice(0, -1).filter(d => d === val).length;
 		return null;
 	}
 
