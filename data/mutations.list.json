@@ -17,7 +17,7 @@
 		"Puppeteer",
 		"Parasite",
 		"Pathokinesis",
-		"Pyrokenisis",
+		"Pyrokinesis",
 		"Reptilian",
 		"Rot-Eater",
 		"Sonar",
@@ -28,12 +28,12 @@
 	],
 	"gla": [
 		"Beast Master *(Mutant: GenLab Alpha)*",
-		"CryoKinesis *(Mutant: GenLab Alpha)*",
+		"Cryokinesis *(Mutant: GenLab Alpha)*",
 		"Human Toad *(Mutant: GenLab Alpha)*",
 		"Regeneration *(Mutant: GenLab Alpha)*"
 	],
 	"zc2": [
-		"CryoKinesis *(ZC2: Dead Blue Sea)*",
+		"Cryokinesis *(ZC2: Dead Blue Sea)*",
 		"Human Toad *(ZC2: Dead Blue Sea)*"
 	],
 	"zc5": [
@@ -45,11 +45,11 @@
 	"psi": [
 		"Beast Master *(Mutant: GenLab Alpha)*",
 		"Clairvoyance *(ZC5: Hotel Imperator)*",
-		"CryoKinesis *(ZC2: Dead Blue Sea)*",
+		"Cryokinesis *(ZC2: Dead Blue Sea)*",
 		"Mind Terror",
 		"Pathokinesis",
 		"Puppeteer",
-		"Pyrokenisis",
+		"Pyrokinesis",
 		"Telekinetic *(ZC5: Hotel Imperator)*",
 		"Telepathy"
 	]
