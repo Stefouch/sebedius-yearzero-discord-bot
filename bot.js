@@ -7,7 +7,7 @@
  */
 // First, loads the ENV variables (e.g. bot's token).
 if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').load();
+	require('dotenv').config();
 }
 
 // Initializes requirements.
