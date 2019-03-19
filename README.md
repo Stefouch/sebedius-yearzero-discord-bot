@@ -12,31 +12,31 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 Commands are triggered with the prefix `!`. This prefix can be configured for your server. Most of the commands can be executed from channels and privately through DMs.
 
-* `help` - The bot's manual. Read it!
-* `roll <dice>` - Rolls dice for the Mutant: Year Zero roleplaying game. See possible outcome:
-  * `roll d6|d66|d666 [name]` - Rolls a D6, D66, or D666 for MYZ.
-  * `roll Xd|Xd6 [name]` - Rolls X D6 and sums their results.
-  * `roll res d6|d8|d10|d12 [name]` - Rolls a Resource Die. *(Concept imported from Forbidden Lands.)*
-  * `roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` - Rolls a pool of dice following the rules of MYZ:
-    * `X b` - Rolls X base dice (yellow color).
-    * `Y s` - Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
-    * `Z g` - Rolls Z gear dice (black color).
-    * `Artifact Die` - Rolls an Artifact Die (`d6|d8|d10|d12`). *(Concept imported from Forbidden Lands.)*
-    * `--fullauto` - Allows unlimited pushes.
-* `crit [table]` - Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
-  * `nontypical` or `nt` - Critical injury for non-typical damage.
-  * `pushed` or `p` - Critical injury for pushed damage (none).
-  * `horror` or `h` - The *Forbidden Lands* Horror traumas, adapted for MYZ.
-* `scrap [quantity]` - Gets you a bunch of scrap.
-* `rumor` - Tells a random rumor. *(Thanks to Myr Midon's work.)*
-* `mutation` - Draws a random mutation (no details).
-* `artifact` - Draws a random artifact (no details).
-* `threat` - Draws a random Zone threat (no details).
-* `arkthreat` - Draws a random threat against the Ark (no details).
+* `help` – The bot's manual. Read it!
+* `roll <dice>` – Rolls dice for the Mutant: Year Zero roleplaying game. See possible outcome:
+  * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for MYZ.
+  * `roll Xd|Xd6 [name]` – Rolls X D6 and sums their results.
+  * `roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die. *(Concept imported from Forbidden Lands.)*
+  * `roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:
+    * `X b` – Rolls X base dice (yellow color).
+    * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
+    * `Z g` – Rolls Z gear dice (black color).
+    * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`). *(Concept imported from Forbidden Lands.)*
+    * `--fullauto` – Allows unlimited pushes.
+* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
+  * `nontypical` or `nt` – Critical injury for non-typical damage.
+  * `pushed` or `p` – Critical injury for pushed damage (none).
+  * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
+* `scrap [quantity]` – Gets you a bunch of scrap.
+* `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
+* `mutation` – Draws a random mutation (no details).
+* `artifact` – Draws a random artifact (no details).
+* `threat` – Draws a random Zone threat (no details).
+* `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
-* `setconf prefix [value]` - Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
+* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
 ### Dice Cap
 
@@ -48,17 +48,17 @@ The push option for the MYZ dice pool roll is available for 60 seconds. Only the
 
 ### Roll Examples
 
-`roll 4b1g` - Rolls 4 base and 1 gear dice.
+`roll 4b1g` – Rolls 4 base and 1 gear dice.
 
-`roll 5b3s Shake-It Off!` - Rolls 5 base, 3 skill dice, named "Shake-It Off!".
+`roll 5b3s Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
 
-`roll 4b3s2g d10 Uber ROLL --fullauto` - Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
+`roll 4b3s2g d10 Uber ROLL --fullauto` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
 
-`roll d66` - Rolls a D66 (D6 × 10 + D6).
+`roll d66` – Rolls a D66 (D6 × 10 + D6).
 
-`roll 2d` - Rolls two hexahedrons and sums their results.
+`roll 2d` – Rolls two hexahedrons and sums their results.
 
-`roll res d8 Torches` - Rolls a D8 Resource Die for "Torches".
+`roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
 
 ## Permissions
 
