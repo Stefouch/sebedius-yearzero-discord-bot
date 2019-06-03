@@ -6,24 +6,23 @@ const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
 	name: 'roll',
-	description: 'Rolls dice for the Mutant: Year Zero roleplaying game.'
+	description: 'Rolls dice for the ALIEN roleplaying game.'
 		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 	moreDescriptions: [
 		[
 			'Single Dice',
-			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for MYZ.'
+			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for ALIEN-rpg.'
 			+ '\n`roll Xd [name]` – Rolls X D6 and sums their results.'
 			+ '\n`roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die.',
 		],
 		[
 			'Pool of Dice',
-			'`roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:'
-			+ '\n• `X b` – Rolls X base dice (yellow color).'
-			+ '\n• `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.'
-			+ '\n• `Z g` – Rolls Z gear dice (black color).'
+			'`roll [Xb][Ys] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of ALIEN-rpg:'
+			+ '\n• `X b` – Rolls X base dice (black color).'
+			+ '\n• `Y s` – Rolls Y stress dice (yellow color).'
 			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
 			+ '\n• `--fullauto` – Allows unlimited pushes.'
-			+ '\n\n*Example:* `roll 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
+			+ '\n\n*Example:* `roll 5b3s` *rolls for 5 base and 3 stress dice.*',
 		],
 		[
 			'Pushing',
@@ -33,7 +32,7 @@ module.exports = {
 			+ ' Four spaces separates the keeped dice from the new rolled ones.',
 		],
 	],
-	aliases: ['rollm', 'r', 'rm', 'lance', 'lancer', 'slå', 'sla'],
+	aliases: ['rolla', 'ra', 'lancea', 'lancera', 'slåa', 'slaa'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice>',
@@ -44,11 +43,11 @@ module.exports = {
 		// Though, this check isn't really necessary as "command.args = true".
 		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
 
-		if (/^(\d{1,2}[bsgn]){1,4}$/i.test(rollArgument)) {
-			const diceArguments = rollArgument.match(/\d{1,2}[bsgn]/gi);
+		if (/^(\d{1,2}[bs]){1,4}$/i.test(rollArgument)) {
+			const diceArguments = rollArgument.match(/\d{1,2}[bs]/gi);
 
 			if (diceArguments.length) {
-				let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
+				let baseDiceQty = 0, stressDiceQty = 0;
 				let artifactDieSize = 0;
 
 				for (const dieArg of diceArguments) {
@@ -56,9 +55,7 @@ module.exports = {
 					const diceQty = Number(dieArg.slice(0, -1)) || 0;
 					switch (dieTypeChar) {
 					case 'b': baseDiceQty = diceQty; break;
-					case 's': skillDiceQty = diceQty; break;
-					case 'g': gearDiceQty = diceQty; break;
-					case 'n': negDiceQty = diceQty; break;
+					case 's': stressDiceQty = diceQty; break;
 					}
 				}
 
@@ -74,10 +71,10 @@ module.exports = {
 				const roll = new YZRoll(
 					message.author,
 					{
-						base: baseDiceQty,
-						skill: skillDiceQty,
-						gear: gearDiceQty,
-						neg: negDiceQty,
+						base: 0,
+						skill: baseDiceQty,
+						gear: stressDiceQty,
+						neg: 0,
 						artifactDie: artifactDieSize,
 					},
 					rollTitle
@@ -160,6 +157,8 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 					if (!roll.isFullAuto) reactionCollector.stop();
 
 					const pushedRoll = roll.push();
+					// Additional stress dice from pushing
+					pushedRoll.addGearDice(1);
 					console.log('[ROLL] - Roll pushed:', pushedRoll.toString());
 
 					if (!rollMessage.deleted) rollMessage.edit(getDiceEmojis(pushedRoll), { embed: getEmbedDiceResults(pushedRoll, triggeringMessage) });
@@ -201,7 +200,7 @@ function getDiceEmojis(roll) {
 
 			for (let k = 0; k < nbre; k++) {
 				const val = roll.dice[type][k];
-				const icon = Config.icons.myz[type][val];
+				const icon = Config.icons.alien[type][val];
 				str += icon;
 
 				// This is calculated to make a space between pushed and not pushed rolls.
@@ -230,7 +229,7 @@ function getDiceEmojis(roll) {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedDiceResults(roll, message) {
-	const desc = `Successes: **${roll.sixes}**\nTraumas: **${roll.attributeTrauma}**\nGear damage: **${roll.gearDamage}**`;
+	const desc = `Successes: **${roll.sixes}**${YZRoll.count(1, roll.dice.gear) ? '\n**PANIC ROLL**' : ''}`;
 	const embed = new YZEmbed(roll.title, desc, message, true);
 	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}x ` : ''}Pushed`);
 	return embed;
