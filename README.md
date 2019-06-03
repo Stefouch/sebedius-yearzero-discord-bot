@@ -1,6 +1,6 @@
 # Mutant Year Zero Discord Bot
 
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/) roleplaying game.
+**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and ALIEN roleplaying games by *Fria Ligan*.
 
 ## Add the Bot to your Server
 
@@ -22,6 +22,13 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
     * `Z g` – Rolls Z gear dice (black color).
     * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`). *(Concept imported from Forbidden Lands.)*
+    * `--fullauto` – Allows unlimited pushes.
+* `rolla <dice>` – Rolls dice for the ALIEN roleplaying game. See possible outcome:
+  * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for ALIEN-rpg.
+  * `rolla Xd|Xd6 [name]` – Rolls X D6 and sums their results.
+  * `rolla [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of ALIEN-rpg:
+    * `X b` – Rolls X base dice (black color).
+    * `Y s` – Rolls Y stress dice (yellow color).
     * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
   * `nontypical` or `nt` – Critical injury for non-typical damage.
@@ -59,6 +66,8 @@ The push option for the MYZ dice pool roll is available for 60 seconds. Only the
 `roll 2d` – Rolls two hexahedrons and sums their results.
 
 `roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
+
+`rolla 8b2s` – Rolls 8 base and 2 stress dice for ALIEN-rpg. Pushing them will add an extra stress die.
 
 ## Permissions
 

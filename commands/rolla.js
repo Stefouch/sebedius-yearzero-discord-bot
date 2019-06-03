@@ -333,7 +333,7 @@ function getTextForArtifactDieResult(artifactDie) {
 function sendMessageForD6(roll, message, method) {
 	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
 
-	const customEmojis = Config.icons.myz.base;
+	const customEmojis = Config.icons.alien.stress;
 
 	let diceReply = '';
 	for (const value of roll.dice.base) diceReply += customEmojis[value];
