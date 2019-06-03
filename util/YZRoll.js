@@ -61,8 +61,9 @@ class YZRoll {
 		 * @property {number} skill
 		 * @property {number} neg
 		 * @property {number} gear
+		 * @property {number} stress
 		 */
-		this.dice = { base: [], skill: [], neg: [], gear: [] };
+		this.dice = { base: [], skill: [], neg: [], gear: [], stress: [] };
 		for (const type in this.dice) {
 			const qty = +diceData[type] || 0;
 			this.addDice(qty, type);
@@ -89,8 +90,9 @@ class YZRoll {
 		 * @property {number} skill
 		 * @property {number} neg
 		 * @property {number} gear
+		 * @property {number} stress
 		 */
-		this.keeped = { base: 0, skill: 0, neg: 0, gear: 0 };
+		this.keeped = { base: 0, skill: 0, neg: 0, gear: 0, stress: 0 };
 	}
 
 	/**
@@ -102,7 +104,8 @@ class YZRoll {
 		return this.dice.base.length
 			+ this.dice.skill.length
 			+ this.dice.gear.length
-			+ this.dice.neg.length;
+			+ this.dice.neg.length
+			+ this.dice.stress.length;
 	}
 
 	/**
@@ -115,6 +118,7 @@ class YZRoll {
 		return YZRoll.count(6, this.dice.base)
 			+ YZRoll.count(6, this.dice.skill)
 			+ YZRoll.count(6, this.dice.gear)
+			+ YZRoll.count(6, this.dice.stress)
 			- YZRoll.count(6, this.dice.neg)
 			+ this.artifactDie.success;
 	}
@@ -135,6 +139,15 @@ class YZRoll {
 	 */
 	get gearDamage() {
 		return (this.pushed > 0) ? YZRoll.count(1, this.dice.gear) : 0;
+	}
+
+	/**
+	 * The quantity of panic ("1" on stress dice).
+	 * @type {number}
+	 * @readonly
+	 */
+	get hasPanic() {
+		return YZRoll.count(1, this.dice.stress);
 	}
 
 	/**
@@ -183,6 +196,7 @@ class YZRoll {
 			skill: YZRoll.count(6, this.dice.skill),
 			neg: YZRoll.count(6, this.dice.neg),
 			gear: YZRoll.count(6, this.dice.gear) + YZRoll.count(1, this.dice.gear),
+			stress: YZRoll.count(6, this.dice.stress),
 		};
 
 		this.pushed++;
@@ -194,7 +208,7 @@ class YZRoll {
 
 			if (diceQty) {
 				const filteredDice = rolledDice.filter(value => {
-					if (type === 'skill' || type === 'neg') {
+					if (type === 'skill' || type === 'neg' || type === 'stress') {
 						return value === 6;
 					}
 					else {
@@ -246,6 +260,14 @@ class YZRoll {
 	 */
 	addNegDice(qty) {
 		this.addDice(qty, 'neg');
+	}
+
+	/**
+	 * Adds a number of stress dice to the roll.
+	 * @param {number} qty The quantity to add
+	 */
+	addStressDice(qty) {
+		this.addDice(qty, 'stress');
 	}
 
 	/**

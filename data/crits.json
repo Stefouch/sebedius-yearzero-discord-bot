@@ -556,5 +556,91 @@
 				"healingTime": 0
 			}
 		]
+	},
+	"alien": {
+		"panic": [
+			{
+				"ref": [0, 6],
+				"injury": "KEEPING IT TOGETHER",
+				"effect": "You manage to keep your nerves in check. Barely."
+			},
+			{
+				"ref": 7,
+				"injury": "NERVOUS TWITCH",
+				"effect": "Your STRESS LEVEL, and the STRESS LEVEL of all friendly PCs in SHORT range of you, increases by one."
+			},
+			{
+				"ref": 8,
+				"injury": "TREMBLE",
+				"effect": "You start to tremble uncontrollably. All skill rolls using AGILITY suffer a –2 modification until your panic stops."
+			},
+			{
+				"ref": 9,
+				"injury": "DROP ITEM",
+				"effect": "Whether by stress, confusion or the realization that you’re all going to die anyway, you drop a weapon or other important item—the GM decides which one. Your STRESS LEVEL increases by one."
+			},
+			{
+				"ref": 10,
+				"injury": "FREEZE",
+				"effect": "You’re frozen by fear or stress for one Round, losing your next point of action. Your STRESS LEVEL, and the STRESS LEVEL of all friendly PCs in SHORT range of you, increases by one."
+			},
+			{
+				"ref": 11,
+				"injury": "SEEK COVER",
+				"effect": "You must use your next action to move away from danger and find a safe spot if possible. You are allowed to make a retreat roll (see page 59) if you have an enemy at ENGAGED range. Your STRESS LEVEL is decreased by one, but the STRESS LEVEL of all friendly PCs in SHORT range increases by one. After one Round, you can act normally."
+			},
+			{
+				"ref": 12,
+				"injury": "SCREAM",
+				"effect": "You scream your lungs out for one Round, losing your next point of action. Your STRESS LEVEL is decreased by one, but every friendly character who hears your scream must make an immediate Panic Roll."
+			},
+			{
+				"ref": 13,
+				"injury": "FLEE",
+				"effect": "You just can’t take it anymore. You must flee to a safe place and refuse to leave it. You won’t attack anyone and won’t attempt anything dangerous. You are not allowed to make a retreat roll (see page 59) if you have an enemy at ENGAGED range when you flee. Your STRESS LEVEL is decreased by one, but every friendly character who sees you run must make an immediate Panic Roll."
+			},
+			{
+				"ref": 14,
+				"injury": "PSYCHOTIC",
+				"effect": "You must immediately attack the nearest person or creature, friendly or not. You won’t stop until you or the target is Broken. Every friendly character who witnesses your rampage must make an immediate Panic Roll."
+			},
+			{
+				"ref": 15,
+				"injury": "CATATONIC",
+				"effect": "You collapse to the floor and can’t talk or move, staring blankly into oblivion."
+			}
+		],
+		"permanentMentalTrauma": [
+			{
+				"ref": 1,
+				"injury": "PHOEBIA",
+				"effect": "You are terrified by something related to what caused you to panic. The GM decides what it is. Your STRESS LEVEL increases by one when within SHORT range of the object of your phobia. If you stay close to it for more than a single round, make a Panic Roll."
+			},
+			{
+				"ref": 2,
+				"injury": "ALCOHOLISM",
+				"effect": " You must drink alcohol every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 68) without drinking alcohol."
+			},
+			{
+				"ref": 3,
+				"injury": "NIGHTMARES",
+				"effect": " Make an Empathy roll when you sleep. If the roll succeeds, you have a horrible nightmare and your STRESS LEVEL increases by one. You cannot relieve stress for a full day after such a nightmare."
+			},
+			{
+				"ref": 4,
+				"injury": "DEPRESSION",
+				"effect": " You are prone to episodes of depression and moodiness. Every day, make an Empathy roll—if you fail, you’re having a bad day. Your STRESS LEVEL increases by one and you can’t relieve stress until the next day."
+			},
+			{
+				"ref": 5,
+				"injury": "DRUG USE",
+				"effect": "You must use some form of recreational drug (see page 99) every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 68) without consuming your drug of choice."
+			},
+			{
+				"ref": 6,
+				"injury": "AMNESIA",
+				"effect": "Your memory is a blank slate. You can no longer recall who you or the other characters are. The effect should be roleplayed."
+			}
+		]
 	}
 }

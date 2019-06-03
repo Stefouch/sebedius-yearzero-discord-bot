@@ -25,8 +25,8 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
   * `nontypical` or `nt` – Critical injury for non-typical damage.
-  * `pushed` or `p` – Critical injury for pushed damage (none).
   * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
+  * `pushed` – Critical injury for pushed damage (none).
 * `scrap [quantity]` – Gets you a bunch of scrap.
 * `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
 * `mutation` – Draws a random mutation (no details).
