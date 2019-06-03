@@ -1,19 +1,21 @@
 const Config = require('../config.json');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
+const Util = require('../util/Util');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
 	name: 'roll',
-	description: 'Rolls dice for the Mutant: Year Zero roleplaying game.'
+	description: 'Rolls dice for the *Mutant: Year Zero* roleplaying game.'
 		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 	moreDescriptions: [
 		[
 			'Single Dice',
-			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for MYZ.'
+			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.'
 			+ '\n`roll Xd [name]` – Rolls X D6 and sums their results.'
-			+ '\n`roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die.',
+			+ '\n`roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die.'
+			+ '\n`roll init [bonus]` – Rolls initiative with or without a bonus',
 		],
 		[
 			'Pool of Dice',
@@ -111,6 +113,19 @@ module.exports = {
 			const [, nb] = rollArgument.match(/(^\d+)/);
 			const roll = new YZRoll(message.author.id, { base: nb }, rollTitle);
 			sendMessageForD6(roll, message, 'ADD');
+		}
+		// Initiative roll.
+		else if (rollArgument.includes('init')) {
+			const initBonus = +args[0] || 0;
+			const initRoll = Util.rand(1, 6);
+			const initTotal = initBonus + initRoll;
+			const initDie = Config.icons.myz.base[initRoll];
+
+			const desc = `Initiative: ${initDie}`
+				+ (initBonus ? ` + ${initBonus} = **${initTotal}**` : '');
+			const embed = new YZEmbed(null, desc, message, true);
+
+			return message.channel.send(embed);
 		}
 		// Resource Die.
 		else if (rollArgument === 'res') {

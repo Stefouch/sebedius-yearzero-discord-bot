@@ -7,15 +7,16 @@ const YZEmbed = require('../util/YZEmbed');
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
-	name: 'roll',
-	description: 'Rolls dice for the ALIEN roleplaying game.'
+	name: 'rolla',
+	description: 'Rolls dice for the *ALIEN* roleplaying game.'
 		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 	moreDescriptions: [
 		[
 			'Single Dice',
-			'`rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for ALIEN-rpg.'
+			'`rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666.'
 			+ '\n`rolla Xd [name]` – Rolls X D6 and sums their results.'
-			+ '\n`rolla res d6|d8|d10|d12 [name]` – Rolls a Resource Die.',
+			+ '\n`rolla res d6|d8|d10|d12 [name]` – Rolls a Resource Die.'
+			+ '\n`rolla init [bonus]` – Rolls initiative with or without a bonus',
 		],
 		[
 			'Pool of Dice',
@@ -24,7 +25,7 @@ module.exports = {
 			+ '\n• `Y s` – Rolls Y stress dice (yellow color).'
 			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
 			+ '\n• `--fullauto` – Allows unlimited pushes.'
-			+ '\n\n*Example:* `roll 5b3s` *rolls for 5 base and 3 stress dice.*',
+			+ '\n\n*Example:* `roll 8b3s` *rolls for 8 base and 3 stress dice.*',
 		],
 		[
 			'Pushing',
@@ -34,7 +35,7 @@ module.exports = {
 			+ ' Four spaces separates the keeped dice from the new rolled ones.',
 		],
 	],
-	aliases: ['rolla', 'ra', 'lancea', 'lancera', 'slåa', 'slaa'],
+	aliases: ['ra', 'lancea', 'lancera', 'slåa', 'slaa'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice>',
@@ -110,6 +111,19 @@ module.exports = {
 			const roll = new YZRoll(message.author.id, { base: nb }, rollTitle);
 			sendMessageForD6(roll, message, 'ADD');
 		}
+		// Initiative roll.
+		else if (rollArgument.includes('init')) {
+			const initBonus = +args[0] || 0;
+			const initRoll = Util.rand(1, 6);
+			const initTotal = initBonus + initRoll;
+			const initDie = Config.icons.alien.skill[initRoll];
+
+			const desc = `Initiative: ${initDie}`
+				+ (initBonus ? ` + ${initBonus} = **${initTotal}**` : '');
+			const embed = new YZEmbed(null, desc, message, true);
+
+			return message.channel.send(embed);
+		}
 		// Resource Die.
 		else if (rollArgument === 'res') {
 			const resourceDieArgument = args.shift();
@@ -145,7 +159,7 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 				sendPanicMessage(roll, triggeringMessage);
 			}
 
-			if (!roll.pushed || roll.isFullAuto) {
+			else if (!roll.pushed || roll.isFullAuto) {
 				// See https://unicode.org/emoji/charts/full-emoji-list.html
 				// Adds a push reaction icon.
 				const pushIcon = Config.commands.roll.pushIcon;
@@ -169,11 +183,6 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 
 					if (!rollMessage.deleted) {
 						rollMessage.edit(getDiceEmojis(pushedRoll), { embed: getEmbedDiceResults(pushedRoll, triggeringMessage) });
-
-						// Detects PANIC.
-						if (roll.hasPanic) {
-							sendPanicMessage(roll, triggeringMessage);
-						}
 					}
 				});
 
@@ -250,7 +259,7 @@ function getEmbedDiceResults(roll, message) {
 
 /**
  * Gets an Embed with the result of a Panic Roll (ALIEN-rpg).
- * @param {number} stress The quantity of stress
+ * @param {number} panic The value of the Panic Roll
  * @param {Discord.Message} message The triggering message
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
@@ -298,7 +307,7 @@ function sendPanicMessage(roll, message) {
 	const panicRand = Util.rand(1, 6);
 	const stress = roll.dice.stress.length;
 
-	const text = `😱 PANIC ROLL: **${stress}** + ${Config.icons.alien.stress[panicRand]}`;
+	const text = `😱 PANIC ROLL: **${stress}** + ${Config.icons.alien.skill[panicRand]}`;
 	const embed = getEmbedPanicRoll(panicRand + stress, message);
 
 	return message.channel.send(text, embed);
@@ -315,7 +324,7 @@ function getTextForArtifactDieResult(artifactDie) {
 	let str = `\n**\`D${artifactDie.size}\`** Artifact Die = (${val}) = `;
 
 	if (succ) {
-		str += `${'☢'.repeat(succ)}`;
+		str += `${'💠'.repeat(succ)}`;
 	}
 	else {
 		str += '*no success*';
