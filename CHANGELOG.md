@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New command: `!rolla` - Rolls dice for the ALIEN roleplaying game. Dice images are courtesy of Radomir Balint.
 - New command: `!rollf` - Rolls dice for the Forbidden Lands roleplaying game.
+- New criticals from ALIEN-rpg: panic & Permanent Mental Traumas.
 
 ## [1.4.2] - 2019-03-13
 ### Fixed
