@@ -13,13 +13,13 @@ module.exports = {
 	moreDescriptions: [
 		[
 			'Single Dice',
-			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for ALIEN-rpg.'
-			+ '\n`roll Xd [name]` – Rolls X D6 and sums their results.'
-			+ '\n`roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die.',
+			'`rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for ALIEN-rpg.'
+			+ '\n`rolla Xd [name]` – Rolls X D6 and sums their results.'
+			+ '\n`rolla res d6|d8|d10|d12 [name]` – Rolls a Resource Die.',
 		],
 		[
 			'Pool of Dice',
-			'`roll [Xb][Ys] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of ALIEN-rpg:'
+			'`rolla [Xb][Ys] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of ALIEN-rpg:'
 			+ '\n• `X b` – Rolls X base dice (black color).'
 			+ '\n• `Y s` – Rolls Y stress dice (yellow color).'
 			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
@@ -242,7 +242,7 @@ function getDiceEmojis(roll) {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedDiceResults(roll, message) {
-	const desc = `Successes: **${roll.sixes}**${YZRoll.count(1, roll.dice.gear) ? '\n**PANIC ROLL**' : ''}`;
+	const desc = `Successes: **${roll.sixes}**${roll.hasPanic ? '\n**PANIC!!!**' : ''}`;
 	const embed = new YZEmbed(roll.title, desc, message, true);
 	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}x ` : ''}Pushed`);
 	return embed;

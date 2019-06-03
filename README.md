@@ -12,8 +12,14 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 Commands are triggered with the prefix `!`. This prefix can be configured for your server. Most of the commands can be executed from channels and privately through DMs.
 
+### Generic Commands
+
 * `help` – The bot's manual. Read it!
-* `roll <dice>` – Rolls dice for the Mutant: Year Zero roleplaying game. See possible outcome:
+* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
+
+### MYZ Commands
+
+* `roll <dice>` – Rolls dice for the *Mutant: Year Zero* roleplaying game. See possible outcome:
   * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for MYZ.
   * `roll Xd|Xd6 [name]` – Rolls X D6 and sums their results.
   * `roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die. *(Concept imported from Forbidden Lands.)*
@@ -22,13 +28,6 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
     * `Z g` – Rolls Z gear dice (black color).
     * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`). *(Concept imported from Forbidden Lands.)*
-    * `--fullauto` – Allows unlimited pushes.
-* `rolla <dice>` – Rolls dice for the ALIEN roleplaying game. See possible outcome:
-  * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for ALIEN-rpg.
-  * `rolla Xd|Xd6 [name]` – Rolls X D6 and sums their results.
-  * `rolla [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of ALIEN-rpg:
-    * `X b` – Rolls X base dice (black color).
-    * `Y s` – Rolls Y stress dice (yellow color).
     * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
   * `nontypical` or `nt` – Critical injury for non-typical damage.
@@ -41,9 +40,23 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `threat` – Draws a random Zone threat (no details).
 * `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
+
+### *Forbidden Lands* Commands
+
+* `rollf` – Unreleased yet.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
-* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
+
+### *ALIEN* Commands
+
+* `rolla <dice>` – Rolls dice for the *ALIEN* roleplaying game. See possible outcome:
+  * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for *ALIEN*.
+  * `rolla Xd|Xd6 [name]` – Rolls X D6 and sums their results.
+  * `rolla [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of *ALIEN*:
+    * `X b` – Rolls X base dice (black color).
+    * `Y s` – Rolls Y stress dice (yellow color).
+    * `--fullauto` – Allows unlimited pushes.
+* `panic` – Rolls a random panic effect for the *ALIEN* roleplaying game.
 
 ### Dice Cap
 
@@ -67,7 +80,7 @@ The push option for the MYZ dice pool roll is available for 60 seconds. Only the
 
 `roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
 
-`rolla 8b2s` – Rolls 8 base and 2 stress dice for ALIEN-rpg. Pushing them will add an extra stress die.
+`rolla 8b2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 
 ## Permissions
 
@@ -82,9 +95,11 @@ This is a detailed list of needed permissions:
 
 ## License
 
-The literal and graphical information presented with this bot about *Mutant: Year Zero* & *Forbidden Lands*, including the textures, is copyright *Fria Ligan / Free League Publishing*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
+The literal and graphical information presented with this bot about *Mutant: Year Zero*, *Forbidden Lands* & *ALIEN*, including the textures, is copyright *Fria Ligan / Free League Publishing*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
 
 The bot's JS source code is under MIT license.
+
+*ALIEN* base and stress dice's images are courtesy of M. Radomir Balint. Thanks to him for sharing them.
 
 ## Contact
 

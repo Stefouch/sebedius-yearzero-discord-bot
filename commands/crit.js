@@ -3,7 +3,6 @@ const Crits = require('../data/crits.json');
 const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
 
-
 module.exports = {
 	name: 'crit',
 	description: 'Rolls for a random critical injury. You may specify a table or a numeric value.'
