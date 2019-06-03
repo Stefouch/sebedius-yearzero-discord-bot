@@ -1,6 +1,6 @@
 # Mutant Year Zero Discord Bot
 
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and ALIEN roleplaying games by *Fria Ligan*.
+**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and *ALIEN* roleplaying games by *Fria Ligan*.
 
 ## Add the Bot to your Server
 
@@ -12,17 +12,18 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 Commands are triggered with the prefix `!`. This prefix can be configured for your server. Most of the commands can be executed from channels and privately through DMs.
 
-### Generic Commands
+#### Generic commands
 
 * `help` – The bot's manual. Read it!
 * `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 
-### MYZ Commands
+#### MYZ commands
 
 * `roll <dice>` – Rolls dice for the *Mutant: Year Zero* roleplaying game. See possible outcome:
-  * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for MYZ.
+  * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
   * `roll Xd|Xd6 [name]` – Rolls X D6 and sums their results.
   * `roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die. *(Concept imported from Forbidden Lands.)*
+  * `roll init [bonus]` – Rolls initiative with or without a bonus.
   * `roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:
     * `X b` – Rolls X base dice (yellow color).
     * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
@@ -41,17 +42,28 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 
-### *Forbidden Lands* Commands
+#### *Forbidden Lands* commands
 
-* `rollf` – Unreleased yet.
+* `rollf <dice>` – Rolls dice for the *Forbidden Lands* roleplaying game. See possible outcome:
+  * `rollf d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
+  * `rollf Xd|Xd6 [name]` – Rolls X D6 and sums their results.
+  * `rollf res d6|d8|d10|d12 [name]` – Rolls a Resource Die.
+  * `rollf init [bonus]` – Rolls initiative with or without a bonus.
+  * `rollf [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:
+    * `X b` – Rolls X base dice (yellow color).
+    * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
+    * `Z g` – Rolls Z gear dice (black color).
+    * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`).
+    * `--fullauto` – Allows unlimited pushes.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 
-### *ALIEN* Commands
+#### *ALIEN* commands
 
 * `rolla <dice>` – Rolls dice for the *ALIEN* roleplaying game. See possible outcome:
-  * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666 for *ALIEN*.
+  * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
   * `rolla Xd|Xd6 [name]` – Rolls X D6 and sums their results.
+  * `rolla init [bonus]` – Rolls initiative with or without a bonus.
   * `rolla [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of *ALIEN*:
     * `X b` – Rolls X base dice (black color).
     * `Y s` – Rolls Y stress dice (yellow color).
@@ -79,6 +91,8 @@ The push option for the MYZ dice pool roll is available for 60 seconds. Only the
 `roll 2d` – Rolls two hexahedrons and sums their results.
 
 `roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
+
+`roll init 1` – Rolls a D6 labelled "Initiative" and adds 1 to the result.
 
 `rolla 8b2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 

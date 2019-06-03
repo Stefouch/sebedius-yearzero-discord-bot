@@ -6,10 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] - 2019-06-XX
 ### Added
-- New command: `!rolla` – Rolls dice for the ALIEN roleplaying game.
-- New command: `!rollf` – Rolls dice for the Forbidden Lands roleplaying game.
-- New command: `!panic` – Draws a random panic effect.
-- New criticals from ALIEN-rpg: Panic & Permanent Mental Traumas.
+- New command: `!rolla` – Rolls dice for the *ALIEN* roleplaying game.
+- New command: `!rollf` – Rolls dice for the *Forbidden Lands* roleplaying game.
+- New command: `!panic` – Rolls a random panic effect for the *ALIEN* roleplaying game.
+- New roll subcommand: `!roll init [bonus]` – Rolls initiative with or without a bonus.
 
 ## [1.4.2] - 2019-03-13
 ### Fixed
