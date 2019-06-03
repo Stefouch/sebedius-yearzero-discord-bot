@@ -9,12 +9,12 @@ module.exports = {
 	description: 'Rolls for a random critical injury. You may specify a table or a numeric value.'
 		+ ' The default is the damage table. Other available tables are:'
 		+ '\n• `nt` or `nontypical` : Critical injury for non-typical damage.'
-		+ '\n• `p` or `pushed` : Critical injury for pushed damage (none).'
-		+ '\n• `h` or `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.',
-	aliases: ['ci', 'injury'],
+		+ '\n• `h` or `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
+		+ '\n• `pushed` : Critical injury for pushed damage (none).',
+	aliases: ['ci', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[nt | p | h] [numeric]',
+	usage: '[nt | h | pushed] [numeric]',
 	execute(args, message) {
 		let critTable, critRoll, criticalInjury;
 
@@ -23,7 +23,7 @@ module.exports = {
 			critRoll = 0;
 			criticalInjury = Crits.myz.nonTypical;
 		}
-		else if (/^(pushed|p)$/i.test(args[0])) {
+		else if (/^(pushed)$/i.test(args[0])) {
 			critRoll = 0;
 			criticalInjury = Crits.myz.pushed;
 		}
