@@ -12,6 +12,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New roll subcommand: `!roll init [bonus]` – Rolls initiative with or without a bonus.
 - New roll subcommand: `!rolla res|supply <rating> [name]` – Rolls a supply for the *ALIEN* roleplaying game.
 - Artifact Die emojis for *Forbidden Lands* rolls.
+- Feature request / bug report weblink to the help command.
+
+### Fixed
+- Many typo errors.
+
+### Removed
+- Removed `crit p` alias (for `crit pushed`).
+- `sheet` command is deprecated and will never be implemented.
 
 ## [1.4.2] - 2019-03-13
 ### Fixed
@@ -74,7 +82,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New command: `!rumor` – Tells a random rumor.
 - New command: `!mutation` – Draws a random mutation.
-
 - Bot's response to its mention, which lets him answer its prefix.
 - New JS Class: YZEmbed (extends Discord.RichEmbed with predefined properties).
 
