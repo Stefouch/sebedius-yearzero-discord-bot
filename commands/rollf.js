@@ -44,7 +44,7 @@ module.exports = {
 
 		// Exits early if no argument.
 		// Though, this check isn't really necessary as "command.args = true".
-		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
+		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help rollf\`.`);
 
 		if (/^(\d{1,2}[bsgn]){1,4}$/i.test(rollArgument)) {
 			const diceArguments = rollArgument.match(/\d{1,2}[bsgn]/gi);
@@ -121,8 +121,8 @@ module.exports = {
 			const initTotal = initBonus + initRoll;
 			const initDie = Config.icons.fbl.base[initRoll];
 
-			const desc = `Initiative: ${initDie}`
-				+ (initBonus ? ` + ${initBonus} = **${initTotal}**` : '');
+			let desc = `Initiative: ${initDie}`;
+			if (initBonus) desc += ` ${(initBonus >= 0) ? '+' : ''}${initBonus} = **${initTotal}**`;
 			const embed = new YZEmbed(null, desc, message, true);
 
 			return message.channel.send(embed);
@@ -142,7 +142,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
+			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help rollf\`.`);
 		}
 	},
 };
@@ -259,7 +259,7 @@ function getEmbedDiceResults(roll, message) {
 function getTextForArtifactDieResult(artifactDie) {
 	const val = artifactDie.result;
 	const succ = artifactDie.success;
-	let str = `\n**\`D${artifactDie.size}\`** Artifact Die = (${val}) = `;
+	let str = `\n**\`D${artifactDie.size}\`** Artifact Die: ${Config.icons.fbl.arto[val]} = `;
 
 	if (succ) {
 		str += `${'⚔'.repeat(succ)}`;
@@ -299,7 +299,7 @@ function sendMessageForD6(roll, message, method) {
 function sendMessageForResourceDie(roll, message) {
 	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
 
-	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die = (${roll.artifactDie.result})`;
+	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die: ${Config.icons.fbl.arto[roll.artifactDie.result]}`;
 
 	const embed = new YZEmbed(roll.title, desc, message, true);
 
