@@ -309,13 +309,13 @@ function sendMessageForResourceDie(roll, message) {
 
 		if (newSize > 0) {
 			embed.addField(
-				'Decreased',
+				'⬇ Decreased',
 				`One unit is used. The Resource Die is decreased one step to a **\`D${newSize}\`**.`
 			);
 		}
 		else {
 			embed.addField(
-				'Exhausted',
+				'🚫 Exhausted',
 				'The consumable is fully depleted.'
 			);
 		}
