@@ -45,6 +45,10 @@ bot.on('ready', () => {
 	let serverQty = 0;
 	bot.guilds.forEach(guild => {
 		console.log(`|  * ${guild.name} (${guild.id})`);
+		console.log('|    * Custom emojis:');
+		guild.emojis.forEach(emoji => {
+			console.log(`|      <:${emoji.identifier}>`);
+		});
 		serverQty++;
 	});
 	console.log(`|  = Total: ${serverQty} server${(serverQty > 1) ? 's' : ''}`);
