@@ -71,6 +71,27 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `--fullauto` – Allows unlimited pushes.
 * `panic` – Rolls a random panic effect for the *ALIEN* roleplaying game.
 
+### Roll Examples
+
+`roll 4b1g` – Rolls 4 base and 1 gear dice.
+
+`roll 5b3s Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
+
+`roll 4b3s2g d10 Uber ROLL --fullauto` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
+
+`rolla 8b2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
+
+`roll d66` – Rolls a D66 (D6 × 10 + D6).
+
+`roll 2d` – Rolls two hexahedrons and sums their results.
+
+`roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
+
+`rolla supply 6 Air` – Rolls supply for "Air" with six stress dice and count ones (banes).
+
+`roll init 1` – Rolls a D6 labelled "Initiative" and adds 1 to the result.
+
+
 ### Dice Cap
 
 The maximum number of dice that can be rolled at once is capped at 42. *(Discord messages have a limited number of characters.)*
@@ -84,24 +105,6 @@ The push option for the MYZ dice pool roll is available for 60 seconds. Only the
 Most commands have aliases. For example, hitting `!roll` or `!sla` or `!rm` have the same output.
 
 Send `!help <command>` for a list of aliases for a specific command.
-
-### Roll Examples
-
-`roll 4b1g` – Rolls 4 base and 1 gear dice.
-
-`roll 5b3s Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
-
-`roll 4b3s2g d10 Uber ROLL --fullauto` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
-
-`roll d66` – Rolls a D66 (D6 × 10 + D6).
-
-`roll 2d` – Rolls two hexahedrons and sums their results.
-
-`roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
-
-`roll init 1` – Rolls a D6 labelled "Initiative" and adds 1 to the result.
-
-`rolla 8b2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 
 ## Permissions
 
