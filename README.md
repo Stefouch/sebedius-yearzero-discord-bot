@@ -63,6 +63,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `rolla <dice>` – Rolls dice for the *ALIEN* roleplaying game. See possible outcome:
   * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
   * `rolla Xd|Xd6 [name]` – Rolls X D6 and sums their results.
+  * `rolla res|supply <rating> [name]` – Rolls for a supply.
   * `rolla init [bonus]` – Rolls initiative with or without a bonus.
   * `rolla [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of *ALIEN*:
     * `X b` – Rolls X base dice (black color).
@@ -77,6 +78,12 @@ The maximum number of dice that can be rolled at once is capped at 42. *(Discord
 ### Pushing
 
 The push option for the MYZ dice pool roll is available for 60 seconds. Only the user who initially rolled the dice can push them.
+
+### Command Aliases
+
+Most commands have aliases. For example, hitting `!roll` or `!sla` or `!rm` have the same output.
+
+Send `!help <command>` for a list of aliases for a specific command.
 
 ### Roll Examples
 
@@ -113,7 +120,9 @@ The literal and graphical information presented with this bot about *Mutant: Yea
 
 The bot's JS source code is under MIT license.
 
-*ALIEN* base and stress dice's images are courtesy of M. Radomir Balint. Thanks to him for sharing them.
+*FBL* dice's images are courtesy of [insert name]. Thanks to him/her for sharing them.
+
+*ALIEN* dice's images are courtesy of M. Radomir Balint. Thanks to him for sharing them.
 
 ## Contact
 
