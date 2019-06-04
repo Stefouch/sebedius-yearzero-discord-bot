@@ -146,7 +146,7 @@ class YZRoll {
 	 * @type {number}
 	 * @readonly
 	 */
-	get hasPanic() {
+	get panic() {
 		return YZRoll.count(1, this.dice.stress);
 	}
 
