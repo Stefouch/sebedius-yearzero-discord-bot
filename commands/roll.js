@@ -121,8 +121,8 @@ module.exports = {
 			const initTotal = initBonus + initRoll;
 			const initDie = Config.icons.myz.base[initRoll];
 
-			const desc = `Initiative: ${initDie}`
-				+ (initBonus ? ` + ${initBonus} = **${initTotal}**` : '');
+			let desc = `Initiative: ${initDie}`;
+			if (initBonus) desc += ` ${(initBonus >= 0) ? '+' : ''}${initBonus} = **${initTotal}**`;
 			const embed = new YZEmbed(null, desc, message, true);
 
 			return message.channel.send(embed);
@@ -260,6 +260,7 @@ function getTextForArtifactDieResult(artifactDie) {
 	const val = artifactDie.result;
 	const succ = artifactDie.success;
 	let str = `\n**\`D${artifactDie.size}\`** Artifact Die = (${val}) = `;
+	// let str = `\n**\`D${artifactDie.size}\`** Artifact Die: ${Config.icons.myz.arto[val]} = `;
 
 	if (succ) {
 		str += `${'☢'.repeat(succ)}`;

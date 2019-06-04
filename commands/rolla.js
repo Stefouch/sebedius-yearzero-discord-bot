@@ -44,7 +44,7 @@ module.exports = {
 
 		// Exits early if no argument.
 		// Though, this check isn't really necessary as "command.args = true".
-		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
+		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help rolla\`.`);
 
 		if (/^(\d{1,2}[bs]){1,4}$/i.test(rollArgument)) {
 			const diceArguments = rollArgument.match(/\d{1,2}[bs]/gi);
@@ -118,8 +118,8 @@ module.exports = {
 			const initTotal = initBonus + initRoll;
 			const initDie = Config.icons.alien.skill[initRoll];
 
-			const desc = `Initiative: ${initDie}`
-				+ (initBonus ? ` + ${initBonus} = **${initTotal}**` : '');
+			let desc = `Initiative: ${initDie}`;
+			if (initBonus) desc += ` ${(initBonus >= 0) ? '+' : ''}${initBonus} = **${initTotal}**`;
 			const embed = new YZEmbed(null, desc, message, true);
 
 			return message.channel.send(embed);
@@ -139,7 +139,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
+			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help rolla\`.`);
 		}
 	},
 };
