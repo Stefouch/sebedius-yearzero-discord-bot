@@ -15,7 +15,7 @@ module.exports = {
 			'Single Dice',
 			'`rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666.'
 			+ '\n`rolla Xd [name]` – Rolls X D6 and sums their results.'
-			+ '\n`rolla res d6|d8|d10|d12 [name]` – Rolls a Resource Die.'
+			+ '\n`rolla res|supply <rating> [name]` – Rolls for a supply.'
 			+ '\n`rolla init [bonus]` – Rolls initiative with or without a bonus',
 		],
 		[
@@ -74,7 +74,6 @@ module.exports = {
 				const roll = new YZRoll(
 					message.author,
 					{
-						base: 0,
 						skill: baseDiceQty,
 						stress: stressDiceQty,
 						artifactDie: artifactDieSize,
@@ -125,17 +124,16 @@ module.exports = {
 			return message.channel.send(embed);
 		}
 		// Resource Die.
-		else if (rollArgument === 'res') {
-			const resourceDieArgument = args.shift();
+		else if (rollArgument === 'res' || rollArgument === 'supply') {
+			const resQty = args.shift();
 
-			if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
-				const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
+			if (Util.isNumber(resQty)) {
 				const resTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, { artifactDie: size }, resTitle);
-				sendMessageForResourceDie(roll, message);
+				const roll = new YZRoll(message.author.id, { stress: resQty }, resTitle);
+				sendMessageForResourceRoll(roll, message);
 			}
 			else {
-				message.reply('This Resource Die is not possible.');
+				message.reply(`This Supply Roll is not possible. Try \`${Config.defaultPrefix}rolla res <rating> [name]\``);
 			}
 		}
 		else {
@@ -155,7 +153,7 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 	triggeringMessage.channel.send(getDiceEmojis(roll), getEmbedDiceResults(roll, triggeringMessage))
 		.then(rollMessage => {
 			// Detects PANIC.
-			if (roll.hasPanic) {
+			if (roll.panic) {
 				sendPanicMessage(roll, triggeringMessage);
 			}
 
@@ -251,7 +249,7 @@ function getDiceEmojis(roll) {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedDiceResults(roll, message) {
-	const desc = `Successes: **${roll.sixes}**${roll.hasPanic ? '\n**PANIC!!!**' : ''}`;
+	const desc = `Successes: **${roll.sixes}**${roll.panic ? '\n**PANIC!!!**' : ''}`;
 	const embed = new YZEmbed(roll.title, desc, message, true);
 	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}x ` : ''}Pushed`);
 	return embed;
@@ -358,30 +356,33 @@ function sendMessageForD6(roll, message, method) {
 	message.channel.send(diceReply, embed);
 }
 
-function sendMessageForResourceDie(roll, message) {
+function sendMessageForResourceRoll(roll, message) {
 	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
 
-	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die = (${roll.artifactDie.result})`;
+	const resRating = roll.dice.stress.length;
+	const newRating = resRating - roll.panic;
 
-	const embed = new YZEmbed(roll.title, desc, message, true);
+	const text = getDiceEmojis(roll);
+	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, message, true);
 
-	if (roll.hasLostResourceStep()) {
-		const resSizes = [0, 6, 8, 10, 12];
-		const newSize = resSizes[resSizes.indexOf(roll.artifactDie.size) - 1];
-
-		if (newSize > 0) {
-			embed.addField(
-				'Decreased',
-				`One unit is used. The Resource Die is decreased one step to a **\`D${newSize}\`**.`
-			);
-		}
-		else {
-			embed.addField(
-				'Exhausted',
-				'The consumable is fully depleted.'
-			);
-		}
+	if (resRating === newRating) {
+		embed.addField(
+			'✅ Unchanged',
+			`The supply didn't decrease.\nRating: **${newRating}**`
+		);
+	}
+	else if (newRating > 0) {
+		embed.addField(
+			'⬇ Decreased',
+			`The supply is decreased ${roll.panic} step${roll.panic > 1 ? 's' : ''}.\nNew rating: **${newRating}**`
+		);
+	}
+	else {
+		embed.addField(
+			'🚫 Exhausted',
+			'The consumable is fully depleted.\tRating: **0**'
+		);
 	}
 
-	message.channel.send(embed);
+	message.channel.send(text, embed);
 }
