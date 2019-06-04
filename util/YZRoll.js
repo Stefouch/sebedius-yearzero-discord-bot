@@ -11,7 +11,7 @@ class YZRoll {
 	 * A Year Zero Roll object.
 	 * @param {string} author The author of the roll
 	 * @param {?DicePool} diceData Dice data (see DicePool)
-	 * @param {string} [title=null] The title/name of the roll
+	 * @param {?string} [title=null] The title/name of the roll
 	 */
 	constructor(author, diceData, title = null) {
 		/**
