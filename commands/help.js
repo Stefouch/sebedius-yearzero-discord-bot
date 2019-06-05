@@ -1,5 +1,4 @@
 const { defaultPrefix } = require('../config.json');
-const db = require('../database.js');
 const { version } = require('../util/version');
 const { RichEmbed } = require('discord.js');
 
@@ -16,11 +15,11 @@ module.exports = {
 
 		let prefix = defaultPrefix;
 
-		if (message.channel.type === 'text') {
+		/* if (message.channel.type === 'text') {
 			const guildPrefix = db.get(`prefix_${message.guild.id}`);
 
 			if(guildPrefix) prefix = guildPrefix;
-		}
+		} */
 
 		if (!args.length) {
 			data.push('**Mutant: Year Zero** Discord Bot');
