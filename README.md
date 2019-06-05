@@ -16,6 +16,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 
 * `help` – The bot's manual. Read it!
 * `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
+* `initiative [quantity]` – Draws one or more initiative cards. Use the parameter `shuffle` to reset the deck of cards.
 
 #### MYZ commands
 
@@ -69,7 +70,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `X b` – Rolls X base dice (black color).
     * `Y s` – Rolls Y stress dice (yellow color).
     * `--fullauto` – Allows unlimited pushes.
-* `panic` – Rolls a random panic effect for the *ALIEN* roleplaying game.
+* `panic <stress>` – Rolls a random panic effect for the *ALIEN* roleplaying game.
 
 ### Roll Examples
 
@@ -102,7 +103,7 @@ The push option for the MYZ dice pool roll is available for 60 seconds. Only the
 
 ### Command Aliases
 
-Most commands have aliases. For example, hitting `!roll` or `!sla` or `!rm` have the same output.
+Most commands have aliases. For example, hitting `!roll` or `!sla` or `!rm` has the same output.
 
 Send `!help <command>` for a list of aliases for a specific command.
 

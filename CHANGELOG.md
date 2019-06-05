@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.0] - 2019-06-05
+### Added
+- New command: `!initiative` – Draws initiative cards.
+
+### Changed
+- The database module have migrated from JSON to SQLite with Keyv.
+- Bot icon to reflect more Fria Ligan's Year Zero games.
+
+### Removed
+- All guild-specific parameters have been deleted. *Sorry!*
+
 ## [1.5.0] - 2019-06-04
 ### Added
 - New command: `!rolla` – Rolls dice for the *ALIEN* roleplaying game.

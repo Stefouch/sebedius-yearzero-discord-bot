@@ -13,13 +13,17 @@ if (process.env.NODE_ENV !== 'production') {
 // Initializes requirements.
 const fs = require('fs');
 const Config = require('./config.json');
-const db = require('./database.js');
+const Keyv = require('keyv');
 const { test } = require('./test/tests');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 // Initializes global constants.
 let prefix = Config.defaultPrefix;
+
+// Initializes the databases.
+const keyv = new Keyv(Config.db);
+keyv.on('error', err => console.error('Connection Error', err));
 
 // Loads the available commands.
 bot.commands = new Discord.Collection();
@@ -46,9 +50,11 @@ bot.on('ready', () => {
 	bot.guilds.forEach(guild => {
 		console.log(`|  * ${guild.name} (${guild.id})`);
 		console.log('|    * Custom emojis:');
-		guild.emojis.forEach(emoji => {
-			console.log(`|      <:${emoji.identifier}>`);
-		});
+		if (process.env.NODE_ENV !== 'production') {
+			guild.emojis.forEach(emoji => {
+				console.log(`|      <:${emoji.identifier}>`);
+			});
+		}
 		serverQty++;
 	});
 	console.log(`|  = Total: ${serverQty} server${(serverQty > 1) ? 's' : ''}`);
@@ -67,10 +73,10 @@ bot.on('ready', () => {
 /* !
  * MESSAGE LISTENER
  */
-bot.on('message', message => {
+bot.on('message', async message => {
 	// Gets the guild's prefix.
 	if (message.channel.type === 'text' && !message.author.bot) {
-		const fetchedPrefix = db.get(`prefix_${message.guild.id}`);
+		const fetchedPrefix = await keyv.get(`prefix_${message.guild.id}`);
 
 		if (fetchedPrefix) {
 			prefix = fetchedPrefix;
