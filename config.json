@@ -1,6 +1,7 @@
 {
 	"botID": "543445246143365130",
 	"botAdminID": "405389936783523840",
+	"db": "sqlite://database.sqlite",
 	"defaultPrefix": "!",
 	"commands": {
 		"roll": {
@@ -102,6 +103,19 @@
 				"<:fblarto10:585377044012204082>",
 				"<:fblarto11:585377055169052675>",
 				"<:fblarto12:585377072772284426>"
+			],
+			"cards": [
+				"0️⃣",
+				":one:",
+				":two:",
+				":three:",
+				":four:",
+				":five:",
+				":six:",
+				":seven:",
+				":eight:",
+				":nine:",
+				"🔟"
 			]
 		},
 		"alien": {
