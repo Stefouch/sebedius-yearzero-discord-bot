@@ -1,19 +1,12 @@
-// const readline = require('readline');
-const { RollParser, Roll } = require('../util/RollParser');
+// const YZDeck = require('../util/YZDeck');
 
 module.exports = {
 	test: () => {
-		// RollParser.parse('3d');
-		// RollParser.parse('d');
-		// RollParser.parse('donne la daube ddd');
-		// console.log('----------');
-		//
-		/* const rl = readline.createInterface({
-			input: process.stdin,
-			output: process.stdout,
-		});
-		rl.question('Roll?', answer => {
-			console.log(RollParser.parseString(answer));
-		}); */
+		// const deck = new YZDeck();
+		// const store = JSON.stringify(deck.cardx);
+		// console.log(store);
+		// const deck2 = new YZDeck(JSON.parse(store));
+		// console.log(deck2);
+		// console.log('end');
 	},
 };
