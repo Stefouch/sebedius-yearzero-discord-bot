@@ -21,6 +21,7 @@
   "homepage": "https://mtgtreachery.net/zonemap/",
   "dependencies": {
     "@keyv/sqlite": "^2.0.0",
+    "card-deck": "^1.0.0",
     "discord": "^0.8.2",
     "discord.js": "^11.4.2",
     "dotenv": "^7.0.0",
