@@ -1,6 +1,3 @@
-# IMPORTANT
-> Update 1.6.0 crashed the Bot. It will be fixed as soon as possible. I apologize for the inconvenience.
-
 # Mutant Year Zero Discord Bot
 
 **Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and *ALIEN* roleplaying games by *Fria Ligan*.
