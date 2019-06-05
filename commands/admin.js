@@ -1,5 +1,5 @@
 const Config = require('../config.json');
-const Keyv = require('Keyv');
+const Keyv = require('keyv');
 
 module.exports = {
 	name: 'admin',
@@ -14,8 +14,8 @@ module.exports = {
 		const bot = message.channel.members.find(member => member.id === Config.botID).client;
 
 		if (args.includes('database') || args.includes('db')) {
-			const keyv = new Keyv(Config.db);
-			message.author.send(keyv);
+			// const keyv = new Keyv(Config.db);
+			// message.author.send(keyv);
 		}
 
 		if (args.includes('maintenance') || args.includes('idle')) {
