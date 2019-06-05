@@ -325,6 +325,7 @@ class YZRoll {
 		let str = `${(this.title) ? `${this.title} ` : ''}Roll${(this.pushed) ? ' (pushed)' : ''}:`;
 		str += ` base[${this.dice.base.toString()}], skill[${this.dice.skill.toString()}], gear[${this.dice.gear.toString()}]`;
 
+		if (this.dice.stress.length) str += `, stress[${this.dice.stress.toString()}]`;
 		if (this.hasNegative) str += `, neg[${this.dice.neg.toString()}]`;
 		if (this.artifactDie.size) str += `, D${this.artifactDie.size} (${this.artifactDie.result})`;
 
