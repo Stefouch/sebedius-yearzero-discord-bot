@@ -25,7 +25,7 @@ module.exports = {
 			+ '\n• `Y s` – Rolls Y stress dice (yellow color).'
 			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
 			+ '\n• `--fullauto` – Allows unlimited pushes.'
-			+ '\n\n*Example:* `roll 8b3s` *rolls for 8 base and 3 stress dice.*',
+			+ '\n\n*Example:* `rolla 8b3s` *rolls for 8 base and 3 stress dice.*',
 		],
 		[
 			'Pushing',

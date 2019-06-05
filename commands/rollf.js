@@ -25,7 +25,7 @@ module.exports = {
 			+ '\n• `Z g` – Rolls Z gear dice (black color).'
 			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`).'
 			+ '\n• `--fullauto` – Allows unlimited pushes.'
-			+ '\n\n*Example:* `roll 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
+			+ '\n\n*Example:* `rollf 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
 		],
 		[
 			'Pushing',
