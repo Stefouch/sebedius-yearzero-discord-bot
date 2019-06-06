@@ -142,6 +142,15 @@ class YZRoll {
 	}
 
 	/**
+	 * The quantity of stress dice.
+	 * @type {number}
+	 * @readonly
+	 */
+	get stress() {
+		return this.dice.stress.length;
+	}
+
+	/**
 	 * The quantity of panic ("1" on stress dice).
 	 * @type {number}
 	 * @readonly
@@ -232,50 +241,50 @@ class YZRoll {
 
 	/**
 	 * Adds a number of base dice to the roll.
-	 * @param {number} qty The quantity to add
+	 * @param {?number} [qty=1] The quantity to add
 	 */
-	addBaseDice(qty) {
+	addBaseDice(qty = 1) {
 		this.addDice(qty, 'base');
 	}
 
 	/**
 	 * Adds a number of skill dice to the roll.
-	 * @param {number} qty The quantity to add
+	 * @param {?number} [qty=1] The quantity to add
 	 */
-	addSkillDice(qty) {
+	addSkillDice(qty = 1) {
 		this.addDice(qty, 'skill');
 	}
 
 	/**
 	 * Adds a number of gear dice to the roll.
-	 * @param {number} qty The quantity to add
+	 * @param {?number} [qty=1] The quantity to add
 	 */
-	addGearDice(qty) {
+	addGearDice(qty = 1) {
 		this.addDice(qty, 'gear');
 	}
 
 	/**
 	 * Adds a number of negative dice to the roll.
-	 * @param {number} qty The quantity to add
+	 * @param {?number} [qty=1] The quantity to add
 	 */
-	addNegDice(qty) {
+	addNegDice(qty = 1) {
 		this.addDice(qty, 'neg');
 	}
 
 	/**
 	 * Adds a number of stress dice to the roll.
-	 * @param {number} qty The quantity to add
+	 * @param {?number} [qty=1] The quantity to add
 	 */
-	addStressDice(qty) {
+	addStressDice(qty = 1) {
 		this.addDice(qty, 'stress');
 	}
 
 	/**
 	 * Adds a number of dice to the roll.
-	 * @param {number} qty The quantity to add
+	 * @param {?number} [qty=1] The quantity to add
 	 * @param {string} type The type of dice to add ("base", "skill", "gear" or "neg")
 	 */
-	addDice(qty, type) {
+	addDice(qty = 1, type) {
 		if (this.dice.hasOwnProperty(type)) {
 			for (let d = 0; d < qty; d++) this.dice[type].push(rand(1, 6));
 		}
