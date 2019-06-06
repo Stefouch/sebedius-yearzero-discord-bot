@@ -3,6 +3,7 @@ const Crits = require('../data/crits.json');
 const Util = require('../util/Util');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
+const PanicCommand = require('./panic');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
@@ -154,9 +155,8 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 		.then(rollMessage => {
 			// Detects PANIC.
 			if (roll.panic) {
-				sendPanicMessage(roll, triggeringMessage);
+				return PanicCommand.execute([roll.stress], triggeringMessage);
 			}
-
 			else if (!roll.pushed || roll.isFullAuto) {
 				// See https://unicode.org/emoji/charts/full-emoji-list.html
 				// Adds a push reaction icon.
@@ -177,10 +177,16 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 					const pushedRoll = roll.push();
 					// Additional stress die from pushing.
 					pushedRoll.addStressDice(1);
-					console.log('[ROLL] - Roll pushed:', pushedRoll.toString());
+					console.log('[ROLL] - ', pushedRoll.toString());
 
 					if (!rollMessage.deleted) {
 						rollMessage.edit(getDiceEmojis(pushedRoll), { embed: getEmbedDiceResults(pushedRoll, triggeringMessage) });
+					}
+
+					// Detects PANIC.
+					if (roll.panic) {
+						reactionCollector.stop();
+						return PanicCommand.execute([pushedRoll.stress], triggeringMessage);
 					}
 				});
 
@@ -256,62 +262,6 @@ function getEmbedDiceResults(roll, message) {
 }
 
 /**
- * Gets an Embed with the result of a Panic Roll (ALIEN-rpg).
- * @param {number} panic The value of the Panic Roll
- * @param {Discord.Message} message The triggering message
- * @returns {Discord.RichEmbed} A Discord Embed Object
- */
-function getEmbedPanicRoll(panic, message) {
-	const panicTable = Crits.alien.panic;
-	const panicRoll = Util.clamp(panic, 0, 15);
-	let criticalInjury;
-
-	// Iterates each critical injury from the defined table.
-	for (const crit of panicTable) {
-
-		// If the critical injury reference is one value, it's a number.
-		if (typeof crit.ref === 'number') {
-
-			if (crit.ref === panicRoll) {
-				criticalInjury = crit;
-				break;
-			}
-		}
-		// If the critical injury reference is a range, it's an array with length 2.
-		else if (crit.ref instanceof Array) {
-
-			if (crit.ref.length >= 2) {
-
-				// crit.ref[0]: minimum
-				// crit.ref[1]: maximum
-				if (panicRoll >= crit.ref[0] && panicRoll <= crit.ref[1]) {
-					criticalInjury = crit;
-					break;
-				}
-			}
-		}
-		else {
-			console.error('[ERROR] - [CRIT] - crit.ref type is not supported.', crit);
-		}
-	}
-
-	// Exits early if no critical injury was found.
-	if (!criticalInjury) return message.reply('The critical injury wasn\'t found.');
-
-	return new YZEmbed(`**${criticalInjury.injury}**`, criticalInjury.effect, message, true);
-}
-
-function sendPanicMessage(roll, message) {
-	const panicRand = Util.rand(1, 6);
-	const stress = roll.dice.stress.length;
-
-	const text = `😱 PANIC ROLL: **${stress}** + ${Config.icons.alien.skill[panicRand]}`;
-	const embed = getEmbedPanicRoll(panicRand + stress, message);
-
-	return message.channel.send(text, embed);
-}
-
-/**
  * Returns a text for the Artifact Die.
  * @param {YZRoll.ArtifactDie} artifactDie The 'artifactDie' object from a 'Roll' object
  * @returns {string} The manufactured text
@@ -359,7 +309,7 @@ function sendMessageForD6(roll, message, method) {
 function sendMessageForResourceRoll(roll, message) {
 	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
 
-	const resRating = roll.dice.stress.length;
+	const resRating = roll.stress;
 	const newRating = resRating - roll.panic;
 
 	const text = getDiceEmojis(roll);
