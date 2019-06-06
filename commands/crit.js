@@ -9,11 +9,12 @@ module.exports = {
 		+ ' The default is the damage table. Other available tables are:'
 		+ '\n• `nt` or `nontypical` : Critical injury for non-typical damage.'
 		+ '\n• `h` or `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
+		+ '\n• `m` or `mental` : The *ALIEN* Permanent Mental traumas.'
 		+ '\n• `pushed` : Critical injury for pushed damage (none).',
-	aliases: ['ci', 'critical'],
+	aliases: ['ci', 'crits', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[nt | h | pushed] [numeric]',
+	usage: '[nt | h | m | pushed] [numeric]',
 	execute(args, message) {
 		let critTable, critRoll, criticalInjury;
 
@@ -29,6 +30,7 @@ module.exports = {
 		// If not specified, gets a critical table.
 		else {
 			if (/^(horror|h)$/i.test(args[0])) critTable = Crits.fbl.horror;
+			if (/^(mental|m)$/i.test(args[0])) critTable = Crits.alien.permanentMentalTrauma;
 			// Default table = myz-damage.
 			else critTable = Crits.myz.damage;
 

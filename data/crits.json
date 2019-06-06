@@ -612,32 +612,32 @@
 		],
 		"permanentMentalTrauma": [
 			{
-				"ref": 1,
+				"ref": [11, 16],
 				"injury": "PHOEBIA",
 				"effect": "You are terrified by something related to what caused you to panic. The GM decides what it is. Your STRESS LEVEL increases by one when within SHORT range of the object of your phobia. If you stay close to it for more than a single round, make a Panic Roll."
 			},
 			{
-				"ref": 2,
+				"ref": [21, 26],
 				"injury": "ALCOHOLISM",
 				"effect": " You must drink alcohol every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 68) without drinking alcohol."
 			},
 			{
-				"ref": 3,
+				"ref": [31, 36],
 				"injury": "NIGHTMARES",
 				"effect": " Make an Empathy roll when you sleep. If the roll succeeds, you have a horrible nightmare and your STRESS LEVEL increases by one. You cannot relieve stress for a full day after such a nightmare."
 			},
 			{
-				"ref": 4,
+				"ref": [41, 46],
 				"injury": "DEPRESSION",
 				"effect": " You are prone to episodes of depression and moodiness. Every day, make an Empathy roll—if you fail, you’re having a bad day. Your STRESS LEVEL increases by one and you can’t relieve stress until the next day."
 			},
 			{
-				"ref": 5,
+				"ref": [51, 56],
 				"injury": "DRUG USE",
 				"effect": "You must use some form of recreational drug (see page 99) every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 68) without consuming your drug of choice."
 			},
 			{
-				"ref": 6,
+				"ref": [61, 66],
 				"injury": "AMNESIA",
 				"effect": "Your memory is a blank slate. You can no longer recall who you or the other characters are. The effect should be roleplayed."
 			}
