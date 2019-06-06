@@ -56,6 +56,8 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `Z g` – Rolls Z gear dice (black color).
     * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`).
     * `--fullauto` – Allows unlimited pushes.
+* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
+  * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 
@@ -70,6 +72,8 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `X b` – Rolls X base dice (black color).
     * `Y s` – Rolls Y stress dice (yellow color).
     * `--fullauto` – Allows unlimited pushes.
+* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
+  * <strike>`mental` or `m` – The *ALIEN* Permanent Mental traumas.</strike> *(Unreleased update.)*
 * `panic <stress>` – Rolls a random panic effect for the *ALIEN* roleplaying game.
 
 ### Roll Examples
@@ -118,13 +122,17 @@ This is a detailed list of needed permissions:
 * `EMBED_LINKS` : The bot uses rich embed to display the dice results.
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
 
+## List of Changes
+
+See the [CHANGELOG](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot.
+
 ## License
 
 The literal and graphical information presented with this bot about *Mutant: Year Zero*, *Forbidden Lands* & *ALIEN*, including the textures, is copyright *Fria Ligan / Free League Publishing*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
 
 The bot's JS source code is under MIT license.
 
-*FBL* dice's images are courtesy of [insert name]. Thanks to him/her for sharing them.
+*FBL* dice's images are courtesy of M. Hilton Perantunes. Thanks to him for sharing them.
 
 *ALIEN* dice's images are courtesy of M. Radomir Balint. Thanks to him for sharing them.
 
