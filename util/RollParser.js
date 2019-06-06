@@ -99,10 +99,10 @@ class Roll {
 	}
 
 	/**
-	 * Roll the dice.
-	 * @param {?boolean} [array=false] Forces the results to be returned individually in an array (default is *false*).
+	 * Rolls the dice.
+	 * @param {?boolean} [array=false] Forces the results to be returned individually in an array (default is *false*)
 	 * @throws {TypeError} If "repeat" or "roll.count" not a number
-	 * @returns {number|number[]} If an array, the last element is the modifier.
+	 * @returns {number|number[]} If an array, the modifier is not included
 	 */
 	roll(array = false) {
 		if (typeof this.count !== 'number') throw new TypeError(`Roll.count (${this.count}) not a number!`);
@@ -115,22 +115,55 @@ class Roll {
 			else results.push(Util.rand(1, this.base));
 			count--;
 		}
-		results.push(this.modifier);
-
 		this.lastResults = results;
 
 		if (array) return results;
-		else return results.reduce((pv, cv) => pv + cv, 0);
+		else return results.reduce((pv, cv) => pv + cv, 0) + this.modifier;
 	}
 
 	rollAndKeep(keep = this.count, array = false) {
 		this.roll();
-		const results = this.lastResults;
 	}
 
-	explode(depth = 0, cap = this.base, array = false) {
+	/**
+	 * Rolls and explodes the dice.
+	 * @param {?number} [depth=0] Maximum number of rerolls, 0 means no maximum
+	 * @param {?number|number[]} [tn=this.base] Value or an array of values that trigger the reroll
+	 * @param {?boolean} [array=false] Forces the results to be returned individually in an array (default is *false*)
+	 */
+	explode(depth = 0, tns = this.base, array = false) {
 		this.roll();
-		const results = this.lastResults;
+		let count = 0;
+		let nb = countExploding(tns, this);
+
+		while (nb > 0) {
+			const explodingRoll = new Roll(nb, this.base);
+			explodingRoll.roll();
+			this.lastResults = this.lastResults.concat(explodingRoll.lastResults);
+
+			// Resets the nb of rerolls.
+			nb = countExploding(tns, explodingRoll);
+
+			count++;
+			if (depth !== 0 && count >= depth) break;
+		}
+
+		if (array) return this.lastResults;
+		else return this.lastResults.reduce((pv, cv) => pv + cv, 0) + this.modifier;
+
+		// Internal function.
+		function countExploding(targetNumbers, roll) {
+			let qty = 0;
+			if (targetNumbers instanceof Array) {
+				targetNumbers.forEach(tn => {
+					qty += roll.lastResults.filter(d => d === tn).length;
+				});
+			}
+			else {
+				qty = roll.countValues(targetNumbers);
+			}
+			return qty;
+		}
 	}
 
 	/**
@@ -141,7 +174,7 @@ class Roll {
 	 */
 	countValues(value) {
 		const val = +value || 0;
-		if (this.lastResults) return this.lastResults.slice(0, -1).filter(d => d === val).length;
+		if (this.lastResults) return this.lastResults.filter(d => d === val).length;
 		return null;
 	}
 
