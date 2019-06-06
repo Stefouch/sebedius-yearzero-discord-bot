@@ -73,7 +73,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `Y s` – Rolls Y stress dice (yellow color).
     * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
-  * <strike>`mental` or `m` – The *ALIEN* Permanent Mental traumas.</strike> *(Unreleased update.)*
+  * `mental` or `m` – The *ALIEN* Permanent Mental traumas.
 * `panic <stress>` – Rolls a random panic effect for the *ALIEN* roleplaying game.
 
 ### Roll Examples

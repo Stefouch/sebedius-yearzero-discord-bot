@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.6.1] - UNRELEASED
+## [1.6.1] - 2019-06-06
 ### Added
 - New crit subcommand: `!crit mental` – The *ALIEN* Permanent Mental traumas.
 - A reminder for a risk of a Permanent Mental trauma with Panic roll >=13.
