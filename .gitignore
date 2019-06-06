@@ -76,5 +76,8 @@ typings/
 # FuseBox cache
 .fusebox/
 
+# Ignored sqlite databases
+*.sqlite
+
 # Stefouch
 .archives/
