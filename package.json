@@ -20,7 +20,7 @@
   },
   "homepage": "https://mtgtreachery.net/zonemap/",
   "dependencies": {
-    "@keyv/sqlite": "^2.0.0",
+    "@keyv/postgres": "^1.0.16",
     "card-deck": "^1.0.0",
     "discord": "^0.8.2",
     "discord.js": "^11.5.1",

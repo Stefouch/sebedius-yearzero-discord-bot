@@ -13,17 +13,13 @@ if (process.env.NODE_ENV !== 'production') {
 // Initializes requirements.
 const fs = require('fs');
 const Config = require('./config.json');
-const Keyv = require('keyv');
+const db = require('./database/database');
 const { test } = require('./test/tests');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
 // Initializes global constants.
 let prefix = Config.defaultPrefix;
-
-// Initializes the databases.
-const keyv = new Keyv(Config.db);
-keyv.on('error', err => console.error('Connection Error', err));
 
 // Loads the available commands.
 bot.commands = new Discord.Collection();
@@ -48,7 +44,7 @@ bot.on('ready', () => {
 	console.log('| Guilds/Servers:');
 	let serverQty = 0;
 	bot.guilds.forEach(guild => {
-		console.log(`|  * ${guild.name} (${guild.id})`);
+		console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 		if (process.env.NODE_ENV !== 'production') {
 			console.log('|    * Custom emojis:');
 			guild.emojis.forEach(emoji => {
@@ -76,7 +72,8 @@ bot.on('ready', () => {
 bot.on('message', async message => {
 	// Gets the guild's prefix.
 	if (message.channel.type === 'text' && !message.author.bot) {
-		const fetchedPrefix = await keyv.get(`prefix_${message.guild.id}`);
+		// const fetchedPrefix = await keyv.get(`prefix_${message.guild.id}`);
+		const fetchedPrefix = await db.get(message.guild.id, 'prefix');
 
 		if (fetchedPrefix) {
 			prefix = fetchedPrefix;

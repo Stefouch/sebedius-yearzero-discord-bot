@@ -9,8 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New crit subcommand: `!crit mental` – The *ALIEN* Permanent Mental traumas.
 - A reminder for a risk of a Permanent Mental trauma with Panic roll >=13.
 
+### Changed
+- The database module has switched to PostgreSQL (with Keyv).
+
 ### Fixed
-- Panic roll not occurring after pushed rolls.
+- Panic roll not occurring after pushed rolls (issue #8).
+- Guild-custom prefixes were only saved for 24h (issue #9).
 
 ## [1.6.0] - 2019-06-05
 ### Added

@@ -1,5 +1,4 @@
 const Config = require('../config.json');
-const Keyv = require('keyv');
 
 module.exports = {
 	name: 'admin',
@@ -13,11 +12,6 @@ module.exports = {
 
 		const bot = message.channel.members.find(member => member.id === Config.botID).client;
 
-		if (args.includes('database') || args.includes('db')) {
-			// const keyv = new Keyv(Config.db);
-			// message.author.send(keyv);
-		}
-
 		if (args.includes('maintenance') || args.includes('idle')) {
 			bot.user.setPresence({
 				game: { name: '🚧 On Maintenance', type: 'WATCHING' },
@@ -30,7 +24,7 @@ module.exports = {
 		else if (args.includes('servers') || args.includes('serv')) {
 			const guilds = [];
 			bot.guilds.forEach(guild => {
-				guilds.push(`* ${guild.name} (${guild.id})`);
+				guilds.push(`* ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			});
 			message.author.send(`List of guilds:\n${guilds.join('\n')}`);
 			setOnlineActivity(bot, guilds.length);

@@ -1,7 +1,8 @@
-// const YZDeck = require('../util/YZDeck');
+// const db = require('../database/database');
 
 module.exports = {
 	test: () => {
+		// db.set('testkey', 'testval', 'testnamespace', 10000);
 		// const deck = new YZDeck();
 		// const store = JSON.stringify(deck.cardx);
 		// console.log(store);

@@ -1,5 +1,5 @@
 const Config = require('../config.json');
-const Keyv = require('keyv');
+const db = require('../database/database');
 
 module.exports = {
 	name: 'setconf',
@@ -10,11 +10,13 @@ module.exports = {
 	usage: '<parameter> [new value]',
 	async execute(args, message) {
 		// Exits early if the message's author doesn't have the ADMINISTRATOR Permission.
-		if (!message.member.hasPermission('ADMINISTRATOR')) return message.reply('This command is only available for admins.');
-
-		// Database
-		const keyv = new Keyv(Config.db);
-		keyv.on('error', err => console.error('Connection Error', err));
+		// The Bot Admin may bypass this security check.
+		if (
+			!message.member.hasPermission('ADMINISTRATOR')
+			&& message.author.id !== Config.botAdminID
+		) {
+			return message.reply('This command is only available for admins.');
+		}
 
 		// The property command.args = true,
 		// so no need to check args[0].
@@ -25,7 +27,7 @@ module.exports = {
 		if (typeof newKeyVal !== 'undefined') {
 
 			if (key === 'prefix') {
-				await keyv.set(`prefix_${message.guild.id}`, newKeyVal);
+				await db.set(message.guild.id, newKeyVal, 'prefix');
 				message.channel.send(`My prefix has been set to: "${newKeyVal}"`);
 			}
 			else {
@@ -34,7 +36,7 @@ module.exports = {
 		}
 		// GET
 		else {
-			const value = await keyv.get(`${key}_${message.guild.id}`);
+			const value = await db.get(message.guild.id, 'prefix');
 			if (value) message.channel.send(`Parameter: "${key}" = "${value}"`);
 			else message.reply(`"${key}" is not a valid parameter.`);
 		}

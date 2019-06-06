@@ -1,5 +1,5 @@
 const Config = require('../config.json');
-const Keyv = require('keyv');
+const db = require('../database/database');
 const YZInitDeck = require('../util/YZInitDeck');
 const Util = require('../util/Util');
 
@@ -14,11 +14,9 @@ module.exports = {
 		// Initializes the card database.
 		const gid = message.guild.id;
 		const ttl = 86400000;
-		const cardsDB = new Keyv(Config.db, { namespace: 'initiative' });
-		cardsDB.on('error', err => console.error('Connection Error', err));
 
 		// Recreates the deck.
-		const cards = await cardsDB.get(gid);
+		const cards = await db.get(gid, 'initiative');
 		let deck;
 
 		if (cards && cards.length > 0) {
@@ -43,14 +41,14 @@ module.exports = {
 				await reset();
 			}
 			const drawnCards = deck.draw(drawQty);
-			console.log(`[INITIATIVE DECK] - Cards drawn: ${drawnCards}`);
-			await cardsDB.set(gid, deck._stack, ttl);
+			console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
+			await db.set(gid, deck._stack, 'initiative', ttl);
 			return message.reply(getDrawCardText(drawnCards));
 		}
 
 		async function reset() {
 			deck = new YZInitDeck();
-			await cardsDB.set(gid, deck._stack, ttl);
+			await db.set(gid, deck._stack, 'initiative', ttl);
 			return message.channel.send('Shuffled a new deck of *Initiative* cards.');
 		}
 	},
