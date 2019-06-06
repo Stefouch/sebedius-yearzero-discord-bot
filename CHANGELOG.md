@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - New crit subcommand: `!crit mental` – The *ALIEN* Permanent Mental traumas.
 - A reminder for a risk of a Permanent Mental trauma with Panic roll >=13.
+- A reminder for a canceled skill roll with Panic roll >= 10.
 
 ### Changed
 - The database module has switched to PostgreSQL (with Keyv).

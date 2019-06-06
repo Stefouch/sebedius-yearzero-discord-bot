@@ -18,6 +18,14 @@ module.exports = {
 		const text = `😱 PANIC ROLL: **${stress}** + ${Config.icons.alien.skill[panicRand]}`;
 		const embed = getEmbedPanicRoll(panicVal, message);
 
+		// Interrupted skill roll reminder.
+		if (panicVal >= 10) {
+			embed.addField(
+				'Interrupted Skill Roll',
+				'You will be forced to perform a specific action. If the Panic Roll was the result of a skill check for an action, the action is cancelled and immediately replaced by the forced panic action, even if you succeeded your roll.'
+			);
+		}
+
 		// Permanent Mental Trauma reminder.
 		if (panicVal >= 13) {
 			embed.addField(
