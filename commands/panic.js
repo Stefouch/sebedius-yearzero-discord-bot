@@ -13,9 +13,18 @@ module.exports = {
 	execute(args, message) {
 		const panicRand = Util.rand(1, 6);
 		const stress = +args[0] || 0;
+		const panicVal = panicRand + stress;
 
 		const text = `😱 PANIC ROLL: **${stress}** + ${Config.icons.alien.skill[panicRand]}`;
-		const embed = getEmbedPanicRoll(panicRand + stress, message);
+		const embed = getEmbedPanicRoll(panicVal, message);
+
+		// Permanent Mental Trauma reminder.
+		if (panicVal >= 13) {
+			embed.addField(
+				'End of Game Session: Roll for Permanent Mental Trauma',
+				'You must make an **EMPATHY** roll after the session. Roll for the attribute only, not using any skill. If the roll *succeeds*, you develop a permanent mental trauma of some kind. Roll a D6 and consult the table on page 161, or hit `!crit m`.'
+			);
+		}
 
 		return message.channel.send(text, embed);
 	},
