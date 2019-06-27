@@ -123,7 +123,10 @@ bot.on('message', async message => {
 	}
 
 	try {
-		console.log(`[COMMAND] - Command received from ${message.author.tag}: ${command.name}`, args.toString());
+		console.log(`[COMMAND] - Command received from ${message.author.tag}`
+			+ (message.guild ? ` (${message.guild.name})` : '')
+			+ `: ${command.name}`, args.toString()
+		);
 		command.execute(args, message);
 	}
 	catch (error) {
