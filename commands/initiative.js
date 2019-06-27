@@ -5,7 +5,8 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'initiative',
-	description: 'Draws one or more initiative cards. Use the parameter `shuffle` to reset the deck of cards.',
+	description: 'Draws one or more initiative cards. The deck is specific to each Discord channel.'
+		+ 'Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*',
 	aliases: ['init', 'draw-init', 'drawinit'],
 	guildOnly: false,
 	args: false,
