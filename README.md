@@ -16,7 +16,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 
 * `help` – The bot's manual. Read it!
 * `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
-* `initiative [quantity]` – Draws one or more initiative cards. Use the parameter `shuffle` to reset the deck of cards.
+* `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord channel. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 
 #### MYZ commands
 
@@ -56,7 +56,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `Z g` – Rolls Z gear dice (black color).
     * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`).
     * `--fullauto` – Allows unlimited pushes.
-* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
+* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
   * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
@@ -72,7 +72,10 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `X b` – Rolls X base dice (black color).
     * `Y s` – Rolls Y stress dice (yellow color).
     * `--fullauto` – Allows unlimited pushes.
-* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
+* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
+  * `alien` or `a` – The *ALIEN* Critical injuries.
+  * `synth` or `s` – The *ALIEN* Critical injuries on Synthetics and Androids.
+  * `xeno` or `x` – The *ALIEN* Critical injuries on Xenomorphs.
   * `mental` or `m` – The *ALIEN* Permanent Mental traumas.
 * `panic <stress>` – Rolls a random panic effect for the *ALIEN* roleplaying game.
 
@@ -95,6 +98,12 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 `rolla supply 6 Air` – Rolls supply for "Air" with six stress dice and count ones (banes).
 
 `roll init 1` – Rolls a D6 labelled "Initiative" and adds 1 to the result.
+
+`init` or `init 1` – Draws one initiative cards.
+
+`init shuffle` – Shuffles all the initiative cards in a new deck (= reset).
+
+`panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* roleplaying game Panic table.
 
 
 ### Dice Cap
