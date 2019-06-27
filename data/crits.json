@@ -558,6 +558,427 @@
 		]
 	},
 	"alien": {
+		"damage": [
+			{
+				"ref": 11,
+				"injury": "Winded",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": 12,
+				"injury": "Stunned",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": 13,
+				"injury": "Crippling Pain",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "STRESS LEVEL increases by one step.",
+				"healingTime": 0
+			},
+			{
+				"ref": 14,
+				"injury": "Sprained Ankle",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MOBILITY −2 and can't run until MEDICAL AID roll is made.",
+				"healingTime": 0
+			},
+			{
+				"ref": 15,
+				"injury": "Blood in Eyes",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "OBSERVATION and RANGED COMBAT −2 until MEDICAL AID roll is made.",
+				"healingTime": 0
+			},
+			{
+				"ref": 16,
+				"injury": "Concussion",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MOBILITY −2.",
+				"healingTime": 1
+			},
+			{
+				"ref": 21,
+				"injury": "Severed Ear",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "OBSERVATION −2.",
+				"healingTime": 1
+			},
+			{
+				"ref": 22,
+				"injury": "Broken Toes",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To run becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": 23,
+				"injury": "Broken Hand",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't use hand.",
+				"healingTime": 1
+			},
+			{
+				"ref": 24,
+				"injury": "Knocked Out Teeth",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION −2.",
+				"healingTime": 1
+			},
+			{
+				"ref": 25,
+				"injury": "Impaled Thigh",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To run becomes a slow action.",
+				"healingTime": 2
+			},
+			{
+				"ref": 26,
+				"injury": "Slashed Shoulder",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't use arm.",
+				"healingTime": 1
+			},
+			{
+				"ref": 31,
+				"injury": "Broken Nose",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION and OBSERVATION −2.",
+				"healingTime": 1
+			},
+			{
+				"ref": 32,
+				"injury": "Crotch Hit",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "One point of damage at every roll for MOBILITY and CLOSE COMBAT.",
+				"healingTime": 1
+			},
+			{
+				"ref": 33,
+				"injury": "Broken Ribs",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MOBILITY and CLOSE COMBAT −2.",
+				"healingTime": 2
+			},
+			{
+				"ref": 34,
+				"injury": "Gouged Eye",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "RANGED COMBAT and OBSERVATION −2.",
+				"healingTime": 2
+			},
+			{
+				"ref": 35,
+				"injury": "Busted Kneecap",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't run, only crawl.",
+				"healingTime": 2
+			},
+			{
+				"ref": 36,
+				"injury": "Broken Arm",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't use arm.",
+				"healingTime": 2
+			},
+			{
+				"ref": 41,
+				"injury": "Broken Leg",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't run, only crawl.",
+				"healingTime": 2
+			},
+			{
+				"ref": 42,
+				"injury": "Crushed Foot",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't run, only crawl.",
+				"healingTime": 3
+			},
+			{
+				"ref": 43,
+				"injury": "Crushed Elbow",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Can't use arm.",
+				"healingTime": 3
+			},
+			{
+				"ref": 44,
+				"injury": "Punctured Lung",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "day",
+				"effect": "STAMINA and MOBILITY −2.",
+				"healingTime": 1
+			},
+			{
+				"ref": 45,
+				"injury": "Bleeding Gut",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "shift",
+				"effect": "One point of damage at every roll for MOBILITY and CLOSE COMBAT.",
+				"healingTime": 1
+			},
+			{
+				"ref": 46,
+				"injury": "Ruptured Intestines",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "shift",
+				"effect": "Disease with Virulence 6.",
+				"healingTime": 2
+			},
+			{
+				"ref": 51,
+				"injury": "Busted Kidney",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "day",
+				"effect": "Can't run, only crawl, MOBILITY −2.",
+				"healingTime": 2
+			},
+			{
+				"ref": 52,
+				"injury": "Arm Artery Cut",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "turn",
+				"effect": "Can't use arm.",
+				"healingTime": 1
+			},
+			{
+				"ref": 53,
+				"injury": "Leg Artery Cut",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "turn",
+				"effect": "To run becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": 54,
+				"injury": "Severed Arm",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "shift",
+				"effect": "Can't use arm.",
+				"healingTime": -1
+			},
+			{
+				"ref": 55,
+				"injury": "Severed Leg",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "shift",
+				"effect": "Can't run, only crawl.",
+				"healingTime": -1
+			},
+			{
+				"ref": 56,
+				"injury": "Cracked Spine",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Paralyzed from the neck down. If not given MEDICAL AID in time, the effect is permanent.",
+				"healingTime": 3
+			},
+			{
+				"ref": 61,
+				"injury": "Ruptured Jugular",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "round",
+				"effect": "STAMINA −1.",
+				"healingTime": 2
+			},
+			{
+				"ref": 62,
+				"injury": "Ruptured Aorta",
+				"lethal": true,
+				"healMalus": -2,
+				"timeLimit": 1,
+				"timeLimitUnit": "round",
+				"effect": "STAMINA −2.",
+				"healingTime": 3
+			},
+			{
+				"ref": 63,
+				"injury": "Disemboweled",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Instant death.",
+				"healingTime": 0
+			},
+			{
+				"ref": 64,
+				"injury": "Crushed Skull",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your story ends here.",
+				"healingTime": 0
+			},
+			{
+				"ref": 65,
+				"injury": "Pierced Head",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You die immediately.",
+				"healingTime": 0
+			},
+			{
+				"ref": 66,
+				"injury": "Impaled Heart",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your heart beats for the last time.",
+				"healingTime": 0
+			}
+		],
+		"synthetic": [
+			{
+				"ref": [11, 16],
+				"injury": "Ruptured Fluid Pump",
+				"effect": "The android loses its next slow action."
+			},
+			{
+				"ref": [21, 26],
+				"injury": "Detroyed Leg Servos",
+				"effect": "Both legs are non-functional. The android must stay prone and can only crawl."
+			},
+			{
+				"ref": [31, 36],
+				"injury": "Destroyed Arm Servos",
+				"effect": "One arm is non-functional. The android can only use one-handed gear."
+			},
+			{
+				"ref": [41, 46],
+				"injury": "Head Dislocation",
+				"effect": "The android's artificial neck is severely fractured and its head placed in an unnatural position. All fast actions become slow actions."
+			},
+			{
+				"ref": [51, 56],
+				"injury": "Severe Chassis Breach",
+				"effect": "Internal organs spill out and the android is completely immobilized."
+			},
+			{
+				"ref": [61, 66],
+				"injury": "System Shutdown",
+				"effect": "The android is torn to shreds or crushed. Core systems are severely damaged and a COMTECH roll is required to communicate with the android."
+			}
+		],
+		"xeno": [
+			{
+				"ref": [11, 16],
+				"injury": "Rise Again",
+				"effect": "The Xenomorph falls to the ground, seemingly dead, but it’s a ruse—if it’s attacked again, or on its next initiative, it regains one point of Health and attacks—fueled by instinctive hatred."
+			},
+			{
+				"ref": [21, 26],
+				"injury": "Wounded",
+				"effect": "The Xenomorph staggers in agony, bleeding severely. It gets Speed –1 (down to a minimum of 1, losing the lowest initiative), but regains one point of Health. Roll a D6 at the start of each Round. On 1–3, it tries to escape."
+			},
+			{
+				"ref": [31, 36],
+				"injury": "Desperate Action",
+				"effect": "The Xenomorph is severely wounded and cries out in agony. It immediately performs a fast and a slow action, outside of the normal turn order. Roll a D6: On 1–3, it tries to escape (if it succeeds it regains half its Health). On 4–6, it instantly attacks the closest opponent. If it fails to inflict any damage, the creature dies. If it succeeds, it regains one point of Health."
+			},
+			{
+				"ref": [41, 46],
+				"injury": "Last Breath",
+				"effect": "The Xenomorph is mortally wounded and contorts in agony. On its next initiative, it will try to kill the nearest victim, then the beast dies. If it’s wounded again before then, it dies instantly."
+			},
+			{
+				"ref": [51, 66],
+				"injury": "Torn Apart",
+				"effect": "Instant death. The Xenomorph is torn apart or crushed, emitting a final shriek. Severely mutilated, it can only be Analyzed with OBSERVATION –2."
+			}
+		],
 		"panic": [
 			{
 				"ref": [0, 6],
