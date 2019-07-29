@@ -1,6 +1,6 @@
-# Mutant Year Zero Discord Bot
+# Year Zero Discord Bot
 
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and *ALIEN* roleplaying games by *Fria Ligan*.
+**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and [ALIEN](https://alien-rpg.com/) roleplaying games by *Fria Ligan*.
 
 ## Add the Bot to your Server
 
@@ -18,7 +18,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 * `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord channel. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 
-#### MYZ commands
+#### *MYZ* commands
 
 * `roll <dice>` – Rolls dice for the *Mutant: Year Zero* roleplaying game. See possible outcome:
   * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
@@ -112,7 +112,7 @@ The maximum number of dice that can be rolled at once is capped at 42. *(Discord
 
 ### Pushing
 
-The push option for the MYZ dice pool roll is available for 60 seconds. Only the user who initially rolled the dice can push them.
+The push option for the dice pool roll is available for 60 seconds. Only the user who initially rolled the dice can push them.
 
 ### Command Aliases
 
@@ -148,5 +148,7 @@ The bot's JS source code is under MIT license.
 ## Contact
 
 Stefouch#5202 on Discord. Hit me up if you've any question!
+
+Join the [Year Zero Worlds](https://discord.gg/ftxkYZn) discord server for extra support and testing the bot.
 
 =]¦¦¦¬ 
