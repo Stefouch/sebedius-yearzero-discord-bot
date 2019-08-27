@@ -4,11 +4,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.3] - 2019-08-27
+### Changed
+- Bot's activity flare from "MYZ" to "YZE" (stands for *Year Zero Engine*).
+
+### Fixed
+- A bug that prevented `!admin servers` from functionning.
+
 ## [1.6.2] - 2019-06-27
 ### Added
 - New crit subcommand: `!crit alien` – The *ALIEN* Critical injuries.
-- New crit subcommand: `!crit synth` – The *ALIEN* Critical injuries on Synthetics and Androids.
-- New crit subcommand: `!crit xeno` – The *ALIEN* Critical injuries on Xenomorphs.
+- New crit subcommand: `!crit synth` – The *ALIEN* Critical injuries for Synthetics and Androids.
+- New crit subcommand: `!crit xeno` – The *ALIEN* Critical injuries for Xenomorphs.
 
 ### Fixed
 - A bug preventing the Crit subcommand `!crit horror` from working.

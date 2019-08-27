@@ -60,7 +60,7 @@ bot.on('ready', () => {
 	// PLAYING, STREAMING, LISTENING, WATCHING
 	// For example:
 	// client.user.setActivity('TV', { type: 'WATCHING' });
-	bot.user.setActivity(`MYZ on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
+	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
 	if (process.env.NODE_ENV !== 'production') test();

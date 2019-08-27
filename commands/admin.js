@@ -10,7 +10,7 @@ module.exports = {
 		// Exits early if not the bot's owner.
 		if (message.author.id !== Config.botAdminID) return;
 
-		const bot = message.channel.members.find(member => member.id === Config.botID).client;
+		const bot = message.channel.members.get(Config.botID).client;
 
 		if (args.includes('maintenance') || args.includes('idle')) {
 			bot.user.setPresence({
@@ -26,7 +26,7 @@ module.exports = {
 			bot.guilds.forEach(guild => {
 				guilds.push(`* ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			});
-			message.author.send(`List of guilds:\n${guilds.join('\n')}`);
+			message.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
 			setOnlineActivity(bot, guilds.length);
 		}
 	},
@@ -38,6 +38,6 @@ module.exports = {
  * @param {number} serverQty Quantity of servers the bot is connected to.
  */
 function setOnlineActivity(client, serverQty) {
-	client.user.setActivity(`MYZ on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
+	client.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 	client.user.setPresence({ status: 'online', afk: false });
 }
