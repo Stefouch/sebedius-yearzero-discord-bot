@@ -2,6 +2,9 @@
 
 **Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and [ALIEN](https://alien-rpg.com/) roleplaying games by *Fria Ligan*.
 
+
+[![Discord Bots](https://discordbots.org/api/widget/status/543445246143365130.svg)](https://discordbots.org/bot/543445246143365130)
+
 ## Add the Bot to your Server
 
 Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=289856
