@@ -107,6 +107,24 @@
 		"Thermal Sight",
 		"Vibro Knife"
 	],
-	"ely": [],
+	"ely": [
+		"Bellicin",
+		"Combat Armor",
+		"Comm Radio",
+		"Electronic Tools",
+		"Energy armor",
+		"E-Pack",
+		"Frag Grenade",
+		"Gauss Pistol",
+		"Gauss Rifle",
+		"Gyrojet Carbine",
+		"Gyrojet Pistol",
+		"Hoverbike",
+		"Patrol Hovercraft",
+		"Reconnaissance Armor",
+		"Stun Gun",
+		"Stun Baton",
+		"Ultrasonic Carbine"
+	],
 	"astra": []
 }
