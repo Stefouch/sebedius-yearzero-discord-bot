@@ -22,12 +22,12 @@ module.exports = {
 		} */
 
 		if (!args.length) {
-			data.push('**Mutant: Year Zero** Discord Bot');
+			data.push('**Year Zero** Discord Bot');
 			data.push(`Deployed version: **${version}**`);
 			data.push('\nHere\'s a list of all my commands:');
 			data.push(commands.map(command => command.name).join(', '));
 			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
-			data.push('\nSee also: <https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md>');
+			data.push('\nReadme: <https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md>');
 			data.push('\nFeature request / bug report: <https://github.com/Stefouch/sebedius-myz-discord-bot/issues>');
 
 			return message.author.send(data, { split: true })
