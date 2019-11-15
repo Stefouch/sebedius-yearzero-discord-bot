@@ -127,7 +127,7 @@ bot.on('message', async message => {
 			+ (message.guild ? ` (${message.guild.name})` : '')
 			+ `: ${command.name}`, args.toString()
 		);
-		command.execute(args, message);
+		command.execute(args, message, bot);
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error.stack);
