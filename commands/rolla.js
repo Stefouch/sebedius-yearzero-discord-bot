@@ -1,9 +1,9 @@
 const Config = require('../config.json');
-const Crits = require('../data/crits.json');
 const Util = require('../util/Util');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
 const PanicCommand = require('./panic');
+const { RollParser } = require('../util/RollParser');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
@@ -136,6 +136,21 @@ module.exports = {
 			else {
 				message.reply(`This Supply Roll is not possible. Try \`${Config.defaultPrefix}rolla res <rating> [name]\``);
 			}
+		}
+		// Generic Roll.
+		else if (RollParser.ROLLREGEX.test(rollArgument)) {
+			const roll = RollParser.parse(rollArgument);
+			const result = roll.roll();
+			let text = `Generic roll: \`${rollArgument}\` = (${roll.lastResults.join('+')})`;
+
+			if (roll.modifier) {
+				text += roll.modifier > 0 ? '+' : '';
+				text += roll.modifier;
+			}
+
+			text += ` = ${result}`;
+
+			return message.reply(text);
 		}
 		else {
 			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help rolla\`.`);
