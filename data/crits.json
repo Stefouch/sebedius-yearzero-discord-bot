@@ -956,7 +956,7 @@
 			{
 				"ref": [11, 16],
 				"injury": "Rise Again",
-				"effect": "The Xenomorph falls to the ground, seemingly dead, but it’s a ruse—if it’s attacked again, or on its next initiative, it regains one point of Health and attacks—fueled by instinctive hatred."
+				"effect": "The Xenomorph falls to the ground, seemingly dead, but it’s a ruse. If it’s attacked again, or on its next initiative, it regains one point of Health and attacks—fueled by instinctive hatred."
 			},
 			{
 				"ref": [21, 26],
@@ -966,17 +966,17 @@
 			{
 				"ref": [31, 36],
 				"injury": "Desperate Action",
-				"effect": "The Xenomorph is severely wounded and cries out in agony. It immediately performs a fast and a slow action, outside of the normal turn order. Roll a D6: On 1–3, it tries to escape (if it succeeds it regains half its Health). On 4–6, it instantly attacks the closest opponent. If it fails to inflict any damage, the creature dies. If it succeeds, it regains one point of Health."
+				"effect": "The Xenomorph is severely wounded and cries out in alien fury. It immediately performs a fast and a slow action, outside of the normal turn order. Roll a D6: On 1–3, it tries to escape (if it succeeds it regains half its Health). On 4–6, it instantly attacks the closest opponent. If it fails to inflict any damage, the creature dies. If it succeeds, it regains one point of Health."
 			},
 			{
 				"ref": [41, 46],
 				"injury": "Last Breath",
-				"effect": "The Xenomorph is mortally wounded and contorts in agony. On its next initiative, it will try to kill the nearest victim, then the beast dies. If it’s wounded again before then, it dies instantly."
+				"effect": "The Xenomorph is mortally wounded and contorts wildly. On its next initiative, it will try to kill the nearest victim, then the beast dies. If it’s wounded again before then, it dies instantly."
 			},
 			{
 				"ref": [51, 66],
 				"injury": "Torn Apart",
-				"effect": "Instant death. The Xenomorph is torn apart or crushed, emitting a final shriek. Severely mutilated, it can only be Analyzed with OBSERVATION –2."
+				"effect": "Instant death. The Xenomorph is torn apart or crushed amidst shrieks of rage. Severely mutilated, it can only be Analyzed with OBSERVATION –2."
 			}
 		],
 		"panic": [
@@ -1008,7 +1008,7 @@
 			{
 				"ref": 11,
 				"injury": "SEEK COVER",
-				"effect": "You must use your next action to move away from danger and find a safe spot if possible. You are allowed to make a retreat roll (see page 59) if you have an enemy at ENGAGED range. Your STRESS LEVEL is decreased by one, but the STRESS LEVEL of all friendly PCs in SHORT range increases by one. After one Round, you can act normally."
+				"effect": "You must use your next action to move away from danger and find a safe spot if possible. You are allowed to make a retreat roll (see page 93) if you have an enemy at ENGAGED range. Your STRESS LEVEL is decreased by one, but the STRESS LEVEL of all friendly PCs in SHORT range increases by one. After one Round, you can act normally."
 			},
 			{
 				"ref": 12,
@@ -1018,11 +1018,11 @@
 			{
 				"ref": 13,
 				"injury": "FLEE",
-				"effect": "You just can’t take it anymore. You must flee to a safe place and refuse to leave it. You won’t attack anyone and won’t attempt anything dangerous. You are not allowed to make a retreat roll (see page 59) if you have an enemy at ENGAGED range when you flee. Your STRESS LEVEL is decreased by one, but every friendly character who sees you run must make an immediate Panic Roll."
+				"effect": "You just can’t take it anymore. You must flee to a safe place and refuse to leave it. You won’t attack anyone and won’t attempt anything dangerous. You are not allowed to make a retreat roll (see page 93) if you have an enemy at ENGAGED range when you flee. Your STRESS LEVEL is decreased by one, but every friendly character who sees you run must make an immediate Panic Roll."
 			},
 			{
 				"ref": 14,
-				"injury": "PSYCHOTIC",
+				"injury": "BERSERK",
 				"effect": "You must immediately attack the nearest person or creature, friendly or not. You won’t stop until you or the target is Broken. Every friendly character who witnesses your rampage must make an immediate Panic Roll."
 			},
 			{
@@ -1040,7 +1040,7 @@
 			{
 				"ref": [21, 26],
 				"injury": "ALCOHOLISM",
-				"effect": " You must drink alcohol every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 68) without drinking alcohol."
+				"effect": " You must drink alcohol every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 104) without drinking alcohol."
 			},
 			{
 				"ref": [31, 36],
@@ -1055,7 +1055,7 @@
 			{
 				"ref": [51, 56],
 				"injury": "DRUG USE",
-				"effect": "You must use some form of recreational drug (see page 99) every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 68) without consuming your drug of choice."
+				"effect": "You must use some form of recreational drug (see page 137) every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 104) without consuming your drug of choice."
 			},
 			{
 				"ref": [61, 66],
