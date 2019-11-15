@@ -4,6 +4,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.0] - In Progress
+### Added
+- All roll commands can now interpret simple generic rolls.
+- All the Mutant: Elysium artifacts.
+- More admin support for the bot owner.
+
+### Fixed
+- Issue #13: `!arto` is now specific.
+- Some `!help` incorrect informations.
+- Charts with the first edition of ALIEN rpg:
+  - Panic Roll chart: updated page numbers and Berzerk.
+  - Permanent Mental Trauma critical chart: updated page numbers.
+  - Xeno Critical Injuries chart: updated text.
+
 ## [1.6.3] - 2019-08-27
 ### Changed
 - Bot's activity flare from "MYZ" to "YZE" (stands for *Year Zero Engine*).
