@@ -1,0 +1,113 @@
+{
+	"size": {
+		"roll": "2D6",
+		"data": {
+			"2": [1000, 0.0],
+			"3": [2000, 0.1],
+			"5": [4000, 0.2],
+			"7": [7000, 0.5],
+			"8": [10000, 0.7],
+			"9": [12500, 1.0],
+			"11": [15000, 1.3],
+			"12": [20000, 2.0]
+		}
+	},
+	"atmosphere": {
+		"roll": "2D6",
+		"data": {
+			"2": "Thin",
+			"4": "Breathable",
+			"7": "Toxic",
+			"9": "Dense",
+			"10": "Corrosive",
+			"11": "Infiltrating",
+			"12": "Special"
+		}
+	},
+	"temperature": {
+		"roll": "2D6",
+		"data": {
+			"2": ["Frozen", "-50°C or less"],
+			"4": ["Cold", "-50 to 0°C"],
+			"6": ["Temperate", "0 to 30°C"],
+			"8": ["Hot", "30 to 80°C"],
+			"11": ["Burning", "80°C or more"]
+		}
+	},
+	"geosphere": {
+		"roll": "2D6",
+		"data": {
+			"2": ["Desert", "No surface water"],
+			"5": ["Arid", "Global deserts and dry steppes, with some lakes and small seas"],
+			"7": ["Temperate-Dry", "Oceans cover 30–40% of the world’s surface"],
+			"9": ["Temperate-Wet", "Oceans cover 60–70% of the world’s surface"],
+			"11": ["Wet", "Global oceans with some islands and archipelagos"],
+			"12": ["Water", "No dry land"]
+		}
+	},
+	"rocky": {
+		"roll": "D66",
+		"data": {
+			"11": "Huge impact crater",
+			"12": "Plains of silicon glass",
+			"13": "Disturbing wind-cut rock formations",
+			"14": "Permanent global dust-storm",
+			"15": "Eerily colored dust plains",
+			"16": "Active volcanic lava fields",
+			"21": "Extensive salt flats",
+			"22": "Dust-laden, permanent sunset sky",
+			"23": "Ancient, blackened lava plains",
+			"24": "Thermal springs and steam vents",
+			"25": "Tall, gravel-strewn mountains",
+			"26": "Howling winds that never stop",
+			"31": "Daily fog banks roll in",
+			"32": "Deep and wide rift valleys",
+			"33": "Bizarrely eroded, wind-cut badlands",
+			"34": "Steep-sided river gorges cut into soft rocks",
+			"35": "Huge moon dominates day/night sky",
+			"36": "World-spanning super canyon",
+			"41": "Impressive river of great length",
+			"42": "Oddly colored forests of alien vegetation",
+			"43": "Mountains cut by sky-blue lakes",
+			"44": "Sweeping plains of elephant grass",
+			"45": "Highly toxic, but beautiful, plant-life",
+			"46": "Small, bright, incredibly fast moons in orbit",
+			"51": "Vast and complex river delta",
+			"52": "Immense series of waterfalls",
+			"53": "Endless mudflats with twisting waterways",
+			"54": "Impressive coastline of fjords and cliffs",
+			"55": "Volcanoes, active & widespread",
+			"56": "Impenetrable jungle",
+			"61": "Dangerous tides—fast and loud",
+			"62": "Vast, permanent super storm",
+			"63": "Toxic sea creatures floating with the currents",
+			"64": "Volcanic island chains",
+			"65": "Permanently overcast with unrelenting rainfall",
+			"66": "Mildly acidic oceans and rainfall"
+		}
+	},
+	"icy": {
+		"roll": "2D6",
+		"data": {
+			"2": "Huge impact crater",
+			"3": "Geysers spew water into low orbit from long fissures",
+			"4": "Deep fissures leading to a subsurface ocean",
+			"5": "Dramatically colored blue-green ice fissures",
+			"6": "Huge and active cryovolcano",
+			"7": "Vast range of ice mountains",
+			"8": "World-spanning super canyon",
+			"9": "Disturbing, wind-cut ice formations",
+			"10": "Black, dust-covered ice plains",
+			"11": "Impressive ice escarpment of great length",
+			"12": "Extensive dune-fields of methane sand grains"
+		}
+	},
+	"colony": {
+		"roll": "2D6",
+		"data": {
+			"2": ["Start-Up", "3D6", 10, "1"],
+			"8": ["Young", "3D6", 100, "D3-1"],
+			"11": ["Established", "2D6", 1000, "D3"]
+		}
+	}
+}
