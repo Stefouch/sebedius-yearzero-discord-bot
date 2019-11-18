@@ -1,6 +1,7 @@
 //const Artos = require('../data/artifacts.list.json');
 const YZEmbed = require('../util/YZEmbed');
 const Star = require('../util/ALIENStarGenerator');
+const World = require('../util/ALIENWorldGenerator');
 const { random } = require('../util/Util');
 
 module.exports = {
@@ -13,5 +14,6 @@ module.exports = {
 	usage: '',
 	async execute(args, message, client) {
 		const star = new Star();
+		const world = new World();
 	},
 };

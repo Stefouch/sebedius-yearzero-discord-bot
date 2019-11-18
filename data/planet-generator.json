@@ -27,11 +27,11 @@
 	"temperature": {
 		"roll": "2D6",
 		"data": {
-			"2": ["Frozen", "-50°C or less"],
-			"4": ["Cold", "-50 to 0°C"],
-			"6": ["Temperate", "0 to 30°C"],
-			"8": ["Hot", "30 to 80°C"],
-			"11": ["Burning", "80°C or more"]
+			"2": [5, "Frozen", "-50°C or less"],
+			"4": [4, "Cold", "-50 to 0°C"],
+			"6": [3, "Temperate", "0 to 30°C"],
+			"8": [2, "Hot", "30 to 80°C"],
+			"11": [1, "Burning", "80°C or more"]
 		}
 	},
 	"geosphere": {
@@ -45,7 +45,7 @@
 			"12": ["Water", "No dry land"]
 		}
 	},
-	"rocky": {
+	"terrain-rocky": {
 		"roll": "D66",
 		"data": {
 			"11": "Huge impact crater",
@@ -86,7 +86,7 @@
 			"66": "Mildly acidic oceans and rainfall"
 		}
 	},
-	"icy": {
+	"terrain-icy": {
 		"roll": "2D6",
 		"data": {
 			"2": "Huge impact crater",
@@ -102,12 +102,143 @@
 			"12": "Extensive dune-fields of methane sand grains"
 		}
 	},
+	"orbit": {
+		"roll": "2D6",
+		"array": true,
+		"data": {
+			"2": "Little (perhaps wreckage) or nothing",
+			"5": "Ring",
+			"6": "Abandoned or Repurposed Satellite or Space Station",
+			"7": "D3 Moons",
+			"9": "Survey Station",
+			"10": "Several Survey and Communications Satellites",
+			"11": "Transfer Station",
+			"12": { "REROLL": "D6" }
+		}
+	},
 	"colony": {
 		"roll": "2D6",
 		"data": {
 			"2": ["Start-Up", "3D6", 10, "1"],
 			"8": ["Young", "3D6", 100, "D3-1"],
 			"11": ["Established", "2D6", 1000, "D3"]
+		}
+	},
+	"colony-mission": {
+		"roll": "2D6",
+		"data": {
+			"2": "Terraforming ",
+			"3": "Research ",
+			"4": "Survey and Prospecting ",
+			"5": "Prison/Secluded or Exile ",
+			"6": "Mining and Refining ",
+			"7": "Mineral Drilling ",
+			"8": "Communications Relay ",
+			"9": "Military ",
+			"10": "Cattle Ranching/Logging ",
+			"11": "Corporate HQ",
+			"12": "Government HQ"
+		}
+	},
+	"colony-factions-qty": {
+		"roll": "2D6",
+		"data": {
+			"1": [1, "One dominant faction"],
+			"2": [2, "Two balanced factions"],
+			"3": [2, "Two competing factions"],
+			"4": [2, "One dominant, one weak faction"],
+			"5": [3, "Three competing factions"],
+			"6": ["D6", "D6 factions, their comparative strengths are determined by D6 each"]
+		}
+	},
+	"colony-factions": {
+		"roll": "D6",
+		"data": {
+			"1": "Newcomers",
+			"2": "Corporate Representatives",
+			"3": "Scientists",
+			"4": "Workers",
+			"5": "Security/Military",
+			"6": "Colonial Leadership"
+		}
+	},
+	"colony-allegiance": {
+		"define": ["Independent Core System Colonies", "American or Anglo-Japanese Arm"],
+		"roll": "3D6",
+		"data": {
+			"3": ["Kelland Mining","Kelland Mining"],
+			"5": ["GeoFund Investor","Gustafsson Enterprise"],
+			"6": ["Gustafsson Enterprise","GeoFund Investor"],
+			"7": ["Seegson","Lasalle Bionational"],
+			"8": ["No allegiance (independent)","Weyland-Yutani"],
+			"9": ["Jĭngtì Lóng Corporation","Government representative"],
+			"12": ["Chigusa Corporation","Weyland-Yutani"],
+			"13": ["Lasalle Bionational","Seegson"],
+			"14": ["Seegson Jĭngtì","Lóng Corporation"],
+			"15": ["Lorenz SysTech","Chigusa Corporation"],
+			"16": ["Gemini Exoplanet","Gemini Exoplanet"],
+			"17": ["Farside Mining","Farside Mining"]
+		}
+	},
+	"hook": {
+		"roll": "D66",
+		"data": {
+			"11": "Pilfering and thefts force security to search rooms and lockers.",
+			"12": "Incidents of sabotage are increasing; security suspects an organized campaign.",
+			"13": "Colonial Administration is investigating the colony for illegal practices.",
+			"14": "Colonists returning to base report sighting a ‘monster’ on the surface.",
+			"15": "Petty crime, thefts and sabotage are rife.  45 The spaceport is currently quarantined.",
+			"16": "Equipment failure has resulted in rationing at the colony. Tempers are frayed.",
+			"21": "Ship recently arrived with some kind of parasite that will soon spread through the colony.",
+			"22": "Stolen goods are on offer—cheap! 52 Mystery ship arrives at the spaceport.",
+			"23": "Unknown to you an old friend/flame is at the colony.",
+			"24": "Unknown to you an old enemy/rival is at the colony.",
+			"25": "A minor dignitary/notable is visiting in the company of several aides or guards.",
+			"26": "Part of the colony is off-limits temporarily—no reason given.",
+			"31": "Sudden restriction on free movement, unless you can find a way to avoid it.",
+			"32": "An emergency means repair parts and vital supplies are being shipped in from a nearby colony.",
+			"33": "Local crisis about to hit (storm, earthquake, riot, fire, etc.)",
+			"34": "Period of solar flare—will cut communications for one Shift (D6 days if star type MV).",
+			"35": "Spies from a neighboring colony have been discovered and arrested.",
+			"36": "Operations manager and his deputy are in conflict; everyone is choosing sides.",
+			"41": "PCs are invited to a formal dinner, meeting or party.",
+			"42": "The local colonists are not what they seem.",
+			"43": "A military ship is in orbit and the landing party is searching for someone/something.",
+			"44": "A rival colony or corporation is about to carry out an act of sabotage.",
+			"46": "Security situation at the colony.",
+			"51": "A bunch of asteroid miners causing trouble while on leave.",
+			"53": "Civil unrest is about to break out.",
+			"54": "Colonists are trapped and need rescuing far from the settlement itself.",
+			"55": "Authorities have just locked down the colony after a riot.",
+			"56": "A religious leader is whipping up discontent.",
+			"61": "PCs will be harassed by angry locals. Why the anger? And why directed at off-world personnel?",
+			"62": "An expedition is being assembled for a trek overland — the PCs are invited.",
+			"63": "An important colonial official is murdered, only an hour after you arrive.",
+			"64": "Several colonists have gone missing. A search is underway.",
+			"65": "A lifeboat has crashed on planet, and contained an interesting individual.",
+			"66": "The corporation or government paying for the colony keeps ordering teams out to search remote areas—but won’t say what they are searching for."
+		}
+	},
+	"gas-giant": {
+		"roll": "D6",
+		"data": {
+			"1": "Storms",
+			"2": "Single Super Storm",
+			"3": "Rings",
+			"4": "High Winds",
+			"5": "Intense Radiation Fields",
+			"6": "Small Gas Giant"
+		}
+	},
+	"asteroid-belt": {
+		"roll": "D6",
+		"data": {
+			"1": "Bright and highly visible",
+			"2": "High orbital inclination",
+			"3": "Dust Belt",
+			"4": "Contains several large dwarf planets",
+			"5": "Very wide—covering several orbits",
+			"6": "Intensely mineral rich asteroids"
 		}
 	}
 }
