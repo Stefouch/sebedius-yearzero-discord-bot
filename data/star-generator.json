@@ -2,59 +2,23 @@
 	"type": {
 		"roll": "1D6",
 		"data": {
-			"1": {
-				"type": "Giant",
-				"class": "III"
-			},
-			"2": {
-				"type": "Subgiant",
-				"class": "IV"
-			},
-			"3": {
-				"type": "Main Sequence",
-				"class": "V"
-			},
-			"4": {
-				"type": "White Dwarf",
-				"class": "DA"
-			},
-			"5": {
-				"type": "Red Dwarf",
-				"class": "MV"
-			},
-			"6": {
-				"type": "White Main Sequence",
-				"class": "AOV"
-			}
+			"1": ["Giant", "III"],
+			"2": ["Subgiant", "IV"],
+			"3": ["Main Sequence", "V"],
+			"4": ["White Dwarf", "DA"],
+			"5": ["Red Dwarf", "MV"],
+			"6": ["White Main Sequence", "AOV"]
 		}
 	},
 	"spectral": {
 		"roll": "1D6",
 		"data": {
-			"1": {
-				"class": "B",
-				"color": "Blue"
-			},
-			"2": {
-				"class": "A",
-				"color": "White"
-			},
-			"3": {
-				"class": "F",
-				"color": "Yellow-White"
-			},
-			"4": {
-				"class": "G",
-				"color": "Yellow"
-			},
-			"5": {
-				"class": "K",
-				"color": "Orange"
-			},
-			"6": {
-				"class": "M",
-				"color": "Red"
-			}
+			"1": ["Blue", "B"],
+			"2": ["White", "A"],
+			"3": ["Yellow-White", "F"],
+			"4": ["Yellow", "G"],
+			"5": ["Orange", "K"],
+			"6": ["Red", "M"]
 		}
 	}
 }
