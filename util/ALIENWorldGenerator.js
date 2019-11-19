@@ -9,7 +9,7 @@ let nameList;
 try {
 	const listContent = fs.readFileSync('./data/planet-names.list', 'utf8');
 	nameList = listContent.split('\n');
-	console.log('[+] - Scrap list loaded: data/planet-names.list');
+	console.log('[+] - Name list loaded: data/planet-names.list');
 }
 catch(error) {
 	console.error('[ERROR] - Unable to load the planet-names list:', error);
@@ -17,6 +17,7 @@ catch(error) {
 
 const ROCKY_PLANET = 'rocky';
 const ICY_PLANET = 'icy';
+const RANDOM_PLANET = 'random';
 const GASGIANT = 'gasgiant';
 const GASGIANT_MOON = 'gasgiant-moon';
 const ASTEROID_BELT = 'asteroid-belt';
@@ -26,7 +27,7 @@ const AMERICAN_OR_ANGLOJAPANESE_ARM = 1;
 class ALIENWorldGenerator extends YZGenerator2 {
 
 	constructor(
-		type = ROCKY_PLANET,
+		type = RANDOM_PLANET,
 		colonized = false,
 		location = AMERICAN_OR_ANGLOJAPANESE_ARM,
 	) {
@@ -54,7 +55,8 @@ class ALIENWorldGenerator extends YZGenerator2 {
 
 		// TEMPERATURE
 		let celciusMod = 0;
-		if (this.atmosphere === 'Thin') celciusMod = -4;
+		if (type === ICY_PLANET) celciusMod = -12;
+		else if (this.atmosphere === 'Thin') celciusMod = -4;
 		else if (this.atmosphere === 'Dense') celciusMod = +1;
 		else if (this.atmosphere === 'Corrosive'
 			|| this.atmosphere === 'Infiltrating') celciusMod = +6;
@@ -65,6 +67,11 @@ class ALIENWorldGenerator extends YZGenerator2 {
 			name: celciusData[1],
 			description: celciusData[2],
 		};
+
+		// SWITCHING PLANET TYPE
+		if (type === RANDOM_PLANET) {
+			if (this.temperature.name === 'Frozen') type = ICY_PLANET;
+		}
 
 		// GEOSPHERE
 		let geoMod = 0;
@@ -99,7 +106,12 @@ class ALIENWorldGenerator extends YZGenerator2 {
 			this.terrain = super.get('terrain-icy');
 		}
 		else if (type === GASGIANT) {
-			this.terrain = super.get('gas-giant');
+			this.terrain = super.get('gasgiant');
+			// const moonsQty = Util.rand(1, 6) + 4;
+			this.moons = [];
+			// for (let i = 0; i < moonsQty; i++) {
+			// 	this.moons.push(new ALIENWorldGenerator(GASGIANT_MOON));
+			// }
 		}
 		else if (type === ASTEROID_BELT) {
 			this.terrain = super.get('asteroid-belt');
@@ -145,15 +157,15 @@ class ALIENWorldGenerator extends YZGenerator2 {
 			if (this.colony.size === 'Young') orbitMod = +1;
 			else if (this.colony.size === 'Established') orbitMod = +2;
 
-			this.orbits = super.get('orbit', orbitMod);
+			this.orbits = super.getAll('orbit', orbitMod);
 
 			// FACTIONS
 			this.colony.factions = {};
 
 			const factionsQtyData = super.get('colony-factions-qty');
 			const factionsQty = RollParser.parseAndRoll(factionsQtyData[0]);
-			const factionsStr = factionsQtyData[1];
-			if (factionsQtyData[0] === 'D6') factionsStr.replace('D6', factionsQty);
+			let factionsStr = factionsQtyData[1];
+			if (factionsQtyData[0] === 'D6') factionsStr = factionsStr.replace('D6', factionsQty);
 
 			this.colony.factions.qty = factionsQty;
 			this.colony.factions.strengths = factionsStr;
@@ -166,6 +178,10 @@ class ALIENWorldGenerator extends YZGenerator2 {
 			// SCENARIO HOOKS
 			this.colony.hook = super.get('hook');
 		}
+		// END OF GENERATION
+		this.type = type;
+		this.data = {};
+		delete this.data;
 	}
 
 	get hasColony() { return (this.colony !== null); }

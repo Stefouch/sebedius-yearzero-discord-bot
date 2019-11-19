@@ -127,15 +127,15 @@
 	"colony-mission": {
 		"roll": "2D6",
 		"data": {
-			"2": "Terraforming ",
-			"3": "Research ",
-			"4": "Survey and Prospecting ",
-			"5": "Prison/Secluded or Exile ",
-			"6": "Mining and Refining ",
-			"7": "Mineral Drilling ",
-			"8": "Communications Relay ",
-			"9": "Military ",
-			"10": "Cattle Ranching/Logging ",
+			"2": "Terraforming",
+			"3": "Research",
+			"4": "Survey and Prospecting",
+			"5": "Prison/Secluded or Exile",
+			"6": "Mining and Refining",
+			"7": "Mineral Drilling",
+			"8": "Communications Relay",
+			"9": "Military",
+			"10": "Cattle Ranching/Logging",
 			"11": "Corporate HQ",
 			"12": "Government HQ"
 		}
@@ -219,7 +219,7 @@
 			"66": "The corporation or government paying for the colony keeps ordering teams out to search remote areas—but won’t say what they are searching for."
 		}
 	},
-	"gas-giant": {
+	"gasgiant": {
 		"roll": "D6",
 		"data": {
 			"1": "Storms",

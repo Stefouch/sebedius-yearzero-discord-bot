@@ -1,5 +1,5 @@
 const YZGenerator2 = require('./YZGenerator2');
-const CelestialObject = require('./ALIENWorldGenerator');
+const AlienWorld = require('./ALIENWorldGenerator');
 const StarData = require('../data/star-generator.json');
 // const { RollParser } = require('./RollParser');
 const Util = require('./Util');
@@ -11,7 +11,6 @@ const Util = require('./Util');
 class ALIENStarGenerator extends YZGenerator2 {
 	/**
 	 * Defines a star.
-	 * @param {*} data The raw data of the Star.
 	 */
 	constructor() {
 		super(StarData);
@@ -48,6 +47,33 @@ class ALIENStarGenerator extends YZGenerator2 {
 		else if (this.type.code === 'MV') { rockyPlanetQty -= 3; }
 		else if (this.type.code === 'III') { icyPlanetQty--; }
 		else if (this.type.code === 'AOV') { icyPlanetQty--; }
+
+		// CELESTIAL OBJECTS
+		const planets = [];
+
+		for (let i = 0; i < gasGiantQty; i++) {
+			planets.push(new AlienWorld('gasgiant'));
+		}
+		for (let i = 0; i < rockyPlanetQty; i++) {
+			planets.push(new AlienWorld('rocky', true));
+		}
+		for (let i = 0; i < icyPlanetQty; i++) {
+			planets.push(new AlienWorld('icy'));
+		}
+		for (let i = 0; i < beltQty; i++) {
+			planets.push(new AlienWorld('asteroid-belt'));
+		}
+
+		// SORTING CELESTIAL OBJECTS
+		this.orbit = { inner: new Set(), habitable: new Set(), outer: new Set() };
+
+		for (const planet of planets) {
+			if (planet.starOrder <= 1) this.orbit.inner.add(planet);
+			else if (planet.starOrder === 2) this.orbit.inner.add(planet);
+			else if (planet.starOrder === 4) this.orbit.outer.add(planet);
+			else if (planet.starOrder >= 5) this.orbit.outer.add(planet);
+			else this.orbit.habitable.add(planet);
+		}
 	}
 
 	get code() { return this.spectral.code + this.type.code; }

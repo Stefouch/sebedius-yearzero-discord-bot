@@ -48,6 +48,7 @@ class YZGenerator2 {
 	 * @returns {Object}
 	 */
 	setup(source, mod = 0) {
+		if (typeof mod === 'string') mod = RollParser.parseAndRoll(mod);
 		// The "roll-data" are Objects.
 		if (Util.isObject(source)) {
 			// And must have both "roll" and "data" keys.
@@ -72,7 +73,7 @@ class YZGenerator2 {
 					let elem = YZGenerator2.rollData(roll, data);
 
 					// Rerolls if the elem is an Object with { REROLL: number }.
-					if (multiple && elem.hasOwnProperty('REROLL')) { count += elem.REROLL; }
+					if (multiple && elem.hasOwnProperty('REROLL')) { count += Util.parseAndRoll(elem.REROLL); }
 					else if (elems.has(elem)) { count++; }
 					else {
 						elem = this.setup(elem);
@@ -118,7 +119,7 @@ class YZGenerator2 {
 			}
 		}
 		// Returns the first element if found nothing.
-		return Object.keys(data)[0];
+		return Object.values(data)[0];
 	}
 
 	/**

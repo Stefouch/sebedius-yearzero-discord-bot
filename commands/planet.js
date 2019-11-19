@@ -5,15 +5,14 @@ const World = require('../util/ALIENWorldGenerator');
 const { random } = require('../util/Util');
 
 module.exports = {
-	name: 'planet',
-	description: 'Generates a random Planet for the ALIEN rpg.'
+	name: 'star',
+	description: 'Generates a Star sector for the ALIEN rpg.'
 		+ '',
-	aliases: ['star'],
+	aliases: ['★'],
 	guildOnly: false,
 	args: false,
 	usage: '',
 	async execute(args, message, client) {
 		const star = new Star();
-		const world = new World();
 	},
 };
