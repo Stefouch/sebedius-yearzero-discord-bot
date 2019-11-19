@@ -161,7 +161,7 @@ class Util {
 	 * * 0.0: Left-aligned
 	 * * 0.5: Centred
 	 * * 1.0: Right-aligned
-	 * * The default is 0.5 (centre-aligned).
+	 * * The default is 0.5 (center-aligned).
 	 * @param {?string} [char=' '] Chracter to pad with. Defaults to space (U+0020)
 	 * @return {string}
 	 */
