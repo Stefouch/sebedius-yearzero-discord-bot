@@ -1,5 +1,5 @@
 // const db = require('../database/database');
-const TestCommand = require('../commands/planet');
+// const TestCommand = require('../commands/planet');
 
 module.exports = {
 	test: () => {
@@ -10,6 +10,6 @@ module.exports = {
 		// const deck2 = new YZDeck(JSON.parse(store));
 		// console.log(deck2);
 		// console.log('end');
-		TestCommand.execute();
+		// TestCommand.execute();
 	},
 };

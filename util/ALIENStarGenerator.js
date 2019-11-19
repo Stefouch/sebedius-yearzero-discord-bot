@@ -74,10 +74,15 @@ class ALIENStarGenerator extends YZGenerator2 {
 			else if (planet.starOrder >= 5) this.orbit.outer.add(planet);
 			else this.orbit.habitable.add(planet);
 		}
+
+		console.log(this);
 	}
 
 	get code() { return this.spectral.code + this.type.code; }
 	get name() { return `${this.spectral.name} ${this.type.name}`; }
+	get orbitInnerSize() { return this.orbit.inner.size; }
+	get orbitOuterSize() { return this.orbit.outer.size; }
+	get orbitHabSize() { return this.orbit.habitable.size; }
 }
 
 module.exports = ALIENStarGenerator;

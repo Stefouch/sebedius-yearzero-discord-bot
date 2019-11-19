@@ -23,6 +23,7 @@ const GASGIANT_MOON = 'gasgiant-moon';
 const ASTEROID_BELT = 'asteroid-belt';
 const INDEPENDENT_CORE_SYSTEM_COLONIES = 0;
 const AMERICAN_OR_ANGLOJAPANESE_ARM = 1;
+const PREFIXES = ['LV', 'MT', 'RF', 'GE', 'EX', 'NM', 'DT', 'MT', 'MK', 'LK', 'JN'];
 
 class ALIENWorldGenerator extends YZGenerator2 {
 
@@ -34,7 +35,7 @@ class ALIENWorldGenerator extends YZGenerator2 {
 		super(WorldData);
 
 		this.name = Util.random(nameList);
-		this.code = Util.random(['LV', 'MT', 'RF']) + '-'
+		this.code = Util.random(PREFIXES) + '-'
 			+ Util.zeroise(Util.rand(1, 999), 3);
 
 		// PLANET SIZE
