@@ -1,4 +1,3 @@
-const DemonCommand = require('./demon');
 const YZEmbed = require('../util/YZEmbed');
 const Monster = require('../util/MYZMonsterGenerator');
 const Util = require('../util/Util');
@@ -13,10 +12,10 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[demon]',
-	execute(args, message) {
+	execute(args, message, client) {
 		// ( !demon SHORTCUT )
 		// Exits early and executes !demon if argument "Demon".
-		if (args.includes('demon')) return DemonCommand.execute(['demon'], message);
+		if (args.includes('demon')) return client.commands.get('demon').execute(args, message, client);
 
 		const monster = new Monster();
 
@@ -24,20 +23,20 @@ module.exports = {
 			`${monster.name.toUpperCase()}${monster.swarm ? 'S' : ` ⨯ ${monster.qty}`}`,
 			(monster.loner ? '' : `${monster.descriptions.number} of `)
 				+ `*${monster.descriptions.traits.join(' and ')}* `
-				+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`
+				+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`,
 		);
 
 		// Creature's Strength, Agility, Armor Rating & Legs.
 		embed.addField(
 			'Attributes',
 			`Strength: **${monster.str + +monster.swarm * 3}**\nAgility: **${monster.agi}**`,
-			true
+			true,
 		);
 
 		embed.addField(
 			'Body',
 			`Armor Rating: **${monster.armor}**\n${monster.descriptions.limbs}`,
-			true
+			true,
 		);
 
 		// Creature's skill(s).
@@ -81,7 +80,7 @@ module.exports = {
 		embed.addField(
 			'Mutations',
 			(monster.mutations) ? monster.mutations.join(', ') : '*None*',
-			false
+			false,
 		);
 
 		// Swarm's special.
