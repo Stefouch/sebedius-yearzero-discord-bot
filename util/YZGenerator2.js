@@ -36,7 +36,7 @@ class YZGenerator2 {
 		 */
 		this.data = JSON.parse(JSON.stringify(source));
 
-		console.log(this);
+		// console.log(this);
 	}
 
 	/**
@@ -73,7 +73,7 @@ class YZGenerator2 {
 					let elem = YZGenerator2.rollData(roll, data);
 
 					// Rerolls if the elem is an Object with { REROLL: number }.
-					if (multiple && elem.hasOwnProperty('REROLL')) { count += Util.parseAndRoll(elem.REROLL); }
+					if (multiple && elem.hasOwnProperty('REROLL')) { count += RollParser.parseAndRoll(elem.REROLL); }
 					else if (elems.has(elem)) { count++; }
 					else {
 						elem = this.setup(elem);
