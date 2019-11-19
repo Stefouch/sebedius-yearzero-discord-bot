@@ -6,6 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.7.0] - In Progress
 ### Added
+- New command: `!star` – Generates a random star sector for the *ALIEN* rpg.
+- New command: `!planet` – Generates a random colonized planet for the *ALIEN* rpg.
+- New command: `!job` – Generates a random job for the *ALIEN* rpg.
 - All roll commands can now interpret simple generic rolls.
 - All the Mutant: Elysium artifacts.
 - More admin support for the bot owner.
