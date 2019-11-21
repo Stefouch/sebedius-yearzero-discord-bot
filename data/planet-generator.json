@@ -27,8 +27,8 @@
 	"temperature": {
 		"roll": "2D6",
 		"data": {
-			"2": [5, "Frozen", "-50°C or less"],
-			"4": [4, "Cold", "-50 to 0°C"],
+			"2": [5, "Frozen", "−50°C or less"],
+			"4": [4, "Cold", "−50 to 0°C"],
 			"6": [3, "Temperate", "0 to 30°C"],
 			"8": [2, "Hot", "30 to 80°C"],
 			"11": [1, "Burning", "80°C or more"]
@@ -119,7 +119,7 @@
 	"colony": {
 		"roll": "2D6",
 		"data": {
-			"2": ["Start-Up", "3D6", 10, "1"],
+			"2": ["Start-Up", "3D6", 10, 1],
 			"8": ["Young", "3D6", 100, "D3-1"],
 			"11": ["Established", "2D6", 1000, "D3"]
 		}
@@ -187,10 +187,10 @@
 			"12": "Incidents of sabotage are increasing; security suspects an organized campaign.",
 			"13": "Colonial Administration is investigating the colony for illegal practices.",
 			"14": "Colonists returning to base report sighting a ‘monster’ on the surface.",
-			"15": "Petty crime, thefts and sabotage are rife.  45 The spaceport is currently quarantined.",
+			"15": "Petty crime, thefts and sabotage are rife. ",
 			"16": "Equipment failure has resulted in rationing at the colony. Tempers are frayed.",
 			"21": "Ship recently arrived with some kind of parasite that will soon spread through the colony.",
-			"22": "Stolen goods are on offer—cheap! 52 Mystery ship arrives at the spaceport.",
+			"22": "Stolen goods are on offer—cheap!",
 			"23": "Unknown to you an old friend/flame is at the colony.",
 			"24": "Unknown to you an old enemy/rival is at the colony.",
 			"25": "A minor dignitary/notable is visiting in the company of several aides or guards.",
@@ -205,8 +205,10 @@
 			"42": "The local colonists are not what they seem.",
 			"43": "A military ship is in orbit and the landing party is searching for someone/something.",
 			"44": "A rival colony or corporation is about to carry out an act of sabotage.",
+			"45": "45 The spaceport is currently quarantined.",
 			"46": "Security situation at the colony.",
 			"51": "A bunch of asteroid miners causing trouble while on leave.",
+			"52": "52 Mystery ship arrives at the spaceport.",
 			"53": "Civil unrest is about to break out.",
 			"54": "Colonists are trapped and need rescuing far from the settlement itself.",
 			"55": "Authorities have just locked down the colony after a riot.",

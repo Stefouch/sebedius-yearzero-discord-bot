@@ -4,8 +4,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'star',
-	description: 'Generates a Star sector for the ALIEN rpg.'
-		+ '',
+	description: 'Generates a Star sector for the ALIEN rpg.',
 	aliases: ['★'],
 	guildOnly: false,
 	args: false,
@@ -20,20 +19,35 @@ module.exports = {
 
 class YZStarEmbed extends YZEmbed {
 	constructor(star) {
-		super(`${star.code}-${Util.zeroise(Util.rand(1, 9999), 4)}`, star.name);
+		super(
+			`${star.code}-${Util.zeroise(Util.rand(1, 9999), 4)}`,
+			`Type: ${star.name}\nOrbiting Objects: ${star.orbitSize}`,
+		);
 
 		let order = 1;
-		for (const o of star.orbit.inner) {
-			this.addOrbitField(o, order);
-			order++;
+		if (star.orbitInnerSize > 0) {
+			this.addBlankField();
+			this.addField('`INNER ORBIT`', `*Number of objects: ${star.orbitInnerSize}*`);
+			for (const o of star.orbit.inner) {
+				this.addOrbitField(o, order);
+				order++;
+			}
 		}
-		for (const o of star.orbit.habitable) {
-			this.addOrbitField(o, order);
-			order++;
+		if (star.orbitHabSize > 0) {
+			this.addBlankField();
+			this.addField('`HABITABLE ZONE ORBIT`', `*Number of objects: ${star.orbitHabSize}*`);
+			for (const o of star.orbit.habitable) {
+				this.addOrbitField(o, order);
+				order++;
+			}
 		}
-		for (const o of star.orbit.outer) {
-			this.addOrbitField(o, order);
-			order++;
+		if (star.orbitOuterSize > 0) {
+			this.addBlankField();
+			this.addField('`OUTER ORBIT`', `*Number of objects: ${star.orbitOuterSize}*`);
+			for (const o of star.orbit.outer) {
+				this.addOrbitField(o, order);
+				order++;
+			}
 		}
 	}
 
@@ -44,32 +58,7 @@ class YZStarEmbed extends YZEmbed {
 	 * @returns {YZStarEmbed} this
 	 */
 	addOrbitField(o, order) {
-		let text;
-		if (o.type === 'gasgiant') text = getGasGiantText(o);
-		else if (o.type === 'asteroid-belt') text = getBeltText(o);
-		else text = getPlanetText(o);
-
-		this.addField(`${order}. ${text.title}`, text.desc, false);
+		this.addField(`${order}. ${o.title}`, o.description, false);
 		return this;
 	}
-}
-
-function getGasGiantText(o) {
-	const title = `${o.code} (${o.temperature.name} Gas Giant)`;
-	const desc = `${o.size} Km, ${o.gravity} G, ${o.temperature.description}`;
-	return { title, desc };
-}
-
-function getBeltText(o) {
-	const title = 'Asteroid Belt';
-	const desc = `${o.terrain}.`;
-	return { title, desc };
-}
-
-function getPlanetText(o) {
-	const title = `${o.code} (${o.temperature.name} ${o.geosphere.name} World)`;
-	const desc = `${o.size} Km, ${o.gravity} G, ${o.temperature.description}`
-		+ `\n${o.atmosphere} atmosphere. ${o.terrain}.`
-		+ `\n${o.geosphere.description}.`;
-	return { title, desc };
 }

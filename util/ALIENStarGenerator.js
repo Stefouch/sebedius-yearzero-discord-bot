@@ -75,6 +75,9 @@ class ALIENStarGenerator extends YZGenerator2 {
 			else this.orbit.habitable.add(planet);
 		}
 
+		this.data = {};
+		delete this.data;
+
 		console.log(this);
 	}
 
@@ -83,6 +86,9 @@ class ALIENStarGenerator extends YZGenerator2 {
 	get orbitInnerSize() { return this.orbit.inner.size; }
 	get orbitOuterSize() { return this.orbit.outer.size; }
 	get orbitHabSize() { return this.orbit.habitable.size; }
+	get orbitSize() {
+		return this.orbitInnerSize + this.orbitHabSize + this.orbitOuterSize;
+	}
 }
 
 module.exports = ALIENStarGenerator;

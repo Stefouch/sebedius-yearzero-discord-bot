@@ -17,7 +17,6 @@ catch(error) {
 
 const ROCKY_PLANET = 'rocky';
 const ICY_PLANET = 'icy';
-const RANDOM_PLANET = 'random';
 const GASGIANT = 'gasgiant';
 const GASGIANT_MOON = 'gasgiant-moon';
 const ASTEROID_BELT = 'asteroid-belt';
@@ -28,13 +27,14 @@ const PREFIXES = ['LV', 'MT', 'RF', 'GE', 'EX', 'NM', 'DT', 'MT', 'MK', 'LK', 'J
 class ALIENWorldGenerator extends YZGenerator2 {
 
 	constructor(
-		type = RANDOM_PLANET,
+		type,
 		colonized = false,
 		location = AMERICAN_OR_ANGLOJAPANESE_ARM,
 	) {
 		super(WorldData);
 
 		this.name = Util.random(nameList);
+		this.name = this.name.replace('\r', '');
 		this.code = Util.random(PREFIXES) + '-'
 			+ Util.zeroise(Util.rand(1, 999), 3);
 
@@ -70,9 +70,7 @@ class ALIENWorldGenerator extends YZGenerator2 {
 		};
 
 		// SWITCHING PLANET TYPE
-		if (type === RANDOM_PLANET) {
-			if (this.temperature.name === 'Frozen') type = ICY_PLANET;
-		}
+		if (type === ROCKY_PLANET && this.temperature.name === 'Frozen') type = ICY_PLANET;
 
 		// GEOSPHERE
 		let geoMod = 0;
@@ -108,8 +106,9 @@ class ALIENWorldGenerator extends YZGenerator2 {
 		}
 		else if (type === GASGIANT) {
 			this.terrain = super.get('gasgiant');
+			this.moons = Util.rand(1, 6) + 4;
 			// const moonsQty = Util.rand(1, 6) + 4;
-			this.moons = [];
+			// this.moons = [];
 			// for (let i = 0; i < moonsQty; i++) {
 			// 	this.moons.push(new ALIENWorldGenerator(GASGIANT_MOON));
 			// }
@@ -136,7 +135,7 @@ class ALIENWorldGenerator extends YZGenerator2 {
 			this.colony.population *= coloSizeData[2];
 
 			// COLONY MISSIONS
-			const coloMissionQty = RollParser.parseAndRoll(coloSizeData[3]);
+			const coloMissionQty = Math.max(1, RollParser.parseAndRoll(coloSizeData[3]));
 			let coloMissionMod = 0;
 			if (this.atmosphere.name === 'Breathable') coloMissionMod = +1;
 			else if (this.atmosphere.name === 'Toxic'
@@ -189,6 +188,32 @@ class ALIENWorldGenerator extends YZGenerator2 {
 	get factionsQty() {
 		if (!this.hasColony) return 0;
 		return this.colony.factions.qty;
+	}
+	get title() {
+		if (this.type === GASGIANT) {
+			return `${this.code} (Gas Giant)`;
+		}
+		else if (this.type === ASTEROID_BELT) {
+			return 'Asteroid Belt';
+		}
+		else {
+			return `${this.code} "${this.name}" (${this.geosphere.name} World)`;
+		}
+	}
+	get description() {
+		if (this.type === GASGIANT) {
+			return `${this.size} Km, ${this.gravity} G, ${this.temperature.name} (${this.temperature.description})`
+				+ `\nHas ${this.moons} moons.`;
+		}
+		else if (this.type === ASTEROID_BELT) {
+			return `${this.terrain}.`;
+		}
+		else {
+			const desc = `${this.size} Km, ${this.gravity} G,  ${this.temperature.name} (${this.temperature.description})`
+				+ `\n${this.atmosphere} atmosphere. ${this.terrain}.`
+				+ `\n${this.geosphere.description}.`;
+			return desc;
+		}
 	}
 }
 
