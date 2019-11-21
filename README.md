@@ -81,6 +81,9 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
   * `xeno` or `x` – The *ALIEN* Critical injuries on Xenomorphs.
   * `mental` or `m` – The *ALIEN* Permanent Mental traumas.
 * `panic <stress>` – Rolls a random panic effect for the *ALIEN* roleplaying game.
+* `star` – Generates a random star sector for the *ALIEN* rpg.
+* `colony` – Generates a random colonized planet for the *ALIEN* rpg.
+* `job` – Generates a random job for the *ALIEN* rpg.
 
 ### Roll Examples
 
