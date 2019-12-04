@@ -1,0 +1,77 @@
+{
+	"contractor": {
+		"define": "Patron",
+		"roll": "D66",
+		"data": {
+
+		}
+	},
+	"reward": {
+		"roll": "D66",
+		"data": {
+			"11": "Faction Contact",
+			"14": "Ship Module",
+			"21": "Monetary Reward",
+			"51": "New Gear",
+			"54": "New Weapon",
+			"61": "Bronze or Silver Star"
+		}
+	},
+	"destination": {
+		"define": "Objective",
+		"roll": "D66",
+		"data": {
+			"11": ["Colony", "Either an established or young colony."],
+			"24": ["Isolated Outpost", "A research station or remote military outpost."],
+			"31": ["Starship in Orbit", "An enemy ship, or perhaps an abandoned ship."],
+			"33": ["Orbital Space Station", "A transfer station, space colony or orbital survey platform."],
+			"35": ["Wilderness Location", "Far from civilization, a remote spot on a planetary surface."],
+			"41": ["Planetary War Zone", "An active war zone, fought between colonies, corporations or nation states, with ruined buildings, wrecked vehicles and fortifications."],
+			"44": ["Isolated Spaceport", "A landing field far from any colony, owned by a corporation, individual or military."],
+			"51": ["Scattered Homesteads", "Colonial farmsteads, far from civilization and scattered across the planetary surface."],
+			"53": ["Mine and Refinery", "A huge mining and refining complex, with hundreds of workers and executives."],
+			"56": ["Prison Complex", "Remote penal colony, housing hardened and violent inmates."],
+			"62": ["Radar/Sensor Site", "An automated sensor site, perhaps with its own defenses."],
+			"64": ["Impenetrable Area", "Harsh, inhospitable wilderness such as thick jungle, deep caverns or volcanic lava fields."]
+		}
+	},
+	"mission": {
+		"define": "Mission",
+		"roll": "D66",
+		"data": {
+			"11": ["Recon", "Scout a location, gather intelligence and then report back."],
+			"14": ["Assault", "Attack and hold an objective by force."],
+			"16": ["Defense", "Defend a location/person/group and repel any attack until relieved or until a set time."],
+			"22": ["Combat Patrol", "Patrol an area, looking for signs of the enemy."],
+			"24": ["Sabotage", "Infiltrate an enemy location and destroy a key asset (bridge, uplink tower, radar dish, etc.)"],
+			"31": ["Raid", "Create chaos and destruction by attacking targets of opportunity behind enemy lines."],
+			"33": ["Search and Rescue", "Search for a downed pilot, lost colonists, etc."],
+			"36": ["Peace-Keeping", "Quell a riot and re-establishing order, or protect lines of communication and essential services until authority can be restored."],
+			"43": ["Bug Hunt", "Exterminate local alien life that is threatening colonists on an off-world planet."],
+			"51": ["Civil Evacuation", "A colonial or space station population needs immediate rescue from a crisis or natural catastrophe."],
+			"53": ["Space Assault", "A space station, orbital platform or starship must be captured (or recaptured) by boarding it and seizing control."],
+			"55": ["Space Traffic Security", "The marines are aboard a military vessel that makes customs and security checks on civilian ships in the area, looking for illegal drugs or other goods, arms, workers being trafficked etc."],
+			"56": ["Snatch and Grab", "Locate and seize an item, person or group from behind enemy lines. It may be hostages, POWs, an enemy commander or a piece of high technology."],
+			"63": ["Investigation", "A station, colony or installation is not responding to Network communications. Investigate."]
+		}
+	},
+	"complication": {
+		"roll": "D66",
+		"data": {
+			"11": ["Role Reversal", "The marines find out that the bad guys are actually good guys."],
+			"13": ["Passengers", "During the mission, the marines may find themselves saddled with enemy prisoners or innocent civilians that they must now guard/protect."],
+			"16": ["Observer", "The team is saddled with a reporter/cameraman or a senior officer who gets in the way and asks stupid questions."],
+			"21": ["Company Meddling", "A corporate representative joins the team and is there to ensure the company’s assets and interests are protected."],
+			"24": ["Civilian Advisor", "Technical knowledge or on-site advice is provided by a civilian advisor who has little knowledge of military operations. They may get scared or panic easily."],
+			"26": ["Captured", "An NPC or even a PC is captured by hostile forces."],
+			"33": ["Gear Problems", "The team has faulty gear. It could be anything from ammo or weapons to sensors or vehicles."],
+			"41": ["Tough Resistance", "The opponents are far tougher and more ruthless than expected."],
+			"45": ["Trapped", "During the mission, the team discovers that it is completely trapped, either physically, or tactically."],
+			"51": ["Under Fire!", "The mission location is hit by an air-strike, mines, or heavy weapons, possibly the result of a mishap by their own forces!"],
+			"54": ["Glory Hound", "A new commanding office, a lieutenant, is keen to get himself a medal or commendation, and pushes the marine squad into perilous situations. Someone is going to get killed!"],
+			"56": ["Traps", "There are hidden dangers across the mission site, varying with the nature of the location. They may be mines, IEDs, predatory carnivorous plants or improvised booby traps."],
+			"63": ["Restrictions", "There are tactical restrictions placed on the mission—how the squad acts, where it can go, what weapons it can use, etc."],
+			"65": ["Rookie Commander", "A new platoon commander is a green, untested and untried lieutenant. He’s read the books, survived the training and ran the simulations—but he’ll go to pieces once the bullets start flying."]
+		}
+	}
+}

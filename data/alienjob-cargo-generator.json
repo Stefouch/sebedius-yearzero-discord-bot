@@ -1,0 +1,85 @@
+{
+	"contractor": {
+		"define": "Employer",
+		"roll": "D66",
+		"data": {
+			"11": "Colony Representative",
+			"21": "Colonial Administration",
+			"25": "Mining Company",
+			"36": "Major Corporation",
+			"51": "Military Officer",
+			"54": "Shipping Corporation",
+			"61": "Finance Bank",
+			"64": "Wealthy Individual"
+		}
+	},
+	"reward": {
+		"roll": "D66",
+		"data": {
+			"11": "Discount on new cargo",
+			"14": "New, guaranteed contract",
+			"21": "Monetary reward",
+			"51": "Ship module/feature",
+			"54": "Faction contact",
+			"61": "Debt cancellation (or credit granted)"
+		}
+	},
+	"destination": {
+		"define": "Destination",
+		"roll": "D66",
+		"data": {
+			"11": ["Only Coordinates", "Coordinates for an area in deep space."],
+			"14": ["Hostile Forest/Jungle/Desert", "Landing site is planet-side wilderness, far from human habitation, or on an uninhabited world."],
+			"21": ["Mine", "A mining facility, far from a colony or starport."],
+			"31": ["Spaceport", "Spaceport on an asteroid or moon, or a landing field near a larger settlement."],
+			"34": ["Asteroid/Moon", "The surface of an asteroid or a small moon. Vacuum or dangerous atmosphere."],
+			"41": ["Space Station", "An orbiting space station."],
+			"44": ["Earth", "The busy hub of all interstellar traffic and commerce."],
+			"51": ["Young Colony", "A small colony with only a few hundred inhabitants."],
+			"54": ["Established Colony", "A busy colony with several thousand people and a thriving, local industry."],
+			"61": ["Starship", "A starship in orbit, awaiting your arrival."],
+			"64": ["Outpost", "A small outpost, usually planetside. An outpost is commonly just a single complex with a specific function;corporate, military or scientific."]
+		}
+	},
+	"mission": {
+		"define": "Goods",
+		"roll": "D66",
+		"data": {
+			"11": ["Industrial gases", "Propylene, acetylene, propane, ethyl-formate, chlorofluorocarbon, ammonia, carbon monoxide, ethylene oxide, hydrogen chloride, sulfur dioxide, sulfur hexafluoride."],
+			"13": ["Metal ingots or pellets", "Gold, platinum, palladium, silver, tungsten, copper, iron, etc. "],
+			"15": ["Colonists", "Humans in stasis, ready to begin a colonization project."],
+			"21": ["Timber", "Exotic alien tree products destined for Earth."],
+			"22": ["Ice/Water", "Water, water ice or some other rare frozen solution."],
+			"23": ["Industrial chemicals", "Aluminium Chloride, Aluminium Sulfate, Calcium Acetate, Monosodium Phosphate, Ferric Sulphate, Sodium Hydroxide, Hydrochloric Acid, Sodium Aluminate, Polyaluminium Chloride, Ferrous Chloride, Borate, Potassium Acetate etc."],
+			"24": ["Fertilizer", "Multi-nutrient fertilizer compounds made up of nitrogen, potassium and/or phosphate."],
+			"25": ["Oil", "Crude oil, or liquid petroleum by-products."],
+			"31": ["Foodstuff", "Bulk foods such as chickpeas, soybeans and other legumes, grains (corn, barley, rice, wheat) or refined versions thereof."],
+			"33": ["Ore", "Bauxite (aluminum), galena (lead), pentlandite (nickel), gold-quartz, cassiterite (tin), malachite (copper), magnetite (iron), platinum-bearing sand, trimonite (tungsten)."],
+			"41": ["Medicinal", "goods Vaccines, medicines, disinfectants, surgical gear, scanning machines, hospital beds."],
+			"42": ["Technical parts", "Different makes and types, for suits, refineries, vehicles, power stations, hospitals, prospecting gear, factories, atmospheric processors, weaponry or life support systems."],
+			"44": ["Starship technical parts", "Modules, features, parts for/from dismantled ships."],
+			"46": ["Pressure suits", "Space suits for delivery to the colonies."],
+			"51": ["Single oversized item", "Wind turbines, power station generator, space station hull frame, solar panel assembly, drilling machinery, ore processing mill or furnace."],
+			"52": ["Vehicles", "Diggers, tractors, quad-tracks, all-terrain vehicles, power loaders."],
+			"53": ["Weapons & armor", "Firearms, ammunition and armor for the colonies or remote stations."],
+			"55": ["Radioactives", "Processed uranium cakes or uranium dioxide powder, or fusion plant fuel pellets such as deuterium, tritium, protium or helium-3."],
+			"61": ["Colony construction", "Beams, modules, airlocks, outer shells, roofing material, etc."],
+			"63": ["Animal feed", "Feed concentrates containing grains, high-protein oil meals and byproducts of sugar beet and sugarcane processing."],
+			"64": ["Livestock/animals", "Cattle in stasis, ready for rearing on an off-world colony."],
+			"66": ["Wreckage/Salvage", "Shuttle, or escape/cargo pod requiring investigation and study."]
+		}
+	},
+	"complication": {
+		"roll": "D66",
+		"data": {
+			"11": ["Embargo/Quarantine", "The destination is placed under quarantine or an embargo."],
+			"14": ["Intermission", "The ship’s computer brings the ship out of hyperspace early, and then wakes the crew. What’s the story?"],
+			"21": ["Military", "A military starship sends over a small search party for a “routine” ICC and customs check. Should the PCs be worried?"],
+			"31": ["Delay", "There is a delay in lift-off/undocking; perhaps fuel for the reaction drives or coolant cannot be pumped aboard. There may be a strike, an administrative hold-up or loading equipment may have broken down."],
+			"34": ["Maintenance", "A critical part (drive pump, plasma coil, coolant pump, water recycler, gravity compensator control unit, sensor gimbal motor, etc.) requires replacement before it fails, requiring most of the crew’s participation."],
+			"44": ["Waiting game", "Problems at the destination mean they aren’t ready to accept the cargo. Can the crew help speed things along?"],
+			"54": ["Cargo mishap", "There is a serious problem with the cargo, either moving, leaking, over-heating or catching fire."],
+			"61": ["Wreckage", "A small piece of wreckage is spotted on the sensor scope; a cargo container, escape pod, frozen corpse, part of a starship—smashed or blown off, etc."]
+		}
+	}
+}
