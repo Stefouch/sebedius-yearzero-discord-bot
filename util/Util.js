@@ -1,3 +1,6 @@
+/**
+ * A collection of useful functions.
+ */
 class Util {
 	constructor() {
 		throw new Error(`The ${this.constructor.name} class may not be instantiated.`);
@@ -321,6 +324,35 @@ class Util {
 		if (val === null) return false;
 		if (val instanceof Array) return false;
 		return ((typeof val === 'function') || (typeof val === 'object'));
+	}
+
+	/**
+	 * Converts a CSV-formatted text into a JSON object.
+	 * @param {string} csv CSV-formatted text
+	 * @param {string} [separator=';'] Column-separating character (default is `;`)
+	 * @returns {Object}
+	 */
+	static csvToJSON(csv, separator = ';') {
+
+		const lines = csv.split('\n');
+		const result = [];
+
+		// NOTE: If your columns contain commas in their values, you'll need
+		// to deal with those before doing the next step
+		// (you might convert them to &&& or something, then convert them back later)
+		const headers = lines[0].split(separator);
+
+		for (let i = 1; i < lines.length; i++) {
+
+			const obj = {};
+			const currentLine = lines[i].split(separator);
+
+			for (let j = 0; j < headers.length; j++) {
+				obj[headers[j]] = currentLine[j];
+			}
+			result.push(obj);
+		}
+		return JSON.stringify(result);
 	}
 
 	/**
