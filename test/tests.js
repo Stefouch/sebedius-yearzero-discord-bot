@@ -2,7 +2,7 @@
 // const TestCommand = require('../commands/planet');
 
 module.exports = {
-	test: () => {
+	test: (client) => {
 		// db.set('testkey', 'testval', 'testnamespace', 10000);
 		// const deck = new YZDeck();
 		// const store = JSON.stringify(deck.cardx);
@@ -11,5 +11,8 @@ module.exports = {
 		// console.log(deck2);
 		// console.log('end');
 		// TestCommand.execute();
+		const args = ['bob'];
+		const message = null;
+		client.commands.get('job').execute(args, message, client);
 	},
 };

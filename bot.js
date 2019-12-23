@@ -63,7 +63,7 @@ bot.on('ready', () => {
 	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
-	if (process.env.NODE_ENV !== 'production') test();
+	if (process.env.NODE_ENV !== 'production') test(bot);
 });
 
 /* !

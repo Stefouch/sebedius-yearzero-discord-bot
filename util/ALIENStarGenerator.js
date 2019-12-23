@@ -1,7 +1,6 @@
 const YZGenerator2 = require('./YZGenerator2');
 const AlienWorld = require('./ALIENWorldGenerator');
 const StarData = require('../data/star-generator.json');
-// const { RollParser } = require('./RollParser');
 const Util = require('./Util');
 
 /**
