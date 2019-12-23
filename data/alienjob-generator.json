@@ -115,5 +115,19 @@
 				"extra": 2
 			}
 		}
+	},
+	"plot-twist": {
+		"roll": "D66",
+		"data": {
+			"11": ["Mayday", "Before (or after) the starship is in hyperspace, the crew receive a distress signal and are obliged by law to assist. Alternatively, the call may come whilst on-planet."],
+			"16": ["Bad Intel", "Key mission information will prove false or very misleading."],
+			"23": ["Sabotage", "A serious malfunction or crisis (fire, etc.) quickly turns out to be sabotage, but who is the saboteur?"],
+			"26": ["Secret Plot", "NPCs or PCs in the game have another agenda that runs counter to that of the players and they are busy working on it."],
+			"36": ["Murder", "An NPC is suddenly murdered. Who did it? Why?"],
+			"44": ["Flare Event", "A burst of stellar radiation reaches the PCs’ location from a red dwarf flare star, a distant neutron star or other phenomenon. This could cause power interruptions, or at the very least complete communications blackouts."],
+			"51": ["Malfunction", "A key component to the mission fails when needed – an airlock or drive, a demolitions charge or diamond cutting drill. What now?"],
+			"56": ["Time Limit", "The mission has a deadline; lives (perhaps their own) are depending on it."],
+			"65": ["Alien Outbreak", "At the heart of this scenario is the presence of the Xenomorph XX121. It may be one egg or dozens; or the massacred remains of an unfortunate group of humans with a Xenomorph warrior still on the prowl. Good luck..."]
+		}
 	}
 }
