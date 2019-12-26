@@ -11,8 +11,8 @@ module.exports = {
 		// console.log(deck2);
 		// console.log('end');
 		// TestCommand.execute();
-		const args = ['bob'];
-		const message = null;
-		client.commands.get('job').execute(args, message, client);
+		// const args = ['bob'];
+		// const message = null;
+		// client.commands.get('job').execute(args, message, client);
 	},
 };

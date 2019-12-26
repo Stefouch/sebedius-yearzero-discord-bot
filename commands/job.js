@@ -1,5 +1,6 @@
 const YZEmbed = require('../util/YZEmbed');
 const Job = require('../util/ALIENJobGenerator');
+const Util = require('../util/Util');
 
 module.exports = {
 	name: 'job',
@@ -7,57 +8,66 @@ module.exports = {
 	// aliases: ['aquest'],
 	guildOnly: false,
 	args: true,
-	usage: 'job <cargo|mil|expe>',
+	usage: `<${Job.jobTypes.join('|')}>`,
 	async execute(args, message, client) {
 
 		if (!args[0]) return message.reply('Please specify job type');
 
 		let type = '';
 
-		if (/^(cargo|cargorun|cargo run)$/i.test(args[0])) type = 'cargo';
-		else if (/^(mil|military|militarymission|military mission)$/i.test(args[0])) type = 'mil';
-		else if (/^(expe|exped|expedition)$/i.test(args[0])) type = 'expe';
+		if (/^(cargo|cargorun|cargo run)$/i.test(args[0])) { type = 'cargo'; }
+		else if (/^(mil|military|militarymission|military mission)$/i.test(args[0])) { type = 'mil'; }
+		else if (/^(expe|exped|expedition)$/i.test(args[0])) { type = 'expe'; }
+		else {
+			type = Util.random(Job.jobTypes);
+		}
+		// else return message.reply('Please specify a correct job type: `cargo`, `mil` or `expe`');
 
 		const j = new Job(type);
-		const embed = new YZEmbed(j.title, j.description);
+		const job = j.job;
+		const embed = new YZEmbed(j.title.toUpperCase(), j.description);
 
-		if (!args[0]) {
+		// MISSION & PLOT-TWIST
+		const mdesc = job.mission.description
+			+ `\n**${j.plotTwist.name}:** ${j.plotTwist.description}`;
+		embed.addField(
+			`${getMissionIcon(job.type)} ${job.missionTitle}: **${job.mission.name}**`,
+			mdesc,
+		);
 
-			// COLONY SIZE & POPULATION
-			/*
-			const colo = o.colony;
+		// DESTINATION
+		embed.addField(
+			`:rocket: ${job.destinationTitle}: **${job.destination.name}**`,
+			job.destination.description,
+		);
+
+		// REWARD
+		let rdesc = `• $ ${j.creditReward}.000,00 UA dollars`;
+		job.rewards.forEach(reward => {
+			rdesc += `\n• ${reward}`;
+		});
+
+		embed.addField(':moneybag: Reward', rdesc);
+
+		// COMPLICATION(S)
+		job.complications.forEach(compl => {
 			embed.addField(
-				'Population',
-				`:busts_in_silhouette: × ${colo.population}\n(${colo.size})`,
-				true,
+				`:warning: Possible Complication: **${compl.name}**`,
+				compl.description,
 			);
-
-			// COLONY MISSIONS
-			const missions = colo.missions;
-			embed.addField(
-				`Mission${(missions.size > 1) ? 's' : ''}`,
-				[...missions].join('\n'),
-				true,
-			);
-
-			// COLONY ALLEGIANCE
-			embed.addField('Allegiance', colo.allegiance, true);
-
-			// COLONY ORBIT
-			embed.addField('Orbit', o.orbits.join('\n'), true);
-
-			// COLONY FACTIONS
-			const factions = colo.factions;
-			embed.addField(
-				`Faction${(factions.qty > 1) ? 's' : ''}`,
-				`${factions.strengths}:\n- ${factions.types.join('\n- ')}`,
-				false,
-			);
-
-			// COLONY HOOK
-			embed.addField('Event', colo.hook, false);//*/
-		}
+		});
 
 		return message.channel.send(embed);
 	},
 };
+
+function getMissionIcon(type) {
+	const missionIcon = {
+		cargo: ':package:',
+		mil: ':dart:',
+		expe: ':satellite:',
+	};
+
+	if (missionIcon.hasOwnProperty(type)) return missionIcon[type];
+	else return ':anger:';
+}

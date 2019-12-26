@@ -4,12 +4,31 @@ const CargoJobData = require('../data/alienjob-cargo-generator.json');
 const MilJobData = require('../data/alienjob-mil-generator.json');
 const ExpeJobData = require('../data/alienjob-expe-generator.json');
 const { RollParser } = require('./RollParser');
-const Util = require('./Util');
 
-const JOB_TYPES = {
+const JOB_TYPES_DATA = {
 	cargo: CargoJobData,
 	mil: MilJobData,
 	expe: ExpeJobData,
+};
+const jobTitles = {
+	cargo: 'Cargo Run',
+	mil: 'Military Mission',
+	expe: 'Expedition',
+};
+const contractorTitles = {
+	cargo: 'Employer',
+	mil: 'Patron',
+	expe: 'Sponsor',
+};
+const destinationTitles = {
+	cargo: 'Destination',
+	mil: 'Objective',
+	expe: 'Target Area',
+};
+const missionTitles = {
+	cargo: 'Goods',
+	mil: 'Mission',
+	expe: 'Mission',
 };
 
 /**
@@ -23,16 +42,13 @@ class ALIENJobGenerator extends YZGenerator2 {
 		super(JobData);
 
 		// Exits earlier if wrong jobType.
-		if (!JOB_TYPES.hasOwnProperty(jobType)) throw new Error('Not a valid job type: ' + jobType);
-
-		const t = this.jobTypes.indexOf(jobType);
-		this.title = this.jobNames[t];
+		if (!JOB_TYPES_DATA.hasOwnProperty(jobType)) throw new Error('Not a valid job type: ' + jobType);
 
 		const data = super.get('job');
-		this.type = data.type;
+		this.difficulty = data.type;
 		this.destination = data.destination;
 		this.complication = data.complication;
-		this.reward = RollParser.parseAndRoll(data.reward);
+		this.creditReward = RollParser.parseAndRoll(data.reward);
 		this.extra = data.extra;
 
 		const p = super.get('plot-twist');
@@ -50,23 +66,26 @@ class ALIENJobGenerator extends YZGenerator2 {
 		console.log(this);
 	}
 
-	get description() {
-		return `${this.type} job ${Util.toLowerCase(this.destination)}`
-			+	`\n**Reward:** ${this.reward}k credits`;
+	get title() {
+		return `${this.job.mission.name} ${this.job.jobTitle}`;
 	}
 
-	static get jobTypes() { return Object.keys(JOB_TYPES); }
-	static get jobNames() { return ['Cargo Run', 'Military Mission', 'Expedition']; }
-	static get contractorNames() { return ['Employer', 'Patron', 'Sponsor']; }
-	static get destinationNames() { return ['Destination', 'Objective', 'Target Area']; }
-	static get missionNames() { return ['Goods', 'Mission', 'Mission']; }
+	get description() {
+		return `${this.difficulty} job, ${this.destination}`
+			+	`\n${this.job.contractorTitle}: ${this.job.contractor}`;
+	}
+
+	static get jobTypes() { return Object.keys(JOB_TYPES_DATA); }
 }
 
 module.exports = ALIENJobGenerator;
 
 class ALIENJobDescriptor extends YZGenerator2 {
 	constructor(jobType, complication, extra) {
-		super(JOB_TYPES[jobType]);
+		super(JOB_TYPES_DATA[jobType]);
+
+		// TYPE
+		this.type = jobType;
 
 		// CONTRACTOR
 		this.contractor = super.get('contractor');
@@ -105,4 +124,8 @@ class ALIENJobDescriptor extends YZGenerator2 {
 			}
 		}
 	}
+	get jobTitle() { return jobTitles[this.type]; }
+	get contractorTitle() { return contractorTitles[this.type]; }
+	get destinationTitle() { return destinationTitles[this.type]; }
+	get missionTitle() { return missionTitles[this.type]; }
 }
