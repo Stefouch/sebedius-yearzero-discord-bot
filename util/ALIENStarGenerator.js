@@ -77,7 +77,7 @@ class ALIENStarGenerator extends YZGenerator2 {
 		this.data = {};
 		delete this.data;
 
-		console.log(this);
+		// console.log(this);
 	}
 
 	get code() { return this.spectral.code + this.type.code; }

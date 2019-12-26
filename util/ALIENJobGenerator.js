@@ -62,8 +62,6 @@ class ALIENJobGenerator extends YZGenerator2 {
 			this.complication,
 			this.extra,
 		);
-
-		console.log(this);
 	}
 
 	get title() {

@@ -29,7 +29,7 @@ class YZEmbed extends RichEmbed {
 				const name = isTextChannel ? triggeringMessage.member.displayName : triggeringMessage.author.username;
 				this.setAuthor(
 					name,
-					triggeringMessage.author.avatarURL
+					triggeringMessage.author.avatarURL,
 				);
 			}
 		}

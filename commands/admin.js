@@ -3,6 +3,7 @@ const Config = require('../config.json');
 const ms = require('ms');
 const os = require('os');
 const worker = require('core-worker');
+const YZEmbed = require('../util/YZEmbed');
 
 module.exports = {
 	name: 'admin',
@@ -13,8 +14,6 @@ module.exports = {
 	async execute(args, message, client) {
 		// Exits early if not the bot's owner.
 		if (message.author.id !== Config.botAdminID) return;
-
-		//const bot = message.channel.members.get(Config.botID).client;
 
 		if (args.includes('maintenance') || args.includes('idle')) {
 			client.user.setPresence({
@@ -40,25 +39,29 @@ module.exports = {
 		}
 		// Gets info from the Bot.
 		else if (args.includes('botinfo')) {
-			const npmv = await worker.process('npm -v').death();
-			const stats = new Discord.MessageEmbed()
-				.setTitle('`Lore Statistics`')
-				.addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
-				.addField('Swap Partition Size', `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`, true)
-				.addField('Uptime', ms(client.uptime), true)
-				.addField('Users', client.users.size, true)
-				.addField('Servers', client.guilds.size, true)
-				.addField('Channels', client.channels.size, true)
-				.addField('Emojis', client.emojis.size, true)
-				.addField('Library', 'discord.js', true)
-				.addField('Library Version', `v${Discord.version}`, true)
-				.addField('Bot Created', client.user.createdAt, true)
-				.addField('Node Version', process.version, true)
-				.addField('NPM Version', npmv.data.replace('\n', ''), true)
-				.addField('OS', `${os.platform()} (${process.arch})`, true)
-				.setColor(message.settings.color)
-				.setTimestamp();
-			message.channel.send({ embed: stats });
+			try {
+				const npmv = await worker.process('npm -v').death();
+				const stats = new YZEmbed()
+					.setTitle('`Sebedius Statistics`')
+					.addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
+					.addField('Swap Partition Size', `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`, true)
+					.addField('Uptime', ms(client.uptime), true)
+					.addField('Users', client.users.size, true)
+					.addField('Servers', client.guilds.size, true)
+					.addField('Channels', client.channels.size, true)
+					.addField('Emojis', client.emojis.size, true)
+					.addField('Library', 'discord.js', true)
+					.addField('Library Version', `v${Discord.version}`, true)
+					.addField('Bot Created', client.user.createdAt, true)
+					.addField('Node Version', process.version, true)
+					.addField('NPM Version', npmv.data.replace('\n', ''), true)
+					.addField('OS', `${os.platform()} (${process.arch})`, true)
+					.setTimestamp();
+				message.channel.send(stats);
+			}
+			catch (err) {
+				console.error('Botinfo error', err);
+			}
 		}
 	},
 };
