@@ -3,7 +3,7 @@
 		"define": "Patron",
 		"roll": "D66",
 		"data": {
-
+			"11": "USMC"
 		}
 	},
 	"reward": {
