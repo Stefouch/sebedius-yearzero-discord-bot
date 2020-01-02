@@ -13,7 +13,7 @@ module.exports = {
 		const data = [];
 		const { commands } = message.client;
 
-		let prefix = defaultPrefix;
+		const prefix = defaultPrefix;
 
 		/* if (message.channel.type === 'text') {
 			const guildPrefix = db.get(`prefix_${message.guild.id}`);
@@ -53,11 +53,11 @@ module.exports = {
 		});
 		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), false);
 		if (command.usage) embed.addField('Usage', `${prefix}${command.name} ${command.usage}`, false);
-		if (command.description) embed.addField('Description', command.description, true);
+		if (command.description) embed.addField('Description', command.description, false);
 
 		if (command.moreDescriptions) {
 			for(const desc of command.moreDescriptions) {
-				embed.addField(desc[0], desc[1], true);
+				embed.addField(desc[0], desc[1], false);
 			}
 		}
 

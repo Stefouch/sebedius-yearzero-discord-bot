@@ -11,12 +11,12 @@ module.exports = {
 	usage: `<${Job.jobTypes.join('|')}>`,
 	async execute(args, message, client) {
 
-		if (!args[0]) return message.reply('Please specify job type');
+		if (!args.length) return message.reply('Please specify job type');
 
 		let type = '';
 
 		if (/^(cargo|cargorun|cargo run)$/i.test(args[0])) { type = 'cargo'; }
-		else if (/^(mil|military|militarymission|military mission)$/i.test(args[0])) { type = 'mil'; }
+		else if (/^(mil|mill|military|militarymission|military mission)$/i.test(args[0])) { type = 'mil'; }
 		else if (/^(expe|exped|expedition)$/i.test(args[0])) { type = 'expe'; }
 		else {
 			type = Util.random(Job.jobTypes);
