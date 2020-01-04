@@ -55,7 +55,7 @@
 			"25": ["Oil", "Crude oil, or liquid petroleum by-products."],
 			"31": ["Foodstuff", "Bulk foods such as chickpeas, soybeans and other legumes, grains (corn, barley, rice, wheat) or refined versions thereof."],
 			"33": ["Ore", "Bauxite (aluminum), galena (lead), pentlandite (nickel), gold-quartz, cassiterite (tin), malachite (copper), magnetite (iron), platinum-bearing sand, trimonite (tungsten)."],
-			"41": ["Medicinal", "goods Vaccines, medicines, disinfectants, surgical gear, scanning machines, hospital beds."],
+			"41": ["Medicinal goods", "Vaccines, medicines, disinfectants, surgical gear, scanning machines, hospital beds."],
 			"42": ["Technical parts", "Different makes and types, for suits, refineries, vehicles, power stations, hospitals, prospecting gear, factories, atmospheric processors, weaponry or life support systems."],
 			"44": ["Starship technical parts", "Modules, features, parts for/from dismantled ships."],
 			"46": ["Pressure suits", "Space suits for delivery to the colonies."],
