@@ -555,6 +555,542 @@
 				"effect": "Your heart stops, and you die of pure fright.",
 				"healingTime": 0
 			}
+		],
+		"slash": [
+			{
+				"ref": [11, 12],
+				"injury": "Bleeding Forehead",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": [13, 14],
+				"injury": "Severed Nose",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION -1.",
+				"healingTime": 1
+			},
+			{
+				"ref": [15, 16],
+				"injury": "Severed Finger",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Two-handed weapons can-not be used.",
+				"healingTime": 1
+			},
+			{
+				"ref": [21, 22],
+				"injury": "Severed Toe",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": [23, 24],
+				"injury": "Bleeding Thigh",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": [25, 26],
+				"injury": "Slashed Mouth",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION -1.",
+				"healingTime": 1
+			},
+			{
+				"ref": [31, 32],
+				"injury": "Severed Tendon",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 2
+			},
+			{
+				"ref": [33, 34],
+				"injury": "Wounded Shoulder",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Two-handed weapons can-not be used.",
+				"healingTime": 2
+			},
+			{
+				"ref": [35, 36],
+				"injury": "Severed Ear",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "SCOUTING -1.",
+				"healingTime": 1
+			},
+			{
+				"ref": [41, 42],
+				"injury": "Slashed Eye",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MARKSMANSHIP and SCOUTING -2.",
+				"healingTime": 2
+			},
+			{
+				"ref": [43, 44],
+				"injury": "Punctured Lung",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "ENDURANCE and MOVE -2.",
+				"healingTime": 1
+			},
+			{
+				"ref": [45, 46],
+				"injury": "Severed Foot",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": -1
+			},
+			{
+				"ref": [51, 52],
+				"injury": "Bleeding Gut",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "1 point of damage at each roll for MIGHT, MOVE and MELEE.",
+				"healingTime": 1
+			},
+			{
+				"ref": [53, 54],
+				"injury": "Ruptured Intestines",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "Disease with Virulence 6.",
+				"healingTime": 2
+			},
+			{
+				"ref": [55, 56],
+				"injury": "Severed Arm",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "Two-handed weapons can-not be used.",
+				"healingTime": -1
+			},
+			{
+				"ref": [61, 62],
+				"injury": "Severed Leg",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": -1
+			},
+			{
+				"ref": [63, 64],
+				"injury": "Slit Throat",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "turns",
+				"effect": "ENDURANCE -2.",
+				"healingTime": 1
+			},
+			{
+				"ref": 65,
+				"injury": "Cleft Skull",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You die immediately.",
+				"healingTime": 0
+			},
+			{
+				"ref": 66,
+				"injury": "Decapitation",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your head leaves your body.",
+				"healingTime": 0
+			}
+		],
+		"blunt": [
+			{
+				"ref": [11, 12],
+				"injury": "Stunned",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": [13, 14],
+				"injury": "Breathless",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": [15, 16],
+				"injury": "Concussion",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "SCOUTING -2.",
+				"healingTime": 1
+			},
+			{
+				"ref": [21, 22],
+				"injury": "Broken Nose",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION -1.",
+				"healingTime": 1
+			},
+			{
+				"ref": [23, 24],
+				"injury": "Broken Fingers",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Two-handed weapons can’t be used.",
+				"healingTime": 1
+			},
+			{
+				"ref": [25, 26],
+				"injury": "Broken Toes",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": [31, 33],
+				"injury": "Knocked Out Teeth",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION -1.",
+				"healingTime": 1
+			},
+			{
+				"ref": [34, 36],
+				"injury": "Groin Hit",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "1 point of damage suf-fered at every MOV E or MELEE roll.",
+				"healingTime": 1
+			},
+			{
+				"ref": [41, 43],
+				"injury": "Broken Ribs",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MOVE and MELEE -2.",
+				"healingTime": 2
+			},
+			{
+				"ref": [44, 45],
+				"injury": "Broken Arm",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Two-handed weapons can’t be used.",
+				"healingTime": 2
+			},
+			{
+				"ref": [46, 51],
+				"injury": "Broken Leg",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 2
+			},
+			{
+				"ref": [52, 53],
+				"injury": "Gouged Eye",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MARKSMANSHIP and SCOUTING -2.",
+				"healingTime": 2
+			},
+			{
+				"ref": [54, 55],
+				"injury": "Crushed Foot",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 3
+			},
+			{
+				"ref": [56, 61],
+				"injury": "Crushed Elbow",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "Two-handed weapons can’t be used.",
+				"healingTime": -1
+			},
+			{
+				"ref": [62, 63],
+				"injury": "Crushed Knee",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": -1
+			},
+			{
+				"ref": 64,
+				"injury": "Broken Neck",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Paralyzed from the neck down. If not HEALED in time, the effect is permament.",
+				"healingTime": 3
+			},
+			{
+				"ref": [65, 66],
+				"injury": "Crushed Skull",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your adventure and your life end here.",
+				"healingTime": 0
+			}
+		],
+		"stab": [
+			{
+				"ref": [11, 13],
+				"injury": "Pierced Ear",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "No effect.",
+				"healingTime": 0
+			},
+			{
+				"ref": [14, 16],
+				"injury": "Skewered Foot",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": [21, 23],
+				"injury": "Hand Runthrough",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Two-handed wea-pons cannot be used.",
+				"healingTime": 1
+			},
+			{
+				"ref": [24, 26],
+				"injury": "Pierced Cheek",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MANIPULATION -1.",
+				"healingTime": 1
+			},
+			{
+				"ref": [31, 33],
+				"injury": "Impaled Thigh",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 2
+			},
+			{
+				"ref": 34,
+				"injury": "Severed Tendon",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 3
+			},
+			{
+				"ref": [35, 41],
+				"injury": "Impaled Shoulder",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Two-handed wea-pons cannot be used.",
+				"healingTime": 2
+			},
+			{
+				"ref": [42, 43],
+				"injury": "Pierced Eye",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "MARKSMANSHIP and SCOUTING -2.",
+				"healingTime": 2
+			},
+			{
+				"ref": [44, 45],
+				"injury": "Skewered Groin",
+				"lethal": false,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "1 point of damage suffered at every MOV E or MELEE roll.",
+				"healingTime": 2
+			},
+			{
+				"ref": [46, 51],
+				"injury": "Punctured Lung",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "days",
+				"effect": "ENDURANCE and MOVE -2.",
+				"healingTime": 1
+			},
+			{
+				"ref": [52, 54],
+				"injury": "Bleeding Gut",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "1 point of damage at each roll for MIGHT, MOV E and MELEE.",
+				"healingTime": 1
+			},
+			{
+				"ref": [55, 56],
+				"injury": "Ruptured Intestines",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 1,
+				"timeLimitUnit": "hours",
+				"effect": "Disease with Virulence 6.",
+				"healingTime": 2
+			},
+			{
+				"ref": 61,
+				"injury": "Severed Arm Artery",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "minutes",
+				"effect": "Two-handed wea-pons cannot be used.",
+				"healingTime": 1
+			},
+			{
+				"ref": 62,
+				"injury": "Severed Leg Artery",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "minutes",
+				"effect": "To RUN becomes a slow action.",
+				"healingTime": 1
+			},
+			{
+				"ref": 63,
+				"injury": "Impaled Neck",
+				"lethal": true,
+				"healMalus": -1,
+				"timeLimit": 1,
+				"timeLimitUnit": "turns",
+				"effect": "ENDURANCE -2.",
+				"healingTime": 2
+			},
+			{
+				"ref": 64,
+				"injury": "Skewered Skull",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "You die at once.",
+				"healingTime": 0
+			},
+			{
+				"ref": [65, 66],
+				"injury": "Pierced Heart",
+				"lethal": true,
+				"healMalus": 0,
+				"timeLimit": 0,
+				"timeLimitUnit": "",
+				"effect": "Your heart beats for the last time.",
+				"healingTime": 0
+			}
 		]
 	},
 	"alien": {
