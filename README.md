@@ -60,6 +60,9 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
     * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`).
     * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
+  * `slash` or `sl` – The *Forbidden Lands* Critical injuries due to Slash Wounds.
+  * `blunt` or `bl` – The *Forbidden Lands* Critical injuries due to Blunt Force.
+  * `stab` or `st` – The *Forbidden Lands* Critical injuries due to Stab Wounds.
   * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
