@@ -8,6 +8,9 @@ module.exports = {
 	description: 'Rolls for a random critical injury. You may specify a table or a numeric value.'
 		+ ' The default is the damage from MYZ table. Other available tables are:'
 		+ '\n• `nt` or `nontypical` : Critical injury for non-typical damage.'
+		+ '\n• `sl` or `slash` : The *Forbidden Lands* Critical injuries due to Slash wounds.'
+		+ '\n• `bl` or `blunt` : The *Forbidden Lands* Critical injuries due to Blunt force.'
+		+ '\n• `st` or `stab` : The *Forbidden Lands* Critical injuries due to Stab wounds.'
 		+ '\n• `h` or `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
 		+ '\n• `a` or `alien` : The *ALIEN* Critical injuries.'
 		+ '\n• `s` or `synth` : The *ALIEN* Critical injuries on Synthetics and Androids.'
@@ -17,7 +20,7 @@ module.exports = {
 	aliases: ['ci', 'crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[nt | h | a | s | x | m | pushed] [numeric]',
+	usage: '[nt | sl | bl | st | h | a | s | x | m | pushed] [numeric]',
 	execute(args, message) {
 		let critTable, critRoll, criticalInjury;
 
@@ -32,7 +35,10 @@ module.exports = {
 		}
 		// If not specified, gets a critical table.
 		else {
-			if (/^(horror|h)$/i.test(args[0])) critTable = Crits.fbl.horror;
+			if (/^(slash|sl)$/i.test(args[0])) critTable = Crits.fbl.slash;
+			else if (/^(blunt|bl)$/i.test(args[0])) critTable = Crits.fbl.blunt;
+			else if (/^(stab|st)$/i.test(args[0])) critTable = Crits.fbl.stab;
+			else if (/^(horror|h)$/i.test(args[0])) critTable = Crits.fbl.horror;
 			else if (/^(alien|a)$/i.test(args[0])) critTable = Crits.alien.damage;
 			else if (/^(synth|s)$/i.test(args[0])) critTable = Crits.alien.synthetic;
 			else if (/^(xeno|x)$/i.test(args[0])) critTable = Crits.alien.xeno;
