@@ -4,7 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.7.1] - WORK IN PROGRESS
+## [2.0.0] - WORK IN PROGRESS
+### Added
+- Support for VAESEN rolls.
+
+### Changed
+- Discord.js API upgraded to v12.2.0. Fixed Connection log, MessageEmbed & ReactionCollector accordingly.
+- `!roll` command. See Readme for details.
+
 ### Fixed
 - A typo in job.cargo.goods.medicinal JSON data.
 

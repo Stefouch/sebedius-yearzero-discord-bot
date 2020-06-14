@@ -12,14 +12,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Initializes requirements.
 const fs = require('fs');
-const Config = require('./config.json');
 const db = require('./database/database');
 const { test } = require('./test/tests');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
+// Adds the configuration file.
+bot.config = require('./config.json');
+
 // Initializes global constants.
-let prefix = Config.defaultPrefix;
+let prefix = bot.config.defaultPrefix;
 
 // Loads the available commands.
 bot.commands = new Discord.Collection();
@@ -43,11 +45,11 @@ bot.on('ready', () => {
 	// Lists servers the bot is connected to.
 	console.log('| Guilds/Servers:');
 	let serverQty = 0;
-	bot.guilds.forEach(guild => {
+	bot.guilds.cache.forEach(guild => {
 		console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 		if (process.env.NODE_ENV !== 'production') {
 			console.log('|    * Custom emojis:');
-			guild.emojis.forEach(emoji => {
+			guild.emojis.cache.forEach(emoji => {
 				console.log(`|      <:${emoji.identifier}>`);
 			});
 		}
@@ -79,7 +81,7 @@ bot.on('message', async message => {
 			prefix = fetchedPrefix;
 		}
 		else {
-			prefix = Config.defaultPrefix;
+			prefix = bot.config.defaultPrefix;
 		}
 	}
 

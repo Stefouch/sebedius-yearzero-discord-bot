@@ -1,24 +1,38 @@
 # Year Zero Discord Bot
 
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/), [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/) and [ALIEN](https://alien-rpg.com/) roleplaying games by *Fria Ligan*.
+**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the Year Zero roleplaying games by *Free League Publishing (Fria Ligan)*.
 
+The supported games are:
+* [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
+* [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
+* [ALIEN](https://alien-rpg.com/)
+* [Vaesen](https://frialigan.se/en/games/vaesen/)
+
+<br />
 
 [![Discord Bots](https://discordbots.org/api/widget/status/543445246143365130.svg)](https://discordbots.org/bot/543445246143365130)
 
-## Add the Bot to your Server
+# Add the Bot to your Server
 
 Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=289856
 
 The link will prompt you to authorize the bot on a server. Once the bot's authorized, you'll see it in the Member List.
 
-## Available Commands
+# Available Commands
 
 Commands are triggered with the prefix `!`. This prefix can be configured for your server. Most of the commands can be executed from channels and privately through DMs.
+
+#### Vocabulary
+
+Below you'll find a list of available commands to use. The instructions use the following scheme:
+
+* Chevrons `<...>` mean that the argument is mandatory for the command to work.
+* Brackets `[...]` mean that the argument is facultative.
+* Vertical bar `|` means "OR". *E.g. `d6|d66` means you can type either d6 or d66 for the command.*
 
 #### Generic commands
 
 * `help` – The bot's manual. Read it!
-* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else). Only a member with administrator rights can change this setting.
 * `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord channel. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 
 #### *MYZ* commands
@@ -88,6 +102,13 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 * `colony` – Generates a random colonized planet for the *ALIEN* rpg.
 * `job` – Generates a random job for the *ALIEN* rpg.
 
+#### Other commands
+
+Only a member with administrator rights can change these settings:
+
+* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
+* `setconf game [name]` – Change the default icons layout for the rolled dice. Options are: `mutant|myz`, `fbl`, `alien`, `vaesen`.
+
 ### Roll Examples
 
 `roll 4b1g` – Rolls 4 base and 1 gear dice.
@@ -129,7 +150,7 @@ Most commands have aliases. For example, hitting `!roll` or `!sla` or `!rm` has 
 
 Send `!help <command>` for a list of aliases for a specific command.
 
-## Permissions
+# Permissions
 
 This is a detailed list of needed permissions:
 
@@ -140,11 +161,11 @@ This is a detailed list of needed permissions:
 * `EMBED_LINKS` : The bot uses rich embed to display the dice results.
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
 
-## List of Changes
+# List of Changes
 
 See the [CHANGELOG](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot.
 
-## License
+# License
 
 The literal and graphical information presented with this bot about *Mutant: Year Zero*, *Forbidden Lands* & *ALIEN*, including the textures, is copyright *Fria Ligan / Free League Publishing*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
 
@@ -154,10 +175,42 @@ The bot's JS source code is under MIT license.
 
 *ALIEN* dice's images are courtesy of M. Radomir Balint. Thanks to him for sharing them.
 
-## Contact
+# Contributing
 
-Stefouch#5202 on Discord. Hit me up if you've any question!
+If you've experience with the Discord.js API, you're more than welcome to expand the project.
 
-Join the [Year Zero Worlds](https://discord.gg/ftxkYZn) discord server for extra support and testing the bot.
+## How to Run Sebedius Locally
+
+Install [Node](https://nodejs.org/en/download/)
+
+Install the required packages with the command:
+```
+npm install
+```
+
+Create a `.env` file with the following parameter:
+```
+TOKEN="YourBotTokenAlphaNumericChain"
+```
+
+Start the bot with the command:
+```
+npm start
+```
+
+And enjoy!
+
+
+# Contact & Support
+
+Hit me up if you've any question!
+
+**Twitter:** [Stefouch](https://twitter.com/stefouch)
+
+**Discord:** Stefouch#5202 (join the [Year Zero Worlds](https://discord.gg/ftxkYZn) discord server for extra support and testing the bot.)
+
+**Patreon:** You can also support this project with as little as $1 per month.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
+
+**Paypal:** You may find [paypal.me/Stefouch](https://www.paypal.me/stefouch) useful for a one-time donation.
 
 =]¦¦¦¬ 
