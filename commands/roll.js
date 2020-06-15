@@ -3,6 +3,7 @@ const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
 const { RollParser } = require('../util/RollParser');
+const db = require('../database/database');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
@@ -40,7 +41,90 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '<dice>',
-	execute(args, message) {
+	async execute(args, message, client) {
+		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
+		const rollpack = require('yargs-parser')(args, {
+			alias: {
+				push: ['p', 'pushes'],
+				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
+			},
+			default: {
+				push: 1,
+				fullauto: false,
+			},
+		});
+
+		// Specifies the dice icon set.
+		let game;
+		const gameArgument = rollpack._[0];
+		if (client.config.supportedGames.includes(gameArgument)) {
+			game = gameArgument;
+		}
+		// If no game was specified in the arguments, gets the default from the database.
+		else if (message.channel.type != 'dm') {
+			const defaultGame = await db.get(message.guild.id, 'game');
+			if (defaultGame) game = defaultGame;
+		}
+		// Default is MYZ (mutant).
+		else {
+			game = 'myz';
+		}
+
+		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
+		let artifactDice = [];
+
+		// For each uncategorized argument, we must check what it is.
+		for (const arg of rollpack._) {
+
+			// Checks if it's a roll phrase.
+			if (/^((\d{1,2}[bsgna])|([bsgna]\d{1,2}))$/i.test(arg)) {
+
+				// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
+				const diceCouples = arg.match(/(\d{1,2}[bsgna])|([bsgna]\d{1,2})/gi);
+
+				if (diceCouples.length) {
+
+					for (const dieCouple of diceCouples) {
+
+						// Then, each couple is splitted in an array with the digit and the letter.
+						const couple = dieCouple.match(/\d{1,2}|[bsgna]/gi);
+
+						// Sorts numbers (dice quantity) in first position.
+						couple.sort();
+
+						const diceQty = Number(couple.shift()) || 1;
+						const dieTypeChar = couple.shift().toLowerCase();
+
+						switch (dieTypeChar) {
+							case 'b': baseDiceQty += diceQty; break;
+							case 's': skillDiceQty += diceQty; break;
+							case 'g': gearDiceQty += diceQty; break;
+							case 'n': negDiceQty += diceQty; break;
+							case 'a': artifactDice.push(diceQty); break;
+						}
+					}
+				}
+			}
+		}
+		// Rolls the dice.
+		const rollTitle = `${baseDiceQty}b, ${skillDiceQty}s, ${gearDiceQty}g, ${negDiceQty}}n`;
+		const roll = new YZRoll(
+			message.author,
+			{
+				base: baseDiceQty,
+				skill: skillDiceQty,
+				gear: gearDiceQty,
+				neg: negDiceQty,
+				artifactDie: artifactDieSize,
+			},
+			rollTitle,
+		);
+
+		if (rollpack.fullauto) roll.setFullAuto(true);
+
+		console.log('[ROLL] - Rolled:', roll.toString());
+	},
+	execute2(args, message) {
 		const rollArgument = args.shift();
 
 		// Exits early if no argument.
