@@ -98,10 +98,6 @@ bot.on('message', async message => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
-	// Tiny commands: !ping & !prefix.
-	if (commandName === 'ping') return message.channel.send('Pong!');
-	else if (commandName === 'prefix') return message.reply(`You can use \`${prefix}\` as my prefix.`);
-
 	// Gets the command from its name, with support for aliases.
 	const command = bot.commands.get(commandName)
 		|| bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
