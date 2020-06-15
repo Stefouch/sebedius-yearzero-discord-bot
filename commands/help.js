@@ -1,6 +1,7 @@
 const { defaultPrefix } = require('../config.json');
 const { version } = require('../util/version');
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
+const db = require('../database/database');
 
 module.exports = {
 	name: 'help',
@@ -9,45 +10,51 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[command name]',
-	execute(args, message) {
+	async execute(args, message, client) {
 		const data = [];
-		const { commands } = message.client;
+		const { commands } = client;
 
-		const prefix = defaultPrefix;
+		let prefix = defaultPrefix;
 
-		/* if (message.channel.type === 'text') {
-			const guildPrefix = db.get(`prefix_${message.guild.id}`);
-
-			if(guildPrefix) prefix = guildPrefix;
-		} */
+		if (message.channel.type === 'text') {
+			const guildPrefix = await db.get(message.guild.id, 'prefix');
+			if (guildPrefix) prefix = guildPrefix;
+		}
 
 		if (!args.length) {
-			data.push('**Year Zero** Discord Bot');
-			data.push(`Deployed version: **${version}**`);
-			data.push('\nHere\'s a list of all my commands:');
-			data.push(commands.map(command => command.name).join(', '));
-			data.push(`\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`);
-			data.push('\nReadme: <https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md>');
-			data.push('\nFeature request / bug report: <https://github.com/Stefouch/sebedius-myz-discord-bot/issues>');
+			const commandsTextlist = `\`${commands.map(command => command.name).join('`, `')}\`.`
+				+ `\n\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`;
 
-			return message.author.send(data, { split: true })
+			const linksTextlist = '📖 **Readme**\nhttps://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md'
+				+ '\n\n🛠 **Feature request / bug report**\nhttps://github.com/Stefouch/sebedius-myz-discord-bot/issues'
+				+ '\n\n🦾 **Patreon Page**\nhttps://patreon.com/Stefouch';
+
+			const embed = new MessageEmbed({
+				color: 0x1AA29B,
+				title: '**Sebedius – Year Zero Discord Bot**',
+			});
+			embed.addField('Deployed Version', version, true);
+			embed.addField('List of Commands', commandsTextlist, false);
+			embed.addField('Links', linksTextlist, false);
+
+			return message.author.send(embed)
 				.then(() => {
 					if (message.channel.type === 'dm') return;
 					message.reply('I\'ve sent you a DM with all my commands!');
 				})
 				.catch(error => {
 					console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-					message.reply('it seems like I can\'t DM you! Do you have DMs disabled?');
+					message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
 				});
 		}
 		const name = args[0].toLowerCase();
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('that\'s not a valid command!');
+			return message.reply('That\'s not a valid command!');
 		}
 
-		const embed = new RichEmbed({
+		const embed = new MessageEmbed({
 			color: 0x1AA29B,
 			title: `**${command.name.toUpperCase()}**`,
 		});
