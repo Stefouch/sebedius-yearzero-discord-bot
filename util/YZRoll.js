@@ -1,10 +1,6 @@
 const { rand } = require('./Util');
 
-/**
- * Number of stunts according to the artifact die's face.
- * @type {Array<number>}
- */
-const ARTIFACT_STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+const YZ_GAMES = ['myz', 'fbl', 'coriolis', 'tales', 'alien', 'vaesen', 't2k'];
 
 class YZRoll {
 	/**
@@ -13,7 +9,7 @@ class YZRoll {
 	 * @param {?DicePool} diceData Dice data (see DicePool)
 	 * @param {?string} [title=null] The title/name of the roll
 	 */
-	constructor(author, diceData, title = null) {
+	constructor(author, diceData, game = null, title = null) {
 		/**
 		 * The author of the roll.
 		 * @name YZRoll#author
@@ -30,6 +26,13 @@ class YZRoll {
 		 * @type {StringResolvable}
 		 */
 		this.title = resolveString(title);
+
+		/**
+		 * The game used.
+		 * @type {string}
+		 */
+		this.game = YZ_GAMES[0];
+		if (YZ_GAMES.includes(game)) this.game = game;
 
 		/**
 		 * The timestamp of the roll.
@@ -70,18 +73,17 @@ class YZRoll {
 		}
 
 		/**
-		 * The artifact die of the roll.
-		 * @type {Object}
+		 * The artifact dice of the roll.
+		 * @type {ArtifactDie[]}
 		 * @property {number} size
 		 * @property {number} result
 		 * @property {number} success
 		 */
-		this.artifactDie = {
-			size: Number(diceData.artifactDie),
-			result: 0,
-			get success() { return ARTIFACT_STUNTS[this.result]; },
-		};
-		this.rollArtifactDie();
+		this.artifactDice = [];
+		for (const face of diceData.artifactDice) {
+			const artifactDie = new ArtifactDie(face);
+			this.artifactDice.push(artifactDie);
+		}
 
 		/**
 		 * The quantity of dice keeped between pushes.
@@ -105,7 +107,8 @@ class YZRoll {
 			+ this.dice.skill.length
 			+ this.dice.gear.length
 			+ this.dice.neg.length
-			+ this.dice.stress.length;
+			+ this.dice.stress.length
+			+ this.artifactDice.length;
 	}
 
 	/**
@@ -115,12 +118,17 @@ class YZRoll {
 	 * @readonly
 	 */
 	get sixes() {
-		return YZRoll.count(6, this.dice.base)
+		const sixes = YZRoll.count(6, this.dice.base)
 			+ YZRoll.count(6, this.dice.skill)
 			+ YZRoll.count(6, this.dice.gear)
 			+ YZRoll.count(6, this.dice.stress)
-			- YZRoll.count(6, this.dice.neg)
-			+ this.artifactDie.success;
+			- YZRoll.count(6, this.dice.neg);
+		
+		for (const artifactDie of this.artifactDice) {
+			sixes += artifactDie.success;
+		}
+
+		return sixes;
 	}
 
 	/**
@@ -170,9 +178,9 @@ class YZRoll {
 
 	/**
 	 * Sets the Full Automatic Fire mode.
-	 * @param {boolean} bool Full Auto yes or no
+	 * @param {?boolean} [bool=true] Full Auto yes or no
 	 */
-	setFullAuto(bool) {
+	setFullAuto(bool = true) {
 		this.isFullAuto = bool;
 	}
 
@@ -184,18 +192,7 @@ class YZRoll {
 	}
 
 	/**
-	 * Rolls or rerolls the Artifact Die.
-	 */
-	rollArtifactDie() {
-		if (this.artifactDie.size) {
-			if (this.artifactDie.result < 6) {
-				this.artifactDie.result = rand(1, this.artifactDie.size);
-			}
-		}
-	}
-
-	/**
-	 * Pushes the roll, following the MYZ rules.
+	 * Pushes the roll, following the YZ rules.
 	 * @returns {YZRoll} The pushed roll.
 	 */
 	push() {
@@ -233,7 +230,17 @@ class YZRoll {
 				this.dice[type] = filteredDice;
 			}
 		}
-		this.rollArtifactDie();
+
+		console.log("before", this.artifactDice);
+
+		// Pushing Artifact Dice.
+		this.artifactDice.forEach(artifactDie => {
+			artifactDie.roll();
+		});
+		console.log("after", this.artifactDice);
+		
+		
+		// Updating Time Stamp.
 		this.updateTimestamp();
 
 		return this;
@@ -291,8 +298,16 @@ class YZRoll {
 	}
 
 	/**
+	 * Adds a single Artifact Die of the specified size.
+	 * @param {number} size The number of faces 
+	 */
+	addArtifactDie(size) {
+		this.artifactDice.push(new ArtifactDie(size));
+	}
+
+	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {string} [type='base'] "base", "skill", "gear" or "neg" (default is "base")
+	 * @param {?string} [type='base'] "base", "skill", "gear" or "neg" (default is "base")
 	 * @returns {number} The summed result
 	 */
 	sum(type = 'base') {
@@ -305,7 +320,7 @@ class YZRoll {
 
 	/**
 	 * Gets the base-six sticky-result of the dice of a certain type.
-	 * @param {string} [type='BASE'] "base", "skill", "gear" or "neg" (default is "base")
+	 * @param {?string} [type='BASE'] "base", "skill", "gear" or "neg" (default is "base")
 	 * @returns {number} The sticked result
 	 */
 	baseSix(type = 'base') {
@@ -314,16 +329,6 @@ class YZRoll {
 			for (const value of this.dice[type]) result += value;
 		}
 		return Number(result);
-	}
-
-	/**
-	 * Tells if the Resource Die lost one step.
-	 * @param {?number} [result=null] The result to evaluate (default is ArtifactDie.result)
-	 * @returns {boolean} True if the Resource Die value <= 2 (lost a step)
-	 */
-	hasLostResourceStep(result = null) {
-		if (result === null) return this.artifactDie.result <= 2;
-		else return result <= 2;
 	}
 
 	/**
@@ -336,15 +341,17 @@ class YZRoll {
 
 		if (this.dice.stress.length) str += `, stress[${this.dice.stress.toString()}]`;
 		if (this.hasNegative) str += `, neg[${this.dice.neg.toString()}]`;
-		if (this.artifactDie.size) str += `, D${this.artifactDie.size} (${this.artifactDie.result})`;
+
+		if (this.artifactDice.length) {
+			const artoStrings = [];
+			for (const artifactDie of this.artifactDice) {
+				artoStrings.push(artifactDie.toString());
+			}
+			str += `, ${artoStrings.join(', ')}`;
+		}
 
 		return str;
 	}
-
-	/* static get BASE() { return 'base'; }
-	static get SKILL() { return 'skill'; }
-	static get GEAR() { return 'gear'; }
-	static get NEG() { return 'neg'; } */
 
 	/**
 	 * Counts the values in a roll.
@@ -399,3 +406,54 @@ function resolveString(data) {
  * @property {number} [neg] The quantity of negative dice (red color)
  * @property {number} [artifactDie] The size of an artifact die
  */
+
+/**
+ * Number of stunts according to the artifact die's face.
+ * @type {number[]}
+ */
+const ARTIFACT_STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+
+class ArtifactDie {
+
+	constructor(size) {
+		/**
+		 * The size of the Artifact Die / the number of faces it has.
+		 * @type {number}
+		 */
+		this.size = Number(size);
+
+		/**
+		 * The result of the Artifact Die.
+		 * @type {number}
+		 */
+		this.result = 0;
+
+		this.roll();
+	}
+
+	/**
+	 * Returns the number of success(es).
+	 * @type {number}
+	 * @readonly
+	 */
+	get success() {
+		return ARTIFACT_STUNTS[this.result];
+	}
+
+	/**
+	 * Rolls or rerolls the Artifact Die.
+	 * @returns {number} result
+	 */
+	roll() {
+		if (this.size) {
+			if (this.result < 6) {
+				this.result = rand(1, this.size);
+			}
+		}
+		return this.result;
+	}
+
+	toString() {
+		return `D${this.size} (${this.result})`;
+	}
+}
