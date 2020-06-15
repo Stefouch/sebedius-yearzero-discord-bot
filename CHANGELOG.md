@@ -7,10 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - WORK IN PROGRESS
 ### Added
 - Support for VAESEN rolls.
+- New command: `!ping` – Checks the bot's latency.
 
 ### Changed
 - Discord.js API upgraded to v12.2.0. Fixed Connection log, MessageEmbed & ReactionCollector accordingly.
 - `!roll` command. See Readme for details.
+- `!help` command relooking.
 
 ### Fixed
 - A typo in job.cargo.goods.medicinal JSON data.

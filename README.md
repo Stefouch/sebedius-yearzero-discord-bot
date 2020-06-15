@@ -181,7 +181,7 @@ If you've experience with the Discord.js API, you're more than welcome to expand
 
 ## How to Run Sebedius Locally
 
-Install [Node](https://nodejs.org/en/download/)
+Install [Node.JS](https://nodejs.org/en/download/)
 
 Install the required packages with the command:
 ```
@@ -200,8 +200,7 @@ npm start
 
 And enjoy!
 
-
-# Contact & Support
+# Contact
 
 Hit me up if you've any question!
 
@@ -209,8 +208,12 @@ Hit me up if you've any question!
 
 **Discord:** Stefouch#5202 (join the [Year Zero Worlds](https://discord.gg/ftxkYZn) discord server for extra support and testing the bot.)
 
-**Patreon:** You can also support this project with as little as $1 per month.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
+# Support
 
-**Paypal:** You may find [paypal.me/Stefouch](https://www.paypal.me/stefouch) useful for a one-time donation.
+I'd like to thanks to Jeremy Mettler, Joe Guilmette, Matt Kay and all my other patrons and generous donators who are supporting this project and made it possible!
+
+You too you can also support this project with as little as $1 per month.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
+
+You may find [paypal.me/Stefouch](https://www.paypal.me/stefouch) useful for a one-time donation.
 
 =]¦¦¦¬ 
