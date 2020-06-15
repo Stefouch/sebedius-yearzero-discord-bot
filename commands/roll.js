@@ -37,14 +37,15 @@ module.exports = {
 			+ ' Four spaces separates the keeped dice from the new rolled ones.',
 		],
 	],
-	aliases: ['rollm', 'r', 'rm', 'lance', 'lancer', 'slå', 'sla'],
+	aliases: ['roll', 'r', 'lance', 'lancer', 'slå', 'sla'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice>',
 	async execute(args, message, client) {
 		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
-		const rollpack = require('yargs-parser')(args, {
+		const rollargv = require('yargs-parser')(args, {
 			alias: {
+				pride: ['d12'],
 				push: ['p', 'pushes'],
 				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
 			},
@@ -54,27 +55,11 @@ module.exports = {
 			},
 		});
 
-		// Specifies the dice icon set.
-		let game;
-		const gameArgument = rollpack._[0];
-		if (client.config.supportedGames.includes(gameArgument)) {
-			game = gameArgument;
-		}
-		// If no game was specified in the arguments, gets the default from the database.
-		else if (message.channel.type != 'dm') {
-			const defaultGame = await db.get(message.guild.id, 'game');
-			if (defaultGame) game = defaultGame;
-		}
-		// Default is MYZ (mutant).
-		else {
-			game = 'myz';
-		}
-
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
 		let artifactDice = [];
 
 		// For each uncategorized argument, we must check what it is.
-		for (const arg of rollpack._) {
+		for (const arg of rollargv._) {
 
 			// Checks if it's a roll phrase.
 			if (/^((\d{1,2}[bsgna])|([bsgna]\d{1,2}))$/i.test(arg)) {
@@ -106,6 +91,10 @@ module.exports = {
 				}
 			}
 		}
+		// Adds extra Artifact Dice.
+		// 1) Forbidden Lands' Pride.
+		if (rollargv.pride) artifactDice.push(12);
+
 		// Rolls the dice.
 		const rollTitle = `${baseDiceQty}b, ${skillDiceQty}s, ${gearDiceQty}g, ${negDiceQty}}n`;
 		const roll = new YZRoll(
@@ -115,16 +104,19 @@ module.exports = {
 				skill: skillDiceQty,
 				gear: gearDiceQty,
 				neg: negDiceQty,
-				artifactDie: artifactDieSize,
+				artifactDice,
 			},
+			getGame(rollargv._[0], message, client),
 			rollTitle,
 		);
 
-		if (rollpack.fullauto) roll.setFullAuto(true);
+		if (rollargv.fullauto) roll.setFullAuto(true);
 
 		console.log('[ROLL] - Rolled:', roll.toString());
+
+		messageRollResult(roll, message, client);
 	},
-	execute2(args, message) {
+	/*execute2(args, message) {
 		const rollArgument = args.shift();
 
 		// Exits early if no argument.
@@ -244,14 +236,56 @@ module.exports = {
 		else {
 			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
 		}
-	},
+	},//*/
 };
+
+/**
+ * Sends a message with the roll result.
+ * @param {YZRoll} roll The Roll
+ * @param {Discord.message} triggeringMessage The Triggering Message
+ * @param {Discord.client} client The Client (the bot)
+ */
+function messageRollResult(roll, triggeringMessage, client) {
+	// Aborts if too many dice.
+	if (roll.size > client.config.commands.roll.max) {
+		return triggeringMessage.reply('Cant\'t roll that, too many dice!');
+	}
+
+	// Sends the message.
+	triggeringMessage.channel.send(
+		getDiceEmojis(roll),
+		getEmbedDiceResults(roll, triggeringMessage)
+	);
+}
+/**
+ * Gets the game played (used for the dice icons set).
+ * @param {string} arg The phrase (one word) used to identify the game played
+ * @param {Discord.message} message Discord message
+ * @param {Discord.client} client Discord client (the bot)
+ * @returns {string}
+ */
+function getGame(arg, message, client) {
+	let game;
+	if (client.config.supportedGames.includes(arg)) {
+		game = arg;
+	}
+	// If no game was specified in the arguments, gets the default from the database.
+	else if (message.channel.type != 'dm') {
+		const defaultGame = await db.get(message.guild.id, 'game');
+		if (defaultGame) game = defaultGame;
+	}
+	// Default is MYZ (mutant).
+	else {
+		game = 'myz';
+	}
+	return game;
+}
 
 /**
  * Sends a message with the roll results.
  * @param {YZRoll} roll The roll
  * @param {Discord.Message} triggeringMessage The triggering message
- */
+ *
 function sendMessageForRollResults(roll, triggeringMessage) {
 	if (roll.size > Config.commands.roll.max) return triggeringMessage.reply('Can\'t roll that, too many dice!');
 
@@ -306,6 +340,7 @@ function sendMessageForRollResults(roll, triggeringMessage) {
  * @returns {string} The manufactured text
  */
 function getDiceEmojis(roll) {
+	const game = roll.game;
 	let str = '';
 
 	for (const type in roll.dice) {
@@ -316,7 +351,7 @@ function getDiceEmojis(roll) {
 
 			for (let k = 0; k < nbre; k++) {
 				const val = roll.dice[type][k];
-				const icon = Config.icons.myz[type][val];
+				const icon = Config.icons[game][type][val];
 				str += icon;
 
 				// This is calculated to make a space between pushed and not pushed rolls.
