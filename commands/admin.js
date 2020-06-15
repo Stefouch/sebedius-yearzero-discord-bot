@@ -32,11 +32,6 @@ module.exports = {
 			message.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
 			setOnlineActivity(client, guilds.length);
 		}
-		// This is a Ping function for latency check.
-		else if (args.includes('ping')) {
-			const msg = await message.channel.send('Pinging...');
-			msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms.`);
-		}
 		// Gets info from the Bot.
 		else if (args.includes('botinfo')) {
 			try {
