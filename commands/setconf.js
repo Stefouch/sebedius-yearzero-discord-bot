@@ -5,7 +5,7 @@ module.exports = {
 	name: 'setconf',
 	description: 'Sets the bot\'s configuration for this server. See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
-		+ '\n`game [new value]` – Gets or sets the default icon layout for the rolled dice.'
+		+ '\n`game [new value]` – Gets or sets the default icon template for the rolled dice.'
 		+ ` Options are \`${Config.supportedGames.join('`, `')}\`.`,
 	guildOnly: true,
 	args: true,
@@ -40,7 +40,7 @@ module.exports = {
 					message.channel.send(`The Rolled dice default icon layout has been set to: "${newKeyVal}"`);
 				}
 				else {
-					message.reply(`The value you typed for "${newKeyVal}" is undefined.`);
+					message.reply(`The value you typed for "${key}" is unsupported.`);
 				}
 			}
 			// GET
