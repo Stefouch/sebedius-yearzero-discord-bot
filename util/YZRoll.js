@@ -47,6 +47,11 @@ class YZRoll {
 		this.pushed = 0;
 
 		/**
+		 * The maximum number of times the roll can be pushed.
+		 */
+		this.maxPushes = 1;
+
+		/**
 		 * Tells if the roll can be pushed at will.
 		 * @type {boolean}
 		 */
@@ -176,11 +181,21 @@ class YZRoll {
 	}
 
 	/**
+	 * Tells if the roll is pushable.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get pushable() {
+		return this.pushed < this.maxPushes;
+	}
+
+	/**
 	 * Sets the Full Automatic Fire mode.
 	 * @param {?boolean} [bool=true] Full Auto yes or no
 	 */
 	setFullAuto(bool = true) {
 		this.isFullAuto = bool;
+		this.maxPushes = 10;
 	}
 
 	/**
@@ -210,6 +225,9 @@ class YZRoll {
 	 * @returns {YZRoll} The pushed roll.
 	 */
 	push() {
+		// Aborts if not pushable anymore.
+		if (!this.pushable) return this;
+
 		// Indications before pushing.
 		this.keeped = {
 			base: YZRoll.count(6, this.dice.base) + YZRoll.count(1, this.dice.base),
@@ -245,15 +263,12 @@ class YZRoll {
 			}
 		}
 
-		console.log("before", this.artifactDice);
-
 		// Pushing Artifact Dice.
 		this.artifactDice.forEach(artifactDie => {
 			artifactDie.roll();
 		});
-		console.log("after", this.artifactDice);
 
-		// Updating Time Stamp.
+		// Updating Timestamp.
 		this.updateTimestamp();
 
 		return this;
