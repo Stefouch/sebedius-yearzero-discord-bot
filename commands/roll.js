@@ -5,8 +5,6 @@ const Util = require('../util/Util');
 const { RollParser } = require('../util/RollParser');
 const db = require('../database/database');
 
-const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
-
 module.exports = {
 	name: 'roll',
 	description: 'Rolls dice for the *Mutant: Year Zero* roleplaying game.'
@@ -45,24 +43,35 @@ module.exports = {
 		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
 		const rollargv = require('yargs-parser')(args, {
 			alias: {
-				pride: ['d12'],
 				push: ['p', 'pushes'],
+				name: ['n'],
 				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
 			},
 			default: {
 				push: 1,
 				fullauto: false,
 			},
+			boolean: ['fullauto'],
+			array: ['name'],
+			configuration: {
+				'short-option-groups': false,
+				'duplicate-arguments-array': false,
+				// 'combine-arrays': true,
+				'flatten-duplicate-arrays': true,
+			},
 		});
 
+		console.log(rollargv);
+		
+
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
-		let artifactDice = [];
+		const artifactDice = [];
 
 		// For each uncategorized argument, we must check what it is.
 		for (const arg of rollargv._) {
 
 			// Checks if it's a roll phrase.
-			if (/^((\d{1,2}[bsgna])|([bsgna]\d{1,2}))$/i.test(arg)) {
+			if (/^((\d{1,2}[bsgna])|([bsgna]\d{1,2}))+$/i.test(arg)) {
 
 				// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
 				const diceCouples = arg.match(/(\d{1,2}[bsgna])|([bsgna]\d{1,2})/gi);
@@ -77,8 +86,10 @@ module.exports = {
 						// Sorts numbers (dice quantity) in first position.
 						couple.sort();
 
-						const diceQty = Number(couple.shift()) || 1;
-						const dieTypeChar = couple.shift().toLowerCase();
+						const diceQty = Number(couple[0]) || 1;
+						const dieTypeChar = couple[1].toLowerCase();
+
+						//console.log(`arg: ${arg}\ndiceCouples: ${diceCouples}\ndieCouple: ${dieCouple}\ncouple: ${couple}`);
 
 						switch (dieTypeChar) {
 							case 'b': baseDiceQty += diceQty; break;
@@ -96,7 +107,9 @@ module.exports = {
 		if (rollargv.pride) artifactDice.push(12);
 
 		// Rolls the dice.
-		const rollTitle = `${baseDiceQty}b, ${skillDiceQty}s, ${gearDiceQty}g, ${negDiceQty}}n`;
+		let rollTitle = '';
+		if (rollargv.name) rollTitle = `${rollargv.name.join(' ')}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
+
 		const roll = new YZRoll(
 			message.author,
 			{
@@ -106,17 +119,21 @@ module.exports = {
 				neg: negDiceQty,
 				artifactDice,
 			},
-			getGame(rollargv._[0], message, client),
 			rollTitle,
 		);
 
+		// Sets the game.
+		roll.setGame(await getGame(rollargv._[0], message, client));
+
+		// Checks if Full-Auto (unlimited pushes).
 		if (rollargv.fullauto) roll.setFullAuto(true);
 
+		// Log and Roll.
 		console.log('[ROLL] - Rolled:', roll.toString());
-
 		messageRollResult(roll, message, client);
 	},
-	/*execute2(args, message) {
+};
+/*	execute2(args, message) {
 		const rollArgument = args.shift();
 
 		// Exits early if no argument.
@@ -237,55 +254,85 @@ module.exports = {
 			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
 		}
 	},//*/
-};
+
 
 /**
  * Sends a message with the roll result.
  * @param {YZRoll} roll The Roll
- * @param {Discord.message} triggeringMessage The Triggering Message
- * @param {Discord.client} client The Client (the bot)
+ * @param {Discord.Message} triggeringMessage The Triggering Message
+ * @param {Discord.Client} client The Client (the bot)
  */
-function messageRollResult(roll, triggeringMessage, client) {
+async function messageRollResult(roll, triggeringMessage, client) {
 	// Aborts if too many dice.
 	if (roll.size > client.config.commands.roll.max) {
 		return triggeringMessage.reply('Cant\'t roll that, too many dice!');
 	}
 
+	// Aborts if no dice.
+	if (roll.size < 1) {
+		return triggeringMessage.reply('Can\'t roll that, no dice!');
+	}
+
+	// Options.
+	const pushIcon = client.config.commands.roll.pushIcon;
+	const gameOptions = client.config.commands.roll.options[roll.game];
+
 	// Sends the message.
 	triggeringMessage.channel.send(
-		getDiceEmojis(roll),
-		getEmbedDiceResults(roll, triggeringMessage)
-	);
-}
-/**
- * Gets the game played (used for the dice icons set).
- * @param {string} arg The phrase (one word) used to identify the game played
- * @param {Discord.message} message Discord message
- * @param {Discord.client} client Discord client (the bot)
- * @returns {string}
- */
-function getGame(arg, message, client) {
-	let game;
-	if (client.config.supportedGames.includes(arg)) {
-		game = arg;
-	}
-	// If no game was specified in the arguments, gets the default from the database.
-	else if (message.channel.type != 'dm') {
-		const defaultGame = await db.get(message.guild.id, 'game');
-		if (defaultGame) game = defaultGame;
-	}
-	// Default is MYZ (mutant).
-	else {
-		game = 'myz';
-	}
-	return game;
+		getDiceEmojis(roll, gameOptions),
+		getEmbedDiceResults(roll, triggeringMessage, gameOptions),
+	)
+		.then(rollMessage => {
+			// Adds a push reaction icon.
+			// See https://unicode.org/emoji/charts/full-emoji-list.html
+			if (!roll.pushed || roll.isFullAuto) {
+				rollMessage.react(pushIcon);
+
+				// Adds a ReactionCollector to the push icon.
+				// The filter is for reacting only to the push icon and the user who rolled the dice.
+				const filter = (reaction, user) => reaction.emoji.name === pushIcon && user.id === triggeringMessage.author.id;
+				const collector = rollMessage.createReactionCollector(filter, { time: client.config.commands.roll.pushCooldown });
+
+				// Listener: On Collect
+				collector.on('collect', reac => {
+					if (!roll.isFullAuto) collector.stop();
+
+					const pushedRoll = roll.push();
+					console.log(`[ROLL] - Roll pushed: ${pushedRoll.toString()}`);
+
+					if (!rollMessage.deleted) {
+						rollMessage.edit(
+							getDiceEmojis(pushedRoll, gameOptions),
+							{ embed: getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions) },
+						)
+							// Removing the player's reaction.
+							.then(() => reac.remove());
+					}
+				});
+
+				// Listener: On End
+				collector.on('end', () => {
+					try {
+						if (!rollMessage.deleted && rollMessage.channel.type === 'text') {
+							rollMessage.clearReactions(reac => {
+								return reac.emoji.name === pushIcon;
+							});
+						}
+					}
+					catch (error) {
+						console.error(error);
+					}
+				});
+			}
+		})
+		.catch(console.error);
 }
 
 /**
  * Sends a message with the roll results.
  * @param {YZRoll} roll The roll
  * @param {Discord.Message} triggeringMessage The triggering message
- *
+ **
 function sendMessageForRollResults(roll, triggeringMessage) {
 	if (roll.size > Config.commands.roll.max) return triggeringMessage.reply('Can\'t roll that, too many dice!');
 
@@ -332,26 +379,36 @@ function sendMessageForRollResults(roll, triggeringMessage) {
 		.catch(error => {
 			console.error('[ERROR] - Reaction rejected', error);
 		});
-}
+}//*/
 
 /**
  * Returns a text with all the dice turned into emojis.
  * @param {YZRoll} roll The roll
+ * @param {Object} opts Options of the roll command
  * @returns {string} The manufactured text
  */
-function getDiceEmojis(roll) {
+function getDiceEmojis(roll, opts) {
 	const game = roll.game;
 	let str = '';
 
 	for (const type in roll.dice) {
+		let iconType = type;
 		const nbre = roll.dice[type].length;
+
+		if (opts.alias) {
+			for (const key in opts.alias) {
+				if (opts.alias.hasOwnProperty(key) && iconType === key) {
+					iconType = opts.alias[key];
+				}
+			}
+		}
 
 		if (nbre) {
 			str += '\n';
 
 			for (let k = 0; k < nbre; k++) {
 				const val = roll.dice[type][k];
-				const icon = Config.icons[game][type][val];
+				const icon = Config.icons[game][iconType][val];
 				str += icon;
 
 				// This is calculated to make a space between pushed and not pushed rolls.
@@ -366,8 +423,10 @@ function getDiceEmojis(roll) {
 		}
 	}
 
-	if (roll.artifactDie.size) {
-		str += getTextForArtifactDieResult(roll.artifactDie);
+	if (roll.artifactDice.length) {
+		for (const artifactDie of roll.artifactDice) {
+			str += Config.icons.fbl.arto[artifactDie.result];
+		}
 	}
 
 	return str;
@@ -377,12 +436,31 @@ function getDiceEmojis(roll) {
  * Gets an Embed with the dice results and the author's name.
  * @param {YZRoll} roll The 'Roll' Object
  * @param {Discord.Message} message The triggering message
- * @returns {Discord.RichEmbed} A Discord Embed Object
+ * @param {Object} opts Options of the roll command
+ * @returns {Discord.MessageEmbed} A Discord Embed Object
  */
-function getEmbedDiceResults(roll, message) {
-	const desc = `Successes: **${roll.sixes}**\nTraumas: **${roll.attributeTrauma}**\nGear damage: **${roll.gearDamage}**`;
+function getEmbedDiceResults(roll, message, opts) {
+
+	const s = roll.sixes;
+
+	let desc = `Success${s > 1 ? 'es' : ''}: **${s}**`;
+
+	if (opts.condition) {
+		const n = roll.pushed;
+		desc += `\nCondition${n > 1 ? 's' : ''}: **${n}**`;
+	}
+	if (opts.trauma) {
+		const n = roll.attributeTrauma;
+		desc += `\nTrauma${n > 1 ? 's' : ''}: **${n}**`;
+	}
+	if (opts.gearDamage) {
+		desc += `\nGear Damage: **${roll.gearDamage}**`;
+	}
+
 	const embed = new YZEmbed(roll.title, desc, message, true);
+
 	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}x ` : ''}Pushed`);
+
 	return embed;
 }
 
@@ -390,7 +468,7 @@ function getEmbedDiceResults(roll, message) {
  * Returns a text for the Artifact Die.
  * @param {YZRoll.ArtifactDie} artifactDie The 'artifactDie' object from a 'Roll' object
  * @returns {string} The manufactured text
- */
+ *
 function getTextForArtifactDieResult(artifactDie) {
 	const val = artifactDie.result;
 	const succ = artifactDie.success;
@@ -405,7 +483,39 @@ function getTextForArtifactDieResult(artifactDie) {
 	}
 
 	return str;
+}//*/
+
+/**
+ * Gets the game played (used for the dice icons set).
+ * @param {string} arg The phrase (one word) used to identify the game played
+ * @param {Discord.Message} message Discord message
+ * @param {Discord.Client} client Discord client (the bot)
+ * @returns {string}
+ */
+async function getGame(arg, message, client) {
+	let game;
+	if (client.config.supportedGames.includes(arg)) {
+		game = arg;
+	}
+	// If no game was specified in the arguments, gets the default from the database.
+	else if (message.channel.type != 'dm') {
+		const defaultGame = await db.get(message.guild.id, 'game');
+		if (defaultGame) game = defaultGame;
+	}
+	// Default is MYZ (mutant).
+	else {
+		game = 'myz';
+	}
+	return game;
 }
+
+
+
+
+
+
+
+
 
 /**
  * Sends an embed message with D6s calculation result.

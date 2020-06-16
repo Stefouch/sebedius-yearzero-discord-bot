@@ -8,11 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Support for VAESEN rolls.
 - New command: `!ping` – Checks the bot's latency.
+- New subcommand `!setconf game` – Defines the game used for the default dice template.
 
 ### Changed
 - Discord.js API upgraded to v12.2.0. Fixed Connection log, MessageEmbed & ReactionCollector accordingly.
 - `!roll` command. See Readme for details.
-- `!help` command relooking.
+  - Pushing duration increased from 60 to 120 seconds.
+  - Dice arguments are now interchangeable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
+- Relooking of the `!help` command.
 
 ### Fixed
 - A typo in job.cargo.goods.medicinal JSON data.
@@ -25,7 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New command: `!job` – Generates a random job for the *ALIEN* rpg.
 - All roll commands can now interpret simple generic rolls.
 - All the Mutant: Elysium artifacts.
-- More admin support for the bot owner.
+- More admin support for the bot owner (me).
 
 ### Fixed
 - Issue #13: `!arto` is now specific.

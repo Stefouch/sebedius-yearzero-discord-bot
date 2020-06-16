@@ -9,7 +9,7 @@ class YZRoll {
 	 * @param {?DicePool} diceData Dice data (see DicePool)
 	 * @param {?string} [title=null] The title/name of the roll
 	 */
-	constructor(author, diceData, game = null, title = null) {
+	constructor(author, diceData, title = null) {
 		/**
 		 * The author of the roll.
 		 * @name YZRoll#author
@@ -32,7 +32,6 @@ class YZRoll {
 		 * @type {string}
 		 */
 		this.game = YZ_GAMES[0];
-		if (YZ_GAMES.includes(game)) this.game = game;
 
 		/**
 		 * The timestamp of the roll.
@@ -118,12 +117,12 @@ class YZRoll {
 	 * @readonly
 	 */
 	get sixes() {
-		const sixes = YZRoll.count(6, this.dice.base)
+		let sixes = YZRoll.count(6, this.dice.base)
 			+ YZRoll.count(6, this.dice.skill)
 			+ YZRoll.count(6, this.dice.gear)
 			+ YZRoll.count(6, this.dice.stress)
 			- YZRoll.count(6, this.dice.neg);
-		
+
 		for (const artifactDie of this.artifactDice) {
 			sixes += artifactDie.success;
 		}
@@ -185,6 +184,21 @@ class YZRoll {
 	}
 
 	/**
+	 * Sets the game played.
+	 * @param {string} game The game
+	 * @returns {boolean} Returns `true` if the change worked, otherwise returns `false`
+	 */
+	setGame(game) {
+		if (YZ_GAMES.includes(game)) {
+			this.game = game;
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+
+	/**
 	 * Updates the timestamp of the roll.
 	 */
 	updateTimestamp() {
@@ -238,8 +252,7 @@ class YZRoll {
 			artifactDie.roll();
 		});
 		console.log("after", this.artifactDice);
-		
-		
+
 		// Updating Time Stamp.
 		this.updateTimestamp();
 

@@ -9,7 +9,43 @@
 		"roll": {
 			"max": 42,
 			"pushIcon": "🔄",
-			"pushCooldown": 120000
+			"pushCooldown": 120000,
+			"options": {
+				"myz": {
+					"successIcon": "☢",
+					"extraPushDice": null,
+					"trauma": true,
+					"gearDamage": true,
+					"condition": false,
+					"panic": false
+				},
+				"fbl": {},
+				"coriolis": {
+					"alias": {
+						"base": "skill",
+						"neg": "skill",
+						"gear": "skill"
+					},
+					"extraPushDice": ["skill"]
+				},
+				"alien": {
+					"alias": {
+						"base": "skill",
+						"neg": "skill",
+						"gear": "skill"
+					},
+					"extraPushDice": ["stress"],
+					"panic": true
+				},
+				"vaesen": {
+					"alias": {
+						"base": "skill",
+						"neg": "skill",
+						"gear": "skill"
+					},
+					"condition": true
+				}
+			}
 		},
 		"scrap": {
 			"max": 20
