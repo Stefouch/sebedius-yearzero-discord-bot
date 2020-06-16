@@ -1,13 +1,13 @@
 module.exports = {
-	name: 'rollf',
-	description: 'Rolls dice for the *Forbidden Lands* roleplaying game.'
+	name: 'rollc',
+	description: 'Rolls dice for the *Coriolis* roleplaying game.'
 		+ 'Type `help roll` for more details.',
-	aliases: ['rf', 'lancef', 'lancerf', 'slåf', 'slaf'],
+	aliases: ['rc', 'lancec', 'lancerc', 'slåc', 'slac'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
 	execute(args, message, client) {
-		args.unshift('fbl');
+		args.unshift('coriolis');
 		client.commands.get('roll').execute(args, message, client);
 	},
 };

@@ -4,6 +4,7 @@ const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
 const { RollParser } = require('../util/RollParser');
 const db = require('../database/database');
+const PanicCommand = require('./panic');
 
 module.exports = {
 	name: 'roll',
@@ -48,7 +49,6 @@ module.exports = {
 				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
 			},
 			default: {
-				push: 1,
 				fullauto: false,
 			},
 			boolean: ['fullauto'],
@@ -125,8 +125,13 @@ module.exports = {
 		// Sets the game.
 		roll.setGame(await getGame(rollargv._[0], message, client));
 
-		// Checks if Full-Auto (unlimited pushes).
-		if (rollargv.fullauto) roll.setFullAuto(true);
+		// Checks for number of pushes or Full-Auto (unlimited pushes).
+		if (rollargv.fullauto) {
+			roll.setFullAuto(true);
+		}
+		else if (rollargv.push > 1) {
+			roll.maxPushes = Number(rollargv.push) || 1;
+		}
 
 		// Log and Roll.
 		console.log('[ROLL] - Rolled:', roll.toString());
@@ -270,10 +275,12 @@ async function messageRollResult(roll, triggeringMessage, client) {
 
 	// Aborts if no dice.
 	if (roll.size < 1) {
-		return triggeringMessage.reply('Can\'t roll that, no dice!');
+		return triggeringMessage.reply('Can\'t roll a null number of dice!');
 	}
 
-	// Options.
+	// OPTIONS
+	// Important for all below.
+	const userId = triggeringMessage.author.id;
 	const pushIcon = client.config.commands.roll.pushIcon;
 	const gameOptions = client.config.commands.roll.options[roll.game];
 
@@ -283,6 +290,11 @@ async function messageRollResult(roll, triggeringMessage, client) {
 		getEmbedDiceResults(roll, triggeringMessage, gameOptions),
 	)
 		.then(rollMessage => {
+			// Detects PANIC.
+			if (gameOptions.panic && roll.panic) {
+				return PanicCommand.execute([roll.stress], triggeringMessage, client);
+			}
+
 			// Adds a push reaction icon.
 			// See https://unicode.org/emoji/charts/full-emoji-list.html
 			if (!roll.pushed || roll.isFullAuto) {
@@ -290,37 +302,64 @@ async function messageRollResult(roll, triggeringMessage, client) {
 
 				// Adds a ReactionCollector to the push icon.
 				// The filter is for reacting only to the push icon and the user who rolled the dice.
-				const filter = (reaction, user) => reaction.emoji.name === pushIcon && user.id === triggeringMessage.author.id;
+				const filter = (reaction, user) => reaction.emoji.name === pushIcon && user.id === userId;
 				const collector = rollMessage.createReactionCollector(filter, { time: client.config.commands.roll.pushCooldown });
 
-				// Listener: On Collect
+				// ========== Listener: On Collect ==========
 				collector.on('collect', reac => {
-					if (!roll.isFullAuto) collector.stop();
-
 					const pushedRoll = roll.push();
+
+					// Detects additional dice from pushing.
+					if (gameOptions.extraPushDice) {
+						for (const extra of gameOptions.extraPushDice) {
+							pushedRoll.addDice(1, extra);
+						}
+					}
+
 					console.log(`[ROLL] - Roll pushed: ${pushedRoll.toString()}`);
 
+					// Stops the collector if it's the last push.
+					if (!roll.pushable) collector.stop();
+
+					// Edits the roll result embed message.
 					if (!rollMessage.deleted) {
 						rollMessage.edit(
 							getDiceEmojis(pushedRoll, gameOptions),
 							{ embed: getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions) },
 						)
 							// Removing the player's reaction.
-							.then(() => reac.remove());
+							// Only for multiple pushes.
+							.then(async () => {
+								if (pushedRoll.pushable) {
+									const userReactions = rollMessage.reactions.cache.filter(r => r.users.cache.has(userId));
+									try {
+										for (const r of userReactions.values()) {
+											await r.users.remove(userId);
+										}
+									} catch(error) {
+										console.error('Failed to remove reactions.');
+									}
+								}
+							})
+							.catch(console.error);
+					}
+
+					// Detects PANIC.
+					if (gameOptions.panic && pushedRoll.panic) {
+						collector.stop();
+						return PanicCommand.execute([pushedRoll.stress], triggeringMessage, client);
 					}
 				});
 
-				// Listener: On End
-				collector.on('end', () => {
-					try {
-						if (!rollMessage.deleted && rollMessage.channel.type === 'text') {
-							rollMessage.clearReactions(reac => {
-								return reac.emoji.name === pushIcon;
-							});
-						}
-					}
-					catch (error) {
-						console.error(error);
+				// ========== Listener: On End ==========
+				collector.on('end', (collected, reason) => {
+					console.log('collector ended: ', collector.ended);
+					
+					const reac = rollMessage.reactions.cache.first();
+
+					if (reac.emoji.name === pushIcon) {
+						reac.remove()
+							.catch(console.error);
 					}
 				});
 			}
@@ -395,13 +434,15 @@ function getDiceEmojis(roll, opts) {
 		let iconType = type;
 		const nbre = roll.dice[type].length;
 
+		// Alterning dice types.
 		if (opts.alias) {
-			for (const key in opts.alias) {
-				if (opts.alias.hasOwnProperty(key) && iconType === key) {
-					iconType = opts.alias[key];
-				}
+			if (opts.alias.hasOwnProperty(iconType)) {
+				iconType = opts.alias[iconType];
 			}
 		}
+
+		// These types are skipped.
+		if (iconType === '--') continue;
 
 		if (nbre) {
 			str += '\n';
