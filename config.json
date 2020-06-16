@@ -23,16 +23,17 @@
 				"coriolis": {
 					"alias": {
 						"base": "skill",
-						"neg": "skill",
-						"gear": "skill"
+						"gear": "skill",
+						"neg": "--"
 					},
 					"extraPushDice": ["skill"]
 				},
 				"alien": {
 					"alias": {
 						"base": "skill",
-						"neg": "skill",
-						"gear": "skill"
+						"skill": "stress",
+						"gear": "skill",
+						"neg": "--"
 					},
 					"extraPushDice": ["stress"],
 					"panic": true
@@ -40,8 +41,8 @@
 				"vaesen": {
 					"alias": {
 						"base": "skill",
-						"neg": "skill",
-						"gear": "skill"
+						"gear": "skill",
+						"neg": "--"
 					},
 					"condition": true
 				}
