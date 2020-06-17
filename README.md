@@ -34,8 +34,9 @@ Below you'll find a list of available commands to use. The instructions use the 
 
 * `help` – The bot's manual. Read it!
 * `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord channel. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
+* `ping` – Checks the bot's latency.
 
-#### *MYZ* commands
+#### ROLL command
 
 * `roll <dice>` – Rolls dice for the *Mutant: Year Zero* roleplaying game. See possible outcome:
   * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
@@ -48,6 +49,9 @@ Below you'll find a list of available commands to use. The instructions use the 
     * `Z g` – Rolls Z gear dice (black color).
     * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`). *(Concept imported from Forbidden Lands.)*
     * `--fullauto` – Allows unlimited pushes.
+
+#### *MYZ* specific commands
+
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
   * `nontypical` or `nt` – Critical injury for non-typical damage.
   * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
@@ -60,19 +64,8 @@ Below you'll find a list of available commands to use. The instructions use the 
 * `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 
-#### *Forbidden Lands* commands
+#### *Forbidden Lands* specific commands
 
-* `rollf <dice>` – Rolls dice for the *Forbidden Lands* roleplaying game. See possible outcome:
-  * `rollf d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
-  * `rollf Xd|Xd6 [name]` – Rolls X D6 and sums their results.
-  * `rollf res d6|d8|d10|d12 [name]` – Rolls a Resource Die.
-  * `rollf init [bonus]` – Rolls initiative with or without a bonus.
-  * `rollf [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:
-    * `X b` – Rolls X base dice (yellow color).
-    * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
-    * `Z g` – Rolls Z gear dice (black color).
-    * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`).
-    * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
   * `slash` or `sl` – The *Forbidden Lands* Critical injuries due to Slash Wounds.
   * `blunt` or `bl` – The *Forbidden Lands* Critical injuries due to Blunt Force.
@@ -81,17 +74,8 @@ Below you'll find a list of available commands to use. The instructions use the 
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 
-#### *ALIEN* commands
+#### *ALIEN* specific commands
 
-* `rolla <dice>` – Rolls dice for the *ALIEN* roleplaying game. See possible outcome:
-  * `rolla d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
-  * `rolla Xd|Xd6 [name]` – Rolls X D6 and sums their results.
-  * `rolla res|supply <rating> [name]` – Rolls for a supply.
-  * `rolla init [bonus]` – Rolls initiative with or without a bonus.
-  * `rolla [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of *ALIEN*:
-    * `X b` – Rolls X base dice (black color).
-    * `Y s` – Rolls Y stress dice (yellow color).
-    * `--fullauto` – Allows unlimited pushes.
 * `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
   * `alien` or `a` – The *ALIEN* Critical injuries.
   * `synth` or `s` – The *ALIEN* Critical injuries on Synthetics and Androids.
@@ -104,7 +88,7 @@ Below you'll find a list of available commands to use. The instructions use the 
 
 #### Other commands
 
-Only a member with administrator rights can change these settings:
+Only a member with administrator rights can use these commands:
 
 * `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
 * `setconf game [name]` – Change the default icons layout for the rolled dice. Options are: `mutant|myz`, `fbl`, `alien`, `vaesen`.
@@ -113,9 +97,9 @@ Only a member with administrator rights can change these settings:
 
 `roll 4b1g` – Rolls 4 base and 1 gear dice.
 
-`roll 5b3s Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
+`roll 5b3s -n Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
 
-`roll 4b3s2g d10 Uber ROLL --fullauto` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
+`roll 4b3s2g d10 -n Uber ROLL --fullauto` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
 
 `rolla 8b2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 
@@ -123,11 +107,9 @@ Only a member with administrator rights can change these settings:
 
 `roll 2d` – Rolls two hexahedrons and sums their results.
 
-`roll res d8 Torches` – Rolls a D8 Resource Die for "Torches".
+`res d8 Torches` – Rolls a D8 Resource Die for "Torches".
 
-`rolla supply 6 Air` – Rolls supply for "Air" with six stress dice and count ones (banes).
-
-`roll init 1` – Rolls a D6 labelled "Initiative" and adds 1 to the result.
+`supply 6 Air` – Rolls supply for "Air" with six stress dice and count ones (banes).
 
 `init` or `init 1` – Draws one initiative cards.
 
@@ -146,7 +128,7 @@ The push option for the dice pool roll is available for 60 seconds. Only the use
 
 ### Command Aliases
 
-Most commands have aliases. For example, hitting `!roll` or `!sla` or `!rm` has the same output.
+Most commands have aliases. For example, hitting `!roll` or `!sla` or `!r` has the same output.
 
 Send `!help <command>` for a list of aliases for a specific command.
 

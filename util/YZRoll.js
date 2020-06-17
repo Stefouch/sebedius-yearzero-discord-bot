@@ -1,6 +1,6 @@
 const { rand } = require('./Util');
 
-const YZ_GAMES = ['myz', 'fbl', 'coriolis', 'tales', 'alien', 'vaesen', 't2k'];
+const YZ_GAMES = ['generic', 'myz', 'fbl', 'coriolis', 'tales', 'alien', 'vaesen', 't2k'];
 
 class YZRoll {
 	/**
@@ -84,9 +84,11 @@ class YZRoll {
 		 * @property {number} success
 		 */
 		this.artifactDice = [];
-		for (const face of diceData.artifactDice) {
-			const artifactDie = new ArtifactDie(face);
-			this.artifactDice.push(artifactDie);
+		if (diceData.artifactDice) {
+			for (const d of diceData.artifactDice) {
+				const artifactDie = new ArtifactDie(d);
+				this.artifactDice.push(artifactDie);
+			}
 		}
 
 		/**
@@ -191,6 +193,7 @@ class YZRoll {
 
 	/**
 	 * Sets the Full Automatic Fire mode.
+	 * `maxPushes = 10`.
 	 * @param {?boolean} [bool=true] Full Auto yes or no
 	 */
 	setFullAuto(bool = true) {
@@ -448,7 +451,7 @@ class ArtifactDie {
 		 * The size of the Artifact Die / the number of faces it has.
 		 * @type {number}
 		 */
-		this.size = Number(size);
+		this.size = +size;
 
 		/**
 		 * The result of the Artifact Die.
@@ -482,6 +485,6 @@ class ArtifactDie {
 	}
 
 	toString() {
-		return `D${this.size} (${this.result})`;
+		return `D${this.size}(${this.result})`;
 	}
 }

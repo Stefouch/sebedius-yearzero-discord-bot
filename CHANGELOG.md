@@ -6,18 +6,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - WORK IN PROGRESS
 ### Added
-- Support for VAESEN rolls.
+- Support for VAESEN rolls: `!rollv` or `!rv`.
 - New command: `!ping` – Checks the bot's latency.
-- New subcommand `!setconf game` – Defines the game used for the default dice template.
+- New command: `!supply` – Rolls for a supply (*ALIEN* rpg).
+- New command: `!resource` – Rolls a Resource Die (*Forbidden Lands*).
+- New subcommand: `!setconf game` – Defines the game used for the default dice template.
+- The `!panic` command has now a `--fixed` argument if you want to use a fixed number (no D6 rolled).
 
 ### Changed
 - Discord.js API upgraded to v12.2.0. Fixed Connection log, MessageEmbed & ReactionCollector accordingly.
-- `!roll` command. See Readme for details.
+- `!roll` command revamped. See Readme for details.
   - Pushing duration increased from 60 to 120 seconds.
   - Dice arguments are now interchangeable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
 - Relooking of the `!help` command.
 
 ### Fixed
+- A bug where the player's avatar was showing in the roll embed message.
 - A typo in job.cargo.goods.medicinal JSON data.
 
 ## [1.7.0] - 2019-12-26

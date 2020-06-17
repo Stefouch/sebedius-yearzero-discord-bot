@@ -11,9 +11,7 @@ module.exports = {
 	args: false,
 	usage: '[command name]',
 	async execute(args, message, client) {
-		const data = [];
 		const { commands } = client;
-
 		let prefix = defaultPrefix;
 
 		if (message.channel.type === 'text') {

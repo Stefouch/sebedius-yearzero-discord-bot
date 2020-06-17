@@ -4,31 +4,58 @@
 	"botAdminID": "405389936783523840",
 	"db": "sqlite://database.sqlite",
 	"defaultPrefix": "!",
-	"supportedGames": ["myz", "fbl", "alien", "vaesen"],
+	"supportedGames": ["myz", "fbl", "tales", "coriolis", "alien", "vaesen"],
 	"commands": {
 		"roll": {
 			"max": 42,
 			"pushIcon": "🔄",
 			"pushCooldown": 120000,
 			"options": {
+				"generic": {
+					"iconTemplate": "alien",
+					"successIcon": "☢",
+					"detailed": false,
+					"extraPushDice": null,
+					"trauma": false,
+					"gearDamage": false,
+					"panic": false,
+					"alias": {
+						"base": "skill",
+						"gear": "skill",
+						"neg": "--",
+						"stress": "--"
+					}
+				},
 				"myz": {
 					"successIcon": "☢",
-					"extraPushDice": null,
 					"trauma": true,
-					"gearDamage": true,
-					"condition": false,
-					"panic": false
+					"gearDamage": true
 				},
-				"fbl": {},
-				"coriolis": {
+				"fbl": {
+					"successIcon": "⚔",
+					"trauma": true,
+					"gearDamage": true
+				},
+				"tales": {
+					"iconTemplate": "vaesen",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
 						"neg": "--"
 					},
-					"extraPushDice": ["skill"]
+					"detailed": true
+				},
+				"coriolis": {
+					"iconTemplate": "alien",
+					"alias": {
+						"base": "skill",
+						"gear": "skill",
+						"neg": "--"
+					},
+					"detailed": true
 				},
 				"alien": {
+					"successIcon": "❇",
 					"alias": {
 						"base": "skill",
 						"skill": "stress",
@@ -44,13 +71,18 @@
 						"gear": "skill",
 						"neg": "--"
 					},
-					"condition": true
+					"detailed": true
 				}
 			}
 		},
 		"scrap": {
 			"max": 20
 		}
+	},
+	"yargs": {
+		"short-option-groups": false,
+		"duplicate-arguments-array": false,
+		"flatten-duplicate-arrays": true
 	},
 	"icons": {
 		"myz": {

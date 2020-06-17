@@ -1,4 +1,3 @@
-const Config = require('../config.json');
 const Crits = require('../data/crits.json');
 const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
@@ -6,16 +5,24 @@ const Util = require('../util/Util');
 module.exports = {
 	name: 'panic',
 	description: 'Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.',
+	moreDescriptions: [
+		[
+			'Arguments',
+			'• `-f` | `--fixed` – Uses a fixed number (doesn\'t add a D6).',
+		],
+	],
 	// aliases: ['alien-panic'],
 	guildOnly: false,
 	args: true,
-	usage: '<stress>',
-	execute(args, message) {
-		const panicRand = Util.rand(1, 6);
-		const stress = +args[0] || 0;
-		const panicVal = panicRand + stress;
+	usage: '<stress> [--fixed]',
+	async execute(args, message, client) {
+		const fixed = /-f|-fix/i.test(args[1]);
 
-		const text = `😱 PANIC ROLL: **${stress}** + ${Config.icons.alien.skill[panicRand]}`;
+		const panicRand = fixed ? 0 : Util.rand(1, 6);
+		const stress = +args[0] || 0;
+		const panicVal = stress + panicRand;
+
+		const text = `😱 PANIC ROLL: **${stress}** + ${client.config.icons.alien.skill[panicRand]}`;
 		const embed = getEmbedPanicRoll(panicVal, message);
 
 		// Interrupted skill roll reminder.
