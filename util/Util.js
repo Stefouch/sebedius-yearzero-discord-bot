@@ -330,7 +330,7 @@ class Util {
 	 * Converts a CSV-formatted text into a JSON object.
 	 * @param {string} csv CSV-formatted text
 	 * @param {string} [separator=';'] Column-separating character (default is `;`)
-	 * @returns {Object}
+	 * @returns {Object[]}
 	 */
 	static csvToJSON(csv, separator = ';') {
 
@@ -340,19 +340,24 @@ class Util {
 		// NOTE: If your columns contain commas in their values, you'll need
 		// to deal with those before doing the next step
 		// (you might convert them to &&& or something, then convert them back later)
-		const headers = lines[0].split(separator);
+		const headers = lines[0].trim().split(separator);
 
 		for (let i = 1; i < lines.length; i++) {
 
 			const obj = {};
-			const currentLine = lines[i].split(separator);
+			const currentLine = lines[i].trim().split(separator);
 
 			for (let j = 0; j < headers.length; j++) {
-				obj[headers[j]] = currentLine[j];
+				let value = currentLine[j];
+				if (value === '') value = null;
+				else if (value === 'true') value = true;
+				else if (value === 'false') value = false;
+				else if (this.isNumber(value)) value = Number(value);
+				obj[headers[j]] = value;
 			}
 			result.push(obj);
 		}
-		return JSON.stringify(result);
+		return result;
 	}
 
 	/**
