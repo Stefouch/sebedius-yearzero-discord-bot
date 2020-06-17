@@ -1,7 +1,7 @@
-const Config = require('../config.json');
-const Crits = require('../data/crits.json');
 const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
+const fs = require('fs');
+const db = require('../database/database');
 
 module.exports = {
 	name: 'crit',
@@ -21,8 +21,34 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[nt | sl | bl | st | h | a | s | x | m | pushed] [numeric]',
-	execute(args, message) {
-		let critTable, critRoll, criticalInjury;
+	async execute(args, message, client) {
+		// Parsing arguments.
+		// See https://www.npmjs.com/package/yargs-parser#api for details.
+		const critargv = require('yargs-parser')(args, {
+			alias: {
+				fixed: ['f', 'fix'],
+			},
+			boolean: ['fixed'],
+			configuration: client.config.yargs,
+		});
+		console.log(critargv);
+
+		let game = await getGame(null, message, client);
+		let table = 'damage';
+
+		const crits = await getCritTable(game, table);
+		console.log(crits);
+		
+
+		// Aborts if the table couldn't be retrieved.
+		if(!crits) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `null crits`.)');
+		if(!crits.length) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `length 0 crits`.)');
+
+		console.log(crits[0]);
+		const embed = getEmbedCrit(crits[0], message);
+		message.channel.send(embed);
+
+	/*	let critTable, critRoll, criticalInjury;
 
 		// Specified injuries.
 		if (/^(nontypical|nt)$/i.test(args[0])) {
@@ -112,7 +138,7 @@ module.exports = {
 			})
 			.catch(error => {
 				console.error('[ERROR] - [CRIT] - Cannot send the coffin emoji', error);
-			});
+			});//*/
 	},
 };
 
@@ -165,4 +191,46 @@ function getEmbedCrit(crit, message) {
 	}
 
 	return embed;
+}
+
+/**
+ * Gets a Crit table.
+ * @param {string} game The game used
+ * @param {string} table The table to use
+ * @returns {object}
+ * @async
+ */
+async function getCritTable(game, table, lang) {
+	const path = './data/crits/';
+	const filePath = `${path}crits-${game}-${table}.${lang}.csv`;
+
+	try {
+		const fileContent = fs.readFileSync(filePath, 'utf8');
+		return Util.csvToJSON(fileContent);
+	}
+	catch(error) {
+		console.error(`[CRIT] - File Error: ${filePath}`);
+		return null;
+	}
+}
+
+/**
+ * Gets the game played (used for the dice icons set).
+ * @param {string} arg The phrase (one word) used to identify the game played
+ * @param {Discord.Message} message Discord message
+ * @param {Discord.Client} client Discord client (the bot)
+ * @returns {string}
+ * @async
+ */
+async function getGame(arg, message, client) {
+	let game = 'myz';
+	if (client.config.supportedGames.includes(arg)) {
+		game = arg;
+	}
+	// If no game was specified in the arguments, gets the default from the database.
+	else if (message.channel.type !== 'dm') {
+		const defaultGame = await db.get(message.guild.id, 'game');
+		if (defaultGame) game = defaultGame;
+	}
+	return game;
 }

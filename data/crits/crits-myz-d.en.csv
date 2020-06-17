@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;Lost Breath;false;0;0;;No effect.;0
+12;Stunned;false;0;0;;No effect.;0
+13;Sprained Wrist;false;0;0;;−1 to Shoot and Fight.;1
+14;Sprained Ankle;false;0;0;;−1 to Move and Sneak.;1
+15;Concussion;false;0;0;;−1 to Scout and Comprehend.;1
+16;Damaged Shin;false;0;0;;−1 to Move and Sneak.;2
+21;Broken Nose;false;0;0;;−1 to Manipulate, +1 Intimidate, Tracker mutation disabled.;2
+22;Broken Fingers;false;0;0;;−1 to Shoot and Fight.;2
+23;Broken Toes;false;0;0;;−1 to Move and Sneak.;2
+24;Teeth Knocked Out;false;0;0;;−1 to Manipulate, +1 Intimidate.;2
+25;Groin Hit;false;0;0;;You suffer one point of damage for every roll you make to Force, Move or Fight.;2
+26;Thigh Wound;false;0;0;;−2 to Move and Sneak.;2
+31;Biceps Wound;false;0;0;;−2 to Shoot and Fight.;2
+32;Severed Achilles Tendon;false;0;0;;−2 to Move and Sneak.;2
+33;Dislocated Shoulder;false;0;0;;−3 to Force and Fight, can not use two-handed weapons.;1
+34;Broken Ribs;false;0;0;;−2 to Move and Fight.;2
+35;Broken Forearm;false;0;0;;Can not use two-handed weapons.;3
+36;Broken Leg;false;0;0;;−2 to Move and Sneak.;3
+41;Ear Torn Off;false;0;0;;−1 to Scout, Sonar mutation disabled.;3
+42;Gouged Eye;false;0;0;;−2 to Shoot and Scout.;3
+43;Punctured Lung;true;0;1;days;−2 to Endure and Move.;2
+44;Damaged Kidney;true;0;1;days;You suffer one point of damage for every roll you make to Force, Move or Fight.;3
+45;Crushed Knee;true;0;1;days;−2 to Move and Sneak.;4
+46;Crushed Elbow;true;0;1;days;−2 to Force and Fight, can not use two-handed weapons.;4
+51;Crushed Foot;true;0;1;days;−2 to Move and Sneak.;4
+52;Bleeding Gut;true;0;1;hours;You suffer one point of damage for every roll you make to Force, Move or Fight.;1
+53;Crushed Face;true;0;1;hours;−2 to Manipulate.;4
+54;Busted Intestine;true;0;1;hours;You suffer one Rot Point per hour until Healed.;2
+55;Damaged Spine;false;0;0;;Paralyzed from the waist down. Effect is permanent unless Healed during healing time.;4
+56;Neck Injury;false;0;0;;Paralyzed from the neck down. Effect is permanent unless Healed during healing time.;4
+61;Internal Bleeding;true;-1;1;minutes;You suffer one point of damage for every roll you make to Force, Move or Fight.;2
+62;Severed Arm Artery;true;-1;1;minutes;−1 to Endure and Move.;1
+63;Severed Leg Artery;true;-1;1;minutes;−1 to Endure and Move.;1
+64;Severed Jugular;true;-1;1;turns;−1 to Endure and Move.;1
+65;Pierced Heart;true;0;0;;Your heart beats one last time, then you die. Time to make a new PC.;0
+66;Crushed Skull;true;0;0;;You die instantly, and will never see Eden.;0
