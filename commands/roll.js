@@ -423,6 +423,7 @@ function getEmbedDiceResults(roll, message, opts) {
  * @param {Discord.Message} message Discord message
  * @param {Discord.Client} client Discord client (the bot)
  * @returns {string}
+ * @async
  */
 async function getGame(arg, message, client) {
 	let game;
@@ -430,7 +431,7 @@ async function getGame(arg, message, client) {
 		game = arg;
 	}
 	// If no game was specified in the arguments, gets the default from the database.
-	else if (message.channel.type != 'dm') {
+	else if (message.channel.type !== 'dm') {
 		const defaultGame = await db.get(message.guild.id, 'game');
 		if (defaultGame) game = defaultGame;
 	}

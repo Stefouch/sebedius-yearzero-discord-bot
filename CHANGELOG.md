@@ -17,7 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Discord.js API upgraded to v12.2.0. Fixed Connection log, MessageEmbed & ReactionCollector accordingly.
 - `!roll` command revamped. See Readme for details.
   - Pushing duration increased from 60 to 120 seconds.
-  - Dice arguments are now interchangeable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
+  - Dice arguments are now adaptable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
+- `!crit` command revamped. See Readme for details.
 - Relooking of the `!help` command.
 
 ### Fixed
