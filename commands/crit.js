@@ -2,6 +2,7 @@ const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
 const fs = require('fs');
 const db = require('../database/database');
+const YZCrit = require('../util/YZCrit');
 
 module.exports = {
 	name: 'crit',
@@ -42,10 +43,11 @@ module.exports = {
 		console.log(critargv);
 
 		let game = await getGame(null, message, client);
-		let table = 'damage';
+		let table = 'd';
 
-		const crits = await getCritTable(game, table);
+		const crits = await getCritTable(game, table, 'en');
 		console.log(crits);
+		return;
 
 
 		// Aborts if the table couldn't be retrieved.
@@ -205,21 +207,31 @@ function getEmbedCrit(crit, message) {
  * Gets a Crit table.
  * @param {string} game The game used
  * @param {string} table The table to use
- * @returns {object}
+ * @returns {xxx} dd 
  * @async
  */
 async function getCritTable(game, table, lang) {
 	const path = './data/crits/';
 	const filePath = `${path}crits-${game}-${table}.${lang}.csv`;
+	let critsList;
 
 	try {
 		const fileContent = fs.readFileSync(filePath, 'utf8');
-		return Util.csvToJSON(fileContent);
+		critsList = Util.csvToJSON(fileContent);
 	}
 	catch(error) {
 		console.error(`[CRIT] - File Error: ${filePath}`);
 		return null;
 	}
+
+	const critTable = new Map();
+	for (const element of critsList) {
+		const crit = new YZCrit(element);
+		critTable.set(crit.ref, crit);
+	}
+	console.log(critTable);
+
+	return critTable;
 }
 
 /**
