@@ -330,7 +330,7 @@ class YZRoll {
 
 	/**
 	 * Adds a single Artifact Die of the specified size.
-	 * @param {number} size The number of faces 
+	 * @param {number} size The number of faces
 	 */
 	addArtifactDie(size) {
 		this.artifactDice.push(new ArtifactDie(size));
