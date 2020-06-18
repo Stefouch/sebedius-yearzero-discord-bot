@@ -11,6 +11,12 @@ module.exports = {
 	args: false,
 	usage: '[command name]',
 	async execute(args, message, client) {
+		// Parsing arguments.
+		// See https://www.npmjs.com/package/yargs-parser#api for details.
+		const argv = require('yargs-parser')(args, {
+			configuration: client.config.yargs,
+		});
+
 		const { commands } = client;
 		let prefix = defaultPrefix;
 
@@ -19,33 +25,42 @@ module.exports = {
 			if (guildPrefix) prefix = guildPrefix;
 		}
 
-		if (!args.length) {
+		// • If no argument, sends a generic help message.
+		if (!argv._.length) {
 			const commandsTextlist = `\`${commands.map(command => command.name).join('`, `')}\`.`
 				+ `\n\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`;
-
-			const linksTextlist = '📖 **Readme**\nhttps://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md'
-				+ '\n\n🛠 **Feature request / bug report**\nhttps://github.com/Stefouch/sebedius-myz-discord-bot/issues'
-				+ '\n\n🦾 **Patreon Page**\nhttps://patreon.com/Stefouch';
 
 			const embed = new MessageEmbed({
 				color: 0x1AA29B,
 				title: '**Sebedius – Year Zero Discord Bot**',
 			});
-			embed.addField('Deployed Version', version, true);
-			embed.addField('List of Commands', commandsTextlist, false);
-			embed.addField('Links', linksTextlist, false);
+			embed.addField('🏁 Deployed Version', version, true);
+			embed.addField('🛠 Developper', 'Stefouch#5202', true);
+			embed.addField('🗒 List of Commands', commandsTextlist, false);
+			embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
+			embed.addField('🔗 Invite Link', 'https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=289856', false);
+			embed.addField('🛠 Feature & Bug Report', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
+			embed.addField('🦾 Patreon', 'https://patreon.com/Stefouch', true);
+			embed.addField('🖥 Website', 'https://www.stefouch.be', true);
+			embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
 
-			return message.author.send(embed)
-				.then(() => {
-					if (message.channel.type === 'dm') return;
-					message.reply('I\'ve sent you a DM with all my commands!');
-				})
-				.catch(error => {
-					console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-					message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
-				});
+			if (argv.dm === false) {
+				return message.channel.send(embed);
+			}
+			else {
+				return message.author.send(embed)
+					.then(() => {
+						if (message.channel.type === 'dm') return;
+						message.reply('I\'ve sent you a DM with all my commands!');
+					})
+					.catch(error => {
+						console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
+						message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+					});
+			}
 		}
-		const name = args[0].toLowerCase();
+		// • Otherwise, if argument, sends a specific help message.
+		const name = argv._[0].toLowerCase();
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
