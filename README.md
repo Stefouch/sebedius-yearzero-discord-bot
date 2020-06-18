@@ -5,6 +5,8 @@
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
+* Tales From the Loop & Things From the Flood
+* Coriolis
 * [ALIEN](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 
@@ -153,9 +155,12 @@ The literal and graphical information presented with this bot about *Mutant: Yea
 
 The bot's JS source code is under MIT license.
 
-*FBL* dice's images are courtesy of M. Hilton Perantunes. Thanks to him for sharing them.
+The dice images are courtery of several people. Thanks to them for sharing them!
 
-*ALIEN* dice's images are courtesy of M. Radomir Balint. Thanks to him for sharing them.
+- *FBL* dice: M. Hilton Perantunes.
+- *ALIEN* dice: M. Radomir Balint. 
+- *Tales* & *Coriolis* dice: M. Jonathan Pay.
+- *Vaesen* dice: M. Matt Kay
 
 # Contributing
 
@@ -192,9 +197,9 @@ Hit me up if you've any question!
 
 # Support
 
-I'd like to thanks to Jeremy Mettler, Joe Guilmette, Matt Kay and all my other patrons and generous donators who are supporting this project and made it possible!
+I'd like to thank Jeremy Mettler, Joe Guilmette, Matt Kay and all my other patrons and generous donators who are supporting this project and made it possible!
 
-You too you can also support this project with as little as $1 per month.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
+You too you can also support this project.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
 
 You may find [paypal.me/Stefouch](https://www.paypal.me/stefouch) useful for a one-time donation.
 

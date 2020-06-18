@@ -26,9 +26,17 @@ module.exports = {
 		// See https://www.npmjs.com/package/yargs-parser#api for details.
 		const critargv = require('yargs-parser')(args, {
 			alias: {
-				fixed: ['f', 'fix'],
+				nontypical: ['nt'],
+				slash: ['sl'],
+				blunt: ['bl'],
+				stab: ['sb'],
+				synth: ['s'],
+				xeno: ['x'],
+				mental: ['m'],
+				result: ['r'],
 			},
-			boolean: ['fixed'],
+			boolean: ['nontypical'],
+			number: ['result'],
 			configuration: client.config.yargs,
 		});
 		console.log(critargv);
@@ -38,7 +46,7 @@ module.exports = {
 
 		const crits = await getCritTable(game, table);
 		console.log(crits);
-		
+
 
 		// Aborts if the table couldn't be retrieved.
 		if(!crits) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `null crits`.)');

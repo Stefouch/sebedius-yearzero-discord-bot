@@ -37,7 +37,6 @@
 					"gearDamage": true
 				},
 				"tales": {
-					"iconTemplate": "vaesen",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
@@ -46,13 +45,24 @@
 					"detailed": true
 				},
 				"coriolis": {
-					"iconTemplate": "alien",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
 						"neg": "--"
 					},
-					"detailed": true
+					"detailed": true,
+					"reactions": [
+						{
+							"name": "Pray",
+							"icon": "🙏",
+							"extraPushDice": ["skill"]
+						},
+						{
+							"name": "Chapel",
+							"icon": "🕌",
+							"extraPushDice": ["skill", "skill"]
+						}
+					]
 				},
 				"alien": {
 					"successIcon": "❇",
@@ -187,6 +197,28 @@
 				":eight:",
 				":nine:",
 				"🔟"
+			]
+		},
+		"tales": {
+			"skill": [
+				"0",
+				"<:talesb0:723094811724218411>",
+				"<:talesb0:723094811724218411>",
+				"<:talesb0:723094811724218411>",
+				"<:talesb0:723094811724218411>",
+				"<:talesb0:723094811724218411>",
+				"<:talesb6:723094828430262333>"
+			]
+		},
+		"coriolis": {
+			"skill": [
+				"0",
+				"<:coriolisb0:723100604918136913>",
+				"<:coriolisb0:723100604918136913>",
+				"<:coriolisb0:723100604918136913>",
+				"<:coriolisb0:723100604918136913>",
+				"<:coriolisb0:723100604918136913>",
+				"<:coriolisb6:723100614875414589>"
 			]
 		},
 		"alien": {
