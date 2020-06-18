@@ -34,7 +34,7 @@ function sendMessageForResourceDie(roll, message, client) {
 	const die = roll.artifactDice[0];
 	const desc = `**\`D${die.size}\`** Resource Die: **${die.result}**`;
 	const embed = new YZEmbed(roll.title, desc, message, true);
-	const text = client.commands.get('roll').emojifiedRoll(roll, client.config.commands.roll.options[roll.game], client.config.icons);
+	const text = client.commands.get('roll').emojifyRoll(roll, client.config.commands.roll.options[roll.game], client.config.icons);
 
 	if (die.result <= 2) {
 		const resSizes = [0, 6, 8, 10, 12];

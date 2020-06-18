@@ -31,7 +31,7 @@ function sendMessageForResourceRoll(roll, message, client) {
 
 	const gameOptions = client.config.commands.roll.options[roll.game];
 
-	const text = client.commands.get('roll').emojifiedRoll(roll, gameOptions, client.config.icons);
+	const text = client.commands.get('roll').emojifyRoll(roll, gameOptions, client.config.icons);
 	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, message, true);
 
 	if (resRating === newRating) {

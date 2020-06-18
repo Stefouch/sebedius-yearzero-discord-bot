@@ -192,7 +192,7 @@ module.exports = {
 		console.log('[ROLL] - Rolled:', roll.toString());
 		messageRollResult(roll, message, client);
 	},
-	emojifiedRoll(roll, options, icons) {
+	emojifyRoll(roll, options, icons) {
 		return getDiceEmojis(roll, options, icons);
 	},
 };
@@ -321,13 +321,6 @@ function getDiceEmojis(roll, opts, icons) {
 		if (opts.alias) {
 			if (opts.alias[type] === '--') continue;
 		}
-			/*if (opts.alias.hasOwnProperty(iconType)) {
-				iconType = opts.alias[iconType];
-			}
-		}//*/
-
-		// These types are skipped.
-		//if (iconType === '--') continue;
 
 		if (nbre) {
 			str += '\n';
