@@ -7,7 +7,8 @@ const { RollParser } = require('../util/RollParser');
 
 module.exports = {
 	name: 'roll',
-	description: 'Rolls dice for the any YZ roleplaying game.'
+	description: 'Rolls dice for any Year Zero roleplaying game.'
+		+ '{TODO}'
 		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 	moreDescriptions: [
 		[
@@ -42,7 +43,7 @@ module.exports = {
 			+ '\n• `-i|--init|init` – Turns the roll into an initiative roll (D6).',
 		],
 	],
-	aliases: ['roll', 'r', 'lance', 'lancer', 'slå', 'sla'],
+	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
 	guildOnly: false,
 	args: true,
 	usage: '[game] <dice> [arguments]',
@@ -63,18 +64,24 @@ module.exports = {
 			configuration: client.config.yargs,
 		});
 
-		let game = 'myz';
+		// Sets the game. Must be done first.
+		let game;
 		if (client.config.supportedGames.includes(rollargv._[0])) {
 			game = await getGame(rollargv._.shift(), message, client);
 		}
+		else {
+			game = client.config.supportedGames[0];
+		}
 
+		// Year Zero dice quantities for the roll.
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
 		const artifactDice = [];
 		let roll;
 
+		// Year Zero Roll Regular Expression.
 		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i;
 
-		// Checks for d66, d666 and (N)d6.
+		// Checks for d6, d66 & d666.
 		if (/^d6{1,3}$/i.test(rollargv._[0])) {
 			game = 'generic';
 			const skill = (rollargv._[0].match(/6/g) || []).length;
@@ -209,12 +216,12 @@ module.exports = {
 async function messageRollResult(roll, triggeringMessage, client) {
 	// Aborts if too many dice.
 	if (roll.size > client.config.commands.roll.max) {
-		return triggeringMessage.reply('Cant\'t roll that, too many dice!');
+		return triggeringMessage.reply('⚠️ Cant\'t roll that, too many dice!');
 	}
 
 	// Aborts if no dice.
 	if (roll.size < 1) {
-		return triggeringMessage.reply('Can\'t roll a null number of dice!');
+		return triggeringMessage.reply('❌ Can\'t roll a null number of dice!');
 	}
 
 	// OPTIONS

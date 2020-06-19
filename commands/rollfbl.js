@@ -1,13 +1,13 @@
 module.exports = {
-	name: 'rolla',
-	description: 'Rolls dice for the *ALIEN* roleplaying game.'
+	name: 'rollfbl',
+	description: 'Rolls dice for the *Forbidden Lands* roleplaying game.'
 		+ 'Type `help roll` for more details.',
-	aliases: ['ra', 'lancea', 'lancera', 'slåa', 'slaa'],
+	aliases: ['rollf', 'rf', 'lancef', 'lancerf', 'slåf', 'slaf'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
 	execute(args, message, client) {
-		args.unshift('alien');
+		args.unshift('fbl');
 		client.commands.get('roll').execute(args, message, client);
 	},
 };

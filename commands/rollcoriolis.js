@@ -1,13 +1,13 @@
 module.exports = {
-	name: 'rollt',
-	description: 'Rolls dice for the *Tales From the Loop* roleplaying game.'
+	name: 'rollcoriolis',
+	description: 'Rolls dice for the *Coriolis* roleplaying game.'
 		+ 'Type `help roll` for more details.',
-	aliases: ['rt', 'lancet', 'lancert', 'slåt', 'slat'],
+	aliases: ['rollc', 'rc', 'lancec', 'lancerc', 'slåc', 'slac'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
 	execute(args, message, client) {
-		args.unshift('tales');
+		args.unshift('coriolis');
 		client.commands.get('roll').execute(args, message, client);
 	},
 };
