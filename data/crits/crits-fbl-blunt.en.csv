@@ -1,0 +1,18 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-12;Stunned;false;0;0;;No effect.;0
+13-14;Breathless;false;0;0;;No effect.;0
+15-16;Concussion;false;0;0;;SCOUTING -2.;1
+21-22;Broken Nose;false;0;0;;MANIPULATION -1.;1
+23-24;Broken Fingers;false;0;0;;Two-handed weapons can’t be used.;1
+25-26;Broken Toes;false;0;0;;To RUN becomes a slow action.;1
+31-33;Knocked Out Teeth;false;0;0;;MANIPULATION -1.;1
+34-36;Groin Hit;false;0;0;;1 point of damage suf-fered at every MOV E or MELEE roll.;1
+41-43;Broken Ribs;false;0;0;;MOVE and MELEE -2.;2
+44-45;Broken Arm;false;0;0;;Two-handed weapons can’t be used.;2
+46-51;Broken Leg;false;0;0;;To RUN becomes a slow action.;2
+52-53;Gouged Eye;false;0;0;;MARKSMANSHIP and SCOUTING -2.;2
+54-55;Crushed Foot;true;0;1;days;To RUN becomes a slow action.;3
+56-61;Crushed Elbow;true;0;1;days;Two-handed weapons can’t be used.;-1
+62-63;Crushed Knee;true;0;1;days;To RUN becomes a slow action.;-1
+64;Broken Neck;false;0;0;;Paralyzed from the neck down. If not HEALED in time, the effect is permament.;3
+65-66;Crushed Skull;true;0;0;;Your adventure and your life end here.;0

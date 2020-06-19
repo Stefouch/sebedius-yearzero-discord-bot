@@ -1,0 +1,20 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-12;Bleeding Forehead;false;0;0;;No effect.;0
+13-14;Severed Nose;false;0;0;;MANIPULATION -1.;1
+15-16;Severed Finger;false;0;0;;Two-handed weapons can-not be used.;1
+21-22;Severed Toe;false;0;0;;To RUN becomes a slow action.;1
+23-24;Bleeding Thigh;false;0;0;;To RUN becomes a slow action.;1
+25-26;Slashed Mouth;false;0;0;;MANIPULATION -1.;1
+31-32;Severed Tendon;false;0;0;;To RUN becomes a slow action.;2
+33-34;Wounded Shoulder;false;0;0;;Two-handed weapons can-not be used.;2
+35-36;Severed Ear;false;0;0;;SCOUTING -1.;1
+41-42;Slashed Eye;false;0;0;;MARKSMANSHIP and SCOUTING -2.;2
+43-44;Punctured Lung;true;0;1;days;ENDURANCE and MOVE -2.;1
+45-46;Severed Foot;true;0;1;days;To RUN becomes a slow action.;-1
+51-52;Bleeding Gut;true;0;1;hours;1 point of damage at each roll for MIGHT, MOVE and MELEE.;1
+53-54;Ruptured Intestines;true;0;1;hours;Disease with Virulence 6.;2
+55-56;Severed Arm;true;-1;1;hours;Two-handed weapons can-not be used.;-1
+61-62;Severed Leg;true;-1;1;hours;To RUN becomes a slow action.;-1
+63-64;Slit Throat;true;-1;1;turns;ENDURANCE -2.;1
+65;Cleft Skull;true;0;0;;You die immediately.;0
+66;Decapitation;true;0;0;;Your head leaves your body.;0

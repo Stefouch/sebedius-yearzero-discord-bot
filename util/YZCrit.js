@@ -77,7 +77,7 @@ class YZCrit {
 	 * @readonly
 	 */
 	get fatal() {
-		return this.lethal && this.healingTime <= 0;
+		return this.lethal && this.healingTime === 0;
 	}
 }
 

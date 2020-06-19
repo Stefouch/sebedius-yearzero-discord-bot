@@ -1,9 +1,6 @@
-const fs = require('fs');
-const db = require('../database/database');
 const Util = require('../util/Util');
-const RollTable = require('../util/RollTable');
-const YZCrit = require('../util/YZCrit');
 const YZEmbed = require('../util/YZEmbed');
+const { getTable, getGame } = require('../util/SebediusTools');
 
 module.exports = {
 	name: 'crit',
@@ -21,8 +18,7 @@ module.exports = {
 		+ '\n• `pushed` : Critical injury for pushed damage (none).',
 	aliases: ['ci', 'crits', 'critic', 'critical'],
 	guildOnly: false,
-	args: false,
-	usage: '[nt | sl | bl | st | h | a | s | x | m | pushed] [numeric]',
+	args: false,	usage: '[nt | sl | bl | st | h | a | s | x | m | pushed] [numeric]',
 	async execute(args, message, client) {
 		// Parsing arguments.
 		// See https://www.npmjs.com/package/yargs-parser#api for details.
@@ -46,7 +42,7 @@ module.exports = {
 		let game = await getGame(null, message, client);
 		let table = 'd';
 
-		const crits = await getCritTable('fbl', 'h', 'en');
+		const crits = await getTable('./data/crits', 'crits-myz-damage');
 		console.log(crits);
 
 		console.log(crits.get(Util.rollD66()));
@@ -206,59 +202,4 @@ function getEmbedCrit(crit, message) {
 	}
 
 	return embed;
-}
-
-/**
- * Gets a Crit table.
- * @param {string} game The game played
- * @param {string} table The table to use
- * @param {string} lang The language to use
- * @returns {RollTable}
- * @async
- */
-async function getCritTable(game, table, lang) {
-	const path = './data/crits/';
-	let filePath = `${path}crits-${game}-${table}.${lang}.csv`;
-
-	// If the language does not exist for this file, use the english default.
-	if (!fs.existsSync(filePath)) filePath = `${path}crits-${game}-${table}.en.csv`;
-
-	let critsList;
-	try {
-		const fileContent = fs.readFileSync(filePath, 'utf8');
-		critsList = Util.csvToJSON(fileContent);
-	}
-	catch(error) {
-		console.error(`[CRIT] - File Error: ${filePath}`);
-		return null;
-	}
-
-	const critTable = new RollTable();
-	for (const element of critsList) {
-		const crit = new YZCrit(element);
-		critTable.set(crit.ref, crit);
-	}
-
-	return critTable;
-}
-
-/**
- * Gets the game played (used for the dice icons set).
- * @param {string} arg The phrase (one word) used to identify the game played
- * @param {Discord.Message} message Discord message
- * @param {Discord.Client} client Discord client (the bot)
- * @returns {string}
- * @async
- */
-async function getGame(arg, message, client) {
-	let game = 'myz';
-	if (client.config.supportedGames.includes(arg)) {
-		game = arg;
-	}
-	// If no game was specified in the arguments, gets the default from the database.
-	else if (message.channel.type !== 'dm') {
-		const defaultGame = await db.get(message.guild.id, 'game');
-		if (defaultGame) game = defaultGame;
-	}
-	return game;
 }
