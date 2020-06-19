@@ -13,7 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 // Initializes requirements.
 const fs = require('fs');
 const db = require('./database/database');
-const { test } = require('./test/tests');
+// const { test } = require('./test/tests');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
@@ -65,7 +65,7 @@ bot.on('ready', () => {
 	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
-	if (process.env.NODE_ENV !== 'production') test(bot);
+	// if (process.env.NODE_ENV !== 'production') test(bot);
 });
 
 /* !
@@ -107,12 +107,12 @@ bot.on('message', async message => {
 
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && message.channel.type !== 'text') {
-		return message.reply('I can\'t execute that command inside DMs!');
+		return message.reply('⚠️ I can\'t execute that command inside DMs!');
 	}
 
 	// Notifies if arguments are missing.
 	if (command.args && !args.length) {
-		let reply = `${message.author} You didn't provide any arguments!`;
+		let reply = `ℹ️ ${message.author} You didn't provide any arguments!`;
 
 		if (command.usage) {
 			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
@@ -123,13 +123,13 @@ bot.on('message', async message => {
 	try {
 		console.log(`[COMMAND] - Command received from ${message.author.tag}`
 			+ (message.guild ? ` (${message.guild.name})` : '')
-			+ `: ${command.name}`, args.toString()
+			+ `: ${command.name}`, args.toString(),
 		);
 		command.execute(args, message, bot);
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error.stack);
-		message.reply('There was an error trying to execute that command!');
+		message.reply('❌ There was an error trying to execute that command!');
 	}
 });
 

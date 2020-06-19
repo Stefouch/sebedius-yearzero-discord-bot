@@ -1,8 +1,9 @@
 const Config = require('../config.json');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
+const { getGame } = require('../util/SebediusTools');
 const { RollParser } = require('../util/RollParser');
-const db = require('../database/database');
+
 
 module.exports = {
 	name: 'roll',
@@ -71,35 +72,22 @@ module.exports = {
 		const artifactDice = [];
 		let roll;
 
-		// Checks for init roll.
-		if (rollargv.inititiative || /initiative|init|i/i.test(rollargv._[0])) {
-			game = 'generic';
-			roll = new YZRoll(message.author, { skill: 1 }, 'Initiative');
-		}
+		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i;
+
 		// Checks for d66, d666 and (N)d6.
-		else if (/^d6{1,3}$/i.test(rollargv._[0])) {
+		if (/^d6{1,3}$/i.test(rollargv._[0])) {
 			game = 'generic';
 			const skill = (rollargv._[0].match(/6/g) || []).length;
 
 			roll = new YZRoll(message.author, { skill }, rollargv._[0].toUpperCase());
 			// roll.maxPushes = 0; // already set later. Use this options if you want to change "game = generic" above.
 		}
-		// Checks for generic rolls.
-		else if (RollParser.ROLLREGEX.test(rollargv._[0])) {
-			game = 'generic';
-			const genRoll = RollParser.parse(rollargv._[0]);
-			const genRollResults = genRoll.roll(true);
-
-			roll = new YZRoll(message.author, { skill: 0 }, rollargv._[0].toUpperCase());
-			roll.dice.skill = genRollResults;
-			if (genRoll.modifier) roll.dice.neg.push(genRoll.modifier);
-		}
-		// Otherwise, check for each uncategorized argument, we must check what it is.
-		else {
+		// If not, checks if the first argument is a YZ roll phrase.
+		else if (yzRollRegex.test(rollargv._[0])) {
+			// If so, we process all uncategorized arguments.
 			for (const arg of rollargv._) {
-
 				// Checks if it's a roll phrase.
-				if (/^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i.test(arg)) {
+				if (yzRollRegex.test(arg)) {
 
 					// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
 					const diceCouples = arg.match(/(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
@@ -172,6 +160,21 @@ module.exports = {
 				},
 				rollTitle,
 			);
+		}
+		// Checks for init roll.
+		else if (rollargv.inititiative || /initiative|init|i/i.test(rollargv._[0])) {
+			game = 'generic';
+			roll = new YZRoll(message.author, { skill: 1 }, 'Initiative');
+		}
+		// Checks for generic rolls.
+		else if (RollParser.ROLLREGEX.test(rollargv._[0]) && !/^\d{1,2}d$/i.test(rollargv._[0])) {
+			game = 'generic';
+			const genRoll = RollParser.parse(rollargv._[0]);
+			const genRollResults = genRoll.roll(true);
+
+			roll = new YZRoll(message.author, { skill: 0 }, rollargv._[0].toUpperCase());
+			roll.dice.skill = genRollResults;
+			if (genRoll.modifier) roll.dice.neg.push(genRoll.modifier);
 		}
 
 		// Sets the game.
@@ -408,29 +411,4 @@ function getEmbedDiceResults(roll, message, opts) {
 	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}× ` : ''}Pushed`);
 
 	return embed;
-}
-
-/**
- * Gets the game played (used for the dice icons set).
- * @param {string} arg The phrase (one word) used to identify the game played
- * @param {Discord.Message} message Discord message
- * @param {Discord.Client} client Discord client (the bot)
- * @returns {string}
- * @async
- */
-async function getGame(arg, message, client) {
-	let game;
-	if (client.config.supportedGames.includes(arg)) {
-		game = arg;
-	}
-	// If no game was specified in the arguments, gets the default from the database.
-	else if (message.channel.type !== 'dm') {
-		const defaultGame = await db.get(message.guild.id, 'game');
-		if (defaultGame) game = defaultGame;
-	}
-	// Default is MYZ (mutant).
-	else {
-		game = 'myz';
-	}
-	return game;
 }
