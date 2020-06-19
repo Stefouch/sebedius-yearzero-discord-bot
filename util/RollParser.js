@@ -112,7 +112,7 @@ class Roll {
 
 		while (count > 0) {
 			if (this.glued) results.push(Roll.glueRoll(this.base));
-			else results.push(Util.rand(1, this.base));
+			else results.push(Util.rand(1, Math.min(this.base, 1000000)));
 			count--;
 		}
 		this.lastResults = results;
