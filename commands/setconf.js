@@ -6,7 +6,8 @@ module.exports = {
 	description: 'Sets the bot\'s configuration for this server. See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
 		+ '\n`game [new value]` – Gets or sets the default icon template for the rolled dice.'
-		+ ` Options are \`${Config.supportedGames.join('`, `')}\`.`,
+		+ ` Options are \`${Config.supportedGames.join('`, `')}\`.`
+		+ '\n`lang [new value]` – Gets or sets the default language. See Readme for details.',
 	guildOnly: true,
 	args: true,
 	usage: '<parameter> [new value]',
@@ -25,7 +26,7 @@ module.exports = {
 		const key = args[0].toLowerCase();
 		const newKeyVal = args[1];
 
-		const verifiedParameters = ['prefix', 'game'];
+		const verifiedParameters = ['prefix', 'game', 'lang'];
 
 		if (verifiedParameters.includes(key)) {
 			// SET
