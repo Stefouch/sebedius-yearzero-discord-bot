@@ -20,7 +20,7 @@ module.exports = {
 			sendMessageForResourceRoll(roll, message, client);
 		}
 		else {
-			message.reply('This Supply Roll is not possible. Try `rolla res <rating> [name]`');
+			message.reply('ℹ️ This Supply Roll is not possible. Try `supply <rating> [name]`');
 		}
 	},
 };

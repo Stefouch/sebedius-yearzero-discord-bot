@@ -51,11 +51,11 @@ module.exports = {
 				return message.author.send(embed)
 					.then(() => {
 						if (message.channel.type === 'dm') return;
-						message.reply('I\'ve sent you a DM with all my commands!');
+						message.reply('💬 I\'ve sent you a DM with all my commands!');
 					})
 					.catch(error => {
 						console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-						message.reply('It seems like I can\'t DM you! Do you have DMs disabled?');
+						message.reply('❌ It seems like I can\'t DM you! Do you have DMs disabled?');
 					});
 			}
 		}
@@ -64,7 +64,7 @@ module.exports = {
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('That\'s not a valid command!');
+			return message.reply('⚠️ That\'s not a valid command!');
 		}
 
 		const embed = new MessageEmbed({

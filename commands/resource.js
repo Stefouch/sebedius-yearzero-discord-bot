@@ -23,7 +23,7 @@ module.exports = {
 			sendMessageForResourceDie(roll, message, client);
 		}
 		else {
-			message.reply('I don\'t understand this resource die. Use `d6`, `d8`, `d10` or `d12`.');
+			message.reply('⚠️ I don\'t understand this resource die. Use `d6`, `d8`, `d10` or `d12`.');
 		}
 	},
 };
