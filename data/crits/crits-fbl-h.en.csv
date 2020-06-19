@@ -1,18 +1,18 @@
-ref/0;ref/1;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
-11;16;Trembling;false;0;0;;Penalty –1 to all rolls for Agility.;1
-21;;White Hair;false;0;0;;Your hair turns white.;-1
-22;24;Anxious;false;0;0;;Penalty –1 to all rolls for Wits.;1
-25;31;Sullen;false;0;0;;Penalty –1 to all rolls for Empathy.;1
-32;35;Nightmares;false;0;0;;Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours) spent sleeping. Failure means that the sleep doesn't count.;1
-36;41;Nocturnal;false;0;0;;You can only sleep during the light part of the day.;2
-42;43;Phobic;false;0;0;;You are terrified by something related to what Broke you. The GM decides what it is. You suffer 1 point of damage to Wits each round within Near range of the object of your phobia.;2
-44;45;Drunkard;false;0;0;;You must drink wine or mead every day, or suffer 1 point of damage to Agility.;3
-46;51;Claustrophobic;false;0;0;;Every turn (15 minutes) in a confined environment, you suffer 1 point of damage to Wits.;2
-52;;Mythomania;false;0;0;;You cannot stop yourself from lying. About everything. *(The effect should be roleplayed.)*;2
-53;54;Paranoia;false;0;0;;You are certain that someone is out to get you. *(The effect should be roleplayed.)*;2
-55;;Delusion;false;0;0;;You are totally convinced of something that is totally untrue. *(For example that a certain kin doesn't exist.)*;3
-56;;Hallucinations;false;0;0;;Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours). If you fail, you suffer a powerful hallucination. The GM determines the details.;3
-61;62;Altered Personality;false;0;0;;Your personality is altered in a fundamental way. Determine how together with the GM. *(The effect should be roleplayed.)*;-1
-63;;Amnesia;false;0;0;;You lose all memory, and cannot recollect who you or the other adventurers are. *(The effect should be roleplayed.)*;1
-64;65;Catatonic;false;0;0;;You stare blankly into oblivion, and do not respond to any stimuli.;1
-66;;Heart Attack;true;0;0;;Your heart stops, and you die of pure fright.;0
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-16;Trembling;false;0;0;;Penalty –1 to all rolls for Agility.;1
+21;White Hair;false;0;0;;Your hair turns white.;-1
+22-24;Anxious;false;0;0;;Penalty –1 to all rolls for Wits.;1
+25-31;Sullen;false;0;0;;Penalty –1 to all rolls for Empathy.;1
+32-35;Nightmares;false;0;0;;Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours) spent sleeping. Failure means that the sleep doesn't count.;1
+36-41;Nocturnal;false;0;0;;You can only sleep during the light part of the day.;2
+42-43;Phobic;false;0;0;;You are terrified by something related to what Broke you. The GM decides what it is. You suffer 1 point of damage to Wits each round within Near range of the object of your phobia.;2
+44-45;Drunkard;false;0;0;;You must drink wine or mead every day, or suffer 1 point of damage to Agility.;3
+46-51;Claustrophobic;false;0;0;;Every turn (15 minutes) in a confined environment, you suffer 1 point of damage to Wits.;2
+52;Mythomania;false;0;0;;You cannot stop yourself from lying. About everything. *(The effect should be roleplayed.)*;2
+53-54;Paranoia;false;0;0;;You are certain that someone is out to get you. *(The effect should be roleplayed.)*;2
+55;Delusion;false;0;0;;You are totally convinced of something that is totally untrue. *(For example that a certain kin doesn't exist.)*;3
+56;Hallucinations;false;0;0;;Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours). If you fail, you suffer a powerful hallucination. The GM determines the details.;3
+61-62;Altered Personality;false;0;0;;Your personality is altered in a fundamental way. Determine how together with the GM. *(The effect should be roleplayed.)*;-1
+63;Amnesia;false;0;0;;You lose all memory, and cannot recollect who you or the other adventurers are. *(The effect should be roleplayed.)*;1
+64-65;Catatonic;false;0;0;;You stare blankly into oblivion, and do not respond to any stimuli.;1
+66;Heart Attack;true;0;0;;Your heart stops, and you die of pure fright.;0
