@@ -20,23 +20,24 @@ module.exports = {
 		// If the language does not exist for this file, use the english default.
 		if (!fs.existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
 
-		let critsList;
+		let elements;
 		try {
 			const fileContent = fs.readFileSync(filePath, 'utf8');
-			critsList = Util.csvToJSON(fileContent);
+			elements = Util.csvToJSON(fileContent);
 		}
 		catch(error) {
 			console.error(`[CRIT] - File Error: ${filePath}`);
 			return null;
 		}
 
-		const critTable = new RollTable();
-		for (const element of critsList) {
-			const crit = new YZCrit(element);
-			critTable.set(crit.ref, crit);
+		const table = new RollTable();
+		for (const elem of elements) {
+			const entry = new YZCrit(elem);
+			table.set(entry.ref, entry);
 		}
+		table.name = `${fileName}.${lang}.${ext}`;
 
-		return critTable;
+		return table;
 	},
 	/**
 	 * Gets the game played (used for the dice icons set).
