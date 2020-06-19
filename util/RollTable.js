@@ -1,6 +1,30 @@
 class RollTable extends Map {
 
 	/**
+	 * The total length of the entries.
+	 * Not the same as Size.
+	 * @returns {number}
+	 * @readonly
+	 */
+	get length() {
+		let len = 0;
+
+		for (const key of this.keys()) {
+			if (typeof key === 'string') {
+				if (/-/.test(key)) {
+					const boundaries = key.split('-');
+					const min = +boundaries[0];
+					const max = +boundaries[1];
+					len += (max - min + 1);
+				}
+				else { len++; }
+			}
+			else { len++; }
+		}
+		return len;
+	}
+
+	/**
 	 * Returns a specified entry from a RollTable object.
 	 * If the entry is an object, then you will get a reference to that object and any change made to that object will effectively modify it inside the table.
 	 * @param {number} reference The reference (roll value) of the entry to return from the table
