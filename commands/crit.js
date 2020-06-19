@@ -1,8 +1,9 @@
-const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
 const fs = require('fs');
 const db = require('../database/database');
+const Util = require('../util/Util');
+const RollTable = require('../util/RollTable');
 const YZCrit = require('../util/YZCrit');
+const YZEmbed = require('../util/YZEmbed');
 
 module.exports = {
 	name: 'crit',
@@ -45,8 +46,12 @@ module.exports = {
 		let game = await getGame(null, message, client);
 		let table = 'd';
 
-		const crits = await getCritTable(game, table, 'en');
+		const crits = await getCritTable('fbl', 'h', 'en');
 		console.log(crits);
+
+		console.log(crits.get(Util.rollD66()));
+		
+
 		return;
 
 
@@ -205,16 +210,20 @@ function getEmbedCrit(crit, message) {
 
 /**
  * Gets a Crit table.
- * @param {string} game The game used
+ * @param {string} game The game played
  * @param {string} table The table to use
- * @returns {xxx} dd 
+ * @param {string} lang The language to use
+ * @returns {RollTable}
  * @async
  */
 async function getCritTable(game, table, lang) {
 	const path = './data/crits/';
-	const filePath = `${path}crits-${game}-${table}.${lang}.csv`;
-	let critsList;
+	let filePath = `${path}crits-${game}-${table}.${lang}.csv`;
 
+	// If the language does not exist for this file, use the english default.
+	if (!fs.existsSync(filePath)) filePath = `${path}crits-${game}-${table}.en.csv`;
+
+	let critsList;
 	try {
 		const fileContent = fs.readFileSync(filePath, 'utf8');
 		critsList = Util.csvToJSON(fileContent);
@@ -224,12 +233,11 @@ async function getCritTable(game, table, lang) {
 		return null;
 	}
 
-	const critTable = new Map();
+	const critTable = new RollTable();
 	for (const element of critsList) {
 		const crit = new YZCrit(element);
 		critTable.set(crit.ref, crit);
 	}
-	console.log(critTable);
 
 	return critTable;
 }

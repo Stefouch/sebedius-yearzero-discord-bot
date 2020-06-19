@@ -6,13 +6,13 @@ class YZCrit {
 	 * @throws {Error} If no data was given
 	 */
 	constructor(data) {
-		if (!data) throw new Error('No data given to create this Crit');
+		if (!data) throw new SyntaxError('No data given to create this Crit');
 
 		/**
 		 * The reference in the Criticals table (D66).
 		 * @type {number}
 		 */
-		this.ref = +data.ref || 0;
+		this.ref = data.ref || '00';
 
 		/**
 		 * The Critical Injury (name).
@@ -24,7 +24,10 @@ class YZCrit {
 		 * Tells if the injury is lethal.
 		 * @type {boolean}
 		 */
-		this.lethal = Boolean(data.lethal) || false;
+		this.lethal = false;
+		if (typeof data.lethal === 'boolean') this.lethal = data.lethal;
+		else if (data.lethal === 'true') this.lethal = true;
+		else if (data.lethal === 'false') this.lethal = false;
 
 		/**
 		 * The malus to `HEAL` skill rolls.
