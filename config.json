@@ -5,6 +5,7 @@
 	"db": "sqlite://database.sqlite",
 	"defaultPrefix": "!",
 	"supportedGames": ["myz", "fbl", "tales", "coriolis", "alien", "vaesen"],
+	"supportedLangs": ["en"],
 	"commands": {
 		"roll": {
 			"max": 42,
