@@ -11,9 +11,10 @@ module.exports = {
 	usage: '<rating> [name]',
 	async execute(args, message, client) {
 		// A maximum of 6 dice are rolled. See ALIEN corebook pg. 34 for details.
-		const resQty = Util.clamp(args.shift(), 0, 6);
+		const rating = args.shift();
 
-		if (Util.isNumber(resQty)) {
+		if (Util.isNumber(rating)) {
+			const resQty = Util.clamp(rating, 0, 6);
 			const resTitle = args.length ? args.join(' ') : 'Supply';
 			const roll = new YZRoll(message.author.id, { stress: resQty }, resTitle);
 			roll.setGame('alien');
