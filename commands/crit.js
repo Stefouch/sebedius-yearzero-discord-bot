@@ -1,6 +1,6 @@
 const Util = require('../util/Util');
 const YZEmbed = require('../util/YZEmbed');
-const { getTable, getGame } = require('../util/SebediusTools');
+const { getGame, getTable } = require('../util/SebediusTools');
 
 module.exports = {
 	name: 'crit',
@@ -20,113 +20,61 @@ module.exports = {
 	guildOnly: false,
 	args: false,	usage: '[nt | sl | bl | st | h | a | s | x | m | pushed] [numeric]',
 	async execute(args, message, client) {
+		const types = {
+			nontypical: ['nt'],
+			damage: ['dmg'],
+			slash: ['sl'],
+			blunt: ['bl'],
+			stab: ['sb'],
+			horror: ['h'],
+			synth: ['s'],
+			xeno: ['x'],
+			mental: ['m'],
+		};
 		// Parsing arguments.
 		// See https://www.npmjs.com/package/yargs-parser#api for details.
 		const critargv = require('yargs-parser')(args, {
-			alias: {
-				nontypical: ['nt'],
-				slash: ['sl'],
-				blunt: ['bl'],
-				stab: ['sb'],
-				synth: ['s'],
-				xeno: ['x'],
-				mental: ['m'],
-				result: ['r'],
-			},
+			alias: { ...types, ...{ result: ['r'] } },
 			boolean: ['nontypical'],
 			number: ['result'],
 			configuration: client.config.yargs,
 		});
 		console.log(critargv);
 
-		let game = await getGame(null, message, client);
-		let table = 'd';
+		// Sets the game.
+		let game;
+		if (client.config.supportedGames.includes(critargv._[0])) {
+			game = await getGame(critargv._.shift(), message, client);
+		}
+		else {
+			game = client.config.supportedGames[0];
+		}
 
-		const crits = await getTable('./data/crits', 'crits-myz-damage');
-		console.log(crits);
+		// Sets the type of criticals.
+		let type = 'damage';
+		for (const key in critargv) {
+			if (types.hasOwnProperty(key)) {
+				type = key;
+				break;
+			}
+		}
 
-		console.log(crits.get(Util.rollD66()));
-		
-
-		return;
-
+		// Gets the Critical Injuries table.
+		const fileName = `crits-${game}-${type}`;
+		const critsTable = await getTable('./data/crits', fileName);
+		console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
-		if(!crits) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `null crits`.)');
-		if(!crits.length) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `length 0 crits`.)');
+		if (!critsTable) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `nul critsTable`.)');
+		if (critsTable.size === 0) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `critsTable size 0`.)');
 
-		console.log(crits[0]);
-		const embed = getEmbedCrit(crits[0], message);
-		message.channel.send(embed);
-
-	/*	let critTable, critRoll, criticalInjury;
-
-		// Specified injuries.
-		if (/^(nontypical|nt)$/i.test(args[0])) {
-			critRoll = 0;
-			criticalInjury = Crits.myz.nonTypical;
-		}
-		else if (/^(pushed)$/i.test(args[0])) {
-			critRoll = 0;
-			criticalInjury = Crits.myz.pushed;
-		}
-		// If not specified, gets a critical table.
-		else {
-			if (/^(slash|sl)$/i.test(args[0])) critTable = Crits.fbl.slash;
-			else if (/^(blunt|bl)$/i.test(args[0])) critTable = Crits.fbl.blunt;
-			else if (/^(stab|st)$/i.test(args[0])) critTable = Crits.fbl.stab;
-			else if (/^(horror|h)$/i.test(args[0])) critTable = Crits.fbl.horror;
-			else if (/^(alien|a)$/i.test(args[0])) critTable = Crits.alien.damage;
-			else if (/^(synth|s)$/i.test(args[0])) critTable = Crits.alien.synthetic;
-			else if (/^(xeno|x)$/i.test(args[0])) critTable = Crits.alien.xeno;
-			else if (/^(mental|m)$/i.test(args[0])) critTable = Crits.alien.permanentMentalTrauma;
-			// Default table = myz-damage.
-			else critTable = Crits.myz.damage;
-
-			// Checks if we look for a specific value of that table.
-			// regIndexOf returns -1 if not found.
-			const specific = args.regIndexOf(/^[1-6]{2}$/);
-			if (specific >= 0) {
-				// Creates the roll value out of the specified argument.
-				critRoll = +args[specific];
-			}
-			// Otherwise, gets a random injury.
-			else {
-				critRoll = Util.rollD66();
-			}
-
-			// Iterates each critical injury from the defined table.
-			for (const crit of critTable) {
-
-				// If the critical injury reference is one value, it's a number.
-				if (typeof crit.ref === 'number') {
-
-					if (crit.ref === critRoll) {
-						criticalInjury = crit;
-						break;
-					}
-				}
-				// If the critical injury reference is a range, it's an array with length 2.
-				else if (crit.ref instanceof Array) {
-
-					if (crit.ref.length >= 2) {
-
-						// crit.ref[0]: minimum
-						// crit.ref[1]: maximum
-						if (critRoll >= crit.ref[0] && critRoll <= crit.ref[1]) {
-							criticalInjury = crit;
-							break;
-						}
-					}
-				}
-				else {
-					console.error('[ERROR] - [CRIT] - crit.ref type is not supported.', crit);
-				}
-			}
-		}
+		// Rolls the Critical Injuries table.
+		const critRoll = Util.rollD66();
+		const crit = critsTable.get(critRoll);
+		console.log(crit);
 
 		// Exits early if no critical injury was found.
-		if (!criticalInjury) return message.reply('The critical injury wasn\'t found.');
+		if (!crit) return message.reply('❌ The critical injury wasn\'t found.');
 
 		// Builds and sends the message.
 		let die1 = 0, die2 = 0;
@@ -134,13 +82,12 @@ module.exports = {
 			die1 = Math.floor(critRoll / 10);
 			die2 = critRoll % 10;
 		}
-		const icon1 = Config.icons.myz.base[die1];
-		const icon2 = Config.icons.myz.base[die2];
+		const icon1 = client.config.icons.alien.skill[die1] || '';
+		const icon2 = client.config.icons.alien.skill[die2] || '';
 
-		return message.channel.send(`${(critRoll >= 11 && critRoll <= 66) ? icon1 + icon2 : ''}`, getEmbedCrit(criticalInjury, message))
+		return message.channel.send(icon1 + icon2, getEmbedCrit(crit, message))
 			.then(() => {
-				if (!args.regIncludes(/^[1-6]{2}$/)
-					&& (criticalInjury.ref === 65 || criticalInjury.ref === 66)) {
+				if (crit.fatal) {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
 						message.channel.send('⚰');
@@ -149,7 +96,7 @@ module.exports = {
 			})
 			.catch(error => {
 				console.error('[ERROR] - [CRIT] - Cannot send the coffin emoji', error);
-			});//*/
+			});
 	},
 };
 
