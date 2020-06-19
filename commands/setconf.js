@@ -5,7 +5,7 @@ module.exports = {
 	name: 'setconf',
 	description: 'Sets the bot\'s configuration for this server. See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
-		+ '\n`game [new value]` – Gets or sets the default icon template for the rolled dice.'
+		+ '\n`game [new value]` – Gets or sets the default game used (for dice template and critical injuries tables).'
 		+ ` Options are \`${Config.supportedGames.join('`, `')}\`.`
 		+ '\n`lang [new value]` – Gets or sets the default language. See Readme for details.',
 	guildOnly: true,
@@ -18,41 +18,41 @@ module.exports = {
 			!message.member.hasPermission('ADMINISTRATOR')
 			&& message.author.id !== client.config.botAdminID
 		) {
-			return message.reply('This command is only available for admins.');
+			return message.reply('⛔ This command is only available for admins.');
 		}
 
 		// The property command.args = true,
 		// so no need to check args[0].
 		const key = args[0].toLowerCase();
-		const newKeyVal = args[1];
+		const newVal = args[1];
 
 		const verifiedParameters = ['prefix', 'game', 'lang'];
 
 		if (verifiedParameters.includes(key)) {
 			// SET
-			if (typeof newKeyVal !== 'undefined') {
+			if (typeof newVal !== 'undefined') {
 
 				if (key === 'prefix') {
-					await db.set(message.guild.id, newKeyVal, 'prefix');
-					message.channel.send(`My prefix has been set to: "${newKeyVal}"`);
+					await db.set(message.guild.id, newVal, 'prefix');
+					message.channel.send(`✅ My prefix has been set to: "${newVal}"`);
 				}
-				else if (key === 'game' && client.config.supportedGames.includes(newKeyVal)) {
-					await db.set(message.guild.id, newKeyVal, 'game');
-					message.channel.send(`The Rolled dice default icon layout has been set to: "${newKeyVal}"`);
+				else if (key === 'game' && client.config.supportedGames.includes(newVal)) {
+					await db.set(message.guild.id, newVal, 'game');
+					message.channel.send(`✅ The default game has been set to: "${newVal}"`);
 				}
 				else {
-					message.reply(`The value you typed for "${key}" is unsupported.`);
+					message.reply(`❌ The value you typed for "${key}" is unsupported.`);
 				}
 			}
 			// GET
 			else {
 				const value = await db.get(message.guild.id, key);
-				if (value) message.channel.send(`Parameter: "${key}" = "${value}"`);
-				else message.reply(`Impossible to get the value from "${key}" parameter.`);
+				if (value) message.channel.send(`🏷️ Parameter: "${key}" = "${value}"`);
+				else message.reply(`❌ Impossible to get the value from "${key}" parameter.`);
 			}
 		}
 		else {
-			message.reply(`"${key}" is not a parameters.`);
+			message.reply(`❌ "${key}" is not a parameters.`);
 		}
 	},
 };
