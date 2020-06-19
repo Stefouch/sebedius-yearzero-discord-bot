@@ -136,7 +136,15 @@ bot.on('message', async message => {
 /* !
  * Catching UnhandledPromiseRejectionWarnings.
  */
-process.on('unhandledRejection', error => console.error('[ERROR] - Uncaught Promise Rejection', error));
+process.on('unhandledRejection', error => {
+	// Logs the error.
+	console.error('[ERROR] - Uncaught Promise Rejection', error);
+	// Sends me a personal message about the error.
+	if (process.env.NODE_ENV === 'production') {
+		bot.users.cache.get(bot.config.botAdminID).send(error.toString(), { split: true })
+			.catch(err => console.error(err));
+	}
+});
 
 /**
  * Get your bot's secret token from:
