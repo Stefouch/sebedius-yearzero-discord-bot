@@ -7,39 +7,54 @@ const { RollParser } = require('../util/RollParser');
 
 module.exports = {
 	name: 'roll',
-	description: 'Rolls dice for any Year Zero roleplaying game.'
-		+ '{TODO}'
-		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+	description: 'Rolls dice for any Year Zero roleplaying game.',
 	moreDescriptions: [
 		[
-			'Single Dice',
-			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.'
-			+ '\n`roll XdY [name]` – Rolls X DY and sums their results.',
+			'Select [game]',
+			'This argument is used to specify the skin of the rolled dice.'
+			+ ' Can be omitted.'
+			+ `\n Choices: \`${Config.supportedGames.join('`, `')}\`.`,
 		],
 		[
-			'Pool of Dice',
-			''
-			+ '\n\n*Example:* `roll 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
+			'Rolling Simple Dice',
+			'`roll d6|d66|d666` – Rolls a D6, D66, or D666.'
+			+ '\n`roll XdY±Z` – Rolls X dice of range Y, modified by Z.'
+			+ '\n`roll init` – Rolls initiative (one D6).',
 		],
 		[
-			'Pushing',
-			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon below the message.`
-			+ ' Only the user who initially rolled the dice can push them.'
-			+ `\nPushing is only available for ${Config.commands.roll.pushCooldown / 1000} seconds.`
-			+ ' Four spaces separates the keeped dice from the new rolled ones.',
+			'Rolling Year Zero Dice',
+			'Use any combinations of these letters with a number:\n*E.g.: roll 5b 3s 2g*'
+			+ '\n• `b` – Base dice (attributes)'
+			+ '\n• `s` – Skill dice / Stress dice (for ALIEN)'
+			+ '\n• `n` – Negative dice (for MYZ and FBL)'
+			+ '\n• `d` – Generic dice'
+			+ '\n• `a8` – D8 Artifact dice (from FBL)'
+			+ '\n• `a10` – D10 Artifact dice (from FBL)'
+			+ '\n• `a12` – D12 Artifact dice (from FBL)',
 		],
 		[
-			'[game] Dice Template',
-			'You can specify a dice template by typing `'
-			+ Config.supportedGames.join('|')
-			+ '` at the beginning of your dice instructions. If omitted, the default template is used.'
-			+ '\n To select the default template, use the command `setconf game <game>`.',
+			'Additional Arguments',
+			'Additional options for the roll:'
+			+ '\n`-n <name>` : Defines a name for the roll.'
+			+ '\n`-p <number>` : Changes the maximum number of allowed pushes.'
+			+ '\n`-f` : "Full-auto", unlimited number of pushes (max 10).'
+			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.',
 		],
 		[
-			'Other Arguments',
-			'• `-n|--name <text>` – Defines a name for the roll.'
-			+ '\n• `-p|--push <number>` – Defines the max number of pushes.'
-			+ '\n• `-f|--fullauto` – Unlimited number of pushes.'
+			'More Info',
+			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon under the message.`
+			+ ' The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.'
+			+ `\nMax ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+		],
+		[
+			'See Also',
+			'These are shortcuts if you don\'t want to specify the [game] parameter each time.'
+			+ '\n`rm` – Rolls *Mutant: Year Zero* dice.'
+			+ '\n`rf` – Rolls *Forbidden Lands* dice.'
+			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
+			+ '\n`rc` – Rolls *Coriolis* dice.'
+			+ '\n`ra` – Rolls *ALIEN* dice.'
+			+ '\n`rv` – Rolls *Vaesen* dice.',
 		],
 	],
 	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
@@ -217,6 +232,17 @@ module.exports = {
  * @param {Discord.Client} client The Client (the bot)
  */
 async function messageRollResult(roll, triggeringMessage, client) {
+	// Aborts if the bot doesn't have the needed permissions.
+	if (triggeringMessage.channel.type !== 'dm') {
+		if (!triggeringMessage.guild.me.hasPermission(client.config.neededPermissions)) {
+			const msg = '🛑 **Missing Permissions!**'
+				+ '\nThe bot does not have sufficient permission in this channel.'
+				+ ` The bot requires the \`${client.config.neededPermissions.join('`, `')}\` permissions in order to work.`
+				+ '\nType `help` to get more documentation.';
+			return triggeringMessage.reply(msg);
+		}
+	}
+
 	// Aborts if too many dice.
 	if (roll.size > client.config.commands.roll.max) {
 		return triggeringMessage.reply('⚠️ Cant\'t roll that, too many dice!');
@@ -279,7 +305,7 @@ async function messageRollResult(roll, triggeringMessage, client) {
 							// Removing the player's reaction.
 							// Only for multiple pushes.
 							.then(async () => {
-								if (pushedRoll.pushable) {
+								if (pushedRoll.pushable && rollMessage.channel.type !== 'dm') {
 									const userReactions = rollMessage.reactions.cache.filter(r => r.users.cache.has(userId));
 									try {
 										for (const r of userReactions.values()) {
@@ -305,7 +331,7 @@ async function messageRollResult(roll, triggeringMessage, client) {
 				collector.on('end', (collected, reason) => {
 					const reac = rollMessage.reactions.cache.first();
 
-					if (reac.emoji.name === pushIcon) {
+					if (reac.emoji.name === pushIcon && rollMessage.channel.type !== 'dm') {
 						reac.remove()
 							.catch(console.error);
 					}

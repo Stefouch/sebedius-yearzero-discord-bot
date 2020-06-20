@@ -47,8 +47,8 @@ bot.on('ready', () => {
 	console.log('| Guilds/Servers:');
 	let serverQty = 0;
 	bot.guilds.cache.forEach(guild => {
-		console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 		if (process.env.NODE_ENV !== 'production') {
+			console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			console.log('|    * Custom emojis:');
 			guild.emojis.cache.forEach(emoji => {
 				console.log(`|      <:${emoji.identifier}>`);
@@ -73,11 +73,10 @@ bot.on('ready', () => {
  * MESSAGE LISTENER
  */
 bot.on('message', async message => {
-	// Aborts if the user or the channel is banned.
-	if (bot.config.bannedUsers.includes(message.author.id)
-		|| bot.config.bannedChannels.includes(message.channel.id)) {
-		return;
-	}
+	// Aborts if the user or the channel are banned.
+	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
+	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
+
 	// Gets the guild's prefix.
 	if (message.channel.type === 'text' && !message.author.bot) {
 		const fetchedPrefix = await db.get(message.guild.id, 'prefix');
@@ -99,6 +98,16 @@ bot.on('message', async message => {
 	// Exits early if no prefix, and
 	// prevents bot from responding to its own messages.
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+	// Aborts if the bot doesn't have the needed permissions.
+	/* if (message.channel.type !== 'dm') {
+	 	if (!message.guild.me.hasPermission(bot.config.neededPermissions)) {
+			const msg = '🛑 **Missing Permissions!**'
+				+ '\nThe bot does not have sufficient permission in this channel.'
+				+ `\nThe bot requires the \`${bot.config.neededPermissions.join('`, `')}\` permissions in order to work.`;
+			return message.reply(msg);
+		}
+	}//*/
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
@@ -146,7 +155,7 @@ process.on('unhandledRejection', error => {
 	console.error('[ERROR] - Uncaught Promise Rejection', error);
 	// Sends me a personal message about the error.
 	if (process.env.NODE_ENV === 'production') {
-		const msg = error.toString();
+		const msg = error.toString() + '\nMessage: ' + error.message;
 		bot.users.cache.get(bot.config.botAdminID).send(msg, { split: true })
 			.catch(err => console.error(err));
 	}
