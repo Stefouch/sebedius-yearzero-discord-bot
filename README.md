@@ -5,7 +5,7 @@
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
-* [Tales From the Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
+* [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis — The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 * [ALIEN](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
@@ -24,7 +24,7 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 Commands are triggered with the prefix `!`. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
 
-#### Vocabulary
+### Vocabulary
 
 Below you'll find a list of available commands to use. The instructions use the following scheme:
 
@@ -32,32 +32,71 @@ Below you'll find a list of available commands to use. The instructions use the 
 * Brackets `[...]` mean that the argument is facultative.
 * Vertical bar `|` means "OR". *E.g. `d6|d66` means you can type either d6 or d66 for the command.*
 
-#### Generic commands
+### Generic commands
 
-* `help` – The bot's manual. Read it!
-* `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord channel. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
+* `help` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
+* `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 * `ping` – Checks the bot's latency.
 
-#### ROLL command
+### **ROLL** command
 
-* `roll <dice>` – Rolls dice for the *Mutant: Year Zero* roleplaying game. See possible outcome:
-  * `roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.
-  * `roll Xd|Xd6 [name]` – Rolls X D6 and sums their results.
-  * `roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die. *(Concept imported from Forbidden Lands.)*
-  * `roll init [bonus]` – Rolls initiative with or without a bonus.
-  * `roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:
-    * `X b` – Rolls X base dice (yellow color).
-    * `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.
-    * `Z g` – Rolls Z gear dice (black color).
-    * `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`). *(Concept imported from Forbidden Lands.)*
-    * `--fullauto` – Allows unlimited pushes.
+Rolls dice for the Year Zero roleplaying games.
 
-#### *MYZ* specific commands
+```
+roll [game] <dice> [arguments]
+```
 
-* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table. Other available tables are:
-  * `nontypical` or `nt` – Critical injury for non-typical damage.
-  * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
-  * `pushed` – Critical injury for pushed damage (none).
+* `[game]` is used to specify the skin of the rolled dice *(default is "myz")*.
+  * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
+* `<dice>`
+  * **Simple Rolls**
+    * `d6|d66|d666` – Rolls a D6, D66, or D666.
+    * `XdY±Z` – Rolls X dice of range Y, modified by Z. *E.g. 2d20+3.*
+    * `init` – Rolls initiative (one D6).
+  * **Year Zero Rolls:** Use any combinations of these letters with a number: *E.g. 5b 3s 2g*
+    * `b` – Base dice (attributes).
+    * `s` – Skill dice / Stress dice (for ALIEN).
+    * `g` – Gear dice (from equipment).
+    * `n` – Negative dice (for MYZ and FBL).
+    * `d` – Generic dice.
+    * `a8` – D8 Artifact dice (from FBL).
+    * `a10` – D10 Artifact dice (from FBL).
+    * `a12` – D12 Artifact dice (from FBL).
+* `[arguments]`
+  * `-n <text>` – Defines a name for the roll.
+  * `-p <number>` – Changes the maximum number of allowed pushes.
+  * `-f` – "Full-auto", unlimited number of pushes (max 10).
+  * `-pride` – Adds a D12 Artifact Die to the roll.
+
+#### Dice Cap
+
+The maximum number of dice that can be rolled at once is capped at 42. *(Discord messages have a limited number of characters.)*
+
+#### Pushing
+
+To push the roll, click the 🔄 reaction icon under the message. The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.
+
+### **CRIT** command
+
+Rolls for a random critical injury.
+
+```
+crit [game] [table] [numeric]
+```
+
+* `[game]` – Specifies the game you are using *(default is "myz")*.
+  * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
+* `[table]` – Specifies the table you want from this game *(default is "damage")*.
+* `[numeric]` – Specifies a fixed reference.
+
+### **MYZ** specific commands
+
+* `rollmutant` | `rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `critmutant` | `critm` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+  * `damage` | `dmg` – Critical injuries from damage.
+  * `horror` | `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
+  * `nontypical` | `nt` – Critical injury for non-typical damage.
+  * `pushed` | `p` – Critical injury for pushed damage (none).
 * `scrap [quantity]` – Gets you a bunch of scrap.
 * `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
 * `mutation` – Draws a random mutation (no details).
@@ -66,73 +105,86 @@ Below you'll find a list of available commands to use. The instructions use the 
 * `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 
-#### *Forbidden Lands* specific commands
+### **Forbidden Lands** specific commands
 
-* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
-  * `slash` or `sl` – The *Forbidden Lands* Critical injuries due to Slash Wounds.
-  * `blunt` or `bl` – The *Forbidden Lands* Critical injuries due to Blunt Force.
-  * `stab` or `st` – The *Forbidden Lands* Critical injuries due to Stab Wounds.
-  * `horror` or `h` – The *Forbidden Lands* Horror traumas, adapted for MYZ.
+* `rollfbl` | `rf` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `critfbl` | `critf` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+  * `slash` | `sl` – Critical injuries due to Slash wounds.
+  * `blunt` | `bl` – Critical injuries due to Blunt force.
+  * `stab` | `st` – Critical injuries due to Stab wounds.
+  * `horror` | `h` – Horror traumas.
+  * `nontypical` | `nt` – Critical injury for non-typical damage.
+  * `pushed` | `p` – Critical injury for pushed damage (none).
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 
-#### *ALIEN* specific commands
+### **ALIEN** specific commands
 
-* `crit [table]` – Rolls for a random critical injury. You may specify a table or a numeric value. The default is the damage table from MYZ. Other available tables are:
-  * `alien` or `a` – The *ALIEN* Critical injuries.
-  * `synth` or `s` – The *ALIEN* Critical injuries on Synthetics and Androids.
-  * `xeno` or `x` – The *ALIEN* Critical injuries on Xenomorphs.
-  * `mental` or `m` – The *ALIEN* Permanent Mental traumas.
-* `panic <stress>` – Rolls a random panic effect for the *ALIEN* roleplaying game.
+* `rollalien` | `ra` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `critalien` | `crita` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+  * `damage` | `d` – Critical injuries from damage.
+  * `synthetic` | `synth` | `s` – Critical injuries on Synthetics and Androids.
+  * `xeno` | `x` – Critical injuries for Xenomorphs.
+  * `mental` | `m` – Permanent mental traumas.
+* `panic <stress> [-f <number>]` – Rolls a random panic effect for the *ALIEN* roleplaying game. Use the `-f` parameter for a fixed value. 
 * `star` – Generates a random star sector for the *ALIEN* rpg.
 * `colony` – Generates a random colonized planet for the *ALIEN* rpg.
 * `job` – Generates a random job for the *ALIEN* rpg.
 
-#### Other commands
+### **Tales From The Loop** commands
+
+* `rolltales` | `rt` – Shortcut for rolling dice. See the **Roll** command above for more details.
+
+### **Coriolis** commands
+
+* `rollcoriolis` | `rc` – Shortcut for rolling dice. See the **Roll** command above for more details.
+
+### **Vaesen** commands
+
+* `rollvaesen` | `rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
+
+### Other commands
 
 Only a member with administrator rights can use these commands:
 
 * `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
-* `setconf game [name]` – Change the default icons layout for the rolled dice. Options are: `mutant|myz`, `fbl`, `alien`, `vaesen`.
+* `setconf game [name]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
 
-### Roll Examples
+## Examples
 
 `roll 4b1g` – Rolls 4 base and 1 gear dice.
 
-`roll 5b3s -n Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
+`roll 5b 3s -n Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
 
-`roll 4b3s2g d10 -n Uber ROLL --fullauto` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
+`roll 4b3s 2g a10 -n Uber ROLL -f` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. 
 
-`rolla 8b2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
+`rolla b8 s2` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 
 `roll d66` – Rolls a D66 (D6 × 10 + D6).
 
-`roll 2d` – Rolls two hexahedrons and sums their results.
+`roll 2d` – Rolls two hexahedrons.
+
+`roll d2` – Rolls a d2 (a coin).
 
 `res d8 Torches` – Rolls a D8 Resource Die for "Torches".
 
-`supply 6 Air` – Rolls supply for "Air" with six stress dice and count ones (banes).
+`supply 6 Air` – Rolls supply for "Air" with six stress dice and counts ones (banes).
 
 `init` or `init 1` – Draws one initiative cards.
 
 `init shuffle` – Shuffles all the initiative cards in a new deck (= reset).
 
-`panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* roleplaying game Panic table.
+`panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
 
+`crit fbl slash` – Draws a random critical injury from the Slash amage table in Forbidden Lands.
 
-### Dice Cap
+`crita dmg 66` – Draws the #66 critical injury from the Damage table in the ALIEN rpg. You're dead.
 
-The maximum number of dice that can be rolled at once is capped at 42. *(Discord messages have a limited number of characters.)*
-
-### Pushing
-
-The push option for the dice pool roll is available for 60 seconds. Only the user who initially rolled the dice can push them.
-
-### Command Aliases
+## Command Aliases
 
 Most commands have aliases. For example, hitting `!roll` or `!sla` or `!r` has the same output.
 
-Send `!help <command>` for a list of aliases for a specific command.
+Type `!help <command>` for a list of aliases for a specific command.
 
 # Permissions
 
@@ -153,7 +205,7 @@ See the [CHANGELOG](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/ma
 
 The literal and graphical information presented with this bot about *Mutant: Year Zero*, *Forbidden Lands* & *ALIEN*, including the textures, is copyright *Fria Ligan / Free League Publishing*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
 
-The bot's JS source code is under MIT license.
+The bot's JavasScript source code is under MIT license.
 
 The dice images are courtery of several people. Thanks to them for sharing them!
 
