@@ -23,14 +23,15 @@ module.exports = {
 		],
 		[
 			'Rolling Year Zero Dice',
-			'Use any combinations of these letters with a number:\n*E.g.: roll 5b 3s 2g*'
+			'Use any combinations of these letters with a number:'
 			+ '\n• `b` – Base dice (attributes)'
 			+ '\n• `s` – Skill dice / Stress dice (for ALIEN)'
 			+ '\n• `n` – Negative dice (for MYZ and FBL)'
 			+ '\n• `d` – Generic dice'
 			+ '\n• `a8` – D8 Artifact dice (from FBL)'
 			+ '\n• `a10` – D10 Artifact dice (from FBL)'
-			+ '\n• `a12` – D12 Artifact dice (from FBL)',
+			+ '\n• `a12` – D12 Artifact dice (from FBL)'
+			+ '\n\n*Example: roll 5b 3s 2g*',
 		],
 		[
 			'Additional Arguments',
@@ -48,7 +49,7 @@ module.exports = {
 		],
 		[
 			'See Also',
-			'These are shortcuts if you don\'t want to specify the [game] parameter each time.'
+			'The following commands are shortcuts if you don\'t want to specify the [game] parameter each time.'
 			+ '\n`rm` – Rolls *Mutant: Year Zero* dice.'
 			+ '\n`rf` – Rolls *Forbidden Lands* dice.'
 			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
@@ -331,9 +332,11 @@ async function messageRollResult(roll, triggeringMessage, client) {
 				collector.on('end', (collected, reason) => {
 					const reac = rollMessage.reactions.cache.first();
 
-					if (reac.emoji.name === pushIcon && rollMessage.channel.type !== 'dm') {
-						reac.remove()
-							.catch(console.error);
+					if (reac) {
+						if (reac.emoji.name === pushIcon && rollMessage.channel.type !== 'dm') {
+							reac.remove()
+								.catch(console.error);
+						}
 					}
 				});
 			}
