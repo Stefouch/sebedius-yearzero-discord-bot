@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Discord.js API upgraded to v12.2.0. Fixed Connection log, BaseManager cache, MessageEmbed, ReactionCollector accordingly.
+- Permissions: `READ_MESSAGE_HISTORY` is needed to react to messages with emojis.
 - `!roll` command revamped. See Readme for details.
   - Pushing duration increased from 60 to 120 seconds.
   - Dice arguments are now adaptable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
