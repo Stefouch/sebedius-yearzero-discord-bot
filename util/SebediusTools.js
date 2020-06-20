@@ -43,7 +43,7 @@ module.exports = {
 	 * Gets the game played (used for the dice icons set).
 	 * @param {Discord.Message} message Discord message
 	 * @param {Discord.Client} client Discord client (the bot)
-	 * @param {?string} arg The phrase (one word) used to identify the game played
+	 * @param {?string} arg The word used to identify the game played
 	 * @returns {string}
 	 * @async
 	 */
@@ -53,10 +53,25 @@ module.exports = {
 			game = arg;
 		}
 		// If no game was specified in the arguments, gets the default from the database.
-		else if (message.channel.type !== 'dm') {
+		else if (message.channel.type === 'text') {
 			const defaultGame = await db.get(message.guild.id, 'game');
 			if (defaultGame) game = defaultGame;
 		}
 		return game;
+	},
+	/**
+	 * Gets the language used.
+	 * @param {Discord.Message} message Discord message
+	 * @param {Discord.Client} client Discord client (the bot)
+	 * @returns {string}
+	 * @async
+	 */
+	async getLanguage(message, client) {
+		let lang = client.config.supportedLangs[0];
+		if (message.channel.type === 'text') {
+			const defaultLang = await db.get(message.guild.id, 'lang');
+			if (defaultLang) lang = defaultLang;
+		}
+		return lang;
 	},
 };
