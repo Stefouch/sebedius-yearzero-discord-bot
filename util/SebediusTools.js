@@ -48,7 +48,7 @@ module.exports = {
 	 * @async
 	 */
 	async getGame(message, client, arg) {
-		let game;
+		let game = client.config.supportedGames[0];
 		if (client.config.supportedGames.includes(arg)) {
 			game = arg;
 		}
@@ -56,9 +56,6 @@ module.exports = {
 		else if (message.channel.type !== 'dm') {
 			const defaultGame = await db.get(message.guild.id, 'game');
 			if (defaultGame) game = defaultGame;
-		}
-		else {
-			game = client.config.supportedGames[0];
 		}
 		return game;
 	},
