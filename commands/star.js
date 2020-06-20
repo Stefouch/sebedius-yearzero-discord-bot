@@ -26,7 +26,7 @@ class YZStarEmbed extends YZEmbed {
 
 		let order = 1;
 		if (star.orbitInnerSize > 0) {
-			this.addBlankField();
+			this.addField('\u200b', '\u200b');
 			this.addField('`INNER ORBIT`', `*Number of objects: ${star.orbitInnerSize}*`);
 			for (const o of star.orbit.inner) {
 				this.addOrbitField(o, order);
@@ -34,7 +34,7 @@ class YZStarEmbed extends YZEmbed {
 			}
 		}
 		if (star.orbitHabSize > 0) {
-			this.addBlankField();
+			this.addField('\u200b', '\u200b');
 			this.addField('`HABITABLE ZONE ORBIT`', `*Number of objects: ${star.orbitHabSize}*`);
 			for (const o of star.orbit.habitable) {
 				this.addOrbitField(o, order);
@@ -42,7 +42,7 @@ class YZStarEmbed extends YZEmbed {
 			}
 		}
 		if (star.orbitOuterSize > 0) {
-			this.addBlankField();
+			this.addField('\u200b', '\u200b');
 			this.addField('`OUTER ORBIT`', `*Number of objects: ${star.orbitOuterSize}*`);
 			for (const o of star.orbit.outer) {
 				this.addOrbitField(o, order);
