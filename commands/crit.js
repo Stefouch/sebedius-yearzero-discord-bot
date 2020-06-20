@@ -73,7 +73,7 @@ module.exports = {
 			}
 			// Checks and sets the game.
 			else if (!game && client.config.supportedGames.includes(arg)) {
-				game = await getGame(arg, message, client);
+				game = arg;
 			}
 			// If it's neither, it should be the critic's type.
 			else if (!type) {
@@ -95,7 +95,7 @@ module.exports = {
 			}
 		}
 		// Defaults.
-		if (!game) game = client.config.supportedGames[0];
+		if (!game) game = await getGame(message, client);
 		if (!type) type = 'damage';
 
 		// Aborts if the table doesn't exist.

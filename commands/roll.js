@@ -66,10 +66,10 @@ module.exports = {
 		// Sets the game. Must be done first.
 		let game;
 		if (client.config.supportedGames.includes(rollargv._[0])) {
-			game = await getGame(rollargv._.shift(), message, client);
+			game = rollargv._.shift();
 		}
 		else {
-			game = client.config.supportedGames[0];
+			game = await getGame(message, client);
 		}
 
 		// Year Zero dice quantities for the roll.

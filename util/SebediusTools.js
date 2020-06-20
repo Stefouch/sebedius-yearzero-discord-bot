@@ -41,13 +41,13 @@ module.exports = {
 	},
 	/**
 	 * Gets the game played (used for the dice icons set).
-	 * @param {string} arg The phrase (one word) used to identify the game played
 	 * @param {Discord.Message} message Discord message
 	 * @param {Discord.Client} client Discord client (the bot)
+	 * @param {?string} arg The phrase (one word) used to identify the game played
 	 * @returns {string}
 	 * @async
 	 */
-	async getGame(arg, message, client) {
+	async getGame(message, client, arg) {
 		let game;
 		if (client.config.supportedGames.includes(arg)) {
 			game = arg;
