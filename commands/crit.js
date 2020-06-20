@@ -2,90 +2,142 @@ const Util = require('../util/Util');
 const YZEmbed = require('../util/YZEmbed');
 const { getGame, getTable } = require('../util/SebediusTools');
 
+const availableCritTables = {
+	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
+	fbl: { slash: true, blunt: true, stab: true, horror: true, pushed: 'myz', nontypical: 'myz' },
+	alien: { damage: true, mental: true, synthetic: true, xeno: true },
+};
+
+const critTypeAliases = {
+	nontypical: ['nt'],
+	pushed: ['p'],
+	damage: ['dmg'],
+	slash: ['sl'],
+	blunt: ['bl'],
+	stab: ['sb'],
+	horror: ['h'],
+	synthetic: ['s', 'synth'],
+	xeno: ['x'],
+	mental: ['m'],
+};
+
 module.exports = {
 	name: 'crit',
-	description: 'Rolls for a random critical injury. You may specify a table or a numeric value.'
-		+ ' The default is the damage from MYZ table. Other available tables are:'
-		+ '\n• `nt` or `nontypical` : Critical injury for non-typical damage.'
-		+ '\n• `sl` or `slash` : The *Forbidden Lands* Critical injuries due to Slash wounds.'
-		+ '\n• `bl` or `blunt` : The *Forbidden Lands* Critical injuries due to Blunt force.'
-		+ '\n• `st` or `stab` : The *Forbidden Lands* Critical injuries due to Stab wounds.'
-		+ '\n• `h` or `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
-		+ '\n• `a` or `alien` : The *ALIEN* Critical injuries.'
-		+ '\n• `s` or `synth` : The *ALIEN* Critical injuries on Synthetics and Androids.'
-		+ '\n• `x` or `xeno` : The *ALIEN* Critical injuries on Xenomorphs.'
-		+ '\n• `m` or `mental` : The *ALIEN* Permanent Mental traumas.'
-		+ '\n• `pushed` : Critical injury for pushed damage (none).',
-	aliases: ['ci', 'crits', 'critic', 'critical'],
+	description: 'Rolls for a random critical injury.',
+	moreDescriptions: [
+		[
+			'Arguments',
+			'There are three main arguments you can use with this command in any order:'
+			+ '\n• `game` – Specifies the game you are using. See `help setconf` for more detail *(default is "myz")*.'
+			+ '\n• `table` – Specifies the table you want from this game. See below for possible options *(default is "damage")*.'
+			+ '\n• `numeric` – Specifies a fixed reference.',
+		],
+		[
+			'☢️ Mutant: Year Zero',
+			'• `dmg` | `damage` : Critical injuries from damage.'
+			+ '\n• `h` | `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
+			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
+			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
+		],
+		[
+			'⚔️ Forbidden Lands',
+			'• `dmg` | `damage` : Critical injuries from damage.'
+			+ '\n• `sl` | `slash` : Critical injuries due to Slash wounds.'
+			+ '\n• `bl` | `blunt` : Critical injuries due to Blunt force.'
+			+ '\n• `sl` | `stab` : Critical injuries due to Stab wounds.'
+			+ '\n• `h` | `horror` : Horror traumas.'
+			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
+			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
+		],
+		[
+			'👾 ALIEN',
+			'• `dmg` | `damage` : Critical injuries from damage.'
+			+ '\n• `s`, `synth` | `synthetic` : Critical injuries on Synthetics and Androids.'
+			+ '\n• `x` | `xeno` : Critical injuries on Xenomorphs.'
+			+ '\n• `m` | `mental` : Permanent mental traumas.',
+		],
+	],
+	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
-	args: false,	usage: '[nt | sl | bl | st | h | a | s | x | m | pushed] [numeric]',
+	args: false,
+	usage: '[game] [table] [numeric]',
 	async execute(args, message, client) {
-		const types = {
-			nontypical: ['nt'],
-			damage: ['dmg'],
-			slash: ['sl'],
-			blunt: ['bl'],
-			stab: ['sb'],
-			horror: ['h'],
-			synth: ['s'],
-			xeno: ['x'],
-			mental: ['m'],
-		};
+		// Exits early if too many arguments
+		if (args.length > 3) return message.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
+
 		// Parsing arguments.
-		// See https://www.npmjs.com/package/yargs-parser#api for details.
-		const critargv = require('yargs-parser')(args, {
-			alias: { ...types, ...{ result: ['r'] } },
-			boolean: ['nontypical'],
-			number: ['result'],
-			configuration: client.config.yargs,
-		});
-		console.log(critargv);
-
-		// Sets the game.
-		let game;
-		if (client.config.supportedGames.includes(critargv._[0])) {
-			game = await getGame(critargv._.shift(), message, client);
-		}
-		else {
-			game = client.config.supportedGames[0];
-		}
-
-		// Sets the type of criticals.
-		let type = 'damage';
-		for (const key in critargv) {
-			if (types.hasOwnProperty(key)) {
-				type = key;
-				break;
+		let game, type, fixedReference;
+		for (const arg of args) {
+			// Checks and sets any fixed reference.
+			if (!fixedReference && Util.isNumber(arg)) {
+				fixedReference = +arg;
 			}
+			// Checks and sets the game.
+			else if (!game && client.config.supportedGames.includes(arg)) {
+				game = await getGame(arg, message, client);
+			}
+			// If it's neither, it should be the critic's type.
+			else if (!type) {
+				for (const key in critTypeAliases) {
+					if (arg === key) {
+						type = arg;
+						console.log('   • arg=key', type);
+						break;
+					}
+					else if (critTypeAliases[key].includes(arg)) {
+						type = key;
+						console.log('   • arg=alias', type);
+						break;
+					}
+				}
+			}
+			else {
+				console.warn(`   • Unknown argument: ${arg}`);
+			}
+		}
+		// Defaults.
+		if (!game) game = client.config.supportedGames[0];
+		if (!type) type = 'damage';
+
+		// Aborts if the table doesn't exist.
+		if (!availableCritTables.hasOwnProperty(game)) return message.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
+		if (!availableCritTables[game].hasOwnProperty(type)) return message.reply(`ℹ️ There is no \`${type}\` critical table for **${game.toUpperCase()}**.`);
+
+		// Table swap.
+		if (typeof availableCritTables[game][type] === 'string') {
+			game = availableCritTables[game][type];
 		}
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
 		const critsTable = await getTable('./data/crits', fileName);
-		console.log(critsTable);
+		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
-		if (!critsTable) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `nul critsTable`.)');
-		if (critsTable.size === 0) return message.reply('💀 I\'m sorry, I\'ve been killed by the critical! (An error occured: `critsTable size 0`.)');
+		if (!critsTable) return message.reply('❌ An error occured: `null critsTable`.');
+		if (critsTable.size === 0) return message.reply('❌ An error occured: `critsTable size 0`.');
 
 		// Rolls the Critical Injuries table.
-		const critRoll = Util.rollD66();
+		const critRoll = fixedReference || Util.rollD66();
 		const crit = critsTable.get(critRoll);
-		console.log(crit);
+		// console.log(crit);
 
 		// Exits early if no critical injury was found.
-		if (!crit) return message.reply('❌ The critical injury wasn\'t found.');
+		if (!crit) return message.reply(`❌ The critical injury wasn't found. *(Table: ${fileName})*`);
 
-		// Builds and sends the message.
+		// Gets the values of each D66's dice.
 		let die1 = 0, die2 = 0;
 		if (critRoll) {
 			die1 = Math.floor(critRoll / 10);
 			die2 = critRoll % 10;
 		}
-		const icon1 = client.config.icons.alien.skill[die1] || '';
-		const icon2 = client.config.icons.alien.skill[die2] || '';
+		// Gets the emojis references.
+		const dieType = client.config.commands.roll.options[game].blankDiceFaces ? 'alien' : game;
+		const icon1 = client.config.icons[dieType].skill[die1] || '';
+		const icon2 = client.config.icons[dieType].skill[die2] || '';
 
-		return message.channel.send(icon1 + icon2, getEmbedCrit(crit, message))
+		// Sends the message.
+		return message.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, message))
 			.then(() => {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
@@ -103,10 +155,11 @@ module.exports = {
 /**
  * Gets the details for a critical injury.
  * @param {Object} crit Object containing all infos for the critical injury
+ * @param {string} name The name of the critical table
  * @param {Discord.Message} message The triggering message
  * @returns {YZEmbed} A rich embed
  */
-function getEmbedCrit(crit, message) {
+function getEmbedCrit(crit, name, message) {
 	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, message, true);
 
 	if (crit.healingTime) {
@@ -147,6 +200,7 @@ function getEmbedCrit(crit, message) {
 		}
 		embed.addField('Lethality', text, false);
 	}
+	embed.setFooter(`Table: ${name}`);
 
 	return embed;
 }
