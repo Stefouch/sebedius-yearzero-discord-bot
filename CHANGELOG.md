@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - WORK IN PROGRESS
+## [2.0.0] - 2020-06-20
 ### Added
 - Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.
 - Support for **CORIOLIS** rolls: `!rollcoriolis` or `!rc`.
@@ -20,9 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New `!setconf` configuration parameter: `lang` – Defines the default language.
 - New critical tables in CSV format.
 - New JavaScript utils and tools for the bot's code.
+- Error Watching: The bot sends me a DM at each uncaught errors.
 
 ### Changed
-- Discord.js API upgraded to v12.2.0. Fixed Connection log, BaseManager cache, MessageEmbed & ReactionCollector accordingly.
+- Discord.js API upgraded to v12.2.0. Fixed Connection log, BaseManager cache, MessageEmbed, ReactionCollector accordingly.
 - `!roll` command revamped. See Readme for details.
   - Pushing duration increased from 60 to 120 seconds.
   - Dice arguments are now adaptable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
