@@ -59,7 +59,8 @@ module.exports = {
 			default: {
 				fullauto: false,
 			},
-			boolean: ['fullauto'],
+			boolean: ['fullauto', 'initiative'],
+			number: ['push'],
 			array: ['name'],
 			configuration: client.config.yargs,
 		});
