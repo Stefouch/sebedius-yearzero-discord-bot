@@ -14,7 +14,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[all | gla zc2 zc5 psi]',
-	execute(args, message) {
+	async execute(args, message, client) {
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Muts) legalBooks.push(book);

@@ -22,12 +22,12 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[quantity]',
-	execute(args, message) {
+	async execute(args, message, client) {
 		let desc = '';
 		let qty = 1;
 
 		if (/^\d{1,2}$/.test(args[0])) {
-			qty = Math.min(+args[0], Config.commands.scrap.max);
+			qty = Math.min(+args[0], client.config.commands.scrap.max);
 		}
 
 		for (let i = 0; i < qty; i++) {

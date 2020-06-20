@@ -7,7 +7,7 @@ module.exports = {
 	description: 'Tells a random rumor.',
 	guildOnly: false,
 	args: false,
-	execute(args, message) {
+	async execute(args, message, client) {
 		const rumorStory = Util.random(Rumors.stories);
 
 		// RumorStory is an Object with:

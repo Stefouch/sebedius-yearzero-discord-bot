@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const Config = require('../config.json');
 const ms = require('ms');
 const os = require('os');
 const worker = require('core-worker');
@@ -13,7 +12,7 @@ module.exports = {
 	// usage: '',
 	async execute(args, message, client) {
 		// Exits early if not the bot's owner.
-		if (message.author.id !== Config.botAdminID) return;
+		if (message.author.id !== client.config.botAdminID) return;
 
 		if (args.includes('maintenance') || args.includes('idle')) {
 			client.user.setPresence({

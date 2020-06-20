@@ -12,7 +12,7 @@ module.exports = {
 	aliases: ['generate-demon'],
 	guildOnly: false,
 	args: false,
-	execute(args, message) {
+	async execute(args, message, client) {
 		const demon = new Demon();
 
 		const embed = new YZEmbed(

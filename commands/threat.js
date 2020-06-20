@@ -8,7 +8,7 @@ module.exports = {
 	aliases: ['thr'],
 	guildOnly: false,
 	args: false,
-	execute(args, message) {
+	async execute(args, message, client) {
 		// Rolls for the threat type.
 		const nb = Util.rand(1, 6);
 		let type;

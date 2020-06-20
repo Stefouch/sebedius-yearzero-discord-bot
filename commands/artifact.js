@@ -16,7 +16,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[all | myz meta gla mech ely astra]',
-	execute(args, message) {
+	async execute(args, message, client) {
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Artos) legalBooks.push(book);

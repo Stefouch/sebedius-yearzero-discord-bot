@@ -1,12 +1,13 @@
-const Config = require('../config.json');
+const { supportedGames } = require('../config.json');
 const db = require('../database/database');
 
 module.exports = {
 	name: 'setconf',
-	description: 'Sets the bot\'s configuration for this server. See possible parameters:'
+	description: 'Sets the bot\'s configuration for this server. If you omit the new value, it returns the current value.'
+		+ ' See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
 		+ '\n`game [new value]` – Gets or sets the default game used (for dice skins and critical injuries tables).'
-		+ ` Options are \`${Config.supportedGames.join('`, `')}\`.`
+		+ ` Options are \`${supportedGames.join('`, `')}\`.`
 		+ '\n`lang [new value]` – Gets or sets the default language. See Readme for details.',
 	guildOnly: true,
 	args: true,
@@ -52,7 +53,7 @@ module.exports = {
 			}
 		}
 		else {
-			message.reply(`❌ "${key}" is not a parameters.`);
+			message.reply(`❌ "${key}" is not a parameter.`);
 		}
 	},
 };
