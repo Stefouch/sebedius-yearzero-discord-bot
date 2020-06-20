@@ -38,11 +38,12 @@ module.exports = {
 			embed.addField('🛠 Developper', 'Stefouch#5202', true);
 			embed.addField('🗒 List of Commands', commandsTextlist, false);
 			embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
-			embed.addField('🔗 Invite Link', 'https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=289856', false);
+			embed.addField('🔗 Invite Link', 'https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=354368', false);
 			embed.addField('🛠 Feature & Bug Report', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
 			embed.addField('🦾 Patreon', 'https://patreon.com/Stefouch', true);
 			embed.addField('🖥 Website', 'https://www.stefouch.be', true);
 			embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
+			embed.addField('⚠️ Permission Issues?', 'If you\'ve permission issues with the bot, `READ_MESSAGE_HISTORY` might be missing (newly required). Otherwise, check the Readme.', false);
 
 			if (argv.dm === false) {
 				return message.channel.send(embed);

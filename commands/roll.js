@@ -231,6 +231,7 @@ module.exports = {
  * @param {YZRoll} roll The Roll
  * @param {Discord.Message} triggeringMessage The Triggering Message
  * @param {Discord.Client} client The Client (the bot)
+ * @async
  */
 async function messageRollResult(roll, triggeringMessage, client) {
 	// Aborts if the bot doesn't have the needed permissions.
@@ -331,7 +332,6 @@ async function messageRollResult(roll, triggeringMessage, client) {
 				// ========== Listener: On End ==========
 				collector.on('end', (collected, reason) => {
 					const reac = rollMessage.reactions.cache.first();
-
 					if (reac) {
 						if (reac.emoji.name === pushIcon && rollMessage.channel.type !== 'dm') {
 							reac.remove()

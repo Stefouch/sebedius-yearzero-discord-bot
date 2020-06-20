@@ -14,7 +14,7 @@ The supported games are:
 
 # Add the Bot to your Server
 
-Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=289856
+Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=354368
 
 The link will prompt you to authorize the bot on a server. Once the bot's authorized, you'll see it in the Member List.
 
@@ -191,6 +191,7 @@ This is a detailed list of needed permissions:
 
 * `ADD_REACTIONS` : The bot uses a reaction menu for roll pushing.
 * `VIEW_CHANNEL` : Mandatory.
+* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission. ⚠️<font color=red>**NEW**</font>
 * `SEND_MESSAGES` : Mandatory.
 * `MANAGE_MESSAGES` : The bot needs this permission to remove pushing reaction emojis.
 * `EMBED_LINKS` : The bot uses rich embed to display the dice results.
