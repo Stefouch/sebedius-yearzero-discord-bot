@@ -6,6 +6,8 @@
 	"defaultPrefix": "!",
 	"supportedGames": ["myz", "fbl", "tales", "coriolis", "alien", "vaesen"],
 	"supportedLangs": ["en"],
+	"bannedChannels": [],
+	"bannedUsers": [],
 	"commands": {
 		"roll": {
 			"max": 42,
@@ -15,6 +17,7 @@
 				"generic": {
 					"iconTemplate": "alien",
 					"successIcon": "☢",
+					"blankDiceFaces": false,
 					"detailed": false,
 					"extraPushDice": null,
 					"trauma": false,
@@ -43,6 +46,7 @@
 						"gear": "skill",
 						"neg": "--"
 					},
+					"blankDiceFaces": true,
 					"detailed": true
 				},
 				"coriolis": {
@@ -51,6 +55,7 @@
 						"gear": "skill",
 						"neg": "--"
 					},
+					"blankDiceFaces": true,
 					"detailed": true,
 					"reactions": [
 						{
@@ -82,6 +87,7 @@
 						"gear": "skill",
 						"neg": "--"
 					},
+					"blankDiceFaces": true,
 					"detailed": true
 				}
 			}
