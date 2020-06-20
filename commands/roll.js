@@ -40,7 +40,6 @@ module.exports = {
 			'• `-n|--name <text>` – Defines a name for the roll.'
 			+ '\n• `-p|--push <number>` – Defines the max number of pushes.'
 			+ '\n• `-f|--fullauto` – Unlimited number of pushes.'
-			+ '\n• `-i|--init|init` – Turns the roll into an initiative roll (D6).',
 		],
 	],
 	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
@@ -54,7 +53,6 @@ module.exports = {
 				push: ['p', 'pushes'],
 				name: ['n'],
 				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
-				inititiative: ['i', 'init'],
 			},
 			default: {
 				fullauto: false,
@@ -170,7 +168,7 @@ module.exports = {
 			);
 		}
 		// Checks for init roll.
-		else if (rollargv.inititiative || /initiative|init|i/i.test(rollargv._[0])) {
+		else if (/initiative|init/i.test(rollargv._[0])) {
 			game = 'generic';
 			roll = new YZRoll(message.author, { skill: 1 }, 'Initiative');
 		}
@@ -183,6 +181,10 @@ module.exports = {
 			roll = new YZRoll(message.author, { skill: 0 }, rollargv._[0].toUpperCase());
 			roll.dice.skill = genRollResults;
 			if (genRoll.modifier) roll.dice.neg.push(genRoll.modifier);
+		}
+		// Exits if no check.
+		else {
+			return message.reply('ℹ️ I don\'t understand this syntax. Type `help roll` for details on the proper usage.');
 		}
 
 		// Sets the game.

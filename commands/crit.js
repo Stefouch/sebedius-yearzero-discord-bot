@@ -41,8 +41,7 @@ module.exports = {
 		],
 		[
 			'⚔️ Forbidden Lands',
-			'• `dmg` | `damage` : Critical injuries from damage.'
-			+ '\n• `sl` | `slash` : Critical injuries due to Slash wounds.'
+			'• `sl` | `slash` : Critical injuries due to Slash wounds.'
 			+ '\n• `bl` | `blunt` : Critical injuries due to Blunt force.'
 			+ '\n• `sl` | `stab` : Critical injuries due to Stab wounds.'
 			+ '\n• `h` | `horror` : Horror traumas.'
@@ -53,7 +52,7 @@ module.exports = {
 			'👾 ALIEN',
 			'• `dmg` | `damage` : Critical injuries from damage.'
 			+ '\n• `s`, `synth` | `synthetic` : Critical injuries on Synthetics and Androids.'
-			+ '\n• `x` | `xeno` : Critical injuries on Xenomorphs.'
+			+ '\n• `x` | `xeno` : Critical injuries for Xenomorphs.'
 			+ '\n• `m` | `mental` : Permanent mental traumas.',
 		],
 	],

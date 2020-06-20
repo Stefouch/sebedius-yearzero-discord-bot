@@ -5,8 +5,8 @@ const db = require('../database/database');
 
 module.exports = {
 	name: 'help',
-	description: 'List all availabe commands or info about a specific command.',
-	aliases: ['commands', 'aide', 'hjälp', 'hjalp'],
+	description: 'List all availabe commands or info about a specific command.'
+		+ '\nUse the argument `--no-dm` to display the help message on the channel.',
 	guildOnly: false,
 	args: false,
 	usage: '[command name]',
