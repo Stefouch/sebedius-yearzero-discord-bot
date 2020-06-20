@@ -5,7 +5,7 @@ module.exports = {
 	name: 'setconf',
 	description: 'Sets the bot\'s configuration for this server. See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
-		+ '\n`game [new value]` – Gets or sets the default game used (for dice template and critical injuries tables).'
+		+ '\n`game [new value]` – Gets or sets the default game used (for dice skins and critical injuries tables).'
 		+ ` Options are \`${Config.supportedGames.join('`, `')}\`.`
 		+ '\n`lang [new value]` – Gets or sets the default language. See Readme for details.',
 	guildOnly: true,
