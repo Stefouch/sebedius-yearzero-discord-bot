@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'critalien',
 	description: 'Rolls for a random critical injury.'
-		+ 'Type `help crit` for more details.',
+		+ '\nType `help crit` for more details.',
 	aliases: ['crita'],
 	guildOnly: false,
 	args: false,

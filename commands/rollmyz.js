@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'rollmyz',
 	description: 'Rolls dice for the *Mutant: Year Zero* roleplaying game.'
-		+ 'Type `help roll` for more details.',
+		+ '\nType `help roll` for more details.',
 	aliases: ['rollm', 'rm', 'lancem', 'lancerm', 'slåm', 'slam'],
 	guildOnly: false,
 	args: true,

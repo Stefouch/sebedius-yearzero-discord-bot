@@ -1,7 +1,7 @@
 module.exports = {
 	name: 'rolltales',
 	description: 'Rolls dice for the *Tales From the Loop* roleplaying game.'
-		+ 'Type `help roll` for more details.',
+		+ '\nType `help roll` for more details.',
 	aliases: ['rollt', 'rt', 'lancet', 'lancert', 'slåt', 'slat'],
 	guildOnly: false,
 	args: true,
