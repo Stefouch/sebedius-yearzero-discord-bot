@@ -6,12 +6,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [2.0.0] - WORK IN PROGRESS
 ### Added
-- Support for **TALES FROM THE LOOP** rolls: `!rollt` or `!rt`.
-- Support for **CORIOLIS** rolls: `!rollc` or `!rc`.
-- Support for **VAESEN** rolls: `!rollv` or `!rv`.
+- Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.
+- Support for **CORIOLIS** rolls: `!rollcoriolis` or `!rc`.
+- Support for **VAESEN** rolls: `!rollvaesen` or `!rv`.
 - New command: `!ping` – Checks the bot's latency.
 - New command: `!supply` – Rolls for a supply (*ALIEN* rpg).
 - New command: `!resource` – Rolls a Resource Die (*Forbidden Lands*).
+- New command: `!critmutant` or `!critm` — Shortcut for *Mutant: Year Zero* critical injuries.
+- New command: `!critfbl` or `!critf` — Shortcut for *Forbidden Lands* critical injuries.
+- New command: `!critalien` or `!crita` — Shortcut for *ALIEN* critical injuries.
 - New subcommand: `!setconf game` – Defines the game used for the default dice template.
 - The `!panic` command has now a `--fixed` argument if you want to use a fixed number (no D6 rolled).
 - New `!setconf` configuration parameter: `game` – Defines the game used for the default dice template and critics tables.
@@ -27,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `!crit` command revamped. See Readme for details.
 - Relooking of the `!help` command.
 - Updated code for `!panic`, `!admin` and the above commands.
+- Future support for different languages.
 
 ### Fixed
 - A bug where the player's avatar was not showing in the roll embed message.

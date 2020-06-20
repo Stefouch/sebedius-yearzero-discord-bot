@@ -1,12 +1,15 @@
 # TODO List
 
-- Revamp `!critic`
+- d66 and d666 must have their own skin
 - Bug: setconf (check) not working in PRODUCTION
-- Bug: no email on uncaught error (bot.js)
+- Bug: no dm on uncaught error (bot.js)
 
 ## MYZ
 - Mutation Misfire
 - Zone Sector generation
+- Support for GLA
+- Support for Mechatron
+- Support for Elysium
 
 ## Coriolis
 - Critics

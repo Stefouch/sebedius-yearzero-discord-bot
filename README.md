@@ -5,8 +5,8 @@
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
-* Tales From the Loop & Things From the Flood
-* Coriolis
+* [Tales From the Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
+* [Coriolis — The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 * [ALIEN](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 
@@ -22,7 +22,7 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 # Available Commands
 
-Commands are triggered with the prefix `!`. This prefix can be configured for your server. Most of the commands can be executed from channels and privately through DMs.
+Commands are triggered with the prefix `!`. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
 
 #### Vocabulary
 
@@ -157,7 +157,7 @@ The bot's JS source code is under MIT license.
 
 The dice images are courtery of several people. Thanks to them for sharing them!
 
-- *FBL* dice: M. Hilton Perantunes.
+- *Forbidden Lands* dice: M. Hilton Perantunes.
 - *ALIEN* dice: M. Radomir Balint. 
 - *Tales* & *Coriolis* dice: M. Jonathan Pay.
 - *Vaesen* dice: M. Matt Kay

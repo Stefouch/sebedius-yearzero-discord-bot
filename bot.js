@@ -19,6 +19,7 @@ const bot = new Discord.Client();
 
 // Adds the configuration file.
 bot.config = require('./config.json');
+console.log('[+] - Config loaded');
 
 // Initializes global constants.
 let prefix = bot.config.defaultPrefix;
@@ -72,9 +73,13 @@ bot.on('ready', () => {
  * MESSAGE LISTENER
  */
 bot.on('message', async message => {
+	// Aborts if the user or the channel is banned.
+	if (bot.config.bannedUsers.includes(message.author.id)
+		|| bot.config.bannedChannels.includes(message.channel.id)) {
+		return;
+	}
 	// Gets the guild's prefix.
 	if (message.channel.type === 'text' && !message.author.bot) {
-		// const fetchedPrefix = await keyv.get(`prefix_${message.guild.id}`);
 		const fetchedPrefix = await db.get(message.guild.id, 'prefix');
 
 		if (fetchedPrefix) {
@@ -121,8 +126,8 @@ bot.on('message', async message => {
 	}
 
 	try {
-		console.log(`[COMMAND] - Command received from ${message.author.tag}`
-			+ (message.guild ? ` (${message.guild.name})` : '')
+		console.log(`[COMMAND] - ${message.author.tag} (${message.author.id})`
+			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
 		command.execute(args, message, bot);
