@@ -1,5 +1,4 @@
 const Discord = require('discord.js');
-const Config = require('../config.json');
 const ms = require('ms');
 const os = require('os');
 const worker = require('core-worker');
@@ -13,7 +12,7 @@ module.exports = {
 	// usage: '',
 	async execute(args, message, client) {
 		// Exits early if not the bot's owner.
-		if (message.author.id !== Config.botAdminID) return;
+		if (message.author.id !== client.config.botAdminID) return;
 
 		if (args.includes('maintenance') || args.includes('idle')) {
 			client.user.setPresence({
@@ -32,11 +31,6 @@ module.exports = {
 			message.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
 			setOnlineActivity(client, guilds.length);
 		}
-		// This is a Ping function for latency check.
-		else if (args.includes('ping')) {
-			const msg = await message.channel.send('Pinging...');
-			msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms.`);
-		}
 		// Gets info from the Bot.
 		else if (args.includes('botinfo')) {
 			try {
@@ -46,10 +40,10 @@ module.exports = {
 					.addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
 					.addField('Swap Partition Size', `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`, true)
 					.addField('Uptime', ms(client.uptime), true)
-					.addField('Users', client.users.size, true)
-					.addField('Servers', client.guilds.size, true)
-					.addField('Channels', client.channels.size, true)
-					.addField('Emojis', client.emojis.size, true)
+					.addField('Users', client.users.cache.size, true)
+					.addField('Servers', client.guilds.cache.size, true)
+					.addField('Channels', client.channels.cache.size, true)
+					.addField('Emojis', client.emojis.cache.size, true)
 					.addField('Library', 'discord.js', true)
 					.addField('Library Version', `v${Discord.version}`, true)
 					.addField('Bot Created', client.user.createdAt, true)

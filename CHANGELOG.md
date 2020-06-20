@@ -4,8 +4,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.7.1] - WORK IN PROGRESS
+## [2.0.0] - 2020-06-20
+### Added
+- Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.
+- Support for **CORIOLIS** rolls: `!rollcoriolis` or `!rc`.
+- Support for **VAESEN** rolls: `!rollvaesen` or `!rv`.
+- New command: `!ping` – Checks the bot's latency.
+- New command: `!supply` – Rolls for a supply (*ALIEN* rpg).
+- New command: `!resource` – Rolls a Resource Die (*Forbidden Lands*).
+- New command: `!critmutant` or `!critm` — Shortcut for *Mutant: Year Zero* critical injuries.
+- New command: `!critfbl` or `!critf` — Shortcut for *Forbidden Lands* critical injuries.
+- New command: `!critalien` or `!crita` — Shortcut for *ALIEN* critical injuries.
+- The `!panic` command has now a `--fixed` argument if you want to use a fixed number (no D6 rolled).
+- New `!setconf` configuration parameter: `game` – Defines the game used for the default dice template and critics tables.
+- New `!setconf` configuration parameter: `lang` – Defines the default language.
+- New critical tables in CSV format.
+- New JavaScript utils and tools for the bot's code.
+- Error Watching: The bot sends me a DM at each uncaught errors.
+
+### Changed
+- Discord.js API upgraded to v12.2.0. Fixed Connection log, BaseManager cache, MessageEmbed, ReactionCollector accordingly.
+- Permissions: `READ_MESSAGE_HISTORY` is needed to react to messages with emojis.
+- `!roll` command revamped. See Readme for details.
+  - Pushing duration increased from 60 to 120 seconds.
+  - Dice arguments are now adaptable. *E.g. Typing `5b3s` is now the same as `b5 3s`.*
+- `!crit` command revamped. See Readme for details.
+- Relooking of the `!help` command.
+- Updated code for `!panic`, `!admin` and the above commands.
+- Future support for different languages.
+
 ### Fixed
+- A bug where the player's avatar was not showing in the roll embed message.
 - A typo in job.cargo.goods.medicinal JSON data.
 
 ## [1.7.0] - 2019-12-26
@@ -16,7 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New command: `!job` – Generates a random job for the *ALIEN* rpg.
 - All roll commands can now interpret simple generic rolls.
 - All the Mutant: Elysium artifacts.
-- More admin support for the bot owner.
+- More admin support for the bot owner (me).
 
 ### Fixed
 - Issue #13: `!arto` is now specific.

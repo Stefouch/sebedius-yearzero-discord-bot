@@ -1,238 +1,375 @@
 const Config = require('../config.json');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const { getGame } = require('../util/SebediusTools');
 const { RollParser } = require('../util/RollParser');
 
-const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
 	name: 'roll',
-	description: 'Rolls dice for the *Mutant: Year Zero* roleplaying game.'
-		+ ` Max ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+	description: 'Rolls dice for any Year Zero roleplaying game.',
 	moreDescriptions: [
 		[
-			'Single Dice',
-			'`roll d6|d66|d666 [name]` – Rolls a D6, D66, or D666.'
-			+ '\n`roll Xd [name]` – Rolls X D6 and sums their results.'
-			+ '\n`roll res d6|d8|d10|d12 [name]` – Rolls a Resource Die.'
-			+ '\n`roll init [bonus]` – Rolls initiative with or without a bonus',
+			'Select [game]',
+			'This argument is used to specify the skin of the rolled dice.'
+			+ ' Can be omitted.'
+			+ `\n Choices: \`${Config.supportedGames.join('`, `')}\`.`,
 		],
 		[
-			'Pool of Dice',
-			'`roll [Xb][Ys][Zg] [Artifact Die] [name] [--fullauto]` – Rolls a pool of dice following the rules of MYZ:'
-			+ '\n• `X b` – Rolls X base dice (yellow color).'
-			+ '\n• `Y s` – Rolls Y skill dice (green color). Use `n` instead of `s` for negative dice.'
-			+ '\n• `Z g` – Rolls Z gear dice (black color).'
-			+ '\n• `Artifact Die` – Rolls an Artifact Die (`d6|d8|d10|d12`), adapted from *Forbidden Lands*.'
-			+ '\n• `--fullauto` – Allows unlimited pushes.'
-			+ '\n\n*Example:* `roll 5b3s2g` *rolls for 5 base, 3 skill and 2 gear dice.*',
+			'Rolling Simple Dice',
+			'`roll d6|d66|d666` – Rolls a D6, D66, or D666.'
+			+ '\n`roll XdY±Z` – Rolls X dice of range Y, modified by Z.'
+			+ '\n`roll init` – Rolls initiative (one D6).',
 		],
 		[
-			'Pushing',
-			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon below the message.`
-			+ ' Only the user who initially rolled the dice can push them.'
-			+ `\nPushing is available for ${Config.commands.roll.pushCooldown / 1000} seconds.`
-			+ ' Four spaces separates the keeped dice from the new rolled ones.',
+			'Rolling Year Zero Dice',
+			'Use any combinations of these letters with a number:'
+			+ '\n• `b` – Base dice (attributes)'
+			+ '\n• `s` – Skill dice / Stress dice (for ALIEN)'
+			+ '\n• `n` – Negative dice (for MYZ and FBL)'
+			+ '\n• `d` – Generic dice'
+			+ '\n• `a8` – D8 Artifact dice (from FBL)'
+			+ '\n• `a10` – D10 Artifact dice (from FBL)'
+			+ '\n• `a12` – D12 Artifact dice (from FBL)'
+			+ '\n\n*Example: roll 5b 3s 2g*',
+		],
+		[
+			'Additional Arguments',
+			'Additional options for the roll:'
+			+ '\n`-n <name>` : Defines a name for the roll.'
+			+ '\n`-p <number>` : Changes the maximum number of allowed pushes.'
+			+ '\n`-f` : "Full-auto", unlimited number of pushes (max 10).'
+			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.',
+		],
+		[
+			'More Info',
+			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon under the message.`
+			+ ' The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.'
+			+ `\nMax ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+		],
+		[
+			'See Also',
+			'The following commands are shortcuts if you don\'t want to specify the [game] parameter each time.'
+			+ '\n`rm` – Rolls *Mutant: Year Zero* dice.'
+			+ '\n`rf` – Rolls *Forbidden Lands* dice.'
+			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
+			+ '\n`rc` – Rolls *Coriolis* dice.'
+			+ '\n`ra` – Rolls *ALIEN* dice.'
+			+ '\n`rv` – Rolls *Vaesen* dice.',
 		],
 	],
-	aliases: ['rollm', 'r', 'rm', 'lance', 'lancer', 'slå', 'sla'],
+	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
 	guildOnly: false,
 	args: true,
-	usage: '<dice>',
-	execute(args, message) {
-		const rollArgument = args.shift();
+	usage: '[game] <dice> [arguments]',
+	async execute(args, message, client) {
+		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
+		const rollargv = require('yargs-parser')(args, {
+			alias: {
+				push: ['p', 'pushes'],
+				name: ['n'],
+				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
+			},
+			default: {
+				fullauto: false,
+			},
+			boolean: ['fullauto', 'initiative'],
+			number: ['push'],
+			array: ['name'],
+			configuration: client.config.yargs,
+		});
 
-		// Exits early if no argument.
-		// Though, this check isn't really necessary as "command.args = true".
-		if (!rollArgument.length) return message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
-
-		if (/^(\d{1,2}[bsgn]){1,4}$/i.test(rollArgument)) {
-			const diceArguments = rollArgument.match(/\d{1,2}[bsgn]/gi);
-
-			if (diceArguments.length) {
-				let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0;
-				let artifactDieSize = 0;
-
-				for (const dieArg of diceArguments) {
-					const dieTypeChar = dieArg.slice(-1).toLowerCase();
-					const diceQty = Number(dieArg.slice(0, -1)) || 0;
-					switch (dieTypeChar) {
-					case 'b': baseDiceQty = diceQty; break;
-					case 's': skillDiceQty = diceQty; break;
-					case 'g': gearDiceQty = diceQty; break;
-					case 'n': negDiceQty = diceQty; break;
-					}
-				}
-
-				if (ARTIFACT_DIE_REGEX.test(args[0])) {
-					// Uses shift() to excise this part from the roll's name.
-					const artifactDieArgument = args.shift();
-					const [, matchedSize] = artifactDieArgument.match(ARTIFACT_DIE_REGEX);
-					artifactDieSize = Math.min(matchedSize, 12);
-				}
-
-				// Rolls the dice.
-				const rollTitle = args.join(' ').replace('--', '–');
-				const roll = new YZRoll(
-					message.author,
-					{
-						base: baseDiceQty,
-						skill: skillDiceQty,
-						gear: gearDiceQty,
-						neg: negDiceQty,
-						artifactDie: artifactDieSize,
-					},
-					rollTitle
-				);
-
-				if (args.includes('--fullauto')) roll.setFullAuto(true);
-
-				console.log('[ROLL] - Rolled:', roll.toString());
-
-				sendMessageForRollResults(roll, message);
-			}
-		// checks d666 or d66 or (N)d6.
-		}
-		else if (/^d666$/i.test(rollArgument)) {
-			const rollTitle = args.join(' ');
-			const roll = new YZRoll(message.author.id, { base: 3 }, rollTitle);
-			sendMessageForD6(roll, message, 'BASESIX');
-		}
-		else if (/^d66$/i.test(rollArgument)) {
-			const rollTitle = args.join(' ');
-			const roll = new YZRoll(message.author.id, { base: 2 }, rollTitle);
-			sendMessageForD6(roll, message, 'BASESIX');
-		}
-		else if (/^d6$/i.test(rollArgument)) {
-			const rollTitle = args.join(' ');
-			const roll = new YZRoll(message.author.id, { base: 1 }, rollTitle);
-			sendMessageForD6(roll, message, 'BASESIX');
-		}
-		else if (/^\d+d6?$/i.test(rollArgument)) {
-			const rollTitle = args.join(' ');
-			const [, nb] = rollArgument.match(/(^\d+)/);
-			const roll = new YZRoll(message.author.id, { base: nb }, rollTitle);
-			sendMessageForD6(roll, message, 'ADD');
-		}
-		// Initiative roll.
-		else if (rollArgument.includes('init')) {
-			const initBonus = +args[0] || 0;
-			const initRoll = Util.rand(1, 6);
-			const initTotal = initBonus + initRoll;
-			const initDie = Config.icons.myz.base[initRoll];
-
-			let desc = `Initiative: ${initDie}`;
-			if (initBonus) desc += ` ${(initBonus >= 0) ? '+' : ''}${initBonus} = **${initTotal}**`;
-			const embed = new YZEmbed(null, desc, message, true);
-
-			return message.channel.send(embed);
-		}
-		// Resource Die.
-		else if (rollArgument === 'res') {
-			const resourceDieArgument = args.shift();
-
-			if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
-				const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
-				const resTitle = args.join(' ');
-				const roll = new YZRoll(message.author.id, { artifactDie: size }, resTitle);
-				sendMessageForResourceDie(roll, message);
-			}
-			else {
-				message.reply('This Resource Die is not possible.');
-			}
-		}
-		// Generic Roll.
-		else if (RollParser.ROLLREGEX.test(rollArgument)) {
-			const roll = RollParser.parse(rollArgument);
-			const result = roll.roll();
-			let text = `Generic roll: \`${rollArgument}\` = (${roll.lastResults.join('+')})`;
-
-			if (roll.modifier) {
-				text += roll.modifier > 0 ? '+' : '';
-				text += roll.modifier;
-			}
-
-			text += ` = ${result}`;
-
-			return message.reply(text);
+		// Sets the game. Must be done first.
+		let game;
+		if (client.config.supportedGames.includes(rollargv._[0])) {
+			game = rollargv._.shift();
 		}
 		else {
-			message.reply(`I don't understand the command. Try \`${Config.defaultPrefix}help roll\`.`);
+			game = await getGame(message, client);
 		}
+
+		// Year Zero dice quantities for the roll.
+		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
+		const artifactDice = [];
+		let roll;
+
+		// Year Zero Roll Regular Expression.
+		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i;
+
+		// Checks for d6, d66 & d666.
+		if (/^d6{1,3}$/i.test(rollargv._[0])) {
+			game = 'generic';
+			const skill = (rollargv._[0].match(/6/g) || []).length;
+
+			roll = new YZRoll(message.author, { skill }, rollargv._[0].toUpperCase());
+			// roll.maxPushes = 0; // already set later. Use this options if you want to change "game = generic" above.
+		}
+		// If not, checks if the first argument is a YZ roll phrase.
+		else if (yzRollRegex.test(rollargv._[0])) {
+			// If so, we process all uncategorized arguments.
+			for (const arg of rollargv._) {
+				// Checks if it's a roll phrase.
+				if (yzRollRegex.test(arg)) {
+
+					// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
+					const diceCouples = arg.match(/(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
+
+					if (diceCouples.length) {
+
+						for (const dieCouple of diceCouples) {
+
+							// Then, each couple is splitted in an array with the digit and the letter.
+							const couple = dieCouple.match(/\d{1,2}|[dbsgna]/gi);
+
+							// Sorts numbers (dice quantity) in first position.
+							couple.sort();
+
+							const diceQty = Number(couple[0]) || 1;
+							const dieTypeChar = couple[1].toLowerCase();
+
+							//console.log(`arg: ${arg}\ndiceCouples: ${diceCouples}\ndieCouple: ${dieCouple}\ncouple: ${couple}`);
+
+							// For the chosen letter, we assign a die type.
+							let type;
+							switch (dieTypeChar) {
+								case 'b': type = 'base'; break;
+								case 'd':
+									if (game === 'alien') type = 'base';
+									else type = 'skill';
+									break;
+								case 's': type = 'skill'; break;
+								case 'g': type = 'gear'; break;
+								case 'n': type = 'neg'; break;
+								case 'a': artifactDice.push(diceQty); break;
+							}
+
+							if (type) {
+								// First, checks if there are some type swap (see config roll aliases).
+								const diceOptions = client.config.commands.roll.options[game].alias;
+								if (diceOptions) {
+									if (diceOptions.hasOwnProperty(type)) type = diceOptions[type];
+								}
+
+								switch (type) {
+									case 'base': baseDiceQty += diceQty; break;
+									case 'skill': skillDiceQty += diceQty; break;
+									case 'gear': gearDiceQty += diceQty; break;
+									case 'neg': negDiceQty += diceQty; break;
+									case 'stress': stressDiceQty += diceQty; break;
+								}
+							}
+						}
+					}
+				}
+			}
+			// Adds extra Artifact Dice.
+			// 1) Forbidden Lands' Pride.
+			if (rollargv.pride || rollargv._.includes('pride')) artifactDice.push(12);
+
+			// Rolls the dice.
+			let rollTitle = '';
+			if (rollargv.name) rollTitle = `${rollargv.name.join(' ')}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
+
+			roll = new YZRoll(
+				message.author,
+				{
+					base: baseDiceQty,
+					skill: skillDiceQty,
+					gear: gearDiceQty,
+					neg: negDiceQty,
+					stress: stressDiceQty,
+					artifactDice,
+				},
+				rollTitle,
+			);
+		}
+		// Checks for init roll.
+		else if (/initiative|init/i.test(rollargv._[0])) {
+			game = 'generic';
+			roll = new YZRoll(message.author, { skill: 1 }, 'Initiative');
+		}
+		// Checks for generic rolls.
+		else if (RollParser.ROLLREGEX.test(rollargv._[0]) && !/^\d{1,2}d$/i.test(rollargv._[0])) {
+			game = 'generic';
+			const genRoll = RollParser.parse(rollargv._[0]);
+			const genRollResults = genRoll.roll(true);
+
+			roll = new YZRoll(message.author, { skill: 0 }, rollargv._[0].toUpperCase());
+			roll.dice.skill = genRollResults;
+			if (genRoll.modifier) roll.dice.neg.push(genRoll.modifier);
+		}
+		// Exits if no check.
+		else {
+			return message.reply('ℹ️ I don\'t understand this syntax. Type `help roll` for details on the proper usage.');
+		}
+
+		// Sets the game.
+		roll.setGame(game);
+
+		// Checks for number of pushes or Full-Auto (unlimited pushes).
+		if (rollargv.fullauto) {
+			roll.setFullAuto(true);
+		}
+		else if (rollargv.push > 1) {
+			roll.maxPushes = Number(rollargv.push) || 1;
+		}
+		else if (game === 'generic') {
+			roll.maxPushes = 0;
+		}
+
+		// Log and Roll.
+		console.log('[ROLL] - Rolled:', roll.toString());
+		messageRollResult(roll, message, client);
+	},
+	emojifyRoll(roll, options, icons) {
+		return getDiceEmojis(roll, options, icons);
 	},
 };
 
 /**
- * Sends a message with the roll results.
- * @param {YZRoll} roll The roll
- * @param {Discord.Message} triggeringMessage The triggering message
+ * Sends a message with the roll result.
+ * @param {YZRoll} roll The Roll
+ * @param {Discord.Message} triggeringMessage The Triggering Message
+ * @param {Discord.Client} client The Client (the bot)
+ * @async
  */
-function sendMessageForRollResults(roll, triggeringMessage) {
-	if (roll.size > Config.commands.roll.max) return triggeringMessage.reply('Can\'t roll that, too many dice!');
+async function messageRollResult(roll, triggeringMessage, client) {
+	// Aborts if the bot doesn't have the needed permissions.
+	if (triggeringMessage.channel.type !== 'dm') {
+		if (!triggeringMessage.guild.me.hasPermission(client.config.neededPermissions)) {
+			const msg = '🛑 **Missing Permissions!**'
+				+ '\nThe bot does not have sufficient permission in this channel.'
+				+ ` The bot requires the \`${client.config.neededPermissions.join('`, `')}\` permissions in order to work.`
+				+ '\nType `help` to get more documentation.';
+			return triggeringMessage.reply(msg);
+		}
+	}
 
-	triggeringMessage.channel.send(getDiceEmojis(roll), getEmbedDiceResults(roll, triggeringMessage))
+	// Aborts if too many dice.
+	if (roll.size > client.config.commands.roll.max) {
+		return triggeringMessage.reply('⚠️ Cant\'t roll that, too many dice!');
+	}
+
+	// Aborts if no dice.
+	if (roll.size < 1) {
+		return triggeringMessage.reply('❌ Can\'t roll a null number of dice!');
+	}
+
+	// OPTIONS
+	// Important for all below.
+	const userId = triggeringMessage.author.id;
+	const pushIcon = client.config.commands.roll.pushIcon;
+	const gameOptions = client.config.commands.roll.options[roll.game];
+
+	// Sends the message.
+	triggeringMessage.channel.send(
+		getDiceEmojis(roll, gameOptions, client.config.icons),
+		getEmbedDiceResults(roll, triggeringMessage, gameOptions),
+	)
 		.then(rollMessage => {
-			if (!roll.pushed || roll.isFullAuto) {
-				// See https://unicode.org/emoji/charts/full-emoji-list.html
-				// Adds a push reaction icon.
-				const pushIcon = Config.commands.roll.pushIcon;
+			// Detects PANIC.
+			if (gameOptions.panic && roll.panic) {
+				return client.commands.get('panic').execute([roll.stress], triggeringMessage, client);
+			}
+
+			// Adds a push reaction icon.
+			// See https://unicode.org/emoji/charts/full-emoji-list.html
+			if (roll.pushable) {
 				rollMessage.react(pushIcon);
 
 				// Adds a ReactionCollector to the push icon.
 				// The filter is for reacting only to the push icon and the user who rolled the dice.
-				const filter = (reaction, user) => {
-					return reaction.emoji.name === pushIcon && user.id === triggeringMessage.author.id;
-				};
-				const collector = rollMessage.createReactionCollector(filter, { time: Config.commands.roll.pushCooldown });
+				const filter = (reaction, user) => reaction.emoji.name === pushIcon && user.id === userId;
+				const collector = rollMessage.createReactionCollector(filter, { time: client.config.commands.roll.pushCooldown });
 
-				// LISTENER on COLLECT.
-				collector.on('collect', (reaction, reactionCollector) => {
-					if (!roll.isFullAuto) reactionCollector.stop();
-
+				// ========== Listener: On Collect ==========
+				collector.on('collect', reac => {
 					const pushedRoll = roll.push();
-					console.log('[ROLL] - Roll pushed:', pushedRoll.toString());
 
-					if (!rollMessage.deleted) rollMessage.edit(getDiceEmojis(pushedRoll), { embed: getEmbedDiceResults(pushedRoll, triggeringMessage) });
-				});
-
-				// LISTENER on END.
-				collector.on('end', () => {
-					try {
-						if (!rollMessage.deleted && rollMessage.channel.type === 'text') {
-							rollMessage.clearReactions(reaction => {
-								return reaction.emoji.name === pushIcon;
-							});
+					// Detects additional dice from pushing.
+					if (gameOptions.extraPushDice) {
+						for (const extra of gameOptions.extraPushDice) {
+							pushedRoll.addDice(1, extra);
 						}
 					}
-					catch (error) {
-						console.error(error);
+
+					console.log(`[ROLL] - Roll pushed: ${pushedRoll.toString()}`);
+
+					// Stops the collector if it's the last push.
+					if (!roll.pushable) collector.stop();
+
+					// Edits the roll result embed message.
+					if (!rollMessage.deleted) {
+						rollMessage.edit(
+							getDiceEmojis(pushedRoll, gameOptions, client.config.icons),
+							getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions),
+						)
+							// Removing the player's reaction.
+							// Only for multiple pushes.
+							.then(async () => {
+								if (pushedRoll.pushable && rollMessage.channel.type !== 'dm') {
+									const userReactions = rollMessage.reactions.cache.filter(r => r.users.cache.has(userId));
+									try {
+										for (const r of userReactions.values()) {
+											await r.users.remove(userId);
+										}
+									}
+									catch(error) {
+										console.error('Failed to remove reactions.');
+									}
+								}
+							})
+							.catch(console.error);
+					}
+
+					// Detects PANIC.
+					if (gameOptions.panic && pushedRoll.panic) {
+						collector.stop();
+						return client.commands.get('panic').execute([pushedRoll.stress], triggeringMessage, client);
+					}
+				});
+
+				// ========== Listener: On End ==========
+				collector.on('end', (collected, reason) => {
+					const reac = rollMessage.reactions.cache.first();
+					if (reac) {
+						if (reac.emoji.name === pushIcon && rollMessage.channel.type !== 'dm') {
+							reac.remove()
+								.catch(console.error);
+						}
 					}
 				});
 			}
 		})
-		.catch(error => {
-			console.error('[ERROR] - Reaction rejected', error);
-		});
+		.catch(console.error);
 }
 
 /**
  * Returns a text with all the dice turned into emojis.
  * @param {YZRoll} roll The roll
+ * @param {Object} opts Options of the roll command
+ * @param {Object} icons See Config.icons
  * @returns {string} The manufactured text
  */
-function getDiceEmojis(roll) {
+function getDiceEmojis(roll, opts, icons) {
+	const game = opts.iconTemplate || roll.game;
 	let str = '';
 
 	for (const type in roll.dice) {
+		let iconType = type;
 		const nbre = roll.dice[type].length;
+
+		// Skipping types.
+		if (opts.alias) {
+			if (opts.alias[type] === '--') continue;
+		}
 
 		if (nbre) {
 			str += '\n';
 
 			for (let k = 0; k < nbre; k++) {
 				const val = roll.dice[type][k];
-				const icon = Config.icons.myz[type][val];
+				const icon = icons[game][iconType][val] || ` {**${val}**} `;
 				str += icon;
 
 				// This is calculated to make a space between pushed and not pushed rolls.
@@ -247,8 +384,10 @@ function getDiceEmojis(roll) {
 		}
 	}
 
-	if (roll.artifactDie.size) {
-		str += getTextForArtifactDieResult(roll.artifactDie);
+	if (roll.artifactDice.length) {
+		for (const artifactDie of roll.artifactDice) {
+			str += Config.icons.fbl.arto[artifactDie.result];
+		}
 	}
 
 	return str;
@@ -258,85 +397,57 @@ function getDiceEmojis(roll) {
  * Gets an Embed with the dice results and the author's name.
  * @param {YZRoll} roll The 'Roll' Object
  * @param {Discord.Message} message The triggering message
- * @returns {Discord.RichEmbed} A Discord Embed Object
+ * @param {Object} opts Options of the roll command
+ * @returns {Discord.MessageEmbed} A Discord Embed Object
  */
-function getEmbedDiceResults(roll, message) {
-	const desc = `Successes: **${roll.sixes}**\nTraumas: **${roll.attributeTrauma}**\nGear damage: **${roll.gearDamage}**`;
-	const embed = new YZEmbed(roll.title, desc, message, true);
-	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}x ` : ''}Pushed`);
-	return embed;
-}
+function getEmbedDiceResults(roll, message, opts) {
 
-/**
- * Returns a text for the Artifact Die.
- * @param {YZRoll.ArtifactDie} artifactDie The 'artifactDie' object from a 'Roll' object
- * @returns {string} The manufactured text
- */
-function getTextForArtifactDieResult(artifactDie) {
-	const val = artifactDie.result;
-	const succ = artifactDie.success;
-	let str = `\n**\`D${artifactDie.size}\`** Artifact Die = (${val}) = `;
-	// let str = `\n**\`D${artifactDie.size}\`** Artifact Die: ${Config.icons.myz.arto[val]} = `;
+	const s = roll.sixes;
 
-	if (succ) {
-		str += `${'☢'.repeat(succ)}`;
+	let desc = '';
+
+	if (roll.game === 'generic') {
+		// Any modifier is placed in position [0] of dice.neg[]
+		let modifier = 0;
+		if (roll.dice.neg.length) modifier = roll.dice.neg[0];
+
+		desc += `Result: **${roll.sum('skill') + modifier}**\n(${roll.dice.skill.join(', ')})`;
+		if (modifier !== 0) desc += ` ${modifier > 0 ? '+' : ''}${modifier}`;
 	}
 	else {
-		str += '*no success*';
-	}
+		desc = `Success${s > 1 ? 'es' : ''}: **${s}**`;
 
-	return str;
-}
-
-/**
- * Sends an embed message with D6s calculation result.
- * @param {YZRoll} roll The roll
- * @param {Discord.Message} message The triggering message
- * @param {string} method "ADD" or "BASESIX"
- */
-function sendMessageForD6(roll, message, method) {
-	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
-
-	const customEmojis = Config.icons.myz.base;
-
-	let diceReply = '';
-	for (const value of roll.dice.base) diceReply += customEmojis[value];
-
-	let desc = 'Result: **';
-	if (method === 'ADD') desc += roll.sum();
-	else if (method === 'BASESIX') desc += roll.baseSix();
-	else desc += 0;
-	desc += '**';
-
-	const embed = new YZEmbed(roll.title, desc, message, true);
-
-	message.channel.send(diceReply, embed);
-}
-
-function sendMessageForResourceDie(roll, message) {
-	if (roll.size > Config.commands.roll.max) return message.reply('Can\'t roll that, too many dice!');
-
-	const desc = `**\`D${roll.artifactDie.size}\`** Resource Die = (${roll.artifactDie.result})`;
-
-	const embed = new YZEmbed(roll.title, desc, message, true);
-
-	if (roll.hasLostResourceStep()) {
-		const resSizes = [0, 6, 8, 10, 12];
-		const newSize = resSizes[resSizes.indexOf(roll.artifactDie.size) - 1];
-
-		if (newSize > 0) {
-			embed.addField(
-				'⬇ Decreased',
-				`One unit is used. The Resource Die is decreased one step to a **\`D${newSize}\`**.`
-			);
+		if (opts.trauma) {
+			const n = roll.attributeTrauma;
+			desc += `\nTrauma${n > 1 ? 's' : ''}: **${n}**`;
 		}
-		else {
-			embed.addField(
-				'🚫 Exhausted',
-				'The consumable is fully depleted.'
-			);
+		if (opts.gearDamage) {
+			desc += `\nGear Damage: **${roll.gearDamage}**`;
+		}
+		if (opts.panic && roll.panic) {
+			desc += '\n**PANIC!!!**';
 		}
 	}
 
-	message.channel.send(embed);
+	const embed = new YZEmbed(roll.title, desc, message, true);
+
+	if (opts.detailed) {
+		let results = '';
+		for (const type in roll.dice) {
+			if (roll.dice[type].length) {
+				results += `${type}: (${roll.dice[type].join(', ')})\n`;
+			}
+		}
+		if (roll.artifactDice.length) {
+			results += 'arto: ';
+			for (const d of roll.artifactDice) {
+				results += d.toString() + ' ';
+			}
+		}
+		embed.addField('Details', results, false);
+	}
+
+	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}× ` : ''}Pushed`);
+
+	return embed;
 }

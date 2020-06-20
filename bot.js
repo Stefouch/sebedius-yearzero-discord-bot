@@ -12,14 +12,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Initializes requirements.
 const fs = require('fs');
-const Config = require('./config.json');
 const db = require('./database/database');
-const { test } = require('./test/tests');
+// const { test } = require('./test/tests');
 const Discord = require('discord.js');
 const bot = new Discord.Client();
 
+// Adds the configuration file.
+bot.config = require('./config.json');
+console.log('[+] - Config loaded');
+
 // Initializes global constants.
-let prefix = Config.defaultPrefix;
+let prefix = bot.config.defaultPrefix;
 
 // Loads the available commands.
 bot.commands = new Discord.Collection();
@@ -43,11 +46,11 @@ bot.on('ready', () => {
 	// Lists servers the bot is connected to.
 	console.log('| Guilds/Servers:');
 	let serverQty = 0;
-	bot.guilds.forEach(guild => {
-		console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
+	bot.guilds.cache.forEach(guild => {
 		if (process.env.NODE_ENV !== 'production') {
+			console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			console.log('|    * Custom emojis:');
-			guild.emojis.forEach(emoji => {
+			guild.emojis.cache.forEach(emoji => {
 				console.log(`|      <:${emoji.identifier}>`);
 			});
 		}
@@ -63,23 +66,26 @@ bot.on('ready', () => {
 	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
-	if (process.env.NODE_ENV !== 'production') test(bot);
+	// if (process.env.NODE_ENV !== 'production') test(bot);
 });
 
 /* !
  * MESSAGE LISTENER
  */
 bot.on('message', async message => {
+	// Aborts if the user or the channel are banned.
+	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
+	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
+
 	// Gets the guild's prefix.
 	if (message.channel.type === 'text' && !message.author.bot) {
-		// const fetchedPrefix = await keyv.get(`prefix_${message.guild.id}`);
 		const fetchedPrefix = await db.get(message.guild.id, 'prefix');
 
 		if (fetchedPrefix) {
 			prefix = fetchedPrefix;
 		}
 		else {
-			prefix = Config.defaultPrefix;
+			prefix = bot.config.defaultPrefix;
 		}
 	}
 
@@ -93,12 +99,18 @@ bot.on('message', async message => {
 	// prevents bot from responding to its own messages.
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+	// Aborts if the bot doesn't have the needed permissions.
+	/* if (message.channel.type !== 'dm') {
+	 	if (!message.guild.me.hasPermission(bot.config.neededPermissions)) {
+			const msg = '🛑 **Missing Permissions!**'
+				+ '\nThe bot does not have sufficient permission in this channel.'
+				+ `\nThe bot requires the \`${bot.config.neededPermissions.join('`, `')}\` permissions in order to work.`;
+			return message.reply(msg);
+		}
+	}//*/
+
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
-
-	// Tiny commands: !ping & !prefix.
-	if (commandName === 'ping') return message.channel.send('Pong!');
-	else if (commandName === 'prefix') return message.reply(`You can use \`${prefix}\` as my prefix.`);
 
 	// Gets the command from its name, with support for aliases.
 	const command = bot.commands.get(commandName)
@@ -109,12 +121,12 @@ bot.on('message', async message => {
 
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && message.channel.type !== 'text') {
-		return message.reply('I can\'t execute that command inside DMs!');
+		return message.reply('⚠️ I can\'t execute that command inside DMs!');
 	}
 
 	// Notifies if arguments are missing.
 	if (command.args && !args.length) {
-		let reply = `${message.author} You didn't provide any arguments!`;
+		let reply = `ℹ️ ${message.author} You didn't provide any arguments!`;
 
 		if (command.usage) {
 			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
@@ -123,22 +135,31 @@ bot.on('message', async message => {
 	}
 
 	try {
-		console.log(`[COMMAND] - Command received from ${message.author.tag}`
-			+ (message.guild ? ` (${message.guild.name})` : '')
-			+ `: ${command.name}`, args.toString()
+		console.log(`[COMMAND] - ${message.author.tag} (${message.author.id})`
+			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
+			+ `: ${command.name}`, args.toString(),
 		);
 		command.execute(args, message, bot);
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error.stack);
-		message.reply('There was an error trying to execute that command!');
+		message.reply('❌ There was an error trying to execute that command!');
 	}
 });
 
 /* !
  * Catching UnhandledPromiseRejectionWarnings.
  */
-process.on('unhandledRejection', error => console.error('[ERROR] - Uncaught Promise Rejection', error));
+process.on('unhandledRejection', error => {
+	// Logs the error.
+	console.error('[ERROR] - Uncaught Promise Rejection', error);
+	// Sends me a personal message about the error.
+	if (process.env.NODE_ENV === 'production') {
+		const msg = error.toString() + '\nMessage: ' + error.message;
+		bot.users.cache.get(bot.config.botAdminID).send(msg, { split: true })
+			.catch(err => console.error(err));
+	}
+});
 
 /**
  * Get your bot's secret token from:

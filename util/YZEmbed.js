@@ -1,8 +1,8 @@
-const { RichEmbed } = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
-class YZEmbed extends RichEmbed {
+class YZEmbed extends MessageEmbed {
 	/**
-	 * A Discord.RichEmbed with predefined properties.
+	 * A Discord.MessageEmbed with predefined properties.
 	 * @param {string} title The embed's title
 	 * @param {string} description The embed's description
 	 * @param {?Discord.Message} [triggeringMessage=null] The triggering message (default is null)
@@ -29,7 +29,7 @@ class YZEmbed extends RichEmbed {
 				const name = isTextChannel ? triggeringMessage.member.displayName : triggeringMessage.author.username;
 				this.setAuthor(
 					name,
-					triggeringMessage.author.avatarURL,
+					triggeringMessage.author.avatarURL(),
 				);
 			}
 		}

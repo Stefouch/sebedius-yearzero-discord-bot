@@ -12,7 +12,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[demon]',
-	execute(args, message, client) {
+	async execute(args, message, client) {
 		// ( !demon SHORTCUT )
 		// Exits early and executes !demon if argument "Demon".
 		if (args.includes('demon')) return client.commands.get('demon').execute(args, message, client);

@@ -1,4 +1,3 @@
-const Config = require('../config.json');
 const db = require('../database/database');
 const YZInitDeck = require('../util/YZInitDeck');
 const Util = require('../util/Util');
@@ -11,7 +10,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[quantity] [shuffle]',
-	async execute(args, message) {
+	async execute(args, message, client) {
 		// Initializes the card database.
 		const gid = message.guild.id;
 		const ttl = 86400000;
@@ -44,7 +43,7 @@ module.exports = {
 			const drawnCards = deck.draw(drawQty);
 			console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
 			await db.set(gid, deck._stack, 'initiative', ttl);
-			return message.reply(getDrawCardText(drawnCards));
+			return message.reply(getDrawCardText(drawnCards), client.config.icons.fbl.cards);
 		}
 
 		async function reset() {
@@ -55,12 +54,12 @@ module.exports = {
 	},
 };
 
-function getDrawCardText(cards) {
-	if (!Array.isArray(cards)) return getDrawCardText([cards]);
+function getDrawCardText(cards, cardIcons) {
+	if (!Array.isArray(cards)) return getDrawCardText([cards], cardIcons);
 
 	const cardTexts = [];
 	cards.forEach(card => {
-		cardTexts.push(Config.icons.fbl.cards[card]);
+		cardTexts.push(cardIcons[card]);
 	});
 	return '**Initiative:** ' + cardTexts.join(', ');
 }

@@ -8,7 +8,7 @@ module.exports = {
 	aliases: ['generate-legend'],
 	guildOnly: false,
 	args: false,
-	execute(args, message) {
+	async execute(args, message, client) {
 		const legend = new Legend();
 
 		const embed = new YZEmbed('Legend', legend.story);

@@ -103,6 +103,20 @@ class Util {
 	}
 
 	/**
+	 * Creates an array of all integers between two numbers.
+	 * @param {number} lowEnd Start value
+	 * @param {number} highEnd End value
+	 * @returns {number[]}
+	 */
+	static range(lowEnd, highEnd) {
+		const range = [];
+		for (let i = lowEnd; i <= highEnd; i++) {
+			range.push(i);
+		}
+		return range;
+	}
+
+	/**
 	 * Capitalizes the first letter of a string.
 	 * @param {string} str The string to process
 	 * @returns {string} The processed string
@@ -253,6 +267,20 @@ class Util {
 	}
 
 	/**
+	 * Returns a specified element from a Map object using a regular expression.
+	 * @param {RegExp} regexKey The regex key of the element to return from the Map object
+	 * @param {Map} map The Map object to search. Keys must be strings.
+	 * @returns {*} The element associated with the specified regex, or undefined if the value can't be found in the Map object
+	 */
+	static getFromRegexKey(regexKey, map) {
+		for (const [key, val] of map.entries()) {
+			const match = regexKey.exec(key);
+			if (match) return val;
+		}
+		return null;
+	}
+
+	/**
 	 * Generates roll intervals for a seeded table.
 	 * @param {number} count Number of entries
 	 * @param {?number} maximum Maximum size of the table.
@@ -330,7 +358,7 @@ class Util {
 	 * Converts a CSV-formatted text into a JSON object.
 	 * @param {string} csv CSV-formatted text
 	 * @param {string} [separator=';'] Column-separating character (default is `;`)
-	 * @returns {Object}
+	 * @returns {Object[]}
 	 */
 	static csvToJSON(csv, separator = ';') {
 
@@ -340,19 +368,24 @@ class Util {
 		// NOTE: If your columns contain commas in their values, you'll need
 		// to deal with those before doing the next step
 		// (you might convert them to &&& or something, then convert them back later)
-		const headers = lines[0].split(separator);
+		const headers = lines[0].trim().split(separator);
 
 		for (let i = 1; i < lines.length; i++) {
 
 			const obj = {};
-			const currentLine = lines[i].split(separator);
+			const currentLine = lines[i].trim().split(separator);
 
 			for (let j = 0; j < headers.length; j++) {
-				obj[headers[j]] = currentLine[j];
+				let value = currentLine[j];
+				if (value === '') value = undefined;
+				// else if (value === 'true') value = true;
+				// else if (value === 'false') value = false;
+				// else if (this.isNumber(value)) value = Number(value);
+				obj[headers[j]] = value;
 			}
 			result.push(obj);
 		}
-		return JSON.stringify(result);
+		return result;
 	}
 
 	/**

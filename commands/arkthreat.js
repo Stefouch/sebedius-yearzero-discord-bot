@@ -8,7 +8,7 @@ module.exports = {
 	aliases: ['akth'],
 	guildOnly: false,
 	args: false,
-	execute(args, message) {
+	async execute(args, message, client) {
 		const embed = new YZEmbed('Threat Against the Ark', random(ArkThreats));
 		return message.channel.send(embed);
 	},

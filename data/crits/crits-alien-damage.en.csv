@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;Winded;false;0;0;;No effect.;0
+12;Stunned;false;0;0;;No effect.;0
+13;Crippling Pain;false;0;0;;STRESS LEVEL increases by one step.;0
+14;Sprained Ankle;false;0;0;;MOBILITY −2 and can't run until MEDICAL AID roll is made.;0
+15;Blood in Eyes;false;0;0;;OBSERVATION and RANGED COMBAT −2 until MEDICAL AID roll is made.;0
+16;Concussion;false;0;0;;MOBILITY −2.;1
+21;Severed Ear;false;0;0;;OBSERVATION −2.;1
+22;Broken Toes;false;0;0;;To run becomes a slow action.;1
+23;Broken Hand;false;0;0;;Can't use hand.;1
+24;Knocked Out Teeth;false;0;0;;MANIPULATION −2.;1
+25;Impaled Thigh;false;0;0;;To run becomes a slow action.;2
+26;Slashed Shoulder;false;0;0;;Can't use arm.;1
+31;Broken Nose;false;0;0;;MANIPULATION and OBSERVATION −2.;1
+32;Crotch Hit;false;0;0;;One point of damage at every roll for MOBILITY and CLOSE COMBAT.;1
+33;Broken Ribs;false;0;0;;MOBILITY and CLOSE COMBAT −2.;2
+34;Gouged Eye;false;0;0;;RANGED COMBAT and OBSERVATION −2.;2
+35;Busted Kneecap;false;0;0;;Can't run, only crawl.;2
+36;Broken Arm;false;0;0;;Can't use arm.;2
+41;Broken Leg;false;0;0;;Can't run, only crawl.;2
+42;Crushed Foot;false;0;0;;Can't run, only crawl.;3
+43;Crushed Elbow;false;0;0;;Can't use arm.;3
+44;Punctured Lung;true;0;1;day;STAMINA and MOBILITY −2.;1
+45;Bleeding Gut;true;0;1;shift;One point of damage at every roll for MOBILITY and CLOSE COMBAT.;1
+46;Ruptured Intestines;true;0;1;shift;Disease with Virulence 6.;2
+51;Busted Kidney;true;0;1;day;Can't run, only crawl, MOBILITY −2.;2
+52;Arm Artery Cut;true;-1;1;turn;Can't use arm.;1
+53;Leg Artery Cut;true;-1;1;turn;To run becomes a slow action.;1
+54;Severed Arm;true;-1;1;shift;Can't use arm.;-1
+55;Severed Leg;true;-1;1;shift;Can't run, only crawl.;-1
+56;Cracked Spine;false;0;0;;Paralyzed from the neck down. If not given MEDICAL AID in time, the effect is permanent.;3
+61;Ruptured Jugular;true;-1;1;round;STAMINA −1.;2
+62;Ruptured Aorta;true;-2;1;round;STAMINA −2.;3
+63;Disemboweled;true;0;0;;Instant death.;0
+64;Crushed Skull;true;0;0;;Your story ends here.;0
+65;Pierced Head;true;0;0;;You die immediately.;0
+66;Impaled Heart;true;0;0;;Your heart beats for the last time.;0

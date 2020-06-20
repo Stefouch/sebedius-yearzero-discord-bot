@@ -1,0 +1,7 @@
+ref;injury;effect
+11-16;Ruptured Fluid Pump;The android loses its next slow action.
+21-26;Detroyed Leg Servos;Both legs are non-functional. The android must stay prone and can only crawl.
+31-36;Destroyed Arm Servos;One arm is non-functional. The android can only use one-handed gear.
+41-46;Head Dislocation;The android's artificial neck is severely fractured and its head placed in an unnatural position. All fast actions become slow actions.
+51-56;Severe Chassis Breach;Internal organs spill out and the android is completely immobilized.
+61-66;System Shutdown;The android is torn to shreds or crushed. Core systems are severely damaged and a COMTECH roll is required to communicate with the android.
