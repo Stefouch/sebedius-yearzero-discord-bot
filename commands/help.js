@@ -71,8 +71,8 @@ module.exports = {
 			color: 0x1AA29B,
 			title: `**${command.name.toUpperCase()}**`,
 		});
-		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), false);
-		if (command.usage) embed.addField('Usage', `${prefix}${command.name} ${command.usage}`, false);
+		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), true);
+		if (command.usage) embed.addField('Usage', `${prefix}${command.name} ${command.usage}`, true);
 		if (command.description) embed.addField('Description', command.description, false);
 
 		if (command.moreDescriptions) {
