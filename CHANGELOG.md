@@ -15,7 +15,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New command: `!critmutant` or `!critm` — Shortcut for *Mutant: Year Zero* critical injuries.
 - New command: `!critfbl` or `!critf` — Shortcut for *Forbidden Lands* critical injuries.
 - New command: `!critalien` or `!crita` — Shortcut for *ALIEN* critical injuries.
-- New subcommand: `!setconf game` – Defines the game used for the default dice template.
 - The `!panic` command has now a `--fixed` argument if you want to use a fixed number (no D6 rolled).
 - New `!setconf` configuration parameter: `game` – Defines the game used for the default dice template and critics tables.
 - New `!setconf` configuration parameter: `lang` – Defines the default language.

@@ -1,6 +1,7 @@
 # TODO List
 
-- d66 and d666 must have their own skin
+- Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
+- Bug: d66 and d666 must have their own skin
 - Bug: setconf (check) not working in PRODUCTION
 - Bug: no dm on uncaught error (bot.js)
 
