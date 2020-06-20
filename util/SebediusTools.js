@@ -7,7 +7,7 @@ const YZCrit = require('./YZCrit');
 module.exports = {
 	/**
 	 * Gets a YZ table.
-	 * @param {string} path Folder path to the file with the `/` ending
+	 * @param {string} path Folder path to the file without the `/` ending
 	 * @param {string} fileName Filename without path, ext or lang-ext
 	 * @param {?string} [lang='en'] The language to use, default is `en` English
 	 * @param {?string} [ext='csv'] File extension
@@ -26,7 +26,7 @@ module.exports = {
 			elements = Util.csvToJSON(fileContent);
 		}
 		catch(error) {
-			console.error(`[CRIT] - File Error: ${filePath}`);
+			console.error(`[SebediusTools.getTable] - File Error: ${filePath}`);
 			return null;
 		}
 
@@ -48,7 +48,7 @@ module.exports = {
 	 * @async
 	 */
 	async getGame(arg, message, client) {
-		let game = 'myz';
+		let game;
 		if (client.config.supportedGames.includes(arg)) {
 			game = arg;
 		}
@@ -56,6 +56,9 @@ module.exports = {
 		else if (message.channel.type !== 'dm') {
 			const defaultGame = await db.get(message.guild.id, 'game');
 			if (defaultGame) game = defaultGame;
+		}
+		else {
+			game = client.config.supportedGames[0];
 		}
 		return game;
 	},
