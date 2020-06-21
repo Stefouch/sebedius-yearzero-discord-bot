@@ -27,7 +27,12 @@ module.exports = {
 
 		// • If no argument, sends a generic help message.
 		if (!argv._.length) {
-			const commandsTextlist = `\`${commands.map(command => command.name).join('`, `')}\`.`
+			// Hides adminOnly commands.
+			const commandsList = commands
+				.filter(cmd => cmd.guildOnly === false)
+				.map(cmd => cmd.name);
+
+			const commandsTextlist = `\`${commandsList.join('`, `')}\`.`
 				+ `\n\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`;
 
 			const embed = new MessageEmbed({
@@ -38,7 +43,7 @@ module.exports = {
 			embed.addField('🛠 Developper', 'Stefouch#5202', true);
 			embed.addField('🗒 List of Commands', commandsTextlist, false);
 			embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
-			embed.addField('🔗 Invite Link', 'https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=354368', false);
+			embed.addField('🔗 Invite Link', 'https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=355392', false);
 			embed.addField('🛠 Feature & Bug Report', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
 			embed.addField('🦾 Patreon', 'https://patreon.com/Stefouch', true);
 			embed.addField('🖥 Website', 'https://www.stefouch.be', true);
