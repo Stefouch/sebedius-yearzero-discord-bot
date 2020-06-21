@@ -1,7 +1,7 @@
 /* ===========================================================
- * STEFOUCH'S BOT
+ * SEBEDIUS BOT
  * ===========================================================
- * Fonctionalities for the Mutant: Year Zero Roleplaying game.
+ * Fonctionalities for Year Zero Roleplaying games.
  * @author	Stefouch
  * ===========================================================
  */
@@ -84,7 +84,6 @@ client.on('message', async message => {
 			prefix = client.config.defaultPrefix;
 		}
 	}
-
 	// Answers bot's mentions and exits early.
 	// Note: the regex constant cannot be put in global,
 	// because bot.user.id will only be defined after some time.
@@ -142,7 +141,7 @@ client.on('message', async message => {
 		await command.execute(args, message, client);
 	}
 	catch (error) {
-		console.error('[ERROR] - At command execution.', error.stack);
+		console.error('[ERROR] - At command execution.', error);
 		message.reply('❌ There was an error trying to execute that command!');
 	}
 });

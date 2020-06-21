@@ -44,7 +44,7 @@ Rolls dice for the Year Zero roleplaying games.
 roll [game] <dice> [arguments]
 ```
 
-* `[game]` is used to specify the skin of the rolled dice. Can be omitted.
+* `[game]` is used to specify the skin of the rolled dice. Can be omitted if you set it with `!setconf game [default game]`.
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `<dice>`
   * **Simple Rolls**
@@ -82,7 +82,7 @@ Rolls for a random critical injury.
 crit [game] [table] [numeric]
 ```
 
-* `[game]` – Specifies the game you are using *(default is "myz")*.
+* `[game]` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `[table]` – Specifies the table you want from this game *(default is "damage")*.
 * `[numeric]` – Specifies a fixed reference.
@@ -157,6 +157,14 @@ Only a member with administrator rights can use these commands:
 
 `rf 4b3s 2g a10 -n Uber ROLL -f` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. Uses Forbidden Lands skin for the dice.
 
+`rf 4b 2n -pride` – Takes 4 base dice and 2 negative dice *(Forbidden Lands)*, adds a D12 Artifact Die, and rolls them all.
+
+`roll 3b 2b 1b 2s 1s 1g 1g` – Rolls (3+2+1) base dice, (2+1) skills dice and (1+1) gear dice.
+
+`rc 4d -p 0` – Rolls 4 dice for *Coriolis* and the roll can't be pushed.
+
+`rv 6d -p 2` – Rolls 6 dice for *Vaesen* and the roll can be pushed twice.
+
 `ra 8b 2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 
 `roll d66` – Rolls a D66 (D6 × 10 + D6).
@@ -175,7 +183,7 @@ Only a member with administrator rights can use these commands:
 
 `panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
 
-`crit fbl slash` – Draws a random critical injury from the Slash amage table in Forbidden Lands.
+`crit fbl slash` – Draws a random critical injury from the Slash damage table in Forbidden Lands.
 
 `crita dmg 66` – Draws the #66 critical injury from the Damage table in the ALIEN rpg. You're dead.
 
@@ -191,20 +199,27 @@ This is a detailed list of needed permissions:
 
 * `ADD_REACTIONS` : The bot uses a reaction menu for roll pushing.
 * `VIEW_CHANNEL` : Mandatory.
-* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission. ⚠️<span style="color: red;">**NEW**</span>
 * `SEND_MESSAGES` : Mandatory.
 * `MANAGE_MESSAGES` : The bot needs this permission to remove pushing reaction emojis.
 * `EMBED_LINKS` : The bot uses rich embed to display the dice results.
+* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission. ⚠️<span style="color: red;">**NEW**</span>
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
 
 ### Troubleshooting
 
 If the bot is missing any permission above, it might not work properly.
 
+| Symptoms | Probable Cause | Fix |
+| --- | --- | --- |
+| Roll command: the push emoji reaction is not removed after a few minutes.| `MANAGE_MESSAGE` is missing. | See below. |
+| Roll command: the push emoji reaction don't appear at all and the roll can't be pushed | `READ_MESSAGE_HISTORY` is missing. | See below. |
+| The bot does not respond to a command. | Latency, wrong prefix, or bot crash. | Wait and retry. Check latency with command `!ping`, check the prefix by mentioning the bot. |
+
 1. Check that the bot has all the required permissions in the server (check its role).
 2. Check also that it has no denied permission in the channel (maybe the role `@everyone` or another one is removing the needed permission).
-3. As a last resort, kick the bot and re-invite it to your server using the link at the top of this Readme.
-4. Contact me for extra support, I'm here to help.
+3. Kick the bot and re-invite it to your server using the link at the top of this Readme.
+4. As a last resort, you can temporary give full admin rights to the bot, it'll fix all permission problems.
+4. Contact me for extra support, I'll be glad to help.
 
 # List of Changes
 

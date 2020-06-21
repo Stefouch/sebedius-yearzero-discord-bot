@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New `!setconf` configuration parameter: `lang` – Defines the default language.
 - New critical tables in CSV format.
 - New JavaScript utils and tools for the bot's code.
-- Error Watching: The bot sends me a DM at each uncaught errors.
+- Error Watching: The bot sends me a DM for each uncaught errors.
 
 ### Changed
 - Discord.js API upgraded to v12.2.0. Fixed Connection log, BaseManager cache, MessageEmbed, ReactionCollector accordingly.
@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A bug where the player's avatar was not showing in the roll embed message.
 - A typo in job.cargo.goods.medicinal JSON data.
+- A fatal error causing the bot to crash on a certain condition related to the roll command.
 
 ## [1.7.0] - 2019-12-26
 ### Added
