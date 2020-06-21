@@ -7,6 +7,7 @@ const YZEmbed = require('../util/YZEmbed');
 module.exports = {
 	name: 'admin',
 	description: 'Performs bot\'s maintenance. Only available for the bot\'s owner.',
+	adminOnly: true,
 	guildOnly: true,
 	args: true,
 	// usage: '',
@@ -31,6 +32,10 @@ module.exports = {
 			message.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
 			setOnlineActivity(client, guilds.length);
 		}
+		// Gets the name of a Guild by reference.
+		else if (args.includes('getGuild')) {
+			return message.reply(client.channels.cache.get(args[1]).guild);
+		}
 		// Gets info from the Bot.
 		else if (args.includes('botinfo')) {
 			try {
@@ -54,7 +59,7 @@ module.exports = {
 				message.channel.send(stats);
 			}
 			catch (err) {
-				console.error('Botinfo error', err);
+				console.error('Botinfo Error', err);
 			}
 		}
 	},
