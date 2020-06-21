@@ -1,7 +1,7 @@
 const Config = require('../config.json');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
-const { getGame } = require('../util/SebediusTools');
+const { getGame, checkPermissions } = require('../util/SebediusTools');
 const { RollParser } = require('../util/RollParser');
 
 
@@ -12,7 +12,7 @@ module.exports = {
 		[
 			'Select [game]',
 			'This argument is used to specify the skin of the rolled dice.'
-			+ ' Can be omitted.'
+			+ ' Can be omitted if you set it with `!setconf game [default game]`'
 			+ `\n Choices: \`${Config.supportedGames.join('`, `')}\`.`,
 		],
 		[
@@ -235,17 +235,7 @@ module.exports = {
  */
 async function messageRollResult(roll, triggeringMessage, client) {
 	// Aborts if the bot doesn't have the needed permissions.
-	if (triggeringMessage.channel.type !== 'dm') {
-		if (!triggeringMessage.guild.me.hasPermission(client.config.neededPermissions)) {
-			console.log(triggeringMessage.guild.me);
-			
-			const msg = '🛑 **Missing Permissions!**'
-				+ '\nThe bot does not have sufficient permission in this channel.'
-				+ ` The bot requires the \`${client.config.neededPermissions.join('`, `')}\` permissions in order to work.`
-				+ '\nType `help` to get more documentation.';
-			return triggeringMessage.reply(msg);
-		}
-	}
+	if (!checkPermissions(triggeringMessage, client)) return;
 
 	// Aborts if too many dice.
 	if (roll.size > client.config.commands.roll.max) {

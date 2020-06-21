@@ -3,7 +3,11 @@ const db = require('../database/database');
 const Util = require('./Util');
 const RollTable = require('./RollTable');
 const YZCrit = require('./YZCrit');
+// const Discord = require('discord.js');
 
+/**
+ * It's a collection of functions for Sebedius.
+ */
 module.exports = {
 	/**
 	 * Gets a YZ table.
@@ -73,5 +77,43 @@ module.exports = {
 			if (defaultLang) lang = defaultLang;
 		}
 		return lang;
+	},
+	/**
+	 * Checks if the bot has all the required permissions.
+	 * @param {Discord.Message} message Discord message
+	 * @param {Discord.Client} client Discord client (the bot)
+	 * @param {number} checkPerms Bitfield / Use this argument if you want to check just a few specific Permissions.
+	 * @returns {boolean} `true` if the bot has all the required Permissions.
+	 */
+	checkPermissions(message, client, checkPerms = null) {
+		const channel = message.channel;
+
+		// Exits early if we are in a DM.
+		if (channel.type === 'dm') return true;
+
+		const botMember = channel.guild.me;
+		const perms = checkPerms || client.config.perms.bitfield;
+		const serverMissingPerms = botMember.permissions.missing(perms);
+		const channelMissingPerms = channel.permissionsFor(botMember).missing(perms);
+
+		// The above functions return an array
+		// filled with the flag of the missing Permissions, if any.
+		// If not, the arrays are empty (length = 0).
+		if (serverMissingPerms.length || channelMissingPerms.length) {
+			let msg = '🛑 **Missing Permissions!**'
+				+ '\nThe bot does not have sufficient permission in this channel and will not work properly.'
+				+ ' Check the Readme (`help`) for the list of required permissions.';
+			if (serverMissingPerms.length) {
+				msg += `\n**Role Missing Permission(s):** \`${serverMissingPerms.join('`, `')}\``;
+			}
+			if (channelMissingPerms.length) {
+				msg += `\n**Channel Missing Permission(s):** \`${channelMissingPerms.join('`, `')}\``;
+			}
+			message.reply(msg);
+			return false;
+		}
+		else {
+			return true;
+		}
 	},
 };
