@@ -154,7 +154,7 @@ process.on('unhandledRejection', error => {
 	// Logs the error.
 	console.error('[ERROR] - Uncaught Promise Rejection', error);
 	// Sends me a personal message about the error.
-	if (process.env.NODE_ENV !== 'production') {
+	if (process.env.NODE_ENV === 'production') {
 		const msg = `**Error:** ${error.toString()}`
 			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 			+ `\n**Path:** ${error.path}`
