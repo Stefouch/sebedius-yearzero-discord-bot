@@ -15,38 +15,38 @@ const fs = require('fs');
 const db = require('./database/database');
 // const { test } = require('./test/tests');
 const Discord = require('discord.js');
-const bot = new Discord.Client();
+const client = new Discord.Client();
 
 // Adds the configuration file.
-bot.config = require('./config.json');
+client.config = require('./config.json');
 console.log('[+] - Config loaded');
 
 // Initializes global constants.
-let prefix = bot.config.defaultPrefix;
+let prefix = client.config.defaultPrefix;
 
 // Loads the available commands.
-bot.commands = new Discord.Collection();
+client.commands = new Discord.Collection();
 const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
 	const command = require('./commands/' + file);
-	bot.commands.set(command.name, command);
+	client.commands.set(command.name, command);
 	console.log(`[+] - Command loaded: ${command.name}.js`);
 }
 
 /* !
  * READY LISTENER
  */
-bot.on('ready', () => {
+client.on('ready', () => {
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
-	console.log(`| Logged in as: ${bot.user.username} (${bot.user.id})`);
+	console.log(`| Logged in as: ${client.user.username} (${client.user.id})`);
 	console.log('|===========================================================');
 
 	// Lists servers the bot is connected to.
 	console.log('| Guilds/Servers:');
-	let serverQty = 0;
-	bot.guilds.cache.forEach(guild => {
+	const serverQty = client.guilds.cache.size;
+	/* client.guilds.cache.forEach(guild => {
 		if (process.env.NODE_ENV !== 'production') {
 			console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			console.log('|    * Custom emojis:');
@@ -55,7 +55,7 @@ bot.on('ready', () => {
 			});
 		}
 		serverQty++;
-	});
+	});//*/
 	console.log(`|  = Total: ${serverQty} server${(serverQty > 1) ? 's' : ''}`);
 	console.log('|===========================================================\n');
 	// Sets bot status.
@@ -63,7 +63,7 @@ bot.on('ready', () => {
 	// PLAYING, STREAMING, LISTENING, WATCHING
 	// For example:
 	// client.user.setActivity('TV', { type: 'WATCHING' });
-	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
+	client.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
 	// if (process.env.NODE_ENV !== 'production') test(bot);
@@ -72,11 +72,7 @@ bot.on('ready', () => {
 /* !
  * MESSAGE LISTENER
  */
-bot.on('message', async message => {
-	// Aborts if the user or the channel are banned.
-	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
-	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
-
+client.on('message', async message => {
 	// Gets the guild's prefix.
 	if (message.channel.type === 'text' && !message.author.bot) {
 		const fetchedPrefix = await db.get(message.guild.id, 'prefix');
@@ -85,26 +81,30 @@ bot.on('message', async message => {
 			prefix = fetchedPrefix;
 		}
 		else {
-			prefix = bot.config.defaultPrefix;
+			prefix = client.config.defaultPrefix;
 		}
 	}
 
 	// Answers bot's mentions and exits early.
 	// Note: the regex constant cannot be put in global,
 	// because bot.user.id will only be defined after some time.
-	const botMentionRegex = new RegExp(`^(<@!?${bot.user.id}>)\\s*`);
+	const botMentionRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
 	if (botMentionRegex.test(message.content)) return message.reply(`Hi! You can use \`${prefix}\` as my prefix.`);
 
 	// Exits early if no prefix, and
 	// prevents bot from responding to its own messages.
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 
+	// Aborts if the user or the channel are banned.
+	if (client.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
+	if (client.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
+
 	// Aborts if the bot doesn't have the needed permissions.
 	/* if (message.channel.type !== 'dm') {
-	 	if (!message.guild.me.hasPermission(bot.config.neededPermissions)) {
+	 	if (!message.guild.me.hasPermission(client.config.neededPermissions)) {
 			const msg = '🛑 **Missing Permissions!**'
 				+ '\nThe bot does not have sufficient permission in this channel.'
-				+ `\nThe bot requires the \`${bot.config.neededPermissions.join('`, `')}\` permissions in order to work.`;
+				+ `\nThe bot requires the \`${client.config.neededPermissions.join('`, `')}\` permissions in order to work.`;
 			return message.reply(msg);
 		}
 	}//*/
@@ -113,8 +113,8 @@ bot.on('message', async message => {
 	const commandName = args.shift().toLowerCase();
 
 	// Gets the command from its name, with support for aliases.
-	const command = bot.commands.get(commandName)
-		|| bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	const command = client.commands.get(commandName)
+		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	// Exits early if there is no command with this name.
 	if (!command) return;
@@ -139,7 +139,7 @@ bot.on('message', async message => {
 			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
-		command.execute(args, message, bot);
+		await command.execute(args, message, client);
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error.stack);
@@ -154,9 +154,12 @@ process.on('unhandledRejection', error => {
 	// Logs the error.
 	console.error('[ERROR] - Uncaught Promise Rejection', error);
 	// Sends me a personal message about the error.
-	if (process.env.NODE_ENV === 'production') {
-		const msg = error.toString();
-		bot.users.cache.get(bot.config.botAdminID).send(msg, { split: true })
+	if (process.env.NODE_ENV !== 'production') {
+		const msg = `**Error:** ${error.toString()}`
+			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
+			+ `\n**Path:** ${error.path}`
+			+ `\n**Stack:** ${error.stack}`;
+		client.users.cache.get(client.config.botAdminID).send(msg, { split: true })
 			.catch(err => console.error(err));
 	}
 });
@@ -167,4 +170,4 @@ process.on('unhandledRejection', error => {
  * Click on your application -> Bot -> Token -> "Click to Reveal Token".
  * Log our bot in using the token from https://discordapp.com/developers/applications/me
  */
-bot.login(process.env.TOKEN);
+client.login(process.env.TOKEN);

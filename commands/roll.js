@@ -234,9 +234,12 @@ module.exports = {
  * @async
  */
 async function messageRollResult(roll, triggeringMessage, client) {
+	console.log(triggeringMessage.guild.me);
 	// Aborts if the bot doesn't have the needed permissions.
 	if (triggeringMessage.channel.type !== 'dm') {
 		if (!triggeringMessage.guild.me.hasPermission(client.config.neededPermissions)) {
+			console.log(triggeringMessage.guild.me);
+			
 			const msg = '🛑 **Missing Permissions!**'
 				+ '\nThe bot does not have sufficient permission in this channel.'
 				+ ` The bot requires the \`${client.config.neededPermissions.join('`, `')}\` permissions in order to work.`

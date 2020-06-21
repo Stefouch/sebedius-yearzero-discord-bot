@@ -4,15 +4,7 @@
 	"botAdminID": "405389936783523840",
 	"db": "sqlite://database.sqlite",
 	"defaultPrefix": "!",
-	"neededPermissions": [
-		"ADD_REACTIONS",
-		"VIEW_CHANNEL",
-		"READ_MESSAGE_HISTORY",
-		"SEND_MESSAGES",
-		"MANAGE_MESSAGES",
-		"EMBED_LINKS",
-		"USE_EXTERNAL_EMOJIS"
-	],
+	"neededPermissions": 355392,
 	"supportedGames": ["myz", "fbl", "tales", "coriolis", "alien", "vaesen"],
 	"supportedLangs": ["en"],
 	"bannedServers": [],

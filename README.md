@@ -14,7 +14,7 @@ The supported games are:
 
 # Add the Bot to your Server
 
-Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=354368
+Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=355392
 
 The link will prompt you to authorize the bot on a server. Once the bot's authorized, you'll see it in the Member List.
 
