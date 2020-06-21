@@ -191,11 +191,20 @@ This is a detailed list of needed permissions:
 
 * `ADD_REACTIONS` : The bot uses a reaction menu for roll pushing.
 * `VIEW_CHANNEL` : Mandatory.
-* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission. ⚠️<font color=red>**NEW**</font>
+* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission. ⚠️<span style="color: red;">**NEW**</span>
 * `SEND_MESSAGES` : Mandatory.
 * `MANAGE_MESSAGES` : The bot needs this permission to remove pushing reaction emojis.
 * `EMBED_LINKS` : The bot uses rich embed to display the dice results.
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
+
+### Troubleshooting
+
+If the bot is missing any permission above, it might not work properly.
+
+1. Check that the bot has all the required permissions in the server (check its role).
+2. Check also that it has no denied permission in the channel (maybe the role `@everyone` or another one is removing the needed permission).
+3. As a last resort, kick the bot and re-invite it to your server using the link at the top of this Readme.
+4. Contact me for extra support, I'm here to help.
 
 # List of Changes
 

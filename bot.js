@@ -155,7 +155,7 @@ process.on('unhandledRejection', error => {
 	console.error('[ERROR] - Uncaught Promise Rejection', error);
 	// Sends me a personal message about the error.
 	if (process.env.NODE_ENV === 'production') {
-		const msg = error.toString() + '\nMessage: ' + error.message;
+		const msg = error.toString();
 		bot.users.cache.get(bot.config.botAdminID).send(msg, { split: true })
 			.catch(err => console.error(err));
 	}
