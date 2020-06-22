@@ -3,6 +3,7 @@ const db = require('../database/database');
 
 module.exports = {
 	name: 'setconf',
+	type: 'Customization',
 	description: 'Sets the bot\'s configuration for this server. If you omit the new value, it returns the current value.'
 		+ ' See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'

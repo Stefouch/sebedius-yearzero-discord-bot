@@ -4,9 +4,11 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'rumor',
+	type: 'Mutant: Year Zero',
 	description: 'Tells a random rumor.',
 	guildOnly: false,
 	args: false,
+	usage: '',
 	async execute(args, message, client) {
 		const rumorStory = Util.random(Rumors.stories);
 

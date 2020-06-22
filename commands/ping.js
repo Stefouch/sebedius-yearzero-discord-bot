@@ -1,9 +1,10 @@
 module.exports = {
 	name: 'ping',
+	type: 'Core',
 	description: 'Checks the bot\'s latency.',
 	guildOnly: false,
 	args: false,
-	// usage: '',
+	usage: '',
 	async execute(args, message, client) {
 		const msg = await message.channel.send('Pinging...');
 		msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms.`);

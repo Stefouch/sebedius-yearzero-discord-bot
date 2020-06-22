@@ -1,5 +1,6 @@
 module.exports = {
 	name: 'critfbl',
+	type: 'Forbidden Lands',
 	description: 'Rolls for a random critical injury.'
 		+ '\nType `help crit` for more details.',
 	aliases: ['critf'],

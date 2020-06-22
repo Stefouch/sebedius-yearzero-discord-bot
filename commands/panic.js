@@ -4,6 +4,7 @@ const { getTable } = require('../util/SebediusTools');
 
 module.exports = {
 	name: 'panic',
+	type: 'ALIEN rpg',
 	description: 'Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.',
 	moreDescriptions: [
 		[

@@ -6,11 +6,12 @@ const YZEmbed = require('../util/YZEmbed');
 
 module.exports = {
 	name: 'admin',
+	type: 'Administration',
 	description: 'Performs bot\'s maintenance. Only available for the bot\'s owner.',
 	adminOnly: true,
 	guildOnly: true,
 	args: true,
-	// usage: '',
+	usage: '',
 	async execute(args, message, client) {
 		// Exits early if not the bot's owner.
 		if (message.author.id !== client.config.botAdminID) return;

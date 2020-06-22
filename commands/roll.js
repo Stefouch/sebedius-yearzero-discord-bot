@@ -7,6 +7,7 @@ const ReactionMenu = require('../util/ReactionMenu');
 
 module.exports = {
 	name: 'roll',
+	type: 'Core',
 	description: 'Rolls dice for any Year Zero roleplaying game.',
 	moreDescriptions: [
 		[
@@ -45,6 +46,8 @@ module.exports = {
 			'More Info',
 			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon under the message.`
 			+ ' The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.'
+			+ '\nTo clear the reaction menu, click the ❌ reaction icon.'
+			+ '\nCoriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).'
 			+ `\nMax ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 		],
 		[
@@ -267,18 +270,21 @@ async function messageRollResult(roll, triggeringMessage, client) {
 				return client.commands.get('panic').execute([roll.stress], triggeringMessage, client);
 			}
 			if (roll.pushable) {
+				// Creates an array of objects containing the required information
+				// for the Reaction Menu.
 				const reactions = [
 					{
 						icon: pushIcon,
 						owner: userId,
-						fn: (collector) => messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gameOptions),
+						fn: collector => messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gameOptions),
 					},
 				];
-				// Adds extra reactions from config options.
+				// Adds extra reactions from the config options.
 				if (gameOptions.reactionMenu) {
 					for (const reac of gameOptions.reactionMenu) {
 						reactions.push({
 							icon: reac.icon,
+							owner: userId,
 							fn: collector => {
 								const gopts = Object.assign({}, gameOptions);
 								gopts.extraPushDice = reac.extraPushDice;
@@ -290,10 +296,10 @@ async function messageRollResult(roll, triggeringMessage, client) {
 				// Adds the stop reaction.
 				reactions.push({
 					icon: '❌',
-					fn: (collector) => collector.stop(),
+					owner: userId,
+					fn: collector => collector.stop(),
 				});
-
-				// Reaction Menu.
+				// Starts the Reaction Menu.
 				const cooldown = client.config.commands.roll.pushCooldown;
 				const rm = new ReactionMenu(rollMessage, client, cooldown, reactions);
 			}
