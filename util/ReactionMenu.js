@@ -1,7 +1,13 @@
-const Discord = require('discord.js');
 const Util = require('./Util');
 
 class ReactionMenu {
+	/**
+	 * Creates a Reaction Menu for a message.
+	 * @param {Discord.Message} message Discord message to attach the reaction menu
+	 * @param {Discord.Client} client Discord client (the bot)
+	 * @param {number} time Cooldown
+	 * @param {Object[]} reactionsData An array of objects containing the data needed to create the reactions
+	 */
 	constructor(message, client, time, reactionsData) {
 		/**
 		 * @type {Discord.Message}
@@ -48,6 +54,7 @@ class ReactionMenu {
 		this.addReactions();
 		this.createCollector();
 	}
+
 	/**
 	 * List of all emojis in this menu.
 	 * @type {string[]}
@@ -73,7 +80,6 @@ class ReactionMenu {
 			if (!this.channel.permissionsFor(this.bot).has('READ_MESSAGE_HISTORY')) throw new ReactionMenuError('Missing READ_MESSAGE_HISTORY permission!');
 			if (!this.channel.permissionsFor(this.bot).has('MANAGE_MESSAGES')) throw new ReactionMenuError('Missing MANAGE_MESSAGES permission!');
 		}
-
 		// Adds a ReactionCollector to the push icons.
 		// The filter is for reacting only to the push icon and the user who rolled the dice.
 		const filter = (reac, user) => this.emojis.includes(reac.emoji.name) && user.id !== this.bot.id;
