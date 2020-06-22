@@ -19,7 +19,7 @@ module.exports = {
 
 			if (typeof evaled !== 'string') evaled = require('util').inspect(evaled);
 
-			if (evaled.length >= 2000) {
+			if (evaled.length >= 1024) {
 				const tooLong = new Discord.MessageEmbed()
 					.setTitle('Whoops! Too long!')
 					.setColor('#36393e')
@@ -32,7 +32,7 @@ module.exports = {
 				.setTitle('Evaluated successfully')
 				.addField('Input:', `\`\`\`JavaScript\n${code}\`\`\``, true)
 				.addField('Output:', `\`\`\`JavaScript\n${evaled}\`\`\``, true)
-				.setColor(message.guild.me.displayColor)
+				.setColor(message.author.displayColor)
 				.setFooter('Sebedius Eval')
 				.setTimestamp();
 

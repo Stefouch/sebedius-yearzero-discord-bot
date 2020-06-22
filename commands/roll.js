@@ -3,7 +3,7 @@ const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
 const { getGame, checkPermissions } = require('../util/SebediusTools');
 const { RollParser } = require('../util/RollParser');
-
+const ReactionMenu = require('../util/ReactionMenu');
 
 module.exports = {
 	name: 'roll',
@@ -210,11 +210,14 @@ module.exports = {
 		if (rollargv.fullauto) {
 			roll.setFullAuto(true);
 		}
-		else if (rollargv.push > 1) {
+		else if (rollargv.push) {
 			roll.maxPushes = Number(rollargv.push) || 1;
 		}
 		else if (game === 'generic') {
 			roll.maxPushes = 0;
+		}
+		else {
+			roll.maxPushes = 1;
 		}
 
 		// Log and Roll.
@@ -263,77 +266,79 @@ async function messageRollResult(roll, triggeringMessage, client) {
 			if (gameOptions.panic && roll.panic) {
 				return client.commands.get('panic').execute([roll.stress], triggeringMessage, client);
 			}
-
-			// Adds a push reaction icon.
-			// See https://unicode.org/emoji/charts/full-emoji-list.html
 			if (roll.pushable) {
-				rollMessage.react(pushIcon);
-
-				// Adds a ReactionCollector to the push icon.
-				// The filter is for reacting only to the push icon and the user who rolled the dice.
-				const filter = (reaction, user) => reaction.emoji.name === pushIcon && user.id === userId;
-				const collector = rollMessage.createReactionCollector(filter, { time: client.config.commands.roll.pushCooldown });
-
-				// ========== Listener: On Collect ==========
-				collector.on('collect', reac => {
-					const pushedRoll = roll.push();
-
-					// Detects additional dice from pushing.
-					if (gameOptions.extraPushDice) {
-						for (const extra of gameOptions.extraPushDice) {
-							pushedRoll.addDice(1, extra);
-						}
+				const reactions = [
+					{
+						icon: pushIcon,
+						owner: userId,
+						fn: (collector) => messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gameOptions),
+					},
+				];
+				// Adds extra reactions from config options.
+				if (gameOptions.reactionMenu) {
+					for (const reac of gameOptions.reactionMenu) {
+						reactions.push({
+							icon: reac.icon,
+							fn: collector => {
+								const gopts = Object.assign({}, gameOptions);
+								gopts.extraPushDice = reac.extraPushDice;
+								messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gopts);
+							},
+						});
 					}
-
-					console.log(`[ROLL] - Roll pushed: ${pushedRoll.toString()}`);
-
-					// Stops the collector if it's the last push.
-					if (!roll.pushable) collector.stop();
-
-					// Edits the roll result embed message.
-					if (!rollMessage.deleted) {
-						rollMessage.edit(
-							getDiceEmojis(pushedRoll, gameOptions, client.config.icons),
-							getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions),
-						)
-							// Removing the player's reaction.
-							// Only for multiple pushes.
-							.then(async () => {
-								if (pushedRoll.pushable && rollMessage.channel.type !== 'dm') {
-									const userReactions = rollMessage.reactions.cache.filter(r => r.users.cache.has(userId));
-									try {
-										for (const r of userReactions.values()) {
-											await r.users.remove(userId);
-										}
-									}
-									catch(error) {
-										console.error('Failed to remove reactions.');
-									}
-								}
-							})
-							.catch(console.error);
-					}
-
-					// Detects PANIC.
-					if (gameOptions.panic && pushedRoll.panic) {
-						collector.stop();
-						return client.commands.get('panic').execute([pushedRoll.stress], triggeringMessage, client);
-					}
+				}
+				// Adds the stop reaction.
+				reactions.push({
+					icon: '❌',
+					fn: (collector) => collector.stop(),
 				});
 
-				// ========== Listener: On End ==========
-				collector.on('end', (collected, reason) => {
-					const reac = rollMessage.reactions.cache.first();
-					if (reac) {
-						if (reac.emoji.name === pushIcon && rollMessage.channel.type !== 'dm') {
-							reac.remove()
-								.catch(console.error);
-						}
-					}
-				});
+				// Reaction Menu.
+				const cooldown = client.config.commands.roll.pushCooldown;
+				const rm = new ReactionMenu(rollMessage, client, cooldown, reactions);
 			}
 		})
 		.catch(console.error);
+}
+
+/**
+ * 
+ * @param {Discord.ReactionCollector} collector 
+ * @param {Discord.Message} triggeringMessage	The triggering message
+ * @param {Discord.Message} rollMessage The roll message
+ * @param {Discord.Client} client The Discord client (the bot)
+ * @param {YZRoll} roll The roll object
+ * @param {Object} gameOptions client.config.commands.roll.[game]
+ */
+function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gameOptions) {
+	// Pushes the roll.
+	const pushedRoll = roll.push();
+
+	// Detects additional dice from pushing.
+	if (gameOptions.extraPushDice) {
+		for (const extra of gameOptions.extraPushDice) {
+			pushedRoll.addDice(1, extra);
+		}
+	}
+	// Logs.
+	console.log(`[ROLL] - Roll pushed: ${pushedRoll.toString()}`);
+
+	// Stops the collector if it's the last push.
+	if (!roll.pushable) collector.stop();
+
+	// Edits the roll result embed message.
+	if (!rollMessage.deleted) {
+		rollMessage.edit(
+			getDiceEmojis(pushedRoll, gameOptions, client.config.icons),
+			getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions),
+		)
+			.catch(console.error);
+	}
+	// Detects PANIC.
+	if (gameOptions.panic && pushedRoll.panic) {
+		collector.stop();
+		return client.commands.get('panic').execute([pushedRoll.stress], triggeringMessage, client);
+	}
 }
 
 /**
@@ -348,7 +353,7 @@ function getDiceEmojis(roll, opts, icons) {
 	let str = '';
 
 	for (const type in roll.dice) {
-		let iconType = type;
+		const iconType = type;
 		const nbre = roll.dice[type].length;
 
 		// Skipping types.

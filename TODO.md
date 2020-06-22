@@ -1,11 +1,11 @@
 # TODO List
 
 - Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
-- ReactionMenu simplified and not crashing.
-- Bug: PERMISSIONS
+- Init Tracker
 - Bug: d66 and d666 must have their own skin
 - Bug: no dm on uncaught error (bot.js)
 - Bug: setconf not working in DEV
+- Bug: prefix in DM buggy
 
 ## MYZ
 - Mutation Misfire

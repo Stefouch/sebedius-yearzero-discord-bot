@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.0.0] - 2020-06-20
 ### Added
 - Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.
-- Support for **CORIOLIS** rolls: `!rollcoriolis` or `!rc`.
+- Support for **CORIOLIS** rolls: `!rollcoriolis` or `!rc` (including praying the icons).
 - Support for **VAESEN** rolls: `!rollvaesen` or `!rv`.
 - New command: `!ping` – Checks the bot's latency.
 - New command: `!supply` – Rolls for a supply (*ALIEN* rpg).
