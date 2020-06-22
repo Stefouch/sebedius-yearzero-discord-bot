@@ -5,6 +5,7 @@ const db = require('../database/database');
 
 module.exports = {
 	name: 'help',
+	type: 'Core',
 	description: 'List all availabe commands or info about a specific command.'
 		+ '\nUse the argument `--no-dm` to display the help message on the channel.',
 	guildOnly: false,
@@ -27,27 +28,38 @@ module.exports = {
 
 		// • If no argument, sends a generic help message.
 		if (!argv._.length) {
-			// Hides adminOnly commands.
-			const commandsList = commands
-				.filter(cmd => cmd.guildOnly === false)
-				.map(cmd => cmd.name);
-
-			const commandsTextlist = `\`${commandsList.join('`, `')}\`.`
-				+ `\n\nYou can send \`${prefix}help [command name]\` to get info on a specific command!`;
-
 			const embed = new MessageEmbed({
 				color: 0x1AA29B,
 				title: '**Sebedius – Year Zero Discord Bot**',
 			});
 			embed.addField('🏁 Deployed Version', version, true);
 			embed.addField('🛠 Developper', 'Stefouch#5202', true);
-			embed.addField('🗒 List of Commands', commandsTextlist, false);
+			embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
 			embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
-			embed.addField('🔗 Invite Link', 'https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=355392', false);
+			embed.addField('🔗 Invite Link', `https://discordapp.com/api/oauth2/authorize?client_id=${client.config.botID}&scope=bot&permissions=${client.config.perms.bitfield}`, false);
 			embed.addField('🛠 Feature & Bug Report', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
 			embed.addField('🦾 Patreon', 'https://patreon.com/Stefouch', true);
 			embed.addField('🖥 Website', 'https://www.stefouch.be', true);
-			embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
+			embed.addField('🗒 List of Commands', `You can send \`${prefix}help [command name]\` to get info on a specific command! See the list of commands below.`, false);
+
+			// Hides adminOnly commands.
+			const commandsCollection = commands.filter(cmd => cmd.adminOnly !== true);
+
+			// Build the list of types of commands.
+			const commandsTypes = commandsCollection.map(cmd => cmd.type).sort();
+			// Using a Set object removes the duplicates.
+			const commandsTypesSet = new Set(commandsTypes);
+			// Builds the message.
+			for (const type of commandsTypesSet) {
+				const commandsListedByType = commandsCollection.filter(cmd => cmd.type === type);
+				let text = '';
+				for (const [key, cmd] of commandsListedByType) {
+					text += `**${cmd.name}** – ${cmd.description.split('.')[0]}.\n`;
+				}
+				embed.addField(type, text, false);
+			}
+
+			// Temporary Permission help.
 			embed.addField('⚠️ Permission Issues?', 'If you\'ve permission issues with the bot, `READ_MESSAGE_HISTORY` might be missing (newly required). Otherwise, check the Readme.', false);
 
 			if (argv.dm === false) {
@@ -78,7 +90,7 @@ module.exports = {
 			title: `**${command.name.toUpperCase()}**`,
 		});
 		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), true);
-		if (command.usage) embed.addField('Usage', `${prefix}${command.name} ${command.usage}`, true);
+		if (command.usage) embed.addField('Usage', `\`${prefix}${command.name} ${command.usage}\``, true);
 		if (command.description) embed.addField('Description', command.description, false);
 
 		if (command.moreDescriptions) {

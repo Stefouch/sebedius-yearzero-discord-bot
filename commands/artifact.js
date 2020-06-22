@@ -4,6 +4,7 @@ const { random } = require('../util/Util');
 
 module.exports = {
 	name: 'artifact',
+	type: 'Mutant: Year Zero',
 	description: 'Draws a random artifact from the MYZ core rulebook. Available sources are:'
 		+ '\n• `myz` – Mutant: Year Zero (default)'
 		+ '\n• `gla` – Mutant: GenLab Alpha'

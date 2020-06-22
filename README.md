@@ -24,7 +24,7 @@ Commands are triggered with the prefix `!`. This prefix can be configured for yo
 
 ### Vocabulary
 
-Below you'll find a list of available commands to use. The instructions use the following scheme:
+Below you'll find a list of available commands. The instructions use the following scheme:
 
 * Chevrons `<...>` mean that the argument is mandatory for the command to work.
 * Brackets `[...]` mean that the argument is facultative.
@@ -32,9 +32,11 @@ Below you'll find a list of available commands to use. The instructions use the 
 
 ### Generic commands
 
-* `help` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
-* `initiative [quantity]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
+* `help [command name] [--no-dm]` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
+* `initiative [quantity] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 * `ping` – Checks the bot's latency.
+* `invite` – Prints a link to invite Sebedius to your server.
+* `changelog` – Prints a link to the official changelog.
 
 ### **ROLL** command
 
@@ -72,7 +74,9 @@ The maximum number of dice that can be rolled at once is capped at 42. *(Discord
 
 #### Pushing
 
-To push the roll, click the 🔄 reaction icon under the message. The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.
+To push the roll, click the 🔄 reaction icon under the message. The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them. To clear the reaction menu, click the ❌ reaction icon.
+
+Coriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).
 
 ### **CRIT** command
 
@@ -89,57 +93,57 @@ crit [game] [table] [numeric]
 
 ### **MYZ** specific commands
 
-* `rollmutant`|`rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
-* `critmutant`|`critm` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
-  * `damage`|`dmg` – Critical injuries from damage
-  * `horror`|`h` – The *Forbidden Lands* Horror traumas, adapted for MYZ
-  * `nontypical`|`nt` – Critical injury for non-typical damage
-  * `pushed`|`p` – Critical injury for pushed damage (none)
+* `rollmutant|rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `critmutant|critm` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+  * `damage|dmg` – Critical injuries from damage
+  * `horror|h` – The *Forbidden Lands* Horror traumas, adapted for MYZ
+  * `nontypical|nt` – Critical injury for non-typical damage
+  * `pushed|p` – Critical injury for pushed damage (none)
 * `scrap [quantity]` – Gets you a bunch of scrap
 * `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
-* `mutation` – Draws a random mutation (no details).
-* `artifact` – Draws a random artifact (no details).
+* `mutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
+* `artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
 * `threat` – Draws a random Zone threat (no details).
 * `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 
 ### **Forbidden Lands** specific commands
 
-* `rollfbl`|`rf` – Shortcut for rolling dice. See the **Roll** command above for more details.
-* `critfbl`|`critf` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
-  * `slash`|`sl` – Critical injuries due to Slash wounds
-  * `blunt`|`bl` – Critical injuries due to Blunt force
-  * `stab`|`st` – Critical injuries due to Stab wounds
-  * `horror`|`h` – Horror traumas
-  * `nontypical`|`nt` – Critical injury for non-typical damage
-  * `pushed`|`p` – Critical injury for pushed damage (none)
+* `rollfbl|rf` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `critfbl|critf` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+  * `slash|sl` – Critical injuries due to Slash wounds
+  * `blunt|bl` – Critical injuries due to Blunt force
+  * `stab|st` – Critical injuries due to Stab wounds
+  * `horror|h` – Horror traumas
+  * `nontypical|nt` – Critical injury for non-typical damage
+  * `pushed|p` – Critical injury for pushed damage (none)
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 
 ### **ALIEN** specific commands
 
-* `rollalien`|`ra` – Shortcut for rolling dice. See the **Roll** command above for more details.
-* `critalien`|`crita` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
-  * `damage`|`d` – Critical injuries from damage
-  * `synthetic`|`synth`|`s` – Critical injuries on Synthetics and Androids
-  * `xeno`|`x` – Critical injuries for Xenomorphs
-  * `mental`|`m` – Permanent mental traumas
+* `rollalien|ra` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `critalien|crita` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+  * `damage|d` – Critical injuries from damage
+  * `synthetic|synth|s` – Critical injuries on Synthetics and Androids
+  * `xeno|x` – Critical injuries for Xenomorphs
+  * `mental|m` – Permanent mental traumas
 * `panic <stress> [-f <number>]` – Rolls a random panic effect for the *ALIEN* roleplaying game. Use the `-f` parameter for a fixed value. 
 * `star` – Generates a random star sector for the *ALIEN* rpg.
 * `colony` – Generates a random colonized planet for the *ALIEN* rpg.
-* `job` – Generates a random job for the *ALIEN* rpg.
+* `job <cargo | mil | expe>` – Generates a random job for the *ALIEN* rpg.
 
 ### **Tales From The Loop** commands
 
-* `rolltales`|`rt` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `rolltales|rt` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
 ### **Coriolis** commands
 
-* `rollcoriolis`|`rc` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `rollcoriolis|rc` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
 ### **Vaesen** commands
 
-* `rollvaesen`|`rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `rollvaesen|rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
 ### Other commands
 

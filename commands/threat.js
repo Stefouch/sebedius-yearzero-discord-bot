@@ -4,10 +4,12 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'threat',
+	type: 'Mutant: Year Zero',
 	description: 'Draws a random Zone threat.',
 	aliases: ['thr'],
 	guildOnly: false,
 	args: false,
+	usage: '',
 	async execute(args, message, client) {
 		// Rolls for the threat type.
 		const nb = Util.rand(1, 6);

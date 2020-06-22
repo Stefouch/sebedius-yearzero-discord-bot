@@ -23,6 +23,7 @@ const critTypeAliases = {
 
 module.exports = {
 	name: 'crit',
+	type: 'Core',
 	description: 'Rolls for a random critical injury.',
 	moreDescriptions: [
 		[

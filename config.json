@@ -58,7 +58,7 @@
 					},
 					"blankDiceFaces": true,
 					"detailed": true,
-					"reactions": [
+					"reactionMenu": [
 						{
 							"name": "Pray",
 							"icon": "🙏",

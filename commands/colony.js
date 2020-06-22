@@ -3,6 +3,7 @@ const Planet = require('../util/ALIENWorldGenerator');
 
 module.exports = {
 	name: 'colony',
+	type: 'ALIEN rpg',
 	description: 'Generates a colonized planet for the ALIEN rpg.',
 	aliases: ['colo'],
 	guildOnly: false,

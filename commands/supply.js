@@ -5,6 +5,7 @@ const { getGame } = require('../util/SebediusTools');
 
 module.exports = {
 	name: 'supply',
+	type: 'ALIEN rpg',
 	description: 'Rolls for a supply.',
 	aliases: ['sup'],
 	guildOnly: false,

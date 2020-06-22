@@ -4,13 +4,13 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'job',
+	type: 'ALIEN rpg',
 	description: 'Generates a random job for the ALIEN rpg.',
 	// aliases: ['aquest'],
 	guildOnly: false,
 	args: true,
 	usage: `<${Job.jobTypes.join('|')}>`,
 	async execute(args, message, client) {
-
 		if (!args.length) return message.reply('Please specify job type');
 
 		let type = '';
