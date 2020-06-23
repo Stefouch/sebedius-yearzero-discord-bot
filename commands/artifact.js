@@ -1,6 +1,6 @@
-const Artos = require('../data/artifacts.list.json');
-const YZEmbed = require('../util/YZEmbed');
-const { random } = require('../util/Util');
+const Artos = require('../gamedata/artifacts.list.json');
+const YZEmbed = require('../utils/YZEmbed');
+const { random } = require('../utils/Util');
 
 module.exports = {
 	name: 'artifact',

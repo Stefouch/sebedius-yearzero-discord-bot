@@ -1,8 +1,8 @@
 const YZGenerator = require('./YZGenerator');
-const MonsterData = require('../data/monster-generator.json');
-const Muts = require('../data/mutations.list.json');
-const { RollParser } = require('./RollParser');
-const Util = require('./Util');
+const MonsterData = require('../gamedata/monster-generator.json');
+const Muts = require('../gamedata/mutations.list.json');
+const { RollParser } = require('../utils/RollParser');
+const Util = require('../utils/Util');
 
 class MYZMonsterGenerator extends YZGenerator {
 	constructor() {

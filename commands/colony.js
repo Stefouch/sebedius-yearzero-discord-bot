@@ -1,5 +1,5 @@
-const YZEmbed = require('../util/YZEmbed');
-const Planet = require('../util/ALIENWorldGenerator');
+const YZEmbed = require('../utils/YZEmbed');
+const Planet = require('../generators/ALIENWorldGenerator');
 
 module.exports = {
 	name: 'colony',

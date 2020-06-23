@@ -1,6 +1,6 @@
-const YZEmbed = require('../util/YZEmbed');
-const Star = require('../util/ALIENStarGenerator');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/YZEmbed');
+const Star = require('../generators/ALIENStarGenerator');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'star',

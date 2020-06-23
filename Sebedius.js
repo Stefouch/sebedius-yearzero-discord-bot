@@ -1,8 +1,8 @@
 const fs = require('fs');
 const db = require('./database/database');
-const Util = require('./util/Util');
-const RollTable = require('./util/RollTable');
-const YZCrit = require('./util/YZCrit');
+const Util = require('./utils/Util');
+const RollTable = require('./utils/RollTable');
+const YZCrit = require('./yearzero/YZCrit');
 const Discord = require('discord.js');
 
 class Sebedius extends Discord.Client {

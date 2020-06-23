@@ -1,6 +1,5 @@
-const Util = require('../util/Util');
-const YZRoll = require('../util/YZRoll');
-const YZEmbed = require('../util/YZEmbed');
+const YZRoll = require('../yearzero/YZRoll');
+const YZEmbed = require('../utils/YZEmbed');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 

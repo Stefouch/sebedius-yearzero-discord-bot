@@ -1,6 +1,6 @@
-const Threats = require('../data/threats.list.json');
-const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const Threats = require('../gamedata/threats.list.json');
+const YZEmbed = require('../utils/YZEmbed');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'threat',

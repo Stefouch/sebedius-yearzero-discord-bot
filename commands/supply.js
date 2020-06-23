@@ -1,6 +1,6 @@
-const Util = require('../util/Util');
-const YZRoll = require('../util/YZRoll');
-const YZEmbed = require('../util/YZEmbed');
+const Util = require('../utils/Util');
+const YZRoll = require('../yearzero/YZRoll');
+const YZEmbed = require('../utils/YZEmbed');
 
 module.exports = {
 	name: 'supply',

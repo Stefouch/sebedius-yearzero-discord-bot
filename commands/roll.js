@@ -1,8 +1,8 @@
 const Config = require('../config.json');
-const YZRoll = require('../util/YZRoll');
-const YZEmbed = require('../util/YZEmbed');
-const { RollParser } = require('../util/RollParser');
-const ReactionMenu = require('../util/ReactionMenu');
+const YZRoll = require('../yearzero/YZRoll');
+const YZEmbed = require('../utils/YZEmbed');
+const { RollParser } = require('../utils/RollParser');
+const ReactionMenu = require('../utils/ReactionMenu');
 const Sebedius = require('../Sebedius');
 
 module.exports = {

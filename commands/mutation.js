@@ -1,6 +1,6 @@
-const Muts = require('../data/mutations.list.json');
-const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const Muts = require('../gamedata/mutations.list.json');
+const YZEmbed = require('../utils/YZEmbed');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'mutation',

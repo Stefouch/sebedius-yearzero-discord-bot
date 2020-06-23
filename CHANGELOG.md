@@ -36,6 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `!crit` command revamped. See Readme for details.
 - Relooking of the `!help` command.
 - Updated code for `!panic`, `!admin` and the above commands.
+- Renamed `!init` command into `!drawinit`.
 - Future support for different languages.
 
 ### Fixed

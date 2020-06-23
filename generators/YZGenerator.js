@@ -1,5 +1,5 @@
-const { RollParser } = require('./RollParser');
-const Util = require('./Util');
+const { RollParser } = require('../utils/RollParser');
+const Util = require('../utils/Util');
 
 /**
  * RollData structure.
@@ -24,17 +24,19 @@ const Util = require('./Util');
 /**
  * Generates a Year Zero Object from random tables.
  */
-class YZGenerator2 {
+class YZGenerator {
 	/**
 	 * Generates a Year Zero Object from random tables.
 	 * @param {Object} source Generator Data
 	 */
 	constructor(source) {
+		const dataToResolve = JSON.parse(JSON.stringify(source));
+
 		/**
 		 * Resolved data.
 		 * @type {Object}
 		 */
-		this.data = JSON.parse(JSON.stringify(source));
+		this.data = this.setup(dataToResolve);
 
 		// console.log(this);
 	}
@@ -42,13 +44,10 @@ class YZGenerator2 {
 	/**
 	 * Resolves all "roll-data" couples.
 	 * @param {Object} source The data to process
-	 * @param {number} [mod=0] Seed modifier
 	 * @throws {RangeError} If suspicious infinite loop
-	 * @throws {TypeError} If incorrect key
 	 * @returns {Object}
 	 */
-	setup(source, mod = 0) {
-		if (typeof mod === 'string') mod = RollParser.parseAndRoll(mod);
+	setup(source) {
 		// The "roll-data" are Objects.
 		if (Util.isObject(source)) {
 			// And must have both "roll" and "data" keys.
@@ -68,12 +67,12 @@ class YZGenerator2 {
 
 				// Performs cycles.
 				while (count > 0) {
-					const roll = RollParser.parseAndRoll(source.roll) + +mod;
+					const roll = RollParser.parseAndRoll(source.roll);
 					const data = source.data;
-					let elem = YZGenerator2.rollData(roll, data);
+					let elem = YZGenerator.rollData(roll, data);
 
 					// Rerolls if the elem is an Object with { REROLL: number }.
-					if (multiple && elem.hasOwnProperty('REROLL')) { count += RollParser.parseAndRoll(elem.REROLL); }
+					if (multiple && elem.hasOwnProperty('REROLL')) { count += elem.REROLL; }
 					else if (elems.has(elem)) { count++; }
 					else {
 						elem = this.setup(elem);
@@ -107,49 +106,41 @@ class YZGenerator2 {
 
 	/**
 	 * Gets a value from seeded data.
-	 * @param {number} seed The seed value rolled
+	 * @param {number} roll The seed value rolled
 	 * @param {Object} data The seeded data: "seed" => "value"
+	 * @throws {RangeError} If found nothing
 	 * @returns {*}
 	 */
-	static rollData(seed, data) {
-		for (let i = +seed; i > 0; i--) {
+	static rollData(roll, data) {
+		for (let i = +roll; i > 0; i--) {
 			const elemRef = `${i}`;
-			if (elemRef in data && +seed >= i) {
+			if (elemRef in data && +roll >= i) {
 				return data[elemRef];
 			}
 		}
-		// Returns the first element if found nothing.
-		return Object.values(data)[0];
+		throw new RangeError(`Seed (${roll}) incorrect!`);
 	}
 
 	/**
 	 * Fetches the values of a key in the generator data.
 	 * @param {string} param Data's key to fetch
-	 * @param {number} [mod=0] Seed modifier
 	 * @throws {TypeError} If incorrect key
 	 * @returns {*} Values in an Array if [array=true]
 	 */
-	getAll(param, mod = 0) {
-		if (this.data.hasOwnProperty(param)) {
-			// const source = JSON.parse(JSON.stringify(this.data[param]));
-			const source = this.data[param];
-			return this.setup(source, mod);
-		}
-		else {
-			throw new TypeError(`Incorrect parameter: ${param}!`);
-		}
+	getAll(param) {
+		if (this.data.hasOwnProperty(param)) return this.data[param];
+		else throw new TypeError(`Incorrect parameter: ${param}!`);
 	}
 
 	/**
 	 * Fetches the values of a key in the generator data.
 	 * Returns a single element instead of an array if length = 1.
 	 * @param {string} param Data's key to fetch
-	 * @param {number} [mod=0] Seed modifier
 	 * @throws {TypeError} If incorrect key
 	 * @returns {*}
 	 */
-	get(param, mod = 0) {
-		const elems = this.getAll(param, mod);
+	get(param) {
+		const elems = this.getAll(param);
 
 		if (elems instanceof Array) {
 			if (elems.length === 1) return elems[0];
@@ -159,4 +150,4 @@ class YZGenerator2 {
 	}
 }
 
-module.exports = YZGenerator2;
+module.exports = YZGenerator;

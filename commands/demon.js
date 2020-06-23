@@ -1,7 +1,7 @@
-const YZEmbed = require('../util/YZEmbed');
-const Demon = require('../util/FBLDemonGenerator');
-const { RollParser } = require('../util/RollParser');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/YZEmbed');
+const Demon = require('../generators/FBLDemonGenerator');
+const { RollParser } = require('../utils/RollParser');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'demon',

@@ -1,9 +1,9 @@
 const YZGenerator2 = require('./YZGenerator2');
-const JobData = require('../data/alienjob-generator.json');
-const CargoJobData = require('../data/alienjob-cargo-generator.json');
-const MilJobData = require('../data/alienjob-mil-generator.json');
-const ExpeJobData = require('../data/alienjob-expe-generator.json');
-const { RollParser } = require('./RollParser');
+const JobData = require('../gamedata/alienjob-generator.json');
+const CargoJobData = require('../gamedata/alienjob-cargo-generator.json');
+const MilJobData = require('../gamedata/alienjob-mil-generator.json');
+const ExpeJobData = require('../gamedata/alienjob-expe-generator.json');
+const { RollParser } = require('../utils/RollParser');
 
 const JOB_TYPES_DATA = {
 	cargo: CargoJobData,

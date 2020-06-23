@@ -1,7 +1,5 @@
-const { defaultPrefix } = require('../config.json');
-const { version } = require('../util/version');
+const { version } = require('../utils/version');
 const { MessageEmbed } = require('discord.js');
-const db = require('../database/database');
 
 module.exports = {
 	name: 'help',

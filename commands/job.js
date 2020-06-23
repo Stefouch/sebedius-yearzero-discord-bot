@@ -1,6 +1,6 @@
-const YZEmbed = require('../util/YZEmbed');
-const Job = require('../util/ALIENJobGenerator');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/YZEmbed');
+const Job = require('../generators/ALIENJobGenerator');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'job',

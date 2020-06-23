@@ -1,13 +1,13 @@
 const fs = require('fs');
 const Config = require('../config.json');
-const YZEmbed = require('../util/YZEmbed');
-const { RollParser } = require('../util/RollParser');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/YZEmbed');
+const { RollParser } = require('../utils/RollParser');
+const Util = require('../utils/Util');
 
 // Loading the available scrap.
 let scrapList;
 try {
-	const scrapContent = fs.readFileSync('./data/scrap.list', 'utf8');
+	const scrapContent = fs.readFileSync('./gamedata/scrap.list', 'utf8');
 	scrapList = scrapContent.split('\n');
 	console.log('[+] - Scrap list loaded: data/scrap.list');
 }

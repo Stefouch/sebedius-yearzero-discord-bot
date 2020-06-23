@@ -1,6 +1,6 @@
-const Rumors = require('../data/rumors.json');
-const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const Rumors = require('../gamedata/rumors.json');
+const YZEmbed = require('../utils/YZEmbed');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'rumor',

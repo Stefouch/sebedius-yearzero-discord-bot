@@ -1,4 +1,5 @@
-const YZEmbed = require('../util/YZEmbed');
+const YZEmbed = require('../utils/YZEmbed');
+const ms = require('ms');
 
 module.exports = {
 	name: 'stats',
@@ -20,7 +21,7 @@ module.exports = {
 		}
 		// Creates a Discord.MessageEmbed and sends it.
 		const embed = new YZEmbed('🗒 Commands Statistics', msg)
-			.setFooter(`Total: ${total}`);
+			.setFooter(`Total: ${total} — Uptime: ${ms(client.uptime)}`);
 		return message.channel.send(embed);
 	},
 };

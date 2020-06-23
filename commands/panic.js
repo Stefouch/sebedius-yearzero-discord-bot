@@ -1,5 +1,5 @@
-const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/YZEmbed');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'panic',
@@ -52,7 +52,7 @@ module.exports = {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedPanicRoll(panic, message, client) {
-	const panicTable = client.getTable('./data/crits', 'crits-alien-panic', 'en', 'csv');
+	const panicTable = client.getTable('./gamedata/crits', 'crits-alien-panic', 'en', 'csv');
 	const panicRoll = Util.clamp(panic, 0, 15);
 	const criticalInjury = panicTable.get(panicRoll);
 

@@ -1,7 +1,7 @@
 const YZGenerator2 = require('./YZGenerator2');
 const AlienWorld = require('./ALIENWorldGenerator');
-const StarData = require('../data/star-generator.json');
-const Util = require('./Util');
+const StarData = require('../gamedata/star-generator.json');
+const Util = require('../utils/Util');
 
 /**
  * A Year Zero Star

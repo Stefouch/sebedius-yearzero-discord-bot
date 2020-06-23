@@ -33,7 +33,7 @@ Below you'll find a list of available commands. The instructions use the followi
 ### Generic commands
 
 * `help [command name] [--no-dm]` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
-* `initiative [quantity] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
+* `drawinit [quantity] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 * `ping` – Checks the bot's latency.
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.

@@ -10,7 +10,6 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 const Sebedius = require('./Sebedius');
-const { count } = require('./util/YZRoll');
 const client = new Sebedius(require('./config.json'));
 
 /* !

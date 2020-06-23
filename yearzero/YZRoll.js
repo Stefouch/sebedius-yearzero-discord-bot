@@ -1,4 +1,4 @@
-const { rand } = require('./Util');
+const { rand } = require('../utils/Util');
 
 const YZ_GAMES = ['generic', 'myz', 'fbl', 'coriolis', 'tales', 'alien', 'vaesen', 't2k'];
 

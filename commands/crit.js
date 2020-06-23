@@ -1,5 +1,5 @@
-const Util = require('../util/Util');
-const YZEmbed = require('../util/YZEmbed');
+const Util = require('../utils/Util');
+const YZEmbed = require('../utils/YZEmbed');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -109,7 +109,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = await client.getTable('./data/crits', fileName);
+		const critsTable = await client.getTable('./gamedata/crits', fileName);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.

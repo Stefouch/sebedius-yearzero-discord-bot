@@ -1,6 +1,6 @@
-const ArkThreats = require('../data/ark-threats.list.json');
-const YZEmbed = require('../util/YZEmbed');
-const { random } = require('../util/Util');
+const ArkThreats = require('../gamedata/ark-threats.list.json');
+const YZEmbed = require('../utils/YZEmbed');
+const { random } = require('../utils/Util');
 
 module.exports = {
 	name: 'arkthreat',

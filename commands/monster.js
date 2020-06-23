@@ -1,6 +1,6 @@
-const YZEmbed = require('../util/YZEmbed');
-const Monster = require('../util/MYZMonsterGenerator');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/YZEmbed');
+const Monster = require('../generators/MYZMonsterGenerator');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'monster',

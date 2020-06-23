@@ -1,5 +1,5 @@
-const YZEmbed = require('../util/YZEmbed');
-const Legend = require('../util/FBLLegendGenerator');
+const YZEmbed = require('../utils/YZEmbed');
+const Legend = require('../generators/FBLLegendGenerator');
 
 module.exports = {
 	name: 'legend',

@@ -1,13 +1,13 @@
 const db = require('../database/database');
-const YZInitDeck = require('../util/YZInitDeck');
-const Util = require('../util/Util');
+const YZInitDeck = require('../yearzero/YZInitDeck');
+const Util = require('../utils/Util');
 
 module.exports = {
-	name: 'initiative',
+	name: 'drawinit',
 	group: 'Core',
 	description: 'Draws one or more initiative cards. The deck is specific to each Discord channel.'
 		+ 'Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*',
-	aliases: ['init', 'draw-init', 'drawinit'],
+	aliases: ['draw-init', 'drawinitiative'],
 	guildOnly: false,
 	args: false,
 	usage: '[quantity] [shuffle]',

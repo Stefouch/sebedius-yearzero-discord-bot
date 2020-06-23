@@ -1,4 +1,4 @@
-const YZEmbed = require('../util/YZEmbed');
+const YZEmbed = require('../utils/YZEmbed');
 
 module.exports = {
 	name: 'changelog',
