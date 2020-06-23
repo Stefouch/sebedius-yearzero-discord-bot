@@ -2,7 +2,7 @@ const YZEmbed = require('../util/YZEmbed');
 
 module.exports = {
 	name: 'changelog',
-	type: 'Core',
+	group: 'Core',
 	description: 'Prints a link to the official changelog.',
 	guildOnly: false,
 	args: false,

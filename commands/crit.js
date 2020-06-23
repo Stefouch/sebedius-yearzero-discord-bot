@@ -1,6 +1,5 @@
 const Util = require('../util/Util');
 const YZEmbed = require('../util/YZEmbed');
-const { getGame, getTable } = require('../util/SebediusTools');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -23,7 +22,7 @@ const critTypeAliases = {
 
 module.exports = {
 	name: 'crit',
-	type: 'Core',
+	group: 'Core',
 	description: 'Rolls for a random critical injury.',
 	moreDescriptions: [
 		[
@@ -96,7 +95,7 @@ module.exports = {
 			}
 		}
 		// Defaults.
-		if (!game) game = await getGame(message, client);
+		if (!game) game = await client.getGame(message);
 		if (!type) type = 'damage';
 
 		// Aborts if the table doesn't exist.
@@ -110,7 +109,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = await getTable('./data/crits', fileName);
+		const critsTable = await client.getTable('./data/crits', fileName);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.

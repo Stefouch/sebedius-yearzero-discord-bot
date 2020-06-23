@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'critmutant',
-	type: 'Mutant: Year Zero',
+	group: 'Mutant: Year Zero',
 	description: 'Rolls for a random critical injury.'
 		+ '\nType `help crit` for more details.',
 	aliases: ['critm'],

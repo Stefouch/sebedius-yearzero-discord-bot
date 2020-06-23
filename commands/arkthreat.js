@@ -4,7 +4,7 @@ const { random } = require('../util/Util');
 
 module.exports = {
 	name: 'arkthreat',
-	type: 'Mutant: Year Zero',
+	group: 'Mutant: Year Zero',
 	description: 'Draws a random threat against the Ark.',
 	aliases: ['akth'],
 	guildOnly: false,

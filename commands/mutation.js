@@ -4,7 +4,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'mutation',
-	type: 'Mutant: Year Zero',
+	group: 'Mutant: Year Zero',
 	description: 'Draws a random mutation from the MYZ core rulebook. Available sources are:'
 		+ '\n• `gla` – Adds *Mutant: GenLab Alpha* mutations'
 		+ '\n• `zc2` – Adds *Zone Compendium 2: Dead Blue Sea* mutations'

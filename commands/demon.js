@@ -5,7 +5,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'demon',
-	type: 'Forbidden Lands',
+	group: 'Forbidden Lands',
 	description: 'Generates a random demon according to the tables found in'
 		+ ' the roleplaying game *Forbidden Lands*.'
 		+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'br',
-	type: 'PBP Tools',
+	group: 'PBP Tools',
 	description: 'Prints a scene break.',
 	// aliases: [],
 	guildOnly: false,

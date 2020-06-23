@@ -4,7 +4,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'monster',
-	type: 'Mutant: Year Zero',
+	group: 'Mutant: Year Zero',
 	description: 'Generates a random monster according to the tables found in'
 		+ ' the *Zone Compendium 1: The Lair of the Saurians*.'
 		+ '\nThe argument `demon` instead generates a random demon according to'

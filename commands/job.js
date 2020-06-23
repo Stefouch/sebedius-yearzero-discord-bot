@@ -4,7 +4,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'job',
-	type: 'ALIEN rpg',
+	group: 'ALIEN rpg',
 	description: 'Generates a random job for the ALIEN rpg.',
 	// aliases: ['aquest'],
 	guildOnly: false,

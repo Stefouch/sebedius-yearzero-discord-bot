@@ -2,7 +2,7 @@ const YZEmbed = require('../util/YZEmbed');
 
 module.exports = {
 	name: 'invite',
-	type: 'Core',
+	group: 'Core',
 	description: 'Prints a link to invite Sebedius to your server.',
 	aliases: ['inv'],
 	guildOnly: false,

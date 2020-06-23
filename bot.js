@@ -9,35 +9,15 @@
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
-
-// Initializes requirements.
-const fs = require('fs');
-const db = require('./database/database');
-// const { test } = require('./test/tests');
-const Discord = require('discord.js');
-const client = new Discord.Client();
-
-// Adds the configuration file.
-client.config = require('./config.json');
-console.log('[+] - Config loaded');
-
-// Initializes global constants.
-let prefix = client.config.defaultPrefix;
-
-// Loads the available commands.
-client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-for (const file of commandFiles) {
-	const command = require('./commands/' + file);
-	client.commands.set(command.name, command);
-	console.log(`[+] - Command loaded: ${command.name}.js`);
-}
+const Sebedius = require('./Sebedius');
+const { count } = require('./util/YZRoll');
+const client = new Sebedius(require('./config.json'));
 
 /* !
  * READY LISTENER
  */
 client.on('ready', () => {
+	client.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
 	console.log(`| Logged in as: ${client.user.username} (${client.user.id})`);
@@ -73,41 +53,27 @@ client.on('ready', () => {
  * MESSAGE LISTENER
  */
 client.on('message', async message => {
-	// Gets the guild's prefix.
-	if (message.channel.type === 'text' && !message.author.bot) {
-		const fetchedPrefix = await db.get(message.guild.id, 'prefix');
+	// Exits early is the message was send by a bot
+	// and prevents bot from responding to its own messages.
+	if (message.author.bot) return;
+	// if (message.author.id === client.user.id) return;
 
-		if (fetchedPrefix) {
-			prefix = fetchedPrefix;
-		}
-		else {
-			prefix = client.config.defaultPrefix;
+	// Gets the guild's prefixes (an array).
+	const prefixes = await client.getPrefixes(message);
+	let prefix;
+	for (const pfx of prefixes) {
+		if (message.content.startsWith(pfx)) {
+			prefix = pfx;
+			break;
 		}
 	}
-	// Answers bot's mentions and exits early.
-	// Note: the regex constant cannot be put in global,
-	// because bot.user.id will only be defined after some time.
-	const botMentionRegex = new RegExp(`^(<@!?${client.user.id}>)\\s*`);
-	if (botMentionRegex.test(message.content)) return message.reply(`Hi! You can use \`${prefix}\` as my prefix.`);
-
-	// Exits early if no prefix, and
-	// prevents bot from responding to its own messages.
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	if (!prefix) return;
 
 	// Aborts if the user or the channel are banned.
 	if (client.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
 	if (client.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
 
-	// Aborts if the bot doesn't have the needed permissions.
-	/* if (message.channel.type !== 'dm') {
-	 	if (!message.guild.me.hasPermission(client.config.neededPermissions)) {
-			const msg = '🛑 **Missing Permissions!**'
-				+ '\nThe bot does not have sufficient permission in this channel.'
-				+ `\nThe bot requires the \`${client.config.neededPermissions.join('`, `')}\` permissions in order to work.`;
-			return message.reply(msg);
-		}
-	}//*/
-
+	// Parses the arguments.
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
@@ -139,6 +105,7 @@ client.on('message', async message => {
 			+ `: ${command.name}`, args.toString(),
 		);
 		await command.execute(args, message, client);
+		client.raiseCommandStats(command.name);
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error);

@@ -37,6 +37,7 @@ Below you'll find a list of available commands. The instructions use the followi
 * `ping` – Checks the bot's latency.
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.
+* `prefix` – Gets the prefixes for the current server.
 
 ### **ROLL** command
 
