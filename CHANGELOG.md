@@ -18,11 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - New command: `!br` – Prints a scene break.
 - New command: `!changelog` – Prints a link to the official changelog.
 - New command: `!invite` – Prints a link to invite Sebedius to your server.
+- New command: `!prefix` – Gets the prefixes for the current server.
 - The `!panic` command has now a `--fixed` argument if you want to use a fixed number (no D6 rolled).
 - New `!setconf` configuration parameter: `game` – Defines the game used for the default dice template and critics tables.
 - New `!setconf` configuration parameter: `lang` – Defines the default language.
 - New critical tables in CSV format.
 - New JavaScript utils and tools for the bot's code.
+- New administration commands: `!eval` and `!stats`.
 - Error Watching: The bot sends me a DM for each uncaught errors.
 
 ### Changed
@@ -39,6 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - A bug where the player's avatar was not showing in the roll embed message.
 - A typo in job.cargo.goods.medicinal JSON data.
+- A bug that was breaking the `!init` command.
 - A fatal error causing the bot to crash on a certain condition related to the roll command.
 - Permissions checks.
 
