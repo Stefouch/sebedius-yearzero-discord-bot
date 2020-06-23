@@ -1,13 +1,13 @@
 const Config = require('../config.json');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
-const { getGame, checkPermissions } = require('../util/SebediusTools');
 const { RollParser } = require('../util/RollParser');
 const ReactionMenu = require('../util/ReactionMenu');
+const Sebedius = require('../Sebedius');
 
 module.exports = {
 	name: 'roll',
-	type: 'Core',
+	group: 'Core',
 	description: 'Rolls dice for any Year Zero roleplaying game.',
 	moreDescriptions: [
 		[
@@ -84,12 +84,8 @@ module.exports = {
 
 		// Sets the game. Must be done first.
 		let game;
-		if (client.config.supportedGames.includes(rollargv._[0])) {
-			game = rollargv._.shift();
-		}
-		else {
-			game = await getGame(message, client);
-		}
+		if (client.config.supportedGames.includes(rollargv._[0])) game = rollargv._.shift();
+		else game = await client.getGame(game, message);
 
 		// Year Zero dice quantities for the roll.
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
@@ -241,7 +237,7 @@ module.exports = {
  */
 async function messageRollResult(roll, triggeringMessage, client) {
 	// Aborts if the bot doesn't have the needed permissions.
-	if (!checkPermissions(triggeringMessage, client)) return;
+	if (!Sebedius.checkPermissions(triggeringMessage, client)) return;
 
 	// Aborts if too many dice.
 	if (roll.size > client.config.commands.roll.max) {
@@ -308,8 +304,8 @@ async function messageRollResult(roll, triggeringMessage, client) {
 }
 
 /**
- * 
- * @param {Discord.ReactionCollector} collector 
+ * Edits the message when the roll is pushed.
+ * @param {Discord.ReactionCollector} collector Discord Reaction Collector
  * @param {Discord.Message} triggeringMessage	The triggering message
  * @param {Discord.Message} rollMessage The roll message
  * @param {Discord.Client} client The Discord client (the bot)
