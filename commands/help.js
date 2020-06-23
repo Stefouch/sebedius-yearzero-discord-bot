@@ -5,7 +5,7 @@ const db = require('../database/database');
 
 module.exports = {
 	name: 'help',
-	type: 'Core',
+	group: 'Core',
 	description: 'List all availabe commands or info about a specific command.'
 		+ '\nUse the argument `--no-dm` to display the help message on the channel.',
 	guildOnly: false,
@@ -19,12 +19,7 @@ module.exports = {
 		});
 
 		const { commands } = client;
-		let prefix = defaultPrefix;
-
-		if (message.channel.type === 'text') {
-			const guildPrefix = await db.get(message.guild.id, 'prefix');
-			if (guildPrefix) prefix = guildPrefix;
-		}
+		const prefix = await client.getServerPrefix(message);
 
 		// • If no argument, sends a generic help message.
 		if (!argv._.length) {
@@ -46,14 +41,14 @@ module.exports = {
 			const commandsCollection = commands.filter(cmd => cmd.adminOnly !== true);
 
 			// Build the list of types of commands.
-			const commandsTypes = commandsCollection.map(cmd => cmd.type).sort();
+			const commandsGroups = commandsCollection.map(cmd => cmd.group).sort();
 			// Using a Set object removes the duplicates.
-			const commandsTypesSet = new Set(commandsTypes);
+			const commandsGroupsSet = new Set(commandsGroups);
 			// Builds the message.
-			for (const type of commandsTypesSet) {
-				const commandsListedByType = commandsCollection.filter(cmd => cmd.type === type);
+			for (const type of commandsGroupsSet) {
+				const commandsListedByGroup = commandsCollection.filter(cmd => cmd.group === type);
 				let text = '';
-				for (const [key, cmd] of commandsListedByType) {
+				for (const [key, cmd] of commandsListedByGroup) {
 					text += `**${cmd.name}** – ${cmd.description.split('.')[0]}.\n`;
 				}
 				embed.addField(type, text, false);

@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 module.exports = {
 	name: 'eval',
-	type: 'Administration',
+	group: 'Administration',
 	description: 'Debug function for the bot owner.',
 	adminOnly: true,
 	guildOnly: false,

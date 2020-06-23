@@ -1,10 +1,9 @@
 const YZEmbed = require('../util/YZEmbed');
 const Util = require('../util/Util');
-const { getTable } = require('../util/SebediusTools');
 
 module.exports = {
 	name: 'panic',
-	type: 'ALIEN rpg',
+	group: 'ALIEN rpg',
 	description: 'Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.',
 	moreDescriptions: [
 		[
@@ -24,7 +23,7 @@ module.exports = {
 		const panicVal = stress + panicRand;
 
 		const text = `😱 PANIC ROLL: **${stress}** + ${client.config.icons.alien.skill[panicRand]}`;
-		const embed = getEmbedPanicRoll(panicVal, message);
+		const embed = getEmbedPanicRoll(panicVal, message, client);
 
 		// Interrupted skill roll reminder.
 		if (panicVal >= 10) {
@@ -52,8 +51,8 @@ module.exports = {
  * @param {Discord.Message} message The triggering message
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
-function getEmbedPanicRoll(panic, message) {
-	const panicTable = getTable('./data/crits', 'crits-alien-panic', 'en', 'csv');
+function getEmbedPanicRoll(panic, message, client) {
+	const panicTable = client.getTable('./data/crits', 'crits-alien-panic', 'en', 'csv');
 	const panicRoll = Util.clamp(panic, 0, 15);
 	const criticalInjury = panicTable.get(panicRoll);
 

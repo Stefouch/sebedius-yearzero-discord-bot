@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'rolltales',
-	type: 'Tales From The Loop',
+	group: 'Tales From The Loop',
 	description: 'Rolls dice for the *Tales From the Loop* roleplaying game.'
 		+ '\nType `help roll` for more details.',
 	aliases: ['rollt', 'rt', 'lancet', 'lancert', 'slåt', 'slat'],

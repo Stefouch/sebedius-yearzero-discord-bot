@@ -4,7 +4,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'initiative',
-	type: 'Core',
+	group: 'Core',
 	description: 'Draws one or more initiative cards. The deck is specific to each Discord channel.'
 		+ 'Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*',
 	aliases: ['init', 'draw-init', 'drawinit'],
@@ -44,7 +44,7 @@ module.exports = {
 			const drawnCards = deck.draw(drawQty);
 			console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
 			await db.set(gid, deck._stack, 'initiative', ttl);
-			return message.reply(getDrawCardText(drawnCards), client.config.icons.fbl.cards);
+			return message.reply(getDrawCardText(drawnCards, client.config.icons.fbl.cards));
 		}
 
 		async function reset() {

@@ -4,7 +4,7 @@ const Util = require('../util/Util');
 
 module.exports = {
 	name: 'threat',
-	type: 'Mutant: Year Zero',
+	group: 'Mutant: Year Zero',
 	description: 'Draws a random Zone threat.',
 	aliases: ['thr'],
 	guildOnly: false,

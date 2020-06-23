@@ -17,7 +17,7 @@ catch(error) {
 
 module.exports = {
 	name: 'scrap',
-	type: 'Mutant: Year Zero',
+	group: 'Mutant: Year Zero',
 	description: `Gets random scrap. Max ${Config.commands.scrap.max} items.`,
 	aliases: ['junk'],
 	guildOnly: false,

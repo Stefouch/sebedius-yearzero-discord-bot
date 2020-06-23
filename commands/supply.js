@@ -1,11 +1,10 @@
 const Util = require('../util/Util');
 const YZRoll = require('../util/YZRoll');
 const YZEmbed = require('../util/YZEmbed');
-const { getGame } = require('../util/SebediusTools');
 
 module.exports = {
 	name: 'supply',
-	type: 'ALIEN rpg',
+	group: 'ALIEN rpg',
 	description: 'Rolls for a supply.',
 	aliases: ['sup'],
 	guildOnly: false,
@@ -18,7 +17,7 @@ module.exports = {
 		else rating = +args.shift();
 
 		// Gets the game.
-		const game = await getGame(message, client);
+		//const game = await client.getGame(message);
 
 		if (Util.isNumber(rating)) {
 			// A maximum of 6 dice are rolled. See ALIEN corebook pg. 34 for details.

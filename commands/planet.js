@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'planet',
-	type: 'ALIEN rpg',
+	group: 'ALIEN rpg',
 	description: 'Generates an uncolonized planet for the ALIEN rpg.',
 	aliases: ['world'],
 	guildOnly: false,

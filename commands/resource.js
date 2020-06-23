@@ -6,7 +6,7 @@ const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
 	name: 'resource',
-	type: 'Forbidden Lands',
+	group: 'Forbidden Lands',
 	description: 'Rolls a Resource Die.',
 	aliases: ['res', 'ressource', 'resources', 'ressources'],
 	guildOnly: false,
