@@ -85,7 +85,7 @@ module.exports = {
 		// Sets the game. Must be done first.
 		let game;
 		if (client.config.supportedGames.includes(rollargv._[0])) game = rollargv._.shift();
-		else game = await client.getGame(game, message);
+		else game = await client.getGame(message);
 
 		// Year Zero dice quantities for the roll.
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
