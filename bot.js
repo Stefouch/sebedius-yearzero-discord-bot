@@ -108,7 +108,7 @@ client.on('message', async message => {
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error);
-		message.reply('❌ There was an error trying to execute that command!');
+		message.reply(`❌ There was an error trying to execute that command! (${error.toString()})`);
 	}
 });
 
