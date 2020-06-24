@@ -25,10 +25,6 @@ module.exports = class YZCombattant {
 		this.note = data.note || '';
 	}
 
-	set status(value) {
-		if (YZCombattant.STATUSLIST.includes(value)) this.status = value;
-	}
-
 	/**
 	 * @type {string[]}
 	 * @readonly
