@@ -37,7 +37,7 @@ Below you'll find a list of available commands. The instructions use the followi
 * `ping` – Checks the bot's latency.
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.
-* `prefix` – Gets the prefixes for the current server.
+* `prefix [new prefix]` – Gets the prefixes for the current server. If a new prefix is specified as an argument, the server's prefix is changed into the new one.
 
 ### **ROLL** command
 
@@ -150,8 +150,8 @@ crit [game] [table] [numeric]
 
 Only a member with administrator rights can use these commands:
 
-* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
-* `setconf game [name]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
+* `setconf prefix [new prefix]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
+* `setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
 * `setconf lang [language code]` – Changes the default language (for translations). There are no options currently (it's implemented for future updates).
 
 ## Examples

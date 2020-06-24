@@ -1,4 +1,4 @@
-const yargsParser = require("yargs-parser");
+const yargsParser = require('yargs-parser');
 
 module.exports = {
 	name: 'init',
