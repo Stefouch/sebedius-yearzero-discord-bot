@@ -1,4 +1,7 @@
 const Discord = require('discord.js');
+const InitTracker = require('../yearzero/InitTracker');
+
+const init = new InitTracker('Super Brawl');
 
 module.exports = {
 	name: 'eval',
