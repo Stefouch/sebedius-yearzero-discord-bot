@@ -8,9 +8,18 @@ const bob = new YZCombattant({
 	controller: 'Steph',
 	hp: 5,
 });
-const id = bob.id;
+const al = new YZCombattant({
+	name: 'Albert',
+	controller: 'Steph',
+	hp: 5,
+});
+const idb = bob.id;
+const ida = al.id;
 i.create(bob);
-i.add(id);
+i.add(idb);
+i.create(al);
+i.addToGroup(ida, 'alpha');
+console.log(i);
 
 module.exports = {
 	name: 'eval',

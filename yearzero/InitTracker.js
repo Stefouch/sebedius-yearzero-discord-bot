@@ -75,6 +75,9 @@ module.exports = class InitTracker {
 		}
 	}
 
+	// ---------- INITIATIVES -------
+	// ==============================
+
 	/**
 	 * Changes the initiative for a Combattant or a group.
 	 * @param {Symbol|string} ref The Combattant's ID or group's name
@@ -88,47 +91,47 @@ module.exports = class InitTracker {
 	initGet(ref) {
 	}
 
+	initEdit(value, newValue) {
+	}
+
 	/**
 	 * Removes a Combattant or a group from the initiative list.
 	 * @param {Symbol|string} ref The Combattant's ID or group's name
-	 * @returns {number} The quantity removed (should be 1)
+	 * @returns {number} The number of times it has been removed (should be 1)
 	 */
 	initRemoveAll(ref) {
 		return this.initiatives.sweep(v => v === ref);
 	}
 
+	// ---------- COMBATTANTS -------
+	// ==============================
+
 	/**
 	 * Create a new Combattant and adds it to the collection.
 	 * @param {*} data A YZCombattant object or the data required to create the Combattant
-	 * @returns {Symbol} The Combattant's ID
+	 * @returns {YZCombattant}
 	 */
 	create(data) {
 		const combattant = data instanceof YZCombattant ? data : new YZCombattant(data);
 		this.combattants.set(combattant.id, combattant);
-		return combattant.id;
+		return combattant;
 	}
-
-	get(name) {
-		return this.combattants.find(cmbt => cmbt.name.includes(name));
-	}
-
-	move(goto) {}
 
 	/**
-	 * Completely erases a Combattant from this Init Tracker.
-	 * @param {Symbol} cid The Combattant's ID
+	 * Gets a YZCombattant object from the collection bases on its name.
+	 * @param {string} name A part of the name
+	 * @returns {YZCombattant}
 	 */
-	erase(cid) {
-		this.initRemoveAll(cid);
-		this.removeFromAllGroups(cid);
-		this.combattants.delete(cid);
+	find(name) {
+		const look = name.toLowerCase();
+		return this.combattants.find(c => c.name.toLowerCase().includes(look));
 	}
 
 	/**
 	 * Edits a Combattant in the collection.
 	 * @param {Symbol} cid The Combattant's ID
 	 * @param {Object} newData An object containing the properties and their new values
-	 * @returns {Symbol} The Combattant's ID, or `null` if not found
+	 * @returns {YZCombattant} The YZCombattant object, or `null` if not found
 	 */
 	edit(cid, newData) {
 		// Validator.
@@ -144,32 +147,73 @@ module.exports = class InitTracker {
 		}
 		this.combattants.set(cid, combattant);
 		console.log(combattant);
-		return combattant.id;
+		return combattant;
 	}
 
 	/**
 	 * Adds a Combattant to the initiative list.
 	 * @param {Symbol} cid The Combattant's ID.
 	 * @param {?number[]} initiativeValues Predefined initiative values
+	 * @returns {boolean} `true` if added
 	 */
 	add(cid, initiativeValues = null) {
 		// Validator.
-		if (!this.combattants.has(cid)) return;
+		if (!this.combattants.has(cid)) return false;
 
 		// Draws initiative.
-		const inits = initiativeValues || this.drawInit(this.combattants.get(cid).speed);
+		const combattant = this.combattants.get(cid);
+		const inits = initiativeValues || this.drawInit(combattant.speed);
 		this.initAdd(cid, inits);
+		return true;
 	}
 
 	/**
-	 * Creates a group.
+	 * Removes a Combattant from the initiative list.
+	 * @param {Symbol} cid The Combattant's ID
+	 * @returns {number} The number of times it has been removed (should be 1)
+	 */
+	remove(cid) {
+		return this.initRemoveAll(cid);
+	}
+
+	/**
+	 * Moves a Combattant into or outo a group.
+	 * @param {Symbol} cid The Combattant's ID
+	 * @param {?string} targetGroup Place to move if specified
+	 */
+	move(cid, targetGroup) {
+		// Validators.
+		if (!this.combattants.has(cid)) return false;
+
+
+	}
+
+	/**
+	 * Completely erases a Combattant from this Init Tracker.
+	 * @param {Symbol} cid The Combattant's ID
+	 */
+	erase(cid) {
+		this.initRemoveAll(cid);
+		this.removeFromAllGroups(cid);
+		this.combattants.delete(cid);
+	}
+
+	// ---------- GROUPS ------------
+	// ==============================
+
+	/**
+	 * Creates a new group and returns `true`.
+	 * If the group already exists, it returns `false` instead.
 	 * @param {string} group The name of the group
 	 * @param {number} speed The quantity of drawn initiative cards
-	 * @returns {string} The group's name
+	 * @returns {boolean}
 	 */
 	createGroup(group, speed = 1) {
+		// Validator.
+		if (group.length <= 0) throw new InitError('Create-Group: tried to create an unnamed group!');
+
 		// Checks if the group already exist.
-		if (this.groups.has(group)) return;
+		if (this.groups.has(group)) return false;
 
 		// Otherwise, creates the group.
 		this.groups.set(group, []);
@@ -177,18 +221,28 @@ module.exports = class InitTracker {
 		// And draws its initiative.
 		const inits = this.drawInit(speed);
 		this.initAdd(group, inits);
-		return group;
+		return true;
 	}
 
+	/**
+	 * Deletes a group and removes all Combattants inside.
+	 * @param {string} group The group's name
+	 * @returns {number} The number of times it has been removed (should be 1)
+	 */
 	deleteGroup(group) {
-		// Exists early if the group doesn't exist.
-		if (!this.groups.has(group)) return false;
-		// Erases all Combattants.
+		// Validator.
+		if (!this.groups.has(group)) return 0;
+
+		// Erases all Combattants in that group.
 		this.groups.get(group).forEach(cid => this.combattants.delete(cid));
-		// Retrieve the initiative of the group.
-		const del1 = this.groups.delete(group);
-		const del2 = this.initRemoveAll(group);
-		console.log('Deleted? ', del1, 'Removed from init: ', del2);
+
+		// Removes the group from the initiative list.
+		const cnt2 = this.initRemoveAll(group);
+
+		// Erases the group.
+		const bool1 = this.groups.delete(group);
+
+		return +bool1 + cnt2;
 	}
 
 	/**
@@ -202,11 +256,9 @@ module.exports = class InitTracker {
 		// Validator.
 		if (!this.combattants.has(cid)) throw new InitError(`Add-Combattant-To-Group: "${cid}" does not exist!`);
 
-		// Removes the combattant from other groups
-		// Removes the combattant from init order
-
 		// Creates the group if it doesn't exist.
-		if (!this.groups.has(group)) this.createGroup(group);
+		const combattant = this.combattants.get(cid);
+		if (!this.groups.has(group)) this.createGroup(group, combattant.speed);
 
 		// Adds the combattant to the group.
 		const grp = this.groups.get(group);
@@ -240,7 +292,7 @@ module.exports = class InitTracker {
 	/**
 	 * Remove a Combattant from ALL groups.
 	 * @param {Symbol} cid The Combattant's ID
-	 * @returns {number} The number of times it has been removed (should be 1).
+	 * @returns {number} The number of times it has been removed (should be 1)
 	 */
 	removeFromAllGroups(cid) {
 		let count = 0;
@@ -250,6 +302,9 @@ module.exports = class InitTracker {
 		}
 		return count;
 	}
+
+	// ---------- OTHER -------------
+	// ==============================
 
 	/**
 	 * Draws initiative cards.
@@ -277,9 +332,6 @@ module.exports = class InitTracker {
 		if (!cards) throw new InitError('Cards are null');
 		if (!Array.isArray(cards)) return [cards];
 		return cards;
-	}
-
-	sortByInit() {
 	}
 
 	printList() {
@@ -334,6 +386,17 @@ module.exports = class InitTracker {
 		if (!this.isValidInitReference(ref)) {
 			throw new InitError(`${fnName}: "${ref.toString()}" is not a valid ID!`);
 		}
+	}
+
+	/**
+	 * Strip initiative from its decimals.
+	 * @param {number} init The initiative to round
+	 * @returns {number[]} [1]: init rounded / [2]: decimals
+	 */
+	stripInitiative(init) {
+		const rounded = Math.ceil(init);
+		const decimal = init - rounded;
+		return [rounded, decimal];
 	}
 };
 
