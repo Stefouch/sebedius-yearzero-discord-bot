@@ -2,7 +2,6 @@ const { Collection } = require('discord.js');
 const Util = require('../utils/Util');
 const YZInitDeck = require('./YZInitDeck');
 const YZCombattant = require('./YZCombattant');
-const { isInteger } = require('lodash');
 
 module.exports = class InitTracker {
 
@@ -48,30 +47,55 @@ module.exports = class InitTracker {
 
 	/**
 	 * Adds a Combattant or a Group to the initiative list.
+	 * @param {Symbol|string} ref The Combattant's ID or the group's name
 	 * @param {number[]} inits An array of initiative values
-	 * @param {Symbol|string} iid The Combattant's ID or the group's name
+	 * @throws {InitError}
 	 */
-	addInit(inits, iid) {
+	initAdd(ref, inits) {
 		// Validators.
-		if (!Array.isArray(inits)) throw new InitError(`Add-Init: "${inits}" are not valid initiatives!`);
-		this.checkIID(iid, 'Add-Init');
+		this.checkRef(ref);
+		if (!Array.isArray(inits)) throw new InitError(`Init-Add: "${inits}" are not valid initiatives!`);
+		if (!this.combattants.has(ref) && !this.groups.has(ref)) throw new InitError(`Init-Add: "${ref}" does not exist!`);
 
 		// Iterates over all initiative values.
 		for (const init of inits) {
 			// Validator again.
-			if (typeof init !== 'number') throw new InitError(`Add-Init: "${init}" is not a valid initiative!`);
+			if (typeof init !== 'number') throw new InitError(`Init-Add: "${init}" is not a valid initiative!`);
 			// Creates the initiative slot if it doesn't exist.
 			// Adds a float to avoid duplicates.
 			const i = Number.isInteger(init) ? init + 0.05 : init + 0.001;
 			if (this.initiatives.has(i)) {
 				// Run again if it already exists.
 				// It will result in adding extra decimals.
-				this.addInit([i], iid);
+				this.initAdd([i], ref);
 			}
 			else {
-				this.initiatives.set(i, iid);
+				this.initiatives.set(i, ref);
+				this.log();
 			}
 		}
+	}
+
+	/**
+	 * Removes a Combattant or a group from the initiative list.
+	 * @param {Symbol|string} ref The Combattant's ID or group's name
+	 * @returns {number} The quantity removed (should be 1)
+	 */
+	initRemoveAll(ref) {
+		return this.initiatives.sweep(v => v === ref);
+	}
+
+	/**
+	 * Changes the initiative for a Combattant or a group.
+	 * @param {Symbol|string} ref The Combattant's ID or group's name
+	 * @param {number[]} newInits The new initiative values
+	 */
+	initChange(ref, newInits) {
+		this.initRemoveAll(ref);
+		this.initAdd(ref, newInits);
+	}
+
+	initGet(ref) {
 	}
 
 	/**
@@ -79,91 +103,87 @@ module.exports = class InitTracker {
 	 * @param {*} data A YZCombattant object or the data required to create the Combattant
 	 * @returns {Symbol} The Combattant's ID
 	 */
-	createCombattant(data) {
-		// Creates and adds the Combattant.
+	combattantCreate(data) {
 		const combattant = data instanceof YZCombattant ? data : new YZCombattant(data);
 		this.combattants.set(combattant.id, combattant);
 		return combattant.id;
 	}
 
 	/**
+	 * Completely erases a Combattant from this Init Tracker.
+	 * @param {Symbol} cid The Combattant's ID
+	 */
+	combattantErase(cid) {
+		this.combattants.delete(cid);
+		this.initRemove(cid);
+		this.removeCombattantFromAllGroups(cid);
+	}
+
+	/**
 	 * Edits a Combattant in the collection.
 	 * @param {Symbol} cid The Combattant's ID
-	 * @param {string} property The property to edit
+	 * @param {Object} newData An object containing the properties and their new values
 	 * @returns {Symbol} The Combattant's ID, or `null` if not found
 	 */
-	editCombattant(cid, newData) {
-		// Validators
-		this.checkCID(cid, 'Edit-Combattant');
+	combattantEdit(cid, newData) {
+		// Validator.
 		if (!this.combattants.has(cid)) return null;
 
 		// Gets the Combattant.
 		const combattant = this.combattants.gets(cid);
-		//if (!combattant.hasOwnProperty(property)) throw new InitError(`Edit-Combattant: "${property}" property not found!`);
+		// Edits the Combattant and saves it in the collection.
+		for (const property in newData) {
+			if (combattant.hasOwnProperty(property)) {
+				combattant[property] = newData[property];
+			}
+		}
+		this.combattants.set(cid, combattant);
+		console.log(combattant);
+		return combattant.id;
 	}
 
 	/**
-	 * Adds a Combattant to this Initiative Tracker.
-	 * @param {*} data Data required to create the Combattant
+	 * Adds a Combattant to the initiative list.
+	 * @param {Symbol} cid The Combattant's ID.
 	 * @param {?number[]} initiativeValues Predefined initiative values
 	 */
-	addCombattant(data, initiativeValues = null) {
-		// Creates and adds the Combattant.
-		const combattant = new YZCombattant(data);
-		this.combattants.set(combattant.id, combattant);
-		// Draws initiative.
-		const inits = initiativeValues || this.drawInit(combattant.speed);
-		this.addInit(inits, combattant.id);
-		this.log();
-	}
-
-	removeCombattant(iid) {
+	addCombattantToInitiative(cid, initiativeValues = null) {
 		// Validator.
-		if (!this.isValidInitID(iid)) throw new InitError(`Remove-Combattant: "${iid}" not a valid IID!`);
-		if (!this.combattants.has(iid)) return 0;
+		if (!this.combattants.has(cid)) return;
 
-		// Removes the Combattant from the collection of combattants.
-		this.combattants.delete(iid);
-
-		// Removes the Combattant from the initiative order.
-		const qtyRemoved = this.initiatives.sweep(v => v === iid);
-		// If it was removed from there, it can't be in a group and we skip that part.
-		if (qtyRemoved > 0) return qtyRemoved;
-
-		// Removes the Combattant from any group.
-		if (this.groups.some(v => v.includes[iid])) {
-			const group = 
-		}
-		this.log();
+		// Draws initiative.
+		const inits = initiativeValues || this.drawInit(this.combattants.get(cid).speed);
+		this.addInit(inits, cid);
 	}
-
 
 	/**
 	 * Creates a group.
 	 * @param {string} group The name of the group
 	 * @param {number} speed The quantity of drawn initiative cards
+	 * @returns {string} The group's name
 	 */
-	createGroup(group, speed = 1) {
+	groupCreate(group, speed = 1) {
 		// Checks if the group already exist.
 		if (this.groups.has(group)) return;
 
 		// Otherwise, creates the group.
 		this.groups.set(group, []);
+
 		// And draws its initiative.
 		const inits = this.drawInit(speed);
-		this.addInit(inits, group);
-		this.log();
+		this.initAdd(group, inits);
+		return group;
 	}
 
-	deleteGroup(group) {
+	groupDelete(group) {
 		// Exists early if the group doesn't exist.
 		if (!this.groups.has(group)) return false;
+		// Erases all Combattants.
+		this.groups.get(group).forEach(cid => this.combattants.delete(cid));
 		// Retrieve the initiative of the group.
 		const del1 = this.groups.delete(group);
-		const del2 = this.sweep(grp => this.groupNames.includes[grp]/*, this*/);
-		this.sort();
+		const del2 = this.initRemove(group);
 		console.log('Deleted? ', del1, 'Removed from init: ', del2);
-		this.log();
 	}
 
 	/**
@@ -171,23 +191,22 @@ module.exports = class InitTracker {
 	 * The group is created if it didn't exist.
 	 * @param {Symbol} cid The Combattant's ID.
 	 * @param {string} group The name of the group
+	 * @throws {InitError}
 	 */
 	addCombattantToGroup(cid, group) {
 		// Validator.
-		if (!this.isValidInitID(cid)) throw new InitError(`Add-Combattant-To-Group: "${cid}" is not a valid Combattant's ID!`);
 		if (!this.combattants.has(cid)) throw new InitError(`Add-Combattant-To-Group: "${cid}" does not exist!`);
 
 		// Removes the combattant from other groups
+		// Removes the combattant from init order
 
 		// Creates the group if it doesn't exist.
-		if (!this.groups.has(group)) this.createGroup(group);
+		if (!this.groups.has(group)) this.groupCreate(group);
 
 		// Adds the combattant to the group.
 		const grp = this.groups.get(group);
 		grp.push(cid);
 		this.groups.set(group, grp);
-
-		this.log();
 	}
 
 	/**
@@ -197,19 +216,34 @@ module.exports = class InitTracker {
 	 * @returns {boolean} `true` if removed, `false` if not found in group
 	 */
 	removeCombattantFromGroup(cid, group) {
-		// Validators.
-		if (!this.isValidInitID(cid)) throw new InitError(`Remove-Combattant-From-Group: "${cid}" is not a valid Combattant's ID!`);
+		// Validator.
+		if (!this.combattants.has(cid)) return false;
 		if (!this.groups.has(group)) return false;
 
-		// Gets the initiative of the whole group.
-		const init = 
-
-		// Gets the group.
+		// Edits the group.
 		const grp = this.groups.get(group);
+		const index = grp.indexOf(cid);
+		if (index > -1) grp.splice(index);
+
+		// Deletes the group if empty.
+		if (grp.length <= 0) this.groupDelete(group);
+		else this.groups.set(group, grp);
+
+		return true;
 	}
 
-	editInit() {
-
+	/**
+	 * Remove a Combattant from ALL groups.
+	 * @param {Symbol} cid The Combattant's ID
+	 * @returns {number} The number of times it has been removed (should be 1).
+	 */
+	removeCombattantFromAllGroups(cid) {
+		let count = 0;
+		for (const group of this.groupNames) {
+			const removed = this.removeCombattantFromGroup(cid, group);
+			if (removed) count++;
+		}
+		return count;
 	}
 
 	/**
@@ -241,7 +275,6 @@ module.exports = class InitTracker {
 	}
 
 	sortByInit() {
-
 	}
 
 	printList() {
@@ -264,14 +297,14 @@ module.exports = class InitTracker {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Tells if this is a valid Initiative ID (Combattant or group).
-	 * @param {Symbol|string} iid The ID to check
+	 * @param {Symbol|string} ref The ID to check
 	 * @returns {boolean}
 	 */
-	isValidInitID(iid) {
-		return (this.isValidCombattantID(iid) || typeof iid === 'string');
+	isValidInitReference(ref) {
+		return (this.isValidCombattantID(ref) || typeof ref === 'string');
 	}
 
 	/**
@@ -287,20 +320,17 @@ module.exports = class InitTracker {
 	}
 
 	/**
-	 * Checks IID or Die!
-	 * @param {Symbol} iid The Combattant's ID or the group's name
+	 * Checks reference or Die!
+	 * @param {Symbol} ref The Combattant's ID or the group's name
 	 * @param {string} fnName The name of the function
 	 * @throws {InitError}
 	 */
-	checkIID(iid, fnName = '') {
-		if (!this.isValidInitID) {
-			throw new InitError(`${fnName}: "${iid}" is not a valid ID!`);
+	checkRef(ref, fnName = '') {
+		if (!this.isValidInitReference()) {
+			throw new InitError(`${fnName}: "${ref}" is not a valid ID!`);
 		}
 	}
 
-/*	sort() {
-		this.sort((init1, init2) => init1 - init2);
-	}//*/
 	log() {
 		console.log(this);
 		console.log(this.initiatives.keys());
