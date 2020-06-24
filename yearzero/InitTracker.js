@@ -38,12 +38,23 @@ module.exports = class InitTracker {
 	}
 
 	/**
+	 * The values in the initiative list.
+	 * @type {string[]}
+	 */
+	get initiativeValues() {
+		return [...this.initiatives.keys()].sort();
+	}
+
+	/**
 	 * The names of all the groups.
 	 * @type {string[]}
 	 */
 	get groupNames() {
 		return [...this.groups.keys()].sort();
 	}
+
+	// ---------- INITIATIVES -------------------------------------
+	// ============================================================
 
 	/**
 	 * Adds a Combattant or a Group to the initiative list.
@@ -75,9 +86,6 @@ module.exports = class InitTracker {
 		}
 	}
 
-	// ---------- INITIATIVES -------
-	// ==============================
-
 	/**
 	 * Changes the initiative for a Combattant or a group.
 	 * @param {Symbol|string} ref The Combattant's ID or group's name
@@ -103,8 +111,8 @@ module.exports = class InitTracker {
 		return this.initiatives.sweep(v => v === ref);
 	}
 
-	// ---------- COMBATTANTS -------
-	// ==============================
+	// ---------- COMBATTANTS -------------------------------------
+	// ============================================================
 
 	/**
 	 * Create a new Combattant and adds it to the collection.
@@ -198,8 +206,8 @@ module.exports = class InitTracker {
 		this.combattants.delete(cid);
 	}
 
-	// ---------- GROUPS ------------
-	// ==============================
+	// ---------- GROUPS ------------------------------------------
+	// ============================================================
 
 	/**
 	 * Creates a new group and returns `true`.
@@ -303,8 +311,8 @@ module.exports = class InitTracker {
 		return count;
 	}
 
-	// ---------- OTHER -------------
-	// ==============================
+	// ---------- OTHER -------------------------------------------
+	// ============================================================
 
 	/**
 	 * Draws initiative cards.
