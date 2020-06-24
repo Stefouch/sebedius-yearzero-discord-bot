@@ -1,7 +1,13 @@
 const Discord = require('discord.js');
 const InitTracker = require('../yearzero/InitTracker');
+const YZCombattant = require('../yearzero/YZCombattant');
 
 const init = new InitTracker('Super Brawl');
+const bob = new YZCombattant({
+	name: 'Bob le Bricoleur',
+	controller: 'Steph',
+	hp: 5,
+});
 
 module.exports = {
 	name: 'eval',

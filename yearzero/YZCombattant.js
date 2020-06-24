@@ -16,11 +16,11 @@ module.exports = class YZCombattant {
 		});
 
 		this.name = data.name || 'Unnamed';
-		this.hidden = data.hidden || false;
 		this.controller = data.controller;
-		this.speed = +data.speed || 1;
 		this.hp = +data.hp || 2;
 		this.armor = +data.armor || 0;
+		this.speed = +data.speed || 1;
+		this.hidden = data.hidden || false;
 		this.status = YZCombattant.STATUSLIST[0];
 		this.note = data.note || '';
 	}

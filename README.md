@@ -20,7 +20,7 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 # Available Commands
 
-Commands are triggered with the prefix `!`. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
+Commands are triggered with the prefix `!` or by mentioning the bot. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
 
 ### Vocabulary
 
