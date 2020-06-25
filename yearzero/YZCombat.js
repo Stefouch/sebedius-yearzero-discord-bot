@@ -49,15 +49,27 @@ class YZCombat {
 	 * @returns {YZCombatant}
 	 */
 	nextCombatant() {
-		const nextIndex = this.initiatives.next()
+	//	let index;
+	//	const clen = this.combatants.length;
+	//	if (clen === 0) return null;
+	//	if (!this.index) index = 0;
+	//	else if (this.index + 1 >= clen) index = 0;
+	//	else index = this.index + 1;
 
-		//let index;
+		const ref = this.initiatives.next(this.index);
+		if (ref) {
+			return this.combatants.find(c => c.id === ref);
+		}
+		return null;
+
+		/* let index;
 		const clen = this.combatants.length;
 		if (clen === 0) return null;
 		if (!this.index) index = 0;
 		else if (this.index + 1 >= clen) index = 0;
 		else index = this.index + 1;
 		return this.combatants.find(c => c.index === index);
+		//*/
 	}
 
 	/**

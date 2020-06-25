@@ -97,7 +97,7 @@ module.exports = class YZInitiative extends Collection {
 			const init = Util.closest(current, initiatives);
 			const index = initiatives.indexOf(init);
 			return initiatives[index + 1];
-		}
+		}//Problem quand on arrive à la fin!
 		return null;
 	}
 
