@@ -1,5 +1,6 @@
-const YZEmbed = require('../utils/YZEmbed');
 const Util = require('../utils/Util');
+const YZEmbed = require('../utils/embeds');
+const { DICE_ICONS } = require('../utils/constants');
 
 module.exports = {
 	name: 'panic',
@@ -22,7 +23,7 @@ module.exports = {
 		const stress = +args[0] || 0;
 		const panicVal = stress + panicRand;
 
-		const text = `😱 PANIC ROLL: **${stress}** + ${client.config.icons.alien.skill[panicRand]}`;
+		const text = `😱 PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
 		const embed = getEmbedPanicRoll(panicVal, message, client);
 
 		// Interrupted skill roll reminder.

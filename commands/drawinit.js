@@ -1,6 +1,7 @@
 const db = require('../database/database');
-const YZInitDeck = require('../yearzero/YZInitDeck');
 const Util = require('../utils/Util');
+const { CARDS_ICONS } = require('../utils/constants');
+const YZInitDeck = require('../yearzero/YZInitDeck');
 
 module.exports = {
 	name: 'drawinit',
@@ -44,7 +45,7 @@ module.exports = {
 			const drawnCards = deck.draw(drawQty);
 			console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
 			await db.set(gid, deck._stack, 'initiative', ttl);
-			return message.reply(getDrawCardText(drawnCards, client.config.icons.fbl.cards));
+			return message.reply(getDrawCardText(drawnCards, CARDS_ICONS));
 		}
 
 		async function reset() {

@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 const Job = require('../generators/ALIENJobGenerator');
 const Util = require('../utils/Util');
 

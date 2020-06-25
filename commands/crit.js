@@ -1,5 +1,6 @@
 const Util = require('../utils/Util');
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
+const { SUPPORTED_GAMES, DICE_ICONS } = require('../utils/constants');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -72,7 +73,7 @@ module.exports = {
 				fixedReference = +arg;
 			}
 			// Checks and sets the game.
-			else if (!game && client.config.supportedGames.includes(arg)) {
+			else if (!game && SUPPORTED_GAMES.includes(arg)) {
 				game = arg;
 			}
 			// If it's neither, it should be the critic's type.
@@ -132,8 +133,8 @@ module.exports = {
 		}
 		// Gets the emojis references.
 		const dieType = client.config.commands.roll.options[game].blankDiceFaces ? 'alien' : game;
-		const icon1 = client.config.icons[dieType].skill[die1] || '';
-		const icon2 = client.config.icons[dieType].skill[die2] || '';
+		const icon1 = DICE_ICONS[dieType].skill[die1] || '';
+		const icon2 = DICE_ICONS[dieType].skill[die2] || '';
 
 		// Sends the message.
 		return message.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, message))

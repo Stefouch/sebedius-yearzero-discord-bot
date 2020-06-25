@@ -1,5 +1,5 @@
-const { supportedGames } = require('../config.json');
 const db = require('../database/database');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'setconf',
@@ -8,7 +8,7 @@ module.exports = {
 		+ ' See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
 		+ '\n`game [new value]` – Gets or sets the default game used (for dice skins and critical injuries tables).'
-		+ ` Options are \`${supportedGames.join('`, `')}\`.`
+		+ ` Options are \`${SUPPORTED_GAMES.join('`, `')}\`.`
 		+ '\n`lang [new value]` – Gets or sets the default language. See Readme for details.',
 	guildOnly: true,
 	args: true,
@@ -40,10 +40,15 @@ module.exports = {
 					client.prefixes.set(guildID, newVal);
 					message.channel.send(`✅ My prefix has been set to: "${newVal}"`);
 				}
-				else if (key === 'game' && client.config.supportedGames.includes(newVal)) {
+				else if (key === 'game' && SUPPORTED_GAMES.includes(newVal)) {
 					await db.set(guildID, newVal, 'game');
 					client.games.set(guildID, newVal);
 					message.channel.send(`✅ The default game has been set to: "${newVal}"`);
+				}
+				else if (key === 'lang' && SUPPORTED_LANGS.includes(newVal)) {
+					await db.set(guildID, newVal, 'lang');
+					client.games.set(guildID, newVal);
+					message.channel.send(`✅ The default language has been set to: "${newVal}"`);
 				}
 				else {
 					message.reply(`❌ The value you typed for "${key}" is unsupported.`);

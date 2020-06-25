@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 const Demon = require('../generators/FBLDemonGenerator');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');

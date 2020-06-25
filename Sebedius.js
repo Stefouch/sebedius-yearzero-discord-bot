@@ -1,9 +1,10 @@
 const fs = require('fs');
 const db = require('./database/database');
+const Discord = require('discord.js');
 const Util = require('./utils/Util');
 const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
-const Discord = require('discord.js');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS } = require('./utils/constants');
 
 class Sebedius extends Discord.Client {
 
@@ -76,7 +77,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getGame(message) {
-		return await Sebedius.getConf('games', 'game', message, this, this.config.supportedGames[0]);
+		return await Sebedius.getConf('games', 'game', message, this, SUPPORTED_GAMES[0]);
 	}
 
 	/**
@@ -86,7 +87,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getLanguage(message) {
-		return await Sebedius.getConf('langs', 'lang', message, this, this.config.supportedLangs[0]);
+		return await Sebedius.getConf('langs', 'lang', message, this, SUPPORTED_LANGS[0]);
 	}
 
 	/**

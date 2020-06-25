@@ -1,5 +1,5 @@
 const ArkThreats = require('../gamedata/ark-threats.list.json');
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 const { random } = require('../utils/Util');
 
 module.exports = {

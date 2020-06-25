@@ -1,9 +1,10 @@
-const Config = require('../config.json');
+const Sebedius = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 const { RollParser } = require('../utils/RollParser');
 const ReactionMenu = require('../utils/ReactionMenu');
-const Sebedius = require('../Sebedius');
+const { SUPPORTED_GAMES, DICE_ICONS } = require('../utils/constants');
+const Config = require('../config.json');
 
 module.exports = {
 	name: 'roll',
@@ -14,7 +15,7 @@ module.exports = {
 			'Select [game]',
 			'This argument is used to specify the skin of the rolled dice.'
 			+ ' Can be omitted if you set it with `!setconf game [default game]`'
-			+ `\n Choices: \`${Config.supportedGames.join('`, `')}\`.`,
+			+ `\n Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`,
 		],
 		[
 			'Rolling Simple Dice',
@@ -84,7 +85,7 @@ module.exports = {
 
 		// Sets the game. Must be done first.
 		let game;
-		if (client.config.supportedGames.includes(rollargv._[0])) game = rollargv._.shift();
+		if (SUPPORTED_GAMES.includes(rollargv._[0])) game = rollargv._.shift();
 		else game = await client.getGame(message);
 
 		// Year Zero dice quantities for the roll.
@@ -223,8 +224,8 @@ module.exports = {
 		console.log('[ROLL] - Rolled:', roll.toString());
 		messageRollResult(roll, message, client);
 	},
-	emojifyRoll(roll, options, icons) {
-		return getDiceEmojis(roll, options, icons);
+	emojifyRoll(roll, options) {
+		return getDiceEmojis(roll, options);
 	},
 };
 
@@ -257,7 +258,7 @@ async function messageRollResult(roll, triggeringMessage, client) {
 
 	// Sends the message.
 	triggeringMessage.channel.send(
-		getDiceEmojis(roll, gameOptions, client.config.icons),
+		getDiceEmojis(roll, gameOptions),
 		getEmbedDiceResults(roll, triggeringMessage, gameOptions),
 	)
 		.then(rollMessage => {
@@ -331,7 +332,7 @@ function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
 		rollMessage.edit(
-			getDiceEmojis(pushedRoll, gameOptions, client.config.icons),
+			getDiceEmojis(pushedRoll, gameOptions),
 			getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions),
 		)
 			.catch(console.error);
@@ -347,10 +348,9 @@ function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll
  * Returns a text with all the dice turned into emojis.
  * @param {YZRoll} roll The roll
  * @param {Object} opts Options of the roll command
- * @param {Object} icons See Config.icons
  * @returns {string} The manufactured text
  */
-function getDiceEmojis(roll, opts, icons) {
+function getDiceEmojis(roll, opts) {
 	const game = opts.iconTemplate || roll.game;
 	let str = '';
 
@@ -368,7 +368,7 @@ function getDiceEmojis(roll, opts, icons) {
 
 			for (let k = 0; k < nbre; k++) {
 				const val = roll.dice[type][k];
-				const icon = icons[game][iconType][val] || ` {**${val}**} `;
+				const icon = DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
 				str += icon;
 
 				// This is calculated to make a space between pushed and not pushed rolls.
@@ -385,7 +385,7 @@ function getDiceEmojis(roll, opts, icons) {
 
 	if (roll.artifactDice.length) {
 		for (const artifactDie of roll.artifactDice) {
-			str += Config.icons.fbl.arto[artifactDie.result];
+			str += DICE_ICONS.fbl.arto[artifactDie.result];
 		}
 	}
 

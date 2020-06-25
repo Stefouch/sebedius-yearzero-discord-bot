@@ -1,6 +1,6 @@
 const Util = require('../utils/Util');
 const YZRoll = require('../yearzero/YZRoll');
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 
 module.exports = {
 	name: 'supply',
@@ -39,7 +39,7 @@ function sendMessageForResourceRoll(resRating, roll, message, client) {
 
 	const gameOptions = client.config.commands.roll.options[roll.game];
 
-	const text = client.commands.get('roll').emojifyRoll(roll, gameOptions, client.config.icons);
+	const text = client.commands.get('roll').emojifyRoll(roll, gameOptions);
 	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, message, true);
 
 	if (resRating === newRating) {

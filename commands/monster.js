@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 const Monster = require('../generators/MYZMonsterGenerator');
 const Util = require('../utils/Util');
 
