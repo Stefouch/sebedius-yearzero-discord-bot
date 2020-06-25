@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
 const Util = require('../utils/Util');
 const YZInitDeck = require('./YZInitDeck');
-const YZCombattant = require('./YZCombattant');
+const YZCombattant = require('./YZCombat');
 
 module.exports = class InitTracker {
 

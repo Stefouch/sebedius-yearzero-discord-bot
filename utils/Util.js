@@ -117,6 +117,17 @@ class Util {
 	}
 
 	/**
+	 * Gets the closest value.
+	 * @param {number} needle The goal value
+	 * @param {number[]} haystack The array to search
+	 */
+	static closest(needle, haystack) {
+		return haystack.reduce((a, b) => {
+			return Math.abs(b - needle) < Math.abs(a - needle) ? b : a;
+		});
+	}
+
+	/**
 	 * Capitalizes the first letter of a string.
 	 * @param {string} str The string to process
 	 * @returns {string} The processed string
@@ -329,6 +340,21 @@ class Util {
 		}
 
 		return result.reverse().join('');
+	}
+
+	/**
+	 * Hashes a string.
+	 * @param {string} str String to hash
+	 */
+	static hashCode(str) {
+		let hash = 0, i, chr;
+		for (i = 0; i < str.length; i++) {
+			chr = str.charAt(i);
+			hash = ((hash << 5) - hash) + chr;
+			// Converts to 32-bit integer.
+			hash |= 0;
+		}
+		return hash;
 	}
 
 	/**

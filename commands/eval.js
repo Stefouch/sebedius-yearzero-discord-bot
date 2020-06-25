@@ -1,25 +1,15 @@
 const Discord = require('discord.js');
-const InitTracker = require('../yearzero/InitTracker');
-const YZCombattant = require('../yearzero/YZCombattant');
+const Combat = require('../yearzero/YZCombat');
+const Util = require('../utils/Util');
 
-const i = new InitTracker('Super Brawl');
-const bob = new YZCombattant({
-	name: 'Bob le Bricoleur',
-	controller: 'Steph',
-	hp: 5,
-});
-const al = new YZCombattant({
-	name: 'Albert',
-	controller: 'Steph',
-	hp: 5,
-});
-const idb = bob.id;
-const ida = al.id;
-i.create(bob);
-i.add(idb);
-i.create(al);
-i.addToGroup(ida, 'alpha');
-console.log(i);
+/* const a = new Combat.YZCombatant(null, { name: 'a', controller: 'Stefouch', armor: 6 });
+const b = new Combat.YZCombatant(null, { name: 'b', controller: 'Stefouch', notes: 'Albert le mousquetaire' });
+const c = new Combat.YZCombatant(null, { name: 'c', controller: 'Stefouch', armor: 3, notes: 'Plays MTG' });
+
+const g = new Combat.YZCombatantGroup(null, 'Group g', [a, b, c], [4, 7]);
+console.log(g); */
+
+
 
 module.exports = {
 	name: 'eval',
