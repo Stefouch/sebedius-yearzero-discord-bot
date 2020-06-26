@@ -4,9 +4,17 @@ const { Collection } = require('discord.js');
 
 module.exports = class YZInitiative extends Collection {
 
-	constructor(data) {
+	/**
+	 * A Discord Collection (extends Map) with initiative slots.
+	 * K: {number} initiative value.
+	 * V: {string} Combatant's reference (ID).
+	 * @type {Discord.Collection}
+	 * @param {?Iterable} data Array of Key-Value pairs
+	 * @param {?number[]} initiativeCards Specified initiative cards
+	 */
+	constructor(data, initiativeCards = YZInitDeck.INITIATIVE_CARDS) {
 		super(data);
-		this.initiativeDeck = new YZInitDeck();
+		this.initiativeDeck = new YZInitDeck(initiativeCards);
 	}
 
 	/**
@@ -21,7 +29,7 @@ module.exports = class YZInitiative extends Collection {
 	// ============================================================
 
 	/**
-	 * Adds a Combatant to the initiative list.
+	 * Adds one or more initiative slots for a Combatant.
 	 * @param {string} ref The Combatant's ID
 	 * @param {number[]} inits An array of initiative values
 	 * @returns {string}
@@ -56,7 +64,7 @@ module.exports = class YZInitiative extends Collection {
 	}
 
 	/**
-	 * Removes one or more Combatant's initiative slots from the initiative list.
+	 * Removes one or more Combatant's initiative slots.
 	 * @param {string} ref The Combatant's ID
 	 * @param {?number[]} init An array with the initiative slot(s) to remove
 	 * @returns {number} The number of times it has been removed (should be 1)
@@ -67,7 +75,7 @@ module.exports = class YZInitiative extends Collection {
 		let count = 0;
 		for (const init of inits) {
 			count += this.sweep((v, k) => {
-				const i = this.stripInitiative(k)[0];
+				const i = YZInitiative.stripInitiative(k)[0];
 				return (i === init && v === ref);
 			});
 		}
@@ -75,7 +83,7 @@ module.exports = class YZInitiative extends Collection {
 	}
 
 	/**
-	 * Removes a Combatant from the initiative list.
+	 * Removes all initiative slots for a Combatant.
 	 * @param {string} ref The Combatant's ID
 	 * @returns {number} The number of times it has been removed (should be 1)
 	 */
@@ -83,50 +91,34 @@ module.exports = class YZInitiative extends Collection {
 		return this.sweep(v => v === ref);
 	}
 
+	/**
+	 * Returns the next
+	 * @param {number} current The current value
+	 *
+	nextInitiative(current) {
+		return this.get(this.next(current));
+	}//*/
+
 	// ---------- OTHER -------------------------------------------
 	// ============================================================
 
 	/**
-	 * Returns the next initiative index after the current one
-	 * @param {number} current The current index
+	 * Returns the next initiative value after the current one
+	 * @param {number} current The current value
 	 * @returns {number}
 	 */
 	next(current) {
-		const initiatives = this.keyArray();
-		if (initiatives) {
-			const init = Util.closest(current, initiatives);
-			const index = initiatives.indexOf(init);
-			return initiatives[index + 1];
-		}//Problem quand on arrive à la fin!
+		let index;
+		const initValues = this.keyArray();
+		if (initValues.length) {
+			const init = Util.closest(current, initValues);
+			index = initValues.indexOf(init);
+			if (!index) index = 0;
+			if (index + 1 >= initValues.length) index = 0;
+			else index += 1;
+			return initValues[index];
+		}
 		return null;
-	}
-
-	/**
-	 * Draws initiative cards.
-	 * @param {number} qty The quantity of initiative cards to draw
-	 * @return {number[]}
-	 */
-	drawInit(qty = 1) {
-		// Min 1 card, Max 10 cards.
-		const drawQty = Util.clamp(qty, 1, 10);
-
-		// If more cards are drawn that the remaining number,
-		// draws the remaining cards and shuffle a new deck for the lasts.
-		const size = this.initiativeDeck.size;
-		let cards;
-		if (drawQty <= size) {
-			cards = this.initiativeDeck.draw(drawQty);
-		}
-		else {
-			const remainingCards = this.initiativeDeck.draw(size);
-			this.initiativeDeck = new YZInitDeck();
-			const extraCards = this.drawInit(drawQty - size);
-			cards = remainingCards.concat(extraCards);
-		}
-		// Always returns an array.
-		if (!cards) throw new InitError('Drew a null number of initiative cards!');
-		if (!Array.isArray(cards)) return [cards];
-		return cards;
 	}
 
 	/**
@@ -139,11 +131,39 @@ module.exports = class YZInitiative extends Collection {
 	}
 
 	/**
+	 * Draws initiative cards.
+	 * @param {number} speed The quantity of initiative cards to draw
+	 * @return {number[]}
+	 */
+	static drawInit(speed = 1) {
+		// Min 1 card, Max 10 cards.
+		const drawQty = Util.clamp(speed, 1, 10);
+
+		// If more cards are drawn that the remaining number,
+		// draws the remaining cards and shuffle a new deck for the lasts.
+		const size = this.initiativeDeck.size;
+		let cards;
+		if (drawQty <= size) {
+			cards = this.initiativeDeck.draw(drawQty);
+		}
+		else {
+			const remainingCards = this.initiativeDeck.draw(size);
+			this.initiativeDeck = new YZInitDeck();
+			const extraCards = YZInitiative.drawInit(drawQty - size);
+			cards = remainingCards.concat(extraCards);
+		}
+		// Always returns an array.
+		if (!cards) throw new InitError('Drew a null number of initiative cards!');
+		if (!Array.isArray(cards)) return [cards];
+		return cards;
+	}
+
+	/**
 	 * Strip initiative from its decimals.
 	 * @param {number} init The initiative to round
 	 * @returns {number[]} [1]: init rounded / [2]: decimals
 	 */
-	stripInitiative(init) {
+	static stripInitiative(init) {
 		const rounded = Math.ceil(init);
 		const decimal = init - rounded;
 		return [rounded, decimal];

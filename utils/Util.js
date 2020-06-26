@@ -381,6 +381,22 @@ class Util {
 	}
 
 	/**
+	 * Compares two arrays if they have the same elements.
+	 * @param {Array} array1 Array #1
+	 * @param {Array} array2 Array #2
+	 * @returns {boolean}
+	 */
+	static equalsArray(array1, array2) {
+		if (!Array.isArray(array1) || !Array.isArray(array2)) return false;
+		if (array1 === array2) return true;
+		if (array1.length !== array2.length) return false;
+		for (const elem of array1) {
+			if (!array2.includes(elem)) return false;
+		}
+		return true;
+	}
+
+	/**
 	 * Converts a CSV-formatted text into a JSON object.
 	 * @param {string} csv CSV-formatted text
 	 * @param {string} [separator=';'] Column-separating character (default is `;`)

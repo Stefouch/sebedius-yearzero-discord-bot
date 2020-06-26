@@ -26,16 +26,17 @@ class YZCombat {
 		 * Initiative slots.
 		 * K: {number} initiative value.
 		 * V: {string} Combatant's ID.
-		 * @type {Discord.Collection<number, string>}
+		 * @type {YZInitiative<number, string>}
 		 */
 		this.initiatives = new YZInitiative();
 	}
 
 	/**
 	 * The combatant whose turn it currently is.
-	 * @returns {YZCombatant}
+	 * @type {YZCombatant}
+	 * @readonly
 	 */
-	currentCombatant() {
+	get currentCombatant() {
 		const ref = this.initiatives.get(this.index);
 		if (ref) {
 			return this.combatants.find(c => c.id === ref);
@@ -46,17 +47,12 @@ class YZCombat {
 
 	/**
 	 * The combatant whose turn it will be when advanceTurn() is called.
-	 * @returns {YZCombatant}
+	 * @type {YZCombatant}
+	 * @readonly
 	 */
-	nextCombatant() {
-	//	let index;
-	//	const clen = this.combatants.length;
-	//	if (clen === 0) return null;
-	//	if (!this.index) index = 0;
-	//	else if (this.index + 1 >= clen) index = 0;
-	//	else index = this.index + 1;
-
-		const ref = this.initiatives.next(this.index);
+	get nextCombatant() {
+		const nextInit = this.initiatives.next(this.index);
+		const ref = this.initiatives.get(nextInit);
 		if (ref) {
 			return this.combatants.find(c => c.id === ref);
 		}
@@ -110,7 +106,26 @@ class YZCombat {
 	}
 
 	sortCombatants() {
-		let currentCombatant = this.currentCombatant();
+		// Removes unused initiative slots.
+		this.initiatives.sweep((ref, slot) => {
+			const combatant = this.combatants.find(c => c.id === ref);
+			return !combatant.inits.includes(YZInitiative.stripInitiative(slot));
+		});
+
+		// Adds missing initiative slots.
+		this.combatants.forEach(c => {
+			let draw = c.speed - c.inits.length;
+			c.inits.forEach(init => {
+				const hasInit = this.initiatives.some((ref, slot) => init === YZInitiative.stripInitiative(slot)[0]);
+				if (!hasInit) draw++;
+			});
+			if (draw) {
+				const drawnInits = YZInitiative.drawInit(draw);
+				this.initiatives.addInitiative(c.id, drawnInits);
+				c.inits = c.inits.concat(drawnInits);
+			}
+		});
+		/* let currentCombatant = this.currentCombatant();
 		const fn = (ca, cb) => ca.inits[0] - cb.inits[0];
 		this.combatants = this.combatants.sort(fn);
 		for (let i = 0; i < this.combatants.length; i++) {
@@ -119,10 +134,104 @@ class YZCombat {
 		if (currentCombatant) {
 			this.currentIndex = currentCombatant.index;
 			this.turn = currentCombatant.inits[0];
-		}
+		}//*/
 	}
 
-	getCombatant() {
+	getCombatant(name, strict = true) {
+		name = name.toLowerCase();
+		if (strict) return this.getCombatants().find(c => c.name.toLowerCase() == name);
+		else return this.getCombatants().find(c => c.name.toLowerCase().includes(name));
+	}
+
+	/**
+	 * Gets a combatant group.
+	 * @param {string} name The name of the combatant group
+	 * @param {boolean} create The initiative to create a group at if a group is not found
+	 * @param {boolean} strict Wether the group name must be a full case insensitive match
+	 * @returns {YZCombatantGroup}
+	 */
+	getGroup(name, create = null, strict = true) {
+		let grp;
+		if (strict) {
+			name = name.toLowerCase();
+			grp = this.getGroups().find(g => g.name.toLowerCase() == name);
+		}
+		else {
+			name = name.toLowerCase();
+			grp = this.getGroups().find(g => g.name.toLowerCase().includes(name));
+		}
+
+		// Initiative "0" does not exist so it's good to test it like this.
+		if (!grp && create) {
+			grp = new YZCombatantGroup(this.message, name, null, create);
+			this.addCombatant(grp);
+		}
+		return grp;
+	}
+
+	getGroups() {
+		return this.combatants.filter(c => c instanceof YZCombatantGroup);
+	}
+
+	checkEmptyGroups() {
+		let removed = 0;
+		for (const c of this.combatants) {
+			if (c instanceof YZCombatantGroup && c.getCombatants().length === 0) {
+				this.removeCombatant(c);
+				removed++;
+			}
+		}
+		if (removed > 0) this.sortCombatants();
+		return removed;
+	}
+
+	/**
+	 * Opens a prompt for a user to select the combatant they were searching for.
+	 * @param {string} name The name of the combatant to search for
+	 * @param {Discord.Message} choiceMessage The message to pass to the selector
+	 * @param {boolean} selectGroup: Whether to allow groups to be selected
+	 * @returns {YZCombatant} The selected Combatant, or None if the search failed
+	 */
+	async selectCombatant(name, choiceMessage = null, selectGroup = false) {
+		name = name.toLowerCase();
+		let matching = this.getCombatants(selectGroup).find(c => c.name.toLowerCase() == name);
+		if (!matching) {
+			matching = this.getCombatants(selectGroup).find(c => c.name.toLowerCase().includes(name));
+		}
+		return await this.getSelection(this.message, matching, choiceMessage);
+	}
+
+	/**
+	 * Advances the turn. If any caveats should be noted, returns them in messages.
+	 * @throws {NoCombatants} if `this.combatants` is empty
+	 */
+	advanceTurn() {
+		if (this.combatants.length === 0) throw new NoCombatants();
+
+		// let messages = [];
+
+		if (this.currentCombatant) this.currentCombatant.onTurnEnd();
+
+		let changedRound = false;
+
+		// New round.
+		if (this.index == null) {
+			this.index = 0;
+			this.round += 1;
+		}
+		// New round.
+		else if (this.index + 1 >= this.combatants.length) {
+			this.index = 0;
+			this.round += 1;
+			changedRound = true;
+		}
+		else {
+			this.index += 1;
+		}
+
+		this.turn = this.currentCombatant.inits[0];
+		this.currentCombatant.onTurnUpkeep();
+		return [changedRound, []]; //messages];
 	}
 }
 
@@ -160,13 +269,14 @@ class YZCombatant {
 		// this.status = YZCombatant.STATUS_LIST[0];
 		this.notes = data.notes || '';
 
-		this.inits = data.inits || [0];
+		// Integers[]
+		this.inits = data.inits || [];
 
 		/**
 		 * Combat write only; Position in combat
 		 * @type {number}
-		 */
-		this.index = data.index || 0;
+		 *
+		this.index = data.index || 0;//*/
 		this.group = data.group;
 	}
 
@@ -253,25 +363,19 @@ class YZCombatant {
 	/**
 	 * Called when the combatant is removed from combat, either through !i remove or the combat ending.
 	 */
-	onRemove() {
-		// Things to do.
-	}
+	onRemove() { return; }
 
 	/**
 	 * A method called at the start of each of the combatant's turns.
 	 * @param {?number} [numTurns=1] The number of turns that just passed
 	 */
-	onTurnUpkeep(numTurns = 1) {
-		// Things to do.
-	}
+	onTurnUpkeep(numTurns = 1) { return; }
 
 	/**
 	 * A method called at the end of each of the combatant's turns.
 	 * @param {?number} [numTurns=1] The number of turns that just passed
 	 */
-	onTurnEnd(numTurns = 1) {
-		// Things to do.
-	}
+	onTurnEnd(numTurns = 1) { return; }
 
 	toString() {
 		return `${this.name}: ${this.hpString()}`.trim();
@@ -350,3 +454,5 @@ class YZCombatantGroup extends YZCombatant {
 }
 
 module.exports = { YZCombat, YZCombatant, YZCombatantGroup };
+
+class NoCombatants extends Error {}
