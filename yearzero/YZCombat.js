@@ -12,7 +12,7 @@ class YZCombat {
 		this.dm = dmId;
 		this.options = options || {};
 		this.round = roundNum || 0;
-		this.turn = turnNum || 0;
+		// this.turn = turnNum || 0;
 		this.index = currentIndex || 0;
 		// this.message = message;
 
@@ -29,6 +29,10 @@ class YZCombat {
 		 * @type {YZInitiative<number, string>}
 		 */
 		this.initiatives = new YZInitiative();
+	}
+
+	get turn() {
+		return Math.floor(this.index);
 	}
 
 	/**
@@ -109,14 +113,14 @@ class YZCombat {
 		// Removes unused initiative slots.
 		this.initiatives.sweep((ref, slot) => {
 			const combatant = this.combatants.find(c => c.id === ref);
-			return !combatant.inits.includes(YZInitiative.stripInitiative(slot));
+			return !combatant.inits.includes(Math.floor(slot));
 		});
 
 		// Adds missing initiative slots.
 		this.combatants.forEach(c => {
 			let draw = c.speed - c.inits.length;
 			c.inits.forEach(init => {
-				const hasInit = this.initiatives.some((ref, slot) => init === YZInitiative.stripInitiative(slot)[0]);
+				const hasInit = this.initiatives.some((ref, slot) => init === Math.floor(slot));
 				if (!hasInit) draw++;
 			});
 			if (draw) {
@@ -207,31 +211,138 @@ class YZCombat {
 	 */
 	advanceTurn() {
 		if (this.combatants.length === 0) throw new NoCombatants();
-
-		// let messages = [];
-
 		if (this.currentCombatant) this.currentCombatant.onTurnEnd();
 
 		let changedRound = false;
+		const nextInit = this.initiatives.next(this.index);
 
-		// New round.
-		if (this.index == null) {
-			this.index = 0;
-			this.round += 1;
+		// Start of combat.
+		if (this.index == null || this.index == undefined) {
+			this.index = this.initiatives.min;
+			this.round++;
 		}
 		// New round.
-		else if (this.index + 1 >= this.combatants.length) {
-			this.index = 0;
-			this.round += 1;
+		else if (nextInit < this.index) {
+			this.index = this.initiatives.min;
+			this.round++;
 			changedRound = true;
 		}
 		else {
-			this.index += 1;
+			this.index = nextInit;
 		}
 
-		this.turn = this.currentCombatant.inits[0];
+		// this.turn = this.currentCombatant.inits[0];
 		this.currentCombatant.onTurnUpkeep();
-		return [changedRound, []]; //messages];
+		return { changedRound, messages: [] };
+	}
+
+	rewindTurn() {
+		if (this.combatants.length === 0) throw new NoCombatants();
+		if (this.currentCombatant) this.currentCombatant.onTurnEnd();
+
+		const previousInit = this.initiatives.previous(this.index);
+
+		// Start of combat.
+		if (this.index == null || this.index == undefined) {
+			this.index = this.initiatives.max;
+			// this.round--;
+		}
+		// New round.
+		else if (previousInit > this.index) {
+			this.index = this.initiatives.max;
+			this.round--;
+		}
+		else {
+			this.index = previousInit;
+		}
+	}
+
+	gotoTurn(initNum, isCombatant = false) {
+		if (this.combatants.length === 0) throw new NoCombatants();
+		if (this.currentCombatant) this.currentCombatant.onTurnEnd();
+
+		if (isCombatant) {
+			if (initNum.group) {
+				initNum = this.getGroup(initNum.group);
+			}
+			this.index = this.initiatives.findKey(ref => ref === initNum.id);
+		}
+		else {
+			const target = Util.closest(initNum, this.initiatives.keyArray());
+			if (target) {
+				this.index = target;
+			}
+			else {
+				this.index = this.initiatives.min;
+			}
+		}
+	}
+
+	skipRounds(numRounds) {
+		this.round += numRounds;
+		for (const combatant of this.combatants) {
+			combatant.onTurnUpkeep(numRounds);
+			combatant.onTurnEnd(numRounds);
+		}
+	}
+
+	getTurnString() {
+		let nextCombatant = this.currentCombatant;
+		let outStr = '';
+
+		if (nextCombatant instanceof YZCombatantGroup) {
+			const thisTurn = nextCombatant.getCombatants();
+			outStr = `**Initiative ${this.turn} (round ${this.round})**: `
+				+ `(${nextCombatant.name})\n`
+				+ thisTurn.map(c => c.controllerMention()).join(', ')
+				+ '```markdown\n'
+				+ thisTurn.map(c => c.getStatus()).join('\n')
+				+ '```';
+		}
+		else {
+			outStr = `**Initiative ${this.turn} (round ${this.round})**: `
+				+ `${nextCombatant.name} (${nextCombatant.controllerMention()})`
+				+ '```markdown\n'
+				+ nextCombatant.getStatus()
+				+ '```';
+		}
+		if (this.options.turnnotif) {
+			const nextTurn = this.nextCombatant;
+			outStr += `**Next up:** ${nextTurn.name} (${nextTurn.controllerMention()})\n`;
+		}
+		return outStr;
+	}
+
+	static ensureUniqueChan(message) {
+		/* const bool = db.has(message.channel.id);
+		if (bool) throw new ChannelInCombat();
+		//*/
+	}
+
+	/**
+	 * Commits the combat to db.
+	 */
+	async commit() {
+		if (!this.message) throw new RequiresContext();
+		/*
+		for pc in self.get_combatants():
+            if isinstance(pc, PlayerCombatant):
+                await pc.character.commit(self.ctx)
+        await self.ctx.bot.mdb.combats.update_one(
+            {"channel": self.channel},
+            {"$set": self.to_dict(), "$currentDate": {"lastchanged": True}},
+            upsert=True
+		)
+		//*/
+	}
+
+	/**
+	 * Returns the generated summary message content.
+	 * @param {boolean} privacy Wether it's private or not
+	 * @returns {string}
+	 */
+	getSummary(privacy = false) {
+		const combatants;
 	}
 }
 
@@ -455,4 +566,23 @@ class YZCombatantGroup extends YZCombatant {
 
 module.exports = { YZCombat, YZCombatant, YZCombatantGroup };
 
-class NoCombatants extends Error {}
+class NoCombatants extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'NoCombatants';
+	}
+}
+
+class ChannelInCombat extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'ChannelInCombat';
+	}
+}
+
+class RequiresContext extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'RequiresContext';
+	}
+}

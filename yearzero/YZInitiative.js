@@ -17,6 +17,9 @@ module.exports = class YZInitiative extends Collection {
 		this.initiativeDeck = new YZInitDeck(initiativeCards);
 	}
 
+	get min() { return Math.min(...this.keyArray()); }
+	get max() { return Math.max(...this.keyArray()); }
+
 	/**
 	 * The values in the initiative list.
 	 * @type {string[]}
@@ -75,7 +78,7 @@ module.exports = class YZInitiative extends Collection {
 		let count = 0;
 		for (const init of inits) {
 			count += this.sweep((v, k) => {
-				const i = YZInitiative.stripInitiative(k)[0];
+				const i = Math.floor(k);
 				return (i === init && v === ref);
 			});
 		}
@@ -115,7 +118,26 @@ module.exports = class YZInitiative extends Collection {
 			index = initValues.indexOf(init);
 			if (!index) index = 0;
 			if (index + 1 >= initValues.length) index = 0;
-			else index += 1;
+			else index++;
+			return initValues[index];
+		}
+		return null;
+	}
+
+	/**
+	 * Returns the previous initiative value before the current one
+	 * @param {number} current The current value
+	 * @returns {number}
+	 */
+	previous(current) {
+		let index;
+		const initValues = this.keyArray();
+		if (initValues.length) {
+			const init = Util.closest(current, initValues);
+			index = initValues.indexOf(init);
+			if (!index) index = 0;
+			if (index - 1 <= 0) index = initValues.length;
+			else index--;
 			return initValues[index];
 		}
 		return null;
@@ -161,12 +183,14 @@ module.exports = class YZInitiative extends Collection {
 	/**
 	 * Strip initiative from its decimals.
 	 * @param {number} init The initiative to round
-	 * @returns {number[]} [1]: init rounded / [2]: decimals
+	 * @returns {Object} { int, dec }
+	 * @property {number} int Integer
+	 * @property {number} dec Decimals
 	 */
 	static stripInitiative(init) {
-		const rounded = Math.ceil(init);
+		const rounded = Math.floor(init);
 		const decimal = init - rounded;
-		return [rounded, decimal];
+		return { int: rounded, dec: decimal };
 	}
 
 	stringifyMapObject() {
