@@ -1,4 +1,4 @@
-const yargsParser = require('yargs-parser');
+const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
 
 module.exports = {
 	name: 'init',
@@ -31,5 +31,61 @@ module.exports = {
 			'skipround',
 			'status',
 		];
+		const combat = new YZCombat(
+			message.channel.id,
+			null,
+			client.config.botAdminID,
+			message,
+			null,
+		);
+		const bob = new YZCombatant(message, {
+			name: 'Bob',
+			hp: 5,
+			armor: 6,
+		});
+		const al = new YZCombatant(message, {
+			name: 'Albert',
+			hp: 3,
+			armor: 3,
+		});
+		const dede = new YZCombatant(message, {
+			name: 'Didier',
+			hp: 2,
+			speed: 2,
+		});
+		combat.addCombatant(bob);
+		combat.addCombatant(al);
+		combat.addCombatant(dede);
+		/*for (let i = 0; i < 3; i++) {
+			combat.addCombatant(new YZCombatant(message, { speed: 2 }));
+		}//*/
+		//message.channel.send(combat.getSummary());
+		
+		// message.channel.send(combat.getSummary());
+		// combat.advanceTurn();
+		// combat.advanceTurn();
+		// combat.advanceTurn();
+		// combat.advanceTurn();
+		// combat.advanceTurn();
+		message.channel.send(combat.getSummary());
+		console.log(combat);
 	},
 };
+
+function test() {
+
+	const rollargv = require('yargs-parser')(args, {
+		alias: {
+			push: ['p', 'pushes'],
+			name: ['n'],
+			fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
+		},
+		default: {
+			fullauto: false,
+		},
+		boolean: ['fullauto', 'initiative'],
+		number: ['push'],
+		array: ['name'],
+		configuration: client.config.yargs,
+	});
+}

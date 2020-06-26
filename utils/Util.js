@@ -182,6 +182,26 @@ class Util {
 	}
 
 	/**
+	 * Adds the prefix a or an to a string.
+	 * @param {string} str The string to add a or an
+	 * @param {boolean} upper Wether the prefix should be capitalized or not
+	 * @returns {string}
+	 */
+	static aORan(str, upper = false) {
+		if (str.startsWith('^') || str.endsWith('^')) {
+			if (str.startsWith('^')) str = str.slice(1);
+			if (str.endsWith('^')) str = str.slice(0, -1);
+			return str;
+		}
+		if (/^[AEIOUaeiou].*/.test(str)) {
+			return `${upper ? 'An' : 'an'} ${str}`;
+		}
+		else {
+			return `${upper ? 'A' : 'a'} ${str}`;
+		}
+	}
+
+	/**
 	 * Aligns a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container

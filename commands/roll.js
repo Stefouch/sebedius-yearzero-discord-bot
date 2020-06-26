@@ -132,15 +132,15 @@ module.exports = {
 							// For the chosen letter, we assign a die type.
 							let type;
 							switch (dieTypeChar) {
-								case 'b': type = 'base'; break;
-								case 'd':
-									if (game === 'alien') type = 'base';
-									else type = 'skill';
-									break;
-								case 's': type = 'skill'; break;
-								case 'g': type = 'gear'; break;
-								case 'n': type = 'neg'; break;
-								case 'a': artifactDice.push(diceQty); break;
+							case 'b': type = 'base'; break;
+							case 'd':
+								if (game === 'alien') type = 'base';
+								else type = 'skill';
+								break;
+							case 's': type = 'skill'; break;
+							case 'g': type = 'gear'; break;
+							case 'n': type = 'neg'; break;
+							case 'a': artifactDice.push(diceQty); break;
 							}
 
 							if (type) {
@@ -151,11 +151,11 @@ module.exports = {
 								}
 
 								switch (type) {
-									case 'base': baseDiceQty += diceQty; break;
-									case 'skill': skillDiceQty += diceQty; break;
-									case 'gear': gearDiceQty += diceQty; break;
-									case 'neg': negDiceQty += diceQty; break;
-									case 'stress': stressDiceQty += diceQty; break;
+								case 'base': baseDiceQty += diceQty; break;
+								case 'skill': skillDiceQty += diceQty; break;
+								case 'gear': gearDiceQty += diceQty; break;
+								case 'neg': negDiceQty += diceQty; break;
+								case 'stress': stressDiceQty += diceQty; break;
 								}
 							}
 						}

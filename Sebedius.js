@@ -20,7 +20,7 @@ class Sebedius extends Discord.Client {
 		this.prefixes = new Discord.Collection();
 		this.games = new Discord.Collection();
 		this.langs = new Discord.Collection();
-		this.inits = new Discord.Collection();
+		this.combats = new Discord.Collection();
 
 		// Records commands statistics for the current session.
 		this.counts = new Discord.Collection();

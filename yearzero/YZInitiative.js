@@ -17,16 +17,16 @@ module.exports = class YZInitiative extends Collection {
 		this.initiativeDeck = new YZInitDeck(initiativeCards);
 	}
 
-	get min() { return Math.min(...this.keyArray()); }
-	get max() { return Math.max(...this.keyArray()); }
+	get min() { return this.size ? Math.min(...this.keyArray()) : null; }
+	get max() { return this.size ? Math.max(...this.keyArray()) : null; }
 
 	/**
 	 * The values in the initiative list.
 	 * @type {string[]}
-	 *
-	get initiativeValues() {
-		return this.keyArray();
-	}//*/
+	 */
+	get slots() {
+		return this.keyArray().sort((a, b) => a - b);
+	}
 
 	// ---------- INITIATIVES -------------------------------------
 	// ============================================================
@@ -111,17 +111,20 @@ module.exports = class YZInitiative extends Collection {
 	 * @returns {number}
 	 */
 	next(current) {
-		let index;
-		const initValues = this.keyArray();
-		if (initValues.length) {
-			const init = Util.closest(current, initValues);
-			index = initValues.indexOf(init);
-			if (!index) index = 0;
-			if (index + 1 >= initValues.length) index = 0;
-			else index++;
-			return initValues[index];
+		if (!this.size) return null;
+
+		let slotIndex;
+		if (!current) { slotIndex = 0; }
+		else {
+			slotIndex = this.slots.indexOf(current);
+			if (slotIndex < 0) {
+				const slot = Util.closest(current, this.slots);
+				slotIndex = this.slots.indexOf(slot);
+			}
+			if (slotIndex + 1 >= this.size) slotIndex = 0;
+			else slotIndex++;
 		}
-		return null;
+		return this.slots[slotIndex];
 	}
 
 	/**
@@ -130,26 +133,20 @@ module.exports = class YZInitiative extends Collection {
 	 * @returns {number}
 	 */
 	previous(current) {
-		let index;
-		const initValues = this.keyArray();
-		if (initValues.length) {
-			const init = Util.closest(current, initValues);
-			index = initValues.indexOf(init);
-			if (!index) index = 0;
-			if (index - 1 <= 0) index = initValues.length;
-			else index--;
-			return initValues[index];
-		}
-		return null;
-	}
+		if (!this.size) return null;
 
-	/**
-	 * Tells if this is a valid Combatant's ID.
-	 * @param {string} ref The ID to check
-	 * @returns {boolean}
-	 */
-	isValidCombatantRef(ref) {
-		return (typeof ref === 'string' && ref.length === 6);
+		let slotIndex;
+		if (!current) { slotIndex = 0; }
+		else {
+			slotIndex = this.slots.indexOf(current);
+			if (slotIndex < 0) {
+				const slot = Util.closest(current, this.slots);
+				slotIndex = this.slots.indexOf(slot);
+			}
+			if (slotIndex - 1 <= this.size) slotIndex = this.size;
+			else slotIndex--;
+		}
+		return this.slots[slotIndex];
 	}
 
 	/**
@@ -157,7 +154,7 @@ module.exports = class YZInitiative extends Collection {
 	 * @param {number} speed The quantity of initiative cards to draw
 	 * @return {number[]}
 	 */
-	static drawInit(speed = 1) {
+	drawInit(speed = 1) {
 		// Min 1 card, Max 10 cards.
 		const drawQty = Util.clamp(speed, 1, 10);
 
@@ -169,15 +166,25 @@ module.exports = class YZInitiative extends Collection {
 			cards = this.initiativeDeck.draw(drawQty);
 		}
 		else {
-			const remainingCards = this.initiativeDeck.draw(size);
+			let remainingCards = this.initiativeDeck.draw(size) || [];
+			if (!Array.isArray(remainingCards)) remainingCards = [remainingCards];
 			this.initiativeDeck = new YZInitDeck();
-			const extraCards = YZInitiative.drawInit(drawQty - size);
-			cards = remainingCards.concat(extraCards);
+			const extraCards = this.drawInit(drawQty - size);
+			cards = extraCards.concat(remainingCards);
 		}
 		// Always returns an array.
 		if (!cards) throw new InitError('Drew a null number of initiative cards!');
 		if (!Array.isArray(cards)) return [cards];
 		return cards;
+	}
+
+	/**
+	 * Tells if this is a valid Combatant's ID.
+	 * @param {string} ref The ID to check
+	 * @returns {boolean}
+	 */
+	isValidCombatantRef(ref) {
+		return (typeof ref === 'string' && ref.length === 6);
 	}
 
 	/**

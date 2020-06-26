@@ -7,8 +7,8 @@ class YZCombat {
 		options, message, combatants,
 		roundNum = 0, turnNum = 0, currentIndex = null,
 	) {
-		this.channel = channelId;
-		this.summary = summaryMessageId;
+		this.channelId = channelId;
+		this.summaryId = summaryMessageId;
 		this.dm = dmId;
 		this.options = options || {};
 		this.round = roundNum || 0;
@@ -92,6 +92,7 @@ class YZCombat {
 	}
 
 	addCombatant(combatant) {
+		//combatant.inits = this.initiatives.drawInit(combatant.speed);
 		this.combatants.push(combatant);
 		this.sortCombatants();
 	}
@@ -124,7 +125,7 @@ class YZCombat {
 				if (!hasInit) draw++;
 			});
 			if (draw) {
-				const drawnInits = YZInitiative.drawInit(draw);
+				const drawnInits = this.initiatives.drawInit(draw);
 				this.initiatives.addInitiative(c.id, drawnInits);
 				c.inits = c.inits.concat(drawnInits);
 			}
@@ -193,8 +194,9 @@ class YZCombat {
 	 * Opens a prompt for a user to select the combatant they were searching for.
 	 * @param {string} name The name of the combatant to search for
 	 * @param {Discord.Message} choiceMessage The message to pass to the selector
-	 * @param {boolean} selectGroup: Whether to allow groups to be selected
+	 * @param {boolean} selectGroup Whether to allow groups to be selected
 	 * @returns {YZCombatant} The selected Combatant, or None if the search failed
+	 * @async
 	 */
 	async selectCombatant(name, choiceMessage = null, selectGroup = false) {
 		name = name.toLowerCase();
@@ -217,7 +219,7 @@ class YZCombat {
 		const nextInit = this.initiatives.next(this.index);
 
 		// Start of combat.
-		if (this.index == null || this.index == undefined) {
+		if (!this.index) {
 			this.index = this.initiatives.min;
 			this.round++;
 		}
@@ -230,8 +232,6 @@ class YZCombat {
 		else {
 			this.index = nextInit;
 		}
-
-		// this.turn = this.currentCombatant.inits[0];
 		this.currentCombatant.onTurnUpkeep();
 		return { changedRound, messages: [] };
 	}
@@ -268,7 +268,7 @@ class YZCombat {
 			this.index = this.initiatives.findKey(ref => ref === initNum.id);
 		}
 		else {
-			const target = Util.closest(initNum, this.initiatives.keyArray());
+			const target = Util.closest(initNum, this.initiatives.keyArray().sort());
 			if (target) {
 				this.index = target;
 			}
@@ -321,6 +321,7 @@ class YZCombat {
 
 	/**
 	 * Commits the combat to db.
+	 * @async
 	 */
 	async commit() {
 		if (!this.message) throw new RequiresContext();
@@ -342,7 +343,93 @@ class YZCombat {
 	 * @returns {string}
 	 */
 	getSummary(privacy = false) {
-		const combatants;
+		let outStr = '```markdown\n'
+			+ `${this.options.name ? this.options.name : 'Current initiative'}: `
+			+ `${this.turn} (round ${this.round})\n`;
+		outStr += '='.repeat(outStr.length - 13) + '\n';
+
+		let combatantStr = '';
+		for (const slot of this.initiatives.slots) {
+			const ref = this.initiatives.get(slot);
+			const c = this.combatants.find(cb => cb.id === ref);
+			const init = Math.floor(slot);
+			combatantStr += (slot === this.index ? '# ' : '  ')
+				+ c.getSummary(init, privacy) + '\n';
+		}
+		if (outStr.length + combatantStr.length + 3 > 2000) {
+			combatantStr = '';
+			for (const slot of this.initiatives.slots) {
+				const ref = this.initiatives.get(slot);
+				const c = this.combatants.find(cb => cb.id === ref);
+				const init = Math.floor(slot);
+				combatantStr += (slot === this.index ? '# ' : '  ')
+					+ c.getSummary(init, privacy, true) + '\n';
+			}
+		}
+		outStr += combatantStr + '```';
+		return outStr;
+	}
+
+	/**
+	 * Edits the summary message with the latest summary.
+	 * @async
+	 */
+	async updateSummary() {
+		await (await this.getSummaryMsg()).edit(this.getSummary());
+	}
+
+	/**
+	 * Gets the Channel object of the combat.
+	 * @returns {Discord.Channel}
+	 */
+	getChannel() {
+		if (this.message) {
+			return this.message.channel;
+		}
+		else {
+			//const chan = this.message.guild.me.channels.cache.get(this.message);
+			throw new CombatChannelNotFound();
+		}
+	}
+
+	/**
+	 * Gets the Message object of the combat summary.
+	 * @async
+	 */
+	async getSummaryMsg() {
+		// Checks if cached and returns it.
+		// -todo-
+		// Otherwise fetches it.
+		const msg = await this.getChannel().messages.cache.get(this.summaryId);
+		// Caches it.
+		// -todo-
+		// Returns it.
+		return msg;
+	}
+
+	/**
+	 * Final commit/update.
+	 * @async
+	 */
+	async final() {
+		await this.commit();
+		await this.updateSummary();
+	}
+
+	/**
+	 * Ends combat in a channel.
+	 * @async
+	 */
+	async end() {
+		for (const c of this.combatants) {
+			c.onRemove();
+		}
+		// await delete from DB
+		// Empty cache
+	}
+
+	toString() {
+		return `Initiative in <#${this.channelId}>`;
 	}
 }
 
@@ -540,7 +627,7 @@ class YZCombatantGroup extends YZCombatant {
 		else {
 			status = `${Util.zeroise(init, 2)}: ${this.name}`;
 			for (const c of this.combatants) {
-				const summary = c.getSummary(privacy, hideNotes).split(': ');
+				const summary = c.getSummary(init, privacy, hideNotes).split(': ');
 				summary.shift();
 				status += `\n     - ${summary.join(': ')}`;
 			}
@@ -584,5 +671,12 @@ class RequiresContext extends Error {
 	constructor(msg) {
 		super(msg);
 		this.name = 'RequiresContext';
+	}
+}
+
+class CombatChannelNotFound extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'CombatChannelNotFound';
 	}
 }
