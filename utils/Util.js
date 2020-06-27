@@ -202,6 +202,33 @@ class Util {
 	}
 
 	/**
+	 * Returns a bubble string to represent a counter's value.
+	 * @param {number} value
+	 * @param {number} max
+	 * @param {boolean} fillFromRight
+	 * @returns {string}
+	 */
+	static bubbleFormat(value, max, fillFromRight = false) {
+		if (max > 100) return `${value}/${max}`;
+		const used = max - value;
+		const filled = '\u25c9'.repeat(value);
+		const empty = '\u3007'.repeat(used);
+		if (fillFromRight) return empty + filled;
+		return filled + empty;
+	}
+
+	/**
+	 * Trims a string to a defined maximum length.
+	 * @param {string} text The text to trim
+	 * @param {number} maxLength The maximum length the string can have
+	 * @returns {string}
+	 */
+	static trimString(text, maxLength) {
+		if (text.length < maxLength) return text;
+		return `${text.slice(0, maxLength - 4)}...`;
+	}
+
+	/**
 	 * Aligns a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container
@@ -417,6 +444,21 @@ class Util {
 	}
 
 	/**
+	 * Search a list for a specific index, or return the default value.
+	 * @param {number} index The index value
+	 * @param {*} list The list to search (an array or an object)
+	 * @param {?*} defaultValue The default value to return if nothing found
+	 * @returns {*}
+	 */
+	static listGet(index, list, defaultValue = null) {
+		let val;
+		try { val = list[index]; }
+		catch (error) { val = defaultValue; }
+		if (val == undefined) val = defaultValue;
+		return val;
+	}
+
+	/**
 	 * Converts a CSV-formatted text into a JSON object.
 	 * @param {string} csv CSV-formatted text
 	 * @param {string} [separator=';'] Column-separating character (default is `;`)
@@ -520,6 +562,33 @@ class Util {
 			number = Math.floor(number / base);
 		}
 		return +result.reverse().join('');
+	}
+
+	/**
+	 * Returns the positivity of a string.
+	 * @param {string} str The string to test
+	 * @returns {boolean}
+	 */
+	static getBoolean(str) {
+		if (str instanceof Boolean) return str;
+		else if (/(yes|y|true|t|1|enable|on)/i.test(str)) return true;
+		else if (/(no|n|false|f|0|disable|off)/i.test(str)) return false;
+		return null;
+	}
+
+	/**
+	 * Takes an argument, which is a string that may start with + or -, and returns the value.
+	 * If *val* starts with + or -, it returns *base + val*.
+	 * Otherwise, it returns *val*.
+	 * @param {string} val
+	 * @param {?number} [base=0]
+	 * @returns {number}
+	 */
+	static maybeMod(val, base = 0) {
+		let n = base || 0;
+		if (val.startsWith('+') || val.startsWith('-')) n += Number(val);
+		else n = Number(val);
+		return n;
 	}
 }
 
