@@ -169,6 +169,43 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
+	 * Returns the selected choice, or None. Choices should be a list of two-tuples of (name, choice).
+	 * If delete is True, will delete the selection message and the response.
+	 * If length of choices is 1, will return the only choice unless force_select is True.
+	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
+	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
+	 */
+	getSelection(message, choices, del = true, pm = false, text = null, forceSelect = false) {
+		if (choices.length === 0) throw new Error('NoSelectionElements');
+		else if (choices.length === 1 && !forceSelect) return choices[0][1];
+
+		let page = 0;
+		let pages;
+	}
+
+	/**
+	 * Confirms whether a user wants to take an action.
+	 * @param {Discord.Message} message The current message
+	 * @param {string} text The message for the user to confirm
+	 * @param {?boolean} [deleteMessages=false] Whether to delete the messages
+	 * @returns {boolean|null} Whether the user confirmed or not. None if no reply was recieved
+	 */
+	static async confirm(message, text, deleteMessages = false) {
+		const msg = await message.channel.send(text);
+		const filter = m => m.author.id === message.author.id;
+		const reply = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+		const replyBool = Util.getBoolean(reply.first().content) || null;
+		if (deleteMessages) {
+			try {
+				await msg.delete();
+				await reply.delete();
+			}
+			catch (error) { console.error(error); }
+		}
+		return replyBool;
+	}
+
+	/**
 	 * Checks if the bot has all the required permissions.
 	 * @param {Discord.Message} message Discord message
 	 * @param {Discord.Client} client Discord client (the bot)
