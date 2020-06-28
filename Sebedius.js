@@ -24,6 +24,9 @@ class Sebedius extends Discord.Client {
 
 		// Records commands statistics for the current session.
 		this.counts = new Discord.Collection();
+
+		// Stores the database
+		this.kdb = db;
 	}
 
 	/**
@@ -88,6 +91,16 @@ class Sebedius extends Discord.Client {
 	 */
 	async getLanguage(message) {
 		return await Sebedius.getConf('langs', 'lang', message, this, SUPPORTED_LANGS[0]);
+	}
+
+	/**
+	 * Gets the a Combat instance.
+	 * @param {Discord.Message} message Discord message
+	 * @returns {string} two-letters code for the desired language
+	 * @async
+	 */
+	async getCombat(message) {
+		return await Sebedius.getConf('combats', 'combat', message.channel.id, this, null);
 	}
 
 	/**
@@ -175,12 +188,83 @@ class Sebedius extends Discord.Client {
 	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
 	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
 	 */
-	getSelection(message, choices, del = true, pm = false, text = null, forceSelect = false) {
+	static async getSelection(message, choices, del = true, pm = false, text = null, forceSelect = false) {
 		if (choices.length === 0) throw new Error('NoSelectionElements');
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
 		let page = 0;
-		let pages;
+		const pages = Util.paginate(choices, 10);
+		let msg = null;
+		let selectMsg = null;
+
+		const filter = m =>
+			m.author.id === message.author.id &&
+			m.channel.id === message.channel.id &&
+			(
+				['c', 'n', 'p'].includes(m.content.toLowerCase()) ||
+				(Number(m.content) > 1 && Number(m.content) < choices.length)
+			);
+
+		for (let n = 0; n < 200; n++) {
+			const _choices = pages[page];
+			const names = _choices.map(o => o[0]);
+			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found'});
+			let selectStr = 'Which one were you looking for? (Type the number or `c` to cancel)\n';
+			if (pages.length > 1) {
+				selectStr += '`n` to go to the next page, or `p` for previous';
+				embed.setFooter(`page ${page + 1}/${pages.length}`);
+			}
+			names.forEach((name, i) => selectStr += `**[${i + 1 + page * 10}]** – ${name}\n`);
+			embed.setDescription(selectStr);
+			//embed.setColor(Util.rand(0, 0xffffff));
+			if (text) embed.addField('Note', text, false);
+			if (selectMsg) {
+				try { await selectMsg.delete(); }
+				catch (error) { console.error(error); }
+			}
+			// Sends the selection message.
+			if (!pm) {
+				selectMsg = await message.channel.send(embed);
+			}
+			else {
+				embed.addField(
+					'Instructions',
+					'Type your response in the channel you called the command. '
+					+ 'This message was PMed to you to hide the monster name.',
+					false,
+				);
+				selectMsg = await message.author.send(embed);
+			}
+			// Catches the answer.
+			msg = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
+			msg = msg.first();
+			if (!msg) {
+				break;
+			}
+			if (msg.content.toLowerCase() === 'n') {
+				if (page + 1 < pages.length) page++;
+				else await message.channel.send('You are already on the last page.');
+			}
+			else if (msg.content.toLowerCase() === 'p') {
+				if (page - 1 >= 0) page--;
+				else await message.channel.send('You are already on the first page.');
+			}
+			else {
+				break;
+			}
+		}
+		if (del && !pm) {
+			try {
+				await selectMsg.delete();
+				await msg.delete();
+			}
+			catch (error) { console.error(error); }
+		}
+		if (!msg || msg.content.toLowerCase() === 'c') {
+			throw new Error('SelectionCancelled');
+		}
+		// Returns the choice.
+		return choices[Number(msg.content) - 1][1];
 	}
 
 	/**
@@ -192,9 +276,11 @@ class Sebedius extends Discord.Client {
 	 */
 	static async confirm(message, text, deleteMessages = false) {
 		const msg = await message.channel.send(text);
-		const filter = m => m.author.id === message.author.id;
-		const reply = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
-		const replyBool = Util.getBoolean(reply.first().content) || null;
+		const filter = m =>
+			m.author.id === message.author.id
+			&& m.channel.id === message.channel.id;
+		const reply = (await message.channel.awaitMessages(filter, { max: 1, time: 30000 })).first();
+		const replyBool = Util.getBoolean(reply.content) || null;
 		if (deleteMessages) {
 			try {
 				await msg.delete();
@@ -264,6 +350,24 @@ class Sebedius extends Discord.Client {
 		const id = matches[1];
 
 		return client.users.cache.get(id);
+	}
+
+	/**
+	 * Fetches a Member based on its name, mention or ID.
+	 * @param {string} needle Name, mention or ID
+	 * @param {Discord.Message} message The triggering message
+	 * @param {Discord.Client} client The Discord client (the bot)
+	 * @returns {Discord.Member}
+	 */
+	static fetchMember(needle, message, client) {
+		if (Discord.MessageMentions.USERS_PATTERN.test(needle)) {
+			return Sebedius.getUserFromMention(needle, client);
+		}
+		const members = message.channel.members;
+		return members.find(mb =>
+			mb.id === needle ||
+			mb.displayName === needle,
+		);
 	}
 
 	/**

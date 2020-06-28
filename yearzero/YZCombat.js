@@ -5,16 +5,16 @@ class YZCombat {
 
 	constructor(channelId, summaryMessageId, dmId,
 		options, message, combatants,
-		roundNum = 0, turnNum = 0, currentIndex = null,
+		roundNum = 0, currentIndex = null,
 	) {
-		this.channelId = channelId;
-		this.summaryId = summaryMessageId;
+		this.channel = channelId;
+		this.summary = summaryMessageId;
 		this.dm = dmId;
 		this.options = options || {};
 		this.round = roundNum || 0;
 		// this.turn = turnNum || 0;
 		this.index = currentIndex || 0;
-		// this.message = message;
+		this.message = message;
 
 		/**
 		 * Combatants.
@@ -70,6 +70,49 @@ class YZCombat {
 		else index = this.index + 1;
 		return this.combatants.find(c => c.index === index);
 		//*/
+	}
+
+	static async fromId(channelId, bot) {
+		if (bot.combats.has(channelId)) {
+			return bot.combats.get(channelId);
+		}
+		else {
+			const raw = await bot.kdb.get(channelId, 'combat');
+			if (!raw) {
+				throw new CombatNotFound(channelId);
+			}
+			const combat = YZCombat.fromRaw(raw);
+			return combat;
+		}
+	}
+
+	static fromRaw(raw, message) {
+		const combat = new YZCombat(
+			raw.channel,
+			raw.summary,
+			raw.dm,
+			raw.options,
+			message,
+			raw.combatants,
+			raw.round,
+			raw.index,
+		);
+		for (c of raw.combatants) {
+			combat.combatants.push
+		}
+		return combat;
+	}
+
+	toRaw() {
+		return {
+			channel: this.channel,
+			summary: this.summary,
+			dm: this.dm,
+			options: this.options,
+			combatants: this.combatants.map(c => c.toRaw()),
+			round: this.round,
+			index: this.index,
+		};
 	}
 
 	/**
@@ -168,7 +211,7 @@ class YZCombat {
 
 		// Initiative "0" does not exist so it's good to test it like this.
 		if (!grp && create) {
-			grp = new YZCombatantGroup(this.message, name, null, create);
+			grp = new YZCombatantGroup(name, create);
 			this.addCombatant(grp);
 		}
 		return grp;
@@ -313,7 +356,8 @@ class YZCombat {
 		return outStr;
 	}
 
-	static ensureUniqueChan(message) {
+	async ensureUniqueChan(message) {
+		const bot = message.guild.me.client;
 		/* const bool = db.has(message.channel.id);
 		if (bool) throw new ChannelInCombat();
 		//*/
@@ -325,6 +369,10 @@ class YZCombat {
 	 */
 	async commit() {
 		if (!this.message) throw new RequiresContext();
+		this.message.channel.guild.me.client.combats.set(
+			this.message.channel.id,
+			this,
+		);
 		/*
 		for pc in self.get_combatants():
             if isinstance(pc, PlayerCombatant):
@@ -339,10 +387,10 @@ class YZCombat {
 
 	/**
 	 * Returns the generated summary message content.
-	 * @param {boolean} privacy Wether it's private or not
+	 * @param {boolean} hidden Wether it's private or not
 	 * @returns {string}
 	 */
-	getSummary(privacy = false) {
+	getSummary(hidden = false) {
 		let outStr = '```markdown\n'
 			+ `${this.options.name ? this.options.name : 'Current initiative'}: `
 			+ `${this.turn} (round ${this.round})\n`;
@@ -354,7 +402,7 @@ class YZCombat {
 			const c = this.combatants.find(cb => cb.id === ref);
 			const init = Math.floor(slot);
 			combatantStr += (slot === this.index ? '# ' : '  ')
-				+ c.getSummary(init, privacy) + '\n';
+				+ c.getSummary(init, hidden) + '\n';
 		}
 		if (outStr.length + combatantStr.length + 3 > 2000) {
 			combatantStr = '';
@@ -363,7 +411,7 @@ class YZCombat {
 				const c = this.combatants.find(cb => cb.id === ref);
 				const init = Math.floor(slot);
 				combatantStr += (slot === this.index ? '# ' : '  ')
-					+ c.getSummary(init, privacy, true) + '\n';
+					+ c.getSummary(init, hidden, true) + '\n';
 			}
 		}
 		outStr += combatantStr + '```';
@@ -400,7 +448,7 @@ class YZCombat {
 		// Checks if cached and returns it.
 		// -todo-
 		// Otherwise fetches it.
-		const msg = await this.getChannel().messages.cache.get(this.summaryId);
+		const msg = await this.getChannel().messages.cache.get(this.summary);
 		// Caches it.
 		// -todo-
 		// Returns it.
@@ -429,15 +477,13 @@ class YZCombat {
 	}
 
 	toString() {
-		return `Initiative in <#${this.channelId}>`;
+		return `Initiative in <#${this.channel}>`;
 	}
 }
 
 class YZCombatant {
 
-	constructor(message, data) {
-		if(!message) throw new Error('YZCombattant has no controller');
-
+	constructor(data) {
 		/**
 		 * The unique ID of this Combattant.
 		 * @name YZCombatant#id
@@ -448,20 +494,14 @@ class YZCombatant {
 			value: data.id || Util.randomID(),
 			enumerable: true,
 		});
-
-		/**
-		 * Discord Message that asked for the creation of this Combattant.
-		 * @type {Discord.Message}
-		 */
-		// this.message = message;
-		this.controller = data.controller || message.author.id;
+		this.controller = data.controller;
+		if(!data.controller) throw new Error('YZCombattant has no controller');
 
 		this._name = data.name || `Unnamed Character "${Util.randomID(4)}"`;
-		this.hp = +data.hp || 2;
+		this.hp = +data.hp || 3;
 		this.armor = +data.armor || 0;
 		this.speed = +data.speed || 1;
 		this.hidden = data.hidden ? true : false;
-		this.private = data.private ? true : false;
 		// this.stats = data.stats || {};
 		// this.skills = data.skills || {};
 		// this.status = YZCombatant.STATUS_LIST[0];
@@ -487,14 +527,19 @@ class YZCombatant {
 		if (!this.hp) this.hp = newMaxHp;
 	}
 
+	static fromRaw() {}
+	static toRaw() {
+
+	}
+
 	/**
 	 * Returns a string representation of the combatant's HP.
-	 * @param {?boolean} [privacy=false] Whether to return the full revealed stats or not
+	 * @param {?boolean} [hidden=false] Whether to return the full revealed stats or not
 	 * @returns {string}
 	 */
-	hpString(privacy = false) {
+	hpString(hidden = false) {
 		let hpStr = '';
-		if (!(this.isPrivate() || privacy)) {
+		if (!(this.isPrivate() || hidden)) {
 			hpStr = `<${this.hp}${this.maxhp ? `/${this.maxhp}` : ''} HP>`;
 		}
 		else if (this.maxhp > 0) {
@@ -507,12 +552,12 @@ class YZCombatant {
 	/**
 	 * Gets a short summary of a combatant's status.
 	 * @param {number} init The initiative value
-	 * @param {?boolean} [privacy=false] Whether to return the full revealed stats or not
+	 * @param {?boolean} [hidden=false] Whether to return the full revealed stats or not
 	 * @param {?boolean} [hideNotes=false] Wether to Hide notes or not
 	 * @returns {string} A string describing the combatant
 	 */
-	getSummary(init, privacy = false, hideNotes = false) {
-		const hpStr = this.hpString(privacy);
+	getSummary(init, hidden = false, hideNotes = false) {
+		const hpStr = this.hpString(hidden);
 		const hp = hpStr ? `${hpStr} ` : '';
 		if (!hideNotes) {
 			return `${Util.zeroise(init, 2)}: ${this.name} ${hp}${this.getEffectsAndNotes()}`;
@@ -524,12 +569,12 @@ class YZCombatant {
 
 	/**
 	 * Gets the start-of-turn status of a combatant.
-	 * @param {boolean} [privacy=false] Whether to return the full revealed stats or not
+	 * @param {boolean} [hidden=false] Whether to return the full revealed stats or not
 	 * @returns {string} A string describing the combatant
 	 */
-	getStatus(privacy = false) {
+	getStatus(hidden = false) {
 		const name = this.name;
-		const hpar = this.getHpAndAr(privacy);
+		const hpar = this.getHpAndAr(hidden);
 		const notes = this.notes ? `\n# ${this.notes}` : '';
 		return `${name} ${hpar} ${notes}`.trim();
 	}
@@ -542,16 +587,16 @@ class YZCombatant {
 		return '';
 	}
 
-	getHpAndAr(privacy = false) {
-		const out = [this.hpString(privacy)];
-		if (this.armor && !(this.isPrivate() || privacy)) {
+	getHpAndAr(hidden = false) {
+		const out = [this.hpString(hidden)];
+		if (this.armor && !(this.isPrivate() || hidden)) {
 			out.push(`AR ${this.armor}`);
 		}
 		return out.join(' ');
 	}
 
 	isPrivate() {
-		return this.private;
+		return this.hidden;
 	}
 
 	controllerMention() {
@@ -594,8 +639,8 @@ class YZCombatant {
 
 class YZCombatantGroup extends YZCombatant {
 
-	constructor(message, name, combatants, inits) {
-		super(message, { inits });
+	constructor(name, inits, combatants) {
+		super({ inits });
 		this._name = name || `Group ${Util.randomID(4)}`;
 		this.combatants = combatants || [];
 	}
@@ -618,16 +663,16 @@ class YZCombatantGroup extends YZCombatant {
 		this.combatants = this.combatants.filter(c => c !== combatant);
 	}
 
-	getSummary(init, privacy = false, hideNotes = false) {
+	getSummary(init, hidden = false, hideNotes = false) {
 		let status = '';
 		const clen = this.combatants.length;
-		if (clen > 7 && !privacy) {
+		if (clen > 7 && !hidden) {
 			status = `${Util.zeroise(init, 2)}: ${this.name} (${clen} combatant${clen > 1 ? 's' : ''})`;
 		}
 		else {
 			status = `${Util.zeroise(init, 2)}: ${this.name}`;
 			for (const c of this.combatants) {
-				const summary = c.getSummary(init, privacy, hideNotes).split(': ');
+				const summary = c.getSummary(init, hidden, hideNotes).split(': ');
 				summary.shift();
 				status += `\n     - ${summary.join(': ')}`;
 			}
@@ -635,8 +680,8 @@ class YZCombatantGroup extends YZCombatant {
 		return status;
 	}
 
-	getStatus(privacy = false) {
-		const statusList = this.combatants.map(c => c.getStatus(privacy));
+	getStatus(hidden = false) {
+		const statusList = this.combatants.map(c => c.getStatus(hidden));
 		return statusList.join('\n');
 	}
 
@@ -671,6 +716,13 @@ class RequiresContext extends Error {
 	constructor(msg) {
 		super(msg);
 		this.name = 'RequiresContext';
+	}
+}
+
+class CombatNotFound extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'CombatNotFound';
 	}
 }
 

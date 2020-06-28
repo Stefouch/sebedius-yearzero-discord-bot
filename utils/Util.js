@@ -1,3 +1,5 @@
+const { fill } = require("lodash");
+
 /**
  * A collection of useful functions.
  */
@@ -226,6 +228,23 @@ class Util {
 	static trimString(text, maxLength) {
 		if (text.length < maxLength) return text;
 		return `${text.slice(0, maxLength - 4)}...`;
+	}
+
+	/**
+	 * Paginates an iterable.
+	 * @param {Array} array An iterable
+	 * @param {number} n The number of items per page
+	 * @returns {Array<Array>}
+	 */
+	static paginate(array, n) {
+		const pages = [];
+		const numPages = Math.ceil(array.length / n);
+		for (let pg = 0; pg < numPages; pg++) {
+			pages.push(
+				array.slice(pg * n, (pg + 1) * n),
+			);
+		}
+		return pages;
 	}
 
 	/**
