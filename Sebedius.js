@@ -25,7 +25,7 @@ class Sebedius extends Discord.Client {
 		// Records commands statistics for the current session.
 		this.counts = new Discord.Collection();
 
-		// Stores the database
+		// Stores the database's utility functions.
 		this.kdb = db;
 	}
 

@@ -12,7 +12,6 @@ class YZCombat {
 		this.dm = dmId;
 		this.options = options || {};
 		this.round = roundNum || 0;
-		// this.turn = turnNum || 0;
 		this.index = currentIndex || 0;
 		this.message = message;
 
@@ -72,7 +71,7 @@ class YZCombat {
 		//*/
 	}
 
-	static async fromId(channelId, bot) {
+	static async fromId(channelId, message, bot) {
 		if (bot.combats.has(channelId)) {
 			return bot.combats.get(channelId);
 		}
@@ -81,13 +80,13 @@ class YZCombat {
 			if (!raw) {
 				throw new CombatNotFound(channelId);
 			}
-			const combat = YZCombat.fromRaw(raw);
-			return combat;
+			const instance = YZCombat.fromRaw(raw, message);
+			return instance;
 		}
 	}
 
 	static fromRaw(raw, message) {
-		const combat = new YZCombat(
+		const instance = new YZCombat(
 			raw.channel,
 			raw.summary,
 			raw.dm,
@@ -97,10 +96,18 @@ class YZCombat {
 			raw.round,
 			raw.index,
 		);
-		for (c of raw.combatants) {
-			combat.combatants.push
+		for (const c of raw.combatants) {
+			if (c.type === 'common') {
+				instance.combatants.push(YZCombatant.fromRaw(c, message, instance));
+			}
+			else if (c.type === 'group') {
+				instance.combatants.push(YZCombatantGroup.fromRaw(c, message, instance));
+			}
+			else {
+				throw new CombatException('Unknown Combatant Type');
+			}
 		}
-		return combat;
+		return instance;
 	}
 
 	toRaw() {
@@ -356,11 +363,10 @@ class YZCombat {
 		return outStr;
 	}
 
-	async ensureUniqueChan(message) {
+	static async ensureUniqueChan(message) {
 		const bot = message.guild.me.client;
-		/* const bool = db.has(message.channel.id);
-		if (bool) throw new ChannelInCombat();
-		//*/
+		const data = await bot.kdb.get(message.channel.id, 'combat');
+		if (data) throw new ChannelInCombat();
 	}
 
 	/**
@@ -369,20 +375,9 @@ class YZCombat {
 	 */
 	async commit() {
 		if (!this.message) throw new RequiresContext();
-		this.message.channel.guild.me.client.combats.set(
-			this.message.channel.id,
-			this,
-		);
-		/*
-		for pc in self.get_combatants():
-            if isinstance(pc, PlayerCombatant):
-                await pc.character.commit(self.ctx)
-        await self.ctx.bot.mdb.combats.update_one(
-            {"channel": self.channel},
-            {"$set": self.to_dict(), "$currentDate": {"lastchanged": True}},
-            upsert=True
-		)
-		//*/
+		const bot = this.message.guild.me.client;
+		const ttl = 72 * 3600 * 1000;
+		await bot.kdb.set(this.message.channel.id, this.toRaw(), 'combat', ttl);
 	}
 
 	/**
@@ -472,8 +467,10 @@ class YZCombat {
 		for (const c of this.combatants) {
 			c.onRemove();
 		}
-		// await delete from DB
-		// Empty cache
+		const bot = this.message.guild.me.client;
+		const id = this.message.channel.id;
+		bot.combats.delete(id);
+		await bot.kdb.delete(id, 'combat');
 	}
 
 	toString() {
@@ -527,9 +524,19 @@ class YZCombatant {
 		if (!this.hp) this.hp = newMaxHp;
 	}
 
-	static fromRaw() {}
-	static toRaw() {
+	static fromRaw(raw, message, combat) {
+		return new YZCombatant(raw);
+	}
 
+	static toRaw() {
+		return {
+			controller: this.controller,
+			inits: this.inits,
+			hidden: this.hidden,
+			notes: this.notes,
+			group: this.group,
+			type: 'common',
+		};
 	}
 
 	/**
@@ -653,6 +660,28 @@ class YZCombatantGroup extends YZCombatant {
 		}
 	}
 
+	static fromRaw(raw, message, combat) {
+		const combatants = [];
+		for (const c of raw.combatants) {
+			if (c.type === 'common') {
+				combatants.push(YZCombatant.fromRaw(c, message, combat));
+			}
+			else {
+				throw new CombatException('Unknown Combatant Type');
+			}
+		}
+		return 
+	}
+	static toRaw() {
+		return {
+			name: this.name,
+			inits: this.inits,
+			combatants: this.getCombatants().map(c => c.toRaw()),
+			index: this.index,
+			type: 'group',
+		};
+	}
+
 	addCombatant(combatant) {
 		combatant.group = this.name;
 		combatant.inits = this.inits;
@@ -730,5 +759,12 @@ class CombatChannelNotFound extends Error {
 	constructor(msg) {
 		super(msg);
 		this.name = 'CombatChannelNotFound';
+	}
+}
+
+class CombatException extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'CombatException';
 	}
 }

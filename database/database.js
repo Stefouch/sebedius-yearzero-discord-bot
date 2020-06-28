@@ -7,7 +7,7 @@ if (process.env.NODE_ENV !== 'production') {
 module.exports = {
 	/**
 	 * Sets a value in the database with Keyv.
-	 * @requires keyv
+	 * @requires Keyv
 	 * @param {string} key
 	 * @param {string} value
 	 * @param {?string} namespace
@@ -21,7 +21,7 @@ module.exports = {
 	},
 	/**
 	 * Gets the value in the database with Keyv.
-	 * @requires keyv
+	 * @requires Keyv
 	 * @param {string} key
 	 * @param {?string} namespace
 	 * @returns {string} The fetched value
@@ -30,6 +30,25 @@ module.exports = {
 	async get(key, namespace = null) {
 		const db = getDatabase(namespace);
 		return await db.get(key);
+	},
+	/**
+	 * Deletes the value in the database with Keyv.
+	 * @requires Keyv
+	 * @param {string} key
+	 * @param {?string} namespace
+	 * @returns {boolean}
+	 */
+	async delete(key, namespace = null) {
+		const db = getDatabase(namespace);
+		return await db.delete(key);
+	},
+	/**
+	 * Clears all values in the namespace.
+	 * @param {string} namespace
+	 */
+	async clear(namespace) {
+		const db = getDatabase(namespace);
+		return await db.clear();
 	},
 };
 
