@@ -1,5 +1,6 @@
 const Util = require('../utils/Util');
 const YZInitiative = require('./YZInitiative');
+const Sebedius = require('../Sebedius');
 
 class YZCombat {
 
@@ -122,7 +123,7 @@ class YZCombat {
 			raw.dm,
 			raw.options,
 			message,
-			raw.combatants,
+			null,
 			raw.initiatives,
 			raw.round,
 			raw.index,
@@ -138,6 +139,7 @@ class YZCombat {
 				throw new CombatException('Unknown Combatant Type');
 			}
 		}
+		console.log('fromRaw', instance);
 		return instance;
 	}
 
@@ -211,6 +213,9 @@ class YZCombat {
 				this.initiatives.addInitiative(c.id, drawnInits);
 				c.inits = c.inits.concat(drawnInits);
 			}
+			if (c instanceof YZCombatantGroup) {
+				c.combatants.forEach(g => g.inits = c.inits);
+			}
 		});
 		/* let currentCombatant = this.currentCombatant();
 		const fn = (ca, cb) => ca.inits[0] - cb.inits[0];
@@ -282,11 +287,11 @@ class YZCombat {
 	 */
 	async selectCombatant(name, choiceMessage = null, selectGroup = false) {
 		name = name.toLowerCase();
-		let matching = this.getCombatants(selectGroup).find(c => c.name.toLowerCase() == name);
-		if (!matching) {
-			matching = this.getCombatants(selectGroup).find(c => c.name.toLowerCase().includes(name));
+		let matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase() == name);
+		if (matching.length === 0) {
+			matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase().includes(name));
 		}
-		return await this.getSelection(this.message, matching, choiceMessage);
+		return await Sebedius.getSelection(this.message, matching); //, choiceMessage);
 	}
 
 	/**
@@ -382,7 +387,7 @@ class YZCombat {
 				+ '```';
 		}
 		else {
-			outStr = `**Initiative ${this.turn} (round ${this.round})**: `
+			outStr = `**Initiative ${this.turn} (round ${this.round}):** `
 				+ `${nextCombatant.name} (${nextCombatant.controllerMention()})`
 				+ '```markdown\n'
 				+ nextCombatant.getStatus()
@@ -495,6 +500,7 @@ class YZCombat {
 	async final() {
 		await this.commit();
 		await this.updateSummary();
+		console.log(this);
 	}
 
 	/**
@@ -613,6 +619,7 @@ class YZCombatant {
 
 	toRaw() {
 		return {
+			name: this.name,
 			controller: this.controller,
 			id: this.id,
 			inits: this.inits,
@@ -772,6 +779,10 @@ class YZCombatantGroup extends YZCombatant {
 		};
 	}
 
+	getCombatants() {
+		return this.combatants;
+	}
+
 	addCombatant(combatant) {
 		combatant.group = this.name;
 		combatant.inits = this.inits;
@@ -815,7 +826,7 @@ class YZCombatantGroup extends YZCombatant {
 
 }
 
-module.exports = { YZCombat, YZCombatant, YZCombatantGroup };
+//module.exports = { YZCombat, YZCombatant, YZCombatantGroup };
 
 class NoCombatants extends Error {
 	constructor(msg) {
@@ -858,3 +869,8 @@ class CombatException extends Error {
 		this.name = 'CombatException';
 	}
 }
+
+module.exports = {
+	YZCombat, YZCombatant, YZCombatantGroup,
+	NoCombatants, ChannelInCombat, RequiresContext, CombatNotFound, CombatChannelNotFound, CombatException,
+};

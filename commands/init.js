@@ -2,6 +2,7 @@ const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 const Util = require('../utils/Util');
 const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
+const { CombatNotFound } = require('../yearzero/YZCombat');
 
 const YargsParser = require('yargs-parser');
 const YARGS_PARSE_OPTIONS = {
@@ -87,6 +88,12 @@ module.exports = {
 			'PREV',
 			'Moves to the previous turn in initiative order.',
 		],
+		[
+			'MOVE',
+			`Moves to a certain initiative.
+			\`target\` can be either a number, to go to that initiative, or a name.
+			If not supplied, goes to the first combatant that the user controls.`,
+		],
 	],
 	aliases: ['i', 'initiative'],
 	guildOnly: true,
@@ -98,17 +105,30 @@ module.exports = {
 		// Exits early if no subcommand.
 		if (!SUBCOMMANDS_LIST.includes(subcmd)) {
 			const prefix = await client.getServerPrefix(message);
-			return message.reply(`:warning: Incorrect usage. Use \`${prefix}help init\` for help.`);
+			return message.reply(`:information_source: Incorrect usage. Use \`${prefix}help init\` for help.`);
 		}
-		// Chooses the function for the subcommand.
-		switch (subcmd) {
-		case 'help': help(args, message, client); break;
-		case 'begin': begin(args, message, client); break;
-		case 'add': add(args, message, client); break;
-		case 'join': join(args, message, client); break;
-		case 'next': next(args, message, client); break;
-		case 'prev': prev(args, message, client); break;
+		try {
+			// Chooses the function for the subcommand.
+			switch (subcmd) {
+			case 'help': await help(args, message, client); break;
+			case 'begin': await begin(args, message, client); break;
+			case 'add': await add(args, message, client); break;
+			case 'join': await join(args, message, client); break;
+			case 'next': await next(args, message, client); break;
+			case 'prev': await prev(args, message, client); break;
+			case 'move': await move(args, message, client); break;
+			}
 		}
+		catch (error) {
+			console.error(error);
+			if (error instanceof CombatNotFound) {
+				return message.reply(`:information_source: No combat instance. Type \`${await client.getServerPrefix(message)}init begin\`.`);
+			}
+		}
+		try {
+			await message.delete();
+		}
+		catch (err) { console.error(err); }
 	},
 };
 
@@ -168,15 +188,22 @@ async function begin(args, message, client) {
 	await combat.final(client);
 
 	// Pins the summary message.
-	try { await tempSummaryMsg.pin(); }
-	catch (error) { console.error(error); }
+	try {
+		//await message.delete();
+		//await tempSummaryMsg.pin();
+	}
+	catch (err) { console.error(err); }
 
 	// Sends starting message.
-	const desc = `\`${await client.getServerPrefix(message)}init add <name> [options]\``;
-	const embed = new MessageEmbed()
-		.setTitle('Everyone draw for initiative')
-		.setDescription(desc);
-	message.channel.send(embed);
+	const prefix = await client.getServerPrefix(message);
+	// const desc = `\`\`\`\n${prefix}init add <name> [options]\n${prefix}init join [options]\n\`\`\``;
+	/* const embed = new MessageEmbed()
+		.setTitle('Everyone Draw For Initiative:')
+		.setDescription(desc);//*/
+	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!'
+		+ `\`\`\`${prefix}init add <name> [options]\n${prefix}init join [options]\n\`\`\``;
+	// message.channel.send(embed);
+	message.channel.send(desc);
 }
 
 /**
@@ -211,6 +238,8 @@ async function add(args, message, client) {
 	const speed = argv.speed || 1;
 	let controller = message.author.id;
 
+	if (!name) return message.reply(':warning: This combatant needs a name.');
+
 	if (argv.controller) {
 		const member = Sebedius.fetchMember(argv.controller, message, client);
 		if (member) controller = member.id;
@@ -243,7 +272,7 @@ async function add(args, message, client) {
 
 	if (!group) {
 		combat.addCombatant(me);
-		await message.channel.send(`${name} was added to combat with initiative ${me.inits}.`);
+		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
 	}
 	else {
 		let grp = combat.getGroup(group);
@@ -252,7 +281,7 @@ async function add(args, message, client) {
 		combat.addCombatant(grp);
 
 		await message.channel.send(
-			`${name} was added to combat with initiative ${me.inits} as part of group ${grp.name}.`,
+			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
 		);
 	}
 	await combat.final(client);
@@ -275,17 +304,17 @@ async function join(args, message, client) {
 	const armor = argv.ar || 0;
 	const speed = argv.speed || 1;
 	const controller = message.author.id;
-	const emoji = argv.thumb;
+	//const emoji = argv.thumb;
 	const phrase = argv.phrase;
 
-	const embed = new MessageEmbed()
+	/* const embed = new MessageEmbed()
 		.setTitle(`${emoji ? `${emoji} ` : ''}${name}`)
-		.setDescription(`Health: **${hp}**\nArmor: **${armor}**\nSpeed: ${speed}`)
+		.setDescription(`Health: **${hp}**\nArmor: **${armor}**\nSpeed: **${speed}**`)
 		.setAuthor(name)
-		.setColor(message.member.displayColor);
+		.setColor(message.member.displayColor);//*/
 
 	if (phrase) {
-		embed.addField('Notes', phrase);
+		// embed.addField('Notes', phrase);
 	}
 	if (hp < 1) {
 		return message.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
@@ -315,22 +344,22 @@ async function join(args, message, client) {
 
 	if (!group) {
 		combat.addCombatant(me);
-		await message.channel.send(`${name} was added to combat with initiative ${me.inits}.`);
-		embed.setFooter('Added to combat!');
+		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		// embed.setFooter('Added to combat!');
 	}
 	else {
 		let grp = combat.getGroup(group);
 		if (grp) grp.addCombatant(me);
 		else grp = new YZCombatantGroup(group, null, me.controller, me.inits, [me]);
 		combat.addCombatant(grp);
-		embed.setFooter(`Joind group ${grp.name}`);
+		// embed.setFooter(`Joind group ${grp.name}`);
 
 		await message.channel.send(
-			`${name} was added to combat with initiative ${me.inits} as part of group ${grp.name}.`,
+			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
 		);
 	}
 	await combat.final(client);
-	await message.channel.send(embed);
+	// await message.channel.send(embed);
 }
 
 /**
@@ -341,7 +370,7 @@ async function join(args, message, client) {
  * @async
  */
 async function next(args, message, client) {
-	const combat = YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
 
 	if (combat.getCombatants().length === 0) {
 		return message.reply(':x: There are no combatants.');
@@ -371,7 +400,7 @@ async function next(args, message, client) {
 			}
 		}
 	}
-	const [advancedRound, out] = [...combat.advancedTurn()];
+	const [advancedRound, out] = [...combat.advanceTurn()];
 	out.push(combat.getTurnString());
 
 	for (const c of toRemove) {
@@ -391,7 +420,7 @@ async function next(args, message, client) {
  * @async
  */
 async function prev(args, message, client) {
-	const combat = YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
 
 	if (combat.getCombatants().length === 0) {
 		return message.reply(':x: There are no combatants.');
@@ -399,4 +428,44 @@ async function prev(args, message, client) {
 	combat.rewindTurn();
 	await message.channel.send(combat.getTurnString());
 	await combat.final(client);
+}
+
+/**
+ * MOVE.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function move(args, message, client) {
+	let combatant;
+	let target = args.shift();
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+
+	if (combat.getCombatants().length === 0) {
+		return message.reply(':x: There are no combatants.');
+	}
+	if (!target) {
+		combatant = combat.getCombatants().find(c => c.controller === message.author.id);
+		if (!combatant) {
+			return message.reply(':information_source: You don\'t control any combatants.');
+		}
+		combat.gotoTurn(combatant, true);
+	}
+	else if (Util.isNumber(target)) {
+		try {
+			target = Number(target);
+			combat.gotoTurn(target);
+		}
+		catch (error) {
+			combatant = await combat.selectCombatant(target);
+			combat.gotoTurn(combatant, true);
+		}
+	}
+	else {
+		combatant = await combat.selectCombatant(target);
+		combat.gotoTurn(combatant, true);
+	}
+	await message.channel.send(combat.getTurnString());
+	await combat.final();
 }

@@ -35,7 +35,7 @@ class Sebedius extends Discord.Client {
 		this.kdb = {
 			prefixes: new Keyv(process.env.DATABASE_URL, { namespace: 'prefix' }),
 			initiatives: new Keyv(process.env.DATABASE_URL, { namespace: 'initiative' }),
-			games: new Keyv(process.env.DATABASE_URL, { namespace: 'games' }),
+			games: new Keyv(process.env.DATABASE_URL, { namespace: 'game' }),
 			langs: new Keyv(process.env.DATABASE_URL, { namespace: 'lang' }),
 			combats: new Keyv(process.env.DATABASE_URL, { namespace: 'combat' }),
 		};
@@ -45,6 +45,11 @@ class Sebedius extends Discord.Client {
 		this.kdb.langs.on('error', err => console.error('Keyv Connection Error: langs', err));
 		this.kdb.combats.on('error', err => console.error('Keyv Connection Error: combats', err));
 		console.log('      > Loaded & Ready!');
+	}
+
+	async kdbEntries() {
+		const entries = await this.kdb.combats.opts.store.query('SELECT * FROM keyv;');
+		console.log(entries);
 	}
 
 	/**
@@ -87,7 +92,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getPrefixes(message) {
-		const fetchedPrefix = await Sebedius.getConf('prefixes', 'prefix', message, this, this.config.defaultPrefix);
+		const fetchedPrefix = await Sebedius.getConf('prefixes', message, this, this.config.defaultPrefix);
 		return whenMentionedOrPrefixed(fetchedPrefix, this);
 	}
 
@@ -98,7 +103,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getGame(message) {
-		return await Sebedius.getConf('games', 'game', message, this, SUPPORTED_GAMES[0]);
+		return await Sebedius.getConf('games', message, this, SUPPORTED_GAMES[0]);
 	}
 
 	/**
@@ -108,7 +113,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getLanguage(message) {
-		return await Sebedius.getConf('langs', 'lang', message, this, SUPPORTED_LANGS[0]);
+		return await Sebedius.getConf('langs', message, this, SUPPORTED_LANGS[0]);
 	}
 
 	/**
@@ -118,7 +123,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getCombat(message) {
-		return await Sebedius.getConf('combats', 'combat', message.channel.id, this, null);
+		return await Sebedius.getConf('combats', message.channel.id, this, null);
 	}
 
 	/**
@@ -133,7 +138,7 @@ class Sebedius extends Discord.Client {
 	 * @static
 	 * @async
 	 */
-	static async getConf(collectionName, dbNamespace, message, client, defaultItem = null) {
+	static async getConf(collectionName, message, client, defaultItem = null) {
 		if (!message.guild) return defaultItem;
 		if (!client[collectionName]) throw new SebediusError(`Collection-property unknown: ${collectionName}`);
 
@@ -145,14 +150,7 @@ class Sebedius extends Discord.Client {
 		}
 		// Otherwise, loads from db and cache.
 		else {
-			const dbNamespaces = {
-				prefix: 'prefixes',
-				game: 'games',
-				lang: 'langs',
-				combat: 'combats',
-			};
-			const namespace = dbNamespaces[dbNamespace];
-			fetchedItem = await client.kdb[namespace].get(guildID);
+			fetchedItem = await client.kdb[collectionName].get(guildID);
 			if (!fetchedItem) fetchedItem = defaultItem;
 			client[collectionName].set(guildID, fetchedItem);
 		}
