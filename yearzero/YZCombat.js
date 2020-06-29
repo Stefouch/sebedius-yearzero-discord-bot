@@ -7,13 +7,45 @@ class YZCombat {
 		options, message, combatants, initiatives = null,
 		roundNum = 0, currentIndex = null,
 	) {
-		this.channel = +channelId;
-		this.summary = +summaryMessageId;
-		this.dm = +dmId;
+		/**
+		 * The Discord TextChannel ID of the channel were the combat instance is ongoing.
+		 * @type {string} Snowflake
+		 */
+		this.channel = channelId;
+
+		/**
+		 * The Discord Message ID of the summary message.
+		 * @type {string} Snowflake
+		 */
+		this.summary = summaryMessageId;
+
+		/**
+		 * The GM's Discord User ID.
+		 * @type {string} Snowflake
+		 */
+		this.dm = dmId;
+
+		/**
+		 * Options.
+		 */
 		this.options = options || {};
+
+		/**
+		 * The current round.
+		 * @type {number}
+		 */
 		this.round = +roundNum || 0;
+
+		/**
+		 * The current initiative index (float value).
+		 * @type {number} float
+		 */
 		this.index = +currentIndex || 0;
 
+		/**
+		 * The Discord Message.
+		 * @type {Discord.Message}
+		 */
 		this.message = message;
 
 		/**
@@ -31,6 +63,12 @@ class YZCombat {
 		this.initiatives = initiatives ? new YZInitiative(initiatives) : new YZInitiative();
 	}
 
+	/**
+	 * The current turn number.
+	 * @type {number}
+	 * @see YZCombat#index
+	 * @readonly
+	 */
 	get turn() {
 		return Math.floor(this.index);
 	}
@@ -61,15 +99,6 @@ class YZCombat {
 			return this.combatants.find(c => c.id === ref);
 		}
 		return null;
-
-		/* let index;
-		const clen = this.combatants.length;
-		if (clen === 0) return null;
-		if (!this.index) index = 0;
-		else if (this.index + 1 >= clen) index = 0;
-		else index = this.index + 1;
-		return this.combatants.find(c => c.index === index);
-		//*/
 	}
 
 	static async fromId(channelId, message, bot) {
@@ -204,8 +233,8 @@ class YZCombat {
 	/**
 	 * Gets a combatant group.
 	 * @param {string} name The name of the combatant group
-	 * @param {boolean} create The initiative to create a group at if a group is not found
-	 * @param {boolean} strict Wether the group name must be a full case insensitive match
+	 * @param {?number[]} create The initiative to create a group at if a group is not found
+	 * @param {?boolean} [strict=true] Wether the group name must be a full case insensitive match
 	 * @returns {YZCombatantGroup}
 	 */
 	getGroup(name, create = null, strict = true) {
@@ -221,7 +250,7 @@ class YZCombat {
 
 		// Initiative "0" does not exist so it's good to test it like this.
 		if (!grp && create) {
-			grp = new YZCombatantGroup(name, create);
+			grp = new YZCombatantGroup(name, null, this.controller, create, null);
 			this.addCombatant(grp);
 		}
 		return grp;
@@ -246,8 +275,8 @@ class YZCombat {
 	/**
 	 * Opens a prompt for a user to select the combatant they were searching for.
 	 * @param {string} name The name of the combatant to search for
-	 * @param {Discord.Message} choiceMessage The message to pass to the selector
-	 * @param {boolean} selectGroup Whether to allow groups to be selected
+	 * @param {?Discord.Message} choiceMessage The message to pass to the selector
+	 * @param {?boolean} [selectGroup=false] Whether to allow groups to be selected
 	 * @returns {YZCombatant} The selected Combatant, or None if the search failed
 	 * @async
 	 */
@@ -340,7 +369,7 @@ class YZCombat {
 	}
 
 	getTurnString() {
-		let nextCombatant = this.currentCombatant;
+		const nextCombatant = this.currentCombatant;
 		let outStr = '';
 
 		if (nextCombatant instanceof YZCombatantGroup) {
@@ -373,7 +402,7 @@ class YZCombat {
 	}
 
 	/**
-	 * Commits the combat to db.
+	 * Commits the combat to database.
 	 * @async
 	 */
 	async commit() {
@@ -381,6 +410,7 @@ class YZCombat {
 		const bot = this.message.guild.me.client;
 		bot.combats.set(this.message.channel.id, this);
 
+		// Saves to database for 3 days.
 		const ttl = 72 * 3600 * 1000;
 		const raw = this.toRaw();
 		await bot.kdb.combats.set(this.message.channel.id, raw, ttl);
@@ -421,11 +451,10 @@ class YZCombat {
 
 	/**
 	 * Edits the summary message with the latest summary.
-	 * @param {?Discord.Client} bot The bot (Discord client)
 	 * @async
 	 */
-	async updateSummary(bot = null) {
-		await (await this.getSummaryMsg(bot)).edit(this.getSummary());
+	async updateSummary() {
+		await (await this.getSummaryMsg()).edit(this.getSummary());
 	}
 
 	/**
@@ -452,12 +481,11 @@ class YZCombat {
 		// Checks if cached and returns it.
 		// -todo-
 		// Otherwise fetches it.
-		return this.getChannel().messages.cache.get(this.summary);
-		//const msg = await this.getChannel(bot).messages.cache.get(this.summary);
-		// Caches it.
-		// -todo-
-		// Returns it.
-		//return msg;
+		const chan = this.getChannel();
+		const msgMgr = chan.messages;
+		const cache = msgMgr.cache;
+		const msg = cache.get(this.summary);
+		return msg;
 	}
 
 	/**
@@ -492,42 +520,87 @@ class YZCombatant {
 
 	constructor(data) {
 		/**
-		 * The unique ID of this Combattant.
+		 * The unique ID of this combatant.
 		 * @name YZCombatant#id
 		 * @type {string}
-		 * @readonly
+		 * @-readonly
 		 */
-		Object.defineProperty(this, 'id', {
+		this.id = data.id || Util.randomID();
+		/* Object.defineProperty(this, 'id', {
 			value: data.id || Util.randomID(),
 			enumerable: true,
-		});
-		this.controller = +data.controller;
-		if(!data.controller) throw new Error('YZCombattant has no controller');
+		});//*/
 
-		this._name = data.name || `Unnamed Character "${Util.randomID(4)}"`;
+		if(!data.controller) throw new Error('YZCombattant has no controller');
+		/**
+		 * The controller's Discord User ID of this combatant.
+		 * @type {string} Snowflake
+		 */
+		this.controller = data.controller;
+
+		/**
+		 * Cached name, because how it's used in YZCombatantGroup.
+		 */
+		this._name = data.name || 'Unnamed';
+
+		/**
+		 * The health of this combatant.
+		 * @type {number} >0
+		 * @default 3
+		 */
 		this.hp = +data.hp || 3;
+
+		/**
+		 * The Armor Rating.
+		 * @type {number} >=0
+		 * @default 0
+		 */
 		this.armor = +data.armor || 0;
+
+		/**
+		 * The speed (number of initiative card drawn).
+		 * @type {number} >0
+		 * @default 1
+		 */
 		this.speed = +data.speed || 1;
+
+		/**
+		 * Should this combatant be hidden?
+		 * @type {boolean}
+		 * @default false
+		 */
 		this.hidden = data.hidden ? true : false;
-		// this.stats = data.stats || {};
-		// this.skills = data.skills || {};
-		// this.status = YZCombatant.STATUS_LIST[0];
+
+		/**
+		 * Notes.
+		 * @type {string}
+		 */
 		this.notes = data.notes || '';
 
-		// Integers[]
+		/**
+		 * Initiative values. Stored as integers.
+		 * @type {number[]}
+		 */
 		this.inits = data.inits || [];
 
 		/**
-		 * Combat write only; Position in combat
-		 * @type {number}
-		 *
-		this.index = data.index || 0;//*/
-		this.group = data.group;
+		 * The name of the group this combatant is part of.
+		 * @type {string}
+		 */
+		this.group = data.group || null;
 	}
 
+	/**
+	 * The combatant's name.
+	 * @type {string}
+	 */
 	get name() { return this._name; }
 	set name(newName) { this._name = newName; }
 
+	/**
+	 * The combatant's maximum health.
+	 * @type {number}
+	 */
 	get maxhp() { return this._maxhp; }
 	set maxhp(newMaxHp) {
 		this._maxhp = newMaxHp;
@@ -541,6 +614,7 @@ class YZCombatant {
 	toRaw() {
 		return {
 			controller: this.controller,
+			id: this.id,
 			inits: this.inits,
 			hidden: this.hidden,
 			notes: this.notes,
@@ -644,30 +718,29 @@ class YZCombatant {
 	toHash() {
 		return Util.hashCode(`${this.name}.${this.id.toString()}`);
 	}
-
-	/**
-	 * @type {string[]}
-	 * @readonly
-	 *
-	static get STATUS_LIST() {
-		return ['Healhty', 'Broken', 'Dead'];
-	}//*/
 }
 
 class YZCombatantGroup extends YZCombatant {
 
-	constructor(name, inits, combatants) {
-		super({ inits });
-		this._name = name || `Group ${Util.randomID(4)}`;
+	constructor(name, id, controller, inits, combatants) {
+		super({ id, controller, inits });
+		this._name = name || Util.randomID(4);
+
+		/**
+		 * The list of combatants in this group.
+		 * @type {YZCombatant[]}
+		 */
 		this.combatants = combatants || [];
 	}
 
+	/**
+	 * The name of this group.
+	 * @type {string}
+	 */
 	get name() { return this._name; }
 	set name(newName) {
 		this._name = newName;
-		for (const combatant of this.combatants) {
-			combatant.group = this.name;
-		}
+		this.combatants.forEach(c => c.group = this.name);
 	}
 
 	static fromRaw(raw, message, combat) {
@@ -682,6 +755,8 @@ class YZCombatantGroup extends YZCombatant {
 		}
 		return new YZCombatantGroup(
 			raw.name,
+			raw.id,
+			raw.controller,
 			raw.inits,
 			combatants,
 		);
@@ -690,9 +765,9 @@ class YZCombatantGroup extends YZCombatant {
 	toRaw() {
 		return {
 			name: this.name,
+			id: this.id,
 			inits: this.inits,
 			combatants: this.getCombatants().map(c => c.toRaw()),
-			index: this.index,
 			type: 'group',
 		};
 	}

@@ -143,7 +143,7 @@ async function help(args, message, client) {
  * @async
  */
 async function begin(args, message, client) {
-	await YZCombat.ensureUniqueChan(message);
+	//await YZCombat.ensureUniqueChan(message);
 	const argv = require('yargs-parser')(args, {
 		boolean: ['turnnotif'],
 		array: ['name'],
@@ -248,7 +248,7 @@ async function add(args, message, client) {
 	else {
 		let grp = combat.getGroup(group);
 		if (grp) grp.addCombatant(me);
-		else grp = new YZCombatantGroup(group, me.inits, me);
+		else grp = new YZCombatantGroup(group, null, me.controller, me.inits, [me]);
 		combat.addCombatant(grp);
 
 		await message.channel.send(
@@ -267,7 +267,7 @@ async function add(args, message, client) {
  */
 async function join(args, message, client) {
 	const argv = YargsParser(args, YARGS_PARSE_OPTIONS);
-	const name = message.author.displayName;
+	const name = message.member.displayName;
 	const hidden = argv.h || false;
 	const places = argv.p;
 	const group = argv.group;
@@ -321,7 +321,7 @@ async function join(args, message, client) {
 	else {
 		let grp = combat.getGroup(group);
 		if (grp) grp.addCombatant(me);
-		else grp = new YZCombatantGroup(group, me.inits, me);
+		else grp = new YZCombatantGroup(group, null, me.controller, me.inits, [me]);
 		combat.addCombatant(grp);
 		embed.setFooter(`Joind group ${grp.name}`);
 
@@ -330,7 +330,7 @@ async function join(args, message, client) {
 		);
 	}
 	await combat.final(client);
-	await message.send(embed);
+	await message.channel.send(embed);
 }
 
 /**

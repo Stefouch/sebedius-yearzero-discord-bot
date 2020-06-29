@@ -19,7 +19,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '<expression>',
-	execute(args, message, client) {
+	async execute(args, message, client) {
 		// Exits early if not the bot's owner.
 		if (message.author.id !== client.config.botAdminID) return;
 
