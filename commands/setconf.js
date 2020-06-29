@@ -1,4 +1,3 @@
-const db = require('../database/database');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
@@ -29,6 +28,11 @@ module.exports = {
 		const newVal = args[1];
 		const guildID = message.guild.id;
 
+		const dbNamespaces = {
+			prefix: 'prefixes',
+			game: 'games',
+			lang: 'langs',
+		};
 		const verifiedParameters = ['prefix', 'game', 'lang'];
 
 		if (verifiedParameters.includes(key)) {
@@ -36,18 +40,18 @@ module.exports = {
 			if (typeof newVal !== 'undefined') {
 
 				if (key === 'prefix') {
-					await db.set(guildID, newVal, 'prefix');
 					client.prefixes.set(guildID, newVal);
+					await client.kdb.prefixes.set(guildID, newVal);
 					message.channel.send(`✅ My prefix has been set to: "${newVal}"`);
 				}
 				else if (key === 'game' && SUPPORTED_GAMES.includes(newVal)) {
-					await db.set(guildID, newVal, 'game');
 					client.games.set(guildID, newVal);
+					await client.kdb.games.set(guildID, newVal);
 					message.channel.send(`✅ The default game has been set to: "${newVal}"`);
 				}
 				else if (key === 'lang' && SUPPORTED_LANGS.includes(newVal)) {
-					await db.set(guildID, newVal, 'lang');
-					client.games.set(guildID, newVal);
+					client.langs.set(guildID, newVal);
+					await client.kdb.langs.set(guildID, newVal);
 					message.channel.send(`✅ The default language has been set to: "${newVal}"`);
 				}
 				else {
@@ -56,7 +60,8 @@ module.exports = {
 			}
 			// GET
 			else {
-				const value = await db.get(guildID, key);
+				const namespace = dbNamespaces[key];
+				const value = await client.kdb[namespace].get(guildID);
 				if (value) message.channel.send(`🏷️ Parameter: "${key}" = "${value}"`);
 				else message.reply(`❌ Impossible to get the value from "${key}" parameter.`);
 			}

@@ -1,4 +1,3 @@
-const db = require('../database/database');
 const Util = require('../utils/Util');
 const { CARDS_ICONS } = require('../utils/constants');
 const YZInitDeck = require('../yearzero/YZInitDeck');
@@ -18,7 +17,8 @@ module.exports = {
 		const ttl = 86400000;
 
 		// Recreates the deck.
-		const cards = await db.get(gid, 'initiative');
+		const cards = await client.kdb.initiatives.get(gid, 'initiative');
+		//const cards = await db.get(gid, 'initiative');
 		let deck;
 
 		if (cards && cards.length > 0) {
@@ -44,13 +44,15 @@ module.exports = {
 			}
 			const drawnCards = deck.draw(drawQty);
 			console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
-			await db.set(gid, deck._stack, 'initiative', ttl);
+			await client.kdb.initiatives.set(gid, deck._stack, ttl);
+			//await db.set(gid, deck._stack, 'initiative', ttl);
 			return message.reply(getDrawCardText(drawnCards, CARDS_ICONS));
 		}
 
 		async function reset() {
 			deck = new YZInitDeck();
-			await db.set(gid, deck._stack, 'initiative', ttl);
+			await client.kdb.initiatives.set(gid, deck._stack, ttl);
+			//await db.set(gid, deck._stack, 'initiative', ttl);
 			return message.channel.send('Shuffled a new deck of *Initiative* cards.');
 		}
 	},

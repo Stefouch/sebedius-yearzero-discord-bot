@@ -1,10 +1,14 @@
 const fs = require('fs');
-const db = require('./database/database');
+const Keyv = require('keyv');
 const Discord = require('discord.js');
 const Util = require('./utils/Util');
 const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS } = require('./utils/constants');
+
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
 
 class Sebedius extends Discord.Client {
 
@@ -25,8 +29,22 @@ class Sebedius extends Discord.Client {
 		// Records commands statistics for the current session.
 		this.counts = new Discord.Collection();
 
-		// Stores the database's utility functions.
-		this.kdb = db;
+		// Keyv Databases.
+		console.log('[+] - Keyv Databases');
+		console.log('      > Creation...');
+		this.kdb = {
+			prefixes: new Keyv(process.env.DATABASE_URL, { namespace: 'prefix' }),
+			initiatives: new Keyv(process.env.DATABASE_URL, { namespace: 'initiative' }),
+			games: new Keyv(process.env.DATABASE_URL, { namespace: 'games' }),
+			langs: new Keyv(process.env.DATABASE_URL, { namespace: 'lang' }),
+			combats: new Keyv(process.env.DATABASE_URL, { namespace: 'combat' }),
+		};
+		this.kdb.prefixes.on('error', err => console.error('Keyv Connection Error: prefixes', err));
+		this.kdb.initiatives.on('error', err => console.error('Keyv Connection Error: initiatives', err));
+		this.kdb.games.on('error', err => console.error('Keyv Connection Error: games', err));
+		this.kdb.langs.on('error', err => console.error('Keyv Connection Error: langs', err));
+		this.kdb.combats.on('error', err => console.error('Keyv Connection Error: combats', err));
+		console.log('      > Loaded & Ready!');
 	}
 
 	/**
@@ -127,7 +145,14 @@ class Sebedius extends Discord.Client {
 		}
 		// Otherwise, loads from db and cache.
 		else {
-			fetchedItem = await db.get(guildID, dbNamespace);
+			const dbNamespaces = {
+				prefix: 'prefixes',
+				game: 'games',
+				lang: 'langs',
+				combat: 'combats',
+			};
+			const namespace = dbNamespaces[dbNamespace];
+			fetchedItem = await client.kdb[namespace].get(guildID);
 			if (!fetchedItem) fetchedItem = defaultItem;
 			client[collectionName].set(guildID, fetchedItem);
 		}

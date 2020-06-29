@@ -4,15 +4,16 @@ const YZInitiative = require('./YZInitiative');
 class YZCombat {
 
 	constructor(channelId, summaryMessageId, dmId,
-		options, message, combatants,
+		options, message, combatants, initiatives = null,
 		roundNum = 0, currentIndex = null,
 	) {
-		this.channel = channelId;
-		this.summary = summaryMessageId;
-		this.dm = dmId;
+		this.channel = +channelId;
+		this.summary = +summaryMessageId;
+		this.dm = +dmId;
 		this.options = options || {};
-		this.round = roundNum || 0;
-		this.index = currentIndex || 0;
+		this.round = +roundNum || 0;
+		this.index = +currentIndex || 0;
+
 		this.message = message;
 
 		/**
@@ -27,7 +28,7 @@ class YZCombat {
 		 * V: {string} Combatant's ID.
 		 * @type {YZInitiative<number, string>}
 		 */
-		this.initiatives = new YZInitiative();
+		this.initiatives = initiatives ? new YZInitiative(initiatives) : new YZInitiative();
 	}
 
 	get turn() {
@@ -76,7 +77,7 @@ class YZCombat {
 			return bot.combats.get(channelId);
 		}
 		else {
-			const raw = await bot.kdb.get(channelId, 'combat');
+			const raw = await bot.kdb.combats.get(channelId);
 			if (!raw) {
 				throw new CombatNotFound(channelId);
 			}
@@ -93,6 +94,7 @@ class YZCombat {
 			raw.options,
 			message,
 			raw.combatants,
+			raw.initiatives,
 			raw.round,
 			raw.index,
 		);
@@ -117,6 +119,7 @@ class YZCombat {
 			dm: this.dm,
 			options: this.options,
 			combatants: this.combatants.map(c => c.toRaw()),
+			initiatives: [...this.initiatives],
 			round: this.round,
 			index: this.index,
 		};
@@ -283,7 +286,7 @@ class YZCombat {
 			this.index = nextInit;
 		}
 		this.currentCombatant.onTurnUpkeep();
-		return { changedRound, messages: [] };
+		return [changedRound, []];
 	}
 
 	rewindTurn() {
@@ -365,7 +368,7 @@ class YZCombat {
 
 	static async ensureUniqueChan(message) {
 		const bot = message.guild.me.client;
-		const data = await bot.kdb.get(message.channel.id, 'combat');
+		const data = await bot.kdb.combats.get(message.channel.id);
 		if (data) throw new ChannelInCombat();
 	}
 
@@ -376,8 +379,11 @@ class YZCombat {
 	async commit() {
 		if (!this.message) throw new RequiresContext();
 		const bot = this.message.guild.me.client;
+		bot.combats.set(this.message.channel.id, this);
+
 		const ttl = 72 * 3600 * 1000;
-		await bot.kdb.set(this.message.channel.id, this.toRaw(), 'combat', ttl);
+		const raw = this.toRaw();
+		await bot.kdb.combats.set(this.message.channel.id, raw, ttl);
 	}
 
 	/**
@@ -415,10 +421,11 @@ class YZCombat {
 
 	/**
 	 * Edits the summary message with the latest summary.
+	 * @param {?Discord.Client} bot The bot (Discord client)
 	 * @async
 	 */
-	async updateSummary() {
-		await (await this.getSummaryMsg()).edit(this.getSummary());
+	async updateSummary(bot = null) {
+		await (await this.getSummaryMsg(bot)).edit(this.getSummary());
 	}
 
 	/**
@@ -430,7 +437,9 @@ class YZCombat {
 			return this.message.channel;
 		}
 		else {
-			//const chan = this.message.guild.me.channels.cache.get(this.message);
+			//const chan = bot.channels.cache.get(this.channel);
+			//if (chan) return chan;
+			//else throw new CombatChannelNotFound();
 			throw new CombatChannelNotFound();
 		}
 	}
@@ -443,11 +452,12 @@ class YZCombat {
 		// Checks if cached and returns it.
 		// -todo-
 		// Otherwise fetches it.
-		const msg = await this.getChannel().messages.cache.get(this.summary);
+		return this.getChannel().messages.cache.get(this.summary);
+		//const msg = await this.getChannel(bot).messages.cache.get(this.summary);
 		// Caches it.
 		// -todo-
 		// Returns it.
-		return msg;
+		//return msg;
 	}
 
 	/**
@@ -470,7 +480,7 @@ class YZCombat {
 		const bot = this.message.guild.me.client;
 		const id = this.message.channel.id;
 		bot.combats.delete(id);
-		await bot.kdb.delete(id, 'combat');
+		await bot.kdb.combats.delete(id);
 	}
 
 	toString() {
@@ -491,7 +501,7 @@ class YZCombatant {
 			value: data.id || Util.randomID(),
 			enumerable: true,
 		});
-		this.controller = data.controller;
+		this.controller = +data.controller;
 		if(!data.controller) throw new Error('YZCombattant has no controller');
 
 		this._name = data.name || `Unnamed Character "${Util.randomID(4)}"`;
@@ -528,7 +538,7 @@ class YZCombatant {
 		return new YZCombatant(raw);
 	}
 
-	static toRaw() {
+	toRaw() {
 		return {
 			controller: this.controller,
 			inits: this.inits,
@@ -670,9 +680,14 @@ class YZCombatantGroup extends YZCombatant {
 				throw new CombatException('Unknown Combatant Type');
 			}
 		}
-		return 
+		return new YZCombatantGroup(
+			raw.name,
+			raw.inits,
+			combatants,
+		);
 	}
-	static toRaw() {
+
+	toRaw() {
 		return {
 			name: this.name,
 			inits: this.inits,

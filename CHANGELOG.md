@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 - Renamed the old `!init` command into `!drawinit`.
 - Resorted all scripts.
-- Whole file architecture.
+- Resorted whole files/folders architecture.
+- Simplified access to databases.
 
 ## [2.0.0] - 2020-06-22
 ### Added
