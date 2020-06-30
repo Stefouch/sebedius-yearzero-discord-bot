@@ -5,6 +5,7 @@ const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZComba
 const { CombatNotFound } = require('../yearzero/YZCombat');
 
 const YargsParser = require('yargs-parser');
+const { sum } = require('lodash');
 const YARGS_PARSE_COMBATANT = {
 	alias: {
 		ar: ['armor'],
@@ -14,10 +15,10 @@ const YARGS_PARSE_COMBATANT = {
 		speed: ['s'],
 		lf: ['speedloot', 'loot'],
 	},
-	array: ['p', 'phrase'],
+	array: ['p', 'phrase', 'name', 'group'],
 	boolean: ['h'],
-	number: ['ar', 'hp', 'p', 'speed', 'lf'],
-	string: ['group', 'thumb'],
+	number: ['speed', 'lf'],
+	string: ['p', 'hp', 'max', 'ar', 'thumb'],
 	default: {
 		h: null,
 	},
@@ -119,12 +120,30 @@ module.exports = {
 			__Arguments__
 			\`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
 			\`-controller <mention>\` – Pings a different person on turn.
+			\`-name <name>\` – Changes the combatants' name.
 			\`-group <name>\` – Adds the combatant to a group.
 			\`-hp <value>\` – Sets starting HP. Default: 3.
+			\`-max <value>\` – Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise.
 			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
 			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
 			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
 			\`-h\` – Hides life, AR and anything else.`,
+		],
+		[
+			'STATUS',
+			`Gets the status of a combatant or group.
+			__Valid Arguments__
+			\`-private\` – PMs the controller of the combatant a more detailed status.`,
+		],
+		[
+			'REMOVE',
+			'Removes a combatant or group from the combat.',
+		],
+		[
+			'END',
+			`Ends combat in the channel.
+			__Valid Arguments__
+			\`-force\` – Forces an init to end, in case it's erroring.`,
 		],
 	],
 	aliases: ['i', 'initiative'],
@@ -149,6 +168,9 @@ module.exports = {
 			case 'list': case 'summary': await list(args, message, client); break;
 			case 'note': await note(args, message, client); break;
 			case 'opt': case 'opts': case 'option': case 'options': await opt(args, message, client); break;
+			case 'status': await status(args, message, client); break;
+			case 'remove': await remove(args, message, client); break;
+			case 'end': await end(args, message, client); break;
 			default:
 				return message.reply(`:information_source: Incorrect usage. Use \`${message.prefix}help init\` for help.`);
 			}
@@ -254,11 +276,11 @@ async function add(args, message, client) {
 	const name = argv._.join(' ');
 	const hidden = argv.h || false;
 	const places = argv.p;
-	const group = argv.group;
-	const hp = argv.hp || 3;
-	const armor = argv.ar || 0;
-	const speed = argv.speed || 1;
-	const speedloot = argv.loot || null;
+	const group = argv.group.join(' ') || null;
+	const hp = +argv.hp || 3;
+	const armor = +argv.ar || 0;
+	const speed = +argv.speed || 1;
+	const speedloot = +argv.loot || null;
 	let controller = message.author.id;
 
 	if (!name) return message.reply(':warning: This combatant needs a name.');
@@ -322,14 +344,14 @@ async function join(args, message, client) {
 	const name = message.member.displayName;
 	const hidden = argv.h || false;
 	const places = argv.p;
-	const group = argv.group;
-	const hp = argv.hp || 3;
-	const armor = argv.ar || 0;
-	const speed = argv.speed || 1;
-	const speedloot = argv.lf || null;
+	const group = argv.group.join(' ') || null;
+	const hp = +argv.hp || 3;
+	const armor = +argv.ar || 0;
+	const speed = +argv.speed || 1;
+	const speedloot = +argv.lf || null;
 	const controller = message.author.id;
-	//const emoji = argv.thumb;
 	const phrase = argv.phrase;
+	//const emoji = argv.thumb;
 
 	/* const embed = new MessageEmbed()
 		.setTitle(`${emoji ? `${emoji} ` : ''}${name}`)
@@ -627,14 +649,269 @@ async function opt(args, message, client) {
 		return message.reply(':x: There are no combatants.');
 	}
 
-	const name = args.shift();
+	//const name = args.shift();
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
+	const name = argv._.join(' ');
 	const options = {};
-	const isGroup = comb instanceof YZCombatantGroup;
+	const isGroup = combatant instanceof YZCombatantGroup;
 	const runOnce = new Set();
+	const groupName = argv.group.join(' ') || null;
+	let out = [];
 
-	const comb = await combat.selectCombatant(name, null, true);
-	if (!comb) {
+	const combatant = await combat.selectCombatant(name, null, true);
+	if (!combatant) {
 		return message.reply(':x: Combatant not found.');
 	}
+
+	if (argv.h != null && argv.h != undefined) {
+		combatant.hidden = !combatant.hidden;
+		out.push(`:spy: ${combatant.name} is **${combatant.isPrivate() ? 'hidden' : 'unhidden'}**.`);
+	}
+	if (argv.controller) {
+		const member = Sebedius.getUserFromMention(argv.controller, client);
+		if (!member) {
+			out.push(':x: New controller not found.');
+		}
+		else {
+			combatant.controller = member.id;
+			out.push(`:bust_in_silhouette: ${combatant.name}'s controller set to ${combatant.controllerMention()}.`);
+		}
+	}
+	if (argv.ar) {
+		const oldArmor = combatant.armor;
+		const newArmor = Util.modifOrSet(argv.ar, oldArmor);
+		combatant.armor = newArmor;
+		out.push(`:shield: ${combatant.name}'s armor set to **${combatant.armor}** (was ${oldArmor}).`);
+	}
+	if (argv.p) {
+		if (combatant.id === combat.currentCombatant.id) {
+			out.push(':x: You cannot change a combatant\'s initiative on their own turn.');
+		}
+		else if (argv.p.length) {
+			const oldInits = combatant.inits;
+			const newInits = [];
+			argv.p.forEach((init, i) => {
+				if (i < oldInits.length) {
+					newInits.push(Util.modifOrSet(init, oldInits[i]));
+				}
+				else {
+					newInits.push(init);
+				}
+			});
+			combatant.inits = newInits;
+			combat.sortCombatants();
+			out.push(`:zap: ${combatant.name}'s initiative set to **${combatant.inits}** (was ${oldInits}).`);
+		}
+		else {
+			out.push(`:x: Invalid argument: ${argv.p}.`);
+		}
+	}
+	if (groupName) {
+		const current = combat.currentCombatant;
+		const wasCurrent =
+			current.id === combatant.id ||
+			(
+				current instanceof YZCombatantGroup &&
+				current.getCombatants().includes(combatant) &&
+				current.getCombatants.length === 1
+			);
+
+		combat.removeCombatant(combatant, true);
+		if (groupName.toLowerCase() === 'none') {
+			combat.addCombatant(combatant);
+			if (wasCurrent) {
+				combat.gotoTurn(combatant, true);
+			}
+			out.push(`:outbox_tray: ${combatant.name} removed from all groups.`);
+		}
+		else {
+			//const cGroup = combat.getGroup(groupName, combatant.inits);
+			//cGroup.addCombatant(combatant);
+			//combat.addCombatant(cGroup);
+			let grp = combat.getGroup(groupName);
+			if (grp) grp.addCombatant(combatant);
+			else grp = new YZCombatantGroup(groupName, null, combatant.controller, combatant.inits, [combatant]);
+			combat.addCombatant(grp);
+			if (wasCurrent) {
+				combat.gotoTurn(combatant, true);
+			}
+			out.push(`:inbox_tray: ${combatant.name} added to group __${grp.name}__.`)
+		}
+	}
+	if (argv.name) {
+		const oldName = combatant.name;
+		const newName = argv.name;
+		if (combat.getCombatant(newName, true)) {
+			out.push(`:x: There is already another combatant with the name ${newName}`);
+		}
+		else if (newName) {
+			combatant.name = newName;
+			out.push(`:ticket: ${oldName}'s name set to **${newName}**.`);
+		}
+		else {
+			out.push(':information_source: You must pass in a name with the `-name` tag.');
+		}
+	}
+	if (argv.max) {
+		const oldMax = combatant.maxhp;
+		const newMax = Util.modifOrSet(argv.max, oldMax);
+		if (newMax < 1) {
+			out.push(':x: Max HP must at least be 1.');
+		}
+		else {
+			combatant.maxhp = newMax;
+			out.push(`:drop_of_blood: ${combatant.name}'s HP max set to **${combatant.maxhp}** (was ${oldMax}).`);
+		}
+	}
+	if (argv.hp) {
+		const oldLife = combatant.hp;
+		const newLife = Util.modifOrSet(argv.hp, oldLife);
+		combatant.hp = newLife;
+		out.push(`:drop_of_blood: ${combatant.name}'s HP set to **${combatant.hp}** (was ${oldLife}).`);
+	}
+	await combat.final();
+	await message.channel.send(out.join('\n'));
+}
+
+/**
+ * STATUS.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function status(args, message, client) {
+	const argv = YargsParser(args, {
+		boolean: ['private'],
+		default: {
+			private: false,
+		},
+		configuration: client.config.yargs,
+	});
+	const name = argv._.join(' ');
+
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combatant = await combat.selectCombatant(name, null, true);
+	if (!combatant) {
+		return message.reply(':x: Combatant or group not found.');
+	}
+
+	let privacy = argv.private;
+	let statusStr;
+	if (!(combatant instanceof YZCombatantGroup)) {
+		privacy = privacy && message.author.id === combatant.controller;
+		statusStr = combatant.getStatus(privacy);
+	}
+	else {
+		statusStr = combatant.getCombatants()
+			.filter(c => c.controller === message.author.id)
+			.map(c => c.getStatus(privacy))
+			.join('\n');
+	}
+	if (privacy) {
+		const controller = message.guild.members.cache.get(combatant.controller);
+		if (controller) {
+			controller.send(`\`\`\`markdown\n${statusStr}\`\`\``);
+		}
+	}
+	else {
+		await message.channel.send(`\`\`\`markdown\n${statusStr}\`\`\``);
+	}
+}
+
+async function _SendHpResult(message, combatant, delta = null) {
+	const deltaend = delta ? ` (${delta})` : '';
+
+	if (combatant.isPrivate()) {
+		await message.channel.send(`${combatant.name}: ${combatant.hpString()}`);
+
+		const controller = message.guild.members.cache.get(combatant.controller);
+		if (controller) {
+			await controller.send(`${combatant.name}'s HP: ${combatant.hpString(true)}${deltaend}`);
+		}
+	}
+	else {
+		await message.channel.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
+	}
+}
+
+/**
+ * REMOVE.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function remove(args, message, client) {
+	const name = args.join(' ');
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combatant = await combat.selectCombatant(name, null, true);
+	if (!combatant) {
+		return await message.reply(':x: Combatant not found.');
+	}
+	if (combatant.id === combat.currentCombatant.id) {
+		return await message.reply(':x: You cannot remove a combatant on their own turn.');
+	}
+	if (combatant.group) {
+		const group = combat.getGroup(combatant.group);
+		if (group.getCombatants().length <= 1 && group.id === combat.currentCombatant.id) {
+			return await message.reply(':x: You cannot remove a combatant if they are the only remaining combatant in this turn.');
+		}
+	}
+	combat.removeCombatant(combatant);
+	await message.channel.send(`:soap: ${combatant.name} removed from combat.`);
+	await combat.final();
+}
+
+/**
+ * END.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function end(args, message, client) {
+	/* const argv = YargsParser(args, {
+		boolean: ['force'],
+		default: {
+			force: false,
+		},
+		configuration: client.config.yargs,
+	});//*/
+	const toEnd = await Sebedius.confirm(
+		message,
+		':speech_balloon: Are you sure you want to end combat? (reply with yes/no)',
+		true,
+	);
+	if (toEnd == null || toEnd == undefined) {
+		return message.channel.send(':x: Timed out waiting for a response or invalid response.')
+			.then(m => m.delete(10000))
+			.catch(console.error);
+	}
+	else if (!toEnd) {
+		return message.channel.send(':x: OK, cancelling.')
+			.then(m => m.delete(10000))
+			.catch(console.error);
+	}
+	
+	const msg = await message.channel.send(':stop_button: OK, ending...');
+	if (!args.includes('-force')) {
+		const combat = await YZCombat.fromId(message.channel.id, message, client);
+		try {
+			await message.author.send(
+				`End of combat report: ${combat.round} rounds`
+				+ `${combat.getSummary(true)}`);
+
+			const summary = await combat.getSummaryMsg();
+			await summary.edit(combat.getSummary() + ' ```-----COMBAT ENDED-----```');
+			await summary.unpin();
+		}
+		catch (err) { console.error(err); }
+
+		await combat.end();
+	}
+	else {
+		await client.kdb.combats.delete(message.channel.id);
+	}
+	await msg.edit(':ballot_box_with_check: Combat ended.');
 }

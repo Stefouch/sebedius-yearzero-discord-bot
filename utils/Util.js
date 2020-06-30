@@ -603,7 +603,7 @@ class Util {
 	 * @param {?number} [base=0]
 	 * @returns {number}
 	 */
-	static maybeMod(val, base = 0) {
+	static modifOrSet(val, base = 0) {
 		let n = base || 0;
 		if (val.startsWith('+') || val.startsWith('-')) n += Number(val);
 		else n = Number(val);
