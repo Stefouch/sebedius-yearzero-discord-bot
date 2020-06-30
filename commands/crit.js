@@ -14,7 +14,7 @@ const critTypeAliases = {
 	damage: ['dmg'],
 	slash: ['sl'],
 	blunt: ['bl'],
-	stab: ['sb'],
+	stab: ['st'],
 	horror: ['h'],
 	synthetic: ['s', 'synth'],
 	xeno: ['x'],
@@ -44,7 +44,7 @@ module.exports = {
 			'⚔️ Forbidden Lands',
 			'• `sl` | `slash` : Critical injuries due to Slash wounds.'
 			+ '\n• `bl` | `blunt` : Critical injuries due to Blunt force.'
-			+ '\n• `sl` | `stab` : Critical injuries due to Stab wounds.'
+			+ '\n• `st` | `stab` : Critical injuries due to Stab wounds.'
 			+ '\n• `h` | `horror` : Horror traumas.'
 			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
 			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
