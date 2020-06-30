@@ -5,32 +5,28 @@ const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZComba
 const { CombatNotFound } = require('../yearzero/YZCombat');
 
 const YargsParser = require('yargs-parser');
-const YARGS_PARSE_OPTIONS = {
+const YARGS_PARSE_COMBATANT = {
 	alias: {
 		ar: ['armor'],
 		h: ['hidden', 'hide', 'private'],
 		p: ['place', 'init', 'i'],
 		group: ['g'],
 		speed: ['s'],
+		lf: ['speedloot', 'loot'],
 	},
 	array: ['p', 'phrase'],
 	boolean: ['h'],
-	number: ['ar', 'hp', 'p', 'speed'],
+	number: ['ar', 'hp', 'p', 'speed', 'lf'],
 	string: ['group', 'thumb'],
+	default: {
+		h: null,
+	},
 	configuration: {
 		'short-option-groups': false,
 		'duplicate-arguments-array': false,
 		'flatten-duplicate-arrays': true,
 	},
 };
-
-const SUBCOMMANDS_LIST = [
-	'add', 'attack', 'begin', 'effect', 'end',
-	'hp', 'join', 'list', 'madd', 'meta',
-	'move', 'next', 'note', 'opt', 'prev',
-	're', 'remove', 'reroll', 'skipround', 'status',
-	'help',
-];
 
 module.exports = {
 	name: 'init',
@@ -62,6 +58,7 @@ module.exports = {
 			\`-hp <value>\` – Sets starting HP. Default: 3.
 			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
 			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
+			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
 			\`-h\` – Hides life, AR and anything else.`,
 		],
 		[
@@ -76,6 +73,7 @@ module.exports = {
 			\`-hp <value>\` – Sets starting HP. Default: 3.
 			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
 			\`-speed\` – Sets the character's speed (number of initiative cards drawn). Default: 1.
+			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
 			\`-h\` – Hides life, AR and anything else.
 			`,
 		],
@@ -94,6 +92,40 @@ module.exports = {
 			\`target\` can be either a number, to go to that initiative, or a name.
 			If not supplied, goes to the first combatant that the user controls.`,
 		],
+		[
+			'SKIPROUND',
+			'Skips one or more rounds of initiative.',
+		],
+		[
+			'META',
+			`Changes the settings of the active combat.
+			__Valid Settings__
+			\`-name <name>\` – Sets a name for the combat instance.
+			\`-turnnotif\` – Notifies the controller of the next combatant in initiative.`,
+		],
+		[
+			'LIST',
+			`Lists the combatants.
+			__Valid Arguments__
+			\`-private\` – Sends the list in a private message.`,
+		],
+		[
+			'NOTE',
+			'Attaches a note to a combatant.',
+		],
+		[
+			'OPTS',
+			`Edits the options of a combatant.
+			__Arguments__
+			\`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
+			\`-controller <mention>\` – Pings a different person on turn.
+			\`-group <name>\` – Adds the combatant to a group.
+			\`-hp <value>\` – Sets starting HP. Default: 3.
+			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
+			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
+			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
+			\`-h\` – Hides life, AR and anything else.`,
+		],
 	],
 	aliases: ['i', 'initiative'],
 	guildOnly: true,
@@ -102,27 +134,29 @@ module.exports = {
 	async execute(args, message, client) {
 		// Gets the subcommand.
 		const subcmd = args.shift().toLowerCase();
-		// Exits early if no subcommand.
-		if (!SUBCOMMANDS_LIST.includes(subcmd)) {
-			const prefix = await client.getServerPrefix(message);
-			return message.reply(`:information_source: Incorrect usage. Use \`${prefix}help init\` for help.`);
-		}
 		try {
 			// Chooses the function for the subcommand.
 			switch (subcmd) {
-			case 'help': await help(args, message, client); break;
+			case 'help': case 'h': await help(args, message, client); break;
 			case 'begin': await begin(args, message, client); break;
 			case 'add': await add(args, message, client); break;
 			case 'join': await join(args, message, client); break;
-			case 'next': await next(args, message, client); break;
-			case 'prev': await prev(args, message, client); break;
-			case 'move': await move(args, message, client); break;
+			case 'next': case 'n': await next(args, message, client); break;
+			case 'prev': case 'p': case 'previous': await prev(args, message, client); break;
+			case 'move': case 'goto': await move(args, message, client); break;
+			case 'skipround': await skipround(args, message, client); break;
+			case 'meta': await meta(args, message, client); break;
+			case 'list': case 'summary': await list(args, message, client); break;
+			case 'note': await note(args, message, client); break;
+			case 'opt': case 'opts': case 'option': case 'options': await opt(args, message, client); break;
+			default:
+				return message.reply(`:information_source: Incorrect usage. Use \`${message.prefix}help init\` for help.`);
 			}
 		}
 		catch (error) {
 			console.error(error);
 			if (error instanceof CombatNotFound) {
-				return message.reply(`:information_source: No combat instance. Type \`${await client.getServerPrefix(message)}init begin\`.`);
+				return message.reply(`:information_source: No combat instance. Type \`${message.prefix}init begin\`.`);
 			}
 		}
 		try {
@@ -142,14 +176,17 @@ module.exports = {
 async function help(args, message, client) {
 	let subcmd;
 	if (args.length) subcmd = args.shift().toLowerCase();
-	if (!subcmd || !SUBCOMMANDS_LIST.includes(subcmd)) {
+	if (!subcmd) {
 		return client.commands.get('help').execute(['init'], message, client);
 	}
 	const subcmdDesc = module.exports.moreDescriptions.find(d => d[0].toLowerCase().includes(subcmd));
+	if (!subcmdDesc) {
+		return client.commands.get('help').execute(['init'], message, client);
+	}
 	const title = subcmdDesc[0].toLowerCase();
 	const description = subcmdDesc[1];
 	const embed = new MessageEmbed({
-		title: `${await client.getServerPrefix(message)}init ${title}`,
+		title: `${message.prefix}init ${title}`,
 		description,
 	});
 	message.channel.send(embed);
@@ -164,7 +201,7 @@ async function help(args, message, client) {
  */
 async function begin(args, message, client) {
 	//await YZCombat.ensureUniqueChan(message);
-	const argv = require('yargs-parser')(args, {
+	const argv = YargsParser(args, {
 		boolean: ['turnnotif'],
 		array: ['name'],
 		default: {
@@ -173,7 +210,7 @@ async function begin(args, message, client) {
 		configuration: client.config.yargs,
 	});
 	const options = {};
-	if (argv.name) options.name = argv.name;
+	if (argv.name) options.name = argv.name.join(' ');
 	if (argv.turnnotif) options.turnnotif = argv.turnnotif;
 
 	// Builds the summary message and the combat instance.
@@ -195,13 +232,12 @@ async function begin(args, message, client) {
 	catch (err) { console.error(err); }
 
 	// Sends starting message.
-	const prefix = await client.getServerPrefix(message);
 	// const desc = `\`\`\`\n${prefix}init add <name> [options]\n${prefix}init join [options]\n\`\`\``;
 	/* const embed = new MessageEmbed()
 		.setTitle('Everyone Draw For Initiative:')
 		.setDescription(desc);//*/
 	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!'
-		+ `\`\`\`${prefix}init add <name> [options]\n${prefix}init join [options]\n\`\`\``;
+		+ `\`\`\`${message.prefix}init add <name> [options]\n${message.prefix}init join [options]\n\`\`\``;
 	// message.channel.send(embed);
 	message.channel.send(desc);
 }
@@ -214,21 +250,7 @@ async function begin(args, message, client) {
  * @async
  */
 async function add(args, message, client) {
-	const argv = YargsParser(args, YARGS_PARSE_OPTIONS);
-	/* const argv = require('yargs-parser')(args, {
-		alias: {
-			ar: ['armor'],
-			h: ['hidden', 'hide', 'private'],
-			p: ['place', 'init', 'i'],
-			group: ['g'],
-			speed: ['s'],
-		},
-		array: ['p'],
-		boolean: ['h'],
-		number: ['ar', 'hp', 'p', 'speed'],
-		string: ['group'],
-		configuration: client.config.yargs,
-	});//*/
+	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name = argv._.join(' ');
 	const hidden = argv.h || false;
 	const places = argv.p;
@@ -236,6 +258,7 @@ async function add(args, message, client) {
 	const hp = argv.hp || 3;
 	const armor = argv.ar || 0;
 	const speed = argv.speed || 1;
+	const speedloot = argv.loot || null;
 	let controller = message.author.id;
 
 	if (!name) return message.reply(':warning: This combatant needs a name.');
@@ -260,7 +283,7 @@ async function add(args, message, client) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, speedloot });
 
 	if (places) {
 		places.forEach(p => {
@@ -295,7 +318,7 @@ async function add(args, message, client) {
  * @async
  */
 async function join(args, message, client) {
-	const argv = YargsParser(args, YARGS_PARSE_OPTIONS);
+	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name = message.member.displayName;
 	const hidden = argv.h || false;
 	const places = argv.p;
@@ -303,6 +326,7 @@ async function join(args, message, client) {
 	const hp = argv.hp || 3;
 	const armor = argv.ar || 0;
 	const speed = argv.speed || 1;
+	const speedloot = argv.lf || null;
 	const controller = message.author.id;
 	//const emoji = argv.thumb;
 	const phrase = argv.phrase;
@@ -332,7 +356,7 @@ async function join(args, message, client) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, speedloot });
 
 	if (places) {
 		places.forEach(p => {
@@ -394,18 +418,18 @@ async function next(args, message, client) {
 		else {
 			thisTurn = [combat.currentCombatant];
 		}
-		for (const c of thisTurn) {
-			if (c.hp <= 0) {
-				toRemove.push(c);
+		for (const co of thisTurn) {
+			if (co.hp <= 0) {
+				toRemove.push(co);
 			}
 		}
 	}
 	const [advancedRound, out] = [...combat.advanceTurn()];
 	out.push(combat.getTurnString());
 
-	for (const c of toRemove) {
-		combat.removeCombatant(c);
-		out.push(`${c.name} automatically removed from combat.\n`);
+	for (const co of toRemove) {
+		combat.removeCombatant(co);
+		out.push(`${co.name} automatically removed from combat.\n`);
 	}
 
 	await message.channel.send(out.join('\n'));
@@ -438,13 +462,14 @@ async function prev(args, message, client) {
  * @async
  */
 async function move(args, message, client) {
-	let combatant;
-	let target = args.shift();
 	const combat = await YZCombat.fromId(message.channel.id, message, client);
 
 	if (combat.getCombatants().length === 0) {
 		return message.reply(':x: There are no combatants.');
 	}
+
+	let combatant;
+	let target = args.shift();
 	if (!target) {
 		combatant = combat.getCombatants().find(c => c.controller === message.author.id);
 		if (!combatant) {
@@ -468,4 +493,148 @@ async function move(args, message, client) {
 	}
 	await message.channel.send(combat.getTurnString());
 	await combat.final();
+}
+
+/**
+ * SKIPROUND.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function skipround(args, message, client) {
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+
+	if (combat.getCombatants().length === 0) {
+		return message.reply(':x: There are no combatants.');
+	}
+	if (!combat.index) {
+		return message.reply(`Please start combat with \`${message.prefix}init next\` first.`);
+	}
+
+	const numRounds = +args.shift();
+
+	const toRemove = [];
+	const out = combat.skipRounds(numRounds);
+
+	out.push(combat.getTurnString());
+
+	for (const co of toRemove) {
+		combat.removeCombatant(co);
+		out.push(`${co.name} automatically removed from combat.\n`);
+	}
+
+	await message.channel.send(out.join('\n'));
+	await combat.final();
+}
+
+/**
+ * META.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function meta(args, message, client) {
+	const argv = YargsParser(args, {
+		boolean: ['turnnotif'],
+		array: ['name'],
+		default: {
+			turnnotif: null,
+		},
+		configuration: client.config.yargs,
+	});
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const options = combat.options;
+	let outStr = '';
+
+	if (argv.name) {
+		options.name = argv.name.join(' ');
+		outStr += `:label: Name set to **${options.name}**.\n`;
+	}
+	if (argv.turnnotif != null) {
+		options.turnnotif = !options.turnnotif;
+		outStr += `:bulb: Turn notification turned **${options.turnnotif ? 'on' : 'off'}**.\n`;
+	}
+
+	combat.options = options;
+	await combat.commit();
+	await message.channel.send(outStr);
+}
+
+/**
+ * LIST.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function list(args, message, client) {
+	const argv = YargsParser(args, {
+		boolean: ['private'],
+		default: {
+			private: false,
+		},
+		configuration: client.config.yargs,
+	});
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const destination = argv.private ? message.channel : message.author;
+	let outStr;
+
+	if (argv.private && message.author.id === combat.dm) {
+		outStr = combat.getSummary(true);
+	}
+	else {
+		outStr = combat.getSummary();
+	}
+	await destination.send(outStr);
+}
+
+/**
+ * NOTE.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function note(args, message, client) {
+	const name = args.shift();
+	const notes = args.join(' ');
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+
+	const combatant = await combat.selectCombatant(name);
+	if (!combatant) {
+		return message.reply(':x: Combatant not found.');
+	}
+	combatant.notes = notes;
+	if (!notes) await message.channel.send(`:notepad_spiral: Removed note for **${combatant.name}**.`);
+	else await message.channel.send(`:notepad_spiral: Added note for **${combatant.name}**.`);
+
+	await combat.final();
+}
+
+/**
+ * OPT.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function opt(args, message, client) {
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+
+	if (combat.getCombatants().length === 0) {
+		return message.reply(':x: There are no combatants.');
+	}
+
+	const name = args.shift();
+	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
+	const options = {};
+	const isGroup = comb instanceof YZCombatantGroup;
+	const runOnce = new Set();
+
+	const comb = await combat.selectCombatant(name, null, true);
+	if (!comb) {
+		return message.reply(':x: Combatant not found.');
+	}
 }

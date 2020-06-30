@@ -211,7 +211,7 @@ class Sebedius extends Discord.Client {
 	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
 	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
 	 */
-	static async getSelection(message, choices, del = true, pm = false, text = null, forceSelect = false) {
+	static async getSelection(message, choices, text = null, del = true, pm = false, forceSelect = false) {
 		if (choices.length === 0) throw new Error('NoSelectionElements');
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
@@ -225,7 +225,10 @@ class Sebedius extends Discord.Client {
 			m.channel.id === message.channel.id &&
 			(
 				['c', 'n', 'p'].includes(m.content.toLowerCase()) ||
-				(Number(m.content) > 1 && Number(m.content) < choices.length)
+				(
+					Number(m.content) >= 1 &&
+					Number(m.content) <= choices.length
+				)
 			);
 
 		for (let n = 0; n < 200; n++) {
@@ -243,7 +246,7 @@ class Sebedius extends Discord.Client {
 			if (text) embed.addField('Note', text, false);
 			if (selectMsg) {
 				try { await selectMsg.delete(); }
-				catch (error) { console.error(error); }
+				catch (err) { console.error(err); }
 			}
 			// Sends the selection message.
 			if (!pm) {
@@ -281,7 +284,7 @@ class Sebedius extends Discord.Client {
 				await selectMsg.delete();
 				await msg.delete();
 			}
-			catch (error) { console.error(error); }
+			catch (err) { console.error(err); }
 		}
 		if (!msg || msg.content.toLowerCase() === 'c') {
 			throw new Error('SelectionCancelled');

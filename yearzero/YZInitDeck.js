@@ -34,6 +34,33 @@ class YZInitDeck extends Deck {
 	static get INITIATIVE_CARDS() {
 		return [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	}
+
+	/**
+	 * Loot cards: draw then discard.
+	 * @param {number} numDraw Number of cards to draw
+	 * @param {?number} [numKeep=1] Number of cards to keep
+	 * @param {?Function} fn Callback function to sort the best cards to keep
+	 * @param {?boolean} [shuffle=false] Wheter the discarded cards should be shuffled back into the deck
+	 */
+	loot(numDraw, numKeep = 1, fn = null, shuffle = false) {
+		// Draws the cards.
+		let cards = super.draw(numDraw);
+		if (!Array.isArray(cards)) cards = [cards];
+
+		// Sorts the cards.
+		cards.sort(fn);
+
+		// Keeps the cards.
+		const keptCards = cards.splice(0, numKeep);
+
+		// Shuffle the cards back if required.
+		if (shuffle && cards.length > 0) {
+			super.addToBottom(cards);
+			super.shuffle();
+		}
+		// Returns the kept cards.
+		return keptCards;
+	}
 }
 
 module.exports = YZInitDeck;

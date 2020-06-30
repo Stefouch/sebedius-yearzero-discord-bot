@@ -17,7 +17,6 @@ module.exports = {
 		});
 
 		const { commands } = client;
-		const prefix = await client.getServerPrefix(message);
 
 		// • If no argument, sends a generic help message.
 		if (!argv._.length) {
@@ -33,7 +32,7 @@ module.exports = {
 			embed.addField('🛠 Feature & Bug Report', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
 			embed.addField('🦾 Patreon', 'https://patreon.com/Stefouch', true);
 			embed.addField('🖥 Website', 'https://www.stefouch.be', true);
-			embed.addField('🗒 List of Commands', `You can send \`${prefix}help [command name]\` to get info on a specific command! See the list of commands below.`, false);
+			embed.addField('🗒 List of Commands', `You can send \`${message.prefix}help [command name]\` to get info on a specific command! See the list of commands below.`, false);
 
 			// Hides adminOnly commands.
 			const commandsCollection = commands.filter(cmd => cmd.adminOnly !== true);
@@ -83,7 +82,7 @@ module.exports = {
 			title: `**${command.name.toUpperCase()}**`,
 		});
 		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), true);
-		if (command.usage) embed.addField('Usage', `\`${prefix}${command.name} ${command.usage}\``, true);
+		if (command.usage) embed.addField('Usage', `\`${message.prefix}${command.name} ${command.usage}\``, true);
 		if (command.description) embed.addField('Description', command.description, false);
 
 		if (command.moreDescriptions) {

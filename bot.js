@@ -72,6 +72,10 @@ client.on('message', async message => {
 	if (client.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
 	if (client.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
 
+	// Adds important data for the context of the message.
+	message.prefix = prefix;
+	//message.bot = client;
+
 	// Parses the arguments.
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();

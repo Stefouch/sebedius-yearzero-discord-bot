@@ -11,8 +11,7 @@ module.exports = {
 		if (args.length) {
 			await client.commands.get('setconf').execute(['prefix', args[0]], message, client);
 		}
-		const prefix = await client.getServerPrefix(message);
-		const msg = `1. ${client.mention}\n2. ${prefix}`;
+		const msg = `1. ${client.mention}\n2. ${message.prefix}`;
 		const embed = new YZEmbed('Sebedius Prefixes', msg).setFooter('2 prefixes');
 		return message.channel.send(embed);
 	},

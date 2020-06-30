@@ -209,7 +209,7 @@ class YZCombat {
 				if (!hasInit) draw++;
 			});
 			if (draw) {
-				const drawnInits = this.initiatives.drawInit(draw);
+				const drawnInits = this.initiatives.drawInit(draw, c.speedloot);
 				this.initiatives.addInitiative(c.id, drawnInits);
 				c.inits = c.inits.concat(drawnInits);
 			}
@@ -280,7 +280,7 @@ class YZCombat {
 	/**
 	 * Opens a prompt for a user to select the combatant they were searching for.
 	 * @param {string} name The name of the combatant to search for
-	 * @param {?Discord.Message} choiceMessage The message to pass to the selector
+	 * @param {?Discord.Message} choiceMessage Additional text to pass in the selector
 	 * @param {?boolean} [selectGroup=false] Whether to allow groups to be selected
 	 * @returns {YZCombatant} The selected Combatant, or None if the search failed
 	 * @async
@@ -291,7 +291,8 @@ class YZCombat {
 		if (matching.length === 0) {
 			matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase().includes(name));
 		}
-		return await Sebedius.getSelection(this.message, matching); //, choiceMessage);
+		matching = matching.map(c => [c.name, c]);
+		return await Sebedius.getSelection(this.message, matching, choiceMessage);
 	}
 
 	/**
@@ -366,11 +367,16 @@ class YZCombat {
 	}
 
 	skipRounds(numRounds) {
+		const messages = [];
 		this.round += numRounds;
 		for (const combatant of this.combatants) {
 			combatant.onTurnUpkeep(numRounds);
 			combatant.onTurnEnd(numRounds);
 		}
+		if (this.options.dynamic) {
+			messages.push('New initiatives!');
+		}
+		return messages;
 	}
 
 	getTurnString() {
@@ -379,7 +385,7 @@ class YZCombat {
 
 		if (nextCombatant instanceof YZCombatantGroup) {
 			const thisTurn = nextCombatant.getCombatants();
-			outStr = `**Initiative ${this.turn} (round ${this.round})**: `
+			outStr = `:arrow_forward: **Initiative ${this.turn} (round ${this.round})**: `
 				+ `(${nextCombatant.name})\n`
 				+ thisTurn.map(c => c.controllerMention()).join(', ')
 				+ '```markdown\n'
@@ -387,7 +393,7 @@ class YZCombat {
 				+ '```';
 		}
 		else {
-			outStr = `**Initiative ${this.turn} (round ${this.round}):** `
+			outStr = `:arrow_forward: **Initiative ${this.turn} (round ${this.round}):** `
 				+ `${nextCombatant.name} (${nextCombatant.controllerMention()})`
 				+ '```markdown\n'
 				+ nextCombatant.getStatus()
@@ -415,8 +421,8 @@ class YZCombat {
 		const bot = this.message.guild.me.client;
 		bot.combats.set(this.message.channel.id, this);
 
-		// Saves to database for 3 days.
-		const ttl = 72 * 3600 * 1000;
+		// Saves to database for 1 week.
+		const ttl = 7 * 24 * 3600 * 1000;
 		const raw = this.toRaw();
 		await bot.kdb.combats.set(this.message.channel.id, raw, ttl);
 	}
@@ -571,6 +577,14 @@ class YZCombatant {
 		this.speed = +data.speed || 1;
 
 		/**
+		 * The quantity of initiative cards drawn for 1 that is kept.
+		 * Lightning Fast.
+		 * @type {number} >0
+		 * @default 1
+		 */
+		this.speedloot = +data.speedloot || 1;
+
+		/**
 		 * Should this combatant be hidden?
 		 * @type {boolean}
 		 * @default false
@@ -622,6 +636,8 @@ class YZCombatant {
 			name: this.name,
 			controller: this.controller,
 			id: this.id,
+			speed: this.speed,
+			speedloot: this.speedloot,
 			inits: this.inits,
 			hidden: this.hidden,
 			notes: this.notes,

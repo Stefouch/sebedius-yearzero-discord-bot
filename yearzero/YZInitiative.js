@@ -152,30 +152,64 @@ module.exports = class YZInitiative extends Collection {
 	/**
 	 * Draws initiative cards.
 	 * @param {number} speed The quantity of initiative cards to draw
+	 * @param {?number} loot The quantity of initiative cards drawn to keep 1
 	 * @return {number[]}
 	 */
-	drawInit(speed = 1) {
+	drawInit(speed = 1, loot = null) {
 		// Min 1 card, Max 10 cards.
-		const drawQty = Util.clamp(speed, 1, 10);
+		const numKeep = Util.clamp(speed, 1, 10);
+		const numDraw = Util.clamp(loot, 1, 10);
 
 		// If more cards are drawn that the remaining number,
 		// draws the remaining cards and shuffle a new deck for the lasts.
-		const size = this.initiativeDeck.size;
-		let cards;
-		if (drawQty <= size) {
-			cards = this.initiativeDeck.draw(drawQty);
+		const sortFn = (a, b) => b - a;
+		//const size = this.initiativeDeck.size;
+		const cards = [];
+
+		for (let i = 0; i < numKeep; i++) {
+			if (numDraw <= this.initiativeDeck.size) {
+				if (loot > 1) {
+					cards.push(this.initiativeDeck.loot(numDraw, 1, sortFn, true));
+				}
+				else {
+					cards.push(this.initiativeDeck.draw());
+				}
+			}
+			else {
+				let remainingCards = this.initiativeDeck.draw(this.initiativeDeck.size);
+				if (!Array.isArray(remainingCards)) remainingCards = [remainingCards];
+
+				this.initiativeDeck = new YZInitDeck();
+				this.initiativeDeck.addToTop(remainingCards);
+
+				if (loot > 1) {
+					cards.push(this.initiativeDeck.loot(numDraw, 1, sortFn, true));
+				}
+				else {
+					cards.push(this.initiativeDeck.draw());
+				}
+			}
+		}
+		return cards;
+
+		/* if (numDraw <= size && loot <= size) {
+			if (!loot) cards = this.initiativeDeck.draw(drawQty);
+			else cards = this.initiativeDeck.loot(drawQty, loot, (a, b) => b - a, true);
 		}
 		else {
-			let remainingCards = this.initiativeDeck.draw(size) || [];
+			let remainingCards;
+			if (!loot) remainingCards = this.initiativeDeck.draw(drawQty) || [];
+			else cards = this.initiativeDeck.loot(drawQty, loot, (a, b) => b - a, true) || [];
+
 			if (!Array.isArray(remainingCards)) remainingCards = [remainingCards];
 			this.initiativeDeck = new YZInitDeck();
-			const extraCards = this.drawInit(drawQty - size);
+			const extraCards = this.drawInit(drawQty - size, loot);
 			cards = extraCards.concat(remainingCards);
 		}
 		// Always returns an array.
 		if (!cards) throw new InitError('Drew a null number of initiative cards!');
 		if (!Array.isArray(cards)) return [cards];
-		return cards;
+		return cards;//*/
 	}
 
 	/**
