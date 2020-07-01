@@ -100,8 +100,12 @@ module.exports = {
 		if (!type) type = 'damage';
 
 		// Aborts if the table doesn't exist.
-		if (!availableCritTables.hasOwnProperty(game)) return message.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
-		if (!availableCritTables[game].hasOwnProperty(type)) return message.reply(`ℹ️ There is no \`${type}\` critical table for **${game.toUpperCase()}**.`);
+		if (!availableCritTables.hasOwnProperty(game)) {
+			return message.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
+		}
+		if (!availableCritTables[game].hasOwnProperty(type)) {
+			return message.reply(`ℹ️ There is no \`${type}\` critical table for **${game.toUpperCase()}**.`);
+		}
 
 		// Table swap.
 		if (typeof availableCritTables[game][type] === 'string') {
