@@ -119,7 +119,7 @@ client.on('message', async message => {
 /* !
  * Catching UnhandledPromiseRejectionWarnings.
  */
-process.on('unhandledRejection', error => {
+process.on('unhandledRejection', async error => {
 	// Logs the error.
 	console.error('[ERROR] - Uncaught Promise Rejection', error);
 	// Sends me a personal message about the error.
@@ -128,7 +128,8 @@ process.on('unhandledRejection', error => {
 			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 			+ `\n**Path:** ${error.path}`
 			+ `\n**Stack:** ${error.stack}`;
-		client.users.cache.get(client.config.botAdminID).send(msg, { split: true })
+		const admin = await client.users.fetch(client.config.botAdminID);
+		return admin.send(msg, { split: true })
 			.catch(err => console.error(err));
 	}
 });
