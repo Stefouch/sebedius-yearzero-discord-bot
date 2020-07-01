@@ -138,6 +138,26 @@ class YZRoll {
 	}
 
 	/**
+	 * The quantity of ones (banes).
+	 * *(Don't forget to roll the Artifact Die before counting banes.)*
+	 * @type {number}
+	 * @readonly
+	 */
+	get banes() {
+		let banes = YZRoll.count(1, this.dice.base)
+			+ YZRoll.count(1, this.dice.skill)
+			+ YZRoll.count(1, this.dice.gear)
+			+ YZRoll.count(1, this.dice.stress)
+			- YZRoll.count(1, this.dice.neg);
+
+		for (const artifactDie of this.artifactDice) {
+			if (artifactDie.result <= 1) banes++;
+		}
+
+		return banes;
+	}
+
+	/**
 	 * The quantity of traumas ("1" on base dice).
 	 * @type {number}
 	 * @readonly
