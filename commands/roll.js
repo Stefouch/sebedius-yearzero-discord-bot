@@ -3,7 +3,7 @@ const YZRoll = require('../yearzero/YZRoll');
 const YZEmbed = require('../utils/embeds');
 const { RollParser } = require('../utils/RollParser');
 const ReactionMenu = require('../utils/ReactionMenu');
-const { SUPPORTED_GAMES, DICE_ICONS } = require('../utils/constants');
+const { SUPPORTED_GAMES } = require('../utils/constants');
 const Config = require('../config.json');
 
 module.exports = {
@@ -224,9 +224,6 @@ module.exports = {
 		console.log('[ROLL] - Rolled:', roll.toString());
 		messageRollResult(roll, message, client);
 	},
-	emojifyRoll(roll, options) {
-		return getDiceEmojis(roll, options);
-	},
 };
 
 /**
@@ -258,7 +255,7 @@ async function messageRollResult(roll, triggeringMessage, client) {
 
 	// Sends the message.
 	triggeringMessage.channel.send(
-		getDiceEmojis(roll, gameOptions),
+		Sebedius.emojifyRoll(roll, gameOptions),
 		getEmbedDiceResults(roll, triggeringMessage, gameOptions),
 	)
 		.then(rollMessage => {
@@ -332,7 +329,7 @@ function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
 		rollMessage.edit(
-			getDiceEmojis(pushedRoll, gameOptions),
+			Sebedius.emojifyRoll(pushedRoll, gameOptions),
 			getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions),
 		)
 			.catch(console.error);
@@ -349,7 +346,7 @@ function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll
  * @param {YZRoll} roll The roll
  * @param {Object} opts Options of the roll command
  * @returns {string} The manufactured text
- */
+ *
 function getDiceEmojis(roll, opts) {
 	const game = opts.iconTemplate || roll.game;
 	let str = '';
@@ -390,7 +387,7 @@ function getDiceEmojis(roll, opts) {
 	}
 
 	return str;
-}
+}//*/
 
 /**
  * Gets an Embed with the dice results and the author's name.
