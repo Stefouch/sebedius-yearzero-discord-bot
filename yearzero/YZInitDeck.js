@@ -36,6 +36,16 @@ class YZInitDeck extends Deck {
 	}
 
 	/**
+	 * Emojified initiative cards.
+	 * @type {string[]}
+	 * @readonly
+	 * @constant
+	 */
+	static get INITIATIVE_CARDS_EMOJIS() {
+		return ['0️⃣', '1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟'];
+	}
+
+	/**
 	 * Loot cards: draw then discard.
 	 * @param {number} numDraw Number of cards to draw
 	 * @param {?number} [numKeep=1] Number of cards to keep
