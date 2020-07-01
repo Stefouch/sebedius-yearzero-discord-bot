@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 const Util = require('./utils/Util');
 const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
-const { SUPPORTED_GAMES, SUPPORTED_LANGS } = require('./utils/constants');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS } = require('./utils/constants');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -26,9 +26,6 @@ class Sebedius extends Discord.Client {
 		this.langs = new Discord.Collection();
 		this.combats = new Discord.Collection();
 
-		// Records commands statistics for the current session.
-		this.counts = new Discord.Collection();
-
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
 		console.log('      > Creation...');
@@ -38,12 +35,14 @@ class Sebedius extends Discord.Client {
 			games: new Keyv(process.env.DATABASE_URL, { namespace: 'game' }),
 			langs: new Keyv(process.env.DATABASE_URL, { namespace: 'lang' }),
 			combats: new Keyv(process.env.DATABASE_URL, { namespace: 'combat' }),
+			stats: new Keyv(process.env.DATABASE_URL, { namespace: 'count' }),
 		};
 		this.kdb.prefixes.on('error', err => console.error('Keyv Connection Error: prefixes', err));
 		this.kdb.initiatives.on('error', err => console.error('Keyv Connection Error: initiatives', err));
 		this.kdb.games.on('error', err => console.error('Keyv Connection Error: games', err));
 		this.kdb.langs.on('error', err => console.error('Keyv Connection Error: langs', err));
 		this.kdb.combats.on('error', err => console.error('Keyv Connection Error: combats', err));
+		this.kdb.stats.on('error', err => console.error('Keyv Connection Error: stats', err));
 		console.log('      > Loaded & Ready!');
 	}
 
@@ -197,11 +196,77 @@ class Sebedius extends Discord.Client {
 	 * Increases by 1 the number of uses for this command.
 	 * Used for statistics purposes.
 	 * @param {string} commandName The command.name property
+	 * @returns {number}
+	 * @async
 	 */
 	async raiseCommandStats(commandName) {
-		let count = 1;
-		if (this.counts.has(commandName)) count += this.counts.get(commandName);
-		this.counts.set(commandName, count);
+		const count = await this.kdb.stats.get(commandName) || 0;
+		return await this.kdb.stats.set(commandName, count + 1);
+	}
+
+	/**
+	 * Gets the commands' statistics.
+	 * @returns {string}
+	 * @async
+	 */
+	async getStats() {
+		const out = new Discord.Collection();
+		for (const cmd of this.commands) {
+			const count = await this.kdb.stats.get(cmd.name) || 0;
+			out.set(cmd.name, count);
+		}
+		return out
+			.sort((a, b) => b - a)
+			.map((v, k) => `${k}: **${v}**`)
+			.join('\n');
+	}
+
+	/**
+	 * Returns a text with all the dice turned into emojis.
+	 * @param {YZRoll} roll The roll
+	 * @param {Object} opts Options of the roll command
+	 * @returns {string} The manufactured text
+	 */
+	static emojifyRoll(roll, opts) {
+		const game = opts.iconTemplate || roll.game;
+		let str = '';
+
+		for (const type in roll.dice) {
+			const iconType = type;
+			const nbre = roll.dice[type].length;
+
+			// Skipping types.
+			if (opts.alias) {
+				if (opts.alias[type] === '--') continue;
+			}
+
+			if (nbre) {
+				str += '\n';
+
+				for (let k = 0; k < nbre; k++) {
+					const val = roll.dice[type][k];
+					const icon = DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
+					str += icon;
+
+					// This is calculated to make a space between pushed and not pushed rolls.
+					if (roll.pushed) {
+						const keep = roll.keeped[type];
+
+						if (k === keep - 1) {
+							str += '\t';
+						}
+					}
+				}
+			}
+		}
+
+		if (roll.artifactDice.length) {
+			for (const artifactDie of roll.artifactDice) {
+				str += DICE_ICONS.fbl.arto[artifactDie.result];
+			}
+		}
+
+		return str;
 	}
 
 	/**
@@ -234,7 +299,7 @@ class Sebedius extends Discord.Client {
 		for (let n = 0; n < 200; n++) {
 			const _choices = pages[page];
 			const names = _choices.map(o => o[0]);
-			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found'});
+			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found' });
 			let selectStr = 'Which one were you looking for? (Type the number or `c` to cancel)\n';
 			if (pages.length > 1) {
 				selectStr += '`n` to go to the next page, or `p` for previous';
