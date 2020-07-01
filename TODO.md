@@ -2,12 +2,9 @@
 
 - Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
 - Init Tracker
-  * Groups not properly working
   * Can't add a note to a group: error
   * ATTACK
   * Init Tracker Help
-  * Edit SPEED
-  * Edit SPEEDLOOT
 
 - Bug: d66 and d666 should have their own skin
 

@@ -196,9 +196,6 @@ class YZCombat {
 		return this;
 	}
 
-	editCombatant(combatant) {
-	}
-
 	sortCombatants() {
 		// Removes unused initiative slots.
 		this.initiatives.sweep((ref, slot) => {
@@ -211,7 +208,7 @@ class YZCombat {
 		this.combatants.forEach(c => {
 			const draw = c.speed - c.inits.length;
 			if (draw > 0) {
-				const drawnInits = this.initiatives.drawInit(draw, c.speedloot);
+				const drawnInits = this.initiatives.drawInit(draw, c.haste);
 				c.inits.push(...drawnInits);
 			}
 			c.inits.forEach(init => {
@@ -219,7 +216,7 @@ class YZCombat {
 					(ref, slot) => c.id === ref && init === Math.floor(slot),
 				);
 				if (!hasInit) {
-					this.initiatives.addInitiative(c.id, init);
+					this.initiatives.addInitiative(c.id, +init);
 				}
 			});
 			if (c instanceof YZCombatantGroup) {
@@ -244,31 +241,63 @@ class YZCombat {
 		else return this.getCombatants().find(c => c.name.toLowerCase().includes(name));
 	}
 
+	/**
+	 * Applies damage to a combatant and performs an Armor roll.
+	 * @param {YZCombatant} combatant The target to damage
+	 * @param {number} damage The quantity of damage
+	 * @param {?boolean} [decreaseArmor=false] Wether the armor should be degraded by rolled banes
+	 * @returns {YZRoll} The armor roll
+	 */
 	damageCombatant(combatant, damage, decreaseArmor = false) {
-		const armor = combatant.armor;
+		const bot = this.message.guild.me.client;
+		const controller = bot.users.cache.get(combatant.controller);
+
+		// Rolls the dice.
+		const armorRoll = new YZRoll(
+			controller,
+			{ gear: combatant.armor },
+			`${combatant.name}: Armor Roll`,
+		);
+		// Damaging the combatant.
+		damage -= armorRoll.sixes;
+		if (damage > 0) combatant.hp -= damage;
+		// Damaging the armor.
+		if (damage > 0 && decreaseArmor) {
+			combatant.armor -= armorRoll.banes;
+		}
+		return armorRoll;
 	}
 
 	/**
 	 * Gets a combatant group.
 	 * @param {string} name The name of the combatant group
-	 * @param {?number[]} create The initiative to create a group at if a group is not found
+	 * @param {?number[]} inits The initiative to create a group at if a group is not found
+	 * @param {?number} [speed=1] The speed of the group
+	 * @param {?number} [haste=1] The haste of the group
 	 * @param {?boolean} [strict=true] Wether the group name must be a full case insensitive match
 	 * @returns {YZCombatantGroup}
 	 */
-	getGroup(name, create = null, strict = true) {
+	getGroup(name, strict = true, inits = null, speed = 1, haste = 1) {
 		let grp;
 		if (strict) {
-			name = name.toLowerCase();
-			grp = this.getGroups().find(g => g.name.toLowerCase() == name);
+			const nameLc = name.toLowerCase();
+			grp = this.getGroups().find(g => g.name.toLowerCase() == nameLc);
 		}
 		else {
-			name = name.toLowerCase();
-			grp = this.getGroups().find(g => g.name.toLowerCase().includes(name));
+			const nameLc = name.toLowerCase();
+			grp = this.getGroups().find(g => g.name.toLowerCase().includes(nameLc));
 		}
 
 		// Initiative "0" does not exist so it's good to test it like this.
-		if (!grp && create) {
-			grp = new YZCombatantGroup(name, null, this.controller, create, null);
+		if (!grp && inits) {
+			grp = new YZCombatantGroup(
+				name,
+				null,
+				{
+					controller: this.message.author.id,
+					speed, haste, inits,
+				},
+			);
 			this.addCombatant(grp);
 		}
 		return grp;
@@ -599,7 +628,7 @@ class YZCombatant {
 		 * @type {number} >0
 		 * @default 1
 		 */
-		this.speedloot = +data.speedloot || 1;
+		this.haste = +data.haste || 1;
 
 		/**
 		 * Should this combatant be hidden?
@@ -654,7 +683,7 @@ class YZCombatant {
 			controller: this.controller,
 			id: this.id,
 			speed: this.speed,
-			speedloot: this.speedloot,
+			haste: this.haste,
 			inits: this.inits,
 			hidden: this.hidden,
 			notes: this.notes,
@@ -700,14 +729,22 @@ class YZCombatant {
 
 	/**
 	 * Gets the start-of-turn status of a combatant.
-	 * @param {boolean} [hidden=false] Whether to return the full revealed stats or not
+	 * @param {?boolean} [hidden=false] Whether to return the full revealed stats or not
 	 * @returns {string} A string describing the combatant
 	 */
 	getStatus(hidden = false) {
 		const name = this.name;
 		const hpar = this.getHpAndAr(hidden);
+
+		let vitesse = '';
+		if (this.speed > 1 || this.haste > 1) {
+			vitesse += ` Speed ${this.speed}`;
+			if (this.haste > 1) vitesse += `, Haste ${this.haste}`;
+		}
+
 		const notes = this.notes ? `\n# ${this.notes}` : '';
-		return `${name} ${hpar} ${notes}`.trim();
+
+		return `${name} ${hpar}${this.armor ? ',' : ''}${vitesse} ${notes}`.trim();
 	}
 
 	getEffectsAndNotes() {
@@ -762,8 +799,8 @@ class YZCombatant {
 
 class YZCombatantGroup extends YZCombatant {
 
-	constructor(name, id, controller, inits, combatants) {
-		super({ id, controller, inits });
+	constructor(name, combatants, data) {
+		super(data);
 		this._name = name || Util.randomID(4);
 
 		/**
@@ -795,21 +832,22 @@ class YZCombatantGroup extends YZCombatant {
 		}
 		return new YZCombatantGroup(
 			raw.name,
-			raw.id,
-			raw.controller,
-			raw.inits,
 			combatants,
+			{
+				id: raw.id,
+				controller: raw.controller,
+				speed: raw.speed,
+				haste: raw.haste,
+				inits: raw.inits,
+			},
 		);
 	}
 
 	toRaw() {
-		return {
-			name: this.name,
-			id: this.id,
-			inits: this.inits,
-			combatants: this.getCombatants().map(c => c.toRaw()),
-			type: 'group',
-		};
+		const raw = super.toRaw();
+		raw.combatants = this.getCombatants().map(c => c.toRaw());
+		raw.type = 'group';
+		return raw;
 	}
 
 	getCombatants() {
@@ -819,6 +857,8 @@ class YZCombatantGroup extends YZCombatant {
 	addCombatant(combatant) {
 		combatant.group = this.name;
 		combatant.inits = this.inits;
+		combatant.speed = this.speed;
+		combatant.haste = this.haste;
 		this.combatants.push(combatant);
 	}
 

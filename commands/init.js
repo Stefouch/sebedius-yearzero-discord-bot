@@ -1,6 +1,7 @@
 const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 const Util = require('../utils/Util');
+const YZInitDeck = require('../yearzero/YZInitDeck');
 const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
 const { CombatNotFound } = require('../yearzero/YZCombat');
 
@@ -10,14 +11,11 @@ const YARGS_PARSE_COMBATANT = {
 		ar: ['armor'],
 		h: ['hidden', 'hide', 'private'],
 		p: ['place', 'init', 'i'],
-		group: ['g'],
-		speed: ['s'],
-		lf: ['speedloot', 'loot'],
+		note: ['notes'],
 	},
 	array: ['p', 'note', 'name', 'group', 'controller'],
 	boolean: ['h'],
-	number: ['speed', 'lf'],
-	string: ['p', 'hp', 'max', 'ar'],
+	string: ['p', 'hp', 'max', 'ar', 'speed', 'haste'],
 	default: {
 		h: null,
 	},
@@ -58,7 +56,7 @@ module.exports = {
 			\`-hp <value>\` – Sets starting HP. Default: 3.
 			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
 			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
-			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
+			\`-haste <value>\` – How many cards to draw for 1 to keep.
 			\`-h\` – Hides life, AR and anything else.`,
 		],
 		[
@@ -73,7 +71,7 @@ module.exports = {
 			\`-hp <value>\` – Sets starting HP. Default: 3.
 			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
 			\`-speed\` – Sets the character's speed (number of initiative cards drawn). Default: 1.
-			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
+			\`-haste <value>\` – How many cards to draw for 1 to keep.
 			\`-h\` – Hides life, AR and anything else.
 			`,
 		],
@@ -125,7 +123,7 @@ module.exports = {
 			\`-max <value>\` – Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise.
 			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
 			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
-			\`-lf <value>\` – Lightning fast: How many cards to draw for 1 to keep.
+			\`-haste <value>\` – How many cards to draw for 1 to keep.
 			\`-h\` – Hides life, AR and anything else.`,
 		],
 		[
@@ -283,7 +281,7 @@ async function add(args, message, client) {
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
-	const speedloot = +argv.loot || null;
+	const haste = +argv.loot || null;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
 	let controller = message.author.id;
 
@@ -309,7 +307,7 @@ async function add(args, message, client) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, speedloot, notes });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
 
 	if (places) {
 		places.forEach(p => {
@@ -321,16 +319,20 @@ async function add(args, message, client) {
 
 	if (!group) {
 		combat.addCombatant(me);
-		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		//await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		//await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
+		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative ${initCards}.`);
 	}
 	else {
-		let grp = combat.getGroup(group);
-		if (grp) grp.addCombatant(me);
-		else grp = new YZCombatantGroup(group, null, me.controller, me.inits, [me]);
-		combat.addCombatant(grp);
-
-		await message.channel.send(
+		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
+		grp.addCombatant(me);
+		/* await message.channel.send(
 			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
+		);//*/
+		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
+		await message.channel.send(
+			`:white_check_mark: **${name}** was added to combat with initiative ${initCards} as part of group __${grp.name}__.`,
 		);
 	}
 	await combat.final(client);
@@ -352,7 +354,8 @@ async function join(args, message, client) {
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
-	const speedloot = +argv.lf || null;
+	const haste = +argv.haste || null;
+	const notes = argv.notes ? argv.notes.join(' ') : null;
 	const controller = message.author.id;
 	//const phrase = argv.phrase;
 	//const emoji = argv.thumb;
@@ -363,9 +366,6 @@ async function join(args, message, client) {
 		.setAuthor(name)
 		.setColor(message.member.displayColor);//*/
 
-	//if (phrase) {
-		// embed.addField('Notes', phrase);
-	//}
 	if (hp < 1) {
 		return message.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
 	}
@@ -382,7 +382,7 @@ async function join(args, message, client) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, speedloot });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
 
 	if (places) {
 		places.forEach(p => {
@@ -394,18 +394,16 @@ async function join(args, message, client) {
 
 	if (!group) {
 		combat.addCombatant(me);
-		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
+		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative ${initCards}.`);
 		// embed.setFooter('Added to combat!');
 	}
 	else {
-		let grp = combat.getGroup(group);
-		if (grp) grp.addCombatant(me);
-		else grp = new YZCombatantGroup(group, null, me.controller, me.inits, [me]);
-		combat.addCombatant(grp);
-		// embed.setFooter(`Joind group ${grp.name}`);
-
+		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
+		grp.addCombatant(me);
+		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
 		await message.channel.send(
-			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
+			`:white_check_mark: **${name}** was added to combat with initiative ${initCards} as part of group __${grp.name}__.`,
 		);
 	}
 	await combat.final(client);
@@ -455,7 +453,7 @@ async function next(args, message, client) {
 
 	for (const co of toRemove) {
 		combat.removeCombatant(co);
-		out.push(`${co.name} automatically removed from combat.\n`);
+		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
 	}
 
 	await message.channel.send(out.join('\n'));
@@ -474,6 +472,9 @@ async function prev(args, message, client) {
 
 	if (combat.getCombatants().length === 0) {
 		return message.reply(':x: There are no combatants.');
+	}
+	if (!combat.index) {
+		return message.reply(`:warning: Please start combat with \`${message.prefix}init next\` first.`);
 	}
 	combat.rewindTurn();
 	await message.channel.send(combat.getTurnString());
@@ -535,7 +536,7 @@ async function skipround(args, message, client) {
 		return message.reply(':x: There are no combatants.');
 	}
 	if (!combat.index) {
-		return message.reply(`Please start combat with \`${message.prefix}init next\` first.`);
+		return message.reply(`:warning: Please start combat with \`${message.prefix}init next\` first.`);
 	}
 
 	const numRounds = +args.shift();
@@ -547,7 +548,7 @@ async function skipround(args, message, client) {
 
 	for (const co of toRemove) {
 		combat.removeCombatant(co);
-		out.push(`${co.name} automatically removed from combat.\n`);
+		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
 	}
 
 	await message.channel.send(out.join('\n'));
@@ -665,7 +666,7 @@ async function edit(args, message, client) {
 	//const options = {};
 	// const isGroup = combatant instanceof YZCombatantGroup;
 	//const runOnce = new Set();
-	const groupName = argv.group ? argv.group.join(' ') : null;
+	//
 	let out = [];
 
 	if (argv.h != null && argv.h != undefined) {
@@ -691,6 +692,20 @@ async function edit(args, message, client) {
 		out.push(`:shield: ${combatant.name}'s armor set to **${combatant.armor}** (was ${oldArmor}).`);
 		modifCount++;
 	}
+	if (argv.speed) {
+		const oldSpeed = combatant.speed;
+		const newSpeed = Util.modifOrSet(argv.speed, oldSpeed);
+		combatant.speed = newSpeed;
+		out.push(`:snail: ${combatant.name}'s speed set to **${combatant.speed}** (was ${oldSpeed}).`);
+		modifCount++;
+	}
+	if (argv.haste) {
+		const oldHaste = combatant.haste;
+		const newHaste = Util.modifOrSet(argv.haste, oldHaste);
+		combatant.haste = newHaste;
+		out.push(`:athletic_shoe: ${combatant.name}'s haste set to **${combatant.haste}** (was ${oldHaste}).`);
+		modifCount++;
+	}
 	if (argv.p) {
 		if (combatant === combat.currentCombatant) {
 			out.push(':x: You cannot change a combatant\'s initiative on their own turn.');
@@ -708,10 +723,11 @@ async function edit(args, message, client) {
 			});
 			combatant.inits = newInits;
 			combat.sortCombatants();
-			out.push(`:zap: ${combatant.name}'s initiative set to **${combatant.inits}** (was ${oldInits}).`);
+			const initCards = combatant.inits.map(init => YZInitDeck.INITIATIVE_CARDS_EMOJIS[init]).join(' ');
+			out.push(`:zap: ${combatant.name}'s initiative set to ${initCards} (was ${oldInits}).`);
 		}
 		else {
-			out.push(`:x: Invalid argument: ${argv.p}.`);
+			out.push(`:warning: Invalid argument: ${argv.p}.`);
 		}
 		modifCount++;
 	}
@@ -726,7 +742,7 @@ async function edit(args, message, client) {
 			out.push(`:ticket: ${oldName}'s name set to **${newName}**.`);
 		}
 		else {
-			out.push(':information_source: You must pass in a name with the `-name` tag.');
+			out.push(':warning: You must pass in a name with the `-name` tag.');
 		}
 		modifCount++;
 	}
@@ -734,11 +750,11 @@ async function edit(args, message, client) {
 		const oldMax = combatant.maxhp;
 		const newMax = Util.modifOrSet(argv.max, oldMax);
 		if (newMax < 1) {
-			out.push(':x: Max HP must at least be 1.');
+			out.push(':warning: Max HP must at least be 1.');
 		}
 		else {
 			combatant.maxhp = newMax;
-			out.push(`:drop_of_blood: ${combatant.name}'s HP max set to **${combatant.maxhp}** (was ${oldMax}).`);
+			out.push(`:drop_of_blood: ${combatant.name}'s Max HP set to **${combatant.maxhp}** (was ${oldMax}).`);
 		}
 		modifCount++;
 	}
@@ -749,10 +765,11 @@ async function edit(args, message, client) {
 		out.push(`:drop_of_blood: ${combatant.name}'s HP set to **${combatant.hp}** (was ${oldLife}).`);
 		modifCount++;
 	}
-	if (groupName) {
+	if (argv.group) {
+		const groupName = argv.group.join(' ');
 		const current = combat.currentCombatant;
 		const wasCurrent =
-			current.id === combatant.id ||
+			current === combatant ||
 			(
 				current instanceof YZCombatantGroup &&
 				current.getCombatants().includes(combatant) &&
@@ -768,13 +785,12 @@ async function edit(args, message, client) {
 			out.push(`:outbox_tray: ${combatant.name} removed from all groups.`);
 		}
 		else {
-			//const cGroup = combat.getGroup(groupName, combatant.inits);
-			//cGroup.addCombatant(combatant);
-			//combat.addCombatant(cGroup);
-			let grp = combat.getGroup(groupName);
-			if (grp) grp.addCombatant(combatant);
-			else grp = new YZCombatantGroup(groupName, null, combatant.controller, combatant.inits, [combatant]);
-			combat.addCombatant(grp);
+			const grp = combat.getGroup(groupName, true,
+				combatant.inits,
+				combatant.speed,
+				combatant.haste,
+			);
+			grp.addCombatant(combatant);
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
 			}
@@ -863,6 +879,16 @@ async function _sendHpResult(message, combatant, delta = null) {
  * @async
  */
 async function attack(args, message, client) {
+	const combat = await YZCombat.fromId(message.channel.id, message, client);
+
+	if (combat.getCombatants().length === 0) {
+		return message.reply(':x: There are no combatants.');
+	}
+
+	const combatant = await combat.selectCombatant(name);
+	if (!combatant) {
+		return message.reply(':x: Combatant not found.');
+	}
 }
 
 /**
@@ -880,12 +906,14 @@ async function remove(args, message, client) {
 		return await message.reply(':x: Combatant not found.');
 	}
 	if (combatant === combat.currentCombatant) {
-		return await message.reply(':x: You cannot remove a combatant on their own turn.');
+		return await message.reply(':information_source: You cannot remove a combatant on their own turn.');
 	}
 	if (combatant.group) {
 		const group = combat.getGroup(combatant.group);
 		if (group.getCombatants().length <= 1 && group === combat.currentCombatant) {
-			return await message.reply(':x: You cannot remove a combatant if they are the only remaining combatant in this turn.');
+			return await message.reply(
+				':information_source: You cannot remove a combatant if they are the only remaining combatant in this turn.',
+			);
 		}
 	}
 	combat.removeCombatant(combatant);
