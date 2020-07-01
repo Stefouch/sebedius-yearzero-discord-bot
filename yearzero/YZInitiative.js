@@ -162,14 +162,14 @@ module.exports = class YZInitiative extends Collection {
 
 		// If more cards are drawn that the remaining number,
 		// draws the remaining cards and shuffle a new deck for the lasts.
-		const sortFn = (a, b) => b - a;
+		const sortFn = (a, b) => a - b;
 		//const size = this.initiativeDeck.size;
 		const cards = [];
 
 		for (let i = 0; i < numKeep; i++) {
 			if (numDraw <= this.initiativeDeck.size) {
 				if (loot > 1) {
-					cards.push(this.initiativeDeck.loot(numDraw, 1, sortFn, true));
+					cards.push(...this.initiativeDeck.loot(numDraw, 1, sortFn, true));
 				}
 				else {
 					cards.push(this.initiativeDeck.draw());
@@ -183,7 +183,7 @@ module.exports = class YZInitiative extends Collection {
 				this.initiativeDeck.addToTop(remainingCards);
 
 				if (loot > 1) {
-					cards.push(this.initiativeDeck.loot(numDraw, 1, sortFn, true));
+					cards.push(...this.initiativeDeck.loot(numDraw, 1, sortFn, true));
 				}
 				else {
 					cards.push(this.initiativeDeck.draw());

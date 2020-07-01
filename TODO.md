@@ -2,10 +2,14 @@
 
 - Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
 - Init Tracker
-- Bug: d66 and d666 must have their own skin
-- Bug: no dm on uncaught error (bot.js)
-- Bug: setconf not working in DEV
-- Bug: prefix in DM buggy
+  * Groups not properly working
+  * Can't add a note to a group: error
+  * ATTACK
+  * Init Tracker Help
+  * Edit SPEED
+  * Edit SPEEDLOOT
+
+- Bug: d66 and d666 should have their own skin
 
 ## MYZ
 - Mutation Misfire
@@ -13,6 +17,7 @@
 - Support for GLA
 - Support for Mechatron
 - Support for Elysium
+- Translations
 
 ## Coriolis
 - Critics

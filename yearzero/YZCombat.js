@@ -1,3 +1,4 @@
+const YZRoll = require('./YZRoll');
 const Util = require('../utils/Util');
 const YZInitiative = require('./YZInitiative');
 const Sebedius = require('../Sebedius');
@@ -104,6 +105,7 @@ class YZCombat {
 
 	static async fromId(channelId, message, bot) {
 		if (bot.combats.has(channelId)) {
+			console.log('fromId', bot.combats.get(channelId));
 			return bot.combats.get(channelId);
 		}
 		else {
@@ -194,25 +196,32 @@ class YZCombat {
 		return this;
 	}
 
+	editCombatant(combatant) {
+	}
+
 	sortCombatants() {
 		// Removes unused initiative slots.
 		this.initiatives.sweep((ref, slot) => {
 			const combatant = this.combatants.find(c => c.id === ref);
+			if (!combatant) return true;
 			return !combatant.inits.includes(Math.floor(slot));
 		});
 
 		// Adds missing initiative slots.
 		this.combatants.forEach(c => {
-			let draw = c.speed - c.inits.length;
-			c.inits.forEach(init => {
-				const hasInit = this.initiatives.some((ref, slot) => init === Math.floor(slot));
-				if (!hasInit) draw++;
-			});
-			if (draw) {
+			const draw = c.speed - c.inits.length;
+			if (draw > 0) {
 				const drawnInits = this.initiatives.drawInit(draw, c.speedloot);
-				this.initiatives.addInitiative(c.id, drawnInits);
-				c.inits = c.inits.concat(drawnInits);
+				c.inits.push(...drawnInits);
 			}
+			c.inits.forEach(init => {
+				const hasInit = this.initiatives.some(
+					(ref, slot) => c.id === ref && init === Math.floor(slot),
+				);
+				if (!hasInit) {
+					this.initiatives.addInitiative(c.id, init);
+				}
+			});
 			if (c instanceof YZCombatantGroup) {
 				c.combatants.forEach(g => g.inits = c.inits);
 			}
@@ -233,6 +242,10 @@ class YZCombat {
 		name = name.toLowerCase();
 		if (strict) return this.getCombatants().find(c => c.name.toLowerCase() == name);
 		else return this.getCombatants().find(c => c.name.toLowerCase().includes(name));
+	}
+
+	damageCombatant(combatant, damage, decreaseArmor = false) {
+		const armor = combatant.armor;
 	}
 
 	/**
@@ -291,7 +304,15 @@ class YZCombat {
 		if (matching.length === 0) {
 			matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase().includes(name));
 		}
-		matching = matching.map(c => [c.name, c]);
+		if (!selectGroup) {
+			matching = matching.map(c => [c.name, c]);
+		}
+		else {
+			matching = matching.map(c => {
+				if (c instanceof YZCombatantGroup) return [`__${c.name}__ (group)`, c];
+				return [c.name, c];
+			});
+		}
 		return await Sebedius.getSelection(this.message, matching, choiceMessage);
 	}
 
@@ -477,6 +498,7 @@ class YZCombat {
 			return this.message.channel;
 		}
 		else {
+			//const chans = this.
 			//const chan = bot.channels.cache.get(this.channel);
 			//if (chan) return chan;
 			//else throw new CombatChannelNotFound();
@@ -489,14 +511,9 @@ class YZCombat {
 	 * @async
 	 */
 	async getSummaryMsg() {
-		// Checks if cached and returns it.
-		// -todo-
-		// Otherwise fetches it.
-		const chan = this.getChannel();
-		const msgMgr = chan.messages;
-		const cache = msgMgr.cache;
-		const msg = cache.get(this.summary);
-		return msg;
+		const messages = this.getChannel().messages;
+		if (messages.cache.has(this.summary)) return messages.cache.get(this.summary);
+		return await messages.fetch(this.summary);
 	}
 
 	/**

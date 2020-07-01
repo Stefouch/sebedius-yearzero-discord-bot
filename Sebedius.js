@@ -361,10 +361,11 @@ class Sebedius extends Discord.Client {
 	 * Gets a user from its mention.
 	 * @param {string} mention The user mention
 	 * @param {Discord.Client} client The Discord client (the bot)
-	 * @returns {Discord.User}
+	 * @returns {Promise<Discord.User>|Discord.User}
 	 * @static
+	 * @async
 	 */
-	static getUserFromMention(mention, client) {
+	static async getUserFromMention(mention, client) {
 		// The id is the first and only match found by the RegEx.
 		const matches = mention.match(/^<@!?(\d+)>$/);
 
@@ -375,7 +376,12 @@ class Sebedius extends Discord.Client {
 		// so use index 1.
 		const id = matches[1];
 
-		return client.users.cache.get(id);
+		if (client.users.cache.has(id)) {
+			return client.users.cache.get(id);
+		}
+		else {
+			return await client.users.fetch(id);
+		}
 	}
 
 	/**
@@ -383,11 +389,13 @@ class Sebedius extends Discord.Client {
 	 * @param {string} needle Name, mention or ID
 	 * @param {Discord.Message} message The triggering message
 	 * @param {Discord.Client} client The Discord client (the bot)
-	 * @returns {Discord.Member}
+	 * @returns {Promise<Discord.Member>|Discord.Member}
+	 * @static
+	 * @async
 	 */
-	static fetchMember(needle, message, client) {
+	static async fetchMember(needle, message, client) {
 		if (Discord.MessageMentions.USERS_PATTERN.test(needle)) {
-			return Sebedius.getUserFromMention(needle, client);
+			return await Sebedius.getUserFromMention(needle, client);
 		}
 		const members = message.channel.members;
 		return members.find(mb =>

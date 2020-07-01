@@ -5,7 +5,6 @@ const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZComba
 const { CombatNotFound } = require('../yearzero/YZCombat');
 
 const YargsParser = require('yargs-parser');
-const { sum } = require('lodash');
 const YARGS_PARSE_COMBATANT = {
 	alias: {
 		ar: ['armor'],
@@ -15,10 +14,10 @@ const YARGS_PARSE_COMBATANT = {
 		speed: ['s'],
 		lf: ['speedloot', 'loot'],
 	},
-	array: ['p', 'phrase', 'name', 'group'],
+	array: ['p', 'note', 'name', 'group', 'controller'],
 	boolean: ['h'],
 	number: ['speed', 'lf'],
-	string: ['p', 'hp', 'max', 'ar', 'thumb'],
+	string: ['p', 'hp', 'max', 'ar'],
 	default: {
 		h: null,
 	},
@@ -115,7 +114,7 @@ module.exports = {
 			'Attaches a note to a combatant.',
 		],
 		[
-			'OPTS',
+			'EDIT',
 			`Edits the options of a combatant.
 			__Arguments__
 			\`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
@@ -167,8 +166,9 @@ module.exports = {
 			case 'meta': await meta(args, message, client); break;
 			case 'list': case 'summary': await list(args, message, client); break;
 			case 'note': await note(args, message, client); break;
-			case 'opt': case 'opts': case 'option': case 'options': await opt(args, message, client); break;
+			case 'edit': await edit(args, message, client); break;
 			case 'status': await status(args, message, client); break;
+			case 'attack': case 'atk': case 'atq': await attack(args, message, client); break;
 			case 'remove': await remove(args, message, client); break;
 			case 'end': await end(args, message, client); break;
 			default:
@@ -179,6 +179,9 @@ module.exports = {
 			console.error(error);
 			if (error instanceof CombatNotFound) {
 				return message.reply(`:information_source: No combat instance. Type \`${message.prefix}init begin\`.`);
+			}
+			else {
+				return message.reply(`:x: *${error.name}: ${error.message}*.`);
 			}
 		}
 		try {
@@ -276,17 +279,18 @@ async function add(args, message, client) {
 	const name = argv._.join(' ');
 	const hidden = argv.h || false;
 	const places = argv.p;
-	const group = argv.group.join(' ') || null;
+	const group = argv.group ? argv.group.join(' ') : null;
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
 	const speedloot = +argv.loot || null;
+	const notes = argv.notes ? argv.notes.join(' ') : null;
 	let controller = message.author.id;
 
 	if (!name) return message.reply(':warning: This combatant needs a name.');
 
 	if (argv.controller) {
-		const member = Sebedius.fetchMember(argv.controller, message, client);
+		const member = await Sebedius.fetchMember(argv.controller.join(' '), message, client);
 		if (member) controller = member.id;
 	}
 	if (hp < 1) {
@@ -305,14 +309,14 @@ async function add(args, message, client) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, speedloot });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, speedloot, notes });
 
 	if (places) {
 		places.forEach(p => {
 			if (!Util.isNumber(p)) return message.reply(':warning: You must pass in numbers with the `-p` tag.');
 			else if (p < 1) return message.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
 		});
-		me.inits = places;
+		me.inits = places.map(init => +init);
 	}
 
 	if (!group) {
@@ -344,13 +348,13 @@ async function join(args, message, client) {
 	const name = message.member.displayName;
 	const hidden = argv.h || false;
 	const places = argv.p;
-	const group = argv.group.join(' ') || null;
+	const group = argv.group ? argv.group.join(' ') : null;
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
 	const speedloot = +argv.lf || null;
 	const controller = message.author.id;
-	const phrase = argv.phrase;
+	//const phrase = argv.phrase;
 	//const emoji = argv.thumb;
 
 	/* const embed = new MessageEmbed()
@@ -359,9 +363,9 @@ async function join(args, message, client) {
 		.setAuthor(name)
 		.setColor(message.member.displayColor);//*/
 
-	if (phrase) {
+	//if (phrase) {
 		// embed.addField('Notes', phrase);
-	}
+	//}
 	if (hp < 1) {
 		return message.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
 	}
@@ -385,7 +389,7 @@ async function join(args, message, client) {
 			if (!Util.isNumber(p)) return message.reply(':warning: You must pass in numbers with the `-p` tag.');
 			else if (p < 1) return message.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
 		});
-		me.inits = places;
+		me.inits = places.map(init => +init);
 	}
 
 	if (!group) {
@@ -580,7 +584,7 @@ async function meta(args, message, client) {
 	}
 
 	combat.options = options;
-	await combat.commit();
+	await combat.final();
 	await message.channel.send(outStr);
 }
 
@@ -636,39 +640,41 @@ async function note(args, message, client) {
 }
 
 /**
- * OPT.
+ * EDIT.
  * @param {string[]} args
  * @param {Discord.Message} message
  * @param {Discord.Client} client
  * @async
  */
-async function opt(args, message, client) {
+async function edit(args, message, client) {
 	const combat = await YZCombat.fromId(message.channel.id, message, client);
 
 	if (combat.getCombatants().length === 0) {
 		return message.reply(':x: There are no combatants.');
 	}
 
-	//const name = args.shift();
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name = argv._.join(' ');
-	const options = {};
-	const isGroup = combatant instanceof YZCombatantGroup;
-	const runOnce = new Set();
-	const groupName = argv.group.join(' ') || null;
-	let out = [];
+	let modifCount = 0;
 
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
 		return message.reply(':x: Combatant not found.');
 	}
 
+	//const options = {};
+	// const isGroup = combatant instanceof YZCombatantGroup;
+	//const runOnce = new Set();
+	const groupName = argv.group ? argv.group.join(' ') : null;
+	let out = [];
+
 	if (argv.h != null && argv.h != undefined) {
 		combatant.hidden = !combatant.hidden;
 		out.push(`:spy: ${combatant.name} is **${combatant.isPrivate() ? 'hidden' : 'unhidden'}**.`);
+		modifCount++;
 	}
 	if (argv.controller) {
-		const member = Sebedius.getUserFromMention(argv.controller, client);
+		const member = await Sebedius.fetchMember(argv.controller.join(' '), message, client);
 		if (!member) {
 			out.push(':x: New controller not found.');
 		}
@@ -676,15 +682,17 @@ async function opt(args, message, client) {
 			combatant.controller = member.id;
 			out.push(`:bust_in_silhouette: ${combatant.name}'s controller set to ${combatant.controllerMention()}.`);
 		}
+		modifCount++;
 	}
 	if (argv.ar) {
 		const oldArmor = combatant.armor;
 		const newArmor = Util.modifOrSet(argv.ar, oldArmor);
 		combatant.armor = newArmor;
 		out.push(`:shield: ${combatant.name}'s armor set to **${combatant.armor}** (was ${oldArmor}).`);
+		modifCount++;
 	}
 	if (argv.p) {
-		if (combatant.id === combat.currentCombatant.id) {
+		if (combatant === combat.currentCombatant) {
 			out.push(':x: You cannot change a combatant\'s initiative on their own turn.');
 		}
 		else if (argv.p.length) {
@@ -705,6 +713,41 @@ async function opt(args, message, client) {
 		else {
 			out.push(`:x: Invalid argument: ${argv.p}.`);
 		}
+		modifCount++;
+	}
+	if (argv.name) {
+		const oldName = combatant.name;
+		const newName = argv.name.join(' ');
+		if (combat.getCombatant(newName, true)) {
+			out.push(`:x: There is already another combatant with the name ${newName}`);
+		}
+		else if (newName) {
+			combatant.name = newName;
+			out.push(`:ticket: ${oldName}'s name set to **${newName}**.`);
+		}
+		else {
+			out.push(':information_source: You must pass in a name with the `-name` tag.');
+		}
+		modifCount++;
+	}
+	if (argv.max) {
+		const oldMax = combatant.maxhp;
+		const newMax = Util.modifOrSet(argv.max, oldMax);
+		if (newMax < 1) {
+			out.push(':x: Max HP must at least be 1.');
+		}
+		else {
+			combatant.maxhp = newMax;
+			out.push(`:drop_of_blood: ${combatant.name}'s HP max set to **${combatant.maxhp}** (was ${oldMax}).`);
+		}
+		modifCount++;
+	}
+	if (argv.hp) {
+		const oldLife = combatant.hp;
+		const newLife = Util.modifOrSet(argv.hp, oldLife);
+		combatant.hp = newLife;
+		out.push(`:drop_of_blood: ${combatant.name}'s HP set to **${combatant.hp}** (was ${oldLife}).`);
+		modifCount++;
 	}
 	if (groupName) {
 		const current = combat.currentCombatant;
@@ -737,40 +780,17 @@ async function opt(args, message, client) {
 			}
 			out.push(`:inbox_tray: ${combatant.name} added to group __${grp.name}__.`)
 		}
+		modifCount++;
 	}
-	if (argv.name) {
-		const oldName = combatant.name;
-		const newName = argv.name;
-		if (combat.getCombatant(newName, true)) {
-			out.push(`:x: There is already another combatant with the name ${newName}`);
-		}
-		else if (newName) {
-			combatant.name = newName;
-			out.push(`:ticket: ${oldName}'s name set to **${newName}**.`);
-		}
-		else {
-			out.push(':information_source: You must pass in a name with the `-name` tag.');
-		}
+	if (modifCount > 0) {
+		//combat.removeCombatant(combatant, true);
+		//combat.addCombatant(combatant);
+		await combat.final();
+		await message.channel.send(out.join('\n'));
 	}
-	if (argv.max) {
-		const oldMax = combatant.maxhp;
-		const newMax = Util.modifOrSet(argv.max, oldMax);
-		if (newMax < 1) {
-			out.push(':x: Max HP must at least be 1.');
-		}
-		else {
-			combatant.maxhp = newMax;
-			out.push(`:drop_of_blood: ${combatant.name}'s HP max set to **${combatant.maxhp}** (was ${oldMax}).`);
-		}
+	else {
+		await message.reply(':information_source: Nothing was modified.');
 	}
-	if (argv.hp) {
-		const oldLife = combatant.hp;
-		const newLife = Util.modifOrSet(argv.hp, oldLife);
-		combatant.hp = newLife;
-		out.push(`:drop_of_blood: ${combatant.name}'s HP set to **${combatant.hp}** (was ${oldLife}).`);
-	}
-	await combat.final();
-	await message.channel.send(out.join('\n'));
 }
 
 /**
@@ -809,7 +829,7 @@ async function status(args, message, client) {
 			.join('\n');
 	}
 	if (privacy) {
-		const controller = message.guild.members.cache.get(combatant.controller);
+		const controller = await Sebedius.fetchMember(combatant.controller, message, client);
 		if (controller) {
 			controller.send(`\`\`\`markdown\n${statusStr}\`\`\``);
 		}
@@ -819,13 +839,13 @@ async function status(args, message, client) {
 	}
 }
 
-async function _SendHpResult(message, combatant, delta = null) {
+async function _sendHpResult(message, combatant, delta = null) {
 	const deltaend = delta ? ` (${delta})` : '';
 
 	if (combatant.isPrivate()) {
 		await message.channel.send(`${combatant.name}: ${combatant.hpString()}`);
 
-		const controller = message.guild.members.cache.get(combatant.controller);
+		const controller = await Sebedius.fetchMember(combatant.controller, message, message.guild.me.client);
 		if (controller) {
 			await controller.send(`${combatant.name}'s HP: ${combatant.hpString(true)}${deltaend}`);
 		}
@@ -833,6 +853,16 @@ async function _SendHpResult(message, combatant, delta = null) {
 	else {
 		await message.channel.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
 	}
+}
+
+/**
+ * ATTACK.
+ * @param {string[]} args
+ * @param {Discord.Message} message
+ * @param {Discord.Client} client
+ * @async
+ */
+async function attack(args, message, client) {
 }
 
 /**
@@ -849,17 +879,17 @@ async function remove(args, message, client) {
 	if (!combatant) {
 		return await message.reply(':x: Combatant not found.');
 	}
-	if (combatant.id === combat.currentCombatant.id) {
+	if (combatant === combat.currentCombatant) {
 		return await message.reply(':x: You cannot remove a combatant on their own turn.');
 	}
 	if (combatant.group) {
 		const group = combat.getGroup(combatant.group);
-		if (group.getCombatants().length <= 1 && group.id === combat.currentCombatant.id) {
+		if (group.getCombatants().length <= 1 && group === combat.currentCombatant) {
 			return await message.reply(':x: You cannot remove a combatant if they are the only remaining combatant in this turn.');
 		}
 	}
 	combat.removeCombatant(combatant);
-	await message.channel.send(`:soap: ${combatant.name} removed from combat.`);
+	await message.channel.send(`:soap: **${combatant.name}** removed from combat.`);
 	await combat.final();
 }
 
@@ -871,16 +901,9 @@ async function remove(args, message, client) {
  * @async
  */
 async function end(args, message, client) {
-	/* const argv = YargsParser(args, {
-		boolean: ['force'],
-		default: {
-			force: false,
-		},
-		configuration: client.config.yargs,
-	});//*/
 	const toEnd = await Sebedius.confirm(
 		message,
-		':speech_balloon: Are you sure you want to end combat? (reply with yes/no)',
+		':speech_balloon: **Are you sure you want to end combat?** *(reply with yes/no)*',
 		true,
 	);
 	if (toEnd == null || toEnd == undefined) {
@@ -893,7 +916,7 @@ async function end(args, message, client) {
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
-	
+
 	const msg = await message.channel.send(':stop_button: OK, ending...');
 	if (!args.includes('-force')) {
 		const combat = await YZCombat.fromId(message.channel.id, message, client);
