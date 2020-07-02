@@ -737,9 +737,9 @@ class YZCombatant {
 		const hpar = this.getHpAndAr(hidden);
 
 		let vitesse = '';
-		if (this.speed > 1 || this.haste > 1) {
+		if (this.speed !== 0 || this.haste > 1) {
 			vitesse += ` Speed ${this.speed}`;
-			if (this.haste > 1) vitesse += `, Haste ${this.haste}`;
+			if (this.haste !== 0) vitesse += `, Haste ${this.haste}`;
 		}
 
 		const notes = this.notes ? `\n# ${this.notes}` : '';
