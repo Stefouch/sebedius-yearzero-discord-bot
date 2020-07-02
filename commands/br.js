@@ -6,7 +6,11 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
-		return message.channel.send('``` ```');
+	async execute(args, ctx) {
+		await ctx.channel.send('``` ```');
+		try {
+			await ctx.delete();
+		}
+		catch (err) { console.error(err); }
 	},
 };
