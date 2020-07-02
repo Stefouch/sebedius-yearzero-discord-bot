@@ -10,22 +10,22 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 const Sebedius = require('./Sebedius');
-const client = new Sebedius(require('./config.json'));
+const bot = new Sebedius(require('./config.json'));
 
 /* !
  * READY LISTENER
  */
-client.on('ready', () => {
-	client.state = 'ready';
+bot.on('ready', () => {
+	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
-	console.log(`| Logged in as: ${client.user.username} (${client.user.id})`);
+	console.log(`| Logged in as: ${bot.user.username} (${bot.user.id})`);
 	console.log('|===========================================================');
 
 	// Lists servers the bot is connected to.
 	console.log('| Guilds/Servers:');
-	const serverQty = client.guilds.cache.size;
-	/* client.guilds.cache.forEach(guild => {
+	const serverQty = bot.guilds.cache.size;
+	/* bot.guilds.cache.forEach(guild => {
 		if (process.env.NODE_ENV !== 'production') {
 			console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			console.log('|    * Custom emojis:');
@@ -41,8 +41,8 @@ client.on('ready', () => {
 	// Alternatively, you can set the activity to any of the following:
 	// PLAYING, STREAMING, LISTENING, WATCHING
 	// For example:
-	// client.user.setActivity('TV', { type: 'WATCHING' });
-	client.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
+	// bot.user.setActivity('TV', { type: 'WATCHING' });
+	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
 	// if (process.env.NODE_ENV !== 'production') test(bot);
@@ -51,14 +51,14 @@ client.on('ready', () => {
 /* !
  * MESSAGE LISTENER
  */
-client.on('message', async message => {
+bot.on('message', async message => {
 	// Exits early is the message was send by a bot
 	// and prevents bot from responding to its own messages.
 	if (message.author.bot) return;
-	// if (message.author.id === client.user.id) return;
+	// if (message.author.id === bot.user.id) return;
 
 	// Gets the guild's prefixes (an array).
-	const prefixes = await client.getPrefixes(message);
+	const prefixes = await bot.getPrefixes(message);
 	let prefix;
 	for (const pfx of prefixes) {
 		if (message.content.startsWith(pfx)) {
@@ -69,20 +69,20 @@ client.on('message', async message => {
 	if (!prefix) return;
 
 	// Aborts if the user or the channel are banned.
-	if (client.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
-	if (client.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
+	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
+	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
 
 	// Adds important data for the context of the message.
 	message.prefix = prefix;
-	//message.bot = client;
+	message.bot = bot;
 
 	// Parses the arguments.
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
 	// Gets the command from its name, with support for aliases.
-	const command = client.commands.get(commandName)
-		|| client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+	const command = bot.commands.get(commandName)
+		|| bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
 
 	// Exits early if there is no command with this name.
 	if (!command) return;
@@ -107,8 +107,8 @@ client.on('message', async message => {
 			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
-		await command.execute(args, message, client);
-		client.raiseCommandStats(command.name);
+		await command.execute(args, message);
+		bot.raiseCommandStats(command.name);
 	}
 	catch (error) {
 		console.error('[ERROR] - At command execution.', error);
@@ -128,7 +128,7 @@ process.on('unhandledRejection', async error => {
 			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 			+ `\n**Path:** ${error.path}`
 			+ `\n**Stack:** ${error.stack}`;
-		const admin = await client.users.fetch(client.config.botAdminID);
+		const admin = await bot.users.fetch(bot.config.botAdminID);
 		return admin.send(msg, { split: true })
 			.catch(err => console.error(err));
 	}
@@ -140,4 +140,4 @@ process.on('unhandledRejection', async error => {
  * Click on your application -> Bot -> Token -> "Click to Reveal Token".
  * Log our bot in using the token from https://discordapp.com/developers/applications/me
  */
-client.login(process.env.TOKEN);
+bot.login(process.env.TOKEN);

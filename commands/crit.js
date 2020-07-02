@@ -61,9 +61,9 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[game] [table] [numeric]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Exits early if too many arguments
-		if (args.length > 3) return message.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
+		if (args.length > 3) return ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
 
 		// Parsing arguments.
 		let game, type, fixedReference;
@@ -96,15 +96,15 @@ module.exports = {
 			}
 		}
 		// Defaults.
-		if (!game) game = await client.getGame(message);
+		if (!game) game = await ctx.bot.getGame(ctx);
 		if (!type) type = 'damage';
 
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
-			return message.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
+			return ctx.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
-			return message.reply(`ℹ️ There is no \`${type}\` critical table for **${game.toUpperCase()}**.`);
+			return ctx.reply(`ℹ️ There is no \`${type}\` critical table for **${game.toUpperCase()}**.`);
 		}
 
 		// Table swap.
@@ -114,12 +114,12 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = await client.getTable('./gamedata/crits', fileName);
+		const critsTable = await ctx.bot.getTable('./gamedata/crits', fileName);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
-		if (!critsTable) return message.reply('❌ An error occured: `null critsTable`.');
-		if (critsTable.size === 0) return message.reply('❌ An error occured: `critsTable size 0`.');
+		if (!critsTable) return ctx.reply('❌ An error occured: `null critsTable`.');
+		if (critsTable.size === 0) return ctx.reply('❌ An error occured: `critsTable size 0`.');
 
 		// Rolls the Critical Injuries table.
 		const critRoll = fixedReference || Util.rollD66();
@@ -127,7 +127,7 @@ module.exports = {
 		// console.log(crit);
 
 		// Exits early if no critical injury was found.
-		if (!crit) return message.reply(`❌ The critical injury wasn't found. *(Table: ${fileName})*`);
+		if (!crit) return ctx.reply(`❌ The critical injury wasn't found. *(Table: ${fileName})*`);
 
 		// Gets the values of each D66's dice.
 		let die1 = 0, die2 = 0;
@@ -136,17 +136,17 @@ module.exports = {
 			die2 = critRoll % 10;
 		}
 		// Gets the emojis references.
-		const dieType = client.config.commands.roll.options[game].blankDiceFaces ? 'alien' : game;
+		const dieType = ctx.bot.config.commands.roll.options[game].blankDiceFaces ? 'alien' : game;
 		const icon1 = DICE_ICONS[dieType].skill[die1] || '';
 		const icon2 = DICE_ICONS[dieType].skill[die2] || '';
 
 		// Sends the message.
-		return message.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, message))
+		return ctx.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
 			.then(() => {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
-						message.channel.send('⚰');
+						ctx.channel.send('⚰');
 					}, Util.rollD66() * 150);
 				}
 			})
@@ -160,11 +160,11 @@ module.exports = {
  * Gets the details for a critical injury.
  * @param {Object} crit Object containing all infos for the critical injury
  * @param {string} name The name of the critical table
- * @param {Discord.Message} message The triggering message
+ * @param {Discord.Message} ctx The triggering message with context
  * @returns {YZEmbed} A rich embed
  */
-function getEmbedCrit(crit, name, message) {
-	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, message, true);
+function getEmbedCrit(crit, name, ctx) {
+	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, ctx, true);
 
 	if (crit.healingTime) {
 		let title, text;

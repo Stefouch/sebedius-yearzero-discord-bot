@@ -7,12 +7,12 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[new prefix]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		if (args.length) {
-			await client.commands.get('setconf').execute(['prefix', args[0]], message, client);
+			await ctx.bot.commands.get('setconf').execute(['prefix', args[0]], ctx);
 		}
-		const msg = `1. ${client.mention}\n2. ${message.prefix}`;
+		const msg = `1. ${ctx.bot.mention}\n2. ${ctx.prefix}`;
 		const embed = new YZEmbed('Sebedius Prefixes', msg).setFooter('2 prefixes');
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

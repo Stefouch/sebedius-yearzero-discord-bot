@@ -17,7 +17,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[all | myz meta gla mech ely astra]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Artos) legalBooks.push(book);
@@ -42,7 +42,7 @@ module.exports = {
 		const artifact = random(artifacts);
 		const embed = new YZEmbed('Artifact', artifact);
 
-		if (!artifact) return message.reply('I\'m sorry, no artifact where found with this unknown package!');
-		return message.channel.send(embed);
+		if (!artifact) return ctx.reply('I\'m sorry, no artifact where found with this unknown package!');
+		return ctx.channel.send(embed);
 	},
 };

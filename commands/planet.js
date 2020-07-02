@@ -6,8 +6,8 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Exits early and executes "!colony empty".
-		return client.commands.get('colony').execute(['empty'], message, client);
+		return ctx.bot.commands.get('colony').execute(['empty'], ctx);
 	},
 };

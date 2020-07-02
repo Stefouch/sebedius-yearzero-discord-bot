@@ -10,11 +10,11 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const star = new Star();
 		const embed = new YZStarEmbed(star);
 
-		return message.channel.send('New star system discovered.\nPreliminary survey data:', embed);
+		return ctx.channel.send('New star system discovered.\nPreliminary survey data:', embed);
 	},
 };
 

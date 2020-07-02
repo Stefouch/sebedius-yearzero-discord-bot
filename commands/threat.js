@@ -10,7 +10,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Rolls for the threat type.
 		const nb = Util.rand(1, 6);
 		let type;
@@ -36,6 +36,6 @@ module.exports = {
 		const typeStr = Util.capitalize(type).slice(0, -1);
 		const embed = new YZEmbed('Zone Threat', `${typeStr} – ${threat}`);
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

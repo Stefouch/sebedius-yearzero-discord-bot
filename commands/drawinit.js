@@ -11,14 +11,13 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[quantity] [shuffle]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Initializes the card database.
-		const gid = message.guild.id;
+		const gid = ctx.guild.id;
 		const ttl = 86400000;
 
 		// Recreates the deck.
-		const cards = await client.kdb.initiatives.get(gid, 'initiative');
-		//const cards = await db.get(gid, 'initiative');
+		const cards = await ctx.bot.kdb.initiatives.get(gid, 'initiative');
 		let deck;
 
 		if (cards && cards.length > 0) {
@@ -39,21 +38,19 @@ module.exports = {
 			const drawQty = Util.clamp(value, 0, 10);
 
 			if (drawQty > deck.size) {
-				message.channel.send('The size of the *Initiative* deck is too small.');
+				ctx.channel.send('The size of the *Initiative* deck is too small.');
 				await reset();
 			}
 			const drawnCards = deck.draw(drawQty);
 			console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
-			await client.kdb.initiatives.set(gid, deck._stack, ttl);
-			//await db.set(gid, deck._stack, 'initiative', ttl);
-			return message.reply(getDrawCardText(drawnCards, CARDS_ICONS));
+			await ctx.bot.kdb.initiatives.set(gid, deck._stack, ttl);
+			return ctx.reply(getDrawCardText(drawnCards, CARDS_ICONS));
 		}
 
 		async function reset() {
 			deck = new YZInitDeck();
-			await client.kdb.initiatives.set(gid, deck._stack, ttl);
-			//await db.set(gid, deck._stack, 'initiative', ttl);
-			return message.channel.send('Shuffled a new deck of *Initiative* cards.');
+			await ctx.bot.kdb.initiatives.set(gid, deck._stack, ttl);
+			return ctx.channel.send('Shuffled a new deck of *Initiative* cards.');
 		}
 	},
 };

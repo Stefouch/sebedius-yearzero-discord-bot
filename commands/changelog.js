@@ -7,13 +7,13 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const embed = new YZEmbed(
 			'📑 Sebedius Changelog',
 			'You can check out the latest patch notes at '
 			+ 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md',
-			message,
+			ctx,
 		);
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

@@ -10,8 +10,8 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: `<${Job.jobTypes.join('|')}>`,
-	async execute(args, message, client) {
-		if (!args.length) return message.reply('Please specify job type');
+	async execute(args, ctx) {
+		if (!args.length) return ctx.reply('Please specify job type');
 
 		let type = '';
 
@@ -21,7 +21,7 @@ module.exports = {
 		else {
 			type = Util.random(Job.jobTypes);
 		}
-		// else return message.reply('Please specify a correct job type: `cargo`, `mil` or `expe`');
+		// else return ctx.reply('Please specify a correct job type: `cargo`, `mil` or `expe`');
 
 		const j = new Job(type);
 		const job = j.job;
@@ -57,7 +57,7 @@ module.exports = {
 			);
 		});
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };
 

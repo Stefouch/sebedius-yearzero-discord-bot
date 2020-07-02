@@ -5,8 +5,8 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
-		const msg = await message.channel.send('Pinging...');
-		msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms.`);
+	async execute(args, ctx) {
+		const msg = await ctx.channel.send('Pinging...');
+		msg.edit(`Pong! Latency is ${msg.createdTimestamp - ctx.createdTimestamp}ms.`);
 	},
 };

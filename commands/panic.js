@@ -9,14 +9,14 @@ module.exports = {
 	moreDescriptions: [
 		[
 			'Arguments',
-			'• `-f` | `--fixed` – Uses a fixed number (doesn\'t add a D6).',
+			'• `-f|--fixed` – Uses a fixed number (doesn\'t add a D6).',
 		],
 	],
 	// aliases: ['alien-panic'],
 	guildOnly: false,
 	args: true,
 	usage: '<stress> [--fixed]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const fixed = /-f|-fix/i.test(args[1]);
 
 		const panicRand = fixed ? 0 : Util.rand(1, 6);
@@ -24,7 +24,7 @@ module.exports = {
 		const panicVal = stress + panicRand;
 
 		const text = `😱 PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
-		const embed = getEmbedPanicRoll(panicVal, message, client);
+		const embed = getEmbedPanicRoll(panicVal, ctx);
 
 		// Interrupted skill roll reminder.
 		if (panicVal >= 10) {
@@ -42,23 +42,23 @@ module.exports = {
 			);
 		}
 
-		return message.channel.send(text, embed);
+		return ctx.channel.send(text, embed);
 	},
 };
 
 /**
  * Gets an Embed with the result of a Panic Roll (ALIEN-rpg).
  * @param {number} panic The value of the Panic Roll
- * @param {Discord.Message} message The triggering message
+ * @param {Discord.Message} message The triggering message with context
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
-function getEmbedPanicRoll(panic, message, client) {
-	const panicTable = client.getTable('./gamedata/crits', 'crits-alien-panic', 'en', 'csv');
+function getEmbedPanicRoll(panic, ctx) {
+	const panicTable = ctx.bot.getTable('./gamedata/crits', 'crits-alien-panic', 'en', 'csv');
 	const panicRoll = Util.clamp(panic, 0, 15);
 	const criticalInjury = panicTable.get(panicRoll);
 
 	// Exits early if no critical injury was found.
-	if (!criticalInjury) return message.reply('❌ The critical injury wasn\'t found.');
+	if (!criticalInjury) return ctx.reply('❌ The critical injury wasn\'t found.');
 
-	return new YZEmbed(`**${criticalInjury.injury}**`, criticalInjury.effect, message, true);
+	return new YZEmbed(`**${criticalInjury.injury}**`, criticalInjury.effect, ctx, true);
 }

@@ -12,12 +12,12 @@ module.exports = {
 	guildOnly: true,
 	args: true,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Exits early if not the bot's owner.
-		if (message.author.id !== client.config.botAdminID) return;
+		if (ctx.author.id !== ctx.bot.config.botAdminID) return;
 
 		if (args.includes('maintenance') || args.includes('idle')) {
-			client.user.setPresence({
+			ctx.bot.user.setPresence({
 				game: { name: '🚧 On Maintenance', type: 'WATCHING' },
 				status: 'dnd',
 				afk: true,
@@ -27,11 +27,11 @@ module.exports = {
 		// and updates the bot's activity according to the updated value.
 		else if (args.includes('servers') || args.includes('serv')) {
 			const guilds = [];
-			client.guilds.forEach(guild => {
+			ctx.bot.guilds.cache.forEach(guild => {
 				guilds.push(`* ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			});
-			message.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
-			setOnlineActivity(client, guilds.length);
+			ctx.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
+			setOnlineActivity(ctx.bot, guilds.length);
 		}
 		// Gets info from the Bot.
 		else if (args.includes('botinfo')) {
@@ -41,19 +41,19 @@ module.exports = {
 					.setTitle('`Sebedius Statistics`')
 					.addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
 					.addField('Swap Partition Size', `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`, true)
-					.addField('Uptime', ms(client.uptime), true)
-					.addField('Users', client.users.cache.size, true)
-					.addField('Servers', client.guilds.cache.size, true)
-					.addField('Channels', client.channels.cache.size, true)
-					.addField('Emojis', client.emojis.cache.size, true)
+					.addField('Uptime', ms(ctx.bot.uptime), true)
+					.addField('Users', ctx.bot.users.cache.size, true)
+					.addField('Servers', ctx.bot.guilds.cache.size, true)
+					.addField('Channels', ctx.bot.channels.cache.size, true)
+					.addField('Emojis', ctx.bot.emojis.cache.size, true)
 					.addField('Library', 'discord.js', true)
 					.addField('Library Version', `v${Discord.version}`, true)
-					.addField('Bot Created', client.user.createdAt, true)
+					.addField('Bot Created', ctx.bot.user.createdAt, true)
 					.addField('Node Version', process.version, true)
 					.addField('NPM Version', npmv.data.replace('\n', ''), true)
 					.addField('OS', `${os.platform()} (${process.arch})`, true)
 					.setTimestamp();
-				message.channel.send(stats);
+				ctx.channel.send(stats);
 			}
 			catch (err) {
 				console.error('Botinfo Error', err);

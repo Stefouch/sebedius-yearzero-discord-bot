@@ -10,37 +10,34 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '<rating> [name]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		let rating;
 		// Accepts "8" and "8d", but not "d8".
 		if (/^\d{1,2}d$/i.test(args[0])) rating = args.shift().match(/\d+/)[0];
 		else rating = +args.shift();
 
-		// Gets the game.
-		//const game = await client.getGame(message);
-
 		if (Util.isNumber(rating)) {
 			// A maximum of 6 dice are rolled. See ALIEN corebook pg. 34 for details.
 			const resQty = Util.clamp(rating, 0, 6);
 			const resTitle = args.length ? args.join(' ') : 'Supply';
-			const roll = new YZRoll(message.author.id, { stress: resQty }, resTitle);
+			const roll = new YZRoll(ctx.author.id, { stress: resQty }, resTitle);
 			roll.setGame('alien');
-			sendMessageForResourceRoll(rating, roll, message, client);
+			sendMessageForResourceRoll(rating, roll, ctx);
 		}
 		else {
-			message.reply('ℹ️ This Supply Roll is not possible. Try `supply <rating> [name]`');
+			ctx.reply('ℹ️ This Supply Roll is not possible. Try `supply <rating> [name]`');
 		}
 	},
 };
 
-function sendMessageForResourceRoll(resRating, roll, message, client) {
+function sendMessageForResourceRoll(resRating, roll, ctx) {
 	// const resRating = roll.stress;
 	const newRating = resRating - roll.panic;
 
-	const gameOptions = client.config.commands.roll.options[roll.game];
+	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
-	const text = client.commands.get('roll').emojifyRoll(roll, gameOptions);
-	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, message, true);
+	const text = ctx.bot.commands.get('roll').emojifyRoll(roll, gameOptions);
+	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, ctx, true);
 
 	if (resRating === newRating) {
 		embed.addField(
@@ -60,5 +57,5 @@ function sendMessageForResourceRoll(resRating, roll, message, client) {
 			'The consumable is fully depleted.\tRating: **0**',
 		);
 	}
-	message.channel.send(text, embed);
+	ctx.channel.send(text, embed);
 }

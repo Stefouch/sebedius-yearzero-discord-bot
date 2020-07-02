@@ -9,7 +9,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const rumorStory = Util.random(Rumors.stories);
 
 		// RumorStory is an Object with:
@@ -33,6 +33,6 @@ module.exports = {
 
 		const embed = new YZEmbed(`${Rumors.title} ...`, rumorText);
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };
