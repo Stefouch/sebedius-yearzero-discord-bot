@@ -1,7 +1,6 @@
 const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 const Util = require('../utils/Util');
-const YZInitDeck = require('../yearzero/YZInitDeck');
 const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
 const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
 
@@ -235,8 +234,9 @@ async function help(args, ctx) {
 async function begin(args, ctx) {
 	await YZCombat.ensureUniqueChan(ctx);
 	const argv = YargsParser(args, {
-		boolean: ['turnnotif'],
 		array: ['name'],
+		boolean: ['turnnotif'],
+		string: ['game'],
 		default: {
 			turnnotif: false,
 		},
@@ -255,6 +255,7 @@ async function begin(args, ctx) {
 		options,
 		ctx,
 	);
+	if (argv.game) combat.game = argv.game;
 	await combat.final();
 
 	// Pins the summary message.
@@ -656,7 +657,7 @@ async function edit(args, ctx) {
 	//const options = {};
 	// const isGroup = combatant instanceof YZCombatantGroup;
 	//const runOnce = new Set();
-	//
+
 	let out = [];
 
 	if (argv.h != null && argv.h != undefined) {
@@ -766,7 +767,8 @@ async function edit(args, ctx) {
 			);
 
 		combat.removeCombatant(combatant, true);
-		if (groupName.toLowerCase() === 'none') {
+		if (!groupName || groupName.toLowerCase() === 'none') {
+			combatant.group = null;
 			combat.addCombatant(combatant);
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
@@ -883,7 +885,7 @@ async function attack(args, ctx) {
 	});
 	const damage = +argv._[0] || 0;
 	const combatantName = argv.t ? argv.t.join(' ') : null;
-	const decreaseArmor = argv.x ? true : false;
+	const degradeArmor = argv.x ? true : false;
 	const isArmorPierced = argv.ap === true ? true : false;
 	const isArmorDoubled = argv.ad ? true : false;
 	const armorFactor = (isArmorDoubled ? 2 : 1) * (isArmorPierced ? 0.5 : 1);
@@ -916,7 +918,7 @@ async function attack(args, ctx) {
 	armorRoll.setGame(await ctx.bot.getGame(ctx));
 
 	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
-	const armorDamage = (decreaseArmor && finalDamage > 0) ? armorRoll.banes : 0;
+	const armorDamage = (degradeArmor && finalDamage > 0) ? armorRoll.banes : 0;
 
 	// Sends the report
 	const out = [];
@@ -946,7 +948,7 @@ async function attack(args, ctx) {
 	}
 
 	await combat.final();
-	await ctx.channel.send(out.join('\n'));
+	if (out.length) await ctx.channel.send(out.join('\n'));
 }
 
 /**

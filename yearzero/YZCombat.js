@@ -2,12 +2,14 @@ const YZRoll = require('./YZRoll');
 const Util = require('../utils/Util');
 const YZInitiative = require('./YZInitiative');
 const Sebedius = require('../Sebedius');
+const { SUPPORTED_GAMES } = require('../utils/constants');
 
 class YZCombat {
 
 	constructor(channelId, summaryMessageId, dmId,
 		options, ctx, combatants, initiatives = null,
 		roundNum = 0, currentIndex = null,
+		game = 'myz',
 	) {
 		/**
 		 * The Discord TextChannel ID of the channel were the combat instance is ongoing.
@@ -63,6 +65,12 @@ class YZCombat {
 		 * @type {YZInitiative<number, string>}
 		 */
 		this.initiatives = initiatives ? new YZInitiative(initiatives) : new YZInitiative();
+
+		/**
+		 * The game set for this combat instance.
+		 * @type {string}
+		 */
+		this.game = game;
 	}
 
 	/**
@@ -73,6 +81,20 @@ class YZCombat {
 	 */
 	get turn() {
 		return Math.floor(this.index);
+	}
+
+	/**
+	 * The game set for this combat instance.
+	 * @type {string}
+	 */
+	get game() { return this._game; }
+	set game(newGame) {
+		if (SUPPORTED_GAMES.includes(newGame)) {
+			this._game = newGame;
+		}
+		else {
+			this._game = SUPPORTED_GAMES[0];
+		}
 	}
 
 	/**
@@ -128,6 +150,7 @@ class YZCombat {
 			raw.initiatives,
 			raw.round,
 			raw.index,
+			raw.game,
 		);
 		for (const cRaw of raw.combatants) {
 			if (cRaw.type === 'common') {
@@ -153,6 +176,7 @@ class YZCombat {
 			initiatives: [...this.initiatives],
 			round: this.round,
 			index: this.index,
+			game: this.game,
 		};
 	}
 
@@ -242,12 +266,12 @@ class YZCombat {
 	 * Applies damage to a combatant and performs an Armor roll.
 	 * @param {YZCombatant} combatant The target to damage
 	 * @param {number} damage The quantity of damage
-	 * @param {?boolean} [decreaseArmor=false] Wether the armor should be degraded by rolled banes
+	 * @param {?boolean} [degradeArmor=false] Wether the armor should be degraded by rolled banes
 	 * @param {?number} [armorMod=0] Armor modifier (after factor)
 	 * @param {?number} [armorFactor=1] Armor multiplicator (use 0.5 for armor piercing)
 	 * @returns {YZRoll} The armor roll
 	 */
-	damageCombatant(combatant, damage, decreaseArmor = false, armorMod = 0, armorFactor = 1) {
+	damageCombatant(combatant, damage, degradeArmor = false, armorMod = 0, armorFactor = 1) {
 		const bot = this.message.guild.me.client;
 		const controller = bot.users.cache.get(combatant.controller);
 
@@ -264,7 +288,7 @@ class YZCombat {
 		damage -= armorRoll.sixes;
 		if (damage > 0) combatant.hp = Math.max(combatant.hp - damage, 0);
 		// Damaging the armor.
-		if (damage > 0 && decreaseArmor) {
+		if (damage > 0 && degradeArmor) {
 			combatant.armor -= armorRoll.banes;
 		}
 		return armorRoll;
@@ -705,6 +729,9 @@ class YZCombatant {
 			name: this.name,
 			controller: this.controller,
 			id: this.id,
+			hp: this.hp,
+			maxhp: this.maxhp,
+			armor: this.armor,
 			speed: this.speed,
 			haste: this.haste,
 			inits: this.inits,
