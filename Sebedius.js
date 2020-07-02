@@ -86,7 +86,6 @@ class Sebedius extends Discord.Client {
 	/**
 	 * Gets the list of prefixes in an array.
 	 * @param {Discord.Message} message Discord message
-	 * @param {?Discord.Client} client Discord client (the bot)
 	 * @returns {string[]}
 	 * @async
 	 */
@@ -206,19 +205,16 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets the commands' statistics.
-	 * @returns {string}
+	 * @returns {Discord.Collection}
 	 * @async
 	 */
 	async getStats() {
 		const out = new Discord.Collection();
-		for (const cmd of this.commands) {
-			const count = await this.kdb.stats.get(cmd.name) || 0;
-			out.set(cmd.name, count);
+		for (const cmdName of this.commands.keyArray()) {
+			const count = await this.kdb.stats.get(cmdName) || 0;
+			out.set(cmdName, count);
 		}
-		return out
-			.sort((a, b) => b - a)
-			.map((v, k) => `${k}: **${v}**`)
-			.join('\n');
+		return out;
 	}
 
 	/**
@@ -384,20 +380,19 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Checks if the bot has all the required permissions.
-	 * @param {Discord.Message} message Discord message
-	 * @param {Discord.Client} client Discord client (the bot)
+	 * @param {Discord.Message} ctx Discord message with context
 	 * @param {number} checkPerms Bitfield / Use this argument if you want to check just a few specific Permissions.
 	 * @returns {boolean} `true` if the bot has all the required Permissions.
 	 * @static
 	 */
-	static checkPermissions(message, client, checkPerms = null) {
-		const channel = message.channel;
+	static checkPermissions(ctx, checkPerms = null) {
+		const channel = ctx.channel;
 
 		// Exits early if we are in a DM.
 		if (channel.type === 'dm') return true;
 
 		const botMember = channel.guild.me;
-		const perms = checkPerms || client.config.perms.bitfield;
+		const perms = checkPerms || ctx.bot.config.perms.bitfield;
 		const serverMissingPerms = botMember.permissions.missing(perms);
 		const channelMissingPerms = channel.permissionsFor(botMember).missing(perms);
 
@@ -414,7 +409,7 @@ class Sebedius extends Discord.Client {
 			if (channelMissingPerms.length) {
 				msg += `\n**Channel Missing Permission(s):** \`${channelMissingPerms.join('`, `')}\``;
 			}
-			message.reply(msg);
+			ctx.reply(msg);
 			return false;
 		}
 		else {
@@ -452,17 +447,16 @@ class Sebedius extends Discord.Client {
 	/**
 	 * Fetches a Member based on its name, mention or ID.
 	 * @param {string} needle Name, mention or ID
-	 * @param {Discord.Message} message The triggering message
-	 * @param {Discord.Client} client The Discord client (the bot)
+	 * @param {Discord.Message} ctx The triggering message with context
 	 * @returns {Promise<Discord.Member>|Discord.Member}
 	 * @static
 	 * @async
 	 */
-	static async fetchMember(needle, message, client) {
+	static async fetchMember(needle, ctx) {
 		if (Discord.MessageMentions.USERS_PATTERN.test(needle)) {
-			return await Sebedius.getUserFromMention(needle, client);
+			return await Sebedius.getUserFromMention(needle, ctx.bot);
 		}
-		const members = message.channel.members;
+		const members = ctx.channel.members;
 		return members.find(mb =>
 			mb.id === needle ||
 			mb.displayName === needle,
@@ -489,4 +483,9 @@ function whenMentionedOrPrefixed(prefixes, client) {
 
 module.exports = Sebedius;
 
-class SebediusError extends Error {}
+class SebediusError extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'SebediusError';
+	}
+}
