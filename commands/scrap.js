@@ -4,17 +4,6 @@ const YZEmbed = require('../utils/embeds');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 
-// Loading the available scrap.
-let scrapList;
-try {
-	const scrapContent = fs.readFileSync('./gamedata/scrap.list', 'utf8');
-	scrapList = scrapContent.split('\n');
-	console.log('[+] - Scrap list loaded: data/scrap.list');
-}
-catch(error) {
-	console.error('[ERROR] - Unable to load the scrap list:', error);
-}
-
 module.exports = {
 	name: 'scrap',
 	group: 'Mutant: Year Zero',
@@ -23,16 +12,16 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[quantity]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		let desc = '';
 		let qty = 1;
 
 		if (/^\d{1,2}$/.test(args[0])) {
-			qty = Math.min(+args[0], client.config.commands.scrap.max);
+			qty = Math.min(+args[0], ctx.bot.config.commands.scrap.max);
 		}
 
 		for (let i = 0; i < qty; i++) {
-			const scrap = Util.random(scrapList);
+			const scrap = Util.random(getScrapList());
 
 			desc += `\n– ${scrap}`;
 		}
@@ -40,8 +29,21 @@ module.exports = {
 		desc = RollParser.supersede(desc);
 
 		const title = `Scrap Item${(qty > 1) ? 's' : ''} Found`;
-		const embed = new YZEmbed(title, desc, message, true);
+		const embed = new YZEmbed(title, desc, ctx, true);
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };
+
+function getScrapList() {
+	let scrapList;
+	try {
+		const scrapContent = fs.readFileSync('./gamedata/scrap.list', 'utf8');
+		scrapList = scrapContent.split('\n');
+		// console.log('[+] - Scrap list loaded: data/scrap.list');
+	}
+	catch(error) {
+		console.error('[ERROR] - Unable to load the scrap list:', error);
+	}
+	return scrapList;
+}
