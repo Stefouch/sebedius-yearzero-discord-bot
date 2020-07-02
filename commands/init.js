@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Util = require('../utils/Util');
 const YZInitDeck = require('../yearzero/YZInitDeck');
 const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
-const { CombatNotFound } = require('../yearzero/YZCombat');
+const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
 
 const YargsParser = require('yargs-parser');
 const YARGS_PARSE_COMBATANT = {
@@ -133,6 +133,15 @@ module.exports = {
 			\`-private\` – PMs the controller of the combatant a more detailed status.`,
 		],
 		[
+			'ATTACK',
+			`Inflicts damage to another combatant.
+			__Options__
+			\`-ap [value]\` – Armor piercing. Default is halved, rounded up.
+			\`-ad\` – Armor doubled.
+			\`-ab <value>\` – Armor bonus (applied after other modifications).
+			`,
+		],
+		[
 			'REMOVE',
 			'Removes a combatant or group from the combat.',
 		],
@@ -147,43 +156,46 @@ module.exports = {
 	guildOnly: true,
 	args: true,
 	usage: '<subcommand>',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Gets the subcommand.
 		const subcmd = args.shift().toLowerCase();
 		try {
 			// Chooses the function for the subcommand.
 			switch (subcmd) {
-			case 'help': case 'h': await help(args, message, client); break;
-			case 'begin': await begin(args, message, client); break;
-			case 'add': await add(args, message, client); break;
-			case 'join': await join(args, message, client); break;
-			case 'next': case 'n': await next(args, message, client); break;
-			case 'prev': case 'p': case 'previous': await prev(args, message, client); break;
-			case 'move': case 'goto': await move(args, message, client); break;
-			case 'skipround': await skipround(args, message, client); break;
-			case 'meta': await meta(args, message, client); break;
-			case 'list': case 'summary': await list(args, message, client); break;
-			case 'note': await note(args, message, client); break;
-			case 'edit': await edit(args, message, client); break;
-			case 'status': await status(args, message, client); break;
-			case 'attack': case 'atk': case 'atq': await attack(args, message, client); break;
-			case 'remove': await remove(args, message, client); break;
-			case 'end': await end(args, message, client); break;
+			case 'help': case 'h': await help(args, ctx); break;
+			case 'begin': await begin(args, ctx); break;
+			case 'add': await add(args, ctx); break;
+			case 'join': await join(args, ctx); break;
+			case 'next': case 'n': await next(args, ctx); break;
+			case 'prev': case 'p': case 'previous': await prev(args, ctx); break;
+			case 'move': case 'goto': await move(args, ctx); break;
+			case 'skipround': await skipround(args, ctx); break;
+			case 'meta': await meta(args, ctx); break;
+			case 'list': case 'summary': await list(args, ctx); break;
+			case 'note': await note(args, ctx); break;
+			case 'edit': await edit(args, ctx); break;
+			case 'status': await status(args, ctx); break;
+			case 'attack': case 'atk': case 'atq': await attack(args, ctx); break;
+			case 'remove': await remove(args, ctx); break;
+			case 'end': await end(args, ctx); break;
 			default:
-				return message.reply(`:information_source: Incorrect usage. Use \`${message.prefix}help init\` for help.`);
+				return ctx.reply(`:information_source: Incorrect usage. Use \`${ctx.prefix}help init\` for help.`);
 			}
 		}
 		catch (error) {
 			console.error(error);
-			if (error instanceof CombatNotFound) {
-				return message.reply(`:information_source: No combat instance. Type \`${message.prefix}init begin\`.`);
+			if (error instanceof ChannelInCombat) {
+				return ctx.reply(':warning: Cannot start a new combat instance because there is already one in progress.');
+			}
+			else if (error instanceof CombatNotFound) {
+				return ctx.reply(`:information_source: No combat instance. Type \`${ctx.prefix}init begin\`.`);
 			}
 			else {
-				return message.reply(`:x: *${error.name}: ${error.message}*.`);
+				return ctx.reply(`:x: *${error.name}: ${error.message}*.`);
 			}
 		}
 		try {
-			await message.delete();
+			await ctx.delete();
 		}
 		catch (err) { console.error(err); }
 	},
@@ -192,65 +204,63 @@ module.exports = {
 /**
  * HELP.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function help(args, message, client) {
+async function help(args, ctx) {
 	let subcmd;
 	if (args.length) subcmd = args.shift().toLowerCase();
 	if (!subcmd) {
-		return client.commands.get('help').execute(['init'], message, client);
+		return ctx.bot.commands.get('help').execute(['init'], ctx);
 	}
 	const subcmdDesc = module.exports.moreDescriptions.find(d => d[0].toLowerCase().includes(subcmd));
 	if (!subcmdDesc) {
-		return client.commands.get('help').execute(['init'], message, client);
+		return ctx.bot.commands.get('help').execute(['init'], ctx);
 	}
 	const title = subcmdDesc[0].toLowerCase();
 	const description = subcmdDesc[1];
 	const embed = new MessageEmbed({
-		title: `${message.prefix}init ${title}`,
+		title: `${ctx.prefix}init ${title}`,
 		description,
 	});
-	message.channel.send(embed);
+	ctx.channel.send(embed);
 }
 
 /**
  * BEGIN.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function begin(args, message, client) {
-	//await YZCombat.ensureUniqueChan(message);
+async function begin(args, ctx) {
+	await YZCombat.ensureUniqueChan(ctx);
 	const argv = YargsParser(args, {
 		boolean: ['turnnotif'],
 		array: ['name'],
 		default: {
 			turnnotif: false,
 		},
-		configuration: client.config.yargs,
+		configuration: ctx.bot.config.yargs,
 	});
 	const options = {};
 	if (argv.name) options.name = argv.name.join(' ');
 	if (argv.turnnotif) options.turnnotif = argv.turnnotif;
 
 	// Builds the summary message and the combat instance.
-	const tempSummaryMsg = await message.channel.send('```Awaiting combatants...```');
+	const tempSummaryMsg = await ctx.channel.send('```Awaiting combatants...```');
 	const combat = new YZCombat(
-		message.channel.id,
+		ctx.channel.id,
 		tempSummaryMsg.id,
-		message.author.id,
+		ctx.author.id,
 		options,
-		message,
+		ctx,
 	);
-	await combat.final(client);
+	await combat.final();
 
 	// Pins the summary message.
 	try {
-		//await message.delete();
-		//await tempSummaryMsg.pin();
+		await ctx.delete();
+		await tempSummaryMsg.pin();
 	}
 	catch (err) { console.error(err); }
 
@@ -260,19 +270,18 @@ async function begin(args, message, client) {
 		.setTitle('Everyone Draw For Initiative:')
 		.setDescription(desc);//*/
 	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!'
-		+ `\`\`\`${message.prefix}init add <name> [options]\n${message.prefix}init join [options]\n\`\`\``;
-	// message.channel.send(embed);
-	message.channel.send(desc);
+		+ `\`\`\`${ctx.prefix}init add <name> [options]\n${ctx.prefix}init join [options]\n\`\`\``;
+	// ctx.channel.send(embed);
+	ctx.channel.send(desc);
 }
 
 /**
  * ADD.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function add(args, message, client) {
+async function add(args, ctx) {
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name = argv._.join(' ');
 	const hidden = argv.h || false;
@@ -283,27 +292,27 @@ async function add(args, message, client) {
 	const speed = +argv.speed || 1;
 	const haste = +argv.loot || null;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
-	let controller = message.author.id;
+	let controller = ctx.author.id;
 
-	if (!name) return message.reply(':warning: This combatant needs a name.');
+	if (!name) return ctx.reply(':warning: This combatant needs a name.');
 
 	if (argv.controller) {
-		const member = await Sebedius.fetchMember(argv.controller.join(' '), message, client);
+		const member = await Sebedius.fetchMember(argv.controller.join(' '), ctx);
 		if (member) controller = member.id;
 	}
 	if (hp < 1) {
-		return message.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
+		return ctx.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
 	}
 	if (armor < 0) {
-		return message.reply(':warning: You must pass in a positive AR with the `-ar` tag.');
+		return ctx.reply(':warning: You must pass in a positive AR with the `-ar` tag.');
 	}
 
 	// Gets the Combat instance for this channel.
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	// Exits if the combatant already exists.
 	if (combat.getCombatant(name)) {
-		return message.reply(':warning: Combatant already exists.');
+		return ctx.reply(':warning: Combatant already exists.');
 	}
 
 	// Creates the combatant.
@@ -311,43 +320,35 @@ async function add(args, message, client) {
 
 	if (places) {
 		places.forEach(p => {
-			if (!Util.isNumber(p)) return message.reply(':warning: You must pass in numbers with the `-p` tag.');
-			else if (p < 1) return message.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
+			if (!Util.isNumber(p)) return ctx.reply(':warning: You must pass in numbers with the `-p` tag.');
+			else if (p < 1) return ctx.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
 		});
 		me.inits = places.map(init => +init);
 	}
 
 	if (!group) {
 		combat.addCombatant(me);
-		//await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
-		//await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
-		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
-		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative ${initCards}.`);
+		await ctx.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 		grp.addCombatant(me);
-		/* await message.channel.send(
+		await ctx.channel.send(
 			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
-		);//*/
-		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
-		await message.channel.send(
-			`:white_check_mark: **${name}** was added to combat with initiative ${initCards} as part of group __${grp.name}__.`,
 		);
 	}
-	await combat.final(client);
+	await combat.final();
 }
 
 /**
  * JOIN.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function join(args, message, client) {
+async function join(args, ctx) {
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
-	const name = message.member.displayName;
+	const name = ctx.member.displayName;
 	const hidden = argv.h || false;
 	const places = argv.p;
 	const group = argv.group ? argv.group.join(' ') : null;
@@ -356,29 +357,27 @@ async function join(args, message, client) {
 	const speed = +argv.speed || 1;
 	const haste = +argv.haste || null;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
-	const controller = message.author.id;
-	//const phrase = argv.phrase;
-	//const emoji = argv.thumb;
+	const controller = ctx.author.id;
 
 	/* const embed = new MessageEmbed()
 		.setTitle(`${emoji ? `${emoji} ` : ''}${name}`)
 		.setDescription(`Health: **${hp}**\nArmor: **${armor}**\nSpeed: **${speed}**`)
 		.setAuthor(name)
-		.setColor(message.member.displayColor);//*/
+		.setColor(ctx.member.displayColor);//*/
 
 	if (hp < 1) {
-		return message.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
+		return ctx.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
 	}
 	if (armor < 0) {
-		return message.reply(':warning: You must pass in a positive AR with the `-ar` tag.');
+		return ctx.reply(':warning: You must pass in a positive AR with the `-ar` tag.');
 	}
 
 	// Gets the Combat instance for this channel.
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	// Exits if the combatant already exists.
 	if (combat.getCombatant(name)) {
-		return message.reply(':warning: Combatant already exists.');
+		return ctx.reply(':warning: Combatant already exists.');
 	}
 
 	// Creates the combatant.
@@ -386,51 +385,48 @@ async function join(args, message, client) {
 
 	if (places) {
 		places.forEach(p => {
-			if (!Util.isNumber(p)) return message.reply(':warning: You must pass in numbers with the `-p` tag.');
-			else if (p < 1) return message.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
+			if (!Util.isNumber(p)) return ctx.reply(':warning: You must pass in numbers with the `-p` tag.');
+			else if (p < 1) return ctx.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
 		});
 		me.inits = places.map(init => +init);
 	}
 
 	if (!group) {
 		combat.addCombatant(me);
-		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
-		await message.channel.send(`:white_check_mark: **${name}** was added to combat with initiative ${initCards}.`);
+		await ctx.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
 		// embed.setFooter('Added to combat!');
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 		grp.addCombatant(me);
-		const initCards = me.inits.map(i => YZInitDeck.INITIATIVE_CARDS_EMOJIS[i]).join(' ');
-		await message.channel.send(
-			`:white_check_mark: **${name}** was added to combat with initiative ${initCards} as part of group __${grp.name}__.`,
+		await ctx.channel.send(
+			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
 		);
 	}
-	await combat.final(client);
-	// await message.channel.send(embed);
+	await combat.final();
+	// await ctx.channel.send(embed);
 }
 
 /**
  * NEXT.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function next(args, message, client) {
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+async function next(args, ctx) {
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return message.reply(':x: There are no combatants.');
+		return ctx.reply(':x: There are no combatants.');
 	}
 
 	const isAllowedToPass =
 		!combat.index ||
-		combat.currentCombatant.controller === message.author.id ||
-		combat.dm === message.author.id;
+		combat.currentCombatant.controller === ctx.author.id ||
+		combat.dm === ctx.author.id;
 
 	if (!isAllowedToPass) {
-		return message.reply(':information_source: It is not your turn.');
+		return ctx.reply(':information_source: It is not your turn.');
 	}
 
 	let thisTurn;
@@ -456,51 +452,49 @@ async function next(args, message, client) {
 		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
 	}
 
-	await message.channel.send(out.join('\n'));
-	await combat.final(client);
+	await ctx.channel.send(out.join('\n'));
+	await combat.final();
 }
 
 /**
  * PREV.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function prev(args, message, client) {
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+async function prev(args, ctx) {
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return message.reply(':x: There are no combatants.');
+		return ctx.reply(':x: There are no combatants.');
 	}
 	if (!combat.index) {
-		return message.reply(`:warning: Please start combat with \`${message.prefix}init next\` first.`);
+		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
 	}
 	combat.rewindTurn();
-	await message.channel.send(combat.getTurnString());
-	await combat.final(client);
+	await ctx.channel.send(combat.getTurnString());
+	await combat.final();
 }
 
 /**
  * MOVE.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function move(args, message, client) {
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+async function move(args, ctx) {
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return message.reply(':x: There are no combatants.');
+		return ctx.reply(':x: There are no combatants.');
 	}
 
 	let combatant;
 	let target = args.shift();
 	if (!target) {
-		combatant = combat.getCombatants().find(c => c.controller === message.author.id);
+		combatant = combat.getCombatants().find(c => c.controller === ctx.author.id);
 		if (!combatant) {
-			return message.reply(':information_source: You don\'t control any combatants.');
+			return ctx.reply(':information_source: You don\'t control any combatants.');
 		}
 		combat.gotoTurn(combatant, true);
 	}
@@ -518,25 +512,24 @@ async function move(args, message, client) {
 		combatant = await combat.selectCombatant(target);
 		combat.gotoTurn(combatant, true);
 	}
-	await message.channel.send(combat.getTurnString());
+	await ctx.channel.send(combat.getTurnString());
 	await combat.final();
 }
 
 /**
  * SKIPROUND.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function skipround(args, message, client) {
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+async function skipround(args, ctx) {
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return message.reply(':x: There are no combatants.');
+		return ctx.reply(':x: There are no combatants.');
 	}
 	if (!combat.index) {
-		return message.reply(`:warning: Please start combat with \`${message.prefix}init next\` first.`);
+		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
 	}
 
 	const numRounds = +args.shift();
@@ -551,27 +544,26 @@ async function skipround(args, message, client) {
 		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
 	}
 
-	await message.channel.send(out.join('\n'));
+	await ctx.channel.send(out.join('\n'));
 	await combat.final();
 }
 
 /**
  * META.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function meta(args, message, client) {
+async function meta(args, ctx) {
 	const argv = YargsParser(args, {
 		boolean: ['turnnotif'],
 		array: ['name'],
 		default: {
 			turnnotif: null,
 		},
-		configuration: client.config.yargs,
+		configuration: ctx.bot.config.yargs,
 	});
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const options = combat.options;
 	let outStr = '';
 
@@ -586,29 +578,28 @@ async function meta(args, message, client) {
 
 	combat.options = options;
 	await combat.final();
-	await message.channel.send(outStr);
+	await ctx.channel.send(outStr);
 }
 
 /**
  * LIST.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function list(args, message, client) {
+async function list(args, ctx) {
 	const argv = YargsParser(args, {
 		boolean: ['private'],
 		default: {
 			private: false,
 		},
-		configuration: client.config.yargs,
+		configuration: ctx.bot.config.yargs,
 	});
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
-	const destination = argv.private ? message.channel : message.author;
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
+	const destination = argv.private ? ctx.channel : ctx.author;
 	let outStr;
 
-	if (argv.private && message.author.id === combat.dm) {
+	if (argv.private && ctx.author.id === combat.dm) {
 		outStr = combat.getSummary(true);
 	}
 	else {
@@ -620,22 +611,21 @@ async function list(args, message, client) {
 /**
  * NOTE.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function note(args, message, client) {
+async function note(args, ctx) {
 	const name = args.shift();
 	const notes = args.join(' ');
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	const combatant = await combat.selectCombatant(name);
 	if (!combatant) {
-		return message.reply(':x: Combatant not found.');
+		return ctx.reply(':x: Combatant not found.');
 	}
 	combatant.notes = notes;
-	if (!notes) await message.channel.send(`:notepad_spiral: Removed note for **${combatant.name}**.`);
-	else await message.channel.send(`:notepad_spiral: Added note for **${combatant.name}**.`);
+	if (!notes) await ctx.channel.send(`:notepad_spiral: Removed note for **${combatant.name}**.`);
+	else await ctx.channel.send(`:notepad_spiral: Added note for **${combatant.name}**.`);
 
 	await combat.final();
 }
@@ -647,11 +637,11 @@ async function note(args, message, client) {
  * @param {Discord.Client} client
  * @async
  */
-async function edit(args, message, client) {
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+async function edit(args, ctx) {
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return message.reply(':x: There are no combatants.');
+		return ctx.reply(':x: There are no combatants.');
 	}
 
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
@@ -660,7 +650,7 @@ async function edit(args, message, client) {
 
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return message.reply(':x: Combatant not found.');
+		return ctx.reply(':x: Combatant not found.');
 	}
 
 	//const options = {};
@@ -675,7 +665,7 @@ async function edit(args, message, client) {
 		modifCount++;
 	}
 	if (argv.controller) {
-		const member = await Sebedius.fetchMember(argv.controller.join(' '), message, client);
+		const member = await Sebedius.fetchMember(argv.controller.join(' '), ctx);
 		if (!member) {
 			out.push(':x: New controller not found.');
 		}
@@ -794,7 +784,7 @@ async function edit(args, message, client) {
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
 			}
-			out.push(`:inbox_tray: ${combatant.name} added to group __${grp.name}__.`)
+			out.push(`:inbox_tray: ${combatant.name} added to group __${grp.name}__.`);
 		}
 		modifCount++;
 	}
@@ -802,154 +792,220 @@ async function edit(args, message, client) {
 		//combat.removeCombatant(combatant, true);
 		//combat.addCombatant(combatant);
 		await combat.final();
-		await message.channel.send(out.join('\n'));
+		await ctx.channel.send(out.join('\n'));
 	}
 	else {
-		await message.reply(':information_source: Nothing was modified.');
+		await ctx.reply(':information_source: Nothing was modified.');
 	}
 }
 
 /**
  * STATUS.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function status(args, message, client) {
+async function status(args, ctx) {
 	const argv = YargsParser(args, {
 		boolean: ['private'],
 		default: {
 			private: false,
 		},
-		configuration: client.config.yargs,
+		configuration: ctx.bot.config.yargs,
 	});
 	const name = argv._.join(' ');
 
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return message.reply(':x: Combatant or group not found.');
+		return ctx.reply(':x: Combatant or group not found.');
 	}
 
 	let privacy = argv.private;
 	let statusStr;
 	if (!(combatant instanceof YZCombatantGroup)) {
-		privacy = privacy && message.author.id === combatant.controller;
+		privacy = privacy && ctx.author.id === combatant.controller;
 		statusStr = combatant.getStatus(privacy);
 	}
 	else {
 		statusStr = combatant.getCombatants()
-			.filter(c => c.controller === message.author.id)
+			.filter(c => c.controller === ctx.author.id)
 			.map(c => c.getStatus(privacy))
 			.join('\n');
 	}
 	if (privacy) {
-		const controller = await Sebedius.fetchMember(combatant.controller, message, client);
+		const controller = await Sebedius.fetchMember(combatant.controller, ctx);
 		if (controller) {
 			controller.send(`\`\`\`markdown\n${statusStr}\`\`\``);
 		}
 	}
 	else {
-		await message.channel.send(`\`\`\`markdown\n${statusStr}\`\`\``);
+		await ctx.channel.send(`\`\`\`markdown\n${statusStr}\`\`\``);
 	}
 }
 
-async function _sendHpResult(message, combatant, delta = null) {
+async function _sendHpResult(ctx, combatant, delta = null) {
 	const deltaend = delta ? ` (${delta})` : '';
 
 	if (combatant.isPrivate()) {
-		await message.channel.send(`${combatant.name}: ${combatant.hpString()}`);
+		await ctx.channel.send(`${combatant.name}: ${combatant.hpString()}`);
 
-		const controller = await Sebedius.fetchMember(combatant.controller, message, message.guild.me.client);
+		const controller = await Sebedius.fetchMember(combatant.controller, ctx);
 		if (controller) {
 			await controller.send(`${combatant.name}'s HP: ${combatant.hpString(true)}${deltaend}`);
 		}
 	}
 	else {
-		await message.channel.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
+		await ctx.channel.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
 	}
 }
+
+`Inflicts damage to another combatant.
+			__Options__
+			\`-ap [value]\` – Armor piercing. Default is halved, rounded up.
+			\`-ad\` – Armor doubled.
+			\`-ab <value>\` – Armor bonus (applied after other modifications).`;
 
 /**
  * ATTACK.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function attack(args, message, client) {
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+async function attack(args, ctx) {
+	const argv = YargsParser(args, {
+		alias: {
+			t: ['target'],
+		},
+		array: ['t'],
+		boolean: ['ad', 'h', 'x'],
+		number: ['ab'],
+		configuration: ctx.bot.config.yargs,
+	});
+	const damage = +argv._[0] || 0;
+	const combatantName = argv.t ? argv.t.join(' ') : null;
+	const decreaseArmor = argv.x ? true : false;
+	const isArmorPierced = argv.ap === true ? true : false;
+	const isArmorDoubled = argv.ad ? true : false;
+	const armorFactor = (isArmorDoubled ? 2 : 1) * (isArmorPierced ? 0.5 : 1);
+	const armorMod = (argv.ab ? +argv.ab : 0) + (Util.isNumber(argv.ap) ? +argv.ap : 0);
+	const hidden = argv.h ? true : false;
 
-	if (combat.getCombatants().length === 0) {
-		return message.reply(':x: There are no combatants.');
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
+	let combatant;
+
+	if (!combatantName) {
+		combatant = combat.currentCombatant;
+		if (!combatant) {
+			return ctx.channel.send(`:warning: You must start combat with \`${ctx.prefix}init next\` first.`);
+		}
+	}
+	else {
+		try {
+			combatant = await combat.selectCombatant(combatantName, ':speech_balloon: Select the target.');
+		}
+		catch (error) {
+			console.error(error);
+			return ctx.channel.send(':x: Target not found.');
+		}
+	}
+	// Warns.
+	await ctx.channel.send(`:crossed_swords: Attacking **${combatant.name}** with **${damage}** damage.`);
+
+	// Rolls the armor.
+	const armorRoll = combat.damageCombatant(combatant, damage, false, armorMod, armorFactor);
+	armorRoll.game = await ctx.bot.getGame(ctx);
+	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
+	const armorDamage = (decreaseArmor && finalDamage > 0) ? armorRoll.banes : 0;
+
+	// Sends the report
+	const out = [];
+	if (hidden || combatant.isPrivate()) {
+		if (finalDamage > 0) {
+			out.push(`:boom: **${combatant.name}** was hit.`);
+		}
+		else {
+			out.push(`:mechanical_arm: No damage were inflicted. **${combatant.name}**'s armor absorbed the totality.`);
+		}
+	}
+	else {
+		const dice = Sebedius.emojifyRoll(armorRoll, ctx.bot.config.commands.roll.options['myz']);
+		const embed = new MessageEmbed()
+			.setTitle('Attack')
+			.setDescription(
+				`Damage inflicted: **${finalDamage}**
+				Damage absorbed: **${damage - finalDamage}**
+				${armorDamage > 0 ? `Armor damaged: **${armorDamage}**` : ''}`,
+			);
+		await ctx.channel.send(dice, embed);
 	}
 
-	const combatant = await combat.selectCombatant(name);
-	if (!combatant) {
-		return message.reply(':x: Combatant not found.');
+	if (combatant.hp <= 0) {
+		out.push(`:skull: **${combatant.name}** is \`BROKEN\` by damage.`);
+		// await ctx.bot.commands.get('crit').execute([], ctx);
 	}
+
+	await combat.final();
+	await ctx.channel.send(out.join('\n'));
 }
 
 /**
  * REMOVE.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function remove(args, message, client) {
+async function remove(args, ctx) {
 	const name = args.join(' ');
-	const combat = await YZCombat.fromId(message.channel.id, message, client);
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return await message.reply(':x: Combatant not found.');
+		return await ctx.reply(':x: Combatant not found.');
 	}
 	if (combatant === combat.currentCombatant) {
-		return await message.reply(':information_source: You cannot remove a combatant on their own turn.');
+		return await ctx.reply(':information_source: You cannot remove a combatant on their own turn.');
 	}
 	if (combatant.group) {
 		const group = combat.getGroup(combatant.group);
 		if (group.getCombatants().length <= 1 && group === combat.currentCombatant) {
-			return await message.reply(
+			return await ctx.reply(
 				':information_source: You cannot remove a combatant if they are the only remaining combatant in this turn.',
 			);
 		}
 	}
 	combat.removeCombatant(combatant);
-	await message.channel.send(`:soap: **${combatant.name}** removed from combat.`);
+	await ctx.channel.send(`:soap: **${combatant.name}** removed from combat.`);
 	await combat.final();
 }
 
 /**
  * END.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
  * @async
  */
-async function end(args, message, client) {
+async function end(args, ctx) {
 	const toEnd = await Sebedius.confirm(
-		message,
+		ctx,
 		':speech_balloon: **Are you sure you want to end combat?** *(reply with yes/no)*',
 		true,
 	);
 	if (toEnd == null || toEnd == undefined) {
-		return message.channel.send(':x: Timed out waiting for a response or invalid response.')
+		return ctx.channel.send(':x: Timed out waiting for a response or invalid response.')
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 	else if (!toEnd) {
-		return message.channel.send(':x: OK, cancelling.')
+		return ctx.channel.send(':x: OK, cancelling.')
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 
-	const msg = await message.channel.send(':stop_button: OK, ending...');
+	const msg = await ctx.channel.send(':stop_button: OK, ending...');
 	if (!args.includes('-force')) {
-		const combat = await YZCombat.fromId(message.channel.id, message, client);
+		const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 		try {
-			await message.author.send(
+			await ctx.author.send(
 				`End of combat report: ${combat.round} rounds`
 				+ `${combat.getSummary(true)}`);
 
@@ -962,7 +1018,7 @@ async function end(args, message, client) {
 		await combat.end();
 	}
 	else {
-		await client.kdb.combats.delete(message.channel.id);
+		await ctx.bot.kdb.combats.delete(ctx.channel.id);
 	}
 	await msg.edit(':ballot_box_with_check: Combat ended.');
 }

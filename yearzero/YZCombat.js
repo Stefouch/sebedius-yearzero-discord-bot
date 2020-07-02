@@ -6,7 +6,7 @@ const Sebedius = require('../Sebedius');
 class YZCombat {
 
 	constructor(channelId, summaryMessageId, dmId,
-		options, message, combatants, initiatives = null,
+		options, ctx, combatants, initiatives = null,
 		roundNum = 0, currentIndex = null,
 	) {
 		/**
@@ -48,7 +48,7 @@ class YZCombat {
 		 * The Discord Message.
 		 * @type {Discord.Message}
 		 */
-		this.message = message;
+		this.message = ctx;
 
 		/**
 		 * Combatants.
@@ -103,45 +103,43 @@ class YZCombat {
 		return null;
 	}
 
-	static async fromId(channelId, message, bot) {
-		if (bot.combats.has(channelId)) {
-			console.log('fromId', bot.combats.get(channelId));
-			return bot.combats.get(channelId);
+	static async fromId(channelId, ctx) {
+		if (ctx.bot.combats.has(channelId)) {
+			return ctx.bot.combats.get(channelId);
 		}
 		else {
-			const raw = await bot.kdb.combats.get(channelId);
+			const raw = await ctx.bot.kdb.combats.get(channelId);
 			if (!raw) {
 				throw new CombatNotFound(channelId);
 			}
-			const instance = YZCombat.fromRaw(raw, message);
+			const instance = YZCombat.fromRaw(raw, ctx);
 			return instance;
 		}
 	}
 
-	static fromRaw(raw, message) {
+	static fromRaw(raw, ctx) {
 		const instance = new YZCombat(
 			raw.channel,
 			raw.summary,
 			raw.dm,
 			raw.options,
-			message,
+			ctx,
 			null,
 			raw.initiatives,
 			raw.round,
 			raw.index,
 		);
-		for (const c of raw.combatants) {
-			if (c.type === 'common') {
-				instance.combatants.push(YZCombatant.fromRaw(c, message, instance));
+		for (const cRaw of raw.combatants) {
+			if (cRaw.type === 'common') {
+				instance.combatants.push(YZCombatant.fromRaw(cRaw));
 			}
-			else if (c.type === 'group') {
-				instance.combatants.push(YZCombatantGroup.fromRaw(c, message, instance));
+			else if (cRaw.type === 'group') {
+				instance.combatants.push(YZCombatantGroup.fromRaw(cRaw));
 			}
 			else {
 				throw new CombatException('Unknown Combatant Type');
 			}
 		}
-		console.log('fromRaw', instance);
 		return instance;
 	}
 
@@ -178,7 +176,6 @@ class YZCombat {
 	}
 
 	addCombatant(combatant) {
-		//combatant.inits = this.initiatives.drawInit(combatant.speed);
 		this.combatants.push(combatant);
 		this.sortCombatants();
 	}
@@ -246,21 +243,26 @@ class YZCombat {
 	 * @param {YZCombatant} combatant The target to damage
 	 * @param {number} damage The quantity of damage
 	 * @param {?boolean} [decreaseArmor=false] Wether the armor should be degraded by rolled banes
+	 * @param {?number} [armorMod=0] Armor modifier (after factor)
+	 * @param {?number} [armorFactor=1] Armor multiplicator (use 0.5 for armor piercing)
 	 * @returns {YZRoll} The armor roll
 	 */
-	damageCombatant(combatant, damage, decreaseArmor = false) {
+	damageCombatant(combatant, damage, decreaseArmor = false, armorMod = 0, armorFactor = 1) {
 		const bot = this.message.guild.me.client;
 		const controller = bot.users.cache.get(combatant.controller);
+
+		// Calculates the armor value.
+		const armor = Math.ceil(combatant.armor * armorFactor) + armorMod;
 
 		// Rolls the dice.
 		const armorRoll = new YZRoll(
 			controller,
-			{ gear: combatant.armor },
+			{ gear: armor },
 			`${combatant.name}: Armor Roll`,
 		);
 		// Damaging the combatant.
 		damage -= armorRoll.sixes;
-		if (damage > 0) combatant.hp -= damage;
+		if (damage > 0) combatant.hp = Math.max(combatant.hp - damage, 0);
 		// Damaging the armor.
 		if (damage > 0 && decreaseArmor) {
 			combatant.armor -= armorRoll.banes;
@@ -456,9 +458,8 @@ class YZCombat {
 		return outStr;
 	}
 
-	static async ensureUniqueChan(message) {
-		const bot = message.guild.me.client;
-		const data = await bot.kdb.combats.get(message.channel.id);
+	static async ensureUniqueChan(ctx) {
+		const data = await ctx.bot.kdb.combats.get(ctx.channel.id);
 		if (data) throw new ChannelInCombat();
 	}
 
@@ -601,33 +602,9 @@ class YZCombatant {
 		 */
 		this._name = data.name || 'Unnamed';
 
-		/**
-		 * The health of this combatant.
-		 * @type {number} >0
-		 * @default 3
-		 */
 		this.hp = +data.hp || 3;
-
-		/**
-		 * The Armor Rating.
-		 * @type {number} >=0
-		 * @default 0
-		 */
 		this.armor = +data.armor || 0;
-
-		/**
-		 * The speed (number of initiative card drawn).
-		 * @type {number} >0
-		 * @default 1
-		 */
 		this.speed = +data.speed || 1;
-
-		/**
-		 * The quantity of initiative cards drawn for 1 that is kept.
-		 * Lightning Fast.
-		 * @type {number} >0
-		 * @default 1
-		 */
 		this.haste = +data.haste || 1;
 
 		/**
@@ -664,6 +641,15 @@ class YZCombatant {
 	set name(newName) { this._name = newName; }
 
 	/**
+	 * The health of this combatant.
+	 * @type {number} >0
+	 */
+	get hp() { return this._hp; }
+	set hp(newHp) {
+		this._hp = Util.clamp(newHp, 0, 100);
+	}
+
+	/**
 	 * The combatant's maximum health.
 	 * @type {number}
 	 */
@@ -673,7 +659,44 @@ class YZCombatant {
 		if (!this.hp) this.hp = newMaxHp;
 	}
 
-	static fromRaw(raw, message, combat) {
+	/**
+	 * The Armor Rating.
+	 * @type {number} >=0
+	 */
+	get armor() { return this._armor; }
+	set armor(newArmor) {
+		this._armor = Util.clamp(newArmor, 0, 30);
+	}
+
+	/**
+	 * The speed (number of initiative card drawn).
+	 * @type {number} >0
+	 */
+	get speed() { return this._speed; }
+	set speed(newSpeed) {
+		this._speed = Util.clamp(newSpeed, 1, 10);
+	}
+
+	/**
+	 * The quantity of initiative cards drawn for 1 that is kept.
+	 * Lightning Fast.
+	 * @type {number} >0
+	 */
+	get haste() { return this._haste; }
+	set haste(newHaste) {
+		this._haste = Util.clamp(newHaste, 1, 10);
+	}
+
+	/**
+	 * Initiative values. Stored as integers.
+	 * @type {number[]}
+	 */
+	get inits() { return this._inits; }
+	set inits(newInits) {
+		this._inits = newInits.map(init => Util.clamp(init, 1, 99));
+	}
+
+	static fromRaw(raw) {
 		return new YZCombatant(raw);
 	}
 
@@ -737,9 +760,9 @@ class YZCombatant {
 		const hpar = this.getHpAndAr(hidden);
 
 		let vitesse = '';
-		if (this.speed !== 0 || this.haste > 1) {
+		if (this.speed > 0 || this.haste > 1) {
 			vitesse += ` Speed ${this.speed}`;
-			if (this.haste !== 0) vitesse += `, Haste ${this.haste}`;
+			if (this.haste > 1) vitesse += `, Haste ${this.haste}`;
 		}
 
 		const notes = this.notes ? `\n# ${this.notes}` : '';
@@ -820,11 +843,11 @@ class YZCombatantGroup extends YZCombatant {
 		this.combatants.forEach(c => c.group = this.name);
 	}
 
-	static fromRaw(raw, message, combat) {
+	static fromRaw(raw) {
 		const combatants = [];
-		for (const c of raw.combatants) {
-			if (c.type === 'common') {
-				combatants.push(YZCombatant.fromRaw(c, message, combat));
+		for (const cRaw of raw.combatants) {
+			if (cRaw.type === 'common') {
+				combatants.push(YZCombatant.fromRaw(cRaw));
 			}
 			else {
 				throw new CombatException('Unknown Combatant Type');
@@ -898,8 +921,6 @@ class YZCombatantGroup extends YZCombatant {
 	}
 
 }
-
-//module.exports = { YZCombat, YZCombatant, YZCombatantGroup };
 
 class NoCombatants extends Error {
 	constructor(msg) {
