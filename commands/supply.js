@@ -1,6 +1,7 @@
+const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
-const YZRoll = require('../yearzero/YZRoll');
 const YZEmbed = require('../utils/embeds');
+const YZRoll = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'supply',
@@ -36,7 +37,7 @@ function sendMessageForResourceRoll(resRating, roll, ctx) {
 
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
-	const text = ctx.bot.commands.get('roll').emojifyRoll(roll, gameOptions);
+	const text = Sebedius.emojifyRoll(roll, gameOptions);
 	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, ctx, true);
 
 	if (resRating === newRating) {

@@ -15,7 +15,7 @@ module.exports = {
 	// aliases: ['alien-panic'],
 	guildOnly: false,
 	args: true,
-	usage: '<stress> [--fixed]',
+	usage: '<stress> [-f|--fixed]',
 	async execute(args, ctx) {
 		const fixed = /-f|-fix/i.test(args[1]);
 
@@ -23,7 +23,8 @@ module.exports = {
 		const stress = +args[0] || 0;
 		const panicVal = stress + panicRand;
 
-		const text = `😱 PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
+		const panicIcon = ctx.bot.config.commands.panic.emoji;
+		const text = `${panicIcon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
 		const embed = getEmbedPanicRoll(panicVal, ctx);
 
 		// Interrupted skill roll reminder.

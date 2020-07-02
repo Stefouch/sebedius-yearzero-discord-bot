@@ -93,6 +93,9 @@
 		},
 		"scrap": {
 			"max": 20
+		},
+		"panic": {
+			"emoji": "😱"
 		}
 	},
 	"yargs": {

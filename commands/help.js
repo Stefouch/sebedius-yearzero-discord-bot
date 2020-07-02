@@ -84,7 +84,7 @@ module.exports = {
 		if (command.aliases) {
 			embed.addField('Aliases', command.aliases.join(', '), true);
 		}
-		if (command.usage != null && command.usage != undefined) {
+		if (command.usage) {
 			embed.addField('Usage', `\`${ctx.prefix}${command.name} ${command.usage}\``, true);
 		}
 		if (command.description) {

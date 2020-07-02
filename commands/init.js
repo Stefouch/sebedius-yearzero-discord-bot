@@ -713,8 +713,7 @@ async function edit(args, ctx) {
 			});
 			combatant.inits = newInits;
 			combat.sortCombatants();
-			const initCards = combatant.inits.map(init => YZInitDeck.INITIATIVE_CARDS_EMOJIS[init]).join(' ');
-			out.push(`:zap: ${combatant.name}'s initiative set to ${initCards} (was ${oldInits}).`);
+			out.push(`:zap: ${combatant.name}'s initiative set to \`${combatant.inits.join('`, `')}\` (was ${oldInits}).`);
 		}
 		else {
 			out.push(`:warning: Invalid argument: ${argv.p}.`);
@@ -914,7 +913,8 @@ async function attack(args, ctx) {
 
 	// Rolls the armor.
 	const armorRoll = combat.damageCombatant(combatant, damage, false, armorMod, armorFactor);
-	armorRoll.game = await ctx.bot.getGame(ctx);
+	armorRoll.setGame(await ctx.bot.getGame(ctx));
+
 	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
 	const armorDamage = (decreaseArmor && finalDamage > 0) ? armorRoll.banes : 0;
 

@@ -17,7 +17,7 @@ module.exports = {
 		let qty = 1;
 
 		if (/^\d{1,2}$/.test(args[0])) {
-			qty = Math.min(+args[0], ctx.bot.config.commands.scrap.max);
+			qty = Util.clamp(+args[0], 1, ctx.bot.config.commands.scrap.max);
 		}
 
 		for (let i = 0; i < qty; i++) {

@@ -2,7 +2,7 @@
 
 [![Discord Bots](https://discordbots.org/api/widget/status/543445246143365130.svg)](https://discordbots.org/bot/543445246143365130)
 
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the Year Zero roleplaying games by *Free League Publishing (Fria Ligan)*.
+**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by *Free League Publishing (Fria Ligan)*.
 
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
@@ -91,6 +91,10 @@ crit [game] [table] [numeric]
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `[table]` – Specifies the table you want from this game *(default is "damage")*.
 * `[numeric]` – Specifies a fixed reference.
+
+### **INIT** command
+
+Tracks the initiative of combatants. Read the complete help here:
 
 ### **MYZ** specific commands
 
@@ -258,7 +262,7 @@ npm install
 
 Create a `.env` file with the following parameter:
 ```
-TOKEN="YourBotTokenAlphaNumericChain"
+TOKEN="YourBotTokenAlphanumericChain"
 ```
 
 Start the bot with the command:
@@ -280,8 +284,9 @@ Hit me up if you've any question!
 
 I'd like to thank Jeremy Mettler, Joe Guilmette, Matt Kay and all my other patrons and generous donators who are supporting this project and made it possible!
 
-You too you can also support this project.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
+You too you can support this project.
+<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
 
-You may find [paypal.me/Stefouch](https://www.paypal.me/stefouch) useful for a one-time donation.
+Paypal: [paypal.me/Stefouch](https://www.paypal.me/stefouch)
 
 =]¦¦¦¬ 
