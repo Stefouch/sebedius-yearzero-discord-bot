@@ -787,7 +787,7 @@ class YZCombatant {
 		const hpar = this.getHpAndAr(hidden);
 
 		let vitesse = '';
-		if (this.speed > 0 || this.haste > 1) {
+		if (this.speed > 1 || this.haste > 1) {
 			vitesse += ` Speed ${this.speed}`;
 			if (this.haste > 1) vitesse += `, Haste ${this.haste}`;
 		}
@@ -847,6 +847,19 @@ class YZCombatant {
 	}
 }
 
+class YZMonsterCombatant extends YZCombatant {
+
+	constructor(data) {
+		super(data);
+	}
+
+	toRaw() {
+		const raw = super.toRaw();
+		raw.type = 'monster';
+		return raw;
+	}
+}
+
 class YZCombatantGroup extends YZCombatant {
 
 	constructor(name, combatants, data) {
@@ -875,6 +888,9 @@ class YZCombatantGroup extends YZCombatant {
 		for (const cRaw of raw.combatants) {
 			if (cRaw.type === 'common') {
 				combatants.push(YZCombatant.fromRaw(cRaw));
+			}
+			else if (cRaw.type === 'monster') {
+				combatants.push(YZMonsterCombatant.fromRaw(cRaw));
 			}
 			else {
 				throw new CombatException('Unknown Combatant Type');
@@ -992,6 +1008,6 @@ class CombatException extends Error {
 }
 
 module.exports = {
-	YZCombat, YZCombatant, YZCombatantGroup,
+	YZCombat, YZCombatant, YZMonsterCombatant, YZCombatantGroup,
 	NoCombatants, ChannelInCombat, RequiresContext, CombatNotFound, CombatChannelNotFound, CombatException,
 };
