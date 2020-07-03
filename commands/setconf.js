@@ -1,4 +1,4 @@
-const { SUPPORTED_GAMES, SUPPORTED_LANGS } = require('../utils/constants');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS, SUPPORTED_LANGS_NAMES, SOURCE_MAP } = require('../utils/constants');
 
 module.exports = {
 	name: 'setconf',
@@ -47,12 +47,12 @@ module.exports = {
 				else if (key === 'game' && SUPPORTED_GAMES.includes(newVal)) {
 					ctx.bot.games.set(guildID, newVal);
 					await ctx.bot.kdb.games.set(guildID, newVal);
-					ctx.channel.send(`✅ The default game has been set to **${newVal}**`);
+					ctx.channel.send(`✅ The default game has been set to **${SOURCE_MAP[newVal]}**`);
 				}
 				else if (key === 'lang' && SUPPORTED_LANGS.includes(newVal)) {
 					ctx.bot.langs.set(guildID, newVal);
 					await ctx.bot.kdb.langs.set(guildID, newVal);
-					ctx.channel.send(`✅ The default language has been set to **${newVal}**`);
+					ctx.channel.send(`✅ The default language has been set to **${SUPPORTED_LANGS_NAMES[newVal]}**`);
 				}
 				else {
 					ctx.reply(`❌ The value you typed for **${key}** is unsupported.`);
