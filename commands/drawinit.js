@@ -11,8 +11,7 @@ module.exports = {
 		• \`[speed]\` – Number of initiative cards to draw. Default: 1.
 
 		__Arguments__
-		• \`[-haste <value>]\` – For each card to draw, takes the best one out of the <value> drawn. Use this for special talents like *Lightning Fast*.
-		The discarded cards are shuffled back into the initiative deck. Default: 1.
+		• \`[-haste <value>]\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
 		• \`[-shuffle]\` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`,
 	aliases: ['draw-init', 'drawinitiative'],
 	guildOnly: false,
