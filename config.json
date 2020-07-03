@@ -91,6 +91,14 @@
 				}
 			}
 		},
+		"init": {
+			"attack": {
+				"degrade": {
+					"myz": true,
+					"fbl": true
+				}
+			}
+		},
 		"scrap": {
 			"max": 20
 		},
