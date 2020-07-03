@@ -1,7 +1,7 @@
 const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 const Util = require('../utils/Util');
-const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
+const { YZCombat, YZCombatant, YZMonsterCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
 const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
 const { SOURCE_MAP } = require('../utils/constants');
 
@@ -16,6 +16,7 @@ const YARGS_PARSE_COMBATANT = {
 	},
 	array: ['p', 'note', 'name', 'group', 'controller'],
 	boolean: ['h'],
+	number: ['n'],
 	string: ['p', 'hp', 'max', 'ar', 'speed', 'haste'],
 	default: {
 		h: null,
@@ -48,6 +49,7 @@ module.exports = {
 			case 'begin': await begin(args, ctx); break;
 			case 'add': await add(args, ctx); break;
 			case 'join': await join(args, ctx); break;
+			case 'madd': await madd(args, ctx); break;
 			case 'next': case 'n': await next(args, ctx); break;
 			case 'prev': case 'p': case 'previous': await prev(args, ctx); break;
 			case 'move': case 'goto': await move(args, ctx); break;
@@ -57,6 +59,7 @@ module.exports = {
 			case 'note': await note(args, ctx); break;
 			case 'edit': await edit(args, ctx); break;
 			case 'status': await status(args, ctx); break;
+			case 'hp': case 'health': case 'life': hp(args, ctx); break;
 			case 'attack': case 'atk': await attack(args, ctx); break;
 			case 'remove': await remove(args, ctx); break;
 			case 'end': await end(args, ctx); break;
@@ -80,7 +83,7 @@ module.exports = {
 			}
 		}
 		try {
-			//await ctx.delete();
+			await ctx.delete();
 		}
 		catch (err) { console.error(err); }
 	},
@@ -171,7 +174,7 @@ async function add(args, ctx) {
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
-	const haste = +argv.loot || null;
+	const haste = +argv.haste || 1;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
 	let controller = ctx.author.id;
 
@@ -236,7 +239,7 @@ async function join(args, ctx) {
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
-	const haste = +argv.haste || null;
+	const haste = +argv.haste || 1;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
 	const controller = ctx.author.id;
 
@@ -286,6 +289,79 @@ async function join(args, ctx) {
 	}
 	await combat.final();
 	// await ctx.channel.send(embed);
+}
+
+/**
+ * MONSTER-ADD.
+ * @param {string[]} args
+ * @param {Discord.Message} ctx
+ * @async
+ */
+async function madd(args, ctx) {
+	const monsterFaces = [':smiling_imp:', ':imp:', ':supervillain:', ':boar:', ':squid:', ':dragon_face:'];
+	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
+	const name_template = argv._.join(' ') + ' #$X';
+	const hidden = argv.h || false;
+	const places = argv.p;
+	const group = argv.group ? argv.group.join(' ') : null;
+	const hp = +argv.hp || 3;
+	const armor = +argv.ar || 0;
+	const speed = +argv.speed || 1;
+	const haste = +argv.haste || null;
+	const notes = argv.notes ? argv.notes.join(' ') : null;
+	const qty = argv.n ? Util.clamp(+argv.n, 1, 25) : 1;
+
+	let out = '';
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
+
+	let nameNum = 1;
+	for (let i = 0; i < qty; i++) {
+		let name = name_template.replace('$X', nameNum);
+		const rawName = name_template;
+		let toContinue = false;
+
+		while (combat.getCombatant(name) && nameNum < 100) {
+			if (rawName.includes('$X')) {
+				nameNum++;
+				name = rawName.replace('$X', nameNum);
+			}
+			else {
+				out += ':x: Combatant already exists.\n';
+				toContinue = true;
+				break;
+			}
+		}
+		if (toContinue) {
+			continue;
+		}
+		try {
+			const controller = ctx.author.id;
+			const me = new YZMonsterCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+
+			if (places) {
+				places.forEach(p => {
+					if (!Util.isNumber(p)) return ctx.reply(':warning: You must pass in numbers with the `-p` tag.');
+					else if (p < 1) return ctx.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
+				});
+				me.inits = places;
+			}
+			if (!group) {
+				combat.addCombatant(me);
+				out += `${Util.random(monsterFaces)} **${me.name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.\n`;
+			}
+			else {
+				const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
+				grp.addCombatant(me);
+				out += `${Util.random(monsterFaces)} **${me.name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.\n`;
+			}
+		}
+		catch (error) {
+			console.warn(error);
+			out += `:x: Error adding combatant: ${error.name}`;
+		}
+	}
+	await combat.final();
+	await ctx.channel.send(out);
 }
 
 /**
@@ -352,7 +428,6 @@ async function prev(args, ctx) {
 	if (!combat.index) {
 		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
 	}
-	if (combat.turn <= 1)
 	combat.rewindTurn();
 	await ctx.channel.send(combat.getTurnString());
 	await combat.final();
@@ -540,9 +615,9 @@ async function edit(args, ctx) {
 		return ctx.reply(':x: Combatant not found.');
 	}
 
-	//const options = {};
+	// const options = {};
 	// const isGroup = combatant instanceof YZCombatantGroup;
-	//const runOnce = new Set();
+	// const runOnce = new Set();
 
 	let out = [];
 
@@ -745,11 +820,39 @@ async function _sendHpResult(ctx, combatant, delta = null) {
 	}
 }
 
-`Inflicts damage to another combatant.
-			__Options__
-			\`-ap [value]\` – Armor piercing. Default is halved, rounded up.
-			\`-ad\` – Armor doubled.
-			\`-ab <value>\` – Armor bonus (applied after other modifications).`;
+/**
+ * HP.
+ * @param {string[]} args
+ * @param {Discord.Message} ctx
+ * @async
+ */
+async function hp(args, ctx) {
+	const argv = YargsParser(args, {
+		boolean: ['max'],
+		configuration: ctx.bot.config.yargs,
+	});
+	const life = argv._.shift();
+	const name = argv._.join(' ');
+	const max = argv.max ? true : false;
+
+	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
+	const combatant = await combat.selectCombatant(name);
+	if (!combatant) {
+		return ctx.reply(':x: Combatant not found.');
+	}
+
+	if (life == null || life == undefined) {
+		await ctx.channel.send(`:drop_of_blood: ${combatant.name}: ${combatant.hpString()}`);
+		if (combatant.isPrivate()) {
+			const controller = ctx.guild.members.get(combatant.controller);
+			if (controller) {
+				await controller.send(`:drop_of_blood: ${combatant.name}'s HP: ${combatant.hpString(true)}`);
+			}
+		}
+		return;
+	}
+	await edit([combatant.name, '-hp', life], ctx);
+}
 
 /**
  * ATTACK.

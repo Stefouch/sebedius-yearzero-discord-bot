@@ -10,7 +10,7 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 <br />For more help, the `!init help` command shows applicable arguments for each subcommand.
 
 ```
-![init|i|initiative] <subcommand>
+![init|i|initiative] <subcommand> <>
 ```
 
 - [add](#init-add-name-options)
@@ -19,8 +19,10 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 - [edit](#init-edit-name-options)
 - [end](#init-end--force)
 - [help](#init-help-subcommand)
+- [hp](#init-hp-value-name)
 - [join](#init-join-options)
 - [list/summary](#init-listsummary--private)
+- [madd](#init-madd-name-options)
 - [meta](#init-meta)
 - [move/goto](#init-movegoto-target)
 - [next](#init-nextn)
@@ -62,6 +64,10 @@ Adds a generic combatant to the initiative order.
 
 Same as above, but you don't need to specify a name. The command will use your displayed name on the server. The command will be used in future updates in combination with character sheets.
 
+### `!init madd [options...]`
+
+Adds one or more monster combatant(s). Same as `!init add`, but in addition you can specify a number of combatants with the `-n <quantity>` parameter.
+
 ### `!init next|n`
 
 Moves to the next turn in initiative order. It must be your turn or you must be the GM (the person who started combat) to use this command.
@@ -102,6 +108,10 @@ Edits the options of a combatant. This command uses the same options from `!init
 ### `!init status <name> [-private]`
 
 Gets the status of a combatant or group. The parameter `-private` sends a more detailed status in a private message to the controller of the combatant.
+
+### `!init hp <value> [name]`
+
+Modifies the HP of a combatant.
 
 ### `!init attack|atk <damage> [-t|-target <name>] [options...]`
 
