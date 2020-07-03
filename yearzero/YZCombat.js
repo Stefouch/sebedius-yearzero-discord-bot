@@ -9,7 +9,7 @@ class YZCombat {
 	constructor(channelId, summaryMessageId, dmId,
 		options, ctx, combatants, initiatives = null,
 		roundNum = 0, currentIndex = null,
-		game = 'myz',
+		game = null,
 	) {
 		/**
 		 * The Discord TextChannel ID of the channel were the combat instance is ongoing.
@@ -93,7 +93,7 @@ class YZCombat {
 			this._game = newGame;
 		}
 		else {
-			this._game = SUPPORTED_GAMES[0];
+			this._game = null;
 		}
 	}
 
@@ -409,9 +409,8 @@ class YZCombat {
 		// Start of combat.
 		if (this.index == null || this.index == undefined) {
 			this.index = this.initiatives.max;
-			// this.round--;
 		}
-		// New round.
+		// Previous round.
 		else if (previousInit > this.index) {
 			this.index = this.initiatives.max;
 			this.round--;
@@ -626,7 +625,8 @@ class YZCombatant {
 		 */
 		this._name = data.name || 'Unnamed';
 
-		this.hp = +data.hp || 3;
+		// this.hp = +data.hp || 3;
+		this.maxhp = +data.hp || 3;
 		this.armor = +data.armor || 0;
 		this.speed = +data.speed || 1;
 		this.haste = +data.haste || 1;
@@ -679,7 +679,7 @@ class YZCombatant {
 	 */
 	get maxhp() { return this._maxhp; }
 	set maxhp(newMaxHp) {
-		this._maxhp = newMaxHp;
+		this._maxhp = Util.clamp(newMaxHp, 0, 100);
 		if (!this.hp) this.hp = newMaxHp;
 	}
 

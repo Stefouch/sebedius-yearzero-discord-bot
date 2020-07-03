@@ -3,7 +3,6 @@
 - Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
 - Init Tracker
   * Can't add a note to a group: error
-  * ATTACK
   * Init Tracker Help
 
 - Bug: d66 and d666 should have their own skin

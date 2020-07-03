@@ -3,6 +3,7 @@ const { MessageEmbed } = require('discord.js');
 const Util = require('../utils/Util');
 const { YZCombat, YZCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
 const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
+const { SOURCE_MAP } = require('../utils/constants');
 
 const YargsParser = require('yargs-parser');
 const YARGS_PARSE_COMBATANT = {
@@ -10,6 +11,7 @@ const YARGS_PARSE_COMBATANT = {
 		ar: ['armor'],
 		h: ['hidden', 'hide', 'private'],
 		p: ['place', 'init', 'i'],
+		group: ['g'],
 		note: ['notes'],
 	},
 	array: ['p', 'note', 'name', 'group', 'controller'],
@@ -30,126 +32,7 @@ module.exports = {
 	group: 'Core',
 	description: 'Initiative tracker. See the list of available subcommands below:',
 	moreDescriptions: [
-		[
-			'HELP',
-			'Gives help for a specified subcommand.',
-		],
-		[
-			'BEGIN',
-			`Begins combat in the channel the command is invoked.
-			\`\`\`!init begin [-name <name>] [-turnnotif]\`\`\`
-			__Arguments__
-			\`-name <name>\` – Sets a name for the combat instance.
-			\`-turnnotif\` – Notifies the controller of the next combatant in initiative.`,
-		],
-		[
-			'ADD',
-			`Adds a generic combatant to the initiative order.
-			Generic combatants have 3 life, no armor, and speed 1.
-			If you are adding monsters to combat, you can use \`!init madd\` instead.
-
-			__Arguments__
-			\`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			\`-controller <mention>\` – Pings a different person on turn.
-			\`-group <name>\` – Adds the combatant to a group.
-			\`-hp <value>\` – Sets starting HP. Default: 3.
-			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
-			\`-haste <value>\` – How many cards to draw for 1 to keep.
-			\`-h\` – Hides life, AR and anything else.`,
-		],
-		[
-			'JOIN',
-			`Adds the current active character to combat.
-			
-			__Arguments__
-			\`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			\`-group <name>\` – Adds the combatant to a group.
-			\`-phrase <phrase>\` - Adds flavor text.
-			\`-thumb <emoji>\` - Adds flavor emoji.
-			\`-hp <value>\` – Sets starting HP. Default: 3.
-			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			\`-speed\` – Sets the character's speed (number of initiative cards drawn). Default: 1.
-			\`-haste <value>\` – How many cards to draw for 1 to keep.
-			\`-h\` – Hides life, AR and anything else.
-			`,
-		],
-		[
-			'NEXT',
-			`Moves to the next turn in initiative order.
-			It must be your turn or you must be the DM (the person who started combat) to use this command.`,
-		],
-		[
-			'PREV',
-			'Moves to the previous turn in initiative order.',
-		],
-		[
-			'MOVE',
-			`Moves to a certain initiative.
-			\`target\` can be either a number, to go to that initiative, or a name.
-			If not supplied, goes to the first combatant that the user controls.`,
-		],
-		[
-			'SKIPROUND',
-			'Skips one or more rounds of initiative.',
-		],
-		[
-			'META',
-			`Changes the settings of the active combat.
-			__Valid Settings__
-			\`-name <name>\` – Sets a name for the combat instance.
-			\`-turnnotif\` – Notifies the controller of the next combatant in initiative.`,
-		],
-		[
-			'LIST',
-			`Lists the combatants.
-			__Valid Arguments__
-			\`-private\` – Sends the list in a private message.`,
-		],
-		[
-			'NOTE',
-			'Attaches a note to a combatant.',
-		],
-		[
-			'EDIT',
-			`Edits the options of a combatant.
-			__Arguments__
-			\`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			\`-controller <mention>\` – Pings a different person on turn.
-			\`-name <name>\` – Changes the combatants' name.
-			\`-group <name>\` – Adds the combatant to a group.
-			\`-hp <value>\` – Sets starting HP. Default: 3.
-			\`-max <value>\` – Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise.
-			\`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			\`-speed <value>\` – Sets the combatant's speed (number of initiative cards drawn). Default: 1.
-			\`-haste <value>\` – How many cards to draw for 1 to keep.
-			\`-h\` – Hides life, AR and anything else.`,
-		],
-		[
-			'STATUS',
-			`Gets the status of a combatant or group.
-			__Valid Arguments__
-			\`-private\` – PMs the controller of the combatant a more detailed status.`,
-		],
-		[
-			'ATTACK',
-			`Inflicts damage to another combatant.
-			__Options__
-			\`-ap [value]\` – Armor piercing. Default is halved, rounded up.
-			\`-ad\` – Armor doubled.
-			\`-ab <value>\` – Armor bonus (applied after other modifications).
-			`,
-		],
-		[
-			'REMOVE',
-			'Removes a combatant or group from the combat.',
-		],
-		[
-			'END',
-			`Ends combat in the channel.
-			__Valid Arguments__
-			\`-force\` – Forces an init to end, in case it's erroring.`,
-		],
+		[],
 	],
 	aliases: ['i', 'initiative'],
 	guildOnly: true,
@@ -168,13 +51,13 @@ module.exports = {
 			case 'next': case 'n': await next(args, ctx); break;
 			case 'prev': case 'p': case 'previous': await prev(args, ctx); break;
 			case 'move': case 'goto': await move(args, ctx); break;
-			case 'skipround': await skipround(args, ctx); break;
+			case 'skipround': case 'skip': await skipround(args, ctx); break;
 			case 'meta': await meta(args, ctx); break;
 			case 'list': case 'summary': await list(args, ctx); break;
 			case 'note': await note(args, ctx); break;
 			case 'edit': await edit(args, ctx); break;
 			case 'status': await status(args, ctx); break;
-			case 'attack': case 'atk': case 'atq': await attack(args, ctx); break;
+			case 'attack': case 'atk': await attack(args, ctx); break;
 			case 'remove': await remove(args, ctx); break;
 			case 'end': await end(args, ctx); break;
 			default:
@@ -189,12 +72,15 @@ module.exports = {
 			else if (error instanceof CombatNotFound) {
 				return ctx.reply(`:information_source: No combat instance. Type \`${ctx.prefix}init begin\`.`);
 			}
+			else if (error.name === 'NoSelectionElements') {
+				return ctx.reply(':information_source: No combatant found with this name.');
+			}
 			else {
 				return ctx.reply(`:x: *${error.name}: ${error.message}*.`);
 			}
 		}
 		try {
-			await ctx.delete();
+			//await ctx.delete();
 		}
 		catch (err) { console.error(err); }
 	},
@@ -265,15 +151,9 @@ async function begin(args, ctx) {
 	}
 	catch (err) { console.error(err); }
 
-	// Sends starting message.
-	// const desc = `\`\`\`\n${prefix}init add <name> [options]\n${prefix}init join [options]\n\`\`\``;
-	/* const embed = new MessageEmbed()
-		.setTitle('Everyone Draw For Initiative:')
-		.setDescription(desc);//*/
 	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!'
 		+ `\`\`\`${ctx.prefix}init add <name> [options]\n${ctx.prefix}init join [options]\n\`\`\``;
-	// ctx.channel.send(embed);
-	ctx.channel.send(desc);
+	await ctx.channel.send(desc);
 }
 
 /**
@@ -472,6 +352,7 @@ async function prev(args, ctx) {
 	if (!combat.index) {
 		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
 	}
+	if (combat.turn <= 1)
 	combat.rewindTurn();
 	await ctx.channel.send(combat.getTurnString());
 	await combat.final();
@@ -535,15 +416,15 @@ async function skipround(args, ctx) {
 
 	const numRounds = +args.shift();
 
-	const toRemove = [];
+	// const toRemove = [];
 	const out = combat.skipRounds(numRounds);
 
 	out.push(combat.getTurnString());
 
-	for (const co of toRemove) {
+	/* for (const co of toRemove) {
 		combat.removeCombatant(co);
 		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
-	}
+	}//*/
 
 	await ctx.channel.send(out.join('\n'));
 	await combat.final();
@@ -557,8 +438,9 @@ async function skipround(args, ctx) {
  */
 async function meta(args, ctx) {
 	const argv = YargsParser(args, {
-		boolean: ['turnnotif'],
 		array: ['name'],
+		boolean: ['turnnotif'],
+		string: ['game'],
 		default: {
 			turnnotif: null,
 		},
@@ -575,6 +457,10 @@ async function meta(args, ctx) {
 	if (argv.turnnotif != null) {
 		options.turnnotif = !options.turnnotif;
 		outStr += `:bulb: Turn notification turned **${options.turnnotif ? 'on' : 'off'}**.\n`;
+	}
+	if (argv.game) {
+		combat.game = argv.game;
+		outStr += `:game_die: Game set to **${SOURCE_MAP[combat.game]}**.\n`;
 	}
 
 	combat.options = options;
@@ -767,13 +653,13 @@ async function edit(args, ctx) {
 			);
 
 		combat.removeCombatant(combatant, true);
-		if (!groupName || groupName.toLowerCase() === 'none') {
+		if (!groupName) {
 			combatant.group = null;
 			combat.addCombatant(combatant);
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
 			}
-			out.push(`:outbox_tray: ${combatant.name} removed from all groups.`);
+			out.push(`:outbox_tray: **${combatant.name}** removed from all groups.`);
 		}
 		else {
 			const grp = combat.getGroup(groupName, true,
@@ -785,13 +671,11 @@ async function edit(args, ctx) {
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
 			}
-			out.push(`:inbox_tray: ${combatant.name} added to group __${grp.name}__.`);
+			out.push(`:inbox_tray: **${combatant.name}** added to group __${grp.name}__.`);
 		}
 		modifCount++;
 	}
 	if (modifCount > 0) {
-		//combat.removeCombatant(combatant, true);
-		//combat.addCombatant(combatant);
 		await combat.final();
 		await ctx.channel.send(out.join('\n'));
 	}
@@ -877,22 +761,29 @@ async function attack(args, ctx) {
 	const argv = YargsParser(args, {
 		alias: {
 			t: ['target'],
+			ad: ['bonus'],
+			degrade: ['x'],
+			noar: ['noarmor'],
 		},
 		array: ['t'],
-		boolean: ['ad', 'h', 'x'],
+		boolean: ['ad', 'h', 'degrade', 'noar'],
 		number: ['ab'],
 		configuration: ctx.bot.config.yargs,
 	});
-	const damage = +argv._[0] || 0;
-	const combatantName = argv.t ? argv.t.join(' ') : null;
-	const degradeArmor = argv.x ? true : false;
+	const damage = +argv._.shift() || 0;
+	const combatantName = argv.t ? argv.t.join(' ') : argv._.join(' ');
+	const noArmor = argv.noar ? true : false;
 	const isArmorPierced = argv.ap === true ? true : false;
 	const isArmorDoubled = argv.ad ? true : false;
-	const armorFactor = (isArmorDoubled ? 2 : 1) * (isArmorPierced ? 0.5 : 1);
-	const armorMod = (argv.ab ? +argv.ab : 0) + (Util.isNumber(argv.ap) ? +argv.ap : 0);
+	const armorFactor = (isArmorDoubled ? 2 : 1) * (isArmorPierced ? 0.5 : 1) * (noArmor ? 0 : 1);
+	const armorMod = (argv.ab ? +argv.ab : 0) + (Util.isNumber(argv.ap) ? -Math.abs(argv.ap) : 0);
 	const hidden = argv.h ? true : false;
 
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
+
+	const game = combat.game || await ctx.bot.getGame(ctx);
+	const degradeArmor = argv.degrade ? true : (ctx.bot.config.commands.init.attack.degrade[game] || false);
+
 	let combatant;
 
 	if (!combatantName) {
@@ -914,8 +805,8 @@ async function attack(args, ctx) {
 	await ctx.channel.send(`:crossed_swords: Attacking **${combatant.name}** with **${damage}** damage.`);
 
 	// Rolls the armor.
-	const armorRoll = combat.damageCombatant(combatant, damage, false, armorMod, armorFactor);
-	armorRoll.setGame(await ctx.bot.getGame(ctx));
+	const armorRoll = combat.damageCombatant(combatant, damage, degradeArmor, armorMod, armorFactor);
+	armorRoll.setGame(game);
 
 	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
 	const armorDamage = (degradeArmor && finalDamage > 0) ? armorRoll.banes : 0;
@@ -931,13 +822,13 @@ async function attack(args, ctx) {
 		}
 	}
 	else {
-		const dice = Sebedius.emojifyRoll(armorRoll, ctx.bot.config.commands.roll.options['myz']);
+		const dice = Sebedius.emojifyRoll(armorRoll, ctx.bot.config.commands.roll.options[game]);
 		const embed = new MessageEmbed()
-			.setTitle('Attack')
+			.setTitle(`Attack on ${combatant.name}`)
 			.setDescription(
-				`Damage inflicted: **${finalDamage}**
-				Damage absorbed: **${damage - finalDamage}**
-				${armorDamage > 0 ? `Armor damaged: **${armorDamage}**` : ''}`,
+				`:boom: Damage inflicted: **${finalDamage}**
+				:shield: Damage absorbed: **${damage - finalDamage}**
+				${armorDamage > 0 ? `:anger: Armor degraded: **-${armorDamage}**` : ''}`,
 			);
 		await ctx.channel.send(dice, embed);
 	}

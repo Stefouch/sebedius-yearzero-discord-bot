@@ -33,11 +33,14 @@ Below you'll find a list of available commands. The instructions use the followi
 ### Generic commands
 
 * `help [command name] [--no-dm]` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
-* `drawinit [quantity] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 * `ping` – Checks the bot's latency.
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.
 * `prefix [new prefix]` – Gets the prefixes for the current server. If a new prefix is specified as an argument, the server's prefix is changed into the new one.
+* `drawinit <speed> [-haste <value>] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
+  * `<speed>` – Number of initiative cards to draw. Default: 1.
+  * `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+  * `[-shuffle]` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`
 
 ### **ROLL** command
 
