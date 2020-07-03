@@ -228,12 +228,14 @@ class Sebedius extends Discord.Client {
 		let str = '';
 
 		for (const type in roll.dice) {
-			const iconType = type;
+			let iconType = type;
 			const nbre = roll.dice[type].length;
 
-			// Skipping types.
 			if (opts.alias) {
+				// Skipping types.
 				if (opts.alias[type] === '--') continue;
+				// Dice swaps, if any.
+				if (opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
 			}
 
 			if (nbre) {
