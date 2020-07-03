@@ -48,7 +48,7 @@ module.exports = class YZInitiative extends Collection {
 			if (typeof init !== 'number') throw new InitError(`Add-Initiative: "${init}" is not a valid initiative!`);
 			// Creates the initiative slot if it doesn't exist.
 			// Adds a float to avoid duplicates.
-			const i = Number.isInteger(init) ? init + 0.05 : init + 0.001;
+			const i = Number.isInteger(init) ? init + 0.5 : init + 0.01;
 			if (this.has(i)) {
 				// Run the function again if it already exists,
 				// it will cause the addition of extra decimals.
