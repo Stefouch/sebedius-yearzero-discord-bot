@@ -148,6 +148,7 @@ module.exports = {
 									if (diceOptions.hasOwnProperty(type)) type = diceOptions[type];
 								}
 
+								// Then adds the dice.
 								switch (type) {
 								case 'base': baseDiceQty += diceQty; break;
 								case 'skill': skillDiceQty += diceQty; break;
