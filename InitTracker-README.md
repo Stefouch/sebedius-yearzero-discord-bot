@@ -13,21 +13,22 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 ![init|i|initiative] <subcommand>
 ```
 
-- add
-- attack
-- begin
-- edit
-- end
-- help
-- join
-- list/summary
-- move/goto
-- next
-- note
-- [previous](#ini-previous-p)
-- remove
-- skipround
-- status
+- [add](#init-add-name-options)
+- [attack](#init-attackatk-damage--t-target-name-options)
+- [begin](#init-begin--name-name--turnnotif)
+- [edit](#init-edit-name-options)
+- [end](#init-end--force)
+- [help](#init-help-subcommand)
+- [join](#init-join-options)
+- [list/summary](#init-listsummary--private)
+- [meta](#init-meta)
+- [move/goto](#init-movegoto-target)
+- [next](#init-nextn)
+- [note](#init-note-name-note)
+- [previous](#init-previousp)
+- [remove](#init-remove-name)
+- [skipround](#init-skiproundskip)
+- [status](#init-status-name--private)
 
 ### `!init help <subcommand>`
 
