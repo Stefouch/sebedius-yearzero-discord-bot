@@ -13,6 +13,22 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 ![init|i|initiative] <subcommand>
 ```
 
+- add
+- attack
+- begin
+- edit
+- end
+- help
+- join
+- list/summary
+- move/goto
+- next
+- note
+- [previous](#ini-previous-p)
+- remove
+- skipround
+- status
+
 ### `!init help <subcommand>`
 
 Gives help for a specific subcommand.
@@ -92,7 +108,7 @@ Inflicts damage to another combatant.
 
 | Options | Details |
 | --- | --- |
-| `-t|-target <name>` | The target to inflict damage. If omitted, uses the current combattant. |
+| `-t\|-target <name>` | The target to inflict damage. If omitted, uses the current combattant. |
 | `-ap [value]` | Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value. |
 | `-ad` | Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)* |
 | `-ab\|-bonus` | Armor bonus (applied after all other modifications). |
