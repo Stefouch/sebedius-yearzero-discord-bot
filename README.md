@@ -97,7 +97,8 @@ crit [game] [table] [numeric]
 
 ### **INIT** command
 
-Tracks the initiative of combatants. Read the complete help here:
+Tracks the initiative of combatants. Read the detailed help here:
+<br />https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/InitTracker-README.md
 
 ### **MYZ** specific commands
 

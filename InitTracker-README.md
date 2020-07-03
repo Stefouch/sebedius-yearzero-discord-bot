@@ -34,7 +34,7 @@ Adds a generic combatant to the initiative order.
 | --- | --- |
 | `-p <value1 value2 ...>` | Places combatant at the given initiative, instead of drawing. |
 | `-controller <mention>` | Pings a different person on turn. |
-| `-group|-g <name>` | Adds the combatant to a group. |
+| `-group\|-g <name>` | Adds the combatant to a group. |
 | `-hp <value>` | Sets starting HP. Default: 3. |
 | `-ar <value>` | Sets the combatant's armor. Default: 0.
 | `-speed <value>` | Sets the combatant's speed (number of initiative cards to draw). Default: 1. |
@@ -95,9 +95,9 @@ Inflicts damage to another combatant.
 | `-t|-target <name>` | The target to inflict damage. If omitted, uses the current combattant. |
 | `-ap [value]` | Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value. |
 | `-ad` | Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)* |
-| `-ab|-bonus` | Armor bonus (applied after all other modifications). |
-| `-x|-degrade` | Wether the armor should be degraded. If omitted, uses the default from the game set in your server parameters. |
-| `-noar|-noarmor` | Skips the armor roll. |
+| `-ab\|-bonus` | Armor bonus (applied after all other modifications). |
+| `-x\|-degrade` | Wether the armor should be degraded. If omitted, uses the default from the game set in your server parameters. |
+| `-noar\|-noarmor` | Skips the armor roll. |
 | `-h` | Hides the armor roll. |
 
 ### `!init remove <name>`
