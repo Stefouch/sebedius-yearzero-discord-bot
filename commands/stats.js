@@ -3,7 +3,7 @@ const Util = require('../utils/Util');
 const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 
-const FIRST_DAY = '2020-07-02';
+const FIRST_DAY = '2020-07-04';
 
 module.exports = {
 	name: 'stats',
@@ -12,7 +12,7 @@ module.exports = {
 	adminOnly: true,
 	guildOnly: false,
 	args: false,
-	usage: '[--clear]',
+	usage: '[-clear]',
 	async execute(args, ctx) {
 		const msg = await ctx.channel.send(':1234: Fetching bot statistics...');
 		const stats = await ctx.bot.getStats();
@@ -45,7 +45,7 @@ module.exports = {
 		}
 		catch (err) { console.error(err); }
 
-		if (args.includes('--clear')) {
+		if (args.includes('-clear')) {
 			const text = ':speech_balloon::warning: Are you sure you want to **erase ALL stats**?'
 				+ ' *(reply with yes/no)*';
 
