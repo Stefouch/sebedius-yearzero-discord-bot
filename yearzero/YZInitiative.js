@@ -143,7 +143,7 @@ module.exports = class YZInitiative extends Collection {
 				const slot = Util.closest(current, this.slots);
 				slotIndex = this.slots.indexOf(slot);
 			}
-			if (slotIndex - 1 <= this.size) slotIndex = this.size;
+			if (slotIndex - 1 < 0) slotIndex = this.size - 1;
 			else slotIndex--;
 		}
 		return this.slots[slotIndex];
