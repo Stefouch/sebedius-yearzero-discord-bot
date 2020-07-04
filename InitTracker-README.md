@@ -19,7 +19,7 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 - [edit](#init-edit-name-options)
 - [end](#init-end--force)
 - [help](#init-help-subcommand)
-- [hp](#init-hp-value-name)
+- [hp](#init-hp-value-name--max)
 - [join](#init-join-options)
 - [list/summary](#init-listsummary--private)
 - [madd](#init-madd-name-options)
@@ -41,6 +41,7 @@ Gives help for a specific subcommand.
 Begins combat in the channel the command is invoked.
 
 * `-name [name]` – Sets a name for the combat instance.
+* `-game [game]` – Sets the game. If omitted, use the default set in the server's configuration.
 * `-turnnotif` – Toggles the notification of the controller of the next combatant in initiative.
 
 ### `!init add [name] [options...]`
@@ -109,7 +110,7 @@ Edits the options of a combatant. This command uses the same options from `!init
 
 Gets the status of a combatant or group. The parameter `-private` sends a more detailed status in a private message to the controller of the combatant.
 
-### `!init hp <value> [name]`
+### `!init hp <name> [value] [-max]`
 
 Modifies the HP of a combatant.
 
@@ -123,7 +124,7 @@ Inflicts damage to another combatant.
 | `-ap [value]` | Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value. |
 | `-ad` | Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)* |
 | `-ab\|-bonus` | Armor bonus (applied after all other modifications). |
-| `-x\|-degrade` | Wether the armor should be degraded. If omitted, uses the default from the game set in your server parameters. |
+| `-x\|-degrade` | Wether the armor should be degraded. If omitted, uses the default from the game set. |
 | `-noar\|-noarmor` | Skips the armor roll. |
 | `-h` | Hides the armor roll. |
 

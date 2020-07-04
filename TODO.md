@@ -1,10 +1,10 @@
 # TODO List
 
-- Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
+- Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a future thing!
 - Init Tracker
-  * Can't add a note to a group: error
+  * Can't add a note to a group
+  * Notes are not saved between Bot resets.
   * Init Tracker Help
-  * Previous-Turn not working properly
 
 - Bug: d66 and d666 should have their own skin
 

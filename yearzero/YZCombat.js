@@ -400,6 +400,16 @@ class YZCombat {
 		return [changedRound, []];
 	}
 
+/*	`if self.index is None:  # start of combat
+	self._current_index = len(self._combatants) - 1
+elif self.index == 0:  # new round
+	self._current_index = len(self._combatants) - 1
+	self._round -= 1
+else:
+	self._current_index -= 1
+
+self._turn = self.current_combatant.init`;//*/
+
 	rewindTurn() {
 		if (this.combatants.length === 0) throw new NoCombatants();
 		if (this.currentCombatant) this.currentCombatant.onTurnEnd();
@@ -417,7 +427,7 @@ class YZCombat {
 		}
 		else {
 			this.index = previousInit;
-		}
+		}//*/
 	}
 
 	gotoTurn(initNum, isCombatant = false) {

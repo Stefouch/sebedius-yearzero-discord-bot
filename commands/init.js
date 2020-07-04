@@ -59,7 +59,7 @@ module.exports = {
 			case 'note': await note(args, ctx); break;
 			case 'edit': await edit(args, ctx); break;
 			case 'status': await status(args, ctx); break;
-			case 'hp': case 'health': case 'life': hp(args, ctx); break;
+			case 'hp': case 'health': case 'life': setHp(args, ctx); break;
 			case 'attack': case 'atk': await attack(args, ctx); break;
 			case 'remove': await remove(args, ctx); break;
 			case 'end': await end(args, ctx); break;
@@ -155,7 +155,7 @@ async function begin(args, ctx) {
 	catch (err) { console.error(err); }
 
 	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!'
-		+ `\`\`\`${ctx.prefix}init add <name> [options]\n${ctx.prefix}init join [options]\n\`\`\``;
+		+ `\`\`\`${ctx.prefix}init add <name> [options...]\n${ctx.prefix}init join [options...]\n\`\`\``;
 	await ctx.channel.send(desc);
 }
 
@@ -300,7 +300,7 @@ async function join(args, ctx) {
 async function madd(args, ctx) {
 	const monsterFaces = [':smiling_imp:', ':imp:', ':supervillain:', ':boar:', ':squid:', ':dragon_face:'];
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
-	const name_template = argv._.join(' ') + ' #$X';
+	const name_template = argv._.join(' ') + ' $X';
 	const hidden = argv.h || false;
 	const places = argv.p;
 	const group = argv.group ? argv.group.join(' ') : null;
@@ -396,18 +396,19 @@ async function next(args, ctx) {
 			thisTurn = [combat.currentCombatant];
 		}
 		for (const co of thisTurn) {
-			if (co.hp <= 0) {
+			if (co instanceof YZMonsterCombatant && co.hp <= 0) {
 				toRemove.push(co);
 			}
 		}
 	}
 	const [advancedRound, out] = [...combat.advanceTurn()];
-	out.push(combat.getTurnString());
 
 	for (const co of toRemove) {
 		combat.removeCombatant(co);
-		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
+		out.push(`:soap: **${co.name}** automatically removed from combat.`);
 	}
+
+	out.push(combat.getTurnString());
 
 	await ctx.channel.send(out.join('\n'));
 	await combat.final();
@@ -427,6 +428,9 @@ async function prev(args, ctx) {
 	}
 	if (!combat.index) {
 		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
+	}
+	if (combat.round <= 1 && combat.index <= combat.initiatives.min) {
+		return ctx.reply(':information_source: There is no previous turn.');
 	}
 	combat.rewindTurn();
 	await ctx.channel.send(combat.getTurnString());
@@ -491,15 +495,22 @@ async function skipround(args, ctx) {
 
 	const numRounds = +args.shift();
 
-	// const toRemove = [];
+	const toRemove = [];
+	for (const co of combat.getCombatants()) {
+		if (co instanceof YZMonsterCombatant && co.hp <= 0 && co !== combat.currentCombatant) {
+			toRemove.push(co);
+		}
+	}
 	const out = combat.skipRounds(numRounds);
 
-	out.push(combat.getTurnString());
+	out.push(`:fast_forward: Skipped **${numRounds}** round${numRounds > 1 ? 's' : ''}.`);
 
-	/* for (const co of toRemove) {
+	for (const co of toRemove) {
 		combat.removeCombatant(co);
-		out.push(`:soap: **${co.name}** automatically removed from combat.\n`);
-	}//*/
+		out.push(`:soap: **${co.name}** automatically removed from combat.`);
+	}
+
+	out.push(combat.getTurnString());
 
 	await ctx.channel.send(out.join('\n'));
 	await combat.final();
@@ -578,18 +589,7 @@ async function list(args, ctx) {
  */
 async function note(args, ctx) {
 	const name = args.shift();
-	const notes = args.join(' ');
-	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
-
-	const combatant = await combat.selectCombatant(name);
-	if (!combatant) {
-		return ctx.reply(':x: Combatant not found.');
-	}
-	combatant.notes = notes;
-	if (!notes) await ctx.channel.send(`:notepad_spiral: Removed note for **${combatant.name}**.`);
-	else await ctx.channel.send(`:notepad_spiral: Added note for **${combatant.name}**.`);
-
-	await combat.final();
+	await edit([name, '-notes', ...args], ctx);
 }
 
 /**
@@ -619,7 +619,7 @@ async function edit(args, ctx) {
 	// const isGroup = combatant instanceof YZCombatantGroup;
 	// const runOnce = new Set();
 
-	let out = [];
+	const out = [];
 
 	if (argv.h != null && argv.h != undefined) {
 		combatant.hidden = !combatant.hidden;
@@ -714,6 +714,18 @@ async function edit(args, ctx) {
 		const newLife = Util.modifOrSet(argv.hp, oldLife);
 		combatant.hp = newLife;
 		out.push(`:drop_of_blood: ${combatant.name}'s HP set to **${combatant.hp}** (was ${oldLife}).`);
+		modifCount++;
+	}
+	if (argv.notes) {
+		const notes = argv.notes.join(' ');
+		if (notes.length > 0) {
+			combatant.notes = notes;
+			out.push(`:notepad_spiral: Added note for **${combatant.name}**.`);
+		}
+		else {
+			combatant.notes = null;
+			out.push(`:notepad_spiral: Removed note for **${combatant.name}**.`);
+		}
 		modifCount++;
 	}
 	if (argv.group) {
@@ -826,13 +838,13 @@ async function _sendHpResult(ctx, combatant, delta = null) {
  * @param {Discord.Message} ctx
  * @async
  */
-async function hp(args, ctx) {
+async function setHp(args, ctx) {
 	const argv = YargsParser(args, {
 		boolean: ['max'],
 		configuration: ctx.bot.config.yargs,
 	});
-	const life = argv._.shift();
-	const name = argv._.join(' ');
+	const name = argv._.shift();
+	const hp = argv._.shift();
 	const max = argv.max ? true : false;
 
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
@@ -841,17 +853,21 @@ async function hp(args, ctx) {
 		return ctx.reply(':x: Combatant not found.');
 	}
 
-	if (life == null || life == undefined) {
-		await ctx.channel.send(`:drop_of_blood: ${combatant.name}: ${combatant.hpString()}`);
+	if (!Util.isNumber(hp)) {
+		await ctx.channel.send(`\`\`\`\n${combatant.name}: ${combatant.hpString()}\n\`\`\``);
 		if (combatant.isPrivate()) {
 			const controller = ctx.guild.members.get(combatant.controller);
 			if (controller) {
-				await controller.send(`:drop_of_blood: ${combatant.name}'s HP: ${combatant.hpString(true)}`);
+				await controller.send(`\`\`\`\n${combatant.name}'s HP: ${combatant.hpString(true)}\n\`\`\``);
 			}
 		}
-		return;
 	}
-	await edit([combatant.name, '-hp', life], ctx);
+	else if (max) {
+		await edit([combatant.name, '-max', hp], ctx);
+	}
+	else {
+		await edit([combatant.name, '-hp', hp], ctx);
+	}
 }
 
 /**
