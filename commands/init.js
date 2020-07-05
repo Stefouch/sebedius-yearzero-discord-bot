@@ -588,8 +588,15 @@ async function list(args, ctx) {
  * @async
  */
 async function note(args, ctx) {
-	const name = args.shift();
-	await edit([name, '-notes', ...args], ctx);
+	const argv = YargsParser(args, {
+		alias: {
+			notes: ['note'],
+		},
+		array: ['notes'],
+		configuration: ctx.bot.config.yargs,
+	});
+	const name = args._.join(' ');
+	await edit([name, '-notes', ...argv.notes], ctx);
 }
 
 /**
@@ -891,6 +898,18 @@ async function attack(args, ctx) {
 	});
 	const damage = +argv._.shift() || 0;
 	const combatantName = argv.t ? argv.t.join(' ') : argv._.join(' ');
+
+	if (combatantName.includes('|')) {
+		const names = combatantName.split('|');
+		for (const name of names) {
+			await attack([damage, '-t', name], ctx)
+				.then(() => {
+					setTimeout(() => {}, 2000);
+				});
+		}
+		return;
+	}
+
 	const noArmor = argv.noar ? true : false;
 	const isArmorPierced = argv.ap === true ? true : false;
 	const isArmorDoubled = argv.ad ? true : false;

@@ -29,6 +29,7 @@ Below you'll find a list of available commands. The instructions use the followi
 * Chevrons `<...>` mean that the argument is mandatory for the command to work.
 * Brackets `[...]` mean that the argument is facultative.
 * Vertical bar `|` means "OR". *E.g. `d6|d66` means you can type either d6 or d66 for the command.*
+* Spaces ` ` are used to separate arguments.
 
 ### Generic commands
 

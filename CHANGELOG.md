@@ -13,7 +13,7 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 
 ### Changed
 - Renamed the old `!init` command into `!drawinit`.
-- Added new arguments to `!drawinit`.
+- Added new arguments and functionalities to `!drawinit`.
 - Large code rewritting:
   - Resorted the whole files/folders architecture.
   - Reworked the access to databases.

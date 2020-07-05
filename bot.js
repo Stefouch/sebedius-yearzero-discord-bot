@@ -15,7 +15,8 @@ const bot = new Sebedius(require('./config.json'));
 /* !
  * READY LISTENER
  */
-bot.on('ready', () => {
+bot.on('ready', async () => {
+	bot.admin = await bot.users.fetch(bot.config.botAdminID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
@@ -46,6 +47,11 @@ bot.on('ready', () => {
 
 	// Only for testing purposes.
 	// if (process.env.NODE_ENV !== 'production') test(bot);
+
+	// Warns the admin that the bot is ready!
+	if (process.env.NODE_ENV === 'production') {
+		bot.admin.send(`:man_scientist: **Sebedius** is ${bot.state}!`);
+	}
 });
 
 /* !
@@ -128,8 +134,8 @@ process.on('unhandledRejection', async error => {
 			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 			+ `\n**Path:** ${error.path}`
 			+ `\n**Stack:** ${error.stack}`;
-		const admin = await bot.users.fetch(bot.config.botAdminID);
-		return admin.send(msg, { split: true })
+		//const admin = await bot.users.fetch(bot.config.botAdminID);
+		return bot.admin.send(msg, { split: true })
 			.catch(err => console.error(err));
 	}
 });

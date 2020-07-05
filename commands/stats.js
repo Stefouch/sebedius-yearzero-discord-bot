@@ -3,8 +3,6 @@ const Util = require('../utils/Util');
 const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 
-const FIRST_DAY = '2020-07-04';
-
 module.exports = {
 	name: 'stats',
 	group: 'Administration',
@@ -29,7 +27,8 @@ module.exports = {
 		const pages = Util.paginate(report, report.length / 3);
 
 		// Creates a Discord.MessageEmbed and sends it.
-		const dateDiff = Math.abs(Date.now() - new Date(FIRST_DAY));
+		const firstDay = ctx.bot.config.commands.stats.start;
+		const dateDiff = Math.abs(Date.now() - new Date(firstDay));
 		const embed = new MessageEmbed()
 			.setTitle(':1234: Commands Statistics')
 			.setDescription('This is the usage statistics for the bot\'s commands.')
@@ -52,6 +51,7 @@ module.exports = {
 			const clear = await Sebedius.confirm(ctx, text, true);
 			if (clear) {
 				await ctx.bot.kdb.stats.clear();
+				await ctx.channel.send(':broom: Database cleared.');
 			}
 		}
 	},
