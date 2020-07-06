@@ -13,7 +13,25 @@ if (process.env.NODE_ENV !== 'production') {
 class Sebedius extends Discord.Client {
 
 	constructor(config) {
-		super();
+		// ClientOptions: https://discord.js.org/#/docs/main/master/typedef/ClientOptions
+		super({
+			messageCacheMaxSize: 100,
+			messageCacheLifetime: 60 * 10,
+			messageSweepInterval: 90,
+			// partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+			ws: {
+				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
+				intents: [
+					'GUILDS',
+					// 'GUILD_PRESENCES',
+					// 'GUILD_MEMBERS',
+					'GUILD_MESSAGES',
+					'GUILD_MESSAGE_REACTIONS',
+					'DIRECT_MESSAGES',
+					'DIRECT_MESSAGE_REACTIONS',
+				],
+			},//*/
+		});
 		this.state = 'init';
 		this.muted = false;
 		this.config = config;
