@@ -124,7 +124,6 @@ module.exports = {
 		// Rolls the Critical Injuries table.
 		const critRoll = fixedReference || Util.rollD66();
 		const crit = critsTable.get(critRoll);
-		// console.log(crit);
 
 		// Exits early if no critical injury was found.
 		if (!crit) return ctx.reply(`❌ The critical injury wasn't found. *(Table: ${fileName})*`);

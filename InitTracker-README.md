@@ -14,7 +14,7 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 ```
 
 - [add](#init-add-name-options)
-- [attack](#init-attackatk-damage--t-target-name-options)
+- [attack](#init-attackatk-damage--t-target-names-options)
 - [begin](#init-begin--name-name--turnnotif)
 - [edit](#init-edit-name-options)
 - [end](#init-end--force)
@@ -112,15 +112,15 @@ Gets the status of a combatant or group. The parameter `-private` sends a more d
 
 ### `!init hp <name> [value] [-max]`
 
-Modifies the HP of a combatant.
+Modifies the HP of a combatant. If the value is omitted, instead prints the details of the combatant.
 
-### `!init attack|atk <damage> [-t|-target <name>] [options...]`
+### `!init attack|atk <damage> [-t|-target <names...>] [options...]`
 
 Inflicts damage to another combatant.
 
 | Options | Details |
 | --- | --- |
-| `-t\|-target <name>` | The target to inflict damage. If omitted, uses the current combattant. |
+| `-t\|-target <names...>` | The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the `|` character. *E.g.: `-t Bob|Will|Smith`* |
 | `-ap [value]` | Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value. |
 | `-ad` | Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)* |
 | `-ab\|-bonus` | Armor bonus (applied after all other modifications). |

@@ -23,6 +23,7 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 ### Fixed
 - "st" shortcut not working for FBL's stab critical table.
 - `!br` now properly deletes the invoke message.
+- A potential security breach with the roll parsing function.
 
 ## [2.0.0] - 2020-06-22
 ### Added

@@ -106,7 +106,6 @@ class YZCombat {
 		const ref = this.initiatives.get(this.index);
 		if (ref) {
 			return this.combatants.find(c => c.id === ref);
-			// return this.combatants.find(c => c.index === this.index);
 		}
 		return null;
 	}
@@ -155,6 +154,9 @@ class YZCombat {
 		for (const cRaw of raw.combatants) {
 			if (cRaw.type === 'common') {
 				instance.combatants.push(YZCombatant.fromRaw(cRaw));
+			}
+			else if (cRaw.type === 'monster') {
+				instance.combatants.push(YZMonsterCombatant.fromRaw(cRaw));
 			}
 			else if (cRaw.type === 'group') {
 				instance.combatants.push(YZCombatantGroup.fromRaw(cRaw));
@@ -388,7 +390,7 @@ class YZCombat {
 			this.round++;
 		}
 		// New round.
-		else if (nextInit < this.index) {
+		else if (nextInit <= this.index) {
 			this.index = this.initiatives.min;
 			this.round++;
 			changedRound = true;
@@ -411,7 +413,7 @@ class YZCombat {
 			this.index = this.initiatives.max;
 		}
 		// Previous round.
-		else if (previousInit > this.index) {
+		else if (previousInit >= this.index) {
 			this.index = this.initiatives.max;
 			this.round--;
 		}
@@ -887,9 +889,31 @@ class YZCombatantGroup extends YZCombatant {
 	set hp(newHp) {
 		super.hp = newHp;
 		if (this.combatants) {
-			this.getCombatants().forEach(c => {
-				c.hp = newHp;
-			});
+			this.combatants.forEach(c => c.hp = newHp);
+		}
+	}
+
+	get maxhp() { return super.maxhp; }
+	set maxhp(newMaxHp) {
+		super.maxhp = newMaxHp;
+		if (this.combatants) {
+			this.combatants.forEach(c => c.maxhp = newMaxHp);
+		}
+	}
+
+	get armor() { return super.armor; }
+	set armor(newArmor) {
+		super.armor = newArmor;
+		if (this.combatants) {
+			this.combatants.forEach(c => c.armor = newArmor);
+		}
+	}
+
+	get hidden() { return super.hidden; }
+	set hidden(newHidden) {
+		super.hidden = newHidden;
+		if (this.combatants) {
+			this.combatants.forEach(c => c.hidden = newHidden);
 		}
 	}
 

@@ -154,8 +154,12 @@ async function begin(args, ctx) {
 	}
 	catch (err) { console.error(err); }
 
-	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!'
-		+ `\`\`\`${ctx.prefix}init add <name> [options...]\n${ctx.prefix}init join [options...]\n\`\`\``;
+	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!\n'
+		+ '```\n'
+		+ `${ctx.prefix}init join [options...]\n`
+		+ `${ctx.prefix}init add <name> [options...]\n`
+		+ `${ctx.prefix}init madd <monster name> [options...]\n`
+		+ '```';
 	await ctx.channel.send(desc);
 }
 
@@ -401,17 +405,18 @@ async function next(args, ctx) {
 			}
 		}
 	}
-	const [advancedRound, out] = [...combat.advanceTurn()];
-
+	const out = [];
+	// Important: Remove before advancing turn (incompatilibilites with multiple inits values).
 	for (const co of toRemove) {
 		combat.removeCombatant(co);
 		out.push(`:soap: **${co.name}** automatically removed from combat.`);
 	}
 
+	combat.advanceTurn();
 	out.push(combat.getTurnString());
 
-	await ctx.channel.send(out.join('\n'));
 	await combat.final();
+	await ctx.channel.send(out.join('\n'));
 }
 
 /**
@@ -433,8 +438,8 @@ async function prev(args, ctx) {
 		return ctx.reply(':information_source: There is no previous turn.');
 	}
 	combat.rewindTurn();
-	await ctx.channel.send(combat.getTurnString());
 	await combat.final();
+	await ctx.channel.send(combat.getTurnString());
 }
 
 /**
@@ -473,8 +478,8 @@ async function move(args, ctx) {
 		combatant = await combat.selectCombatant(target);
 		combat.gotoTurn(combatant, true);
 	}
-	await ctx.channel.send(combat.getTurnString());
 	await combat.final();
+	await ctx.channel.send(combat.getTurnString());
 }
 
 /**
@@ -512,8 +517,8 @@ async function skipround(args, ctx) {
 
 	out.push(combat.getTurnString());
 
-	await ctx.channel.send(out.join('\n'));
 	await combat.final();
+	await ctx.channel.send(out.join('\n'));
 }
 
 /**
@@ -588,15 +593,8 @@ async function list(args, ctx) {
  * @async
  */
 async function note(args, ctx) {
-	const argv = YargsParser(args, {
-		alias: {
-			notes: ['note'],
-		},
-		array: ['notes'],
-		configuration: ctx.bot.config.yargs,
-	});
-	const name = args._.join(' ');
-	await edit([name, '-notes', ...argv.notes], ctx);
+	const name = args.shift();
+	await edit([name, '-note', ...args], ctx);
 }
 
 /**
@@ -846,13 +844,9 @@ async function _sendHpResult(ctx, combatant, delta = null) {
  * @async
  */
 async function setHp(args, ctx) {
-	const argv = YargsParser(args, {
-		boolean: ['max'],
-		configuration: ctx.bot.config.yargs,
-	});
-	const name = argv._.shift();
-	const hp = argv._.shift();
-	const max = argv.max ? true : false;
+	const name = args.shift();
+	const hp = args.shift();
+	const max = args.includes('-max');
 
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name);
@@ -902,10 +896,9 @@ async function attack(args, ctx) {
 	if (combatantName.includes('|')) {
 		const names = combatantName.split('|');
 		for (const name of names) {
-			await attack([damage, '-t', name], ctx)
-				.then(() => {
-					setTimeout(() => {}, 2000);
-				});
+			if (name.length) {
+				await attack([damage, '-t', name], ctx);
+			}
 		}
 		return;
 	}

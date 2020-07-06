@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'eval',
