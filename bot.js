@@ -16,7 +16,7 @@ const bot = new Sebedius(require('./config.json'));
  * READY LISTENER
  */
 bot.on('ready', async () => {
-	bot.admin = await bot.users.fetch(bot.config.botAdminID);
+	bot.admin = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
@@ -43,7 +43,7 @@ bot.on('ready', async () => {
 	// PLAYING, STREAMING, LISTENING, WATCHING
 	// For example:
 	// bot.user.setActivity('TV', { type: 'WATCHING' });
-	bot.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
+	bot.user.setActivity(`YZE on ${serverQty} servers`, { type: 'PLAYING' });
 
 	// Only for testing purposes.
 	// if (process.env.NODE_ENV !== 'production') test(bot);
@@ -134,7 +134,6 @@ process.on('unhandledRejection', async error => {
 			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 			+ `\n**Path:** ${error.path}`
 			+ `\n**Stack:** ${error.stack}`;
-		//const admin = await bot.users.fetch(bot.config.botAdminID);
 		return bot.admin.send(msg, { split: true })
 			.catch(err => console.error(err));
 	}

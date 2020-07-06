@@ -17,7 +17,7 @@ module.exports = {
 		// The Bot Admin may bypass this security check.
 		if (
 			!ctx.member.hasPermission('ADMINISTRATOR')
-			&& ctx.author.id !== ctx.bot.config.botAdminID
+			&& ctx.author.id !== ctx.bot.config.ownerID
 		) {
 			return ctx.reply('⛔ This command is only available for admins.');
 		}

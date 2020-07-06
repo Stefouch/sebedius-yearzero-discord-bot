@@ -11,7 +11,7 @@ module.exports = {
 	usage: '<expression>',
 	async execute(args, ctx) {
 		// Exits early if not the bot's owner.
-		if (ctx.author.id !== ctx.bot.config.botAdminID) return;
+		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 
 		const code = args.join(' ');
 		code.replace(ctx.bot.token, '[TOKEN]');

@@ -3,9 +3,7 @@
 - Support for CHARACTER SHEETS (via Google)!
 - Init Tracker
   * Can't add a note to a group
-  * Notes are not saved between Bot resets.
   * Init Tracker Help
-  * setHp() !is number not working on +/-
 
 - Bug: d66 and d666 should have their own skin
 
