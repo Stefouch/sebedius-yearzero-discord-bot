@@ -1,7 +1,7 @@
 {
 	"botID": "543445246143365130",
 	"betaBotID": "549319447240769542",
-	"botAdminID": "405389936783523840",
+	"ownerID": "405389936783523840",
 	"db": "sqlite://database.sqlite",
 	"defaultPrefix": "!",
 	"perms": { "bitfield": 355392 },
@@ -100,7 +100,7 @@
 			}
 		},
 		"stats": {
-			"start": "2020-07-06"
+			"start": "2020-07-07"
 		},
 		"scrap": {
 			"max": 20
