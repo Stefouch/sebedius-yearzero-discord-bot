@@ -18,7 +18,7 @@ module.exports = {
 				name: ['activity', 'text', 'desc'],
 			},
 			array: ['name'],
-			boolean: ['afk'],
+			boolean: ['afk', 'idle'],
 			string: ['status', 'type'],
 			default: {
 				name: ['🚧 On Maintenance'],
@@ -28,6 +28,17 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		if (argv.idle) {
+			await ctx.bot.user.setPresence({
+				status: 'dnd',
+				afk: true,
+				activity: {
+					name: '🚧 On Maintenance',
+					type: 'WATCHING',
+				},
+			});
+			return await ctx.channel.send(':ballot_box_with_check: Sebedius is on maintenance.');
+		}
 		argv.type = argv.type.toUpperCase();
 		argv.status = argv.status.toLowerCase();
 		const name = argv.name.join(' ');
