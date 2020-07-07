@@ -4,7 +4,6 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 <br />To use, first start combat in a channel by saying `!init begin`.
 <br />Then, each combatant should add themselves to the combat with `!init add` or `!init join`.
 <br />To hide a combatant's HP, add them with `!init add -h`.
-<br />Once every combatant is added, each combatant should set their max hp with `!init hp max`.
 <br />Then, you can proceed through combat with `!init next`.
 <br />Once combat ends, end combat with `!init end`.
 <br />For more help, the `!init help` command shows applicable arguments for each subcommand.
