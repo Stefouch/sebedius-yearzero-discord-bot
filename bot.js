@@ -20,37 +20,20 @@ bot.on('ready', async () => {
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
-	console.log(`| Logged in as: ${bot.user.username} (${bot.user.id})`);
+	console.log(`| Logged in as: ${bot.user.tag} (${bot.user.id})`);
+	console.log(`| # Servers: ${bot.guilds.cache.size}`);
 	console.log('|===========================================================');
 
-	// Lists servers the bot is connected to.
-	console.log('| Guilds/Servers:');
-	const serverQty = bot.guilds.cache.size;
-	/* bot.guilds.cache.forEach(guild => {
-		if (process.env.NODE_ENV !== 'production') {
-			console.log(`|  * ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
-			console.log('|    * Custom emojis:');
-			guild.emojis.cache.forEach(emoji => {
-				console.log(`|      <:${emoji.identifier}>`);
-			});
-		}
-		serverQty++;
-	});//*/
-	console.log(`|  = Total: ${serverQty} server${(serverQty > 1) ? 's' : ''}`);
-	console.log('|===========================================================\n');
-	// Sets bot status.
-	// Alternatively, you can set the activity to any of the following:
-	// PLAYING, STREAMING, LISTENING, WATCHING
-	// For example:
-	// bot.user.setActivity('TV', { type: 'WATCHING' });
-	bot.user.setActivity(`YZE on ${serverQty} servers`, { type: 'PLAYING' });
+	// Activities Loop.
+	bot.user.setActivity({ name: 'Ready to roll dice', type: 'PLAYING' });
+	bot.activity = require('./utils/activities')(bot);
 
 	// Only for testing purposes.
 	// if (process.env.NODE_ENV !== 'production') test(bot);
 
 	// Warns the admin that the bot is ready!
 	if (process.env.NODE_ENV === 'production') {
-		bot.admin.send(`:man_scientist: **Sebedius** is ${bot.state}!`);
+		bot.admin.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
 	}
 });
 
@@ -78,7 +61,7 @@ bot.on('message', async message => {
 	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
 	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
 
-	// Adds important data for the context of the message.
+	// Adds important data to the context of the message.
 	message.prefix = prefix;
 	message.bot = bot;
 

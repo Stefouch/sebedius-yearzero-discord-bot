@@ -13,35 +13,35 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 ![init|i|initiative] <subcommand> <>
 ```
 
-- [add](#init-add-name-options)
-- [attack](#init-attackatk-damage--t-target-names-options)
-- [begin](#init-begin--name-name--turnnotif)
-- [edit](#init-edit-name-options)
-- [end](#init-end--force)
-- [help](#init-help-subcommand)
-- [hp](#init-hp-value-name--max)
-- [join](#init-join-options)
-- [list/summary](#init-listsummary--private)
-- [madd](#init-madd-name-options)
-- [meta](#init-meta)
-- [move/goto](#init-movegoto-target)
-- [next](#init-nextn)
-- [note](#init-note-name-note)
-- [previous](#init-previousp)
-- [remove](#init-remove-name)
-- [skipround](#init-skiproundskip)
-- [status](#init-status-name--private)
+- [add](#init-add-name-options) – Adds a generic combatant to the initiative order.
+- [attack](#init-attackatk-damage--t-target-names-options) – Inflicts damage to another combatant.
+- [begin](#init-begin--name-name--game-game--turnnotif) – Begins combat in the channel the command is invoked.
+- [edit](#init-edit-name-options) – Edits the options of a combatant.
+- [end](#init-end--force) – Ends combat in the channel.
+- [help](#init-help-subcommand) – Gives help for a specific subcommand.
+- [hp](#init-hp-value-name--max) – Modifies the HP of a combatant.
+- [join](#init-join-options) – Adds the current player to combat.
+- [list/summary](#init-listsummary--private) – Lists the combatants.
+- [madd](#init-madd-name--n-quantity-options) – Adds a monster to combat.
+- [meta](#init-meta) – Changes the settings of the active combat.
+- [move/goto](#init-movegoto-target) – Moves to a certain initiative.
+- [next](#init-nextn) – Moves to the next turn in initiative order.
+- [note](#init-note-name-note) – Attaches a note to a combatant.
+- [previous](#init-previousp) – Moves to the previous turn in initiative order.
+- [remove](#init-remove-name) – Removes a combatant or group from the combat.
+- [skipround](#init-skiproundskip) – Skips one or more rounds of initiative.
+- [status](#init-status-name--private) – Adds a generic combatant to the initiative order.
 
 ### `!init help <subcommand>`
 
 Gives help for a specific subcommand.
 
-### `!init begin [-name <name>] [-turnnotif]`
+### `!init begin [-name <name>] [-game <game>] [-turnnotif]`
 
 Begins combat in the channel the command is invoked.
 
-* `-name [name]` – Sets a name for the combat instance.
-* `-game [game]` – Sets the game. If omitted, use the default set in the server's configuration.
+* `-name <name>` – Sets a name for the combat instance.
+* `-game <game>` – Sets the game. If omitted, use the default set in the server's configuration.
 * `-turnnotif` – Toggles the notification of the controller of the next combatant in initiative.
 
 ### `!init add [name] [options...]`
@@ -65,7 +65,7 @@ Adds a generic combatant to the initiative order.
 
 Same as above, but you don't need to specify a name. The command will use your displayed name on the server. The command will be used in future updates in combination with character sheets.
 
-### `!init madd [options...]`
+### `!init madd [-n <quantity>] [options...]`
 
 Adds one or more monster combatant(s). Same as `!init add`, but in addition you can specify a number of combatants with the `-n <quantity>` parameter.
 
@@ -103,7 +103,7 @@ Edits the options of a combatant. This command uses the same options from `!init
 
 | Options | Details |
 | --- | --- |
-| `-name <name>` | Changes the combatants' name. |
+| `-name <name>` | Changes the combatant's name. |
 | `-max <value>` | Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise. |
 
 ### `!init status <name> [-private]`
@@ -112,7 +112,7 @@ Gets the status of a combatant or group. The parameter `-private` sends a more d
 
 ### `!init hp <name> [value] [-max]`
 
-Modifies the HP of a combatant. If the value is omitted, instead prints the details of the combatant.
+Modifies the HP of a combatant. If the value is omitted, instead prints the details of the combatant. Use parameter `-max` if you want to set the Max HP value instead.
 
 ### `!init attack|atk <damage> [-t|-target <names...>] [options...]`
 

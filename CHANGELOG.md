@@ -11,6 +11,7 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 ### Added
 - New feature: **Initiative Tracker** with command `!init`.
 - New administration command: `!setpresence`.
+- Bot's activities loop.
 
 ### Changed
 - Renamed the old `!init` command into `!drawinit`.

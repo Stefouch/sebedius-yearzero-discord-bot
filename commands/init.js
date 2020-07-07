@@ -31,9 +31,167 @@ const YARGS_PARSE_COMBATANT = {
 module.exports = {
 	name: 'init',
 	group: 'Core',
-	description: 'Initiative tracker. See the list of available subcommands below:',
+	description: 'Initiative tracker. Inspired from the [D&D Avrae Discord bot](https://avrae.io/).',
 	moreDescriptions: [
-		[],
+		[
+			'Subcommands',
+			`**add** – Adds a generic combatant to the initiative order.
+			**attack** – Inflicts damage to another combatant.
+			**begin** – Begins combat in the channel the command is invoked.
+			**edit** – Edits the options of a combatant.
+			**end** – Ends combat in the channel.
+			**hp** – Modifies the HP of a combatant.
+			**join** – Adds the current player to combat.
+			**list** – Lists the combatants.
+			**madd** – Adds a monster to combat.
+			**meta** – Changes the settings of the active combat.
+			**move** – Moves to a certain initiative.
+			**next** – Moves to the next turn in initiative order.
+			**note** – Attaches a note to a combatant.
+			**prev** – Moves to the previous turn in initiative order.
+			**remove** – Removes a combatant or group from the combat.
+			**skipround** – Skips one or more rounds of initiative.
+			**status** – Gets the status of a combatant or group.`,
+		],
+		[
+			'More Help',
+			'Type `init help <subcommand>` for more info on a subcommand.',
+		],
+	],
+	subDescriptions: [
+		[
+			'`begin [-name <name>] [-game <game>] [-turnnotif]`',
+			`Begins combat in the channel the command is invoked.
+
+			__Parameters__
+			• \`-name <name>\` – Sets a name for the combat instance.
+			• \`-game <game>\` – Sets the game. If omitted, use the default set in the server's configuration.
+			• \`-turnnotif\` – Toggles the notification of the controller of the next combatant in initiative.`,
+		],
+		[
+			'`add [name] [options...]`',
+			`Adds a generic combatant to the initiative order.
+			Generic combatants have 3 life, no armor, and speed 1.
+			If you are adding monsters to combat, you can use \`init madd\` instead.
+			
+			__Options__
+			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
+			• \`-controller <mention>\` – Pings a different person on turn.
+			• \`-group|-g <name>\` – Adds the combatant to a group.
+			• \`-hp <value>\` – Sets starting HP. Default: 3.
+			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
+			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
+			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+			• \`-h\` – Hides life, AR and anything else.`,
+		],
+		[
+			'`join [options...]`',
+			`Same as \`init add\`, but you don't need to specify a name. The command will use your displayed name on the server. The command will be used in future updates in combination with character sheets.
+			
+			__Options__
+			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
+			• \`-controller <mention>\` – Pings a different person on turn.
+			• \`-group|-g <name>\` – Adds the combatant to a group.
+			• \`-hp <value>\` – Sets starting HP. Default: 3.
+			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
+			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
+			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+			• \`-h\` – Hides life, AR and anything else.`,
+		],
+		[
+			'`madd [name] [-n <quantity>] [options...]`',
+			`Adds one or more monster combatant(s). Same as \`init add\`, but in addition you can specify a number of combatants with the \`-n <quantity>\` parameter.
+			
+			__Options__
+			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
+			• \`-controller <mention>\` – Pings a different person on turn.
+			• \`-group|-g <name>\` – Adds the combatant to a group.
+			• \`-hp <value>\` – Sets starting HP. Default: 3.
+			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
+			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
+			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+			• \`-h\` – Hides life, AR and anything else.`,
+		],
+		[
+			'`next|n`',
+			'Moves to the next turn in initiative order. It must be your turn or you must be the GM (the person who started combat) to use this command.',
+		],
+		[
+			'`previous|p`',
+			'Moves to the previous turn in initiative order.',
+		],
+		[
+			'`move|goto <target>`',
+			'Moves to a certain initiative. `target` can be either a number, to go to that initiative, or a name. If not supplied, goes to the first combatant that the user controls.'
+		],
+		[
+			'`skipround|skip`',
+			'Skips one or more rounds of initiative.',
+		],
+		[
+			'`meta`',
+			`Changes the settings of the active combat.
+
+			__Parameters__
+			• \`-name <name>\` – Sets a name for the combat instance.
+			• \`-game <game>\` – Sets the game. If omitted, use the default set in the server's configuration.
+			• \`-turnnotif\` – Toggles the notification of the controller of the next combatant in initiative.`,
+		],
+		[
+			'`list|summary [-private]',
+			'Lists the combatants. The parameter `-private` sends the list in a private message.',
+		],
+		[
+			'`note <name> [note]`',
+			'Attaches a note to a combatant.',
+		],
+		[
+			'`edit <name> [options...]`',
+			`Edits the options of a combatant. This command uses the same options from \`init add\` with the addition of \`-name\` and \`-max\`
+			
+			__Options__
+			• \`-name <name>\` – Chances the combatant's name.
+			• \`-max <value>\` – Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise.
+			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
+			• \`-controller <mention>\` – Pings a different person on turn.
+			• \`-group|-g <name>\` – Adds the combatant to a group.
+			• \`-hp <value>\` – Sets starting HP. Default: 3.
+			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
+			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
+			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+			• \`-h\` – Hides life, AR and anything else.`,
+		],
+		[
+			'`status <name> [-private]`',
+			'Gets the status of a combatant or group. The parameter `-private` sends a more detailed status in a private message to the controller of the combatant.',
+		],
+		[
+			'`hp <name> [value] [-max]`',
+			'Modifies the HP of a combatant. If the value is omitted, instead prints the details of the combatant. Use parameter `-max` if you want to set the Max HP value instead.',
+		],
+		[
+			'`attack|atk <damage> <[-t|-target] names...> [options...]`',
+			`Inflicts damage to another combatant and rolls their armor.
+
+			__Target__
+			• \`[-t|-target] <names...>\` – The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the \`|\` character. *E.g.: \`-t Bob|Will|Smith\`*
+
+			__Options__
+			• \`-ap [value]\` Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value.
+			• \`-ad\` – Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)*
+			• \`-ab|-bonus\` – Armor bonus (applied after all other modifications).
+			• \`-x|-degrade\` – Wether the armor should be degraded. If omitted, uses the default from the game set.
+			• \`-noar|-noarmor\` – Skips the armor roll.
+			• \`-h\` – Hides the armor roll.`,
+		],
+		[
+			'`remove <name>`',
+			'Removes a combatant or group from the combat.',
+		],
+		[
+			'end [-force]',
+			'Ends combat in the channel. The parameter `-force` forces an init to end, in case it\'s erroring.',
+		],
 	],
 	aliases: ['i', 'initiative'],
 	guildOnly: true,
@@ -101,7 +259,7 @@ async function help(args, ctx) {
 	if (!subcmd) {
 		return ctx.bot.commands.get('help').execute(['init'], ctx);
 	}
-	const subcmdDesc = module.exports.moreDescriptions.find(d => d[0].toLowerCase().includes(subcmd));
+	const subcmdDesc = module.exports.subDescriptions.find(d => d[0].toLowerCase().includes(subcmd));
 	if (!subcmdDesc) {
 		return ctx.bot.commands.get('help').execute(['init'], ctx);
 	}
@@ -110,8 +268,9 @@ async function help(args, ctx) {
 	const embed = new MessageEmbed({
 		title: `${ctx.prefix}init ${title}`,
 		description,
+		color: ctx.member.displayColor,
 	});
-	ctx.channel.send(embed);
+	await ctx.channel.send(embed);
 }
 
 /**
@@ -302,7 +461,8 @@ async function join(args, ctx) {
  * @async
  */
 async function madd(args, ctx) {
-	const monsterFaces = [':smiling_imp:', ':imp:', ':supervillain:', ':boar:', ':squid:', ':dragon_face:'];
+	const monsterFaces = [':smiling_imp:', ':imp:', ':supervillain:', ':boar:',
+		':squid:', ':dragon_face:', ':snake:'];
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name_template = argv._.join(' ') + ' $X';
 	const hidden = argv.h || false;
@@ -311,9 +471,13 @@ async function madd(args, ctx) {
 	const hp = +argv.hp || 3;
 	const armor = +argv.ar || 0;
 	const speed = +argv.speed || 1;
-	const haste = +argv.haste || null;
+	const haste = +argv.haste || 1;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
 	const qty = argv.n ? Util.clamp(+argv.n, 1, 25) : 1;
+
+	if (name_template.length <= 3) {
+		return await ctx.channel.send(':warning: Please indicate a name for the monster.');
+	}
 
 	let out = '';
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);

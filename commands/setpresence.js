@@ -13,22 +13,31 @@ module.exports = {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 
+		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			alias: {
 				name: ['activity', 'text', 'desc'],
 			},
 			array: ['name'],
-			boolean: ['afk', 'idle'],
+			boolean: ['afk', 'idle', 'loop'],
 			string: ['status', 'type'],
 			default: {
-				name: ['🚧 On Maintenance'],
+				name: ['Hello World!'],
 				afk: false,
 				type: ActivityTypes[0],
 				status: PresenceStatus[0],
+				idle: false,
+				loop: false,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		if (argv.idle) {
+		if (argv.loop) {
+			clearInterval(ctx.bot.activity);
+			ctx.bot.activity = require('../utils/activities')(ctx.bot);
+			return await ctx.channel.send(':ballot_box_with_check: Sebedius\'s activities are `LOOPING`.');
+		}
+		else if (argv.idle) {
+			clearInterval(ctx.bot.activity);
 			await ctx.bot.user.setPresence({
 				status: 'dnd',
 				afk: true,
@@ -37,7 +46,7 @@ module.exports = {
 					type: 'WATCHING',
 				},
 			});
-			return await ctx.channel.send(':ballot_box_with_check: Sebedius is on maintenance.');
+			return await ctx.channel.send(':ballot_box_with_check: Sebedius is `ON MAINTENANCE`.');
 		}
 		argv.type = argv.type.toUpperCase();
 		argv.status = argv.status.toLowerCase();
@@ -51,6 +60,6 @@ module.exports = {
 			.then(console.log)
 			.catch(console.error);
 
-		return await ctx.channel.send(':ballot_box_with_check: New status set.');
+		return await ctx.channel.send(':ballot_box_with_check: New status set with success.');
 	},
 };

@@ -855,6 +855,10 @@ class YZMonsterCombatant extends YZCombatant {
 		super(data);
 	}
 
+	static fromRaw(raw) {
+		return new YZMonsterCombatant(raw);
+	}
+
 	toRaw() {
 		const raw = super.toRaw();
 		raw.type = 'monster';
