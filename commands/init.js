@@ -122,7 +122,7 @@ module.exports = {
 		],
 		[
 			'`move|goto <target>`',
-			'Moves to a certain initiative. `target` can be either a number, to go to that initiative, or a name. If not supplied, goes to the first combatant that the user controls.'
+			'Moves to a certain initiative. `target` can be either a number, to go to that initiative, or a name. If not supplied, goes to the first combatant that the user controls.',
 		],
 		[
 			'`skipround|skip`',
