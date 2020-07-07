@@ -19,7 +19,7 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 - [edit](#init-edit-name-options) – Edits the options of a combatant.
 - [end](#init-end--force) – Ends combat in the channel.
 - [help](#init-help-subcommand) – Gives help for a specific subcommand.
-- [hp](#init-hp-value-name--max) – Modifies the HP of a combatant.
+- [hp](#init-hp-name-value--max) – Modifies the HP of a combatant.
 - [join](#init-join-options) – Adds the current player to combat.
 - [list/summary](#init-listsummary--private) – Lists the combatants.
 - [madd](#init-madd-name--n-quantity-options) – Adds a monster to combat.
@@ -44,7 +44,7 @@ Begins combat in the channel the command is invoked.
 * `-game <game>` – Sets the game. If omitted, use the default set in the server's configuration.
 * `-turnnotif` – Toggles the notification of the controller of the next combatant in initiative.
 
-### `!init add [name] [options...]`
+### `!init add <name> [options...]`
 
 Adds a generic combatant to the initiative order.
 <br />Generic combatants have 3 life, no armor, and speed 1.
@@ -65,7 +65,7 @@ Adds a generic combatant to the initiative order.
 
 Same as above, but you don't need to specify a name. The command will use your displayed name on the server. The command will be used in future updates in combination with character sheets.
 
-### `!init madd [-n <quantity>] [options...]`
+### `!init madd <name> [-n <quantity>] [options...]`
 
 Adds one or more monster combatant(s). Same as `!init add`, but in addition you can specify a number of combatants with the `-n <quantity>` parameter.
 

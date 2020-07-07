@@ -69,7 +69,7 @@ module.exports = {
 			• \`-turnnotif\` – Toggles the notification of the controller of the next combatant in initiative.`,
 		],
 		[
-			'`add [name] [options...]`',
+			'`add <name> [options...]`',
 			`Adds a generic combatant to the initiative order.
 			Generic combatants have 3 life, no armor, and speed 1.
 			If you are adding monsters to combat, you can use \`init madd\` instead.
@@ -99,7 +99,7 @@ module.exports = {
 			• \`-h\` – Hides life, AR and anything else.`,
 		],
 		[
-			'`madd [name] [-n <quantity>] [options...]`',
+			'`madd <name> [-n <quantity>] [options...]`',
 			`Adds one or more monster combatant(s). Same as \`init add\`, but in addition you can specify a number of combatants with the \`-n <quantity>\` parameter.
 			
 			__Options__
