@@ -9,10 +9,10 @@ module.exports = {
 	usage: '[new prefix]',
 	async execute(args, ctx) {
 		if (args.length) {
-			await ctx.bot.commands.get('setconf').execute(['prefix', args[0]], ctx);
+			return await ctx.bot.commands.get('setconf').execute(['prefix', args[0]], ctx);
 		}
 		const msg = `1. ${ctx.bot.mention}\n2. ${ctx.prefix}`;
 		const embed = new YZEmbed('Sebedius Prefixes', msg).setFooter('2 prefixes');
-		return ctx.channel.send(embed);
+		return await ctx.channel.send(embed);
 	},
 };

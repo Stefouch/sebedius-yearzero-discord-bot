@@ -10,7 +10,7 @@ Initiative tracking commands. Inspired from the [D&D Avrae Discord bot](https://
 <br />For more help, the `!init help` command shows applicable arguments for each subcommand.
 
 ```
-![init|i|initiative] <subcommand> <>
+![init|i|initiative] <subcommand>
 ```
 
 - [add](#init-add-name-options) – Adds a generic combatant to the initiative order.
