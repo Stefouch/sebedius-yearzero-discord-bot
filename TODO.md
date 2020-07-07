@@ -1,11 +1,11 @@
 # TODO List
 
-- Support for CHARACTER SHEETS (via Google)! Yeah Baby! It's a thing!
+- Support for CHARACTER SHEETS (via Google)!
 - Init Tracker
-- Bug: d66 and d666 must have their own skin
-- Bug: no dm on uncaught error (bot.js)
-- Bug: setconf not working in DEV
-- Bug: prefix in DM buggy
+  * Can't add a note to a group
+  * Init Tracker Help
+
+- Bug: d66 and d666 should have their own skin
 
 ## MYZ
 - Mutation Misfire
@@ -13,18 +13,16 @@
 - Support for GLA
 - Support for Mechatron
 - Support for Elysium
+- Translations
 
 ## Coriolis
 - Critics
-- Push: What about adding different push emotes for the other cases? :pray: for prayer, and :mosque: for chapel?
 
-## Tales From the Loop
-*Nihil*
+## Vaesen
+- Critics
+- Fear
 
 ## Twilight 2000
 - T2K dice
 - T2K mechanism
 
-## Vaesen
-- Critics
-- Fear

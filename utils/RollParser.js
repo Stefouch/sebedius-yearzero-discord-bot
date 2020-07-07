@@ -29,7 +29,7 @@ class RollParser {
 		rollString.replace(ROLLREGEX, (match, p1, p2, p3) => {
 			roll.count = +p1 || 1;
 			roll.base = +p2 || 0;
-			roll.modifier = (p3) ? eval(p3) : 0;
+			roll.modifier = (p3) ? Number(p3) : 0;
 		});
 		return roll;
 	}

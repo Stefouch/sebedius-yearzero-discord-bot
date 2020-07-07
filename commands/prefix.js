@@ -1,4 +1,4 @@
-const YZEmbed = require('../util/YZEmbed');
+const YZEmbed = require('../utils/embeds');
 
 module.exports = {
 	name: 'prefix',
@@ -6,11 +6,13 @@ module.exports = {
 	description: 'Gets the prefixes for this server.',
 	guildOnly: false,
 	args: false,
-	usage: '',
-	async execute(args, message, client) {
-		const prefix = await client.getServerPrefix(message);
-		const msg = `1. ${client.mention}\n2. ${prefix}`;
+	usage: '[new prefix]',
+	async execute(args, ctx) {
+		if (args.length) {
+			await ctx.bot.commands.get('setconf').execute(['prefix', args[0]], ctx);
+		}
+		const msg = `1. ${ctx.bot.mention}\n2. ${ctx.prefix}`;
 		const embed = new YZEmbed('Sebedius Prefixes', msg).setFooter('2 prefixes');
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

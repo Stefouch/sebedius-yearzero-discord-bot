@@ -1,6 +1,6 @@
-const YZEmbed = require('../util/YZEmbed');
-const Monster = require('../util/MYZMonsterGenerator');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/embeds');
+const Monster = require('../generators/MYZMonsterGenerator');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'monster',
@@ -13,10 +13,10 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[demon]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// ( !demon SHORTCUT )
 		// Exits early and executes !demon if argument "Demon".
-		if (args.includes('demon')) return client.commands.get('demon').execute(args, message, client);
+		if (args.includes('demon')) return ctx.bot.commands.get('demon').execute(args, ctx);
 
 		const monster = new Monster();
 
@@ -90,6 +90,6 @@ module.exports = {
 		}
 
 		// console.log(monster);
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

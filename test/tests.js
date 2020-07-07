@@ -1,4 +1,3 @@
-// const db = require('../database/database');
 // const TestCommand = require('../commands/planet');
 
 module.exports = {

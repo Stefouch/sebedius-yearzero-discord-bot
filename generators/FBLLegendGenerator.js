@@ -1,5 +1,5 @@
 const YZGenerator = require('./YZGenerator');
-const LegendData = require('../data/legend-generator.json');
+const LegendData = require('../gamedata/legend-generator.json');
 
 class FBLLegendGenerator extends YZGenerator {
 	constructor() {

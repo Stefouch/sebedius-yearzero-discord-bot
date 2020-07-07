@@ -117,6 +117,17 @@ class Util {
 	}
 
 	/**
+	 * Gets the closest value.
+	 * @param {number} needle The goal value
+	 * @param {number[]} haystack The array to search
+	 */
+	static closest(needle, haystack) {
+		return haystack.reduce((a, b) => {
+			return Math.abs(b - needle) < Math.abs(a - needle) ? b : a;
+		});
+	}
+
+	/**
 	 * Capitalizes the first letter of a string.
 	 * @param {string} str The string to process
 	 * @returns {string} The processed string
@@ -171,6 +182,70 @@ class Util {
 	}
 
 	/**
+	 * Adds the prefix a or an to a string.
+	 * @param {string} str The string to add a or an
+	 * @param {boolean} upper Wether the prefix should be capitalized or not
+	 * @returns {string}
+	 */
+	static aORan(str, upper = false) {
+		if (str.startsWith('^') || str.endsWith('^')) {
+			if (str.startsWith('^')) str = str.slice(1);
+			if (str.endsWith('^')) str = str.slice(0, -1);
+			return str;
+		}
+		if (/^[AEIOUaeiou].*/.test(str)) {
+			return `${upper ? 'An' : 'an'} ${str}`;
+		}
+		else {
+			return `${upper ? 'A' : 'a'} ${str}`;
+		}
+	}
+
+	/**
+	 * Returns a bubble string to represent a counter's value.
+	 * @param {number} value
+	 * @param {number} max
+	 * @param {boolean} fillFromRight
+	 * @returns {string}
+	 */
+	static bubbleFormat(value, max, fillFromRight = false) {
+		if (max > 100) return `${value}/${max}`;
+		const used = max - value;
+		const filled = '\u25c9'.repeat(value);
+		const empty = '\u3007'.repeat(used);
+		if (fillFromRight) return empty + filled;
+		return filled + empty;
+	}
+
+	/**
+	 * Trims a string to a defined maximum length.
+	 * @param {string} text The text to trim
+	 * @param {number} maxLength The maximum length the string can have
+	 * @returns {string}
+	 */
+	static trimString(text, maxLength) {
+		if (text.length < maxLength) return text;
+		return `${text.slice(0, maxLength - 4)}...`;
+	}
+
+	/**
+	 * Paginates an iterable.
+	 * @param {Array} array An iterable
+	 * @param {number} n The number of items per page
+	 * @returns {Array<Array>}
+	 */
+	static paginate(array, n) {
+		const pages = [];
+		const numPages = Math.ceil(array.length / n);
+		for (let pg = 0; pg < numPages; pg++) {
+			pages.push(
+				array.slice(pg * n, (pg + 1) * n),
+			);
+		}
+		return pages;
+	}
+
+	/**
 	 * Aligns a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container
@@ -179,7 +254,7 @@ class Util {
 	 * * 0.5: Centred
 	 * * 1.0: Right-aligned
 	 * * The default is 0.5 (center-aligned).
-	 * @param {?string} [char=' '] Chracter to pad with. Defaults to space (U+0020)
+	 * @param {?string} [char=' '] Character to pad with. Defaults to space (U+0020)
 	 * @return {string}
 	 */
 	static alignText(input, width, axis, char) {
@@ -332,6 +407,21 @@ class Util {
 	}
 
 	/**
+	 * Hashes a string.
+	 * @param {string} str String to hash
+	 */
+	static hashCode(str) {
+		let hash = 0, i, chr;
+		for (i = 0; i < str.length; i++) {
+			chr = str.charAt(i);
+			hash = ((hash << 5) - hash) + chr;
+			// Converts to 32-bit integer.
+			hash |= 0;
+		}
+		return hash;
+	}
+
+	/**
 	 * Checks if is a number.
 	 * @param {*} x Value to check
 	 * @returns {boolean}
@@ -352,6 +442,37 @@ class Util {
 		if (val === null) return false;
 		if (val instanceof Array) return false;
 		return ((typeof val === 'function') || (typeof val === 'object'));
+	}
+
+	/**
+	 * Compares two arrays if they have the same elements.
+	 * @param {Array} array1 Array #1
+	 * @param {Array} array2 Array #2
+	 * @returns {boolean}
+	 */
+	static equalsArray(array1, array2) {
+		if (!Array.isArray(array1) || !Array.isArray(array2)) return false;
+		if (array1 === array2) return true;
+		if (array1.length !== array2.length) return false;
+		for (const elem of array1) {
+			if (!array2.includes(elem)) return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Search a list for a specific index, or return the default value.
+	 * @param {number} index The index value
+	 * @param {*} list The list to search (an array or an object)
+	 * @param {?*} defaultValue The default value to return if nothing found
+	 * @returns {*}
+	 */
+	static listGet(index, list, defaultValue = null) {
+		let val;
+		try { val = list[index]; }
+		catch (error) { val = defaultValue; }
+		if (val == undefined) val = defaultValue;
+		return val;
 	}
 
 	/**
@@ -458,6 +579,33 @@ class Util {
 			number = Math.floor(number / base);
 		}
 		return +result.reverse().join('');
+	}
+
+	/**
+	 * Returns the positivity of a string.
+	 * @param {string} str The string to test
+	 * @returns {boolean}
+	 */
+	static getBoolean(str) {
+		if (str instanceof Boolean) return str;
+		else if (/(yes|y|true|t|1|enable|on)/i.test(str)) return true;
+		else if (/(no|n|false|f|0|disable|off)/i.test(str)) return false;
+		return null;
+	}
+
+	/**
+	 * Takes an argument, which is a string that may start with + or -, and returns the value.
+	 * If *val* starts with + or -, it returns *base + val*.
+	 * Otherwise, it returns *val*.
+	 * @param {string} val
+	 * @param {?number} [base=0]
+	 * @returns {number}
+	 */
+	static modifOrSet(val, base = 0) {
+		let n = base || 0;
+		if (val.startsWith('+') || val.startsWith('-')) n += Number(val);
+		else n = Number(val);
+		return n;
 	}
 }
 

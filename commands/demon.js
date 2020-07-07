@@ -1,7 +1,7 @@
-const YZEmbed = require('../util/YZEmbed');
-const Demon = require('../util/FBLDemonGenerator');
-const { RollParser } = require('../util/RollParser');
-const Util = require('../util/Util');
+const YZEmbed = require('../utils/embeds');
+const Demon = require('../generators/FBLDemonGenerator');
+const { RollParser } = require('../utils/RollParser');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'demon',
@@ -14,12 +14,12 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const demon = new Demon();
 
 		const embed = new YZEmbed(
 			`${demon.form.toUpperCase()} DEMON`,
-			`${demon.icon}`
+			`${demon.icon}`,
 		);
 
 		// Demon's attributes & Armor Rating.
@@ -29,14 +29,14 @@ module.exports = {
 				+ `\nAgility: **${demon.attributes.agi}**`
 				+ `\nWits: **${demon.attributes.wit}**`
 				+ `\nEmpathy: **${demon.attributes.emp}**`,
-			true
+			true,
 		);
 
 		embed.addField(
 			'Body',
 			`Armor Rating: **${demon.armor}**`
 				+ ((demon.formEffect) ? `\n${demon.formEffect}` : ''),
-			true
+			true,
 		);
 
 		// Demon's skills.
@@ -96,6 +96,6 @@ module.exports = {
 
 		embed.addField('Weaknesses', wkText, false);
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

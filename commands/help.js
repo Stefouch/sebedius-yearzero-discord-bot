@@ -1,7 +1,5 @@
-const { defaultPrefix } = require('../config.json');
-const { version } = require('../util/version');
+const { version } = require('../utils/version');
 const { MessageEmbed } = require('discord.js');
-const db = require('../database/database');
 
 module.exports = {
 	name: 'help',
@@ -11,15 +9,14 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[command name]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Parsing arguments.
 		// See https://www.npmjs.com/package/yargs-parser#api for details.
 		const argv = require('yargs-parser')(args, {
-			configuration: client.config.yargs,
+			configuration: ctx.bot.config.yargs,
 		});
 
-		const { commands } = client;
-		const prefix = await client.getServerPrefix(message);
+		const { commands, config } = ctx.bot;
 
 		// • If no argument, sends a generic help message.
 		if (!argv._.length) {
@@ -31,11 +28,11 @@ module.exports = {
 			embed.addField('🛠 Developper', 'Stefouch#5202', true);
 			embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
 			embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
-			embed.addField('🔗 Invite Link', `https://discordapp.com/api/oauth2/authorize?client_id=${client.config.botID}&scope=bot&permissions=${client.config.perms.bitfield}`, false);
+			embed.addField('🔗 Invite Link', `https://discordapp.com/api/oauth2/authorize?client_id=${config.botID}&scope=bot&permissions=${config.perms.bitfield}`, false);
 			embed.addField('🛠 Feature & Bug Report', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
 			embed.addField('🦾 Patreon', 'https://patreon.com/Stefouch', true);
 			embed.addField('🖥 Website', 'https://www.stefouch.be', true);
-			embed.addField('🗒 List of Commands', `You can send \`${prefix}help [command name]\` to get info on a specific command! See the list of commands below.`, false);
+			embed.addField('🗒 List of Commands', `You can send \`${ctx.prefix}help [command name]\` to get info on a specific command! See the list of commands below.`, false);
 
 			// Hides adminOnly commands.
 			const commandsCollection = commands.filter(cmd => cmd.adminOnly !== true);
@@ -58,17 +55,17 @@ module.exports = {
 			embed.addField('⚠️ Permission Issues?', 'If you\'ve permission issues with the bot, `READ_MESSAGE_HISTORY` might be missing (newly required). Otherwise, check the Readme.', false);
 
 			if (argv.dm === false) {
-				return message.channel.send(embed);
+				return ctx.channel.send(embed);
 			}
 			else {
-				return message.author.send(embed)
+				return ctx.author.send(embed)
 					.then(() => {
-						if (message.channel.type === 'dm') return;
-						message.reply('💬 I\'ve sent you a DM with all my commands!');
+						if (ctx.channel.type === 'dm') return;
+						ctx.reply('💬 I\'ve sent you a DM with all my commands!');
 					})
 					.catch(error => {
-						console.error(`Could not send help DM to ${message.author.tag}.\n`, error);
-						message.reply('❌ It seems like I can\'t DM you! Do you have DMs disabled?');
+						console.error(`Could not send help DM to ${ctx.author.tag}.\n`, error);
+						ctx.reply('❌ It seems like I can\'t DM you! Do you have DMs disabled?');
 					});
 			}
 		}
@@ -77,16 +74,22 @@ module.exports = {
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return message.reply('⚠️ That\'s not a valid command!');
+			return ctx.reply('⚠️ That\'s not a valid command!');
 		}
 
 		const embed = new MessageEmbed({
 			color: 0x1AA29B,
 			title: `**${command.name.toUpperCase()}**`,
 		});
-		if (command.aliases) embed.addField('Aliases', command.aliases.join(', '), true);
-		if (command.usage) embed.addField('Usage', `\`${prefix}${command.name} ${command.usage}\``, true);
-		if (command.description) embed.addField('Description', command.description, false);
+		if (command.aliases) {
+			embed.addField('Aliases', command.aliases.join(', '), true);
+		}
+		if (command.usage) {
+			embed.addField('Usage', `\`${ctx.prefix}${command.name} ${command.usage}\``, true);
+		}
+		if (command.description) {
+			embed.addField('Description', command.description, false);
+		}
 
 		if (command.moreDescriptions) {
 			for(const desc of command.moreDescriptions) {
@@ -94,6 +97,6 @@ module.exports = {
 			}
 		}
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

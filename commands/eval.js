@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'eval',
@@ -8,12 +9,12 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '<expression>',
-	execute(args, message, client) {
+	async execute(args, ctx) {
 		// Exits early if not the bot's owner.
-		if (message.author.id !== client.config.botAdminID) return;
+		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 
 		const code = args.join(' ');
-		code.replace(client.token, '[TOKEN]');
+		code.replace(ctx.bot.token, '[TOKEN]');
 		try {
 			let evaled = eval(code);
 
@@ -24,7 +25,7 @@ module.exports = {
 					.setTitle('Whoops! Too long!')
 					.setColor('#36393e')
 					.addField(`${evaled.length} characters!`, 'That\'s past the charcacter limit! You can find the output in the console.');
-				message.channel.send({ embed: tooLong });
+				ctx.channel.send({ embed: tooLong });
 				console.log(evaled);
 				return;
 			}
@@ -32,11 +33,11 @@ module.exports = {
 				.setTitle('Evaluated successfully')
 				.addField('Input:', `\`\`\`JavaScript\n${code}\`\`\``, true)
 				.addField('Output:', `\`\`\`JavaScript\n${evaled}\`\`\``, true)
-				.setColor(message.author.displayColor)
+				.setColor(ctx.author.displayColor)
 				.setFooter('Sebedius Eval')
 				.setTimestamp();
 
-			message.channel.send({ embed: successfulEval });
+			ctx.channel.send({ embed: successfulEval });
 		}
 		catch(err) {
 			console.error(err);
@@ -49,7 +50,7 @@ module.exports = {
 				.setFooter('Evaluation Error')
 				.setTimestamp();
 
-			message.channel.send({ embed: failedEval });
+			ctx.channel.send({ embed: failedEval });
 		}
 	},
 };

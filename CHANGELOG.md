@@ -4,6 +4,29 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.0] - 2020-07-08
+Initially planned to be v2.1, the large quantity of changes brought along the new Initiative Tracker is simply too much for a **minor** version increment.
+Therefore, this update is a **major** change from v2 to v3 in less than one month.
+
+### Added
+- New feature: **Initiative Tracker** with command `!init`.
+- New administration command: `!setpresence`.
+- Bot's activities loop.
+
+### Changed
+- Renamed the old `!init` command into `!drawinit`.
+- Added new arguments and functionalities to `!drawinit`.
+- Large code rewritting:
+  - Resorted the whole files/folders architecture.
+  - Reworked the access to databases.
+  - Use of a custom Discord.Client class.
+  - Use of Discord.Message with extra context.
+
+### Fixed
+- "st" shortcut not working for FBL's stab critical table.
+- `!br` now properly deletes the invoke message.
+- A potential security breach with the roll parsing function.
+
 ## [2.0.0] - 2020-06-22
 ### Added
 - Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.

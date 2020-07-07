@@ -7,8 +7,8 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
-	execute(args, message, client) {
+	execute(args, ctx) {
 		args.unshift('vaesen');
-		client.commands.get('roll').execute(args, message, client);
+		ctx.bot.commands.get('roll').execute(args, ctx);
 	},
 };

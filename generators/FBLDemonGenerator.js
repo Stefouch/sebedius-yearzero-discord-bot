@@ -1,7 +1,7 @@
 const YZGenerator = require('./YZGenerator');
-const DemonData = require('../data/demon-generator.json');
-const { RollParser } = require('./RollParser');
-const Util = require('./Util');
+const DemonData = require('../gamedata/demon-generator.json');
+const { RollParser } = require('../utils/RollParser');
+const Util = require('../utils/Util');
 
 class FBLDemonGenerator extends YZGenerator {
 	constructor() {

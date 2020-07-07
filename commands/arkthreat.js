@@ -1,6 +1,6 @@
-const ArkThreats = require('../data/ark-threats.list.json');
-const YZEmbed = require('../util/YZEmbed');
-const { random } = require('../util/Util');
+const ArkThreats = require('../gamedata/ark-threats.list.json');
+const YZEmbed = require('../utils/embeds');
+const { random } = require('../utils/Util');
 
 module.exports = {
 	name: 'arkthreat',
@@ -10,8 +10,8 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const embed = new YZEmbed('Threat Against the Ark', random(ArkThreats));
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

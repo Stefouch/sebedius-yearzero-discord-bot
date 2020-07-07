@@ -1,5 +1,5 @@
-const YZEmbed = require('../util/YZEmbed');
-const Planet = require('../util/ALIENWorldGenerator');
+const YZEmbed = require('../utils/embeds');
+const Planet = require('../generators/ALIENWorldGenerator');
 
 module.exports = {
 	name: 'colony',
@@ -9,7 +9,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const o = new Planet('rocky', true, 1);
 		const embed = new YZEmbed(o.title, o.description);
 
@@ -49,6 +49,6 @@ module.exports = {
 			embed.addField('Event', colo.hook, false);
 		}
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

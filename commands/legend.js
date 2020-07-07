@@ -1,5 +1,5 @@
-const YZEmbed = require('../util/YZEmbed');
-const Legend = require('../util/FBLLegendGenerator');
+const YZEmbed = require('../utils/embeds');
+const Legend = require('../generators/FBLLegendGenerator');
 
 module.exports = {
 	name: 'legend',
@@ -10,11 +10,11 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		const legend = new Legend();
 
 		const embed = new YZEmbed('Legend', legend.story);
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

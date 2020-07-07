@@ -1,9 +1,10 @@
-const Config = require('../config.json');
-const YZRoll = require('../util/YZRoll');
-const YZEmbed = require('../util/YZEmbed');
-const { RollParser } = require('../util/RollParser');
-const ReactionMenu = require('../util/ReactionMenu');
 const Sebedius = require('../Sebedius');
+const YZRoll = require('../yearzero/YZRoll');
+const YZEmbed = require('../utils/embeds');
+const { RollParser } = require('../utils/RollParser');
+const ReactionMenu = require('../utils/ReactionMenu');
+const { SUPPORTED_GAMES } = require('../utils/constants');
+const Config = require('../config.json');
 
 module.exports = {
 	name: 'roll',
@@ -14,7 +15,7 @@ module.exports = {
 			'Select [game]',
 			'This argument is used to specify the skin of the rolled dice.'
 			+ ' Can be omitted if you set it with `!setconf game [default game]`'
-			+ `\n Choices: \`${Config.supportedGames.join('`, `')}\`.`,
+			+ `\n Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`,
 		],
 		[
 			'Rolling Simple Dice',
@@ -65,7 +66,7 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '[game] <dice> [arguments]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
 		const rollargv = require('yargs-parser')(args, {
 			alias: {
@@ -79,13 +80,13 @@ module.exports = {
 			boolean: ['fullauto', 'initiative'],
 			number: ['push'],
 			array: ['name'],
-			configuration: client.config.yargs,
+			configuration: ctx.bot.config.yargs,
 		});
 
 		// Sets the game. Must be done first.
 		let game;
-		if (client.config.supportedGames.includes(rollargv._[0])) game = rollargv._.shift();
-		else game = await client.getGame(message);
+		if (SUPPORTED_GAMES.includes(rollargv._[0])) game = rollargv._.shift();
+		else game = await ctx.bot.getGame(ctx);
 
 		// Year Zero dice quantities for the roll.
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
@@ -100,7 +101,7 @@ module.exports = {
 			game = 'generic';
 			const skill = (rollargv._[0].match(/6/g) || []).length;
 
-			roll = new YZRoll(message.author, { skill }, rollargv._[0].toUpperCase());
+			roll = new YZRoll(ctx.author, { skill }, rollargv._[0].toUpperCase());
 			// roll.maxPushes = 0; // already set later. Use this options if you want to change "game = generic" above.
 		}
 		// If not, checks if the first argument is a YZ roll phrase.
@@ -126,35 +127,34 @@ module.exports = {
 							const diceQty = Number(couple[0]) || 1;
 							const dieTypeChar = couple[1].toLowerCase();
 
-							//console.log(`arg: ${arg}\ndiceCouples: ${diceCouples}\ndieCouple: ${dieCouple}\ncouple: ${couple}`);
-
 							// For the chosen letter, we assign a die type.
 							let type;
 							switch (dieTypeChar) {
-								case 'b': type = 'base'; break;
-								case 'd':
-									if (game === 'alien') type = 'base';
-									else type = 'skill';
-									break;
-								case 's': type = 'skill'; break;
-								case 'g': type = 'gear'; break;
-								case 'n': type = 'neg'; break;
-								case 'a': artifactDice.push(diceQty); break;
+							case 'b': type = 'base'; break;
+							case 'd':
+								if (game === 'alien') type = 'base';
+								else type = 'skill';
+								break;
+							case 's': type = 'skill'; break;
+							case 'g': type = 'gear'; break;
+							case 'n': type = 'neg'; break;
+							case 'a': artifactDice.push(diceQty); break;
 							}
 
 							if (type) {
 								// First, checks if there are some type swap (see config roll aliases).
-								const diceOptions = client.config.commands.roll.options[game].alias;
+								const diceOptions = ctx.bot.config.commands.roll.options[game].alias;
 								if (diceOptions) {
 									if (diceOptions.hasOwnProperty(type)) type = diceOptions[type];
 								}
 
+								// Then adds the dice.
 								switch (type) {
-									case 'base': baseDiceQty += diceQty; break;
-									case 'skill': skillDiceQty += diceQty; break;
-									case 'gear': gearDiceQty += diceQty; break;
-									case 'neg': negDiceQty += diceQty; break;
-									case 'stress': stressDiceQty += diceQty; break;
+								case 'base': baseDiceQty += diceQty; break;
+								case 'skill': skillDiceQty += diceQty; break;
+								case 'gear': gearDiceQty += diceQty; break;
+								case 'neg': negDiceQty += diceQty; break;
+								case 'stress': stressDiceQty += diceQty; break;
 								}
 							}
 						}
@@ -170,7 +170,7 @@ module.exports = {
 			if (rollargv.name) rollTitle = `${rollargv.name.join(' ')}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
 
 			roll = new YZRoll(
-				message.author,
+				ctx.author,
 				{
 					base: baseDiceQty,
 					skill: skillDiceQty,
@@ -185,7 +185,7 @@ module.exports = {
 		// Checks for init roll.
 		else if (/initiative|init/i.test(rollargv._[0])) {
 			game = 'generic';
-			roll = new YZRoll(message.author, { skill: 1 }, 'Initiative');
+			roll = new YZRoll(ctx.author, { skill: 1 }, 'Initiative');
 		}
 		// Checks for generic rolls.
 		else if (RollParser.ROLLREGEX.test(rollargv._[0]) && !/^\d{1,2}d$/i.test(rollargv._[0])) {
@@ -193,13 +193,13 @@ module.exports = {
 			const genRoll = RollParser.parse(rollargv._[0]);
 			const genRollResults = genRoll.roll(true);
 
-			roll = new YZRoll(message.author, { skill: 0 }, rollargv._[0].toUpperCase());
+			roll = new YZRoll(ctx.author, { skill: 0 }, rollargv._[0].toUpperCase());
 			roll.dice.skill = genRollResults;
 			if (genRoll.modifier) roll.dice.neg.push(genRoll.modifier);
 		}
 		// Exits if no check.
 		else {
-			return message.reply('ℹ️ I don\'t understand this syntax. Type `help roll` for details on the proper usage.');
+			return ctx.reply('ℹ️ I don\'t understand this syntax. Type `help roll` for details on the proper usage.');
 		}
 
 		// Sets the game.
@@ -221,49 +221,46 @@ module.exports = {
 
 		// Log and Roll.
 		console.log('[ROLL] - Rolled:', roll.toString());
-		messageRollResult(roll, message, client);
-	},
-	emojifyRoll(roll, options, icons) {
-		return getDiceEmojis(roll, options, icons);
+		messageRollResult(roll, ctx);
 	},
 };
 
 /**
  * Sends a message with the roll result.
  * @param {YZRoll} roll The Roll
- * @param {Discord.Message} triggeringMessage The Triggering Message
+ * @param {Discord.Message} ctx The Triggering Message with context
  * @param {Discord.Client} client The Client (the bot)
  * @async
  */
-async function messageRollResult(roll, triggeringMessage, client) {
+async function messageRollResult(roll, ctx) {
 	// Aborts if the bot doesn't have the needed permissions.
-	if (!Sebedius.checkPermissions(triggeringMessage, client)) return;
+	if (!Sebedius.checkPermissions(ctx)) return;
 
 	// Aborts if too many dice.
-	if (roll.size > client.config.commands.roll.max) {
-		return triggeringMessage.reply('⚠️ Cant\'t roll that, too many dice!');
+	if (roll.size > ctx.bot.config.commands.roll.max) {
+		return ctx.reply('⚠️ Cant\'t roll that, too many dice!');
 	}
 
 	// Aborts if no dice.
 	if (roll.size < 1) {
-		return triggeringMessage.reply('❌ Can\'t roll a null number of dice!');
+		return ctx.reply('❌ Can\'t roll a null number of dice!');
 	}
 
 	// OPTIONS
 	// Important for all below.
-	const userId = triggeringMessage.author.id;
-	const pushIcon = client.config.commands.roll.pushIcon;
-	const gameOptions = client.config.commands.roll.options[roll.game];
+	const userId = ctx.author.id;
+	const pushIcon = ctx.bot.config.commands.roll.pushIcon;
+	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	// Sends the message.
-	triggeringMessage.channel.send(
-		getDiceEmojis(roll, gameOptions, client.config.icons),
-		getEmbedDiceResults(roll, triggeringMessage, gameOptions),
+	ctx.channel.send(
+		Sebedius.emojifyRoll(roll, gameOptions),
+		getEmbedDiceResults(roll, ctx, gameOptions),
 	)
 		.then(rollMessage => {
 			// Detects PANIC.
 			if (gameOptions.panic && roll.panic) {
-				return client.commands.get('panic').execute([roll.stress], triggeringMessage, client);
+				return ctx.bot.commands.get('panic').execute([roll.stress], ctx);
 			}
 			if (roll.pushable) {
 				// Creates an array of objects containing the required information
@@ -272,7 +269,7 @@ async function messageRollResult(roll, triggeringMessage, client) {
 					{
 						icon: pushIcon,
 						owner: userId,
-						fn: collector => messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gameOptions),
+						fn: collector => messagePushEdit(collector, ctx, rollMessage, roll, gameOptions),
 					},
 				];
 				// Adds extra reactions from the config options.
@@ -284,7 +281,7 @@ async function messageRollResult(roll, triggeringMessage, client) {
 							fn: collector => {
 								const gopts = Object.assign({}, gameOptions);
 								gopts.extraPushDice = reac.extraPushDice;
-								messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gopts);
+								messagePushEdit(collector, ctx, rollMessage, roll, gopts);
 							},
 						});
 					}
@@ -296,8 +293,8 @@ async function messageRollResult(roll, triggeringMessage, client) {
 					fn: collector => collector.stop(),
 				});
 				// Starts the Reaction Menu.
-				const cooldown = client.config.commands.roll.pushCooldown;
-				const rm = new ReactionMenu(rollMessage, client, cooldown, reactions);
+				const cooldown = ctx.bot.config.commands.roll.pushCooldown;
+				const rm = new ReactionMenu(rollMessage, ctx.bot, cooldown, reactions);
 			}
 		})
 		.catch(console.error);
@@ -306,13 +303,12 @@ async function messageRollResult(roll, triggeringMessage, client) {
 /**
  * Edits the message when the roll is pushed.
  * @param {Discord.ReactionCollector} collector Discord Reaction Collector
- * @param {Discord.Message} triggeringMessage	The triggering message
+ * @param {Discord.Message} ctx The triggering message with context
  * @param {Discord.Message} rollMessage The roll message
- * @param {Discord.Client} client The Discord client (the bot)
  * @param {YZRoll} roll The roll object
  * @param {Object} gameOptions client.config.commands.roll.[game]
  */
-function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll, gameOptions) {
+function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 	// Pushes the roll.
 	const pushedRoll = roll.push();
 
@@ -331,75 +327,26 @@ function messagePushEdit(collector, triggeringMessage, rollMessage, client, roll
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
 		rollMessage.edit(
-			getDiceEmojis(pushedRoll, gameOptions, client.config.icons),
-			getEmbedDiceResults(pushedRoll, triggeringMessage, gameOptions),
+			Sebedius.emojifyRoll(pushedRoll, gameOptions),
+			getEmbedDiceResults(pushedRoll, ctx, gameOptions),
 		)
 			.catch(console.error);
 	}
 	// Detects PANIC.
 	if (gameOptions.panic && pushedRoll.panic) {
 		collector.stop();
-		return client.commands.get('panic').execute([pushedRoll.stress], triggeringMessage, client);
+		return ctx.bot.commands.get('panic').execute([pushedRoll.stress], ctx);
 	}
-}
-
-/**
- * Returns a text with all the dice turned into emojis.
- * @param {YZRoll} roll The roll
- * @param {Object} opts Options of the roll command
- * @param {Object} icons See Config.icons
- * @returns {string} The manufactured text
- */
-function getDiceEmojis(roll, opts, icons) {
-	const game = opts.iconTemplate || roll.game;
-	let str = '';
-
-	for (const type in roll.dice) {
-		const iconType = type;
-		const nbre = roll.dice[type].length;
-
-		// Skipping types.
-		if (opts.alias) {
-			if (opts.alias[type] === '--') continue;
-		}
-
-		if (nbre) {
-			str += '\n';
-
-			for (let k = 0; k < nbre; k++) {
-				const val = roll.dice[type][k];
-				const icon = icons[game][iconType][val] || ` {**${val}**} `;
-				str += icon;
-
-				// This is calculated to make a space between pushed and not pushed rolls.
-				if (roll.pushed) {
-					const keep = roll.keeped[type];
-
-					if (k === keep - 1) {
-						str += '\t';
-					}
-				}
-			}
-		}
-	}
-
-	if (roll.artifactDice.length) {
-		for (const artifactDie of roll.artifactDice) {
-			str += Config.icons.fbl.arto[artifactDie.result];
-		}
-	}
-
-	return str;
 }
 
 /**
  * Gets an Embed with the dice results and the author's name.
  * @param {YZRoll} roll The 'Roll' Object
- * @param {Discord.Message} message The triggering message
+ * @param {Discord.Message} ctx The triggering message with context
  * @param {Object} opts Options of the roll command
  * @returns {Discord.MessageEmbed} A Discord Embed Object
  */
-function getEmbedDiceResults(roll, message, opts) {
+function getEmbedDiceResults(roll, ctx, opts) {
 
 	const s = roll.sixes;
 
@@ -428,7 +375,7 @@ function getEmbedDiceResults(roll, message, opts) {
 		}
 	}
 
-	const embed = new YZEmbed(roll.title, desc, message, true);
+	const embed = new YZEmbed(roll.title, desc, ctx, true);
 
 	if (opts.detailed) {
 		let results = '';

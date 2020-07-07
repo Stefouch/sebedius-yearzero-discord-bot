@@ -1,6 +1,6 @@
-const Muts = require('../data/mutations.list.json');
-const YZEmbed = require('../util/YZEmbed');
-const Util = require('../util/Util');
+const Muts = require('../gamedata/mutations.list.json');
+const YZEmbed = require('../utils/embeds');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'mutation',
@@ -15,7 +15,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[all | gla zc2 zc5 psi]',
-	async execute(args, message, client) {
+	async execute(args, ctx) {
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Muts) legalBooks.push(book);
@@ -40,6 +40,6 @@ module.exports = {
 		const mutation = Util.random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
 
-		return message.channel.send(embed);
+		return ctx.channel.send(embed);
 	},
 };

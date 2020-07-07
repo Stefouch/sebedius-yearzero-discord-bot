@@ -2,7 +2,7 @@
 
 [![Discord Bots](https://discordbots.org/api/widget/status/543445246143365130.svg)](https://discordbots.org/bot/543445246143365130)
 
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the Year Zero roleplaying games by *Free League Publishing (Fria Ligan)*.
+**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by *Free League Publishing (Fria Ligan)*.
 
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
@@ -20,7 +20,7 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 # Available Commands
 
-Commands are triggered with the prefix `!`. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
+Commands are triggered with the prefix `!` or by mentioning the bot. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
 
 ### Vocabulary
 
@@ -29,15 +29,19 @@ Below you'll find a list of available commands. The instructions use the followi
 * Chevrons `<...>` mean that the argument is mandatory for the command to work.
 * Brackets `[...]` mean that the argument is facultative.
 * Vertical bar `|` means "OR". *E.g. `d6|d66` means you can type either d6 or d66 for the command.*
+* Spaces ` ` are used to separate arguments.
 
 ### Generic commands
 
 * `help [command name] [--no-dm]` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
-* `initiative [quantity] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server. Use the parameter `shuffle` to reset it. *(Which is probably needed at the beginning of every new encounter.)*
 * `ping` – Checks the bot's latency.
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.
-* `prefix` – Gets the prefixes for the current server.
+* `prefix [new prefix]` – Gets the prefixes for the current server. If a new prefix is specified as an argument, the server's prefix is changed into the new one.
+* `drawinit <speed> [-haste <value>] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
+  * `<speed>` – Number of initiative cards to draw. Default: 1.
+  * `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+  * `[-shuffle]` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`
 
 ### **ROLL** command
 
@@ -91,6 +95,11 @@ crit [game] [table] [numeric]
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `[table]` – Specifies the table you want from this game *(default is "damage")*.
 * `[numeric]` – Specifies a fixed reference.
+
+### **INIT** command
+
+Tracks the initiative of combatants. Read the detailed help here:
+<br />https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/InitTracker-README.md
 
 ### **MYZ** specific commands
 
@@ -150,8 +159,8 @@ crit [game] [table] [numeric]
 
 Only a member with administrator rights can use these commands:
 
-* `setconf prefix [value]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
-* `setconf game [name]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
+* `setconf prefix [new prefix]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
+* `setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
 * `setconf lang [language code]` – Changes the default language (for translations). There are no options currently (it's implemented for future updates).
 
 ## Examples
@@ -258,7 +267,7 @@ npm install
 
 Create a `.env` file with the following parameter:
 ```
-TOKEN="YourBotTokenAlphaNumericChain"
+TOKEN="YourBotTokenAlphanumericChain"
 ```
 
 Start the bot with the command:
@@ -280,8 +289,9 @@ Hit me up if you've any question!
 
 I'd like to thank Jeremy Mettler, Joe Guilmette, Matt Kay and all my other patrons and generous donators who are supporting this project and made it possible!
 
-You too you can also support this project.<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
+You too you can support this project.
+<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
 
-You may find [paypal.me/Stefouch](https://www.paypal.me/stefouch) useful for a one-time donation.
+Paypal: [paypal.me/Stefouch](https://www.paypal.me/stefouch)
 
 =]¦¦¦¬ 
