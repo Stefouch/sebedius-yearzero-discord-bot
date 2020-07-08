@@ -1,0 +1,18 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-13;Genomborrat öra;false;0;0;;Ingen Effekt.;0
+14-16;Spetsad fot;false;0;0;;SPRINGA blir lång handling.;1
+21-23;Genomborrad hand;false;0;0;;Tvåhandsvapen kan inte användas.;1
+24-26;Spetsad kind;false;0;0;;–1 på MANIPULERA;1
+31-33;Genomborrat lår;false;0;0;;SPRINGA blir lång handling.;2
+34;Avskuren hälsena;false;0;0;;SPRINGA blir lång handling.;3
+35-41;Genomborrad axel;false;0;0;;Tvåhandsvapen kan inte användas.;2
+42-43;Sargat öga;false;0;0;;–2 på SKJUTA, SPEJA;2
+44-45;Sargat skrev;false;0;0;;1 poäng skada vid varje slag för STYRKEPROV och RÖRLIGHET;2
+46-51;Punkterad lunga;true;0;1;Dagar;–2 på UTHÅLLIGHET och RÖRLIGHET;1
+52-54;Blödande buk;true;0;1;Timmar;1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP;1
+55-56;Perforerad tarm;true;0;1;Timmar;Sjukdom med Smittvärde 6.;2
+61;Avskuren armpulsåde;true;-1;1;Minuter;Tvåhandsvapen kan inte användas.;1
+62;Avskuren benpulsåder;true;-1;1;Minuter;SPRINGA blir lång handling.;1
+63;Genomborrad hals;true;-1;1;Rundor;–2 på UTHÅLLIGHET;2
+64;Spetsad skalle;true;0;0;;Du dör på fläcken.;0
+65-66;Genomborrat hjärta;true;0;0;;Ditt hjärta slår sitt sista slag.;0

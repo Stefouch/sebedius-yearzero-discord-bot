@@ -1,0 +1,20 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-12;Blödande panna;false;0;0;;Ingen Effekt;0
+13-14;Kapad näsa;false;0;0;;–1 på MANIPULERA;1
+15-16;Kapat finger;false;0;0;;Tvåhandsvapen kan inte användas.;1
+21-22;Kapad tå;false;0;0;;SPRINGA blir lång handling.;1
+23-24;Blödande lår;false;0;0;;SPRINGA blir lång handling.;1
+25-26;Uppskuren mun;false;0;0;;–2 på MANIPULERA.;1
+31-32;Avskuren hälsena;false;0;0;;SPRINGA blir lång handling.;2
+33-34;Sargad axel;false;0;0;;Tvåhandsvapen kan inte användas.;2
+35-36;Kapat öra;false;0;0;;–1 på SPEJA.;1
+41-42;Sargat öga;false;0;0;;–2 på SKJUTA, SPEJA.;2
+43-44;Punkterad lunga;true;0;1;Dagar;–2 på UTHÅLLIGHET och RÖRLIGHET.;1
+45-46;Kapad fot;true;0;1;Dagar;SPRINGA blir lång handling.;-1
+51-52;Blödande buk;true;0;1;Timmar;1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP.;1
+53-54;Perforerad tarm;true;0;1;Timmar;Sjukdom med Smittvärde 6.;2
+55-56;Kapad arm;true;-1;1;Timmar;Tvåhandsvapen kan inte användas.;-1
+61-62;Kapat ben;true;-1;1;Timmar;SPRINGA blir lång handling.;-1
+63-64;Uppskuren hals;true;-1;1;Rundor;–2 på UTHÅLLIGHET.;1
+65;Kluven skalle;true;0;0;;Du dör på fläcken.;0
+66;Avhugget huvud;true;0;0;;Ditt huvud lämnar din kropp.;0

@@ -1,0 +1,18 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-16;Skakningar;false;0;0;;Avdrag –1 på alla slag för SMI.;1
+21;Vitt hår;false;0;0;;Du blir vithårig;-1
+22-24;Förskrämd;false;0;0;;Avdrag –1 på alla slag för INT.;1
+25-31;Vresig;false;0;0;;Avdrag –1 på alla slag för KAR.;1
+32-35;Mardrömmar;false;0;0;;Slå för GENOMSKÅDA varje kvartsdygn du SOVER. Misslyckande innebär att sömnen inte räknas;1
+36-41;Ljusskygg;false;0;0;;Du kan bara SOVA under dygnets ljusa timmar.;2
+42-43;Fobi;false;0;0;;Du blir skräckslagen av något som relaterar till det som gjorde dig bruten. SL avgör vad det är. Du tar 1 poäng i skada på INT varje runda inom NÄRA avstånd av föremålet för fobin.;2
+44-45;Suput;false;0;0;;Du måste dricka vin eller mjöd varje dygn, annars tar du 1 poäng skada på SMI.;3
+46-51;Klaustrofob;false;0;0;;Varje kvartstimme i trånga utrymmen tar du 1 poäng skada på INT.;2
+52;Mytomani;false;0;0;;Du kan inte låta bli att ljuga. Effekten rollspelas.;2
+53-54;Förföljelsemani;false;0;0;;Du är säker på att någon är ute efter dig. Effekten rollspelas.;2
+55;Vanföreställninga;false;0;0;;Du är totalt övertygad om ett faktum som är totalt osant, exempelvis att ett släkte inte finns.;3
+56;Hallucinationer;false;0;0;;Slå för GENOMSKÅDA varje kvartsdygn. Vid misslyckande drabbas du av en stark hallucination. SL avgör detaljerna.;3
+61-62;Personlighetsförändring;false;0;0;;Din personlighet förändras i grunden. Avgör hur tillsammans med SL. Effekten rollspelas.;-1
+63;Minnesförlust;false;0;0;;Du förlorar allt minne, och vet varken vem du själv eller de andra äventyrarna är. Effekten rollspelas.;1
+64-65;Katatonisk;false;0;0;;Du stirrar tomt in i evigheten och är helt okontaktbar;1
+66;Hjärtattack;true;0;0;;Ditt hjärta stannar, och du dör av skräck.;0
