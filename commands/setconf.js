@@ -52,7 +52,8 @@ module.exports = {
 				else if (key === 'lang' && SUPPORTED_LANGS.includes(newVal)) {
 					ctx.bot.langs.set(guildID, newVal);
 					await ctx.bot.kdb.langs.set(guildID, newVal);
-					ctx.channel.send(`✅ The default language has been set to **${SUPPORTED_LANGS_NAMES[newVal]}**`);
+					const langIndex = SUPPORTED_LANGS.indexOf(newVal);
+					ctx.channel.send(`✅ The default language has been set to **${SUPPORTED_LANGS_NAMES[langIndex]}**`);
 				}
 				else {
 					ctx.reply(`❌ The value you typed for **${key}** is unsupported.`);
