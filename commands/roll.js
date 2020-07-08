@@ -14,7 +14,7 @@ module.exports = {
 		[
 			'Select [game]',
 			'This argument is used to specify the skin of the rolled dice.'
-			+ ' Can be omitted if you set it with `!setconf game [default game]`'
+			+ ' Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands'
 			+ `\n Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`,
 		],
 		[
@@ -221,7 +221,7 @@ module.exports = {
 
 		// Log and Roll.
 		console.log('[ROLL] - Rolled:', roll.toString());
-		messageRollResult(roll, ctx);
+		await messageRollResult(roll, ctx);
 	},
 };
 
@@ -253,7 +253,7 @@ async function messageRollResult(roll, ctx) {
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	// Sends the message.
-	ctx.channel.send(
+	await ctx.channel.send(
 		Sebedius.emojifyRoll(roll, gameOptions),
 		getEmbedDiceResults(roll, ctx, gameOptions),
 	)
