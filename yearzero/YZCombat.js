@@ -268,24 +268,36 @@ class YZCombat {
 	 * Applies damage to a combatant and performs an Armor roll.
 	 * @param {YZCombatant} combatant The target to damage
 	 * @param {number} damage The quantity of damage
+	 * @param {?string} game The game used for the armor dice skin
 	 * @param {?boolean} [degradeArmor=false] Wether the armor should be degraded by rolled banes
 	 * @param {?number} [armorMod=0] Armor modifier (after factor)
 	 * @param {?number} [armorFactor=1] Armor multiplicator (use 0.5 for armor piercing)
 	 * @returns {YZRoll} The armor roll
 	 */
-	damageCombatant(combatant, damage, degradeArmor = false, armorMod = 0, armorFactor = 1) {
-		const bot = this.message.guild.me.client;
+	damageCombatant(combatant, damage, game = null, degradeArmor = false, armorMod = 0, armorFactor = 1) {
+		const bot = this.message.member.client;
 		const controller = bot.users.cache.get(combatant.controller);
 
 		// Calculates the armor value.
 		const armor = Math.ceil(combatant.armor * armorFactor) + armorMod;
 
+		// First, checks if there are some dice type swap (see config roll aliases).
+		let type = 'gear';
+		if (game) {
+			const diceOptions = bot.config.commands.roll.options[game].alias;
+			if (diceOptions) {
+				if (diceOptions.hasOwnProperty(type)) type = diceOptions[type];
+			}
+		}
+
 		// Rolls the dice.
 		const armorRoll = new YZRoll(
 			controller,
-			{ gear: armor },
+			{ [type]: armor },
 			`${combatant.name}: Armor Roll`,
 		);
+		armorRoll.setGame(game);
+
 		// Damaging the combatant.
 		damage -= armorRoll.sixes;
 		if (damage > 0) combatant.hp = Math.max(combatant.hp - damage, 0);
