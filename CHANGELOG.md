@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.1] - 2020-07-08
+### Changed
+- Bot activities.
+
+### Fixed
+- A bug causing all Alien RPG dice to be turned into stress dice.
+- A bug with the `!setconf lang` subcommand.
+- `!init hp` subcommand not warning the user about errors.
+- Missing Alien's `!planet` command entry in the readme.
+- Use of an offline database in developper mode.
+
 ## [3.0.0] - 2020-07-08
 Initially planned to be v2.1, the large quantity of changes brought along the new Initiative Tracker is simply too much for a **minor** version increment.
 Therefore, this update is a **major** change from v2 to v3 in less than one month.

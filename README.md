@@ -51,7 +51,7 @@ Rolls dice for the Year Zero roleplaying games.
 roll [game] <dice> [arguments]
 ```
 
-* `[game]` is used to specify the skin of the rolled dice. Can be omitted if you set it with `!setconf game [default game]`.
+* `[game]` is used to specify the skin of the rolled dice. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `<dice>`
   * **Simple Rolls**
@@ -101,7 +101,11 @@ crit [game] [table] [numeric]
 Tracks the initiative of combatants. Read the detailed help here:
 <br />https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/InitTracker-README.md
 
-### **MYZ** specific commands
+```
+init <subcommand>
+```
+
+### **Mutant Year Zero** commands
 
 * `rollmutant|rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
 * `critmutant|critm` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
@@ -117,7 +121,7 @@ Tracks the initiative of combatants. Read the detailed help here:
 * `arkthreat` – Draws a random threat against the Ark (no details).
 * `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 
-### **Forbidden Lands** specific commands
+### **Forbidden Lands** commands
 
 * `rollfbl|rf` – Shortcut for rolling dice. See the **Roll** command above for more details.
 * `critfbl|critf` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
@@ -130,7 +134,7 @@ Tracks the initiative of combatants. Read the detailed help here:
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 
-### **ALIEN** specific commands
+### **ALIEN** commands
 
 * `rollalien|ra` – Shortcut for rolling dice. See the **Roll** command above for more details.
 * `critalien|crita` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
@@ -138,10 +142,11 @@ Tracks the initiative of combatants. Read the detailed help here:
   * `synthetic|synth|s` – Critical injuries on Synthetics and Androids
   * `xeno|x` – Critical injuries for Xenomorphs
   * `mental|m` – Permanent mental traumas
-* `panic <stress> [-f <number>]` – Rolls a random panic effect for the *ALIEN* roleplaying game. Use the `-f` parameter for a fixed value. 
-* `star` – Generates a random star sector for the *ALIEN* rpg.
-* `colony` – Generates a random colonized planet for the *ALIEN* rpg.
-* `job <cargo | mil | expe>` – Generates a random job for the *ALIEN* rpg.
+* `panic <stress> [-f <number>]` – Rolls a random panic effect. Use the `-f` parameter for a fixed value. 
+* `planet` – Generates a random planet.
+* `colony` – Generates a random colonized planet.
+* `star` – Generates a random star sector.
+* `job <cargo | mil | expe>` – Generates a random job.
 
 ### **Tales From The Loop** commands
 

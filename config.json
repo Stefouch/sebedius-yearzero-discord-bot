@@ -2,7 +2,6 @@
 	"botID": "543445246143365130",
 	"betaBotID": "549319447240769542",
 	"ownerID": "405389936783523840",
-	"db": "sqlite://database.sqlite",
 	"defaultPrefix": "!",
 	"perms": { "bitfield": 355392 },
 	"bannedServers": [],
