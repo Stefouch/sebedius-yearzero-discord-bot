@@ -217,7 +217,7 @@ module.exports = {
 			case 'note': await note(args, ctx); break;
 			case 'edit': await edit(args, ctx); break;
 			case 'status': await status(args, ctx); break;
-			case 'hp': case 'health': case 'life': setHp(args, ctx); break;
+			case 'hp': case 'health': case 'life': await setHp(args, ctx); break;
 			case 'attack': case 'atk': await attack(args, ctx); break;
 			case 'remove': await remove(args, ctx); break;
 			case 'end': await end(args, ctx); break;
@@ -1100,8 +1100,8 @@ async function attack(args, ctx) {
 	await ctx.channel.send(`:crossed_swords: Attacking **${combatant.name}** with **${damage}** damage.`);
 
 	// Rolls the armor.
-	const armorRoll = combat.damageCombatant(combatant, damage, degradeArmor, armorMod, armorFactor);
-	armorRoll.setGame(game);
+	const armorRoll = combat.damageCombatant(combatant, damage, game, degradeArmor, armorMod, armorFactor);
+	//armorRoll.setGame(game);
 
 	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
 	const armorDamage = (degradeArmor && finalDamage > 0) ? armorRoll.banes : 0;
@@ -1119,7 +1119,7 @@ async function attack(args, ctx) {
 	else {
 		const dice = Sebedius.emojifyRoll(armorRoll, ctx.bot.config.commands.roll.options[game]);
 		const embed = new MessageEmbed()
-			.setTitle(`Attack on ${combatant.name}`)
+			.setTitle('Damage & Armor Roll')
 			.setDescription(
 				`:boom: Damage inflicted: **${finalDamage}**
 				:shield: Damage absorbed: **${damage - finalDamage}**
