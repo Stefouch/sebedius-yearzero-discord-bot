@@ -28,19 +28,20 @@ const OTHER_ACTIVITIES = [
 	{ name: 'Project E.D.E.N.', type: 'WATCHING' },
 	{ name: 'Mutant: Undergångens', type: 'PLAYING' },
 	{ name: 'Balladen om den vilsne vandraren', type: 'LISTENING' },
-	{ name: '🐗 Road To Eden', type: 'PLAYING' },
+	{ name: 'Mutant Year Zero: Road To Eden', type: 'PLAYING' },
 	{ name: '📺 Alien³', type: 'WATCHING' },
-];
-
-const SPECIAL_ACTIVITIES = [
 	{ name: 'and building better worlds', type: 'PLAYING' },
 	{ name: 'as a lurking Xenomorph', type: 'PLAYING' },
 	{ name: 'with Tomas as the GM', type: 'PLAYING' },
 	{ name: 'and looking for Command Center Bravo', type: 'PLAYING' },
-	{ name: '🎧 Mud&Blood', type: 'LISTENING' },
+];
+
+const SPECIAL_ACTIVITIES = [
+	{ name: '🎧 Mud & Blood', type: 'LISTENING' },
 	{ name: '🌿 Pitchfork', type: 'PLAYING' },
 	{ name: '🎲 Year Zero Mini', type: 'PLAYING' },
 	{ name: '🌃 Terminal State', type: 'PLAYING' },
+	{ name: 'D&D 5E (I\'m joking)', type: 'PLAYING' },
 ];
 
 /**
@@ -61,7 +62,7 @@ module.exports = function(bot, delay = null) {
 		const seed = Math.random();
 		if (seed > 0.5) {
 			bot.user.setActivity({
-				name: `RPGs on ${bot.guilds.cache.size} servers`,
+				name: `Year Zero on ${bot.guilds.cache.size} servers`,
 				type: 'PLAYING',
 			});
 		}
