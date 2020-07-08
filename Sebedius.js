@@ -46,14 +46,15 @@ class Sebedius extends Discord.Client {
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
+		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
 		console.log('      > Creation...');
 		this.kdb = {
-			prefixes: new Keyv(process.env.DATABASE_URL, { namespace: 'prefix' }),
-			initiatives: new Keyv(process.env.DATABASE_URL, { namespace: 'initiative' }),
-			games: new Keyv(process.env.DATABASE_URL, { namespace: 'game' }),
-			langs: new Keyv(process.env.DATABASE_URL, { namespace: 'lang' }),
-			combats: new Keyv(process.env.DATABASE_URL, { namespace: 'combat' }),
-			stats: new Keyv(process.env.DATABASE_URL, { namespace: 'count' }),
+			prefixes: new Keyv(this.dbUri, { namespace: 'prefix' }),
+			initiatives: new Keyv(this.dbUri, { namespace: 'initiative' }),
+			games: new Keyv(this.dbUri, { namespace: 'game' }),
+			langs: new Keyv(this.dbUri, { namespace: 'lang' }),
+			combats: new Keyv(this.dbUri, { namespace: 'combat' }),
+			stats: new Keyv(this.dbUri, { namespace: 'count' }),
 		};
 		this.kdb.prefixes.on('error', err => console.error('Keyv Connection Error: prefixes', err));
 		this.kdb.initiatives.on('error', err => console.error('Keyv Connection Error: initiatives', err));
@@ -149,8 +150,8 @@ class Sebedius extends Discord.Client {
 	 * @param {Discord.Message} message Discord message
 	 * @param {Discord.Client} client Discord client (the bot)
 	 * @param {?*} [defaultItem=null] The default item returned if nothing found.
-	 * @returns {*}
 	 * @throws {SebediusError} If the collection doesn't exist.
+	 * @returns {*}
 	 * @static
 	 * @async
 	 */
@@ -253,7 +254,7 @@ class Sebedius extends Discord.Client {
 				// Skipping types.
 				if (opts.alias[type] === '--') continue;
 				// Dice swaps, if any.
-				if (opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
+				//if (opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
 			}
 
 			if (nbre) {
