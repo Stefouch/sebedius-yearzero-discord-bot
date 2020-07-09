@@ -1,13 +1,13 @@
 ref;effect
 11-13;Someone witnesses your magic and tells others. Your Reputation increases one step.
-14-15;Your magic makes you very HUNGRY.
-16-21;The spell suddenly makes you very THIRSTY.
-22-23;The magic disturbs your sleep. You won’t be able to sleep for D6 days, which makes you SLEEPY.
+14-15;Your magic makes you very `HUNGRY`.
+16-21;The spell suddenly makes you very `THIRSTY`.
+22-23;The magic disturbs your sleep. You won’t be able to sleep for D6 days, which makes you `SLEEPY`.
 24-25;Your spell drains your energy, inflicting 1 point of damage to Agility.
 26-31;Your magic hurts your body and you suffer 1 point of damage to Strength.
 32-33;You are overwhelmed by the power of your own magic and feel that people around you are mere ants compared to you. You suffer 1 point of damage to Empathy.
 34-35;The spell unleashes demonic visions which inflict 1 point of damage to Wits.
-36-41;The spell triggers a magical disease with a Virulence of 2D6. You and everyone within ARM’S LENGTH of you for the next Quarter Day are exposed to the contagion.
+36-41;The spell triggers a magical disease with a Virulence of 2D6. You and everyone within `ARM’S LENGTH` of you for the next Quarter Day are exposed to the contagion.
 42-45;The spell also affects a friend or other unintended victim. A healing or helping spell affects an enemy alongside the intended target.
 46;Your magic permanently alters your appearance. The GM decides how.
 51;The spell blinds you. You act as in total darkness for the next full day.

@@ -15,12 +15,12 @@ module.exports = {
 
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
-			alias: {
-				name: ['activity', 'text', 'desc'],
-			},
 			array: ['name'],
 			boolean: ['afk', 'idle', 'loop'],
 			string: ['status', 'type'],
+			alias: {
+				name: ['activity', 'text', 'desc'],
+			},
 			default: {
 				name: ['Hello World!'],
 				afk: false,

@@ -69,6 +69,9 @@ module.exports = {
 	async execute(args, ctx) {
 		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
 		const rollargv = require('yargs-parser')(args, {
+			boolean: ['fullauto', 'initiative'],
+			number: ['push'],
+			array: ['name'],
 			alias: {
 				push: ['p', 'pushes'],
 				name: ['n'],
@@ -77,9 +80,6 @@ module.exports = {
 			default: {
 				fullauto: false,
 			},
-			boolean: ['fullauto', 'initiative'],
-			number: ['push'],
-			array: ['name'],
 			configuration: ctx.bot.config.yargs,
 		});
 

@@ -176,6 +176,32 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
+	 * Increases by 1 the number of uses for this command.
+	 * Used for statistics purposes.
+	 * @param {string} commandName The command.name property
+	 * @returns {number}
+	 * @async
+	 */
+	async raiseCommandStats(commandName) {
+		const count = await this.kdb.stats.get(commandName) || 0;
+		return await this.kdb.stats.set(commandName, count + 1);
+	}
+
+	/**
+	 * Gets the commands' statistics.
+	 * @returns {Discord.Collection}
+	 * @async
+	 */
+	async getStats() {
+		const out = new Discord.Collection();
+		for (const cmdName of this.commands.keyArray()) {
+			const count = await this.kdb.stats.get(cmdName) || 0;
+			out.set(cmdName, count);
+		}
+		return out;
+	}
+
+	/**
 	 * Gets a YZ table.
 	 * @param {string} type Type of table to return (`CRIT` or `null`)
 	 * @param {string} path Folder path to the file with the ending `/`
@@ -183,8 +209,9 @@ class Sebedius extends Discord.Client {
 	 * @param {?string} [lang='en'] The language to use, default is `en` English
 	 * @param {?string} [ext='csv'] File extension
 	 * @returns {RollTable}
+	 * @static
 	 */
-	getTable(type, path, fileName, lang = 'en', ext = 'csv') {
+	static getTable(type, path, fileName, lang = 'en', ext = 'csv') {
 		const pathName = `${path}${fileName}`;
 		let filePath = `${pathName}.${lang}.${ext}`;
 
@@ -217,32 +244,6 @@ class Sebedius extends Discord.Client {
 		table.name = `${fileName}.${lang}.${ext}`;
 
 		return table;
-	}
-
-	/**
-	 * Increases by 1 the number of uses for this command.
-	 * Used for statistics purposes.
-	 * @param {string} commandName The command.name property
-	 * @returns {number}
-	 * @async
-	 */
-	async raiseCommandStats(commandName) {
-		const count = await this.kdb.stats.get(commandName) || 0;
-		return await this.kdb.stats.set(commandName, count + 1);
-	}
-
-	/**
-	 * Gets the commands' statistics.
-	 * @returns {Discord.Collection}
-	 * @async
-	 */
-	async getStats() {
-		const out = new Discord.Collection();
-		for (const cmdName of this.commands.keyArray()) {
-			const count = await this.kdb.stats.get(cmdName) || 0;
-			out.set(cmdName, count);
-		}
-		return out;
 	}
 
 	/**
