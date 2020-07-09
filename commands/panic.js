@@ -54,7 +54,7 @@ module.exports = {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedPanicRoll(panic, ctx) {
-	const panicTable = ctx.bot.getTable('./gamedata/crits', 'crits-alien-panic', 'en', 'csv');
+	const panicTable = ctx.bot.getTable('CRIT', './gamedata/crits/', 'crits-alien-panic', 'en', 'csv');
 	const panicRoll = Util.clamp(panic, 0, 15);
 	const criticalInjury = panicTable.get(panicRoll);
 

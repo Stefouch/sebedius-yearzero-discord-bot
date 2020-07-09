@@ -177,14 +177,15 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a YZ table.
-	 * @param {string} path Folder path to the file without the `/` ending
+	 * @param {string} type Type of table to return (`CRIT` or `null`)
+	 * @param {string} path Folder path to the file with the ending `/`
 	 * @param {string} fileName Filename without path, ext or lang-ext
 	 * @param {?string} [lang='en'] The language to use, default is `en` English
 	 * @param {?string} [ext='csv'] File extension
 	 * @returns {RollTable}
 	 */
-	getTable(path, fileName, lang = 'en', ext = 'csv') {
-		const pathName = `${path}/${fileName}`;
+	getTable(type, path, fileName, lang = 'en', ext = 'csv') {
+		const pathName = `${path}${fileName}`;
 		let filePath = `${pathName}.${lang}.${ext}`;
 
 		// If the language does not exist for this file, use the english default.
@@ -202,8 +203,16 @@ class Sebedius extends Discord.Client {
 
 		const table = new RollTable();
 		for (const elem of elements) {
-			const entry = new YZCrit(elem);
-			table.set(entry.ref, entry);
+			if (type === 'CRIT') {
+				const entry = new YZCrit(elem);
+				table.set(entry.ref, entry);
+			}
+			else if (elem.hasOwnProperty('ref')) {
+				table.set(elem.ref, elem);
+			}
+			else {
+				throw new SebediusError('Unknown RollTable');
+			}
 		}
 		table.name = `${fileName}.${lang}.${ext}`;
 
