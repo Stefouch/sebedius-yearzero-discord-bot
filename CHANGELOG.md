@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 ## [3.1.0] - 2020-07-09
 ### Added
 - New command: `!cast` – Rolls a spell's Power Level.
+- New command: `!mishap` – Draws a random Magic Mishap.
+- Swedish language support for MYZ and FBL crit tables.
 
 ### Fixed
 - Typos in both Readme files.

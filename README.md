@@ -130,6 +130,8 @@ init <subcommand>
   * `horror|h` – Horror traumas
   * `nontypical|nt` – Critical injury for non-typical damage
   * `pushed|p` – Critical injury for pushed damage (none)
+* `cast <power> [-mishap <value>]` – Rolls a spell's Power Level.
+* `mishap [value]` – Draws a random Magic Mishap.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
 

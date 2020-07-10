@@ -1043,15 +1043,15 @@ async function setHp(args, ctx) {
  */
 async function attack(args, ctx) {
 	const argv = YargsParser(args, {
+		array: ['t'],
+		boolean: ['ad', 'h', 'degrade', 'noar'],
+		number: ['ab'],
 		alias: {
 			t: ['target'],
 			ad: ['bonus'],
 			degrade: ['x'],
 			noar: ['noarmor'],
 		},
-		array: ['t'],
-		boolean: ['ad', 'h', 'degrade', 'noar'],
-		number: ['ab'],
 		configuration: ctx.bot.config.yargs,
 	});
 	const damage = +argv._.shift() || 0;
