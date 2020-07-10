@@ -7,8 +7,8 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
-	execute(args, ctx) {
+	async execute(args, ctx) {
 		args.unshift('coriolis');
-		ctx.bot.commands.get('roll').execute(args, ctx);
+		await ctx.bot.commands.get('roll').execute(args, ctx);
 	},
 };

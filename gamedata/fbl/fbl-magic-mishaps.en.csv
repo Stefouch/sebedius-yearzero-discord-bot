@@ -13,6 +13,6 @@ ref;effect
 51;The spell blinds you. You act as in total darkness for the next full day.
 52-55;The spell ravages your mind. Immediately roll for a critical injury (mental trauma). Type `{prefix}critf h`.
 56;The force of the magic breaks bones in your body. Immediately roll for a critical injury (blunt force). Type `{prefix}critf bl`.
-61;Your magic attracts a demon from another dimension. The GM can create a demon randomly (see page 78 in the Gamemaster’s Guide) or create it herself. The demon appears within the next Quarter Day and will create all kinds of trouble.
+61;Your magic attracts a demon from another dimension. The GM can create a demon randomly (see page 78 in the Gamemaster’s Guide) or create it herself. The demon appears within the next Quarter Day and will create all kinds of trouble. Type `{prefix}demon`.
 62-65;The spell backfires. An offensive spell affects you instead of your intended target. A protective or healing spell wounds instead of healing. A shapeshift goes horribly wrong and you become a dumb animal. A summoned undead, demon, or illusion turns against you. The GM specifies the details.
 66;Your magic rips open a rift to another dimension, and a demon pulls you over to the other side. Time to make a new character. Your old character will come back as an NPC after D66 days but will be … changed.

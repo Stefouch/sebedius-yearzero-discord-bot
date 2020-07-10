@@ -112,9 +112,13 @@ init <subcommand>
   * `horror|h` – The *Forbidden Lands* Horror traumas, adapted for MYZ
   * `nontypical|nt` – Critical injury for non-typical damage
   * `pushed|p` – Critical injury for pushed damage (none)
+* `mutation <mp>` – Rolls dice for a Mutation and checks for any Misfire.
+* `feral <fp>` – Rolls dice for a GenLab Alpha Animal Power and checks for any Feral Effect.
+* `module <ep>` – Rolls dice for a Mechatron Module and checks for any Overheating.
+* `contact <ip>` – Rolls dice for an Elysium Contact and checks for any Backlash.
 * `scrap [quantity]` – Gets you a bunch of scrap
 * `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
-* `mutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
+* `drawmutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
 * `artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
 * `threat` – Draws a random Zone threat (no details).
 * `arkthreat` – Draws a random threat against the Ark (no details).
