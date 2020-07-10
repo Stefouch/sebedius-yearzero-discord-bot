@@ -115,7 +115,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = await Sebedius.getTable('CRIT', './gamedata/crits/', fileName);
+		const critsTable = Sebedius.getTable('CRIT', './gamedata/crits/', fileName);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
