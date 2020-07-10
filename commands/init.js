@@ -7,6 +7,10 @@ const { SOURCE_MAP } = require('../utils/constants');
 
 const YargsParser = require('yargs-parser');
 const YARGS_PARSE_COMBATANT = {
+	array: ['p', 'note', 'name', 'group', 'controller'],
+	boolean: ['h'],
+	number: ['n'],
+	string: ['p', 'hp', 'max', 'ar', 'speed', 'haste'],
 	alias: {
 		ar: ['armor'],
 		h: ['hidden', 'hide', 'private'],
@@ -14,10 +18,6 @@ const YARGS_PARSE_COMBATANT = {
 		group: ['g'],
 		note: ['notes'],
 	},
-	array: ['p', 'note', 'name', 'group', 'controller'],
-	boolean: ['h'],
-	number: ['n'],
-	string: ['p', 'hp', 'max', 'ar', 'speed', 'haste'],
 	default: {
 		h: null,
 	},
@@ -1043,15 +1043,15 @@ async function setHp(args, ctx) {
  */
 async function attack(args, ctx) {
 	const argv = YargsParser(args, {
+		array: ['t'],
+		boolean: ['ad', 'h', 'degrade', 'noar'],
+		number: ['ab'],
 		alias: {
 			t: ['target'],
 			ad: ['bonus'],
 			degrade: ['x'],
 			noar: ['noarmor'],
 		},
-		array: ['t'],
-		boolean: ['ad', 'h', 'degrade', 'noar'],
-		number: ['ab'],
 		configuration: ctx.bot.config.yargs,
 	});
 	const damage = +argv._.shift() || 0;

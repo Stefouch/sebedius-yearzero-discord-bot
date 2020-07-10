@@ -1,3 +1,4 @@
+const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const YZEmbed = require('../utils/embeds');
 const { DICE_ICONS } = require('../utils/constants');
@@ -54,7 +55,7 @@ module.exports = {
  * @returns {Discord.RichEmbed} A Discord Embed Object
  */
 function getEmbedPanicRoll(panic, ctx) {
-	const panicTable = ctx.bot.getTable('./gamedata/crits', 'crits-alien-panic', 'en', 'csv');
+	const panicTable = Sebedius.getTable('CRIT', './gamedata/crits/', 'crits-alien-panic', 'en', 'csv');
 	const panicRoll = Util.clamp(panic, 0, 15);
 	const criticalInjury = panicTable.get(panicRoll);
 

@@ -1,3 +1,4 @@
+const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const YZEmbed = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS } = require('../utils/constants');
@@ -114,7 +115,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = await ctx.bot.getTable('./gamedata/crits', fileName);
+		const critsTable = Sebedius.getTable('CRIT', './gamedata/crits/', fileName);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.

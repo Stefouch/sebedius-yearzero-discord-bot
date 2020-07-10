@@ -76,7 +76,7 @@ Moves to the next turn in initiative order. It must be your turn or you must be 
 
 Moves to the previous turn in initiative order.
 
-### `!init move|goto <target>`
+### `!init move|goto [target]`
 
 Moves to a certain initiative. `target` can be either a number, to go to that initiative, or a name. If not supplied, goes to the first combatant that the user controls.
 
@@ -119,7 +119,7 @@ Inflicts damage to another combatant.
 
 | Options | Details |
 | --- | --- |
-| `-t\|-target <names...>` | The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the `|` character. *E.g.: `-t Bob|Will|Smith`* |
+| `-t\|-target <names...>` | The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the `\|` character. *E.g.: `-t Bob\|Will\|Smith`* |
 | `-ap [value]` | Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value. |
 | `-ad` | Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)* |
 | `-ab\|-bonus` | Armor bonus (applied after all other modifications). |

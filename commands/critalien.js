@@ -7,8 +7,8 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[table] [numeric]',
-	execute(args, ctx) {
+	async execute(args, ctx) {
 		args.unshift('alien');
-		ctx.bot.commands.get('crit').execute(args, ctx);
+		await ctx.bot.commands.get('crit').execute(args, ctx);
 	},
 };

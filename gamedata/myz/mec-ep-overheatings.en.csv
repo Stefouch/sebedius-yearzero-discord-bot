@@ -1,0 +1,7 @@
+ref;effect
+1;**Fatal Error!** Smoke and sparks fly out of you as the module you tried to activate breaks down. It must be Repaired before it can be used again. Your action has no effect.
+2;**Glitch!** The module has its desired effect, but drains twice as many EP as it should. If you deplete your last EP, you will go into sleep mode.
+3;**Crossed Wires!** Because of a malfunctioning connection, another module (randomly determined) is activated instead of the desired one. Its exact effect depends on the situation – the GM has final say. Re-roll if you have only one module.
+4;**Bluescreen!** Your system is strained beyond its limit and must be rebooted. Your action has no effect, and you must remain completely inactive until it’s your turn the next round.
+5;**Memory Wipe!** A sudden electrical surge unexpectedly wipes your memory circuits. You will keep all of your programs, but can no longer remember anything from your previous life. Another robot (or Gearhead) can restore your memory with a successful Repair (or Jury-rig) roll and a few hours of work.
+6;**Power Surge!** The module’s effect is more powerful than expected! Each EP you spent is counted as two. Re-roll if spending multiple EP has no effect on this module.

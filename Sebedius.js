@@ -176,41 +176,6 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
-	 * Gets a YZ table.
-	 * @param {string} path Folder path to the file without the `/` ending
-	 * @param {string} fileName Filename without path, ext or lang-ext
-	 * @param {?string} [lang='en'] The language to use, default is `en` English
-	 * @param {?string} [ext='csv'] File extension
-	 * @returns {RollTable}
-	 */
-	getTable(path, fileName, lang = 'en', ext = 'csv') {
-		const pathName = `${path}/${fileName}`;
-		let filePath = `${pathName}.${lang}.${ext}`;
-
-		// If the language does not exist for this file, use the english default.
-		if (!fs.existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
-
-		let elements;
-		try {
-			const fileContent = fs.readFileSync(filePath, 'utf8');
-			elements = Util.csvToJSON(fileContent);
-		}
-		catch(error) {
-			console.error(`[Sebedius.getTable] - File Error: ${filePath}`);
-			return null;
-		}
-
-		const table = new RollTable();
-		for (const elem of elements) {
-			const entry = new YZCrit(elem);
-			table.set(entry.ref, entry);
-		}
-		table.name = `${fileName}.${lang}.${ext}`;
-
-		return table;
-	}
-
-	/**
 	 * Increases by 1 the number of uses for this command.
 	 * Used for statistics purposes.
 	 * @param {string} commandName The command.name property
@@ -234,6 +199,51 @@ class Sebedius extends Discord.Client {
 			out.set(cmdName, count);
 		}
 		return out;
+	}
+
+	/**
+	 * Gets a YZ table.
+	 * @param {string} type Type of table to return (`CRIT` or `null`)
+	 * @param {string} path Folder path to the file with the ending `/`
+	 * @param {string} fileName Filename without path, ext or lang-ext
+	 * @param {?string} [lang='en'] The language to use, default is `en` English
+	 * @param {?string} [ext='csv'] File extension
+	 * @returns {RollTable}
+	 * @static
+	 */
+	static getTable(type, path, fileName, lang = 'en', ext = 'csv') {
+		const pathName = `${path}${fileName}`;
+		let filePath = `${pathName}.${lang}.${ext}`;
+
+		// If the language does not exist for this file, use the english default.
+		if (!fs.existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
+
+		let elements;
+		try {
+			const fileContent = fs.readFileSync(filePath, 'utf8');
+			elements = Util.csvToJSON(fileContent);
+		}
+		catch(error) {
+			console.error(`[Sebedius.getTable] - File Error: ${filePath}`);
+			return null;
+		}
+
+		const table = new RollTable();
+		for (const elem of elements) {
+			if (type === 'CRIT') {
+				const entry = new YZCrit(elem);
+				table.set(entry.ref, entry);
+			}
+			else if (elem.hasOwnProperty('ref')) {
+				table.set(elem.ref, elem);
+			}
+			else {
+				throw new SebediusError('Unknown RollTable');
+			}
+		}
+		table.name = `${fileName}.${lang}.${ext}`;
+
+		return table;
 	}
 
 	/**
