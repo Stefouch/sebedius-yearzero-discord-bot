@@ -82,6 +82,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		const name = rollargv.name ? rollargv.name.join(' ') : null;
 
 		// Sets the game. Must be done first.
 		let game;
@@ -98,11 +99,14 @@ module.exports = {
 
 		// Checks for d6, d66 & d666.
 		if (/^d6{1,3}$/i.test(rollargv._[0])) {
-			game = 'generic';
+			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
+				game = 'generic';
+			}
 			const skill = (rollargv._[0].match(/6/g) || []).length;
 
 			roll = new YZRoll(ctx.author, { skill }, rollargv._[0].toUpperCase());
-			// roll.maxPushes = 0; // already set later. Use this options if you want to change "game = generic" above.
+			roll.maxPushes = 0;
+			roll.modifier = 0;
 		}
 		// If not, checks if the first argument is a YZ roll phrase.
 		else if (yzRollRegex.test(rollargv._[0])) {
@@ -167,7 +171,7 @@ module.exports = {
 
 			// Rolls the dice.
 			let rollTitle = '';
-			if (rollargv.name) rollTitle = `${rollargv.name.join(' ')}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
+			if (name) rollTitle = `${name}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
 
 			roll = new YZRoll(
 				ctx.author,
@@ -184,22 +188,37 @@ module.exports = {
 		}
 		// Checks for init roll.
 		else if (/initiative|init/i.test(rollargv._[0])) {
-			game = 'generic';
+			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
+				game = 'generic';
+			}
 			roll = new YZRoll(ctx.author, { skill: 1 }, 'Initiative');
+			roll.maxPushes = 0;
+			roll.modifier = 0;
 		}
 		// Checks for generic rolls.
 		else if (RollParser.ROLLREGEX.test(rollargv._[0]) && !/^\d{1,2}d$/i.test(rollargv._[0])) {
-			game = 'generic';
+			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
+				game = 'generic';
+			}
 			const genRoll = RollParser.parse(rollargv._[0]);
 			const genRollResults = genRoll.roll(true);
+			const rollString = rollargv._[0].toUpperCase();
+			const title = name ? `${name} (${rollString})` : rollString;
 
-			roll = new YZRoll(ctx.author, { skill: 0 }, rollargv._[0].toUpperCase());
+			roll = new YZRoll(ctx.author, { skill: 0 }, title);
 			roll.dice.skill = genRollResults;
-			if (genRoll.modifier) roll.dice.neg.push(genRoll.modifier);
+			if (genRoll.modifier) roll.modifier = genRoll.modifier;
+			roll.maxPushes = 0;
+			roll.modifier = 0;
+		}
+		// Checks if PRIDE roll alone.
+		else if (rollargv.pride || rollargv._.includes('pride')) {
+			game = 'fbl',
+			roll = new YZRoll(ctx.author, { artifactDice: [12] }, 'Pride');
 		}
 		// Exits if no check.
 		else {
-			return ctx.reply('ℹ️ I don\'t understand this syntax. Type `help roll` for details on the proper usage.');
+			return ctx.reply(`ℹ️ I don't understand this syntax. Type \`${ctx.prefix}help roll\` for details on the proper usage.`);
 		}
 
 		// Sets the game.
@@ -211,12 +230,6 @@ module.exports = {
 		}
 		else if (rollargv.push) {
 			roll.maxPushes = Number(rollargv.push) || 1;
-		}
-		else if (game === 'generic') {
-			roll.maxPushes = 0;
-		}
-		else {
-			roll.maxPushes = 1;
 		}
 
 		// Log and Roll.
@@ -349,16 +362,12 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 function getEmbedDiceResults(roll, ctx, opts) {
 
 	const s = roll.sixes;
-
 	let desc = '';
 
-	if (roll.game === 'generic') {
-		// Any modifier is placed in position [0] of dice.neg[]
-		let modifier = 0;
-		if (roll.dice.neg.length) modifier = roll.dice.neg[0];
-
-		desc += `Result: **${roll.sum('skill') + modifier}**\n(${roll.dice.skill.join(', ')})`;
-		if (modifier !== 0) desc += ` ${modifier > 0 ? '+' : ''}${modifier}`;
+	if (roll.modifier != null) {
+		const mod = roll.modifier;
+		desc += `Result: **${roll.sum('skill') + mod}**\n(${roll.dice.skill.join(', ')})`;
+		if (mod !== 0) desc += ` ${mod > 0 ? '+' : ''}${mod}`;
 	}
 	else {
 		desc = `Success${s > 1 ? 'es' : ''}: **${s}**`;
