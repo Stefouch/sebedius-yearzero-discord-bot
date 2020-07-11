@@ -10,7 +10,7 @@ module.exports = {
 	aliases: ['magic'],
 	guildOnly: false,
 	args: true,
-	usage: '<power> [-name|-n <name>] [-mishap <value>]',
+	usage: '<power> [name] [-mishap <value>]',
 	async execute(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {
@@ -26,8 +26,8 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 		// Validates the arguments.
-		const basePowerLevel = Math.ceil(Util.clamp(argv._[0], 1, 20));
-		const name = argv.name.join(' ');
+		const basePowerLevel = Math.ceil(Util.clamp(argv._.shift(), 1, 20));
+		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
 			return await ctx.reply(':warning: Invalid Magic Mishap\'s reference!');
