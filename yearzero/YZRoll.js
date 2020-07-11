@@ -7,7 +7,7 @@ class YZRoll {
 	 * A Year Zero Roll object.
 	 * @param {string} author The author of the roll
 	 * @param {?DicePool} diceData Dice data (see DicePool)
-	 * @param {?string} [title=null] The title/name of the roll
+	 * @param {?string} title The title/name of the roll
 	 */
 	constructor(author, diceData, title = null) {
 		/**
@@ -101,6 +101,12 @@ class YZRoll {
 		 * @property {number} stress
 		 */
 		this.keeped = { base: 0, skill: 0, neg: 0, gear: 0, stress: 0 };
+
+		/**
+		 * An extra modifier for the roll.
+		 * @type {number}
+		 */
+		this.modifier = diceData.modifier || null;
 	}
 
 	/**
