@@ -9,7 +9,7 @@ The supported games are:
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
-* [ALIEN](https://alien-rpg.com/)
+* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 
 # Add the Bot to your Server
@@ -37,7 +37,7 @@ Below you'll find a list of available commands. The instructions use the followi
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.
 * `prefix [new prefix]` – Gets the prefixes for the current server. If a new prefix is specified as an argument, the server's prefix is changed into the new one.
-* `drawinit <speed> [-haste <value>] [shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
+* `drawinit <speed> [-haste <value>] [-shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
   * `<speed>` – Number of initiative cards to draw. Default: 1.
   * `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
   * `[-shuffle]` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`
@@ -90,7 +90,7 @@ Rolls for a random critical injury.
 crit [game] [table] [numeric]
 ```
 
-* `[game]` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.
+* `[game]` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `[table]` – Specifies the table you want from this game *(default is "damage")*.
 * `[numeric]` – Specifies a fixed reference.
@@ -116,7 +116,7 @@ init <subcommand>
 * `feral <fp>` – Rolls dice for a GenLab Alpha Animal Power and checks for any Feral Effect.
 * `module <ep>` – Rolls dice for a Mechatron Module and checks for any Overheating.
 * `contact <ip>` – Rolls dice for an Elysium Contact and checks for any Backlash.
-* `scrap [quantity]` – Gets you a bunch of scrap
+* `scrap [quantity]` – Gets you a bunch of scrap.
 * `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
 * `drawmutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
 * `artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
@@ -134,7 +134,7 @@ init <subcommand>
   * `horror|h` – Horror traumas
   * `nontypical|nt` – Critical injury for non-typical damage
   * `pushed|p` – Critical injury for pushed damage (none)
-* `cast <power> [-mishap <value>]` – Rolls a spell's Power Level.
+* `cast <power> [name] [-mishap <value>]` – Rolls a spell's Power Level and checks for any Magic Mishap.
 * `mishap [value]` – Draws a random Magic Mishap.
 * `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
 * `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
@@ -201,9 +201,9 @@ Only a member with administrator rights can use these commands:
 
 `supply 6 Air` – Rolls supply for "Air" with six stress dice and counts ones (banes).
 
-`init` or `init 1` – Draws one initiative cards.
+`drawinit` or `drawinit 1` – Draws one initiative cards.
 
-`init shuffle` – Shuffles all the initiative cards in a new deck (= reset).
+`drawinit -shuffle` – Shuffles all the initiative cards in a new deck (= reset).
 
 `panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
 
@@ -226,7 +226,7 @@ This is a detailed list of needed permissions:
 * `SEND_MESSAGES` : Mandatory.
 * `MANAGE_MESSAGES` : The bot needs this permission to remove pushing reaction emojis.
 * `EMBED_LINKS` : The bot uses rich embed to display the dice results.
-* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission. ⚠️<span style="color: red;">**NEW**</span>
+* `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission.
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
 
 ### Troubleshooting
@@ -260,11 +260,11 @@ The dice images are courtery of several people. Thanks to them for sharing them!
 - *Forbidden Lands* dice: M. Hilton Perantunes.
 - *Tales* & *Coriolis* dice: M. Jonathan Pay.
 - *ALIEN* dice: M. Radomir Balint. 
-- *Vaesen* dice: M. Matt Kay
+- *Vaesen* dice: M. Matt Kay.
 
 # Contributing
 
-If you've experience with the Discord.js API, you're more than welcome to expand the project.
+If you've experience with the Discord.js API, you're more than welcome to help expand this project.
 
 ## How to Run Sebedius Locally
 

@@ -3,9 +3,19 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2020-07-11
+### Changed
+- `!cast <power> [name]` instead of `!cast <power> [-name <name>]`.
+
+### Fixed
+- Issue #25.
+- Issue #26.
+- Issue with `!init list -private`.
+- Typos in bot activities.
+
 ## [3.1.0] - 2020-07-10
 ### Added
-- New command: `!cast` – Rolls a spell's Power Level.
+- New command: `!cast` – Rolls a spell's Power Level and checks for any Magic Mishap.
 - New command: `!mishap` – Draws a random Magic Mishap.
 - New command: `!mutation` – Rolls dice for a Mutation and checks for any Misfire.
 - New command: `!feral` – Rolls dice for a GenLab Alpha Animal Power and checks for any Feral Effect.
