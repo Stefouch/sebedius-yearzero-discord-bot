@@ -12,7 +12,7 @@ const PLAYING_ACTIVITIES = [
 	{ name: '🏴‍☠️ Forbidden Pirates', type: 'PLAYING' },
 	{ name: '🎒 Tales From The Loop', type: 'PLAYING' },
 	{ name: '🎒 Things From The Flood', type: 'PLAYING' },
-	{ name: '👾 ALIEN rpg', type: 'PLAYING' },
+	{ name: '👾 Alien RPG', type: 'PLAYING' },
 	{ name: '🦋 Vaesen', type: 'PLAYING' },
 	{ name: '🐙 Cthulhu Year Zero', type: 'PLAYING' },
 	{ name: '🔫 Twilight Year 2K', type: 'PLAYING' },
@@ -32,8 +32,9 @@ const OTHER_ACTIVITIES = [
 	{ name: '📺 Alien³', type: 'WATCHING' },
 	{ name: 'and building better worlds', type: 'PLAYING' },
 	{ name: 'as a lurking Xenomorph', type: 'PLAYING' },
-	{ name: 'with Tomas as the GM', type: 'PLAYING' },
-	{ name: 'and looking for Command Center Bravo', type: 'PLAYING' },
+	{ name: 'with Tomas', type: 'PLAYING' },
+	{ name: 'with NilsK', type: 'PLAYING' },
+	{ name: 'and looking after Command Center Bravo', type: 'PLAYING' },
 ];
 
 const SPECIAL_ACTIVITIES = [
@@ -41,7 +42,6 @@ const SPECIAL_ACTIVITIES = [
 	{ name: '🌿 Pitchfork', type: 'PLAYING' },
 	{ name: '🎲 Year Zero Mini', type: 'PLAYING' },
 	{ name: '🌃 Terminal State', type: 'PLAYING' },
-	{ name: 'D&D 5E (I\'m joking)', type: 'PLAYING' },
 ];
 
 /**
