@@ -738,7 +738,7 @@ async function list(args, ctx) {
 		configuration: ctx.bot.config.yargs,
 	});
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
-	const destination = argv.private ? ctx.channel : ctx.author;
+	const destination = argv.private ? ctx.author : ctx.channel;
 	let outStr;
 
 	if (argv.private && ctx.author.id === combat.dm) {
