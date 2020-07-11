@@ -136,7 +136,7 @@ module.exports = {
 			die2 = critRoll % 10;
 		}
 		// Gets the emojis references.
-		const dieType = ctx.bot.config.commands.roll.options[game].blankDiceFaces ? 'alien' : game;
+		const dieType = ctx.bot.config.commands.roll.options[game].hasBlankDice ? 'alien' : game;
 		const icon1 = DICE_ICONS[dieType].skill[die1] || '';
 		const icon2 = DICE_ICONS[dieType].skill[die2] || '';
 

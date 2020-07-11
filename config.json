@@ -16,7 +16,7 @@
 				"generic": {
 					"iconTemplate": "alien",
 					"successIcon": "☢",
-					"blankDiceFaces": false,
+					"hasBlankDice": false,
 					"detailed": false,
 					"extraPushDice": null,
 					"trauma": false,
@@ -45,7 +45,7 @@
 						"gear": "skill",
 						"neg": "--"
 					},
-					"blankDiceFaces": true,
+					"hasBlankDice": true,
 					"detailed": true
 				},
 				"coriolis": {
@@ -54,7 +54,7 @@
 						"gear": "skill",
 						"neg": "--"
 					},
-					"blankDiceFaces": true,
+					"hasBlankDice": true,
 					"detailed": true,
 					"reactionMenu": [
 						{
@@ -86,7 +86,7 @@
 						"gear": "skill",
 						"neg": "--"
 					},
-					"blankDiceFaces": true,
+					"hasBlankDice": true,
 					"detailed": true
 				}
 			}
