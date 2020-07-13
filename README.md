@@ -36,7 +36,7 @@ Below you'll find a list of available commands. The instructions use the followi
 * `ping` – Checks the bot's latency.
 * `invite` – Prints a link to invite Sebedius to your server.
 * `changelog` – Prints a link to the official changelog.
-* `prefix [new prefix]` – Gets the prefixes for the current server. If a new prefix is specified as an argument, the server's prefix is changed into the new one.
+* `prefix [set <new prefix>]` – Gets the prefixes for the current server.  Sets a new one with the option `add`.
 * `drawinit <speed> [-haste <value>] [-shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
   * `<speed>` – Number of initiative cards to draw. Default: 1.
   * `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
@@ -59,13 +59,13 @@ roll [game] <dice> [arguments]
     * `init` – Rolls initiative (one D6).
   * **Year Zero Rolls:** Use any combinations of these letters with a number: *E.g. 5b 3s 2g*
     * `b` – Base dice (attributes)
-    * `s` – Skill dice / Stress dice (for ALIEN)
+    * `s` – Skill dice (or Stress Dice for the Alien RPG)
     * `g` – Gear dice (from equipment)
     * `n` – Negative dice (for MYZ and FBL)
     * `d` – Generic dice
-    * `a8` – D8 Artifact dice (from FBL)
-    * `a10` – D10 Artifact dice (from FBL)
-    * `a12` – D12 Artifact dice (from FBL)
+    * `a8` – D8 Artifact dice (see FBL)
+    * `a10` – D10 Artifact dice (see FBL)
+    * `a12` – D12 Artifact dice (see FBL)
 * `[arguments]` are additional options for the roll:
   * `-n <text>` : Defines a name for the roll.
   * `-p <number>` : Changes the maximum number of allowed pushes.
@@ -78,9 +78,9 @@ The maximum number of dice that can be rolled at once is capped at 42. *(Discord
 
 #### Pushing
 
-To push the roll, click the 🔄 reaction icon under the message. The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them. To clear the reaction menu, click the ❌ reaction icon.
+To push the roll (re-roll), click the 🔄 reaction icon under the message. The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them. To clear the reaction menu, click the ❌ reaction icon.
 
-Coriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).
+Coriolis has more push options: 🙏 (Praying the Icons ahead of time, +1D) and 🕌 (in a chapel, +2D).
 
 ### **CRIT** command
 
@@ -136,8 +136,8 @@ init <subcommand>
   * `pushed|p` – Critical injury for pushed damage (none)
 * `cast <power> [name] [-mishap <value>]` – Rolls a spell's Power Level and checks for any Magic Mishap.
 * `mishap [value]` – Draws a random Magic Mishap.
-* `demon` – Generates a random demon according to the tables found in the roleplaying game *Forbidden Lands*.
-* `legend` – Generates a random legend according to the tables found in the roleplaying game *Forbidden Lands*.
+* `demon` – Generates a random demon according to the tables found in the *Gamemaster's Guide*.
+* `legend` – Generates a random legend according to the tables found in the *Gamemaster's Guide*.
 
 ### **ALIEN** commands
 

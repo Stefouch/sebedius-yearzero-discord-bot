@@ -5,7 +5,7 @@ module.exports = {
 	name: 'legend',
 	group: 'Forbidden Lands',
 	description: 'Generates a random legend according to the tables found in'
-		+ 'the roleplaying game *Forbidden Lands*.',
+		+ 'the *Forbidden Lands - Gamemaster\'s Guide*.',
 	aliases: ['generate-legend'],
 	guildOnly: false,
 	args: false,

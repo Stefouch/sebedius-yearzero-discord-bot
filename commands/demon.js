@@ -7,7 +7,7 @@ module.exports = {
 	name: 'demon',
 	group: 'Forbidden Lands',
 	description: 'Generates a random demon according to the tables found in'
-		+ ' the roleplaying game *Forbidden Lands*.'
+		+ ' the *Forbidden Lands - Gamemaster\'s Guide*.'
 		+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
 		+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
 	aliases: ['generate-demon'],
