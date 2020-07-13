@@ -24,7 +24,7 @@ module.exports = {
 		const stress = +args[0] || 0;
 		const panicVal = stress + panicRand;
 
-		const panicIcon = ctx.bot.config.commands.panic.emoji;
+		const panicIcon = ctx.bot.config.commands.panic.icon;
 		const text = `${panicIcon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
 		const embed = getEmbedPanicRoll(panicVal, ctx);
 
