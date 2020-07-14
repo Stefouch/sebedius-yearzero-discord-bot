@@ -2,6 +2,7 @@ const fs = require('fs');
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
+const __ = require('../utils/locales');
 
 class YZMonster {
 
@@ -14,6 +15,28 @@ class YZMonster {
 		for (const key in data) {
 			this[key] = data[key];
 		}
+		this._forgeSkills();
+		this._forgeAttacks(attacksTable);
+	}
+
+	get name() {
+		return __(this.id, this.lang);
+	}
+
+	_forgeSkills() {
+		if (typeof this.skills === 'string') {
+			const skills = this.skills.trim().split(/\|/g);
+			this.skills = {};
+			for (const s of skills) {
+				const sk = s.trim().split(' ');
+				const skillRating = sk.pop();
+				const skillName = sk.join(' ');
+				this.skills[skillName] = skillRating;
+			}
+		}
+	}
+
+	_forgeAttacks(attacksTable) {
 		if (this.attacks && this.game) {
 			this.attacks = Sebedius.getTable(
 				'MONSTER_SIGNATURE_ATTACKS',
@@ -26,10 +49,6 @@ class YZMonster {
 		else {
 			this.attacks = attacksTable;
 		}
-	}
-
-	get name() {
-		
 	}
 
 	/**
