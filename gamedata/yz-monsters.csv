@@ -1,4 +1,13 @@
-id;game;attacks
-bloodburster;alien;atk-xeno-bloodburster
-neomorph;alien;atk-xeno-neomorph
-facehugger;alien;atk-xeno-facehugger
+id;health;armor;speed;skills;special;game;attacks
+bloodburster;2;3;3;Mobility 9|Observation 6;;alien;atk-xeno-bloodburster
+neophyte;3;4;3;Mobility 10|Observation 6;;alien;atk-xeno-neomorph
+neomorph;6;6;2;Mobility 9|Observation 8;Sprint;alien;atk-xeno-neomorph
+ovomorph;2;2;0;;Acid Splash 4;alien;
+queenegg;3;3;0;;Acid Splash 5;alien;
+facehugger;2;2;2;Mobility 8|Observation 8;Acid Splash 4;alien;atk-xeno-facehugger
+praetofacehugger;2;2;2;Mobility 6|Observation 8;Acid Splash 4;alien;atk-xeno-facehugger
+royalfacehugger;2;4;2;Mobility 8|Observation 10;Acid Splash 5;alien;atk-xeno-facehugger
+chestburster;2;2;2;Mobility 8|Observation 6;Acid Splash 4;alien;atk-xeno-chestburster
+bambiburster;2;2;2;Mobility 10|Observation 6;Acid Splash 4;alien;atk-xeno-chestburster
+imp;2;0;2;Mobility 8|Observation 8;Acid Splash 4;alien;atk-xeno-chestburster
+queenburster;3;4;2;Mobility 8|Observation 6;Acid Splash 5;alien;atk-xeno-chestburster
