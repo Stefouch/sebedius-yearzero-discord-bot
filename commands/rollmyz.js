@@ -3,7 +3,7 @@ module.exports = {
 	group: 'Mutant: Year Zero',
 	description: 'Rolls dice for the *Mutant: Year Zero* roleplaying game.'
 		+ '\nType `help roll` for more details.',
-	aliases: ['rollm', 'rm', 'lancem', 'lancerm', 'slåm', 'slam'],
+	aliases: ['rollmutant', 'rollm', 'rm', 'lancem', 'lancerm', 'slåm', 'slam'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
