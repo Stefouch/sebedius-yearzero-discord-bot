@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - `!prefix [set <new prefix>]` instead of `!prefix [new prefix]`.
 
 ### Fixed
-- Issue #25
+- Issue [#25](#25)
 - Issue #26
 - Issue with `!init list -private` not being private.
 - `!roll pride` alone works now.
