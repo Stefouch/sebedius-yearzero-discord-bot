@@ -3,7 +3,7 @@ class RollTable extends Map {
 	/**
 	 * The total length of the entries.
 	 * Not the same as Size.
-	 * @returns {number}
+	 * @type {number}
 	 * @readonly
 	 */
 	get length() {
@@ -22,6 +22,18 @@ class RollTable extends Map {
 			else { len++; }
 		}
 		return len;
+	}
+
+	/**
+	 * The roll used to get a random element from this table.
+	 * @type {string}
+	 * @readonly
+	 */
+	get roll() {
+		if (this.length === 6) return 'D6';
+		else if (this.length === 36) return 'D66';
+		else if (this.length === 216) return 'D666';
+		else return `D${this.length}`;
 	}
 
 	/**
