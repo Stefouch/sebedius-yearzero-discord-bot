@@ -1,7 +1,7 @@
 module.exports = {
 	SUPPORTED_GAMES: ['myz', 'fbl', 'tales', 'coriolis', 'alien', 'vaesen'],
-	SUPPORTED_LANGS: ['en', 'sw'],
-	SUPPORTED_LANGS_NAMES: ['English', 'Svenska'],
+	SUPPORTED_LANGS: ['en', 'fr', 'sw'],
+	SUPPORTED_LANGS_NAMES: ['English', 'Français', 'Svenska'],
 	DAMAGE_TYPES: ['generic', 'slash', 'blunt', 'stab'],
 	DAMAGE_TYPES_ABBREVIATIONS: ['gen', 'sl', 'bl', 'st'],
 	SOURCE_MAP: {

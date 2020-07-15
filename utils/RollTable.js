@@ -25,11 +25,11 @@ class RollTable extends Map {
 	}
 
 	/**
-	 * The roll used to get a random element from this table.
+	 * The die used to get a random element from this table.
 	 * @type {string}
 	 * @readonly
 	 */
-	get roll() {
+	get d() {
 		if (this.length === 6) return 'D6';
 		else if (this.length === 36) return 'D66';
 		else if (this.length === 216) return 'D666';

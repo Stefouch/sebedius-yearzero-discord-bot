@@ -2,7 +2,8 @@ const fs = require('fs');
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
-const __ = require('../utils/locales');
+const { __ } = require('../utils/locales');
+const { SUPPORTED_GAMES, SOURCE_MAP } = require('../utils/constants');
 
 class YZMonster {
 
@@ -15,29 +16,33 @@ class YZMonster {
 		for (const key in data) {
 			this[key] = data[key];
 		}
-		this._forgeSkills();
-		this._forgeAttacks(attacksTable);
+		this._createSkills();
+		this._createAttacks(attacksTable);
 	}
 
 	get name() {
 		return __(this.id, this.lang);
 	}
 
-	_forgeSkills() {
+	_createSkills() {
 		if (typeof this.skills === 'string') {
-			const skills = this.skills.trim().split(/\|/g);
+			const skills = this.skills.split(/\|/g);
 			this.skills = {};
-			for (const s of skills) {
-				const sk = s.trim().split(' ');
-				const skillRating = sk.pop();
-				const skillName = sk.join(' ');
-				this.skills[skillName] = skillRating;
+			for (const sk of skills) {
+				const s = sk.trim().split(' ');
+				const skillRating = s.pop();
+				const skillName = s.join('-').toLowerCase();
+				this.skills[skillName] = +skillRating;
 			}
 		}
 	}
 
-	_forgeAttacks(attacksTable) {
-		if (this.attacks && this.game) {
+	_createAttacks(attacksTable) {
+		if (
+			typeof this.attacks === 'string' &&
+			this.attacks.startsWith('atk') &&
+			this.game
+		) {
 			this.attacks = Sebedius.getTable(
 				'MONSTER_SIGNATURE_ATTACKS',
 				`./gamedata/${this.game}/`,
@@ -46,7 +51,7 @@ class YZMonster {
 				'csv',
 			);
 		}
-		else {
+		else if (attacksTable) {
 			this.attacks = attacksTable;
 		}
 	}
@@ -57,17 +62,20 @@ class YZMonster {
 	 * @returns {string}
 	 */
 	attack(reference) {
-		if (!this.attacks || !this.attacks.length) {
-			return undefined;
+		if (typeof this.attacks === 'string') {
+			return { effect: this.attacks };
 		}
-		let ref;
-		if (reference) ref = reference;
-		else if (this.attacks.length <= 6) ref = Util.rand(1, 6);
-		else if (this.attacks.length <= 36) ref = Util.rollD66();
-		else if (this.attacks.length <= 216) ref = Util.rollD666();
-		else throw new Error('[YZMonster.Attack] - No reference');
+		if (this.attacks instanceof RollTable) {
+			let ref;
+			if (reference) ref = reference;
+			else if (this.attacks.length <= 6) ref = Util.rand(1, 6);
+			else if (this.attacks.length <= 36) ref = Util.rollD66();
+			else if (this.attacks.length <= 216) ref = Util.rollD666();
+			else throw new Error('[YZMonster.Attack] - No reference');
 
-		return this.attacks.get(ref);
+			return this.attacks.get(ref);
+		}
+		return undefined;
 	}
 
 	/**
@@ -76,10 +84,10 @@ class YZMonster {
 	 * @property {string} name Name of the monster
 	 */
 	static monstersRaw() {
-		const monstersMasterFile = './gamedata/yz-monsters.csv';
+		const monstersCatalog = './gamedata/yz-monsters-catalog.csv';
 		let monsters;
 		try {
-			const fileContent = fs.readFileSync(monstersMasterFile, 'utf8');
+			const fileContent = fs.readFileSync(monstersCatalog, 'utf8');
 			monsters = Util.csvToJSON(fileContent);
 		}
 		catch(error) {
@@ -100,6 +108,27 @@ class YZMonster {
 			monsters.push(new YZMonster(m));
 		}
 		return monsters;
+	}
+
+	static async search(ctx, monsterName = null, gameName = null) {
+		let game;
+		if (SUPPORTED_GAMES.includes(gameName)) {
+			game = gameName;
+		}
+		else {
+			const gameChoices = SUPPORTED_GAMES.map(g => [SOURCE_MAP[g], g]);
+			game = await Sebedius.getSelection(ctx, gameChoices);
+		}
+
+		if (monsterName) {
+			const monster = YZMonster.monsters()
+				.find(m => m.name.toLowerCase() == monsterName.toLowerCase());
+			if (monster) return monster;
+		}
+		const monsterChoices = YZMonster.monsters()
+			.filter(m => m.game === game && m.name.toLowerCase().includes(monsterName.toLowerCase()))
+			.map(m => [m.name, m]);
+		return await Sebedius.getSelection(ctx, monsterChoices);
 	}
 }
 

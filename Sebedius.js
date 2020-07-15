@@ -327,9 +327,9 @@ class Sebedius extends Discord.Client {
 			const _choices = pages[page];
 			const names = _choices.map(o => o[0]);
 			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found' });
-			let selectStr = 'Which one were you looking for? (Type the number or `c` to cancel)\n';
+			let selectStr = 'Which one were you looking for? (Type the number or `c` to cancel).\n';
 			if (pages.length > 1) {
-				selectStr += '`n` to go to the next page, or `p` for previous';
+				selectStr += '`n` to go to the next page, or `p` for previous.\n';
 				embed.setFooter(`page ${page + 1}/${pages.length}`);
 			}
 			names.forEach((name, i) => selectStr += `**[${i + 1 + page * 10}]** – ${name}\n`);

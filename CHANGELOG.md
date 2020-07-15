@@ -8,6 +8,9 @@ All notable changes to this project will be documented in this file.
 - `!critmutant` renamed into `!critmyz` ("critmutant" is still an alias for this command).
 - New command alias for `!rollmyz`: rollmutant.
 
+### Fixed
+- Typo in the choice selector (`Sebedius.getSelection();`).
+
 ## [3.1.1] - 2020-07-13
 ### Changed
 - `!cast <power> [name]` instead of `!cast <power> [-name <name>]`.
