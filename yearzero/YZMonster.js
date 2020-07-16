@@ -88,22 +88,43 @@ class YZMonster {
 				);
 			}
 			// Form: "{<name>:<dice>:<damage>}|{...}"
-			else if (this.attacks.includes('|') || this.attacks.startsWith('{')) {
+			// This acts like an attack parser from raw data.
+			else if (this.attacks.startsWith('{') || this.attacks.includes('|')) {
+				// Splits at `|` for support of multiple attacks.
+				const atqs = this.attacks.split('|');
+
+				// Parses all new attacks.
 				const out = [];
-				const attaques = this.attacks.split('|');
-				for (const atq of attaques) {
+				for (const atq of atqs) {
 					if (atq.startsWith('{') && atq.endsWith('}')) {
-						const str = atq.replace(/{(.*):(.*):(.*)}/gi, (match, n, d, dmg) => {
-							return `**${n.toUpperCase()}:** ${d} ${__('base-dice', this.lang)}`
-								+ `, ${Util.capitalize(__('damage', this.lang))} ${dmg}.`;
+						const atk = atq.replace(/{(.*):(.*):(.*)}/gi, (match, n, d, dmg) => {
+							return `{ "name": "${n.toUpperCase()}", "d": ${d}, "dmg": ${dmg}, `
+								+ `"effect": "${d} ${__('base-dice', this.lang)}`
+								+ `, ${Util.capitalize(__('damage', this.lang))} ${dmg}." }`;
 						});
-						out.push(str);
+						out.push(JSON.parse(atk));
 					}
 					else {
-						out.push(atq + '.');
+						out.push({ effect: atq + '.' });
 					}
 				}
-				this.attacks = out.join('\n');
+				// Creates the roll intervals (the references).
+				const intervals = Util.createIntervals(atqs.length, 6);
+				const references = intervals.map(intvl => {
+					intvl = intvl.map(x => Util.convertToBijective(x, '123456'));
+					if (intvl[0] === intvl[1]) return '' + intvl[0];
+					return `${intvl[0]}-${intvl[1]}`;
+				});
+
+				// Creates a new RollTable for the attacks.
+				this.attacks = new RollTable();
+				this.attacks.name = this.id;
+
+				// Adds the attacks to the RollTable.
+				out.forEach((atk, i) => {
+					atk.ref = references[i];
+					this.attacks.set(atk.ref, atk);
+				});
 			}
 			// Otherwise, let it like this.
 		}

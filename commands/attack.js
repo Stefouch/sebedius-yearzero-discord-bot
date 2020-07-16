@@ -1,7 +1,8 @@
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
-const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
 const RollTable = require('../utils/RollTable');
+const ReactionMenu = require('../utils/ReactionMenu');
+const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES } = require('../utils/constants');
 const YZMonster = require('../yearzero/YZMonster');
 const YZRoll = require('../yearzero/YZRoll');
@@ -70,25 +71,78 @@ module.exports = {
 		await ctx.channel.send(new YZMonsterEmbed(monster));
 
 		// Sends the message.
-		if (argv.private) await ctx.author.send(embed);
-		else await ctx.channel.send(embed);
+		let message;
+		if (argv.private) message = await ctx.author.send(embed);
+		else message = await ctx.channel.send(embed);
 
-		// Rolls the attack.
-		if (attack.d || attack.dmg) {
-			const atkRoll = new YZRoll(
-				ctx.author,
-				{ base: attack.d },
-				embed.title,
-			);
-			atkRoll.setGame(game);
-			const hit = atkRoll.sixes;
-			const damage = hit ? +attack.dmg + hit - 1 : 0;
-
-			await ctx.channel.send(
-				Sebedius.emojifyRoll(atkRoll, ctx.bot.config.commands.roll.options[game], true),
-				damage
-					? new YZEmbed('')
-			);
+		// Adds a Reaction Menu to roll the dice of the attack.
+		if (attack.d || attack.dmg || attack.crit) {
+			const reactions = [];
+			if (attack.d || attack.dmg) {
+				reactions.push({
+					icon: '⚔️',
+					owner: ctx.author.id,
+					fn: collector => rollAttack(attack, game, message, ctx.bot, collector),
+				});
+			}
+			if (attack.crit) {
+				const type = '';
+				const nb = '';
+				reactions.push({
+					icon: '☠️',
+					owner: ctx.author.id,
+					fn: collector => rollCrit(game, type, nb, ctx, collector),
+				});
+			}
+			reactions.push({
+				icon: '❌',
+				owner: ctx.author.id,
+				fn: collector => collector.stop(),
+			});
+			const cooldown = ctx.bot.config.commands.roll.pushCooldown;
+			const rm = new ReactionMenu(message, ctx.bot, cooldown, reactions);
 		}
 	},
 };
+
+/**
+ * Rolls the dice of an attack.
+ * @param {YZAttack} attack A Year Zero attack
+ * @param {string} game The code of the game used
+ * @param {Discord.Message} message Discord message
+ * @param {Discord.Client} bot The bot's client
+ * @param {Discord.Collector} collector The reaction menu's collector
+ * @async
+ */
+async function rollAttack(attack, game, message, bot, collector) {
+	//await collector.stop();
+
+	const atkRoll = new YZRoll(
+		message.author,
+		{ base: attack.d },
+	);
+	atkRoll.setGame(game);
+	const hit = atkRoll.sixes;
+	const damage = hit ? +attack.dmg + hit - 1 : 0;
+
+	await message.channel.send(
+		Sebedius.emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
+		damage
+			? new YZEmbed(`${damage} Damage`, ':boom:'.repeat(damage))
+			: null,
+	);
+}
+
+/**
+ * Rolls a crit of an attack.
+ * @param {string} game The code of the game used
+ * @param {?string} type Crit damage type
+ * @param {?number} ref The reference of the crit, if any
+ * @param {Discord.Message} ctx Discord message with context
+ * @param {Discord.Collector} collector The reaction menu's collector
+ * @async
+ */
+async function rollCrit(game, type, ref, ctx, collector) {
+	//await collector.stop();
+	await ctx.bot.commands.get('crit').execute([game, type, ref], ctx);
+}
