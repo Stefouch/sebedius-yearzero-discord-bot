@@ -4,6 +4,9 @@ All notable changes to this project will be documented in this file.
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.2.0] - Unreleased
+### Added
+- New command: `!atk`.
+
 ### Changed
 - `!critmutant` renamed into `!critmyz` ("critmutant" is still an alias for this command).
 - New command alias for `!rollmyz`: rollmutant.

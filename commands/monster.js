@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const Monster = require('../generators/MYZMonsterGenerator');
 const Util = require('../utils/Util');
 
@@ -16,7 +16,7 @@ module.exports = {
 	async execute(args, ctx) {
 		// ( !demon SHORTCUT )
 		// Exits early and executes !demon if argument "Demon".
-		if (args.includes('demon')) return ctx.bot.commands.get('demon').execute(args, ctx);
+		if (args.includes('demon')) return await ctx.bot.commands.get('demon').execute(args, ctx);
 
 		const monster = new Monster();
 

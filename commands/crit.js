@@ -1,6 +1,6 @@
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS } = require('../utils/constants');
 
 const availableCritTables = {

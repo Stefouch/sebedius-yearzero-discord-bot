@@ -257,10 +257,10 @@ The bot's JavasScript source code is under MIT license.
 
 The dice images are courtery of several people. Thanks to them for sharing them!
 
-- *Forbidden Lands* dice: M. Hilton Perantunes.
-- *Tales* & *Coriolis* dice: M. Jonathan Pay.
-- *ALIEN* dice: M. Radomir Balint. 
-- *Vaesen* dice: M. Matt Kay.
+- *Forbidden Lands* dice by Hilton Perantunes.
+- *Tales* & *Coriolis* dice by Jonathan Pay.
+- *Alien RPG* dice by Radomir Balint. 
+- *Vaesen* dice by Matt Kay.
 
 # Contributing
 
@@ -297,7 +297,7 @@ Hit me up if you've any question!
 
 # Support
 
-I'd like to thank Jeremy Mettler, Joe Guilmette, Matt Kay and all my other patrons and generous donators who are supporting this project and made it possible!
+I'd like to thank **Jeremy Mettler**, **Joe Guilmette**, **Matt Kay**, **Dale Chenault**, **Narcomed** and all my other patrons and generous donators who are supporting this project and made it possible!
 
 You too you can support this project.
 <br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.

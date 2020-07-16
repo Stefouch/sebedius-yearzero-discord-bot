@@ -1,4 +1,5 @@
 const { MessageEmbed } = require('discord.js');
+const { SOURCE_MAP } = require('./constants');
 
 class YZEmbed extends MessageEmbed {
 	/**
@@ -36,4 +37,26 @@ class YZEmbed extends MessageEmbed {
 	}
 }
 
-module.exports = YZEmbed;
+class YZMonsterEmbed extends MessageEmbed {
+
+	/**
+	 * A Discord embed message for Year Zero monsters.
+	 * @param {YZMonster} monster Year Zero monster object
+	 * @param {?string} color Embed.color
+	 */
+	constructor(monster, color = 0x1AA29B) {
+		super({
+			title: monster.name.toUpperCase(),
+			description: `*Monster from ${SOURCE_MAP[monster.game]}.*`,
+			color,
+		});
+
+		// Monster stats.
+		this.addField('Attributes', monster.attributesToString(), true);
+		this.addField('Armor', monster.armorToString(), true);
+		this.addField('Skills', monster.skillsToString(), true);
+		if (monster.special) this.addField('Special', monster.special, false);
+	}
+}
+
+module.exports = { YZEmbed, YZMonsterEmbed };

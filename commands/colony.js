@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const Planet = require('../generators/ALIENWorldGenerator');
 
 module.exports = {

@@ -1,30 +1,45 @@
 const LOCALES = {
 	en: {
-		'yzm-bloodburster': 'Bloodburster',
-		'yzm-neophyte': 'Juvenile Neomorph (Neophyte)',
-		'yzm-neomorph': 'Adult Neomorph',
-		'yzm-ovomorph': 'Ovomorph (Egg)',
-		'yzm-queenegg': 'Queen\'s Egg',
-		'yzm-facehugger': 'Facehugger',
-		'yzm-praetofacehugger': 'Praeto-Facehugger',
-		'yzm-royalfacehugger': 'Royal Facehugger',
-		'yzm-chestburster': 'Chestburster',
-		'yzm-bambiburster': 'Bambi Burster',
-		'yzm-imp': 'Imp',
-		'yzm-queenburster': 'Queenburster',
-		'yzm-xeno-stalker': 'Stalker',
-		'yzm-xeno-scout': 'Scout',
-		'yzm-xeno-drone': 'Drone',
-		'yzm-xeno-soldier': 'Soldier',
-		'yzm-xeno-worker': 'Worker',
-		'yzm-xeno-sentry': 'Sentry',
-		'yzm-xeno-praetorian': 'Praetorian',
-		'yzm-xeno-crusher': 'Crusher',
-		'yzm-xeno-queen': 'Queen',
+		none: 'none',
+		damage: 'damage',
+		'base-dice': 'Base Dice',
+		'malien-xeno-bloodburster': 'Bloodburster',
+		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
+		'malien-xeno-neomorph': 'Adult Neomorph',
+		'malien-xeno-ovomorph': 'Ovomorph (Egg)',
+		'malien-xeno-queenegg': 'Queen\'s Egg',
+		'malien-xeno-facehugger': 'Facehugger',
+		'malien-xeno-praetofacehugger': 'Praeto-Facehugger',
+		'malien-xeno-royalfacehugger': 'Royal Facehugger',
+		'malien-xeno-chestburster': 'Chestburster',
+		'malien-xeno-bambiburster': 'Bambi Burster',
+		'malien-xeno-imp': 'Imp',
+		'malien-xeno-queenburster': 'Queenburster',
+		'malien-xeno-stalker': 'Stalker',
+		'malien-xeno-scout': 'Scout',
+		'malien-xeno-drone': 'Drone',
+		'malien-xeno-soldier': 'Soldier',
+		'malien-xeno-worker': 'Worker',
+		'malien-xeno-sentry': 'Sentry',
+		'malien-xeno-praetorian': 'Praetorian',
+		'malien-xeno-crusher': 'Crusher',
+		'malien-xeno-queen': 'Queen',
+		'malien-swarm': 'The Swarm',
+		'malien-adultharvester': 'Harvester',
+		'malien-juvenileharvester': 'Harvester Juvenile',
+		'malien-lionworm': 'Lion Worm',
+		'malien-scorpionid-onland': 'Tanakan Scorpionid (On Land)',
+		'malien-scorpionid-inwater': 'Tanakan Scorpionid (In Water)',
 	},
 };
 
 module.exports.__ = (text, locale) => {
 	const loc = Object.keys(LOCALES).includes(locale) ? locale : 'en';
-	return Object.keys(LOCALES[loc]).includes(text) ? LOCALES[loc][text] : text;
+	if (Object.keys(LOCALES[loc]).includes(text)) {
+		return LOCALES[loc][text];
+	}
+	else if (Object.keys(LOCALES.en).includes(text)) {
+		return LOCALES.en[text];
+	}
+	return text;
 };

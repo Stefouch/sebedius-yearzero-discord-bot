@@ -1,5 +1,5 @@
 const Muts = require('../gamedata/mutations.list.json');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const Util = require('../utils/Util');
 
 module.exports = {

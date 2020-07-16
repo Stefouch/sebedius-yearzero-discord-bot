@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 const Util = require('./utils/Util');
 const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
-const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS } = require('./utils/constants');
+const { SUPPORTED_GAMES, DICE_ICONS } = require('./utils/constants');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -130,7 +130,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getLanguage(message) {
-		return await Sebedius.getConf('langs', message, this, SUPPORTED_LANGS[0]);
+		return await Sebedius.getConf('langs', message, this, 'en');
 	}
 
 	/**
@@ -250,9 +250,10 @@ class Sebedius extends Discord.Client {
 	 * Returns a text with all the dice turned into emojis.
 	 * @param {YZRoll} roll The roll
 	 * @param {Object} opts Options of the roll command
+	 * @param {?boolean} [applyAliases=false] Whether to apply the aliases
 	 * @returns {string} The manufactured text
 	 */
-	static emojifyRoll(roll, opts) {
+	static emojifyRoll(roll, opts, applyAliases = false) {
 		const game = opts.iconTemplate || roll.game;
 		let str = '';
 
@@ -264,7 +265,7 @@ class Sebedius extends Discord.Client {
 				// Skipping types.
 				if (opts.alias[type] === '--') continue;
 				// Dice swaps, if any.
-				//if (opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
+				if (applyAliases && opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
 			}
 
 			if (nbre) {

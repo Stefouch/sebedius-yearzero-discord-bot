@@ -1,6 +1,6 @@
 const Sebedius = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const { RollParser } = require('../utils/RollParser');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { SUPPORTED_GAMES } = require('../utils/constants');

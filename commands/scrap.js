@@ -1,6 +1,6 @@
 const fs = require('fs');
 const Config = require('../config.json');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 

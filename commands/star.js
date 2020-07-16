@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const Star = require('../generators/ALIENStarGenerator');
 const Util = require('../utils/Util');
 

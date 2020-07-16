@@ -1,5 +1,5 @@
-ref;effect
-1-3;**ESCAPE.** With a snarl, the Bloodburster flees, moving two zones away in a single action, into the nearest air duct if possible. As soon as the PCs lose line of sight, combat ends and stealth mode ensues. After D6 Turns, the Bloodburster grows into a Juvenile Neomorph and starts stalking the PCs.
-4;**TERRIFYING HISS.** The Bloodburster jumps onto the victim, showing its razor-sharp teeth and hissing. The victim must make an immediate Panic Roll.
-5;**LEG BITE.** With a snarl, the Bloodburster bites the victim’s leg. Roll for the attack using six Base Dice, Damage 2. If the attack causes damage, it automatically inflicts critical injury #53 (even if the victim is not Broken), triggering an immediate Panic Roll. Type `{prefix}crita 53`.
-6;**THROAT BITE.** The Bloodburster bites the victim’s throat. Roll for the attack using eight Base Dice, Damage 1. If the attack causes damage, it automatically inflicts critical injury #61 (even if the victim is not Broken), triggering an immediate Panic Roll. Type `{prefix}crita 61`.
+ref;d;dmg;name;effect
+1-3;;;ESCAPE;With a snarl, the Bloodburster flees, moving two zones away in a single action, into the nearest air duct if possible. As soon as the PCs lose line of sight, combat ends and stealth mode ensues. After D6 Turns, the Bloodburster grows into a Juvenile Neomorph and starts stalking the PCs.
+4;;;TERRIFYING HISS;The Bloodburster jumps onto the victim, showing its razor-sharp teeth and hissing. The victim must make an immediate Panic Roll.
+5;6;2;LEG BITE;With a snarl, the Bloodburster bites the victim’s leg. Roll for the attack using six Base Dice, Damage 2. If the attack causes damage, it automatically inflicts critical injury #53 (even if the victim is not Broken), triggering an immediate Panic Roll. Type `{prefix}crita 53`.
+6;8;1;THROAT BITE;The Bloodburster bites the victim’s throat. Roll for the attack using eight Base Dice, Damage 1. If the attack causes damage, it automatically inflicts critical injury #61 (even if the victim is not Broken), triggering an immediate Panic Roll. Type `{prefix}crita 61`.

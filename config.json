@@ -15,7 +15,7 @@
 			"options": {
 				"generic": {
 					"iconTemplate": "alien",
-					"successIcon": "☢",
+					"successIcon": "❇",
 					"hasBlankDice": false,
 					"detailed": false,
 					"extraPushDice": null,
@@ -40,6 +40,7 @@
 					"gearDamage": true
 				},
 				"tales": {
+					"successIcon": "❇",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
@@ -49,6 +50,7 @@
 					"detailed": true
 				},
 				"coriolis": {
+					"successIcon": "❇",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
@@ -81,6 +83,7 @@
 					"panic": true
 				},
 				"vaesen": {
+					"successIcon": "❇",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",

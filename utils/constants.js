@@ -1,9 +1,18 @@
 module.exports = {
 	SUPPORTED_GAMES: ['myz', 'fbl', 'tales', 'coriolis', 'alien', 'vaesen'],
-	SUPPORTED_LANGS: ['en', 'fr', 'sw'],
-	SUPPORTED_LANGS_NAMES: ['English', 'Français', 'Svenska'],
+	SUPPORTED_LANGS: {
+		en: 'English',
+		fr: 'Français',
+		sw: 'Svenska',
+	},
 	DAMAGE_TYPES: ['generic', 'slash', 'blunt', 'stab'],
 	DAMAGE_TYPES_ABBREVIATIONS: ['gen', 'sl', 'bl', 'st'],
+	ATTRIBUTES: [
+		'strength', 'physique', 'fitness',
+		'agility', 'precision', 'dexterity',
+		'wits', 'logic', 'intel',
+		'empathy', 'instinct',
+	],
 	SOURCE_MAP: {
 		'myz': 'Mutant: Year Zero',
 		'gla': 'Mutant: GenLab Alpha',
@@ -29,6 +38,9 @@ module.exports = {
 		'vaesen': 'Vaesen',
 		't2k': 'Twilight 2000 (Year Zero Engine)',
 		'cth': 'Upcoming Year Zero Cthulhu',
+	},
+	MONSTERS_CATALOGS: {
+		alien: './gamedata/alien/malien-catalog.csv',
 	},
 	CARDS_ICONS: [
 		'0️⃣',
