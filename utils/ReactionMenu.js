@@ -2,11 +2,19 @@ const Util = require('./Util');
 
 class ReactionMenu {
 	/**
+	 * @typedef ReactionData
+	 * An object containing the data needed to create a reaction.
+	 * @property {string} icon The desired emoji
+	 * @property {?string} owner User ID of the only person that can react to this emoji, if any
+	 * @property {function} fn Callback function with collector parameter, to perform when clicked
+	 */
+
+	/**
 	 * Creates a Reaction Menu for a message.
 	 * @param {Discord.Message} message Discord message to attach the reaction menu
 	 * @param {Discord.Client} client Discord client (the bot)
-	 * @param {number} time Cooldown
-	 * @param {Object[]} reactionsData An array of objects containing the data needed to create the reactions
+	 * @param {number} time Cooldown (in milliseconds)
+	 * @param {ReactionData[]} reactionsData An array of objects containing the data needed to create the reactions
 	 */
 	constructor(message, client, time, reactionsData) {
 		/**
@@ -36,11 +44,8 @@ class ReactionMenu {
 		this.time = time || 120000;
 
 		/**
-		 * An array with all reactions and their actions
-		 * @type {Object[]}
-		 * @property {string} icon The emoji
-		 * @property {?number} owner User ID of the only person that can react to this emoji, if any
-		 * @property {function} fn Callback function with collector parameter, to perform when clicked
+		 * An array with all reactions and their actions.
+		 * @type {Map<string, ReactionData>}
 		 */
 		this.reactions = new Map();
 		for (const reaction of reactionsData) {
@@ -126,4 +131,9 @@ class ReactionMenu {
 
 module.exports = ReactionMenu;
 
-class ReactionMenuError extends Error {}
+class ReactionMenuError extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'ReactionMenuError';
+	}
+}
