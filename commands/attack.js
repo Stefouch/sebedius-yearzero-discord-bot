@@ -14,37 +14,10 @@ module.exports = {
 	aliases: ['atk', 'atq'],
 	guildOnly: false,
 	args: true,
-	usage: '[game] <monster> [value] [-private|-p]',
+	usage: '[game] <monster name> [number] [-private|-p]',
 	async execute(args, ctx) {
-		// Parses arguments.
-		const argv = require('yargs-parser')(args, {
-			boolean: ['private'],
-			alias: {
-				private: ['p', 'hidden', 'h'],
-			},
-			default: {
-				private: false,
-			},
-			configuration: ctx.bot.config.yargs,
-		});
-		// Parses any reference.
-		let ref;
-		if(Util.isNumber(argv._[argv._.length - 1])) {
-			ref = +argv._.pop();
-		}
-
-		// Parses any game.
-		let game;
-		if (SUPPORTED_GAMES.includes(argv._[0])) {
-			game = argv._.shift();
-		}
-		else {
-			game = await Sebedius.getConf('games', ctx, ctx.bot, 'alien');
-		}
-
-		// Parses the monster.
-		const monsterName = argv._.join(' ');
-		const monster = await YZMonster.fetch(ctx, monsterName, game);
+		const { monster, argv } = await ctx.bot.commands.get('monster').parse(args, ctx);
+		const ref = argv.attack;
 		const successIcon = ctx.bot.config.commands.roll.options[monster.game].successIcon || 'success';
 		const attack = monster.attack(ref);
 		const effect = attack.effect
@@ -67,31 +40,27 @@ module.exports = {
 		}
 		if (footer) embed.setFooter(footer);
 
-		console.log(monster);
-		await ctx.channel.send(new YZMonsterEmbed(monster));
-
 		// Sends the message.
 		let message;
 		if (argv.private) message = await ctx.author.send(embed);
 		else message = await ctx.channel.send(embed);
 
 		// Adds a Reaction Menu to roll the dice of the attack.
-		if (attack.d || attack.dmg || attack.crit) {
+		if (attack.base || attack.damage || attack.crit) {
 			const reactions = [];
-			if (attack.d || attack.dmg) {
+			if (attack.base || attack.damage) {
 				reactions.push({
 					icon: '⚔️',
 					owner: ctx.author.id,
-					fn: collector => rollAttack(attack, game, message, ctx.bot, collector),
+					fn: () => rollAttack(attack, monster.game, message, ctx.bot),
 				});
 			}
 			if (attack.crit) {
-				const type = '';
-				const nb = '';
+				const [num, table] = attack.crit.split(' ');
 				reactions.push({
 					icon: '☠️',
 					owner: ctx.author.id,
-					fn: collector => rollCrit(game, type, nb, ctx, collector),
+					fn: () => rollCrit(monster.game, table, num, ctx),
 				});
 			}
 			reactions.push({
@@ -111,38 +80,49 @@ module.exports = {
  * @param {string} game The code of the game used
  * @param {Discord.Message} message Discord message
  * @param {Discord.Client} bot The bot's client
- * @param {Discord.Collector} collector The reaction menu's collector
  * @async
  */
-async function rollAttack(attack, game, message, bot, collector) {
-	//await collector.stop();
-
+async function rollAttack(attack, game, message, bot) {
+	// Rolls the attack.
 	const atkRoll = new YZRoll(
 		message.author,
-		{ base: attack.d },
+		{ base: attack.base },
 	);
 	atkRoll.setGame(game);
-	const hit = atkRoll.sixes;
-	const damage = hit ? +attack.dmg + hit - 1 : 0;
 
+	// Calculates damages.
+	const hit = atkRoll.sixes;
+	let damage;
+	// No damage if undefined
+	if (attack.damage == undefined || attack.damage == null) {
+		damage = 0;
+	}
+	// Fixed damage
+	else if (/{\d*}/.test(attack.damage)) {
+		damage = +attack.damage.replace(/{(\d*)}/, (match, p1) => p1);
+	}
+	// Regular damage
+	else {
+		damage = +attack.damage + hit - 1;
+	}
+
+	// Sends the message.
 	await message.channel.send(
 		Sebedius.emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
 		damage
-			? new YZEmbed(`${damage} Damage`, ':boom:'.repeat(damage))
-			: null,
+			? new YZEmbed(`Damage × ${damage}`, ':boom:'.repeat(damage))
+			: new YZEmbed(`Success${hit > 1 ? 'es' : ''}`, `**${hit}**`),
 	);
 }
 
 /**
  * Rolls a crit of an attack.
  * @param {string} game The code of the game used
- * @param {?string} type Crit damage type
- * @param {?number} ref The reference of the crit, if any
+ * @param {?string} table Crit damage type
+ * @param {?number} num The reference of the crit, if any
  * @param {Discord.Message} ctx Discord message with context
- * @param {Discord.Collector} collector The reaction menu's collector
  * @async
  */
-async function rollCrit(game, type, ref, ctx, collector) {
-	//await collector.stop();
-	await ctx.bot.commands.get('crit').execute([game, type, ref], ctx);
+async function rollCrit(game, table, num, ctx) {
+	return await ctx.bot.commands.get('crit').execute([game, table, num], ctx);
 }

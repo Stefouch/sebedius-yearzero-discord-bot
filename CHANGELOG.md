@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - New command: `!atk`.
 
 ### Changed
+- `!monster` aliases and effects.
 - `!critmutant` renamed into `!critmyz` ("critmutant" is still an alias for this command).
 - New command alias for `!rollmyz`: rollmutant.
 

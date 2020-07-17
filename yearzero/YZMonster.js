@@ -97,15 +97,15 @@ class YZMonster {
 				const out = [];
 				for (const atq of atqs) {
 					if (atq.startsWith('{') && atq.endsWith('}')) {
-						const atk = atq.replace(/{(.*):(.*):(.*)}/gi, (match, n, d, dmg) => {
-							return `{ "name": "${n.toUpperCase()}", "d": ${d}, "dmg": ${dmg}, `
-								+ `"effect": "${d} ${__('base-dice', this.lang)}`
+						const atk = atq.replace(/{(.*):(.*):(.*):(.*)}/gi, (match, n, d, dmg, rng) => {
+							return `{ "name": "${n.toUpperCase()}", "base": ${d}, "damage": ${dmg}, `
+								+ `"range": ${rng}, "effect": "${d} ${__('base-dice', this.lang)}`
 								+ `, ${Util.capitalize(__('damage', this.lang))} ${dmg}." }`;
 						});
 						out.push(JSON.parse(atk));
 					}
 					else {
-						out.push({ effect: atq + '.' });
+						out.push({ name: 'Special', effect: atq + '.' });
 					}
 				}
 				// Creates the roll intervals (the references).
@@ -144,7 +144,7 @@ class YZMonster {
 		const out = [];
 		for (const key in this.attributes) {
 			if (this.attributes[key] > 0) {
-				out.push(`${Util.capitalize(__(key, this.lang))}: **${this.attributes[key]}**`);
+				out.push(`${Util.capitalize(__(key, this.lang))} **${this.attributes[key]}**`);
 			}
 		}
 		return out.join('\n');
@@ -158,7 +158,7 @@ class YZMonster {
 		const out = [];
 		for (const key in this.skills) {
 			if (this.skills[key] > 0) {
-				out.push(`${Util.capitalize(__(key, this.lang))}: **${this.skills[key]}**`);
+				out.push(`${Util.capitalize(__(key, this.lang))} **${this.skills[key]}**`);
 			}
 		}
 		if (out.length === 0) return `*${Util.capitalize(__('none', this.lang))}*`;
@@ -188,6 +188,43 @@ class YZMonster {
 			}
 			str += out.join(', ') + ')';
 		}
+		return str;
+	}
+
+	/**
+	 * Returns a string for the attacks.
+	 * @returns {string}
+	 */
+	attacksToString() {
+		if (!(this.attacks instanceof RollTable)) {
+			return '```\n' + this.attacks + '\n```';
+		}
+		// const intvlColLen = 7, nameColLen = 18, diceColLen = 6, dmgColLen = 8;
+		const intvlColLen = 5, nameColLen = 20, diceColLen = 6, dmgColLen = 8;
+		let str = '```\n'
+			+ Util.alignText(this.attacks.d, intvlColLen, 0)
+			+ Util.alignText('Name', nameColLen, 0)
+			+ Util.alignText('Base', diceColLen, 0)
+			+ Util.alignText('Damage', dmgColLen, 0)
+			+ 'Range\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
+
+		for (const [ref, attack] of this.attacks) {
+			if (attack.name === '{REROLL}') continue;
+			const n = attack.name || 'Unnamed';
+			const d = attack.base ? attack.base + 'D' : '-';
+			const dmg = attack.damage || '-';
+			const r = attack.range || '-';
+			str += '\n'
+				+ Util.alignText(`${ref}`, intvlColLen, 0)
+				+ Util.alignText(n, nameColLen, 0)
+				+ Util.alignText(d, diceColLen, 0)
+				+ Util.alignText(`${dmg}`, dmgColLen, 0)
+				+ `${r}`;
+		}
+		if (str.length + 4 > 2000) {
+			str = Util.trimString(str, 2000 - 4);
+		}
+		str += '\n```';
 		return str;
 	}
 
@@ -259,28 +296,26 @@ class YZMonster {
 	/**
 	 * Fetches a Year Zero monster from the catalogs (databases).
 	 * @param {Discord.Message} ctx Discord message with context
-	 * @param {string} monsterName Monster name search
-	 * @param {string} gameName Code for the source game
+	 * @param {string} game Code for the source game
+	 * @param {string} monsterName Monster name to search
 	 * @returns {YZMonster}
+	 * @async
 	 */
-	static async fetch(ctx, monsterName = null, gameName = null) {
-		let game;
-		if (SUPPORTED_GAMES.includes(gameName)) {
-			game = gameName;
-		}
-		else {
-			const gameChoices = SUPPORTED_GAMES.map(g => [SOURCE_MAP[g], g]);
-			game = await Sebedius.getSelection(ctx, gameChoices);
-		}
-
+	static async fetch(ctx, game, monsterName = null) {
 		if (monsterName) {
 			const monster = YZMonster.monsters(game)
 				.find(m => m.name.toLowerCase() == monsterName.toLowerCase());
 			if (monster) return monster;
 		}
-		const monsterChoices = YZMonster.monsters(game)
+		let monsterChoices = YZMonster.monsters(game);
+		const filteredMonsterChoices = monsterChoices
 			.filter(m => m.game === game && m.name.toLowerCase().includes(monsterName.toLowerCase()))
-			.map(m => [m.name, m]);
+		if (filteredMonsterChoices.length) {
+			monsterChoices = filteredMonsterChoices.map(m => [m.name, m]);
+		}
+		else {
+			monsterChoices = monsterChoices.map(m => [m.name, m]);
+		}
 		return await Sebedius.getSelection(ctx, monsterChoices);
 	}
 

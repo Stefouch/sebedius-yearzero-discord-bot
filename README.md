@@ -104,6 +104,14 @@ Tracks the initiative of combatants. Read the detailed help here:
 init <subcommand>
 ```
 
+### **MONSTER** command
+
+Gets a monster from the catalogs or generates a random monster according to the tables found in the *Mutant: Year Zero*, *Zone Compendium 1: The Lair of the Saurians*.
+
+```
+monster [game] <name> [number] [-attack|-atk] [-private|-p]
+```
+
 ### **Mutant Year Zero** commands
 
 * `rollmutant|rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
@@ -122,7 +130,6 @@ init <subcommand>
 * `artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
 * `threat` – Draws a random Zone threat (no details).
 * `arkthreat` – Draws a random threat against the Ark (no details).
-* `monster` – Generates a random monster according to the tables found in *Zone Compendium 1: The Lair of the Saurians*.
 
 ### **Forbidden Lands** commands
 
