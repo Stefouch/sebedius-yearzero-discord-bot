@@ -55,6 +55,7 @@ class YZMonsterEmbed extends MessageEmbed {
 		this.addField('Attributes', monster.attributesToString(), true);
 		this.addField('Armor', monster.armorToString(), true);
 		this.addField('Skills', monster.skillsToString(), true);
+		this.addField('Signature Attacks', monster.attacksToString(), false);
 		if (monster.special) this.addField('Special', monster.special, false);
 	}
 }
