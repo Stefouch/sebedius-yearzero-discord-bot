@@ -13,6 +13,13 @@ module.exports = {
 		'wits', 'logic', 'intel',
 		'empathy', 'instinct',
 	],
+	RANGES: {
+		myz: ['arm', 'near', 'short', 'long', 'distant'],
+		fbl: ['arm', 'near', 'short', 'long', 'distant'],
+		coriolis: ['close', 'short', 'long', 'extreme'],
+		alien: ['engaged', 'short', 'medium', 'long', 'extreme'],
+		vaesen: [0, 1, 2, 3, 4],
+	},
 	SOURCE_MAP: {
 		'myz': 'Mutant: Year Zero',
 		'gla': 'Mutant: GenLab Alpha',
