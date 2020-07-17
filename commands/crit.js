@@ -97,7 +97,7 @@ module.exports = {
 			}
 		}
 		// Defaults.
-		if (!game) game = await ctx.bot.getGame(ctx);
+		if (!game) game = await ctx.bot.getGame(ctx, 'myz');
 		if (!type) type = 'damage';
 
 		// Aborts if the table doesn't exist.

@@ -4,7 +4,7 @@ const Discord = require('discord.js');
 const Util = require('./utils/Util');
 const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
-const { SUPPORTED_GAMES, DICE_ICONS } = require('./utils/constants');
+const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -30,7 +30,7 @@ class Sebedius extends Discord.Client {
 					'DIRECT_MESSAGES',
 					'DIRECT_MESSAGE_REACTIONS',
 				],
-			},//*/
+			},
 		});
 		this.state = 'init';
 		this.muted = false;
@@ -116,11 +116,25 @@ class Sebedius extends Discord.Client {
 	/**
 	 * Gets the desired game (used for the dice icons skin).
 	 * @param {Discord.Message} message Discord message
+	 * @param {?string} defaultGame Fallback default game
 	 * @returns {string}
 	 * @async
 	 */
-	async getGame(message) {
-		return await Sebedius.getConf('games', message, this, SUPPORTED_GAMES[0]);
+	async getGame(message, defaultGame = null) {
+		const game = await Sebedius.getConf('games', message, this, defaultGame);
+		if (!game) return await Sebedius.getGameFromSelection(message);
+		return game;
+	}
+
+	/**
+	 * Gets the desired game from a selection message.
+	 * @param {Discord.Message} message Discord message
+	 * @returns {string}
+	 * @async
+	 */
+	static async getGameFromSelection(message) {
+		const gameChoices = SUPPORTED_GAMES.map(g => [SOURCE_MAP[g], g]);
+		return await Sebedius.getSelection(message, gameChoices);
 	}
 
 	/**
@@ -169,7 +183,7 @@ class Sebedius extends Discord.Client {
 		else {
 			fetchedItem = await client.kdb[collectionName].get(guildID);
 			if (!fetchedItem) fetchedItem = defaultItem;
-			client[collectionName].set(guildID, fetchedItem);
+			if (fetchedItem) client[collectionName].set(guildID, fetchedItem);
 		}
 		// Returns the fetched prefixes.
 		return fetchedItem;
