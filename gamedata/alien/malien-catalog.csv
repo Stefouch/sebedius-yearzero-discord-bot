@@ -18,11 +18,11 @@ malien-xeno-soldier;2;8;10|fire:5;Mobility 8|Observation 8;Acid Splash 10;alien;
 malien-xeno-worker;1;4;5|fire:2;Mobility 4|Observation 4;Acid Splash 6;alien;atk-xeno-stage5
 malien-xeno-sentry;3;8;12|fire:5;Mobility 12|Observation 10;Acid Splash 10;alien;atk-xeno-stage5
 malien-xeno-praetorian;2;10;12|fire:5;Mobility 5|Observation 8;Acid Splash 10;alien;atk-xeno-stage6
-malien-xeno-crusher;1;16;18|fire:6;Mobility 4|Observation 5;Acid Splash 10;alien;atk-xeno-stage6
-malien-xeno-queen;2;14;14|fire:5;Mobility 8|Observation 12;Acid Splash 10;alien;atk-xeno-stage6
+malien-xeno-crusher;1;16;18|fire:6;Mobility 4|Observation 5;Acid Splash 10;alien;atk-xeno-stage6-crusher
+malien-xeno-queen;2;14;14|fire:5;Mobility 8|Observation 12;Acid Splash 10;alien;atk-xeno-stage6-queen
 malien-swarm;1;5;1000|fire:0|explo:0|elec:0;;;alien;atk-swarm
 malien-adultharvester;1;15;15|belly:5;Mobility 4;2D6 juveniles;alien;atk-harvester
-malien-juvenileharvester;1;4;4;Mobility 4;;alien;{attack:4:1}
+malien-juvenileharvester;1;4;4;Mobility 4;;alien;{attack:4:1:0}
 malien-lionworm;2;8;4;Mobility 12|Observation 8;Ambush;alien;atk-lionworm
 malien-scorpionid-onland;1;5;6|bullets:3;Mobility 6|Observation 6;;alien;atk-scorpionid
 malien-scorpionid-inwater;3;5;6|bullets:3;Mobility 10|Observation 10;Underwater Sprint;alien;atk-scorpionid
