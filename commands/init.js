@@ -1076,7 +1076,7 @@ async function attack(args, ctx) {
 
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
-	const game = combat.game || await ctx.bot.getGame(ctx);
+	const game = combat.game || await ctx.bot.getGame(ctx, 'myz');
 	const degradeArmor = argv.degrade ? true : (ctx.bot.config.commands.init.attack.degrade[game] || false);
 
 	let combatant;
