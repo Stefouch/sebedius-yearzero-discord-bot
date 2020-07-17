@@ -72,7 +72,7 @@
 					]
 				},
 				"alien": {
-					"successIcon": "❇",
+					"successIcon": "<:alienb6:585072583020380170>",
 					"alias": {
 						"base": "skill",
 						"skill": "stress",
