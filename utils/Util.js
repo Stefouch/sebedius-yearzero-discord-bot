@@ -498,7 +498,8 @@ class Util {
 
 			for (let j = 0; j < headers.length; j++) {
 				let value = currentLine[j];
-				if (value === '') value = undefined;
+				if (value === '') continue;
+				// if (value === '') value = undefined;
 				// else if (value === 'true') value = true;
 				// else if (value === 'false') value = false;
 				// else if (this.isNumber(value)) value = Number(value);
