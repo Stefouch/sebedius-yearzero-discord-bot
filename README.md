@@ -5,11 +5,11 @@
 **Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by *Free League Publishing (Fria Ligan)*.
 
 The supported games are:
-* [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/)
+* [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/) & extensions
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
-* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
+* [The ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 
 # Add the Bot to your Server
@@ -22,6 +22,19 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 Commands are triggered with the prefix `!` or by mentioning the bot. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
 
+- [Generic commands](#generic-commands)
+  - [!roll](#roll-command)
+  - [!crit](#crit-command)
+  - [!init](#init-command)
+  - [!monster](#monster-command)
+  - [!attack](#attack-command)
+- [Mutant Year Zero Commands](#mutant-year-zero-commands)
+- [Forbidden Lands Commands](#forbidden-lands-commands)
+- [ALIEN Commands](#alien-commands)
+- [Tales From The Loop Commands](#tales-from-the-loop-commands)
+- [Coriolis Commands](#coriolis-commands)
+- [Vaesen Commands](#vaesen-commands)
+
 ### Vocabulary
 
 Below you'll find a list of available commands. The instructions use the following scheme:
@@ -32,12 +45,12 @@ Below you'll find a list of available commands. The instructions use the followi
 
 ### Generic commands
 
-* `help [command name] [--no-dm]` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
-* `ping` – Checks the bot's latency.
-* `invite` – Prints a link to invite Sebedius to your server.
-* `changelog` – Prints a link to the official changelog.
-* `prefix [set <new prefix>]` – Gets the prefixes for the current server.  Sets a new one with the option `add`.
-* `drawinit <speed> [-haste <value>] [-shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
+* `!help [command name] [--no-dm]` – The bot's manual. Read it! Use the `--no-dm` argument to diplay the help message on the channel.
+* `!ping` – Checks the bot's latency.
+* `!invite` – Prints a link to invite Sebedius to your server.
+* `!changelog` – Prints a link to the official changelog.
+* `!prefix [set <new prefix>]` – Gets the prefixes for the current server.  Sets a new one with the option `add`.
+* `!drawinit <speed> [-haste <value>] [-shuffle]` – Draws one or more initiative cards. The deck is specific to each Discord server.
   * `<speed>` – Number of initiative cards to draw. Default: 1.
   * `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
   * `[-shuffle]` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`
@@ -47,7 +60,7 @@ Below you'll find a list of available commands. The instructions use the followi
 Rolls dice for the Year Zero roleplaying games.
 
 ```
-roll [game] <dice> [arguments]
+!roll [game] <dice> [arguments]
 ```
 
 * `[game]` is used to specify the skin of the rolled dice. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
@@ -87,7 +100,7 @@ Coriolis has more push options: 🙏 (Praying the Icons ahead of time, +1D) and 
 Rolls for a random critical injury.
 
 ```
-crit [game] [table] [numeric] [-private]
+!crit [game] [table] [numeric] [-private]
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
@@ -102,7 +115,7 @@ Tracks the initiative of combatants. Read the detailed help here:
 <br />https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/InitTracker-README.md
 
 ```
-init <subcommand>
+!init <subcommand>
 ```
 
 ### **MONSTER** command
@@ -110,120 +123,132 @@ init <subcommand>
 Gets a monster from the catalogs or generates a random monster according to the tables found in the *Mutant: Year Zero*, *Zone Compendium 1: The Lair of the Saurians*.
 
 ```
-monster [game] <name> [-attack|-atk|-a [number]] [-private|-p]
+!monster [game] <monster name> [-attack [number]] [-private]
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted.
-* `<name>` – Specifies the monster you want to fetch.
-* `[-attack [number]]`
+* `<monster name>` – Specifies the monster you want to fetch.
+* `[-attack|-atk|-a [number]]` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type `<name> [number]` instead of the `-attack` argument).
+* `[-private|-p]` – Sends the message in a private DM.
 
-If no argument are provided, Sebedius generates a random MYZ monster.
+If no argument is provided, Sebedius generates a random MYZ monster.
+
+### **ATTACK** command
+
+```
+!attack [game] <monster name> [number] [-private]
+```
+
+* `[game]` – Specifies the game you are using. Can be omitted.
+* `<monster name>` – Specifies the monster you want to fetch.
+* `[number]` – Roll table reference.
+* `[-private|-p]` – Sends the message in a private DM.
 
 ### **Mutant Year Zero** commands
 
-* `rollmutant|rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
-* `critmutant|critm` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+* `!rollmyz|rm` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `!critmyz|critm` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
   * `damage|dmg` – Critical injuries from damage
   * `horror|h` – The *Forbidden Lands* Horror traumas, adapted for MYZ
   * `nontypical|nt` – Critical injury for non-typical damage
   * `pushed|p` – Critical injury for pushed damage (none)
-* `mutation <mp>` – Rolls dice for a Mutation and checks for any Misfire.
-* `feral <fp>` – Rolls dice for a GenLab Alpha Animal Power and checks for any Feral Effect.
-* `module <ep>` – Rolls dice for a Mechatron Module and checks for any Overheating.
-* `contact <ip>` – Rolls dice for an Elysium Contact and checks for any Backlash.
-* `scrap [quantity]` – Gets you a bunch of scrap.
-* `rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
-* `drawmutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
-* `artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
-* `threat` – Draws a random Zone threat (no details).
-* `arkthreat` – Draws a random threat against the Ark (no details).
+* `!mutation <mp>` – Rolls dice for a Mutation and checks for any Misfire.
+* `!feral <fp>` – Rolls dice for a GenLab Alpha Animal Power and checks for any Feral Effect.
+* `!module <ep>` – Rolls dice for a Mechatron Module and checks for any Overheating.
+* `!contact <ip>` – Rolls dice for an Elysium Contact and checks for any Backlash.
+* `!scrap [quantity]` – Gets you a bunch of scrap.
+* `!rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
+* `!drawmutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
+* `!artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
+* `!threat` – Draws a random Zone threat (no details).
+* `!arkthreat` – Draws a random threat against the Ark (no details).
 
 ### **Forbidden Lands** commands
 
-* `rollfbl|rf` – Shortcut for rolling dice. See the **Roll** command above for more details.
-* `critfbl|critf` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+* `!rollfbl|rf` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `!critfbl|critf` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
   * `slash|sl` – Critical injuries due to Slash wounds
   * `blunt|bl` – Critical injuries due to Blunt force
   * `stab|st` – Critical injuries due to Stab wounds
   * `horror|h` – Horror traumas
   * `nontypical|nt` – Critical injury for non-typical damage
   * `pushed|p` – Critical injury for pushed damage (none)
-* `cast <power> [name] [-mishap <value>]` – Rolls a spell's Power Level and checks for any Magic Mishap.
-* `mishap [value]` – Draws a random Magic Mishap.
-* `demon` – Generates a random demon according to the tables found in the *Gamemaster's Guide*.
-* `legend` – Generates a random legend according to the tables found in the *Gamemaster's Guide*.
+* `!cast <power> [name] [-mishap <value>]` – Rolls a spell's Power Level and checks for any Magic Mishap.
+* `!mishap [value]` – Draws a random Magic Mishap.
+* `!demon` – Generates a random demon according to the tables found in the *Gamemaster's Guide*.
+* `!legend` – Generates a random legend according to the tables found in the *Gamemaster's Guide*.
 
 ### **ALIEN** commands
 
-* `rollalien|ra` – Shortcut for rolling dice. See the **Roll** command above for more details.
-* `critalien|crita` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
+* `!rollalien|ra` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `!critalien|crita` – Shortcut for critical tables. See the **Crit** command above for more details. Available tables:
   * `damage|d` – Critical injuries from damage
   * `synthetic|synth|s` – Critical injuries on Synthetics and Androids
   * `xeno|x` – Critical injuries for Xenomorphs
   * `mental|m` – Permanent mental traumas
-* `panic <stress> [-f <number>]` – Rolls a random panic effect. Use the `-f` parameter for a fixed value. 
-* `planet` – Generates a random planet.
-* `colony` – Generates a random colonized planet.
-* `star` – Generates a random star sector.
-* `job <cargo | mil | expe>` – Generates a random job.
+* `!panic <stress> [-f <number>]` – Rolls a random panic effect. Use the `-f` parameter for a fixed value. 
+* `!planet` – Generates a random planet.
+* `!colony` – Generates a random colonized planet.
+* `!star` – Generates a random star sector.
+* `!job <cargo | mil | expe>` – Generates a random job.
 
 ### **Tales From The Loop** commands
 
-* `rolltales|rt` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `!rolltales|rt` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
 ### **Coriolis** commands
 
-* `rollcoriolis|rc` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `!rollcoriolis|rc` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
 ### **Vaesen** commands
 
-* `rollvaesen|rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
+* `!rollvaesen|rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
 ### Other commands
 
 Only a member with administrator rights can use these commands:
 
-* `setconf prefix [new prefix]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
-* `setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
-* `setconf lang [language code]` – Changes the default language (for translations). There are no options currently (it's implemented for future updates).
+* `!setconf prefix [new prefix]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
+* `!setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
+* `!setconf lang [language code]` – Changes the default language (for translations). There are no options currently (it's implemented for future updates).
 
 ## Examples
 
-`roll 4b1g` – Rolls 4 base and 1 gear dice.
+`!roll 4b1g` – Rolls 4 base and 1 gear dice.
 
-`roll 5b 3s -n Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
+`!roll 5b 3s -n Shake-It Off!` – Rolls 5 base, 3 skill dice, named "Shake-It Off!".
 
-`rf 4b3s 2g a10 -n Uber ROLL -f` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. Uses Forbidden Lands skin for the dice.
+`!rf 4b3s 2g a10 -n Uber ROLL -f` – Rolls 4 base, 3 skill, 2 gear dice and a D10 Artifact Die. The roll is named "Uber ROLL" and can be pushed any number of times. Uses Forbidden Lands skin for the dice.
 
-`rf 4b 2n -pride` – Takes 4 base dice and 2 negative dice *(Forbidden Lands)*, adds a D12 Artifact Die, and rolls them all.
+`!rf 4b 2n -pride` – Takes 4 base dice and 2 negative dice *(Forbidden Lands)*, adds a D12 Artifact Die, and rolls them all.
 
-`roll 3b 2b 1b 2s 1s 1g 1g` – Rolls (3+2+1) base dice, (2+1) skills dice and (1+1) gear dice.
+`!roll 3b 2b 1b 2s 1s 1g 1g` – Rolls (3+2+1) base dice, (2+1) skills dice and (1+1) gear dice.
 
-`rc 4d -p 0` – Rolls 4 dice for *Coriolis* and the roll can't be pushed.
+`!rc 4d -p 0` – Rolls 4 dice for *Coriolis* and the roll can't be pushed.
 
-`rv 6d -p 2` – Rolls 6 dice for *Vaesen* and the roll can be pushed twice.
+`!rv 6d -p 2` – Rolls 6 dice for *Vaesen* and the roll can be pushed twice.
 
-`ra 8b 2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
+`!ra 8b 2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
 
-`roll d66` – Rolls a D66 (D6 × 10 + D6).
+`!roll d66` – Rolls a D66 (D6 × 10 + D6).
 
-`roll 2d` – Rolls two hexahedrons.
+`!roll 2d` – Rolls two hexahedrons.
 
-`roll d2` – Rolls a d2 (a coin).
+`!roll d2` – Rolls a d2 (a coin).
 
-`res d8 Torches` – Rolls a D8 Resource Die for "Torches".
+`!res d8 Torches` – Rolls a D8 Resource Die for "Torches".
 
-`supply 6 Air` – Rolls supply for "Air" with six stress dice and counts ones (banes).
+`!supply 6 Air` – Rolls supply for "Air" with six stress dice and counts ones (banes).
 
-`drawinit` or `drawinit 1` – Draws one initiative cards.
+`!drawinit` or `drawinit 1` – Draws one initiative cards.
 
-`drawinit -shuffle` – Shuffles all the initiative cards in a new deck (= reset).
+`!drawinit -shuffle` – Shuffles all the initiative cards in a new deck (= reset).
 
-`panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
+`!panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
 
-`crit fbl slash` – Draws a random critical injury from the Slash damage table in Forbidden Lands.
+`!crit fbl slash` – Draws a random critical injury from the Slash damage table in Forbidden Lands.
 
-`crita dmg 66` – Draws the #66 critical injury from the Damage table in the ALIEN rpg. You're dead.
+`!crita dmg 66` – Draws the #66 critical injury from the Damage table in the ALIEN rpg. You're dead.
 
 ## Command Aliases
 
