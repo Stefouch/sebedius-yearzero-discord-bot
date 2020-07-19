@@ -1,7 +1,7 @@
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
-const { SUPPORTED_GAMES, DICE_ICONS } = require('../utils/constants');
+const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -25,7 +25,7 @@ const critTypeAliases = {
 module.exports = {
 	name: 'crit',
 	group: 'Core',
-	description: 'Rolls for a random critical injury.',
+	description: 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
 	moreDescriptions: [
 		[
 			'Arguments',
@@ -61,16 +61,20 @@ module.exports = {
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric]',
+	usage: '[game] [table] [numeric] [-private|-p]',
 	async execute(args, ctx) {
 		// Exits early if too many arguments
-		if (args.length > 3) return ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
+		if (args.length > 4) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
 
 		// Parsing arguments.
-		let game, type, fixedReference;
+		let game, type, fixedReference, privacy = false;
 		for (const arg of args) {
+			// Checks privacy.
+			if (!privacy && (arg === '-private' || arg === '-p')) {
+				privacy = true;
+			}
 			// Checks and sets any fixed reference.
-			if (!fixedReference && Util.isNumber(arg)) {
+			else if (!fixedReference && Util.isNumber(arg)) {
 				fixedReference = +arg;
 			}
 			// Checks and sets the game.
@@ -105,7 +109,7 @@ module.exports = {
 			return ctx.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
-			return ctx.reply(`ℹ️ There is no \`${type}\` critical table for **${game.toUpperCase()}**.`);
+			return ctx.reply(`ℹ️ There is no \`${type}\` critical table for **${SOURCE_MAP[game]}**.`);
 		}
 
 		// Table swap.
@@ -141,7 +145,10 @@ module.exports = {
 		const icon2 = DICE_ICONS[dieType].skill[die2] || '';
 
 		// Sends the message.
-		return ctx.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
+		if (privacy) {
+			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx));
+		}
+		return await ctx.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
 			.then(() => {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
