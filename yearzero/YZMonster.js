@@ -257,16 +257,17 @@ class YZMonster {
 		if (this.attacks instanceof RollTable) {
 			let ref;
 			if (this.attacks.length <= 6) ref = Util.rand(1, 6);
-			//else if (this.attacks.length <= 36) ref = Util.rollD66();
-			//else if (this.attacks.length <= 216) ref = Util.rollD666();
-			else throw new RangeError('[YZMonster.Attack] - Out of Range');
+			else if (this.attacks.length <= 36) ref = Util.rollD66();
+			else if (this.attacks.length <= 216) ref = Util.rollD666();
+			else throw new RangeError('[YZMonster.Attack] - Reference Out of Range');
 
 			if (reference && Util.isNumber(reference)) {
 				ref = Util.modifOrSet(`${reference}`, ref);
-				ref = Util.clamp(ref, 1, 6);
+				ref = Util.clamp(ref, 1, this.attacks.length);
 			}
 
 			const attack = this.attacks.get(ref);
+			if (!attack) return undefined;
 			if (attack.name === '{REROLL}' || !attack.effect) {
 				return this.attack();
 			}
