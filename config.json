@@ -30,7 +30,7 @@
 					}
 				},
 				"myz": {
-					"successIcon": "☢",
+					"successIcon": "<:b6:543422751428575238>",
 					"trauma": true,
 					"gearDamage": true
 				},
@@ -83,7 +83,7 @@
 					"panic": true
 				},
 				"vaesen": {
-					"successIcon": "❇",
+					"successIcon": "<:vaesenb6:721624875688787978>",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
