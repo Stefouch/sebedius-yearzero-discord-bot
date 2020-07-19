@@ -242,7 +242,7 @@ class Sebedius extends Discord.Client {
 			return null;
 		}
 
-		const table = new RollTable();
+		const table = new RollTable(`${fileName}.${lang}.${ext}`);
 		for (const elem of elements) {
 			if (type === 'CRIT') {
 				const entry = new YZCrit(elem);
@@ -255,7 +255,6 @@ class Sebedius extends Discord.Client {
 				throw new SebediusError('Unknown RollTable');
 			}
 		}
-		table.name = `${fileName}.${lang}.${ext}`;
 
 		return table;
 	}

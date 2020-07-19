@@ -1,5 +1,10 @@
 class RollTable extends Map {
 
+	constructor(name, iterable) {
+		super(iterable);
+		this.name = name;
+	}
+
 	/**
 	 * The total length of the entries.
 	 * Not the same as Size.
