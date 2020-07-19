@@ -9,6 +9,15 @@ module.exports = {
 	name: 'attack',
 	group: 'Core',
 	description: 'Rolls a random attack from a monster.',
+	moreDescriptions: [
+		[
+			'Arguments',
+			`• \`game\` – Specifies the game you are using. Can be omitted.
+			• \`name\` – Specifies the monster you want to fetch.
+			• \`number\` – Specifies the desired attack instead of choosing a random one.
+			• \`-private|-p\` – Sends the message in a private DM.`,
+		],
+	],
 	aliases: ['atk', 'atq'],
 	guildOnly: false,
 	args: true,

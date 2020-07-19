@@ -314,6 +314,130 @@ class Sebedius extends Discord.Client {
 	 * Returns the selected choice, or None. Choices should be a list of two-tuples of (name, choice).
 	 * If delete is True, will delete the selection message and the response.
 	 * If length of choices is 1, will return the only choice unless force_select is True.
+	 * @param {Discord.Message} ctx Discord message with context
+	 * @param {*} choices 
+	 * @param {*} text 
+	 * @param {*} del 
+	 * @param {*} pm 
+	 * @param {*} forceSelect 
+	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
+	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
+	 * @returns {boolean}
+	 * @static
+	 * @async
+	 */
+	static async getSelection2(ctx, choices, text = null, del = true, pm = false, forceSelect = false) {
+		if (choices.length === 0) throw new Error('NoSelectionElements');
+		else if (choices.length === 1 && !forceSelect) return choices[0][1];
+
+		let page = 0;
+		const pages = Util.paginate(choices, 10);
+		let msg = null;
+		let reac = null;
+		let selectMsg = null;
+
+		const filterReac = (r, u) =>
+			u.id === ctx.author.id &&
+			['⬅', '➡', '❌'].includes(r.emoji.name)
+
+		const filterMsg = m =>
+			m.author.id === ctx.author.id &&
+			m.channel.id === ctx.channel.id &&
+			Number(m.content) >= 1 &&
+			Number(m.content) <= choices.length
+
+		for (let n = 0; n < 200; n++) {
+			const _choices = pages[page];
+			const names = _choices.map(o => o[0]);
+			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found' });
+			let selectStr = 'Which one were you looking for?.\n';
+			if (pages.length > 1) {
+				//selectStr += '`n` to go to the next page, or `p` for previous.\n';
+				embed.setFooter(`page ${page + 1}/${pages.length}`);
+			}
+			names.forEach((name, i) => selectStr += `**[${i + 1 + page * 10}]** – ${name}\n`);
+			embed.setDescription(selectStr);
+			//embed.setColor(Util.rand(0, 0xffffff));
+			if (text) embed.addField('Note', text, false);
+			if (selectMsg) {
+				try { await selectMsg.delete(); }
+				catch (err) { console.error(err); }
+			}
+			// Sends the selection message.
+			if (!pm) {
+				if (!selectMsg) selectMsg = await ctx.channel.send(embed);
+				else await selectMsg.edit(embed);
+			}
+			else {
+				embed.addField(
+					'Instructions',
+					'Type your response in the channel you called the command. '
+					+ 'This message was PMed to you to hide the monster name.',
+					false,
+				);
+				selectMsg = await ctx.author.send(embed);
+			}
+			// Adds reactions.
+			if (pages.length > 1) {
+				await selectMsg.react('⬅');
+				await selectMsg.react('➡');
+			}
+			await selectMsg.react('❌');
+			// Catches the answer.
+			selectMsg.awaitReactions(filterReac, { max: 1, time: 30000 })
+				.then(reactionCollection => {
+					reac = reactionCollection.first();
+					if (reac.emoji.name === '⬅') {
+						if (page + 1 < pages.length) page++;
+						else ctx.channel.send('You are already on the last page.');
+					}
+					else if (reac.emoji.name === '➡') {
+						if (page - 1 >= 0) page--;
+						else ctx.channel.send('You are already on the first page.');
+					}
+					else {
+						break;
+					}
+				});
+			msg = await ctx.channel.awaitMessages(filterMsg, { max: 1, time: 30000 });
+			msg = msg.first();
+			if (!msg) {
+				break;
+			}
+		/*	if (msg.content.toLowerCase() === 'n') {
+				if (page + 1 < pages.length) page++;
+				else await ctx.channel.send('You are already on the last page.');
+				try { await msg.delete(); }
+				catch (err) { console.error(err); }
+			}
+			else if (msg.content.toLowerCase() === 'p') {
+				if (page - 1 >= 0) page--;
+				else await ctx.channel.send('You are already on the first page.');
+				try { await msg.delete(); }
+				catch (err) { console.error(err); }
+			}//*/
+			else {
+				break;
+			}
+		}
+		if (del && !pm) {
+			try {
+				await selectMsg.delete();
+				await msg.delete();
+			}
+			catch (err) { console.error(err); }
+		}
+		if (!msg || msg.content.toLowerCase() === 'c') {
+			throw new Error('SelectionCancelled');
+		}
+		// Returns the choice.
+		return choices[Number(msg.content) - 1][1];
+	}
+
+	/**
+	 * Returns the selected choice, or None. Choices should be a list of two-tuples of (name, choice).
+	 * If delete is True, will delete the selection message and the response.
+	 * If length of choices is 1, will return the only choice unless force_select is True.
 	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
 	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
 	 */
@@ -376,10 +500,14 @@ class Sebedius extends Discord.Client {
 			if (msg.content.toLowerCase() === 'n') {
 				if (page + 1 < pages.length) page++;
 				else await message.channel.send('You are already on the last page.');
+				try { await msg.delete(); }
+				catch (err) { console.error(err); }
 			}
 			else if (msg.content.toLowerCase() === 'p') {
 				if (page - 1 >= 0) page--;
 				else await message.channel.send('You are already on the first page.');
+				try { await msg.delete(); }
+				catch (err) { console.error(err); }
 			}
 			else {
 				break;

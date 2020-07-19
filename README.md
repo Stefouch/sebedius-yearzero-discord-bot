@@ -34,6 +34,8 @@ Commands are triggered with the prefix `!` or by mentioning the bot. This prefix
 - [Tales From The Loop Commands](#tales-from-the-loop-commands)
 - [Coriolis Commands](#coriolis-commands)
 - [Vaesen Commands](#vaesen-commands)
+- [Other Commands](#other-commands)
+- [Examples](#examples)
 
 ### Vocabulary
 
@@ -135,13 +137,15 @@ If no argument is provided, Sebedius generates a random MYZ monster.
 
 ### **ATTACK** command
 
+Rolls a random attack from a monster.
+
 ```
 !attack [game] <monster name> [number] [-private]
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted.
 * `<monster name>` – Specifies the monster you want to fetch.
-* `[number]` – Roll table reference.
+* `[number]` – Specifies the desired attack instead of choosing a random one.
 * `[-private|-p]` – Sends the message in a private DM.
 
 ### **Mutant Year Zero** commands
