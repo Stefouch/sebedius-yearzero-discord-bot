@@ -12,7 +12,7 @@ module.exports = {
 	aliases: ['mon', 'creature', 'pokemon'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p|-hidden|-h]',
+	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p]',
 	async execute(args, ctx) {
 		// Old MYZ monster generator.
 		if (!args.length) return await generateRandomMYZMonster(ctx);
@@ -26,7 +26,9 @@ module.exports = {
 		else await ctx.channel.send(membed);
 
 		if (argv.attack) {
-			const argk = [monster.game, monster.name, argv.attack, '-p', argv.private];
+			const argk = [monster.game, monster.name];
+			if (Util.isNumber(argv.attack)) argk.push(argv.attack);
+			if (argv.private) argk.push('-p');
 			return await ctx.bot.commands.get('attack').execute(argk, ctx);
 		}
 		return monster;
@@ -44,20 +46,18 @@ module.exports = {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			boolean: ['private'],
-			number: ['attack'],
 			alias: {
 				attack: ['a', 'atk'],
-				private: ['p', 'hidden', 'h'],
+				private: ['p'],
 			},
 			default: {
-				attack: null,
 				private: false,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
 		// Parses any reference.
 		if (!argv.attack && Util.isNumber(argv._[argv._.length - 1])) {
-			argv.attack = +argv._.pop();
+			argv.attack = argv._.pop();
 		}
 
 		// Parses any game.

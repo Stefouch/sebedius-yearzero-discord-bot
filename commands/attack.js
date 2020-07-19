@@ -1,23 +1,21 @@
 const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
-const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
-const { SUPPORTED_GAMES } = require('../utils/constants');
-const YZMonster = require('../yearzero/YZMonster');
+const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
+const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'attack',
 	group: 'Core',
-	description: 'Rolls a random attack from a monster',
+	description: 'Rolls a random attack from a monster.',
 	aliases: ['atk', 'atq'],
 	guildOnly: false,
 	args: true,
 	usage: '[game] <monster name> [number] [-private|-p]',
 	async execute(args, ctx) {
 		const { monster, argv } = await ctx.bot.commands.get('monster').parse(args, ctx);
-		const ref = argv.attack;
+		const ref = Util.isNumber(argv.attack) ? argv.attack : null;
 		const successIcon = ctx.bot.config.commands.roll.options[monster.game].successIcon || 'success';
 		const attack = monster.attack(ref);
 		const effect = attack.effect
@@ -33,10 +31,17 @@ module.exports = {
 		// Sets the footer of the embed (roll reference).
 		let footer;
 		if (monster.attacks instanceof RollTable) {
-			footer = `(${ref ? ref : attack.ref}) → ${monster.attacks.name.split('.')[0]}`;
+			let refStr;
+			if (typeof ref === 'string' && (ref.startsWith('+') || ref.startsWith('-'))) {
+				refStr = `${attack.ref} (${ref})`;
+			}
+			else {
+				refStr = attack.ref;
+			}
+			footer = `[${refStr}] → ${monster.attacks.name.split('.')[0]}`;
 		}
 		else if (ref) {
-			footer = `(${ref})`;
+			footer = `Ref: [${ref}]`;
 		}
 		if (footer) embed.setFooter(footer);
 

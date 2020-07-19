@@ -3,7 +3,7 @@ const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const { __ } = require('../utils/locales');
-const { ATTRIBUTES, SUPPORTED_GAMES, SOURCE_MAP, MONSTERS_CATALOGS } = require('../utils/constants');
+const { ATTRIBUTES, MONSTERS_CATALOGS } = require('../utils/constants');
 
 class YZMonster {
 
@@ -29,6 +29,16 @@ class YZMonster {
 	 */
 	get name() {
 		return __(this.id, this.lang);
+	}
+
+	/**
+	 * All Year Zero Monsters sorted by game.
+	 * @type {Object}
+	 * @readonly
+	 * @constant
+	 */
+	static get MONSTERS() {
+		return _MONSTERS;
 	}
 
 	_createAttributes() {
@@ -117,8 +127,7 @@ class YZMonster {
 				});
 
 				// Creates a new RollTable for the attacks.
-				this.attacks = new RollTable();
-				this.attacks.name = this.id;
+				this.attacks = new RollTable(this.id);
 
 				// Adds the attacks to the RollTable.
 				out.forEach((atk, i) => {
@@ -241,19 +250,27 @@ class YZMonster {
 	 * @param {?number} reference Specific attack, if any.
 	 * @returns {YZAttack}
 	 */
-	attack(reference) {
+	attack(reference = null) {
 		if (typeof this.attacks === 'string') {
 			return { effect: this.attacks };
 		}
 		if (this.attacks instanceof RollTable) {
 			let ref;
-			if (reference) ref = reference;
-			else if (this.attacks.length <= 6) ref = Util.rand(1, 6);
-			else if (this.attacks.length <= 36) ref = Util.rollD66();
-			else if (this.attacks.length <= 216) ref = Util.rollD666();
-			else throw new Error('[YZMonster.Attack] - No reference');
+			if (this.attacks.length <= 6) ref = Util.rand(1, 6);
+			//else if (this.attacks.length <= 36) ref = Util.rollD66();
+			//else if (this.attacks.length <= 216) ref = Util.rollD666();
+			else throw new RangeError('[YZMonster.Attack] - Out of Range');
 
-			return this.attacks.get(ref);
+			if (reference && Util.isNumber(reference)) {
+				ref = Util.modifOrSet(`${reference}`, ref);
+				ref = Util.clamp(ref, 1, 6);
+			}
+
+			const attack = this.attacks.get(ref);
+			if (attack.name === '{REROLL}' || !attack.effect) {
+				return this.attack();
+			}
+			return attack;
 		}
 		return undefined;
 	}
@@ -303,11 +320,11 @@ class YZMonster {
 	 */
 	static async fetch(ctx, game, monsterName = null) {
 		if (monsterName) {
-			const monster = YZMonster.monsters(game)
+			const monster = YZMonster.MONSTERS[game]
 				.find(m => m.name.toLowerCase() == monsterName.toLowerCase());
 			if (monster) return monster;
 		}
-		let monsterChoices = YZMonster.monsters(game);
+		let monsterChoices = YZMonster.MONSTERS[game];
 		const filteredMonsterChoices = monsterChoices
 			.filter(m => m.game === game && m.name.toLowerCase().includes(monsterName.toLowerCase()))
 		if (filteredMonsterChoices.length) {
@@ -323,5 +340,14 @@ class YZMonster {
 		return `[YZMonster: ${this.id}]`;
 	}
 }
+
+console.log('[+] - Monsters Catalogs');
+console.log('      > Indexation...');
+
+const _MONSTERS = {
+	alien: YZMonster.monsters('alien'),
+};
+
+console.log('      > Loaded & Ready!');
 
 module.exports = YZMonster;

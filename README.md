@@ -87,13 +87,14 @@ Coriolis has more push options: 🙏 (Praying the Icons ahead of time, +1D) and 
 Rolls for a random critical injury.
 
 ```
-crit [game] [table] [numeric]
+crit [game] [table] [numeric] [-private]
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
   * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
 * `[table]` – Specifies the table you want from this game *(default is "damage")*.
 * `[numeric]` – Specifies a fixed reference.
+* `[-private|-p]` – Sends the result in a private DM.
 
 ### **INIT** command
 
@@ -109,8 +110,14 @@ init <subcommand>
 Gets a monster from the catalogs or generates a random monster according to the tables found in the *Mutant: Year Zero*, *Zone Compendium 1: The Lair of the Saurians*.
 
 ```
-monster [game] <name> [number] [-attack|-atk] [-private|-p]
+monster [game] <name> [-attack|-atk|-a [number]] [-private|-p]
 ```
+
+* `[game]` – Specifies the game you are using. Can be omitted.
+* `<name>` – Specifies the monster you want to fetch.
+* `[-attack [number]]`
+
+If no argument are provided, Sebedius generates a random MYZ monster.
 
 ### **Mutant Year Zero** commands
 

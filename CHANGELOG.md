@@ -5,7 +5,8 @@ All notable changes to this project will be documented in this file.
 
 ## [3.2.0] - Unreleased
 ### Added
-- New command: `!atk`.
+- New command: `!atk` – Rolls a random attack from a monster.
+- Parameter `-private` for `!crit`: Sends the result in a private DM.
 
 ### Changed
 - `!monster` aliases and effects.
