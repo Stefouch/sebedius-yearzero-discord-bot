@@ -8,7 +8,16 @@ module.exports = {
 	name: 'monster',
 	group: 'Core',
 	description: 'Gets a monster from the catalogs or generates a random monster according to the tables found in'
-		+ ' the *Zone Compendium 1: The Lair of the Saurians*.',
+		+ ' the *Zone Compendium 1: The Lair of the Saurians* if no argument is provided.',
+	moreDescriptions: [
+		[
+			'Arguments',
+			`• \`game\` – Specifies the game you are using. Can be omitted.
+			• \`name\` – Specifies the monster you want to fetch.
+			• \`-attack|-atk|-a [number]\` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type \`<name> [number]\` instead of the \`-attack\` argument).
+			• \`-private|-p\` – Sends the message in a private DM.`,
+		],
+	],
 	aliases: ['mon', 'creature', 'pokemon'],
 	guildOnly: false,
 	args: false,
