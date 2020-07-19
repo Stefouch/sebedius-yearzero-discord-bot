@@ -65,7 +65,7 @@ module.exports = {
 				reactions.push({
 					icon: '☠️',
 					owner: ctx.author.id,
-					fn: () => rollCrit(monster.game, table, num, ctx),
+					fn: () => rollCrit(monster.game, table, num, argv.private, ctx),
 				});
 			}
 			reactions.push({
@@ -125,9 +125,12 @@ async function rollAttack(attack, game, message, bot) {
  * @param {string} game The code of the game used
  * @param {?string} table Crit damage type
  * @param {?number} num The reference of the crit, if any
+ * @param {?boolean} privacy Whether the message is private
  * @param {Discord.Message} ctx Discord message with context
  * @async
  */
-async function rollCrit(game, table, num, ctx) {
-	return await ctx.bot.commands.get('crit').execute([game, table, num], ctx);
+async function rollCrit(game, table, num, privacy, ctx) {
+	const args = [game, table, num];
+	if (privacy) args.push('-p');
+	return await ctx.bot.commands.get('crit').execute(args, ctx);
 }
