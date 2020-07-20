@@ -334,7 +334,7 @@ class YZMonster {
 		else {
 			monsterChoices = monsterChoices.map(m => [m.name, m]);
 		}
-		return await Sebedius.getSelection(ctx, monsterChoices);
+		return await Sebedius.getSelection2(ctx, monsterChoices);
 	}
 
 	toString() {

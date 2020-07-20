@@ -5,6 +5,7 @@ const Util = require('./utils/Util');
 const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const PageMenu = require('./utils/PageMenu');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -330,106 +331,80 @@ class Sebedius extends Discord.Client {
 		if (choices.length === 0) throw new Error('NoSelectionElements');
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
-		let page = 0;
-		const pages = Util.paginate(choices, 10);
+		//let page = 0;
+		const paginatedChoices = Util.paginate(choices, 10);
+		let pageMenu = null;
 		let msg = null;
-		let reac = null;
+		//let reac = null;
 		let selectMsg = null;
-
-		const filterReac = (r, u) =>
-			u.id === ctx.author.id &&
-			['⬅', '➡', '❌'].includes(r.emoji.name)
 
 		const filterMsg = m =>
 			m.author.id === ctx.author.id &&
 			m.channel.id === ctx.channel.id &&
 			Number(m.content) >= 1 &&
-			Number(m.content) <= choices.length
+			Number(m.content) <= choices.length;
 
-		for (let n = 0; n < 200; n++) {
-			const _choices = pages[page];
+		// Builds the pages.
+		const pages = [];
+		paginatedChoices.forEach((_choices, page) => {
 			const names = _choices.map(o => o[0]);
-			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found' });
-			let selectStr = 'Which one were you looking for?.\n';
-			if (pages.length > 1) {
-				//selectStr += '`n` to go to the next page, or `p` for previous.\n';
-				embed.setFooter(`page ${page + 1}/${pages.length}`);
-			}
-			names.forEach((name, i) => selectStr += `**[${i + 1 + page * 10}]** – ${name}\n`);
-			embed.setDescription(selectStr);
-			//embed.setColor(Util.rand(0, 0xffffff));
-			if (text) embed.addField('Note', text, false);
-			if (selectMsg) {
-				try { await selectMsg.delete(); }
-				catch (err) { console.error(err); }
-			}
-			// Sends the selection message.
-			if (!pm) {
-				if (!selectMsg) selectMsg = await ctx.channel.send(embed);
-				else await selectMsg.edit(embed);
-			}
-			else {
-				embed.addField(
-					'Instructions',
-					'Type your response in the channel you called the command. '
-					+ 'This message was PMed to you to hide the monster name.',
-					false,
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Multiple Matches Found')
+				.setDescription(
+					'Which one were you looking for?\n'
+					+ names
+						.map((n, i) => `**[${i + 1 + page * 10}]** – ${n}`)
+						.join('\n'),
 				);
-				selectMsg = await ctx.author.send(embed);
+			if (paginatedChoices.length > 1) {
+				embed.setFooter(`page ${page + 1}/${paginatedChoices.length}`);
 			}
-			// Adds reactions.
-			if (pages.length > 1) {
-				await selectMsg.react('⬅');
-				await selectMsg.react('➡');
+			if (text) {
+				embed.addField('Note', text, false);
 			}
-			await selectMsg.react('❌');
-			// Catches the answer.
-			selectMsg.awaitReactions(filterReac, { max: 1, time: 30000 })
-				.then(reactionCollection => {
-					reac = reactionCollection.first();
-					if (reac.emoji.name === '⬅') {
-						if (page + 1 < pages.length) page++;
-						else ctx.channel.send('You are already on the last page.');
-					}
-					else if (reac.emoji.name === '➡') {
-						if (page - 1 >= 0) page--;
-						else ctx.channel.send('You are already on the first page.');
-					}
-					else {
-						break;
-					}
-				});
-			msg = await ctx.channel.awaitMessages(filterMsg, { max: 1, time: 30000 });
-			msg = msg.first();
-			if (!msg) {
-				break;
-			}
-		/*	if (msg.content.toLowerCase() === 'n') {
-				if (page + 1 < pages.length) page++;
-				else await ctx.channel.send('You are already on the last page.');
-				try { await msg.delete(); }
-				catch (err) { console.error(err); }
-			}
-			else if (msg.content.toLowerCase() === 'p') {
-				if (page - 1 >= 0) page--;
-				else await ctx.channel.send('You are already on the first page.');
-				try { await msg.delete(); }
-				catch (err) { console.error(err); }
-			}//*/
-			else {
-				break;
-			}
+			pages.push(embed);
+		});
+		// Sends the selection message.
+		if (!pm) {
+			pageMenu = new PageMenu(ctx, pages);
+
+			// Changes the stop behavior.
+			const newStopFn = collector => {
+				pageMenu.stop();
+				console.log('ok');
+			};
+			const stopReac = pageMenu.reactionMenu.reactions.get(PageMenu.ICON_STOP);
+			stopReac.fn = newStopFn;
+			pageMenu.reactionMenu.reactions.set(PageMenu.ICON_STOP, stopReac);
+			selectMsg = pageMenu.menu;
+		}
+		else {
+		/*	const embedpm.addField(
+				'Instructions',
+				'Type your response in the channel you called the command. '
+				+ 'This message was PMed to you to hide the monster name.',
+				false,
+			);
+			selectMsg = await ctx.author.send(embedpm);//*/
+		}
+		// Catches the answer.
+		msg = await ctx.channel.awaitMessages(filterMsg, { max: 1, time: 30000 });
+		msg = msg.first();
+
+		if (!msg) {
+			return null;
 		}
 		if (del && !pm) {
 			try {
-				await selectMsg.delete();
+				//await selectMsg.delete();
+				await pageMenu.stop();
 				await msg.delete();
 			}
 			catch (err) { console.error(err); }
 		}
-		if (!msg || msg.content.toLowerCase() === 'c') {
+		/*if (!msg || msg.content.toLowerCase() === 'c') {
 			throw new Error('SelectionCancelled');
-		}
+		}//*/
 		// Returns the choice.
 		return choices[Number(msg.content) - 1][1];
 	}
