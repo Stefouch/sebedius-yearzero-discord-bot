@@ -12,11 +12,10 @@ class ReactionMenu {
 	/**
 	 * Creates a Reaction Menu for a message.
 	 * @param {Discord.Message} message Discord message to attach the reaction menu
-	 * @param {Discord.Client} client Discord client (the bot)
 	 * @param {number} time Cooldown (in milliseconds)
 	 * @param {ReactionData[]} reactionsData An array of objects containing the data needed to create the reactions
 	 */
-	constructor(message, client, time, reactionsData) {
+	constructor(message, time, reactionsData) {
 		/**
 		 * @type {Discord.Message}
 		 */
@@ -31,11 +30,6 @@ class ReactionMenu {
 		 * @type {Discord.User}
 		 */
 		this.bot = this.message.author;
-
-		/**
-		 * @type {Discord.Client}
-		 */
-		this.client = client;
 
 		/**
 		 * Cooldown in milliseconds.
@@ -115,7 +109,7 @@ class ReactionMenu {
 		// ========== Listener: On End ==========
 		this.collector.on('end', (collected, reason) => {
 			// Actions for specific reasons.
-			if (reason === 'noclear') return;
+			//if (reason === 'noclear') return;
 			// Removes all emojis (not possible in DM).
 			if (!this.message.deleted && !this.isDM) {
 				this.message.reactions.removeAll()
@@ -134,6 +128,14 @@ class ReactionMenu {
 			await this.message.react(emoji)
 				.catch(error => console.error('ReactionMenuError: An emoji cannot be added!', emoji, error));
 		}
+	}
+
+	/**
+	 * Stops the collector.
+	 * @param {string} reason The reason the collector is ended
+	 */
+	stop(reason) {
+		this.collector.stop(reason);
 	}
 }
 

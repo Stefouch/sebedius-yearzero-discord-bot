@@ -6,23 +6,25 @@ class PageMenu {
 	/**
 	 * Create a menu with navigable pages.
 	 * Stop deletes the menu message.
-	 * @param {Discord.Message} ctx Discord message with context.
-	 * @param {?Discord.MessageEmbed[]} pages An array of page objects.
+	 * @param {Discord.Message} channel Discord message with context
+	 * @param {string} userID (Snowflake) The ID of the user you want to let control the menu
+	 * @param {?number} [time=120000] Cooldown (in milliseconds)
+	 * @param {?Discord.MessageEmbed[]} pages An array of page objects
+	 * @param {?ReactionMenu#ReactionData} reactionData Use this if you want to customize the next, previous and stop reactions
 	 */
-	constructor(ctx, pages = [new MessageEmbed({ title: 'Default Page' })]) {
-		this.ctx = ctx;
-		this.client = ctx.bot;
-		this.userID = ctx.author.id;
+	constructor(channel, userID, time = 120000, pages = [new MessageEmbed({ title: 'Default Page' })], reactionData = {}) {
+		this.channel = channel;
+		this.time = time;
+		this.userID = userID;
 		this.pages = pages;
 		this.currentPage = pages[0];
 		this.page = 0;
 		this.reactionMenu = null;
-		this.collector = null;
 
-		ctx.channel.send(this.currentPage)
+		channel.send(this.currentPage)
 			.then(menu => {
 				this.menu = menu;
-				this.react();
+				this.react(reactionData);
 			});
 	}
 
@@ -32,13 +34,21 @@ class PageMenu {
 	static get ICON_NEXT() { return '➡'; }
 	static get ICON_STOP() { return '⏹'; }
 
+	/**
+	 * Sets the current page.
+	 * @param {number} page Page number
+	 */
 	setPage(page = 0) {
 		this.page = page;
 		this.currentPage = this.pages[this.page];
 		this.menu.edit(this.currentPage);
 	}
 
-	react() {
+	/**
+	 * Adds the reactions' menu.
+	 * @param {ReactionMenu#ReactionData} reactionData
+	 */
+	react(reactionData) {
 		const reactions = [];
 		if (this.size > 1) {
 			reactions.push({
@@ -52,17 +62,33 @@ class PageMenu {
 				fn: () => this.next(),
 			});
 		}
-		reactions.push({
-			icon: PageMenu.ICON_STOP,
-			owner: this.userID,
-			fn: async () => this.stop(),
-		});
-		this.reactionMenu = new ReactionMenu(this.menu, this.client, 180000, reactions);
-		this.collector = this.reactionMenu.collector;
+		if (reactionData.stop) {
+			reactions.push(reactionData.stop);
+		}
+		else {
+			reactions.push({
+				icon: PageMenu.ICON_STOP,
+				owner: this.userID,
+				fn: async () => this.stop(),
+			});
+		}
+		this.reactionMenu = new ReactionMenu(this.menu, this.time, reactions);
 	}
 
+	/**
+	 * Sets the current page to the next one.
+	 */
 	next() { this.goto(this.page + 1); }
+
+	/**
+	 * Sets the current page to the previous one.
+	 */
 	previous() { this.goto(this.page - 1); }
+
+	/**
+	 * Sets the current page (checks validity).
+	 * @param {number} page Page number
+	 */
 	goto(page = 0) {
 		if (page >= 0 && page < this.size) {
 			this.setPage(page);
@@ -73,12 +99,16 @@ class PageMenu {
 		}
 	}
 
+	/**
+	 * Stops the collector and deletes the message.
+	 * @async
+	 */
 	async stop() {
 		try {
-			this.collector.stop('noclear');
+			this.reactionMenu.stop('noclear');
 			await this.menu.delete();
 		}
-		catch(err) { console.error(err); }
+		catch(err) { console.error('[ReactionMenu.Stop] An error occured', err); }
 	}
 }
 

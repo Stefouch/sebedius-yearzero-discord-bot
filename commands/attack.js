@@ -83,7 +83,7 @@ module.exports = {
 				fn: collector => collector.stop(),
 			});
 			const cooldown = ctx.bot.config.commands.roll.pushCooldown;
-			const rm = new ReactionMenu(message, ctx.bot, cooldown, reactions);
+			const rm = new ReactionMenu(message, cooldown, reactions);
 		}
 	},
 };

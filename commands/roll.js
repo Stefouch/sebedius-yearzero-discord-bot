@@ -307,7 +307,7 @@ async function messageRollResult(roll, ctx) {
 				});
 				// Starts the Reaction Menu.
 				const cooldown = ctx.bot.config.commands.roll.pushCooldown;
-				const rm = new ReactionMenu(rollMessage, ctx.bot, cooldown, reactions);
+				const rm = new ReactionMenu(rollMessage, cooldown, reactions);
 			}
 		})
 		.catch(console.error);
