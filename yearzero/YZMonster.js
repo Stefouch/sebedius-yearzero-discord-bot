@@ -327,7 +327,7 @@ class YZMonster {
 		}
 		let monsterChoices = YZMonster.MONSTERS[game];
 		const filteredMonsterChoices = monsterChoices
-			.filter(m => m.game === game && m.name.toLowerCase().includes(monsterName.toLowerCase()))
+			.filter(m => m.game === game && m.name.toLowerCase().includes(monsterName.toLowerCase()));
 		if (filteredMonsterChoices.length) {
 			monsterChoices = filteredMonsterChoices.map(m => [m.name, m]);
 		}

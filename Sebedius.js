@@ -331,13 +331,7 @@ class Sebedius extends Discord.Client {
 		if (choices.length === 0) throw new Error('NoSelectionElements');
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
-		//let page = 0;
 		const paginatedChoices = Util.paginate(choices, 10);
-		let pageMenu = null;
-		let msg = null;
-		//let reac = null;
-		let selectMsg = null;
-
 		const filterMsg = m =>
 			m.author.id === ctx.author.id &&
 			m.channel.id === ctx.channel.id &&
@@ -362,49 +356,45 @@ class Sebedius extends Discord.Client {
 			if (text) {
 				embed.addField('Note', text, false);
 			}
+			if (pm) {
+				embed.addField(
+					'Instructions',
+					'Type your response in the channel you called the command. '
+					+ 'This message was PMed to you to hide the monster name.',
+					false,
+				);
+			}
 			pages.push(embed);
 		});
 		// Sends the selection message.
-		if (!pm) {
-			pageMenu = new PageMenu(ctx, pages);
+		let msgCollector = null;
+		const channel = pm ? ctx.author : ctx.channel;
+		const time = 30000;
+		const pageMenu = new PageMenu(channel, ctx.author.id, time, pages, {
+			stop: {
+				icon: PageMenu.ICON_STOP,
+				owner: ctx.author.id,
+				fn: async () => {
+					await pageMenu.stop();
+					msgCollector.stop();
+				},
+			},
+		});
+		// Awaits for the answer.
+		msgCollector = ctx.channel.createMessageCollector(filterMsg, { max: 1, time });
+		msgCollector.on('end', collected => console.log('> MessageCollector: Ended'));
+		const msg = await msgCollector.next;
 
-			// Changes the stop behavior.
-			const newStopFn = collector => {
-				pageMenu.stop();
-				console.log('ok');
-			};
-			const stopReac = pageMenu.reactionMenu.reactions.get(PageMenu.ICON_STOP);
-			stopReac.fn = newStopFn;
-			pageMenu.reactionMenu.reactions.set(PageMenu.ICON_STOP, stopReac);
-			selectMsg = pageMenu.menu;
-		}
-		else {
-		/*	const embedpm.addField(
-				'Instructions',
-				'Type your response in the channel you called the command. '
-				+ 'This message was PMed to you to hide the monster name.',
-				false,
-			);
-			selectMsg = await ctx.author.send(embedpm);//*/
-		}
-		// Catches the answer.
-		msg = await ctx.channel.awaitMessages(filterMsg, { max: 1, time: 30000 });
-		msg = msg.first();
-
-		if (!msg) {
+		if (!msg || msg instanceof Map) {
 			return null;
 		}
 		if (del && !pm) {
 			try {
-				//await selectMsg.delete();
 				await pageMenu.stop();
 				await msg.delete();
 			}
-			catch (err) { console.error(err); }
+			catch (err) { console.error('Error at del-stop getSelection', err); }
 		}
-		/*if (!msg || msg.content.toLowerCase() === 'c') {
-			throw new Error('SelectionCancelled');
-		}//*/
 		// Returns the choice.
 		return choices[Number(msg.content) - 1][1];
 	}
