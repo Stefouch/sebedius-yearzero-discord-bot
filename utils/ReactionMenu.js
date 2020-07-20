@@ -44,6 +44,12 @@ class ReactionMenu {
 		this.time = time || 120000;
 
 		/**
+		 * The collector associated with this menu.
+		 * @type {Discord.Collector}
+		 */
+		this.collector = null;
+
+		/**
 		 * An array with all reactions and their actions.
 		 * @type {Map<string, ReactionData>}
 		 */
@@ -99,19 +105,21 @@ class ReactionMenu {
 					reaction.fn(this.collector);
 				}
 			}
-			// Then remove that added emoji (not possible in DM).
+			// Then removes that added emoji (not possible in DM).
 			if (!this.isDM) {
 				reac.users.remove(user)
-					.catch(error => console.error(error));
+					.catch(error => console.error('ReactionMenuError: Failed to remove user\'s reaction!', error));
 			}
 		});
 
 		// ========== Listener: On End ==========
 		this.collector.on('end', (collected, reason) => {
-			// Remove all emojis (not possible in DM).
+			// Actions for specific reasons.
+			if (reason === 'noclear') return;
+			// Removes all emojis (not possible in DM).
 			if (!this.message.deleted && !this.isDM) {
 				this.message.reactions.removeAll()
-					.catch(error => console.error('ReactionMenuError: Failed to clear reactions!', error));
+					.catch(error => console.error('ReactionMenuError: Failed to clear all reactions!', error));
 			}
 		});
 	}
