@@ -1,8 +1,7 @@
+const { YZMonster } = require('../yearzero/YZObject');
+const Monster = require('../generators/MYZMonsterGenerator');
 const Util = require('../utils/Util');
 const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
-const { SUPPORTED_GAMES } = require('../utils/constants');
-const YZMonster = require('../yearzero/YZMonster');
-const Monster = require('../generators/MYZMonsterGenerator');
 
 module.exports = {
 	name: 'monster',
@@ -71,8 +70,13 @@ module.exports = {
 
 		// Parses any game.
 		let game;
-		if (SUPPORTED_GAMES.includes(argv._[0])) game = argv._.shift();
-		else game = await ctx.bot.getGame(ctx);
+		if (YZMonster.getGames().includes(argv._[0])) {
+			game = argv._.shift();
+			game = await YZMonster.fetchGame(ctx, game);
+		}
+		else {
+			game = await YZMonster.fetchGame(ctx);
+		}
 		argv.game = game;
 
 		// Parses the monster.

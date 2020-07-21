@@ -1,4 +1,4 @@
-id;speed;hp;armor;skills;special;game;attacks
+id;speed;hp;armor;skills;special;source;attacks
 malien-xeno-bloodburster;3;2;3|fire:0;Mobility 9|Observation 6;;alien;atk-xeno-bloodburster
 malien-xeno-neophyte;3;3;4|fire:2;Mobility 10|Observation 6;;alien;atk-xeno-neomorph
 malien-xeno-neomorph;2;6;6|fire:3;Mobility 9|Observation 8;Sprint;alien;atk-xeno-neomorph

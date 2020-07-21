@@ -590,7 +590,7 @@ class YZCombat {
 	async final() {
 		await this.commit();
 		await this.updateSummary();
-		console.log(this);
+		// console.log(this);
 	}
 
 	/**

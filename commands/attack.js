@@ -1,9 +1,9 @@
 const Sebedius = require('../Sebedius');
+const YZRoll = require('../yearzero/YZRoll');
+const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { YZEmbed } = require('../utils/embeds');
-const YZRoll = require('../yearzero/YZRoll');
-const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'attack',

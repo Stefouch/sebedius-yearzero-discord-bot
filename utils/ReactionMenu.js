@@ -1,3 +1,4 @@
+const { Message } = require('discord.js');
 const Util = require('./Util');
 
 class ReactionMenu {
@@ -102,18 +103,21 @@ class ReactionMenu {
 			// Then removes that added emoji (not possible in DM).
 			if (!this.isDM) {
 				reac.users.remove(user)
-					.catch(error => console.error('ReactionMenuError: Failed to remove user\'s reaction!', error));
+					.catch(err => console.warn('[ReactionMenuError] Failed to remove user\'s reaction.', err.name, err.code));
 			}
 		});
 
 		// ========== Listener: On End ==========
 		this.collector.on('end', (collected, reason) => {
 			// Actions for specific reasons.
-			//if (reason === 'noclear') return;
+			if (reason instanceof Message) {
+				return reason.delete()
+					.catch(err => console.warn('[ReactionMenuError] Failed to delete the reason message.', err.name, err.code));
+			}
 			// Removes all emojis (not possible in DM).
 			if (!this.message.deleted && !this.isDM) {
 				this.message.reactions.removeAll()
-					.catch(error => console.error('ReactionMenuError: Failed to clear all reactions!', error));
+					.catch(err => console.warn('[ReactionMenuError] Failed to clear all reactions.', err.name, err.code));
 			}
 		});
 	}
@@ -126,7 +130,7 @@ class ReactionMenu {
 		for (const emoji of this.emojis) {
 			// If "await" is omitted, the emojis are added in a random order.
 			await this.message.react(emoji)
-				.catch(error => console.error('ReactionMenuError: An emoji cannot be added!', emoji, error));
+				.catch(err => console.warn('[ReactionMenuError] An emoji cannot be added.', err.name, err.code, emoji));
 		}
 	}
 

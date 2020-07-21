@@ -1,7 +1,5 @@
 const { rand } = require('../utils/Util');
 
-const YZ_GAMES = ['generic', 'myz', 'fbl', 'coriolis', 'tales', 'alien', 'vaesen', 't2k'];
-
 class YZRoll {
 	/**
 	 * A Year Zero Roll object.
@@ -31,7 +29,7 @@ class YZRoll {
 		 * The game used.
 		 * @type {string}
 		 */
-		this.game = YZ_GAMES[0];
+		this.game = 'generic';
 
 		/**
 		 * The timestamp of the roll.
@@ -233,13 +231,8 @@ class YZRoll {
 	 * @returns {boolean} Returns `true` if the change worked, otherwise returns `false`
 	 */
 	setGame(game) {
-		if (YZ_GAMES.includes(game)) {
-			this.game = game;
-			return true;
-		}
-		else {
-			return false;
-		}
+		this.game = game;
+		return true;
 	}
 
 	/**

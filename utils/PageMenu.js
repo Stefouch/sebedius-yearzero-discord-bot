@@ -101,14 +101,9 @@ class PageMenu {
 
 	/**
 	 * Stops the collector and deletes the message.
-	 * @async
 	 */
-	async stop() {
-		try {
-			this.reactionMenu.stop('noclear');
-			await this.menu.delete();
-		}
-		catch(err) { console.error('[ReactionMenu.Stop] An error occured', err); }
+	stop() {
+		this.reactionMenu.stop(this.menu);
 	}
 }
 

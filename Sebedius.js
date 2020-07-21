@@ -1,11 +1,12 @@
 const fs = require('fs');
 const Keyv = require('keyv');
 const Discord = require('discord.js');
-const Util = require('./utils/Util');
-const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
-const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const Util = require('./utils/Util');
 const PageMenu = require('./utils/PageMenu');
+const RollTable = require('./utils/RollTable');
+const Errors = require('./utils/errors');
+const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -172,7 +173,7 @@ class Sebedius extends Discord.Client {
 	 */
 	static async getConf(collectionName, message, client, defaultItem = null) {
 		if (!message.guild) return defaultItem;
-		if (!client[collectionName]) throw new SebediusError(`Collection-property unknown: ${collectionName}`);
+		if (!client[collectionName]) throw new Errors.SebediusError(`Collection-property unknown: ${collectionName}`);
 
 		const guildID = message.guild.id;
 		let fetchedItem;
@@ -253,7 +254,7 @@ class Sebedius extends Discord.Client {
 				table.set(elem.ref, elem);
 			}
 			else {
-				throw new SebediusError('Unknown RollTable');
+				throw new Errors.SebediusError('Unknown RollTable');
 			}
 		}
 
@@ -316,23 +317,23 @@ class Sebedius extends Discord.Client {
 	 * If delete is True, will delete the selection message and the response.
 	 * If length of choices is 1, will return the only choice unless force_select is True.
 	 * @param {Discord.Message} ctx Discord message with context
-	 * @param {*} choices 
-	 * @param {*} text 
-	 * @param {*} del 
-	 * @param {*} pm 
-	 * @param {*} forceSelect 
-	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
-	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
-	 * @returns {boolean}
+	 * @param {Array<string, Object>[]} choices An array of arrays with [name, object]
+	 * @param {string} text Additional text to attach to the selection message
+	 * @param {boolean} del Wether to delete the selection message
+	 * @param {boolean} pm Wether the selection message is sent in a PM (Discord DM)
+	 * @param {boolean} forceSelect Wether to force selection even if only one choice possible
+	 * @returns {*} The selected choice
+	 * @throws {NoSelectionElementsError} If len(choices) is 0.
+	 * @throws {SelectionCancelledError} If selection is cancelled.
 	 * @static
 	 * @async
 	 */
-	static async getSelection2(ctx, choices, text = null, del = true, pm = false, forceSelect = false) {
-		if (choices.length === 0) throw new Error('NoSelectionElements');
+	static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false) {
+		if (choices.length === 0) throw new Errors.NoSelectionElementsError();
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
 		const paginatedChoices = Util.paginate(choices, 10);
-		const filterMsg = m =>
+		const msgFilter = m =>
 			m.author.id === ctx.author.id &&
 			m.channel.id === ctx.channel.id &&
 			Number(m.content) >= 1 &&
@@ -370,123 +371,37 @@ class Sebedius extends Discord.Client {
 		let msgCollector = null;
 		const channel = pm ? ctx.author : ctx.channel;
 		const time = 30000;
-		const pageMenu = new PageMenu(channel, ctx.author.id, time, pages, {
+		const pageMenu = new PageMenu(channel, ctx.author.id, time * 2, pages, {
 			stop: {
 				icon: PageMenu.ICON_STOP,
 				owner: ctx.author.id,
-				fn: async () => {
-					await pageMenu.stop();
-					msgCollector.stop();
-				},
+				fn: () => msgCollector.stop(),
 			},
 		});
 		// Awaits for the answer.
-		msgCollector = ctx.channel.createMessageCollector(filterMsg, { max: 1, time });
-		msgCollector.on('end', collected => console.log('> MessageCollector: Ended'));
-		const msg = await msgCollector.next;
+		let msg = null;
+		msgCollector = ctx.channel.createMessageCollector(msgFilter, { max: 1, time });
+		msgCollector.on('end', () => pageMenu.stop());
+
+		// Catches the answer or any rejection.
+		try {
+			msg = await msgCollector.next;
+		}
+		catch (rejected) {
+			throw new Errors.SelectionCancelledError();
+		}
 
 		if (!msg || msg instanceof Map) {
 			return null;
 		}
+		// Deletes the answer message.
 		if (del && !pm) {
 			try {
-				await pageMenu.stop();
 				await msg.delete();
 			}
-			catch (err) { console.error('Error at del-stop getSelection', err); }
-		}
-		// Returns the choice.
-		return choices[Number(msg.content) - 1][1];
-	}
-
-	/**
-	 * Returns the selected choice, or None. Choices should be a list of two-tuples of (name, choice).
-	 * If delete is True, will delete the selection message and the response.
-	 * If length of choices is 1, will return the only choice unless force_select is True.
-	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
-	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
-	 */
-	static async getSelection(message, choices, text = null, del = true, pm = false, forceSelect = false) {
-		if (choices.length === 0) throw new Error('NoSelectionElements');
-		else if (choices.length === 1 && !forceSelect) return choices[0][1];
-
-		let page = 0;
-		const pages = Util.paginate(choices, 10);
-		let msg = null;
-		let selectMsg = null;
-
-		const filter = m =>
-			m.author.id === message.author.id &&
-			m.channel.id === message.channel.id &&
-			(
-				['c', 'n', 'p'].includes(m.content.toLowerCase()) ||
-				(
-					Number(m.content) >= 1 &&
-					Number(m.content) <= choices.length
-				)
-			);
-
-		for (let n = 0; n < 200; n++) {
-			const _choices = pages[page];
-			const names = _choices.map(o => o[0]);
-			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found' });
-			let selectStr = 'Which one were you looking for? (Type the number or `c` to cancel).\n';
-			if (pages.length > 1) {
-				selectStr += '`n` to go to the next page, or `p` for previous.\n';
-				embed.setFooter(`page ${page + 1}/${pages.length}`);
+			catch (err) {
+				console.warn('[getSelection] Failed to delete choice message.', err.name, err.code);
 			}
-			names.forEach((name, i) => selectStr += `**[${i + 1 + page * 10}]** – ${name}\n`);
-			embed.setDescription(selectStr);
-			//embed.setColor(Util.rand(0, 0xffffff));
-			if (text) embed.addField('Note', text, false);
-			if (selectMsg) {
-				try { await selectMsg.delete(); }
-				catch (err) { console.error(err); }
-			}
-			// Sends the selection message.
-			if (!pm) {
-				selectMsg = await message.channel.send(embed);
-			}
-			else {
-				embed.addField(
-					'Instructions',
-					'Type your response in the channel you called the command. '
-					+ 'This message was PMed to you to hide the monster name.',
-					false,
-				);
-				selectMsg = await message.author.send(embed);
-			}
-			// Catches the answer.
-			msg = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
-			msg = msg.first();
-			if (!msg) {
-				break;
-			}
-			if (msg.content.toLowerCase() === 'n') {
-				if (page + 1 < pages.length) page++;
-				else await message.channel.send('You are already on the last page.');
-				try { await msg.delete(); }
-				catch (err) { console.error(err); }
-			}
-			else if (msg.content.toLowerCase() === 'p') {
-				if (page - 1 >= 0) page--;
-				else await message.channel.send('You are already on the first page.');
-				try { await msg.delete(); }
-				catch (err) { console.error(err); }
-			}
-			else {
-				break;
-			}
-		}
-		if (del && !pm) {
-			try {
-				await selectMsg.delete();
-				await msg.delete();
-			}
-			catch (err) { console.error(err); }
-		}
-		if (!msg || msg.content.toLowerCase() === 'c') {
-			throw new Error('SelectionCancelled');
 		}
 		// Returns the choice.
 		return choices[Number(msg.content) - 1][1];
@@ -620,10 +535,3 @@ function whenMentionedOrPrefixed(prefixes, client) {
 }
 
 module.exports = Sebedius;
-
-class SebediusError extends Error {
-	constructor(msg) {
-		super(msg);
-		this.name = 'SebediusError';
-	}
-}
