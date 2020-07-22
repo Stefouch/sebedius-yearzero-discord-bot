@@ -57,7 +57,7 @@ class YZMonsterEmbed extends MessageEmbed {
 		this.addField('Skills', monster.skillsToString(), true);
 		this.addField('Signature Attacks', monster.attacksToString(), false);
 		if (monster.special) {
-			const special = monster.special.replace(/{mutation}/g, 'Random mutation');
+			const special = monster.special.replace(/{mutation}/g, 'Random mutation') + '.';
 			this.addField('Special', special, false);
 		}
 

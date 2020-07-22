@@ -5,7 +5,7 @@ const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const { __ } = require('../utils/locales');
 const { CatalogNotFoundError } = require('../utils/errors');
-const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI } = require('../utils/constants');
+const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES } = require('../utils/constants');
 
 const CATEGORIES = {
 	WEAPONS: 'YZWeapon',
@@ -218,10 +218,11 @@ class YZMonster extends YZObject {
 	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'MONSTERS', game); }
 
 	_createAttributes() {
-		this.attributes = {
-			speed: +this.speed || 1,
-			health: +this.hp || +this.health || +this.life || 0,
-		};
+		this.attributes = {};
+		if (this.game === 'alien') {
+			this.attributes.speed = +this.speed || 1;
+			this.attributes.health = +this.hp || +this.health || +this.life || 0;
+		}
 		for (const validAttribute of ATTRIBUTES) {
 			if (this.hasOwnProperty(validAttribute)) {
 				this.attributes[validAttribute] = +this[validAttribute];
@@ -282,13 +283,12 @@ class YZMonster extends YZObject {
 				// Parses all new attacks.
 				const out = [];
 				for (const atq of atqs) {
-					if (/{(.*):(.*):(.*):(.*)}/.test(atq)) {
-						const atk = atq.replace(/{(.*):(.*):(.*):(.*)}/, (match, n, d, dmg, rng) => {
-							return `{ "name": "${n.toUpperCase()}", "base": ${d}, "damage": ${dmg}, `
-								+ `"range": ${rng}, "effect": "${d} ${__('base-dice', this.lang)}`
-								+ `, ${Util.capitalize(__('damage', this.lang))} ${dmg}." }`;
+					if (/{.+:\d+:\d+:\d+}/.test(atq)) {
+						const atk = atq.replace(/{(.+):(\d+):(\d+):(\d+)}/, (match, n, d, dmg, rng) => {
+							return `{ "id": "${n.toUpperCase()}", "bonus": ${d}, "damage": ${dmg}, `
+								+ `"range": ${rng}, "ranged": ${rng > 0 ? 'true' : '""'} }`;
 						});
-						out.push(JSON.parse(atk));
+						out.push(new YZWeapon(JSON.parse(atk)));
 					}
 					else if (atq.startsWith(`{w${this.game}-`) && atq.endsWith('}')) {
 						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
@@ -410,8 +410,8 @@ class YZMonster extends YZObject {
 			if (attack.name === '{REROLL}') continue;
 			const n = attack.name || 'Unnamed';
 			const d = attack.base ? attack.base + 'D' : '-';
-			const dmg = attack.damage || '-';
-			const r = attack.range || '-';
+			const dmg = attack.damage >= 0 ? attack.damage : '-';
+			const r = attack.range >= 0 ? Util.capitalize(RANGES[this.game][attack.range]) : '-';
 			str += '\n'
 				+ Util.alignText(`${ref}`, intvlColLen, 0)
 				+ Util.alignText(n, nameColLen, 0)
@@ -479,7 +479,7 @@ class YZWeapon extends YZObject {
 	get effect() {
 		return `${this.bonus} ${__('base-dice', this.lang)}`
 		+ `, ${Util.capitalize(__('damage', this.lang))} ${this.damage}.`
-		+ ` *(${this.special.split('|').join(', ')}.)*`;
+		+ (this.special ? ` *(${this.special.split('|').join(', ')}.)*` : '');
 	}
 
 	static getAvailableGames() { return super.getAvailableGames('WEAPONS'); }
