@@ -471,7 +471,7 @@ class Util {
 		let val;
 		try { val = list[index]; }
 		catch (error) { val = defaultValue; }
-		if (val == undefined) val = defaultValue;
+		if (val === undefined) val = defaultValue;
 		return val;
 	}
 

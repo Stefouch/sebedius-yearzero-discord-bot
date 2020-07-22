@@ -66,7 +66,7 @@ module.exports = {
 				reactions.push({
 					icon: '⚔️',
 					owner: ctx.author.id,
-					fn: () => rollAttack(attack, monster.game, message, ctx.bot),
+					fn: () => rollAttack(attack, monster, message, ctx.bot),
 				});
 			}
 			if (attack.crit) {
@@ -91,16 +91,21 @@ module.exports = {
 /**
  * Rolls the dice of an attack.
  * @param {YZAttack} attack A Year Zero attack
- * @param {string} game The code of the game used
+ * @param {string} monster The monster that used the attack
  * @param {Discord.Message} message Discord message
  * @param {Discord.Client} bot The bot's client
  * @async
  */
-async function rollAttack(attack, game, message, bot) {
+async function rollAttack(attack, monster, message, bot) {
+	const game = monster.game;
 	// Rolls the attack.
 	const atkRoll = new YZRoll(
 		message.author,
-		{ base: attack.base },
+		{
+			base: attack.ranged ? monster.agi : monster.str,
+			skill: attack.ranged ? monster.skills.shoot : monster.skills.fight,
+			gear: attack.base,
+		},
 	);
 	atkRoll.setGame(game);
 
@@ -108,16 +113,21 @@ async function rollAttack(attack, game, message, bot) {
 	const hit = atkRoll.sixes;
 	let damage;
 	// No damage if undefined
-	if (attack.damage == undefined || attack.damage == null) {
+	if (attack.damage === undefined || attack.damage === null) {
 		damage = 0;
 	}
-	// Fixed damage
-	else if (/{\d*}/.test(attack.damage)) {
-		damage = +attack.damage.replace(/{(\d*)}/, (match, p1) => p1);
+	else if (hit > 0) {
+		// Fixed damage
+		if (/{\d*}/.test(attack.damage)) {
+			damage = +attack.damage.replace(/{(\d*)}/, (match, p1) => p1);
+		}
+		// Regular damage
+		else {
+			damage = +attack.damage + hit - 1;
+		}
 	}
-	// Regular damage
 	else {
-		damage = +attack.damage + hit - 1;
+		damage = 0;
 	}
 
 	// Sends the message.
@@ -125,7 +135,7 @@ async function rollAttack(attack, game, message, bot) {
 		Sebedius.emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
 		damage
 			? new YZEmbed(`Damage × ${damage}`, ':boom:'.repeat(damage))
-			: new YZEmbed(`Success${hit > 1 ? 'es' : ''}`, `**${hit}**`),
+			: null,
 	);
 }
 

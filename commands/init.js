@@ -1179,7 +1179,7 @@ async function end(args, ctx) {
 		':speech_balloon: **Are you sure you want to end combat?** *(reply with yes/no)*',
 		true,
 	);
-	if (toEnd == null || toEnd == undefined) {
+	if (toEnd === null || toEnd === undefined) {
 		return ctx.channel.send(':x: Timed out waiting for a response or invalid response.')
 			.then(m => m.delete(10000))
 			.catch(console.error);

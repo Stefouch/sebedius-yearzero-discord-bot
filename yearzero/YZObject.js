@@ -1,15 +1,28 @@
 const fs = require('fs');
+const { Collection } = require('discord.js');
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const { __ } = require('../utils/locales');
 const { CatalogNotFoundError } = require('../utils/errors');
-const { SOURCE_MAP, COMPENDIA, ATTRIBUTES } = require('../utils/constants');
+const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI } = require('../utils/constants');
 
 const CATEGORIES = {
-	MONSTERS: 'YZMonster',
 	WEAPONS: 'YZWeapon',
+	MONSTERS: 'YZMonster',
 };
+
+const CATALOG_SOURCES = {
+	WEAPONS: {
+		myz: './gamedata/myz/myz-weapons-catalog.csv',
+	},
+	MONSTERS: {
+		myz: './gamedata/myz/myz-monsters-catalog.csv',
+		alien: './gamedata/alien/alien-monsters-catalog.csv',
+	},
+};
+
+const CATALOGS = {};
 
 class YZObject {
 	/**
@@ -18,7 +31,8 @@ class YZObject {
 	 */
 	constructor(data) {
 		for (const key in data) {
-			this[key] = data[key];
+			if (Util.isNumber(data[key])) this[key] = +data[key];
+			else this[key] = data[key];
 		}
 	}
 
@@ -38,7 +52,7 @@ class YZObject {
 	 */
 	get game() {
 		if (SOURCE_MAP[this.source]) return this.source;
-		for (const game of Object.keys(COMPENDIA)) {
+		for (const game in COMPENDIA) {
 			if (COMPENDIA[game].includes(this.source)) return game;
 		}
 		return undefined;
@@ -48,44 +62,53 @@ class YZObject {
 		return Object.keys(CATEGORIES);
 	}
 
-	static getGames(category) {
+	static get CATALOGS() {
+		return CATALOGS;
+	}
+
+	static getAvailableGames(category) {
 		return Object.keys(CATALOGS[category]);
+	}
+
+	static get(cat, game, id) {
+		return CATALOGS[cat][game].get(id);
 	}
 
 	/**
 	 * Gets all the Year Zero objects listed in the catalog file, in raw format.
-	 * @param {string} cat Category of the objects to fetch
-	 * @param {string} game Source game of the objects to fetch
+	 * @param {string} source Path of the source catalog file
 	 * @returns {Object[]}
 	 * @static
 	 */
-	static allRaw(cat, game) {
-		let yzObjects;
+	static allRaw(source) {
+		let raws;
 		try {
-			const fileContent = fs.readFileSync(CATALOGS[cat][game], 'utf8');
-			yzObjects = Util.csvToJSON(fileContent);
+			const fileContent = fs.readFileSync(source, 'utf8');
+			raws = Util.csvToJSON(fileContent);
 		}
 		catch(error) {
-			throw new CatalogNotFoundError('YZObject.all - File Error');
+			throw new CatalogNotFoundError(`File Read Error: "${source}"`);
 		}
-		return yzObjects;
+		return raws;
 	}
 
 	/**
 	 * Gets all the Year Zero objects listed in the catalog file.
 	 * @param {string} cat Category of the objects to fetch
-	 * @param {string} game Source game of the objects to fetch
-	 * @returns {YZMonster|YZWeapon}
+	 * @param {string} source Path of the source catalog file
+	 * @returns {Discord.Collection<string, YZObject>} Collection<K, V> with K: id, V: Year Zero object
 	 */
-	static all(cat, game) {
-		const raws = YZObject.allRaw(cat, game);
+	static all(cat, source) {
+		const raws = YZObject.allRaw(source);
 		const objs = [];
 		const _class = CATEGORIES[cat] || 'YZObject';
 		for (const raw of raws) {
 			const obj = new (module.exports[_class])(raw);
 			objs.push(obj);
 		}
-		return objs;
+		return new Collection(
+			objs.map(o => [o.id, o]),
+		);
 	}
 
 	/**
@@ -93,35 +116,36 @@ class YZObject {
 	 * @param {Discord.Message} ctx Discord message with context
 	 * @param {string} cat Category of the object to fetch
 	 * @param {string} game Code for the source game
-	 * @param {?string} name String to search
+	 * @param {?string} str String to search for
 	 * @returns {YZObject}
+	 * @throws {CatalogNotFoundError} If the catalog does not exist
 	 * @static
 	 * @async
 	 */
-	static async fetch(ctx, cat, game, name = null) {
-		const objs = YZObject.all(cat, game);
-		if (!objs) throw new CatalogNotFoundError(`No **${cat}** Catalog for "**${game}**"`);
+	static async fetch(ctx, cat, game, str = null) {
+		if (!CATALOGS[cat] || !CATALOGS[cat][game]) {
+			throw new CatalogNotFoundError(
+				`No **${Util.capitalize(cat.toLowerCase())}** Catalog `
+				+ `for "**${SOURCE_MAP[game]}**"`,
+			);
+		}
+		const catalog = CATALOGS[cat][game];
 
-		if (name) {
-			const obj = objs.find(m => m.id === name || m.name.toLowerCase() == name.toLowerCase());
-			if (obj) return obj;
-		}
+		if (catalog.has(str)) return catalog.get(str);
 
-		let choices = objs;
-		const filteredChoices = choices.filter(
-			o => o.game === game &&
-			(
-				o.id === name ||
-				o.name.toLowerCase().includes(name.toLowerCase())
-			),
-		);
-		if (filteredChoices.length) {
-			choices = filteredChoices.map(m => [m.name, m]);
+		str = str.toLowerCase();
+		let matching = catalog.filter(o => o.name.toLowerCase() === str);
+		if (matching.size === 0) {
+			matching = catalog.filter(
+				o => o.id.includes(str) ||
+				o.name.toLowerCase().includes(str),
+			);
 		}
-		else {
-			choices = choices.map(m => [m.name, m]);
+		if (matching.size === 0) {
+			matching = catalog;
 		}
-		return await Sebedius.getSelection(ctx, choices);
+		matching = matching.map(o => [o.name, o]);
+		return await Sebedius.getSelection(ctx, matching);
 	}
 
 	/**
@@ -135,11 +159,12 @@ class YZObject {
 	 * @async
 	 */
 	static async fetchGame(ctx, cat, game = null) {
-		if (!CATEGORIES[cat]) throw new TypeError('Unknown Catalog\'s Category');
+		if (!CATEGORIES[cat]) throw new TypeError(`Unknown Catalog's Category "**${cat}**"`);
 		if (game && CATALOGS[cat][game]) return game;
 
-		const games = Object.keys(CATALOGS[cat]);
-		const choices = games.map(g => [SOURCE_MAP[g], g]);
+		const choices = Object
+			.keys(CATALOGS[cat])
+			.map(g => [SOURCE_MAP[g], g]);
 
 		return await Sebedius.getSelection(ctx, choices);
 	}
@@ -164,8 +189,32 @@ class YZMonster extends YZObject {
 		this._createAttacks(attacks);
 	}
 
-	static getGames() { return super.getGames('MONSTERS'); }
-	static async fetch(ctx, game, name = null) { return super.fetch(ctx, 'MONSTERS', game, name); }
+	/**
+	 * Raw Strength used for close combat.
+	 * @type {number}
+	 * @readonly
+	 */
+	get str() {
+		for (const attr in this.attributes) {
+			if (ATTRIBUTE_STR.includes(attr)) return this.attributes[attr];
+		}
+		return 0;
+	}
+
+	/**
+	 * Raw Agility used for ranged combat.
+	 * @type {number}
+	 * @readonly
+	 */
+	get agi() {
+		for (const attr in this.attributes) {
+			if (ATTRIBUTE_AGI.includes(attr)) return this.attributes[attr];
+		}
+		return 0;
+	}
+
+	static getAvailableGames() { return super.getAvailableGames('MONSTERS'); }
+	static async fetch(ctx, game, str = null) { return super.fetch(ctx, 'MONSTERS', game, str); }
 	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'MONSTERS', game); }
 
 	_createAttributes() {
@@ -242,10 +291,16 @@ class YZMonster extends YZObject {
 						out.push(JSON.parse(atk));
 					}
 					else if (atq.startsWith(`{w${this.game}-`) && atq.endsWith('}')) {
-						//TODO
 						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
-						//const weapon = YZWeapon.fetch(null, this.game, wid);
-						//out.push(weapon);
+						const weapon = YZWeapon.CATALOGS.WEAPONS[this.game].get(wid);
+						out.push(weapon);
+					}
+					else if (atq.startsWith('{') && atq.endsWith('}')) {
+						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
+						const weapon = YZWeapon.getDefault(
+							Util.capitalize(__(wid, this.lang)),
+						);
+						out.push(weapon);
 					}
 					else {
 						out.push({ name: 'Special', effect: atq + '.' });
@@ -264,6 +319,7 @@ class YZMonster extends YZObject {
 
 				// Adds the attacks to the RollTable.
 				out.forEach((atk, i) => {
+					if (!atk) return;
 					atk.ref = references[i];
 					this.attacks.set(atk.ref, atk);
 				});
@@ -416,43 +472,42 @@ class YZMonster extends YZObject {
 class YZWeapon extends YZObject {
 	constructor(data) {
 		super(data);
+		this.ranged = this.ranged ? true : false;
 	}
 
 	get base() { return this.bonus; }
 	get effect() {
 		return `${this.bonus} ${__('base-dice', this.lang)}`
-		+ `, ${Util.capitalize(__('damage', this.lang))} ${this.damage}." }`;
+		+ `, ${Util.capitalize(__('damage', this.lang))} ${this.damage}.`
+		+ ` *(${this.special.split('|').join(', ')}.)*`;
 	}
 
-	static getGames() { return super.getGames('WEAPONS'); }
-	static async fetch(ctx, game, name = null) { return super.fetch(ctx, 'WEAPONS', game, name); }
+	static getAvailableGames() { return super.getAvailableGames('WEAPONS'); }
+	static async fetch(ctx, game, str = null) { return super.fetch(ctx, 'WEAPONS', game, str); }
 	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'WEAPONS', game); }
+
+	static getDefault(name) {
+		return new YZWeapon({
+			id: name,
+			grip: 1,
+			bonus: 0,
+			damage: 1,
+			range: 0,
+			ranged: true,
+			source: 'myz',
+		});
+	}
 }
 
 module.exports = { YZObject, YZMonster, YZWeapon };
 
-const CATALOGS = {
-	MONSTERS: {
-		myz: './gamedata/myz/myz-monsters-catalog.csv',
-		alien: './gamedata/alien/alien-monsters-catalog.csv',
-	},
-	WEAPONS: {
-		myz: './gamedata/myz/myz-weapons-catalog.csv',
-	},
-};
-
 console.log('[+] - Catalogs');
 console.log('      > Indexation...');
-for (const cat in CATALOGS) {
-	for (const game in CATALOGS[cat]) {
-		if (cat === 'MONSTERS') {
-			CATALOGS[cat][game] = YZMonster.all(cat, game);
-		}
-		else if (cat === 'WEAPONS') {
-			CATALOGS[cat][game] = YZWeapon.all(cat, game);
-
-		}
-		console.log(`        > ${cat}: ${game}`);
+for (const cat in CATALOG_SOURCES) {
+	CATALOGS[cat] = {};
+	for (const game in CATALOG_SOURCES[cat]) {
+		CATALOGS[cat][game] = YZObject.all(cat, CATALOG_SOURCES[cat][game]);
+		console.log(`        • ${cat}: ${game} (${CATALOGS[cat][game].size})`);
 	}
 }
 console.log('      > Loaded & Ready!');

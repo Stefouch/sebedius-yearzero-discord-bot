@@ -70,7 +70,7 @@ module.exports = {
 
 		// Parses any game.
 		let game;
-		if (YZMonster.getGames().includes(argv._[0])) {
+		if (YZMonster.getAvailableGames().includes(argv._[0])) {
 			game = argv._.shift();
 			game = await YZMonster.fetchGame(ctx, game);
 		}

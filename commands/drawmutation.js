@@ -1,6 +1,6 @@
 const Muts = require('../gamedata/mutations.list.json');
-const { YZEmbed } = require('../utils/embeds');
 const Util = require('../utils/Util');
+const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'drawmutation',
@@ -40,6 +40,8 @@ module.exports = {
 		const mutation = Util.random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
 
-		return ctx.channel.send(embed);
+		await ctx.channel.send(embed);
+
+		return mutation;
 	},
 };

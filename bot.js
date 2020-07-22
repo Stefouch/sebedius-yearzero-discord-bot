@@ -143,7 +143,7 @@ async function onError(ctx, error) {
 		if (ctx) ctx.reply(':stop_button: Selection cancelled.');
 	}
 	else if (error instanceof SebediusErrors.NotFoundError) {
-		if (ctx) ctx.reply(`:warning: ${error.message}.`);
+		if (ctx) ctx.reply(`:warning: [${error.name}] ${error.message}.`);
 	}
 	else {
 		// Sends me a message if the error is Unknown.

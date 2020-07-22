@@ -30,6 +30,10 @@ const LOCALES = {
 		'malien-lionworm': 'Lion Worm',
 		'malien-scorpionid-onland': 'Tanakan Scorpionid (On Land)',
 		'malien-scorpionid-inwater': 'Tanakan Scorpionid (In Water)',
+		'mmyz-humanoid-amnesiac': 'Amnesiac',
+		'mmyz-humanoid-cannibal': 'Cannibal',
+		'wmyz-scrapspear': 'Scrap Spear',
+		'wmyz-slingshot': 'Slingshot',
 	},
 };
 

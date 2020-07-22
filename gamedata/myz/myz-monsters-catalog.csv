@@ -1,3 +1,3 @@
 id;strength;agility;wits;empathy;speed;hp;armor;skills;special;source;attacks
 mmyz-humanoid-amnesiac;2;2;4;2;1;1;0;Comprehend 2|Heal 1;;myz;{unarmed}
-mmyz-humanoid-cannibal;5;4;3;2;1;5;0;Fight 2|Move 1;{mutation:1};myz;{wmyz-scrapspear}|{wmyz-sling}
+mmyz-humanoid-cannibal;5;4;3;2;1;5;0;Fight 2|Move 1;{mutation};myz;{wmyz-scrapspear}|{wmyz-slingshot}

@@ -47,7 +47,7 @@ class YZMonsterEmbed extends MessageEmbed {
 	constructor(monster, color = 0x1AA29B) {
 		super({
 			title: monster.name.toUpperCase(),
-			description: `*Monster from ${SOURCE_MAP[monster.game]}.*`,
+			description: undefined,
 			color,
 		});
 
@@ -56,7 +56,12 @@ class YZMonsterEmbed extends MessageEmbed {
 		this.addField('Armor', monster.armorToString(), true);
 		this.addField('Skills', monster.skillsToString(), true);
 		this.addField('Signature Attacks', monster.attacksToString(), false);
-		if (monster.special) this.addField('Special', monster.special, false);
+		if (monster.special) {
+			const special = monster.special.replace(/{mutation}/g, 'Random mutation');
+			this.addField('Special', special, false);
+		}
+
+		this.setFooter(`Source: ${SOURCE_MAP[monster.source]}`);
 	}
 }
 
