@@ -148,6 +148,12 @@ Rolls a random attack from a monster.
 * `[number]` – Specifies the desired attack instead of choosing a random one.
 * `[-private|-p]` – Sends the message in a private DM.
 
+#### Reactions
+
+* Click ⚔️ to roll the dice of the attack.
+* Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
+* Click ❌ to stop the reaction menu.
+
 ### **Mutant Year Zero** commands
 
 * `!rollmyz|rm` – Shortcut for rolling dice. See the **Roll** command above for more details.

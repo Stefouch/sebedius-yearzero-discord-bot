@@ -30,8 +30,10 @@ class PageMenu {
 
 	get size() { return this.pages.length; }
 
+	static get ICON_FIRST() { return '⏮'; }
 	static get ICON_PREVIOUS() { return '⬅'; }
 	static get ICON_NEXT() { return '➡'; }
+	static get ICON_LAST() { return '⏭'; }
 	static get ICON_STOP() { return '⏹'; }
 
 	/**
@@ -51,6 +53,13 @@ class PageMenu {
 	react(reactionData) {
 		const reactions = [];
 		if (this.size > 1) {
+			if (this.size > 2) {
+				reactions.push({
+					icon: PageMenu.ICON_FIRST,
+					owner: this.userID,
+					fn: () => this.first(),
+				});
+			}
 			reactions.push({
 				icon: PageMenu.ICON_PREVIOUS,
 				owner: this.userID,
@@ -61,6 +70,13 @@ class PageMenu {
 				owner: this.userID,
 				fn: () => this.next(),
 			});
+			if (this.size > 2) {
+				reactions.push({
+					icon: PageMenu.ICON_LAST,
+					owner: this.userID,
+					fn: () => this.last(),
+				});
+			}
 		}
 		if (reactionData.stop) {
 			reactions.push(reactionData.stop);
@@ -69,11 +85,21 @@ class PageMenu {
 			reactions.push({
 				icon: PageMenu.ICON_STOP,
 				owner: this.userID,
-				fn: async () => this.stop(),
+				fn: () => this.stop(),
 			});
 		}
 		this.reactionMenu = new ReactionMenu(this.menu, this.time, reactions);
 	}
+
+	/**
+	 * Sets the current page to the next one.
+	 */
+	first() { this.goto(0); }
+
+	/**
+	 * Sets the current page to the next one.
+	 */
+	last() { this.goto(this.size - 1); }
 
 	/**
 	 * Sets the current page to the next one.

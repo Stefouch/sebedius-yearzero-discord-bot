@@ -3,7 +3,6 @@ const { Collection } = require('discord.js');
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
-const { RollParser } = require('../utils/RollParser');
 const { __ } = require('../utils/locales');
 const { CatalogNotFoundError } = require('../utils/errors');
 const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES, WEAPON_FEATURES } = require('../utils/constants');
@@ -197,7 +196,7 @@ class YZMonster extends YZObject {
 	 */
 	get str() {
 		for (const attr in this.attributes) {
-			if (ATTRIBUTE_STR.includes(attr)) return this.attributes[attr];
+			if (ATTRIBUTE_STR.includes(attr)) return +this.attributes[attr];
 		}
 		return 0;
 	}
@@ -209,7 +208,7 @@ class YZMonster extends YZObject {
 	 */
 	get agi() {
 		for (const attr in this.attributes) {
-			if (ATTRIBUTE_AGI.includes(attr)) return this.attributes[attr];
+			if (ATTRIBUTE_AGI.includes(attr)) return +this.attributes[attr];
 		}
 		return 0;
 	}
@@ -226,11 +225,7 @@ class YZMonster extends YZObject {
 		}
 		for (const validAttribute of ATTRIBUTES) {
 			if (this.hasOwnProperty(validAttribute)) {
-				let attribute = this[validAttribute];
-				if (RollParser.ROLLREGEX.test(attribute)) {
-					attribute = RollParser.parseAndRoll(attribute);
-				}
-				this.attributes[validAttribute] = +attribute;
+				this.attributes[validAttribute] = +this[validAttribute];
 				delete this[validAttribute];
 			}
 		}

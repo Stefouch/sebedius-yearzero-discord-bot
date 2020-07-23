@@ -21,6 +21,8 @@ module.exports = {
 			'Reaction Menu',
 			`• Click ⚔️ to roll the dice of the attack.
 			• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
+			• Click ❌ to stop the reaction menu.`,
+		],
 	],
 	aliases: ['atk', 'atq'],
 	guildOnly: false,
@@ -31,11 +33,35 @@ module.exports = {
 		const ref = Util.isNumber(argv.attack) ? argv.attack : null;
 		const successIcon = ctx.bot.config.commands.roll.options[monster.game].successIcon || 'success';
 		const attack = monster.attack(ref);
-		const effect = attack.effect
-			.replace(/{prefix}/gi, ctx.prefix)
+		let effect = attack.effect
 			.replace(/~success/gi, successIcon)
 			.replace(/~/g, monster.name)
 			.replace(/\\n/g, '\n');
+
+		// If there are some relevant attributes,
+		// let's add those dice to the description of the effect.
+		if (
+			attack.base != null &&
+			(monster.str || monster.agi) &&
+			!/\(\d+\)/.test(attack.base)
+		) {
+			const atkDice = attack.ranged
+				? monster.agi + (monster.skills.shoot || 0)
+				: monster.str + (monster.skills.fight || 0);
+
+			if (atkDice > 0) {
+				let str;
+				if (attack.base > 0) {
+					const w = Math.ceil(Math.log10(attack.base));
+					str = `__**${atkDice + attack.base}** `;
+					effect = str.concat(effect.slice(w + 12));
+				}
+				else {
+					str = `__**${atkDice}** Dice, `;
+					effect = str.concat(effect.slice(2));
+				}
+			}
+		}
 
 		// Creates the Embed.
 		const embed = new YZEmbed(
@@ -102,8 +128,6 @@ module.exports = {
  * @async
  */
 async function rollAttack(attack, monster, message, bot) {
-	console.log(monster);
-	console.log(attack);
 	const game = monster.game;
 	// Rolls the attack.
 	let atkRoll;
