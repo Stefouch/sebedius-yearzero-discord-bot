@@ -3,9 +3,10 @@ const { Collection } = require('discord.js');
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
+const { RollParser } = require('../utils/RollParser');
 const { __ } = require('../utils/locales');
 const { CatalogNotFoundError } = require('../utils/errors');
-const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES } = require('../utils/constants');
+const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES, WEAPON_FEATURES } = require('../utils/constants');
 
 const CATEGORIES = {
 	WEAPONS: 'YZWeapon',
@@ -225,7 +226,11 @@ class YZMonster extends YZObject {
 		}
 		for (const validAttribute of ATTRIBUTES) {
 			if (this.hasOwnProperty(validAttribute)) {
-				this.attributes[validAttribute] = +this[validAttribute];
+				let attribute = this[validAttribute];
+				if (RollParser.ROLLREGEX.test(attribute)) {
+					attribute = RollParser.parseAndRoll(attribute);
+				}
+				this.attributes[validAttribute] = +attribute;
 				delete this[validAttribute];
 			}
 		}
@@ -260,6 +265,9 @@ class YZMonster extends YZObject {
 				this.skills[skillName] = +skillRating;
 			}
 		}
+		else {
+			this.skills = {};
+		}
 	}
 
 	_createAttacks(attacks) {
@@ -274,7 +282,7 @@ class YZMonster extends YZObject {
 					'csv',
 				);
 			}
-			// Form: "{<name>:<dice>:<damage>}|{...}"
+			// Form: "{<name>:<bonus>:<damage>:<range>[:<special>]}|{...}"
 			// This acts like an attack parser from raw data.
 			else if (this.attacks.startsWith('{') || this.attacks.includes('|')) {
 				// Splits at `|` for support of multiple attacks.
@@ -283,18 +291,37 @@ class YZMonster extends YZObject {
 				// Parses all new attacks.
 				const out = [];
 				for (const atq of atqs) {
-					if (/{.+:\d+:\d+:\d+}/.test(atq)) {
-						const atk = atq.replace(/{(.+):(\d+):(\d+):(\d+)}/, (match, n, d, dmg, rng) => {
-							return `{ "id": "${n.toUpperCase()}", "bonus": ${d}, "damage": ${dmg}, `
-								+ `"range": ${rng}, "ranged": ${rng > 0 ? 'true' : '""'} }`;
-						});
-						out.push(new YZWeapon(JSON.parse(atk)));
+					// Creates a weapon from the parsing.
+					if (/{.+:.+:.+:[cr]?\d+(:.*)?}/.test(atq)) {
+						let wpnData;
+						atq.replace(
+							/{(.+):(.+):(.+):([cr]?\d+)(?::(.*))?}/,
+							(match, id, bonus, damage, range, special) => {
+								let ranged = false;
+								if (range.startsWith('c') || range.startsWith('r')) {
+									ranged = range.charAt(0) === 'r';
+									range = range.slice(1);
+								}
+								else {
+									ranged = +range > 0;
+								}
+								wpnData = {
+									id: id.toUpperCase(),
+									bonus, damage,
+									range, ranged, special,
+									source: this.source,
+								};
+							},
+						);
+						out.push(new YZWeapon(wpnData));
 					}
+					// Uses a predefined weapon.
 					else if (atq.startsWith(`{w${this.game}-`) && atq.endsWith('}')) {
 						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
 						const weapon = YZWeapon.CATALOGS.WEAPONS[this.game].get(wid);
 						out.push(weapon);
 					}
+					// Uses a default weapon.
 					else if (atq.startsWith('{') && atq.endsWith('}')) {
 						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
 						const weapon = YZWeapon.getDefault(
@@ -345,6 +372,7 @@ class YZMonster extends YZObject {
 				out.push(`${Util.capitalize(__(key, this.lang))} **${this.attributes[key]}**`);
 			}
 		}
+		if (!out.length) return `*${Util.capitalize(__('none', this.lang))}*`;
 		return out.join('\n');
 	}
 
@@ -385,6 +413,7 @@ class YZMonster extends YZObject {
 				}
 			}
 			str += out.join(', ') + ')';
+			str = str.replace(/1000/g, Util.capitalize(__('impervious', this.lang)));
 		}
 		return str;
 	}
@@ -409,8 +438,8 @@ class YZMonster extends YZObject {
 		for (const [ref, attack] of this.attacks) {
 			if (attack.name === '{REROLL}') continue;
 			const n = attack.name || 'Unnamed';
-			const d = attack.base ? attack.base + 'D' : '-';
-			const dmg = attack.damage >= 0 ? attack.damage : '-';
+			const d = attack.base ? Util.resolveNumber(attack.base) + 'D' : '-';
+			const dmg = attack.damage != null ? Util.resolveNumber(attack.damage) : '-';
 			const r = attack.range >= 0 ? Util.capitalize(RANGES[this.game][attack.range]) : '-';
 			str += '\n'
 				+ Util.alignText(`${ref}`, intvlColLen, 0)
@@ -472,21 +501,68 @@ class YZMonster extends YZObject {
 class YZWeapon extends YZObject {
 	constructor(data) {
 		super(data);
-		this.ranged = this.ranged ? true : false;
+		this.ranged = Util.getBoolean(this.ranged);
+		this._createFeatures();
 	}
 
 	get base() { return this.bonus; }
 	get effect() {
-		return `${this.bonus} ${__('base-dice', this.lang)}`
-		+ `, ${Util.capitalize(__('damage', this.lang))} ${this.damage}.`
-		+ (this.special ? ` *(${this.special.split('|').join(', ')}.)*` : '');
+		return '__'
+		+ (this.bonus ? `**${Util.resolveNumber(this.bonus)}** ${__('base-dice', this.lang)}` : '')
+		+ (this.bonus && this.damage ? ', ' : '')
+		+ (this.damage ? `${Util.capitalize(__('damage', this.lang))} **${Util.resolveNumber(this.damage)}**` : '')
+		+ '__.'
+		+ (this.range >= 0 ? ` \`${__(RANGES[this.game][this.range], this.lang).toUpperCase()}\` range.` : '')
+		+ (this.special ? ` ${this.special.split('|').join(', ')}.` : '')
+		+ (Object.keys(this.features).length ? ` *(${this.featuresToString()}.)*` : '');
+	}
+
+	_createFeatures() {
+		const features = (this.features || '').split('|');
+		this.features = {};
+
+		if (!features[0]) return;
+		for (const feature of features) {
+			const name = feature.trim().split(' ');
+			let value;
+			if (Util.isNumber(name[name.length - 1])) {
+				value = name.pop();
+			}
+			const feat = name.join('-').toLowerCase();
+			if (WEAPON_FEATURES.boolean.includes(feat)) {
+				this.features[feat] = true;
+			}
+			else if (WEAPON_FEATURES.number.includes(feat)) {
+				this.features[feat] = +value;
+			}
+			else {
+				throw new SyntaxError(`Unknown weapon feature: "${feat}".`);
+			}
+		}
+	}
+
+	featuresToString() {
+		const out = [];
+		for (const feat in this.features) {
+			const feature = Util.kebabToStrUcFirst(feat);
+			if (Util.isNumber(this.features[feat])) {
+				out.push(`${feature} **${this.features[feat]}**`);
+			}
+			else if (this.features[feat] === true) {
+				out.push(feature);
+			}
+			else {
+				out.push(`${feature}: ${this.features[feat]}`);
+			}
+		}
+		return out.join(', ');
 	}
 
 	static getAvailableGames() { return super.getAvailableGames('WEAPONS'); }
 	static async fetch(ctx, game, str = null) { return super.fetch(ctx, 'WEAPONS', game, str); }
 	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'WEAPONS', game); }
 
-	static getDefault(name) {
+	static getDefault(name, source = 'myz') {
 		return new YZWeapon({
 			id: name,
 			grip: 1,
@@ -494,7 +570,7 @@ class YZWeapon extends YZObject {
 			damage: 1,
 			range: 0,
 			ranged: true,
-			source: 'myz',
+			source,
 		});
 	}
 }

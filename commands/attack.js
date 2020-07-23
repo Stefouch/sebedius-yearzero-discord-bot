@@ -29,7 +29,8 @@ module.exports = {
 		const attack = monster.attack(ref);
 		const effect = attack.effect
 			.replace(/{prefix}/gi, ctx.prefix)
-			.replace(/{success}/gi, successIcon)
+			.replace(/~success/gi, successIcon)
+			.replace(/~/g, monster.name)
 			.replace(/\\n/g, '\n');
 
 		// Creates the Embed.
@@ -97,16 +98,29 @@ module.exports = {
  * @async
  */
 async function rollAttack(attack, monster, message, bot) {
+	console.log(monster);
+	console.log(attack);
 	const game = monster.game;
 	// Rolls the attack.
-	const atkRoll = new YZRoll(
-		message.author,
-		{
-			base: attack.ranged ? monster.agi : monster.str,
-			skill: attack.ranged ? monster.skills.shoot : monster.skills.fight,
-			gear: attack.base,
-		},
-	);
+	let atkRoll;
+	if (/\(\d+\)/.test(attack.base)) {
+		// Fixed roll (only Base dice).
+		atkRoll = new YZRoll(
+			message.author,
+			{ base: Util.resolveNumber(attack.base) },
+		);
+	}
+	else {
+		// Unfixed roll.
+		atkRoll = new YZRoll(
+			message.author,
+			{
+				base: attack.ranged ? monster.agi : monster.str,
+				skill: attack.ranged ? monster.skills.shoot : monster.skills.fight,
+				gear: attack.base,
+			},
+		);
+	}
 	atkRoll.setGame(game);
 
 	// Calculates damages.
@@ -118,8 +132,8 @@ async function rollAttack(attack, monster, message, bot) {
 	}
 	else if (hit > 0) {
 		// Fixed damage
-		if (/{\d*}/.test(attack.damage)) {
-			damage = +attack.damage.replace(/{(\d*)}/, (match, p1) => p1);
+		if (/\(\d+\)/.test(attack.damage)) {
+			damage = Util.resolveNumber(attack.damage);
 		}
 		// Regular damage
 		else {

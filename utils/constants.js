@@ -31,6 +31,14 @@ module.exports = {
 		alien: ['engaged', 'short', 'medium', 'long', 'extreme'],
 		vaesen: ['0', '1', '2', '3', '4'],
 	},
+	WEAPON_FEATURES: {
+		boolean: [
+			'artifact', 'clip', 'energy', 'explosive', 'fire',
+			'fullauto', 'gyrojet', 'heavy', 'juryrigged', 'mounted',
+			'light', 'rot', 'tiny',
+		],
+		number: [ 'armor-piercing', 'barrels', 'blast-power'],
+	},
 	SOURCE_MAP: {
 		myz: 'Mutant: Year Zero',
 		gla: 'Mutant: GenLab Alpha',

@@ -1,69 +1,69 @@
-id;grip;bonus;damage;range;ranged;special;source
-wmyz-assaultrifle;2;3;2;3;true;Artifact|Clip|Fullauto;myz
-wmyz-baseballbat-spiked;1;2;2;0;;Jury-Rigged;myz
-wmyz-baseballbat-wooden;1;2;1;0;;Can be found in the Zone;myz
-wmyz-bicyclechain;1;1;1;1;;;myz
-wmyz-bluntinstrument;1;1;1;0;;(Club, Hockey Stick, Iron Pipe);myz
-wmyz-bow;2;1;1;3;true;Jury-Rigged;myz
-wmyz-brassknuckles;1;1;1;0;;Jury-Rigged|Light;myz
-wmyz-chainknife;1;2;3;0;;Enclave|Energy|Light;zc1
-wmyz-chainsaw;2;2;3;0;;Artifact|Heavy;myz
-wmyz-compoundbow;2;2;1;3;true;Artifact;myz
-wmyz-crossbow;2;3;1;3;true;Artifact;myz
-wmyz-decapitator;2;1;3;1;;Heavy|Looks like a Death Scythe;zs1
-wmyz-emprifle;2;3;3;3;true;Artifact|Energy|Only vs. Robots and ignores their armor;gla
-wmyz-flamethrower;2;1;2;1;true;Jury-Rigged|Heavy;myz
-wmyz-flaregun;1;2;2;2;true;Artifact;myz
-wmyz-gausspistol;1;2;2;3;true;Artifact|Energy|Armor Piercing 3|Light;ely
-wmyz-gaussrifle;2;2;2;4;true;Artifact|Energy|Armor Piercing 3;ely
-wmyz-grenade-energy;1;0;2;2;true;Artifact|Explosive|Blast Power 15|Rot|Light;gla
-wmyz-grenade-frag;1;0;1;2;true;Artifact|Explosive|Blast Power 12|Light;ely
-wmyz-grenade-hand;1;0;2;2;true;Artifact|Explosive|Blast Power 9|Light;ely
-wmyz-gyrojetcarbine;2;3;3;3;true;Artifact|Clip|Fullauto|Gyrojet;ely
-wmyz-gyrojetpistol;1;3;3;2;true;Artifact|Gyrojet;ely
-wmyz-harpoonpistol;1;1;1;1;true;Light;zc2
-wmyz-harpoonrifle;2;1;1;2;true;;zc2
-wmyz-huntingrifle;2;2;2;3;true;Artifact|Clip;myz
-wmyz-improvisedexplosive;1;0;1;2;true;Jury-Rigged|Explosive|Blast Power varies;myz
-wmyz-katana;1;3;2;0;;Artifact;myz
-wmyz-lasercannon;-1;3;3;3;true;Energy|Mounted;zc5
-wmyz-laserpistol;1;3;2;3;true;Artifact|Energy|Light;gla
-wmyz-laserrifle;2;3;2;4;true;Artifact|Energy;mek
-wmyz-laserwelder;1;2;2;0;;Artifact|Energy|Light|Repair +3|Manufacture +3|Jury-Rig +3;mek
-wmyz-machete;1;2;2;0;;Jury-Rigged;myz
-wmyz-maserpistol;1;2;3;2;true;Artifact|Energy|Light;myz
-wmyz-molotovcocktail;1;1;2;2;true;Jury-Rigged|Fire;myz
-wmyz-nailgun;1;2;2;1;true;Artifact|Jury-Rig +2;gla
-wmyz-oldagespeargun;1;2;2;2;true;Artifact;zc2
-wmyz-pickaxe;1;1;3;0;;Can be found in the Zone;myz
-wmyz-plasmarifle;2;2;3;3;true;Artifact|Energy;mek
-wmyz-pulselaser;-1;2;3;3;true;Energy|Mounted;gla
-wmyz-revolver;1;3;2;2;true;Artifact|Clip;myz
-wmyz-rock-thrown;1;0;1;2;true;;myz
-wmyz-rustychain;1;1;1;1;;Can be found in the Zone;myz
-wmyz-scrapaxe;2;1;3;0;;Jury-Rigged|Heavy;myz
-wmyz-scrapcannon;-1;1;4;3;true;Jury-Rigged|Mounted;myz
-wmyz-scrapcrossbow;2;1;2;3;true;Jury-Rigged|Heavy;myz
-wmyz-scrapderringer;1;1;1;1;true;Jury-Rigged|Light;myz
-wmyz-scrapflamethrower;2;1;2;1;true;Jury-Rigged|Fire|Heavy;myz
-wmyz-scrapknife;1;1;2;0;;Jury-Rigged|Light;myz
-wmyz-scrapmachete;1;2;2;0;;Jury-Rigged;myz
-wmyz-scrappistol;1;2;2;2;true;Jury-Rigged;myz
-wmyz-scraprifle;2;1;2;3;true;Jury-Rigged;myz
-wmyz-scrapshiv;1;1;1;0;;Jury-Rigged|Light;myz
-wmyz-scrapshotgun;2;2;2;2;true;Jury-Rigged;myz
-wmyz-scrapsledgehammer;2;1;3;0;;Jury-Rigged|Heavy;myz
-wmyz-scrapspear;1;1;2;1;;Jury-Rigged|Can be thrown;myz
-wmyz-semiautopistol;1;2;2;2;true;Artifact|Clip|Light;myz
-wmyz-shotgun-doublebarrel;2;3;3;2;true;Artifact|2 Barrels;myz
-wmyz-shotgun-pumpaction;2;3;2;2;true;Artifact|Clip;myz
-wmyz-slingshot;2;1;1;2;true;Jury-Rigged;myz
-wmyz-studdedwoodenclub;1;1;2;0;;Jury-Rigged;myz
-wmyz-stunbaton;1;2;1;0;;Artifact|Energy|Inflicts D6 fatigue;gla
-wmyz-stungun;1;2;1;2;true;Artifact|Energy|Light|Inflicts fatigue instead of damage;mek
-wmyz-tasergun;1;1;2;2;true;Artifact|Light|Inflicts fatigue instead of damage;gla
-wmyz-ultrasoniccarbine;2;2;2;2;true;Artifact|Energy|Inflicts fatigue in addition;ely
-wmyz-unarmed;1;0;1;0;;;myz
-wmyz-vibroknife;1;2;2;0;;Artifact|Energy|Ignores all armor;mek
-wmyz-whaleharpoon;-1;1;3;2;true;Mounted;zc2
-wmyz-wrench;1;2;1;0;;Artifact|Jury-Rig +3;myz
+id;grip;bonus;damage;range;ranged;features;special;source
+wmyz-assaultrifle;2;3;2;3;true;Artifact|Clip|Fullauto;;myz
+wmyz-baseballbat-spiked;1;2;2;0;;;Jury-Rigged;myz
+wmyz-baseballbat-wooden;1;2;1;0;;;Can be found in the Zone;myz
+wmyz-bicyclechain;1;1;1;1;;;;myz
+wmyz-bluntinstrument;1;1;1;0;;;Club, Hockey Stick, Iron Pipe;myz
+wmyz-bow;2;1;1;3;true;;Jury-Rigged;myz
+wmyz-brassknuckles;1;1;1;0;;Light;Jury-Rigged;myz
+wmyz-chainknife;1;2;3;0;;Energy|Light;;zc1
+wmyz-chainsaw;2;2;3;0;;Artifact|Heavy;;myz
+wmyz-compoundbow;2;2;1;3;true;Artifact;;myz
+wmyz-crossbow;2;3;1;3;true;Artifact;;myz
+wmyz-decapitator;2;1;3;1;;Heavy;Looks like a Death Scythe;zs1
+wmyz-emprifle;2;3;3;3;true;Artifact|Energy;Only vs. Robots and ignores their armor;gla
+wmyz-flamethrower;2;1;2;1;true;Heavy;Jury-Rigged;myz
+wmyz-flaregun;1;2;2;2;true;Artifact;;myz
+wmyz-gausspistol;1;2;2;3;true;Artifact|Energy|Armor Piercing 3|Light;;ely
+wmyz-gaussrifle;2;2;2;4;true;Artifact|Energy|Armor Piercing 3;;ely
+wmyz-grenade-energy;1;0;2;2;true;Artifact|Explosive|Blast Power 15|Rot|Light;;gla
+wmyz-grenade-frag;1;0;1;2;true;Artifact|Explosive|Blast Power 12|Light;;ely
+wmyz-grenade-hand;1;0;2;2;true;Artifact|Explosive|Blast Power 9|Light;;ely
+wmyz-gyrojetcarbine;2;3;3;3;true;Artifact|Clip|Fullauto|Gyrojet;;ely
+wmyz-gyrojetpistol;1;3;3;2;true;Artifact|Gyrojet;;ely
+wmyz-harpoonpistol;1;1;1;1;true;Light;;zc2
+wmyz-harpoonrifle;2;1;1;2;true;;;zc2
+wmyz-huntingrifle;2;2;2;3;true;Artifact|Clip;;myz
+wmyz-improvisedexplosive;1;0;1;2;true;Explosive|Blast Power 6;Jury-Rigged;myz
+wmyz-katana;1;3;2;0;;Artifact;;myz
+wmyz-lasercannon;-1;3;3;3;true;Energy|Mounted;;zc5
+wmyz-laserpistol;1;3;2;3;true;Artifact|Energy|Light;;gla
+wmyz-laserrifle;2;3;2;4;true;Artifact|Energy;;mek
+wmyz-laserwelder;1;2;2;0;;Artifact|Energy|Light;Repair +3, Manufacture +3, Jury-Rig +3;mek
+wmyz-machete;1;2;2;0;;;Jury-Rigged;myz
+wmyz-maserpistol;1;2;3;2;true;Artifact|Energy|Light;;myz
+wmyz-molotovcocktail;1;1;2;2;true;Fire;Jury-Rigged;myz
+wmyz-nailgun;1;2;2;1;true;Artifact;Jury-Rig +2;gla
+wmyz-oldagespeargun;1;2;2;2;true;Artifact;;zc2
+wmyz-pickaxe;1;1;3;0;;;Can be found in the Zone;myz
+wmyz-plasmarifle;2;2;3;3;true;Artifact|Energy;;mek
+wmyz-pulselaser;-1;2;3;3;true;Energy|Mounted;;gla
+wmyz-revolver;1;3;2;2;true;Artifact|Clip;;myz
+wmyz-rock-thrown;1;0;1;2;true;;;myz
+wmyz-rustychain;1;1;1;1;;;Can be found in the Zone;myz
+wmyz-scrapaxe;2;1;3;0;;Heavy;Jury-Rigged;myz
+wmyz-scrapcannon;-1;1;4;3;true;Mounted;Jury-Rigged;myz
+wmyz-scrapcrossbow;2;1;2;3;true;Heavy;Jury-Rigged;myz
+wmyz-scrapderringer;1;1;1;1;true;Light;Jury-Rigged;myz
+wmyz-scrapflamethrower;2;1;2;1;true;Fire|Heavy;Jury-Rigged;myz
+wmyz-scrapknife;1;1;2;0;;Light;Jury-Rigged;myz
+wmyz-scrapmachete;1;2;2;0;;;Jury-Rigged;myz
+wmyz-scrappistol;1;2;2;2;true;;Jury-Rigged;myz
+wmyz-scraprifle;2;1;2;3;true;;Jury-Rigged;myz
+wmyz-scrapshiv;1;1;1;0;;Light;Jury-Rigged;myz
+wmyz-scrapshotgun;2;2;2;2;true;;Jury-Rigged;myz
+wmyz-scrapsledgehammer;2;1;3;0;;Heavy;Jury-Rigged;myz
+wmyz-scrapspear;1;1;2;1;;;Jury-Rigged, Can be thrown;myz
+wmyz-semiautopistol;1;2;2;2;true;Artifact|Clip|Light;;myz
+wmyz-shotgun-doublebarrel;2;3;3;2;true;Artifact|Barrels 2;;myz
+wmyz-shotgun-pumpaction;2;3;2;2;true;Artifact|Clip;;myz
+wmyz-slingshot;2;1;1;2;true;;Jury-Rigged;myz
+wmyz-studdedwoodenclub;1;1;2;0;;;Jury-Rigged;myz
+wmyz-stunbaton;1;2;1;0;;Artifact|Energy;Inflicts D6 fatigue;gla
+wmyz-stungun;1;2;1;2;true;Artifact|Energy|Light;Inflicts fatigue instead of damage;mek
+wmyz-tasergun;1;1;2;2;true;Artifact|Light;Inflicts fatigue instead of damage;gla
+wmyz-ultrasoniccarbine;2;2;2;2;true;Artifact|Energy;Inflicts fatigue in addition;ely
+wmyz-unarmed;1;0;1;0;;;;myz
+wmyz-vibroknife;1;2;2;0;;Artifact|Energy;Ignores all armor;mek
+wmyz-whaleharpoon;-1;1;3;2;true;Mounted;;zc2
+wmyz-wrench;1;2;1;0;;Artifact;;myz
