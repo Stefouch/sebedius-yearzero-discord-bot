@@ -16,6 +16,12 @@ module.exports = {
 			• \`-attack|-atk|-a [number]\` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type \`<name> [number]\` instead of the \`-attack\` argument).
 			• \`-private|-p\` – Sends the message in a private DM.`,
 		],
+		[
+			'Reaction Menu (if an attack is called)',
+			`• Click ⚔️ to roll the dice of the attack.
+			• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
+			• Click ❌ to stop the reaction menu.`,
+		],
 	],
 	aliases: ['mon', 'creature', 'pokemon'],
 	guildOnly: false,

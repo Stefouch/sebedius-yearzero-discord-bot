@@ -17,6 +17,10 @@ module.exports = {
 			• \`number\` – Specifies the desired attack instead of choosing a random one.
 			• \`-private|-p\` – Sends the message in a private DM.`,
 		],
+		[
+			'Reaction Menu',
+			`• Click ⚔️ to roll the dice of the attack.
+			• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
 	],
 	aliases: ['atk', 'atq'],
 	guildOnly: false,
