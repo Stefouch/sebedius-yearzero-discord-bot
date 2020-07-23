@@ -1,9 +1,14 @@
 class RollTable extends Map {
 
+	constructor(name, iterable) {
+		super(iterable);
+		this.name = name;
+	}
+
 	/**
 	 * The total length of the entries.
 	 * Not the same as Size.
-	 * @returns {number}
+	 * @type {number}
 	 * @readonly
 	 */
 	get length() {
@@ -22,6 +27,18 @@ class RollTable extends Map {
 			else { len++; }
 		}
 		return len;
+	}
+
+	/**
+	 * The die used to get a random element from this table.
+	 * @type {string}
+	 * @readonly
+	 */
+	get d() {
+		if (this.length === 6) return 'D6';
+		else if (this.length === 36) return 'D66';
+		else if (this.length === 216) return 'D666';
+		else return `D${this.length}`;
 	}
 
 	/**

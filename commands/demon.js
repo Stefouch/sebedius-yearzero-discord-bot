@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const Demon = require('../generators/FBLDemonGenerator');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
@@ -25,16 +25,16 @@ module.exports = {
 		// Demon's attributes & Armor Rating.
 		embed.addField(
 			'Attributes',
-			`Strength: **${demon.attributes.str}**`
-				+ `\nAgility: **${demon.attributes.agi}**`
-				+ `\nWits: **${demon.attributes.wit}**`
-				+ `\nEmpathy: **${demon.attributes.emp}**`,
+			`Strength **${demon.attributes.str}**`
+				+ `\nAgility **${demon.attributes.agi}**`
+				+ `\nWits **${demon.attributes.wit}**`
+				+ `\nEmpathy **${demon.attributes.emp}**`,
 			true,
 		);
 
 		embed.addField(
 			'Body',
-			`Armor Rating: **${demon.armor}**`
+			`Armor Rating **${demon.armor}**`
 				+ ((demon.formEffect) ? `\n${demon.formEffect}` : ''),
 			true,
 		);
@@ -43,7 +43,7 @@ module.exports = {
 		let skillsText = '';
 
 		for (const key in demon.skills) {
-			if (demon.skills[key] > 0) skillsText += `\n${Util.strCamelToNorm(key)}: **${demon.skills[key]}**`;
+			if (demon.skills[key] > 0) skillsText += `\n${Util.strCamelToNorm(key)} **${demon.skills[key]}**`;
 		}
 
 		if (!skillsText.length) skillsText = '*None*';
@@ -96,6 +96,6 @@ module.exports = {
 
 		embed.addField('Weaknesses', wkText, false);
 
-		return ctx.channel.send(embed);
+		return await ctx.channel.send(embed);
 	},
 };

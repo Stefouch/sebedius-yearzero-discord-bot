@@ -1,6 +1,6 @@
 const Sebedius = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const { RollParser } = require('../utils/RollParser');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { SUPPORTED_GAMES } = require('../utils/constants');
@@ -87,7 +87,7 @@ module.exports = {
 		// Sets the game. Must be done first.
 		let game;
 		if (SUPPORTED_GAMES.includes(rollargv._[0])) game = rollargv._.shift();
-		else game = await ctx.bot.getGame(ctx);
+		else game = await ctx.bot.getGame(ctx, 'myz');
 
 		// Year Zero dice quantities for the roll.
 		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
@@ -307,7 +307,7 @@ async function messageRollResult(roll, ctx) {
 				});
 				// Starts the Reaction Menu.
 				const cooldown = ctx.bot.config.commands.roll.pushCooldown;
-				const rm = new ReactionMenu(rollMessage, ctx.bot, cooldown, reactions);
+				const rm = new ReactionMenu(rollMessage, cooldown, reactions);
 			}
 		})
 		.catch(console.error);

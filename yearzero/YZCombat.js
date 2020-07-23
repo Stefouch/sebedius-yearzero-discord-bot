@@ -260,7 +260,7 @@ class YZCombat {
 
 	getCombatant(name, strict = true) {
 		name = name.toLowerCase();
-		if (strict) return this.getCombatants().find(c => c.name.toLowerCase() == name);
+		if (strict) return this.getCombatants().find(c => c.name.toLowerCase() === name);
 		else return this.getCombatants().find(c => c.name.toLowerCase().includes(name));
 	}
 
@@ -321,7 +321,7 @@ class YZCombat {
 		let grp;
 		if (strict) {
 			const nameLc = name.toLowerCase();
-			grp = this.getGroups().find(g => g.name.toLowerCase() == nameLc);
+			grp = this.getGroups().find(g => g.name.toLowerCase() === nameLc);
 		}
 		else {
 			const nameLc = name.toLowerCase();
@@ -369,7 +369,7 @@ class YZCombat {
 	 */
 	async selectCombatant(name, choiceMessage = null, selectGroup = false) {
 		name = name.toLowerCase();
-		let matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase() == name);
+		let matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase() === name);
 		if (matching.length === 0) {
 			matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase().includes(name));
 		}
@@ -421,7 +421,7 @@ class YZCombat {
 		const previousInit = this.initiatives.previous(this.index);
 
 		// Start of combat.
-		if (this.index == null || this.index == undefined) {
+		if (this.index === null || this.index === undefined) {
 			this.index = this.initiatives.max;
 		}
 		// Previous round.
@@ -590,7 +590,7 @@ class YZCombat {
 	async final() {
 		await this.commit();
 		await this.updateSummary();
-		console.log(this);
+		// console.log(this);
 	}
 
 	/**

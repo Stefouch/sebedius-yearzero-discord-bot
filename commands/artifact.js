@@ -1,5 +1,5 @@
 const Artos = require('../gamedata/artifacts.list.json');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const { random } = require('../utils/Util');
 
 module.exports = {

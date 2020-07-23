@@ -1,4 +1,4 @@
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 const Sebedius = require('../Sebedius');
 

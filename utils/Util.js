@@ -97,9 +97,10 @@ class Util {
 	 * @returns {string}
 	 */
 	static zeroise(value, min) {
-		let val = value.toString();
-		if (val.length < min) val = Array(min - val.length + 1).join('0') + val;
-		return val;
+		return `${value}`.padStart(min, '0');
+		// let val = value.toString();
+		// if (val.length < min) val = Array(min - val.length + 1).join('0') + val;
+		// return val;
 	}
 
 	/**
@@ -153,6 +154,27 @@ class Util {
 	static strCamelToNorm(str) {
 		str = str.replace(/([A-Z])/g, ' $1');
 		return Util.capitalize(str);
+	}
+
+	/**
+	 * Converts a normal string into a kebab-cased-string.
+	 * @param {string} str The string to process
+	 * @returns {string}
+	 */
+	static strToKebab(str) {
+		return str.toLowerCase().replace(/ /g, '-');
+	}
+
+	/**
+	 * Converts kebab-cased-string into a normal string.
+	 * @param {string} str The string to process
+	 * @returns {string}
+	 */
+	static kebabToStrUcFirst(str) {
+		return str
+			.split('-')
+			.map(s => Util.capitalize(s))
+			.join(' ');
 	}
 
 	/**
@@ -471,7 +493,7 @@ class Util {
 		let val;
 		try { val = list[index]; }
 		catch (error) { val = defaultValue; }
-		if (val == undefined) val = defaultValue;
+		if (val === undefined) val = defaultValue;
 		return val;
 	}
 
@@ -498,7 +520,8 @@ class Util {
 
 			for (let j = 0; j < headers.length; j++) {
 				let value = currentLine[j];
-				if (value === '') value = undefined;
+				if (value === '') continue;
+				// if (value === '') value = undefined;
 				// else if (value === 'true') value = true;
 				// else if (value === 'false') value = false;
 				// else if (this.isNumber(value)) value = Number(value);
@@ -571,7 +594,7 @@ class Util {
 		}
 	}
 
-	/** @deprecated */
+	/** @deprecated **/
 	static parseInt(number, base) {
 		const result = [];
 		while (number > 0) {
@@ -587,9 +610,10 @@ class Util {
 	 * @returns {boolean}
 	 */
 	static getBoolean(str) {
+		if (typeof str === 'boolean') return str;
 		if (str instanceof Boolean) return str;
-		else if (/(yes|y|true|t|1|enable|on)/i.test(str)) return true;
-		else if (/(no|n|false|f|0|disable|off)/i.test(str)) return false;
+		if (/(yes|y|true|t|1|enable|on)/i.test(str)) return true;
+		if (/(no|n|false|f|0|disable|off)/i.test(str)) return false;
 		return null;
 	}
 
@@ -607,6 +631,21 @@ class Util {
 		else n = Number(val);
 		return n;
 	}
+
+	/**
+	 * Resolves a string resolvable number.
+	 * @param {string} n Resolvable stringified number
+	 * @returns {number}
+	 */
+	static resolveNumber(n) {
+		if (typeof n === 'number') return n;
+		if (Util.isNumber(n)) return +n;
+		const regex = /(\d+)/;
+		if (typeof n === 'string' && regex.test(n)) {
+			return +regex.exec(n)[0];
+		}
+		return NaN;
+	}
 }
 
 module.exports = Util;
@@ -619,7 +658,7 @@ module.exports = Util;
  * Note: This will not match on objects.
  * @param {RegExp} rx The regular expression to test with. E.g. /-ba/gim
  * @returns {number} -1 means not found
- */
+ *
 if (typeof Array.prototype.regIndexOf === 'undefined') {
 	Array.prototype.regIndexOf = function(rx) {
 		for (const i in this) {
@@ -629,15 +668,15 @@ if (typeof Array.prototype.regIndexOf === 'undefined') {
 		}
 		return -1;
 	};
-}
+}//*/
 
 /**
  * Regular Expression includes for Arrays.
  * @param {RegExp} rx The regular expression to test with.
  * @returns {boolean}
- */
+ *
 if (typeof Array.prototype.regIncludes === 'undefined') {
 	Array.prototype.regIncludes = function(rx) {
 		return this.regIndexOf(rx) >= 0;
 	};
-}
+}//*/

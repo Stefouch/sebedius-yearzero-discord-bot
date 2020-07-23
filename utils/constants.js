@@ -1,34 +1,77 @@
 module.exports = {
 	SUPPORTED_GAMES: ['myz', 'fbl', 'tales', 'coriolis', 'alien', 'vaesen'],
-	SUPPORTED_LANGS: ['en', 'sw'],
-	SUPPORTED_LANGS_NAMES: ['English', 'Svenska'],
-	DAMAGE_TYPES: ['generic', 'slash', 'blunt', 'stab'],
-	DAMAGE_TYPES_ABBREVIATIONS: ['gen', 'sl', 'bl', 'st'],
+	SUPPORTED_LANGS: {
+		en: 'English',
+		fr: 'Français',
+		sw: 'Svenska',
+	},
+	DAMAGE_TYPES: ['damage', 'slash', 'blunt', 'stab'],
+	DAMAGE_TYPES_ABBREVIATIONS: ['dmg', 'sl', 'bl', 'st'],
+	ATTRIBUTES: [
+		'strength', 'physique', 'fitness',
+		'agility', 'precision', 'dexterity',
+		'wits', 'logic', 'intel',
+		'empathy', 'instinct',
+	],
+	ATTRIBUTE_STR: ['strength', 'physique', 'fitness'],
+	ATTRIBUTE_AGI: ['agility', 'precision', 'dexterity'],
+	ATTRIBUTE_INT: ['wits', 'logic', 'intel'],
+	ATTRIBUTE_EMP: ['empathy', 'instinct'],
+	SKILL_MAP: {
+		'fight': 'str',
+		'shoot': 'agi',
+		'move': 'agi',
+		'comprehend': 'int',
+		'heal': 'emp',
+	},
+	RANGES: {
+		myz: ['arm', 'near', 'short', 'long', 'distant'],
+		fbl: ['arm', 'near', 'short', 'long', 'distant'],
+		coriolis: ['close', 'short', 'long', 'extreme'],
+		alien: ['engaged', 'short', 'medium', 'long', 'extreme'],
+		vaesen: ['0', '1', '2', '3', '4'],
+	},
+	WEAPON_FEATURES: {
+		boolean: [
+			'artifact', 'clip', 'energy', 'explosive', 'fire',
+			'fullauto', 'gyrojet', 'heavy', 'juryrigged', 'mounted',
+			'light', 'rot', 'tiny',
+		],
+		number: [ 'armor-piercing', 'barrels', 'blast-power'],
+	},
 	SOURCE_MAP: {
-		'myz': 'Mutant: Year Zero',
-		'gla': 'Mutant: GenLab Alpha',
-		'mec': 'Mutant: Mechatron',
-		'ely': 'Mutant: Elysium',
-		'zs1': 'Mutant: Zone Sector 1 – The Doom Sphere',
-		'zs2': 'Mutant: Zone Sector 2 – Denizens of the Sink Hole',
-		'zc1': 'Mutant: Zone Compendium 1 – Lair of the Saurians',
-		'zc2': 'Mutant: Zone Compendium 2 – Dead Blue Sea',
-		'zc3': 'Mutant: Zone Compendium 3 – Die, Meat-Eaters, Die',
-		'zc4': 'Mutant: Zone Compendium 4 – The Eternal War',
-		'zc5': 'Mutant: Zone Compendium 5 – Hotel Imperator',
-		'fbl': 'Forbidden Lands',
-		'fbr': 'Forbidden Lands: The Bitter Reach',
-		'froz': 'Forbidden Lands: The Bitter Reach',
-		'tales': 'Tales From The Loop',
-		'tftl': 'Tales From The Loop',
-		'things': 'Things From The Flood',
-		'tftf': 'Things From The Flood',
-		'cor': 'Coriolis – The Third Horizon',
-		'coriolis': 'Coriolis – The Third Horizon',
-		'alien': 'The ALIEN Roleplaying Game',
-		'vaesen': 'Vaesen',
-		't2k': 'Twilight 2000 (Year Zero Engine)',
-		'cth': 'Upcoming Year Zero Cthulhu',
+		myz: 'Mutant: Year Zero',
+		gla: 'Mutant: GenLab Alpha',
+		mec: 'Mutant: Mechatron',
+		mek: 'Mutant: Mechatron',
+		ely: 'Mutant: Elysium',
+		zs1: 'Mutant: Zone Sector 1 – The Doom Sphere',
+		zs2: 'Mutant: Zone Sector 2 – Denizens of the Sink Hole',
+		zc1: 'Mutant: Zone Compendium 1 – Lair of the Saurians',
+		zc2: 'Mutant: Zone Compendium 2 – Dead Blue Sea',
+		zc3: 'Mutant: Zone Compendium 3 – Die, Meat-Eaters, Die',
+		zc4: 'Mutant: Zone Compendium 4 – The Eternal War',
+		zc5: 'Mutant: Zone Compendium 5 – Hotel Imperator',
+		fbl: 'Forbidden Lands',
+		fbr: 'Forbidden Lands: The Bitter Reach',
+		froz: 'Forbidden Lands: The Bitter Reach',
+		tales: 'Tales From The Loop',
+		tftl: 'Tales From The Loop',
+		things: 'Things From The Flood',
+		tftf: 'Things From The Flood',
+		cor: 'Coriolis – The Third Horizon',
+		coriolis: 'Coriolis – The Third Horizon',
+		alien: 'The ALIEN Roleplaying Game',
+		dow: 'ALIEN: Destroyer of Worlds',
+		vaesen: 'Vaesen',
+		t2k: 'Twilight 2000 (Year Zero Engine)',
+		cth: 'Upcoming Year Zero Cthulhu',
+	},
+	COMPENDIA: {
+		myz: ['gla', 'mec', 'mek', 'ely', 'zs1', 'zs2', 'zc1', 'zc2', 'zc3', 'zc4', 'zc5'],
+		fbl: ['fbr', 'froz'],
+		tales: ['things', 'tftf'],
+		alien: ['dow'],
 	},
 	CARDS_ICONS: [
 		'0️⃣',
@@ -44,8 +87,8 @@ module.exports = {
 		'🔟',
 	],
 	DICE_ICONS: {
-		'myz': {
-			'base': [
+		myz: {
+			base: [
 				'0',
 				'<:b1:543422717857366016>',
 				'<:b2:543422724316332032>',
@@ -54,7 +97,7 @@ module.exports = {
 				'<:b5:543422745027805211>',
 				'<:b6:543422751428575238>',
 			],
-			'skill': [
+			skill: [
 				'0',
 				'<:s1:543422653399040010>',
 				'<:s2:543422668393938945>',
@@ -63,7 +106,7 @@ module.exports = {
 				'<:s5:543422700807258122>',
 				'<:s6:543422708554137601>',
 			],
-			'gear': [
+			gear: [
 				'0',
 				'<:g1:543422540824182844>',
 				'<:g2:543422593638727690>',
@@ -72,7 +115,7 @@ module.exports = {
 				'<:g5:543422630942867466>',
 				'<:g6:543422639788785664>',
 			],
-			'neg': [
+			neg: [
 				'0',
 				'<:neg1:548467996360966160>',
 				'<:neg2:548468005764595722>',
@@ -82,8 +125,8 @@ module.exports = {
 				'<:neg6:548468039759167523>',
 			],
 		},
-		'fbl': {
-			'base': [
+		fbl: {
+			base: [
 				'0',
 				'<:fblb1:585362696774352897>',
 				'<:fblb2:585368627348373514>',
@@ -92,7 +135,7 @@ module.exports = {
 				'<:fblb5:585368684726321170>',
 				'<:fblb6:585368712010399744>',
 			],
-			'skill': [
+			skill: [
 				'0',
 				'<:fbls1:585368858857177088>',
 				'<:fbls2:585368877798522891>',
@@ -101,7 +144,7 @@ module.exports = {
 				'<:fbls5:585368925643079690>',
 				'<:fbls6:585368937500508170>',
 			],
-			'gear': [
+			gear: [
 				'0',
 				'<:fblg1:585369118849630208>',
 				'<:fblg2:585369135882698763>',
@@ -110,7 +153,7 @@ module.exports = {
 				'<:fblg5:585369176936546305>',
 				'<:fblg6:585369195970166786>',
 			],
-			'neg': [
+			neg: [
 				'0',
 				'<:fbls1:585368858857177088>',
 				'<:fbls2:585368877798522891>',
@@ -119,7 +162,7 @@ module.exports = {
 				'<:fbls5:585368925643079690>',
 				'<:fbls6:585368937500508170>',
 			],
-			'arto': [
+			arto: [
 				'0',
 				'<:fblarto1:585376923065253898>',
 				'<:fblarto2:585376930866528277>',
@@ -135,8 +178,8 @@ module.exports = {
 				'<:fblarto12:585377072772284426>',
 			],
 		},
-		'tales': {
-			'skill': [
+		tales: {
+			skill: [
 				'0',
 				'<:talesb0:724749797352800256>',
 				'<:talesb0:724749797352800256>',
@@ -146,8 +189,8 @@ module.exports = {
 				'<:talesb6:724749798778863626>',
 			],
 		},
-		'coriolis': {
-			'skill': [
+		coriolis: {
+			skill: [
 				'0',
 				'<:coriolisb0:724744107876155392>',
 				'<:coriolisb0:724744107876155392>',
@@ -157,8 +200,8 @@ module.exports = {
 				'<:coriolisb6:724744108517884015>',
 			],
 		},
-		'alien': {
-			'skill': [
+		alien: {
+			skill: [
 				'0',
 				'<:alienb1:585072541123477505>',
 				'<:alienb2:585072541350232064>',
@@ -167,7 +210,7 @@ module.exports = {
 				'<:alienb5:585072541773856778>',
 				'<:alienb6:585072583020380170>',
 			],
-			'stress': [
+			stress: [
 				'0',
 				'<:aliens1:585076532779941908>',
 				'<:aliens2:585076541835444236>',
@@ -177,8 +220,8 @@ module.exports = {
 				'<:aliens6:585076577079918602>',
 			],
 		},
-		'vaesen': {
-			'skill': [
+		vaesen: {
+			skill: [
 				'0',
 				'<:vaesenb0:721625417567436860>',
 				'<:vaesenb0:721625417567436860>',

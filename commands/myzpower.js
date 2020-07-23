@@ -1,6 +1,6 @@
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 
 const tableNames = {

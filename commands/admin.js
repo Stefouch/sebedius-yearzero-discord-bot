@@ -2,7 +2,7 @@ const { version } = require('discord.js');
 const ms = require('ms');
 const os = require('os');
 const worker = require('core-worker');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'admin',

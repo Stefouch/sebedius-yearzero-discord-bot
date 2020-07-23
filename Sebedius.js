@@ -1,10 +1,12 @@
 const fs = require('fs');
 const Keyv = require('keyv');
 const Discord = require('discord.js');
-const Util = require('./utils/Util');
-const RollTable = require('./utils/RollTable');
 const YZCrit = require('./yearzero/YZCrit');
-const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS } = require('./utils/constants');
+const Util = require('./utils/Util');
+const PageMenu = require('./utils/PageMenu');
+const RollTable = require('./utils/RollTable');
+const Errors = require('./utils/errors');
+const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -30,7 +32,7 @@ class Sebedius extends Discord.Client {
 					'DIRECT_MESSAGES',
 					'DIRECT_MESSAGE_REACTIONS',
 				],
-			},//*/
+			},
 		});
 		this.state = 'init';
 		this.muted = false;
@@ -116,11 +118,25 @@ class Sebedius extends Discord.Client {
 	/**
 	 * Gets the desired game (used for the dice icons skin).
 	 * @param {Discord.Message} message Discord message
+	 * @param {?string} defaultGame Fallback default game
 	 * @returns {string}
 	 * @async
 	 */
-	async getGame(message) {
-		return await Sebedius.getConf('games', message, this, SUPPORTED_GAMES[0]);
+	async getGame(message, defaultGame = null) {
+		const game = await Sebedius.getConf('games', message, this, defaultGame);
+		if (!game) return await Sebedius.getGameFromSelection(message);
+		return game;
+	}
+
+	/**
+	 * Gets the desired game from a selection message.
+	 * @param {Discord.Message} message Discord message
+	 * @returns {string}
+	 * @async
+	 */
+	static async getGameFromSelection(message) {
+		const gameChoices = SUPPORTED_GAMES.map(g => [SOURCE_MAP[g], g]);
+		return await Sebedius.getSelection(message, gameChoices);
 	}
 
 	/**
@@ -130,7 +146,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	async getLanguage(message) {
-		return await Sebedius.getConf('langs', message, this, SUPPORTED_LANGS[0]);
+		return await Sebedius.getConf('langs', message, this, 'en');
 	}
 
 	/**
@@ -157,7 +173,7 @@ class Sebedius extends Discord.Client {
 	 */
 	static async getConf(collectionName, message, client, defaultItem = null) {
 		if (!message.guild) return defaultItem;
-		if (!client[collectionName]) throw new SebediusError(`Collection-property unknown: ${collectionName}`);
+		if (!client[collectionName]) throw new Errors.SebediusError(`Collection-property unknown: ${collectionName}`);
 
 		const guildID = message.guild.id;
 		let fetchedItem;
@@ -169,7 +185,7 @@ class Sebedius extends Discord.Client {
 		else {
 			fetchedItem = await client.kdb[collectionName].get(guildID);
 			if (!fetchedItem) fetchedItem = defaultItem;
-			client[collectionName].set(guildID, fetchedItem);
+			if (fetchedItem) client[collectionName].set(guildID, fetchedItem);
 		}
 		// Returns the fetched prefixes.
 		return fetchedItem;
@@ -228,7 +244,7 @@ class Sebedius extends Discord.Client {
 			return null;
 		}
 
-		const table = new RollTable();
+		const table = new RollTable(`${fileName}.${lang}.${ext}`);
 		for (const elem of elements) {
 			if (type === 'CRIT') {
 				const entry = new YZCrit(elem);
@@ -238,10 +254,9 @@ class Sebedius extends Discord.Client {
 				table.set(elem.ref, elem);
 			}
 			else {
-				throw new SebediusError('Unknown RollTable');
+				throw new Errors.SebediusError('Unknown RollTable');
 			}
 		}
-		table.name = `${fileName}.${lang}.${ext}`;
 
 		return table;
 	}
@@ -250,9 +265,10 @@ class Sebedius extends Discord.Client {
 	 * Returns a text with all the dice turned into emojis.
 	 * @param {YZRoll} roll The roll
 	 * @param {Object} opts Options of the roll command
+	 * @param {?boolean} [applyAliases=false] Whether to apply the aliases
 	 * @returns {string} The manufactured text
 	 */
-	static emojifyRoll(roll, opts) {
+	static emojifyRoll(roll, opts, applyAliases = false) {
 		const game = opts.iconTemplate || roll.game;
 		let str = '';
 
@@ -264,7 +280,7 @@ class Sebedius extends Discord.Client {
 				// Skipping types.
 				if (opts.alias[type] === '--') continue;
 				// Dice swaps, if any.
-				//if (opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
+				if (applyAliases && opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
 			}
 
 			if (nbre) {
@@ -300,86 +316,92 @@ class Sebedius extends Discord.Client {
 	 * Returns the selected choice, or None. Choices should be a list of two-tuples of (name, choice).
 	 * If delete is True, will delete the selection message and the response.
 	 * If length of choices is 1, will return the only choice unless force_select is True.
-	 * @throws {Error} "NoSelectionElements" if len(choices) is 0.
-	 * @throws {Error} "SelectionCancelled" if selection is cancelled.
+	 * @param {Discord.Message} ctx Discord message with context
+	 * @param {Array<string, Object>[]} choices An array of arrays with [name, object]
+	 * @param {string} text Additional text to attach to the selection message
+	 * @param {boolean} del Wether to delete the selection message
+	 * @param {boolean} pm Wether the selection message is sent in a PM (Discord DM)
+	 * @param {boolean} forceSelect Wether to force selection even if only one choice possible
+	 * @returns {*} The selected choice
+	 * @throws {NoSelectionElementsError} If len(choices) is 0.
+	 * @throws {SelectionCancelledError} If selection is cancelled.
+	 * @static
+	 * @async
 	 */
-	static async getSelection(message, choices, text = null, del = true, pm = false, forceSelect = false) {
-		if (choices.length === 0) throw new Error('NoSelectionElements');
+	static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false) {
+		if (choices.length === 0) throw new Errors.NoSelectionElementsError();
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
-		let page = 0;
-		const pages = Util.paginate(choices, 10);
-		let msg = null;
-		let selectMsg = null;
+		const paginatedChoices = Util.paginate(choices, 10);
+		const msgFilter = m =>
+			m.author.id === ctx.author.id &&
+			m.channel.id === ctx.channel.id &&
+			Number(m.content) >= 1 &&
+			Number(m.content) <= choices.length;
 
-		const filter = m =>
-			m.author.id === message.author.id &&
-			m.channel.id === message.channel.id &&
-			(
-				['c', 'n', 'p'].includes(m.content.toLowerCase()) ||
-				(
-					Number(m.content) >= 1 &&
-					Number(m.content) <= choices.length
-				)
-			);
-
-		for (let n = 0; n < 200; n++) {
-			const _choices = pages[page];
+		// Builds the pages.
+		const pages = [];
+		paginatedChoices.forEach((_choices, page) => {
 			const names = _choices.map(o => o[0]);
-			const embed = new Discord.MessageEmbed({ title: 'Multiple Matches Found' });
-			let selectStr = 'Which one were you looking for? (Type the number or `c` to cancel)\n';
-			if (pages.length > 1) {
-				selectStr += '`n` to go to the next page, or `p` for previous';
-				embed.setFooter(`page ${page + 1}/${pages.length}`);
+			const embed = new Discord.MessageEmbed()
+				.setTitle('Multiple Matches Found')
+				.setDescription(
+					'Which one were you looking for?\n'
+					+ names
+						.map((n, i) => `**[${i + 1 + page * 10}]** – ${n}`)
+						.join('\n'),
+				);
+			if (paginatedChoices.length > 1) {
+				embed.setFooter(`page ${page + 1}/${paginatedChoices.length}`);
 			}
-			names.forEach((name, i) => selectStr += `**[${i + 1 + page * 10}]** – ${name}\n`);
-			embed.setDescription(selectStr);
-			//embed.setColor(Util.rand(0, 0xffffff));
-			if (text) embed.addField('Note', text, false);
-			if (selectMsg) {
-				try { await selectMsg.delete(); }
-				catch (err) { console.error(err); }
+			if (text) {
+				embed.addField('Note', text, false);
 			}
-			// Sends the selection message.
-			if (!pm) {
-				selectMsg = await message.channel.send(embed);
-			}
-			else {
+			if (pm) {
 				embed.addField(
 					'Instructions',
 					'Type your response in the channel you called the command. '
 					+ 'This message was PMed to you to hide the monster name.',
 					false,
 				);
-				selectMsg = await message.author.send(embed);
 			}
-			// Catches the answer.
-			msg = await message.channel.awaitMessages(filter, { max: 1, time: 30000 });
-			msg = msg.first();
-			if (!msg) {
-				break;
-			}
-			if (msg.content.toLowerCase() === 'n') {
-				if (page + 1 < pages.length) page++;
-				else await message.channel.send('You are already on the last page.');
-			}
-			else if (msg.content.toLowerCase() === 'p') {
-				if (page - 1 >= 0) page--;
-				else await message.channel.send('You are already on the first page.');
-			}
-			else {
-				break;
-			}
+			pages.push(embed);
+		});
+		// Sends the selection message.
+		let msgCollector = null;
+		const channel = pm ? ctx.author : ctx.channel;
+		const time = 30000;
+		const pageMenu = new PageMenu(channel, ctx.author.id, time * 2, pages, {
+			stop: {
+				icon: PageMenu.ICON_STOP,
+				owner: ctx.author.id,
+				fn: () => msgCollector.stop(),
+			},
+		});
+		// Awaits for the answer.
+		let msg = null;
+		msgCollector = ctx.channel.createMessageCollector(msgFilter, { max: 1, time });
+		msgCollector.on('end', () => pageMenu.stop());
+
+		// Catches the answer or any rejection.
+		try {
+			msg = await msgCollector.next;
 		}
+		catch (rejected) {
+			throw new Errors.SelectionCancelledError();
+		}
+
+		if (!msg || msg instanceof Map) {
+			return null;
+		}
+		// Deletes the answer message.
 		if (del && !pm) {
 			try {
-				await selectMsg.delete();
 				await msg.delete();
 			}
-			catch (err) { console.error(err); }
-		}
-		if (!msg || msg.content.toLowerCase() === 'c') {
-			throw new Error('SelectionCancelled');
+			catch (err) {
+				console.warn('[getSelection] Failed to delete choice message.', err.name, err.code);
+			}
 		}
 		// Returns the choice.
 		return choices[Number(msg.content) - 1][1];
@@ -513,10 +535,3 @@ function whenMentionedOrPrefixed(prefixes, client) {
 }
 
 module.exports = Sebedius;
-
-class SebediusError extends Error {
-	constructor(msg) {
-		super(msg);
-		this.name = 'SebediusError';
-	}
-}

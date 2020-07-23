@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.0] - 2020-07-24
+### Added
+- New command: `!atk` – Rolls a random attack from a monster.
+- Parameter `-private` for `!crit`: Sends the result in a private DM.
+- Reaction menu to the Embed Selector.
+
+### Changed
+- `!monster` aliases and effects.
+- `!critmutant` renamed into `!critmyz` ("critmutant" is still an alias for this command).
+- New command alias for `!rollmyz`: rollmutant.
+
 ## [3.1.1] - 2020-07-13
 ### Changed
 - `!cast <power> [name]` instead of `!cast <power> [-name <name>]`.

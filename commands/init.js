@@ -1,9 +1,10 @@
 const Sebedius = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
-const Util = require('../utils/Util');
 const { YZCombat, YZCombatant, YZMonsterCombatant, YZCombatantGroup } = require('../yearzero/YZCombat');
-const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
+const Util = require('../utils/Util');
 const { SOURCE_MAP } = require('../utils/constants');
+const { NoSelectionElementsError } = require('../utils/errors');
+const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
 
 const YargsParser = require('yargs-parser');
 const YARGS_PARSE_COMBATANT = {
@@ -226,24 +227,26 @@ module.exports = {
 			}
 		}
 		catch (error) {
-			console.error(error);
 			if (error instanceof ChannelInCombat) {
 				return ctx.reply(':warning: Cannot start a new combat instance because there is already one in progress.');
 			}
 			else if (error instanceof CombatNotFound) {
 				return ctx.reply(`:information_source: No combat instance. Type \`${ctx.prefix}init begin\`.`);
 			}
-			else if (error.name === 'NoSelectionElements') {
+			else if (error instanceof NoSelectionElementsError) {
 				return ctx.reply(':information_source: No combatant found with this name.');
 			}
 			else {
-				return ctx.reply(`:x: *${error.name}: ${error.message}*.`);
+				// Otherwise, throws the error at the upper scale.
+				throw error;
 			}
 		}
 		try {
 			await ctx.delete();
 		}
-		catch (err) { console.error(err); }
+		catch (error) {
+			console.warn('Failed to delete !init command invoking message.', error.name, error.code);
+		}
 	},
 };
 
@@ -308,7 +311,7 @@ async function begin(args, ctx) {
 
 	// Pins the summary message.
 	try {
-		await ctx.delete();
+		// await ctx.delete(); // Is deleted at another level.
 		await tempSummaryMsg.pin();
 	}
 	catch (err) { console.error(err); }
@@ -985,7 +988,7 @@ async function status(args, ctx) {
 	}
 }
 
-async function _sendHpResult(ctx, combatant, delta = null) {
+/* async function _sendHpResult(ctx, combatant, delta = null) {
 	const deltaend = delta ? ` (${delta})` : '';
 
 	if (combatant.isPrivate()) {
@@ -999,7 +1002,7 @@ async function _sendHpResult(ctx, combatant, delta = null) {
 	else {
 		await ctx.channel.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
 	}
-}
+}//*/
 
 /**
  * HP.
@@ -1076,7 +1079,7 @@ async function attack(args, ctx) {
 
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
-	const game = combat.game || await ctx.bot.getGame(ctx);
+	const game = combat.game || await ctx.bot.getGame(ctx, 'myz');
 	const degradeArmor = argv.degrade ? true : (ctx.bot.config.commands.init.attack.degrade[game] || false);
 
 	let combatant;
@@ -1101,8 +1104,6 @@ async function attack(args, ctx) {
 
 	// Rolls the armor.
 	const armorRoll = combat.damageCombatant(combatant, damage, game, degradeArmor, armorMod, armorFactor);
-	//armorRoll.setGame(game);
-
 	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
 	const armorDamage = (degradeArmor && finalDamage > 0) ? armorRoll.banes : 0;
 
@@ -1178,7 +1179,7 @@ async function end(args, ctx) {
 		':speech_balloon: **Are you sure you want to end combat?** *(reply with yes/no)*',
 		true,
 	);
-	if (toEnd == null || toEnd == undefined) {
+	if (toEnd === null || toEnd === undefined) {
 		return ctx.channel.send(':x: Timed out waiting for a response or invalid response.')
 			.then(m => m.delete(10000))
 			.catch(console.error);

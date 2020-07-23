@@ -1,14 +1,22 @@
+const { Message } = require('discord.js');
 const Util = require('./Util');
 
 class ReactionMenu {
 	/**
+	 * @typedef ReactionData
+	 * An object containing the data needed to create a reaction.
+	 * @property {string} icon The desired emoji
+	 * @property {?string} owner User ID of the only person that can react to this emoji, if any
+	 * @property {function} fn Callback function with collector parameter, to perform when clicked
+	 */
+
+	/**
 	 * Creates a Reaction Menu for a message.
 	 * @param {Discord.Message} message Discord message to attach the reaction menu
-	 * @param {Discord.Client} client Discord client (the bot)
-	 * @param {number} time Cooldown
-	 * @param {Object[]} reactionsData An array of objects containing the data needed to create the reactions
+	 * @param {number} time Cooldown (in milliseconds)
+	 * @param {ReactionData[]} reactionsData An array of objects containing the data needed to create the reactions
 	 */
-	constructor(message, client, time, reactionsData) {
+	constructor(message, time, reactionsData) {
 		/**
 		 * @type {Discord.Message}
 		 */
@@ -25,22 +33,20 @@ class ReactionMenu {
 		this.bot = this.message.author;
 
 		/**
-		 * @type {Discord.Client}
-		 */
-		this.client = client;
-
-		/**
 		 * Cooldown in milliseconds.
 		 * @type {number}
 		 */
 		this.time = time || 120000;
 
 		/**
-		 * An array with all reactions and their actions
-		 * @type {Object[]}
-		 * @property {string} icon The emoji
-		 * @property {?number} owner User ID of the only person that can react to this emoji, if any
-		 * @property {function} fn Callback function with collector parameter, to perform when clicked
+		 * The collector associated with this menu.
+		 * @type {Discord.Collector}
+		 */
+		this.collector = null;
+
+		/**
+		 * An array with all reactions and their actions.
+		 * @type {Map<string, ReactionData>}
 		 */
 		this.reactions = new Map();
 		for (const reaction of reactionsData) {
@@ -94,19 +100,24 @@ class ReactionMenu {
 					reaction.fn(this.collector);
 				}
 			}
-			// Then remove that added emoji (not possible in DM).
+			// Then removes that added emoji (not possible in DM).
 			if (!this.isDM) {
 				reac.users.remove(user)
-					.catch(error => console.error(error));
+					.catch(err => console.warn('[ReactionMenuError] Failed to remove user\'s reaction.', err.name, err.code));
 			}
 		});
 
 		// ========== Listener: On End ==========
 		this.collector.on('end', (collected, reason) => {
-			// Remove all emojis (not possible in DM).
+			// Actions for specific reasons.
+			if (reason instanceof Message) {
+				return reason.delete()
+					.catch(err => console.warn('[ReactionMenuError] Failed to delete the reason message.', err.name, err.code));
+			}
+			// Removes all emojis (not possible in DM).
 			if (!this.message.deleted && !this.isDM) {
 				this.message.reactions.removeAll()
-					.catch(error => console.error('ReactionMenuError: Failed to clear reactions!', error));
+					.catch(err => console.warn('[ReactionMenuError] Failed to clear all reactions.', err.name, err.code));
 			}
 		});
 	}
@@ -119,11 +130,24 @@ class ReactionMenu {
 		for (const emoji of this.emojis) {
 			// If "await" is omitted, the emojis are added in a random order.
 			await this.message.react(emoji)
-				.catch(error => console.error('ReactionMenuError: An emoji cannot be added!', emoji, error));
+				.catch(err => console.warn('[ReactionMenuError] An emoji cannot be added.', err.name, err.code, emoji));
 		}
+	}
+
+	/**
+	 * Stops the collector.
+	 * @param {string} reason The reason the collector is ended
+	 */
+	stop(reason) {
+		this.collector.stop(reason);
 	}
 }
 
 module.exports = ReactionMenu;
 
-class ReactionMenuError extends Error {}
+class ReactionMenuError extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'ReactionMenuError';
+	}
+}

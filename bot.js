@@ -5,6 +5,9 @@
  * @author	Stefouch
  * ===========================================================
  */
+const { HTTPError, DiscordAPIError } = require('discord.js');
+const SebediusErrors = require('./utils/errors');
+
 // First, loads the ENV variables (e.g. bot's token).
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -92,7 +95,7 @@ bot.on('message', async message => {
 	}
 
 	try {
-		console.log(`[COMMAND] - ${message.author.tag} (${message.author.id})`
+		console.log(`[COMMAND] ${message.author.tag} (${message.author.id})`
 			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
@@ -100,27 +103,67 @@ bot.on('message', async message => {
 		bot.raiseCommandStats(command.name);
 	}
 	catch (error) {
-		console.error('[ERROR] - At command execution.', error);
-		message.reply(`❌ There was an error trying to execute that command! (${error.toString()})`);
+		console.error('[Error] At command execution.');
+		onError(message, error);
 	}
 });
 
 /* !
+ * ERROR LISTENER
+ */
+bot.on('error', error => onError(null, error));
+
+/* !
  * Catching UnhandledPromiseRejectionWarnings.
  */
-process.on('unhandledRejection', async error => {
+process.on('unhandledRejection', error => {
 	// Logs the error.
-	console.error('[ERROR] - Uncaught Promise Rejection', error);
-	// Sends me a personal message about the error.
-	if (process.env.NODE_ENV === 'production') {
-		const msg = `**Error:** ${error.toString()}`
-			+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
-			+ `\n**Path:** ${error.path}`
-			+ `\n**Stack:** ${error.stack}`;
-		return bot.admin.send(msg, { split: true })
-			.catch(err => console.error(err));
-	}
+	console.error('[Error] Uncaught Promise Rejection', error);
+	onError(null, error);
 });
+
+
+/**
+ * Errors Manager.
+ * @param {Discord.Message} ctx Discord message with context
+ * @param {Error} error The catched error
+ * @async
+ */
+async function onError(ctx, error) {
+	if (error instanceof HTTPError) {
+		console.error(error.name, error.code);
+	}
+	else if (error instanceof DiscordAPIError) {
+		console.error(error.name, error.code);
+	}
+	else if (error instanceof SebediusErrors.NoSelectionElementsError) {
+		if (ctx) ctx.reply(':warning: There is no element to select.');
+	}
+	else if (error instanceof SebediusErrors.SelectionCancelledError) {
+		if (ctx) ctx.reply(':stop_button: Selection cancelled.');
+	}
+	else if (error instanceof SebediusErrors.NotFoundError) {
+		if (ctx) ctx.reply(`:warning: [${error.name}] ${error.message}.`);
+	}
+	else {
+		// Sends me a message if the error is Unknown.
+		if (process.env.NODE_ENV === 'production') {
+			const msg = `**Error:** ${error.toString()}`
+				+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
+				+ `\n**Path:** ${error.path}`
+				+ `\n**Stack:** ${error.stack}`;
+			bot.admin.send(msg, { split: true })
+				.catch(console.error);
+		}
+		if (ctx) {
+			ctx.reply(`❌ There was an error trying to execute that command! (${error.toString()})`)
+				.catch(console.error);
+		}
+	}
+	if (process.env.NODE_ENV !== 'production') {
+		console.error(error);
+	}
+}
 
 /**
  * Get your bot's secret token from:

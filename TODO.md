@@ -1,13 +1,9 @@
 # TODO List
-
 - Support for CHARACTER SHEETS (via Google)!
 - Init Tracker
   * Can't add a note to a group
 
-- Bug: d66 and d666 should have their own skin
-
 ## MYZ
-- Mutation Misfire
 - Zone Sector generation
 - Support for GLA
 - Support for Mechatron

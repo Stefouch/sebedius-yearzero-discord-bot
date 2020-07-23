@@ -1,6 +1,6 @@
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
-const YZEmbed = require('../utils/embeds');
+const { YZEmbed } = require('../utils/embeds');
 const { DICE_ICONS } = require('../utils/constants');
 
 module.exports = {
@@ -24,7 +24,7 @@ module.exports = {
 		const stress = +args[0] || 0;
 		const panicVal = stress + panicRand;
 
-		const panicIcon = ctx.bot.config.commands.panic.emoji;
+		const panicIcon = ctx.bot.config.commands.panic.icon;
 		const text = `${panicIcon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
 		const embed = getEmbedPanicRoll(panicVal, ctx);
 
