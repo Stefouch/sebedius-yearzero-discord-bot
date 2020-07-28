@@ -250,7 +250,7 @@ Only a member with administrator rights can use these commands:
 
 `!supply 6 Air` – Rolls supply for "Air" with six stress dice and counts ones (banes).
 
-`!drawinit` or `drawinit 1` – Draws one initiative cards.
+`!drawinit` or `!drawinit 1` – Draws one initiative cards.
 
 `!drawinit -shuffle` – Shuffles all the initiative cards in a new deck (= reset).
 
