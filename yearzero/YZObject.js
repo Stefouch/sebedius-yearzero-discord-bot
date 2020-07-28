@@ -12,6 +12,8 @@ const CATEGORIES = {
 	MONSTERS: 'YZMonster',
 };
 
+// First loads the weapons,
+// because some are used by the monsters.
 const CATALOG_SOURCES = {
 	WEAPONS: {
 		myz: './gamedata/myz/myz-weapons-catalog.csv',
@@ -22,6 +24,7 @@ const CATALOG_SOURCES = {
 	},
 };
 
+// Placeholder.
 const CATALOGS = {};
 
 class YZObject {
@@ -572,6 +575,7 @@ class YZWeapon extends YZObject {
 
 module.exports = { YZObject, YZMonster, YZWeapon };
 
+// Prefetches all the catalogs.
 console.log('[+] - Catalogs');
 console.log('      > Indexation...');
 for (const cat in CATALOG_SOURCES) {
