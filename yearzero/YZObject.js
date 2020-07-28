@@ -35,8 +35,10 @@ class YZObject {
 	constructor(data) {
 		for (const key in data) {
 			if (Util.isNumber(data[key])) this[key] = +data[key];
+			else if (data[key] === '') this[key] = null;
 			else this[key] = data[key];
 		}
+		if (!this.lang) this.lang = 'en';
 	}
 
 	/**
@@ -54,7 +56,7 @@ class YZObject {
 	 * @readonly
 	 */
 	get game() {
-		if (SOURCE_MAP[this.source]) return this.source;
+		if (COMPENDIA[this.source]) return this.source;
 		for (const game in COMPENDIA) {
 			if (COMPENDIA[game].includes(this.source)) return game;
 		}
@@ -280,20 +282,21 @@ class YZMonster extends YZObject {
 					'csv',
 				);
 			}
-			// Form: "{<name>:<bonus>:<damage>:<range>[:<special>]}|{...}"
-			// This acts like an attack parser from raw data.
-			else if (this.attacks.startsWith('{') || this.attacks.includes('|')) {
-				// Splits at `|` for support of multiple attacks.
+			// Attack Parser
+			// Form: "{<name>:<bonus>:<damage>:[c|r]<range>[:<special>]}|{...}"
+			// Range: the letter 'c' forces close combat, and 'r' forces ranged combat.
+			else if (this.attacks.includes('{') || this.attacks.includes('|')) {
+				// Multiple attacks are separated with the '|' character.
 				const atqs = this.attacks.split('|');
 
-				// Parses all new attacks.
+				// Parses each
 				const out = [];
 				for (const atq of atqs) {
 					// Creates a weapon from the parsing.
-					if (/{.+:.+:.+:[cr]?\d+(:.*)?}/.test(atq)) {
+					if (/{.+:.*:.*:[cr]?\d?(:.*)?}/.test(atq)) {
 						let wpnData;
 						atq.replace(
-							/{(.+):(.+):(.+):([cr]?\d+)(?::(.*))?}/,
+							/{(.+):(.*):(.*):([cr]?\d?)(?::(.*))?}/,
 							(match, id, bonus, damage, range, special) => {
 								let ranged = false;
 								if (range.startsWith('c') || range.startsWith('r')) {
@@ -313,22 +316,33 @@ class YZMonster extends YZObject {
 						);
 						out.push(new YZWeapon(wpnData));
 					}
-					// Uses a predefined weapon.
-					else if (atq.startsWith(`{w${this.game}-`) && atq.endsWith('}')) {
-						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
-						const weapon = YZWeapon.CATALOGS.WEAPONS[this.game].get(wid);
+					// Uses a cataloged weapon.
+					// Format: {w[source]-[name]}
+					else if (/^{w\w{1,3}-.+}$/.test(atq)) {
+						const wid = atq.replace(/{(.*)}/, (match, $1) => $1);
+						const weapon = CATALOGS.WEAPONS[this.game].get(wid);
 						out.push(weapon);
 					}
-					// Uses a default weapon.
+					// Simple named effect.
+					// Format: {name:effect}
+					else if (/{.+:.+}/.test(atq)) {
+						let atkData;
+						atq.replace(/{(.+):(.+)}/, (match, $1, $2) => {
+							atkData = { name: $1.toUpperCase(), effect: $2 };
+						});
+						out.push(atkData);
+					}
+					// Default weapon.
+					// Format: {name}
 					else if (atq.startsWith('{') && atq.endsWith('}')) {
-						const wid = atq.replace(/{(.*)}/, (match, p1) => p1);
+						const wid = atq.replace(/{(.*)}/, (match, $1) => $1);
 						const weapon = YZWeapon.getDefault(
 							Util.capitalize(__(wid, this.lang)),
 						);
 						out.push(weapon);
 					}
 					else {
-						out.push({ name: 'Special', effect: atq + '.' });
+						out.push({ name: '(Special)', effect: atq });
 					}
 				}
 				// Creates the roll intervals (the references).
@@ -511,7 +525,7 @@ class YZWeapon extends YZObject {
 		+ (this.damage ? `${Util.capitalize(__('damage', this.lang))} **${Util.resolveNumber(this.damage)}**` : '')
 		+ '__.'
 		+ (this.range >= 0 ? ` \`${__(RANGES[this.game][this.range], this.lang).toUpperCase()}\` range.` : '')
-		+ (this.special ? ` ${this.special.split('|').join(', ')}.` : '')
+		+ (this.special ? ` ${this.special.split('|').join(', ')}` : '')
 		+ (Object.keys(this.features).length ? ` *(${this.featuresToString()}.)*` : '');
 	}
 
