@@ -70,6 +70,7 @@ const LOCALES = {
 		'mmyz-monster-zonespider': 'Zone Spider',
 		'mmyz-monster-zonewasps': 'Zone Wasps',
 		'mmyz-monster-zoneleeches': 'Zone Leeches',
+		'mgla-creeper': 'Creeper',
 		'wmyz-assaultrifle': 'Assault Rifle',
 		'wmyz-baseballbat-spiked': 'Spiked Baseball Bat',
 		'wmyz-baseballbat-wooden': 'Baseball Bat',
