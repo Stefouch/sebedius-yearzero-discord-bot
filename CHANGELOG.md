@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ## [3.2.1] - UPCOMING
 ### Fixed
+- An error occuring when typing `!init hp` without any other argument.
 - Typo in attack display Message Embed.
 
 ## [3.2.0] - 2020-07-24
