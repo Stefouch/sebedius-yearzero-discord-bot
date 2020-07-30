@@ -1149,15 +1149,15 @@ async function remove(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return await ctx.reply(':x: Combatant not found.');
+		return ctx.reply(':x: Combatant not found.');
 	}
 	if (combatant === combat.currentCombatant) {
-		return await ctx.reply(':information_source: You cannot remove a combatant on their own turn.');
+		return ctx.reply(':information_source: You cannot remove a combatant on their own turn.');
 	}
 	if (combatant.group) {
 		const group = combat.getGroup(combatant.group);
 		if (group.getCombatants().length <= 1 && group === combat.currentCombatant) {
-			return await ctx.reply(
+			return ctx.reply(
 				':information_source: You cannot remove a combatant if they are the only remaining combatant in this turn.',
 			);
 		}
