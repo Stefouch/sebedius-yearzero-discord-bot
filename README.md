@@ -9,7 +9,7 @@ The supported games are:
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
-* [The ALIEN The Roleplaying Game](https://alien-rpg.com/)
+* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 
 # Add the Bot to your Server
@@ -315,6 +315,8 @@ The dice images are courtery of several people. Thanks to them for sharing them!
 
 If you've experience with the Discord.js API, you're more than welcome to help expand this project.
 
+If you've free time for encoding the monsters data or translate some gamedata, please contact me!
+
 ## How to Run Sebedius Locally
 
 Install [Node.JS](https://nodejs.org/en/download/)
@@ -348,7 +350,7 @@ Hit me up if you've any question!
 
 I'd like to thank **Jeremy Mettler**, **Joe Guilmette**, **Matt Kay**, **Dale Chenault**, **Narcomed** and all my other patrons and generous donators who are supporting this project and made it possible!
 
-You too you can support this project.
+You too you can support this project!
 <br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
 
 Paypal: [paypal.me/Stefouch](https://www.paypal.me/stefouch)
