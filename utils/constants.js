@@ -10,12 +10,12 @@ module.exports = {
 	ATTRIBUTES: [
 		'strength', 'servos', 'physique', 'fitness',
 		'agility', 'stability', 'precision', 'dexterity',
-		'wits', 'processor', 'logic', 'intel',
+		'wits', 'processor', 'logic', 'intel', 'intelligence',
 		'empathy', 'instinct', 'network',
 	],
 	ATTRIBUTE_STR: ['strength', 'servos', 'physique', 'fitness'],
 	ATTRIBUTE_AGI: ['agility', 'stability', 'precision', 'dexterity'],
-	ATTRIBUTE_INT: ['wits', 'processor', 'logic', 'intel'],
+	ATTRIBUTE_INT: ['wits', 'processor', 'logic', 'intel', 'intelligence'],
 	ATTRIBUTE_EMP: ['empathy', 'instinct', 'network'],
 	SKILL_MAP: {
 		'fight': 'str',

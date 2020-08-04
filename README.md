@@ -86,6 +86,7 @@ Rolls dice for the Year Zero roleplaying games.
   * `-p <number>` : Changes the maximum number of allowed pushes.
   * `-f` : "Full-auto", unlimited number of pushes (max 10).
   * `-pride` : Adds a D12 Artifact Die to the roll.
+  * `-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).
 
 #### Dice Cap
 
@@ -196,7 +197,7 @@ Rolls a random attack from a monster.
   * `synthetic|synth|s` – Critical injuries on Synthetics and Androids
   * `xeno|x` – Critical injuries for Xenomorphs
   * `mental|m` – Permanent mental traumas
-* `!panic <stress> [-f <number>]` – Rolls a random panic effect. Use the `-f` parameter for a fixed value. 
+* `!panic <stress> [-fixed|-f] [-nerves]` – Rolls a random panic effect. Use the `-f` parameter for a fixed value. Use the `-nerves` parameter to apply the *Nerves of Steel* talent.
 * `!planet` – Generates a random planet.
 * `!colony` – Generates a random colonized planet.
 * `!star` – Generates a random star sector.

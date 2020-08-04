@@ -289,7 +289,7 @@ class YZMonster extends YZObject {
 				// Multiple attacks are separated with the '|' character.
 				const atqs = this.attacks.split('|');
 
-				// Parses each
+				// Parses each attack element.
 				const out = [];
 				for (const atq of atqs) {
 					// Creates a weapon from the parsing.

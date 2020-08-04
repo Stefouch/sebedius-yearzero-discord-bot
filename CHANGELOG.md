@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.2.1] - UPCOMING
+### Added
+- New parameter `-nerves` for `!panic`.
+- New parameter `-nerves` for `!roll`.
+
 ### Fixed
 - An error occuring when typing `!init hp` without any other argument.
 - Typo in attack display Message Embed.
@@ -11,7 +15,7 @@ All notable changes to this project will be documented in this file.
 ## [3.2.0] - 2020-07-24
 ### Added
 - New command: `!atk` – Rolls a random attack from a monster.
-- Parameter `-private` for `!crit`: Sends the result in a private DM.
+- New Parameter `-private` for `!crit`: Sends the result in a private DM.
 - Reaction menu to the Embed Selector.
 
 ### Changed

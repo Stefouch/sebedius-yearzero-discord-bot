@@ -5,6 +5,7 @@ const { RollParser } = require('../utils/RollParser');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { SUPPORTED_GAMES } = require('../utils/constants');
 const Config = require('../config.json');
+const yargsParser = require('yargs-parser');
 
 module.exports = {
 	name: 'roll',
@@ -41,7 +42,8 @@ module.exports = {
 			+ '\n`-n <name>` : Defines a name for the roll.'
 			+ '\n`-p <number>` : Changes the maximum number of allowed pushes.'
 			+ '\n`-f` : "Full-auto", unlimited number of pushes (max 10).'
-			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.',
+			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
+			+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).',
 		],
 		[
 			'More Info',
@@ -69,16 +71,18 @@ module.exports = {
 	async execute(args, ctx) {
 		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
 		const rollargv = require('yargs-parser')(args, {
-			boolean: ['fullauto', 'initiative'],
+			boolean: ['fullauto', 'nerves'],
 			number: ['push'],
 			array: ['name'],
 			alias: {
 				push: ['p', 'pushes'],
 				name: ['n'],
 				fullauto: ['f', 'fa', 'full-auto', 'fullAuto'],
+				nerves: ['nerve'],
 			},
 			default: {
 				fullauto: false,
+				nerves: false,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -234,6 +238,7 @@ module.exports = {
 
 		// Log and Roll.
 		console.log('[ROLL] - Rolled:', roll.toString());
+		if (rollargv.nerves) roll.nerves = true;
 		await messageRollResult(roll, ctx);
 	},
 };
@@ -242,7 +247,6 @@ module.exports = {
  * Sends a message with the roll result.
  * @param {YZRoll} roll The Roll
  * @param {Discord.Message} ctx The Triggering Message with context
- * @param {Discord.Client} client The Client (the bot)
  * @async
  */
 async function messageRollResult(roll, ctx) {
@@ -273,7 +277,9 @@ async function messageRollResult(roll, ctx) {
 		.then(rollMessage => {
 			// Detects PANIC.
 			if (gameOptions.panic && roll.panic) {
-				return ctx.bot.commands.get('panic').execute([roll.stress], ctx);
+				const panicArgs = [roll.stress];
+				if (roll.nerves) panicArgs.push('-nerves');
+				return ctx.bot.commands.get('panic').execute(panicArgs, ctx);
 			}
 			if (roll.pushable) {
 				// Creates an array of objects containing the required information
@@ -348,7 +354,9 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 	// Detects PANIC.
 	if (gameOptions.panic && pushedRoll.panic) {
 		collector.stop();
-		return ctx.bot.commands.get('panic').execute([pushedRoll.stress], ctx);
+		const panicArgs = [pushedRoll.stress];
+		if (roll.nerves) panicArgs.push('-nerves');
+		return ctx.bot.commands.get('panic').execute(panicArgs, ctx);
 	}
 }
 
