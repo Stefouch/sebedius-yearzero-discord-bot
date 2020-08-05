@@ -9,7 +9,8 @@ All notable changes to this project will be documented in this file.
 - New parameter `-nerves` for `!roll`.
 
 ### Fixed
-- An error occuring when typing `!init hp` without any other argument.
+- An error when typing `!init hp` without any other argument.
+- An error when using `!drawinit` in a DM.
 - Typo in attack display Message Embed.
 
 ## [3.2.0] - 2020-07-24
