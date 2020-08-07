@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 - New parameter `-nerves` for `!panic`.
 - New parameter `-nerves` for `!roll`.
+- New alias `!mut`for `!mutation|mp`.
 
 ### Fixed
 - An error when typing `!init hp` without any other argument.
