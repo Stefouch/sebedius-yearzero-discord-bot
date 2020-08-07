@@ -2,7 +2,7 @@ module.exports = {
 	name: 'mutation',
 	group: 'Mutant: Year Zero',
 	description: 'Rolls dice for a Mutation and checks for any Misfire.',
-	aliases: ['mp'],
+	aliases: ['mp', 'mut'],
 	guildOnly: false,
 	args: true,
 	usage: '<mp>',
