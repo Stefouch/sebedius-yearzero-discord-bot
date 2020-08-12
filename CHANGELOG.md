@@ -3,10 +3,23 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.2.1] - 2020-08-12
+### Added
+- New parameter `-nerves` for `!panic`.
+- New parameter `-nerves` for `!roll`.
+- New alias `!mut`for `!mutation|mp`.
+- (Admin only) Description and usage for `!setpresence` command.
+
+### Fixed
+- An error when typing `!init hp` without any other argument.
+- An error when using `!drawinit` in a DM.
+- Typo in attack display Message Embed.
+- (Admin only) An error with `!setpresence` not working properly.
+
 ## [3.2.0] - 2020-07-24
 ### Added
 - New command: `!atk` – Rolls a random attack from a monster.
-- Parameter `-private` for `!crit`: Sends the result in a private DM.
+- New Parameter `-private` for `!crit`: Sends the result in a private DM.
 - Reaction menu to the Embed Selector.
 
 ### Changed

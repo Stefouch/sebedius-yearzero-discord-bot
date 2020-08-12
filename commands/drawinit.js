@@ -14,7 +14,7 @@ module.exports = {
 		• \`[-haste <value>]\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
 		• \`[-shuffle]\` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`,
 	aliases: ['draw-init', 'drawinitiative'],
-	guildOnly: false,
+	guildOnly: true,
 	args: false,
 	usage: '[speed] [-haste <value>] [-shuffle]',
 	async execute(args, ctx) {

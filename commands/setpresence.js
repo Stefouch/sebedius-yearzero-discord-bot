@@ -5,10 +5,24 @@ module.exports = {
 	name: 'setpresence',
 	group: 'Administration',
 	description: 'Sets the presence of the bot.',
+	moreDescriptions: [
+		[
+			'Arguments',
+			`• \`-name|activity|text|desc <text..>\` – Sets the text of the activity.
+			• \`-type <PLAYING | LISTENING | WATCHING>\` – Sets the type of the activity.
+			• \`-status <online | idle | invisible | dnd>\` – Sets the status of the activity.
+			• \`-afk\` – Sets the bot *Away From Keyboard*.`,
+		],
+		[
+			'Special Options',
+			`• \`-loop\` – Restart the normal activities loop.
+			• \`-idle\` – Shortcut for \`-status dnd -type watching -afk -name 🚧 On Maintenance\`.`,
+		],
+	],
 	adminOnly: true,
 	guildOnly: false,
 	args: true,
-	usage: '',
+	usage: '[-name|text <text..>] [-type <?>] [-status <?>] [-idle] [-loop] [-afk]',
 	async execute(args, ctx) {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.config.ownerID) return;
@@ -31,13 +45,15 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		// Clears the Activities interval.
+		clearInterval(ctx.bot.activity);
+
+		// Restores the Activities interval.
 		if (argv.loop) {
-			clearInterval(ctx.bot.activity);
 			ctx.bot.activity = require('../utils/activities')(ctx.bot);
 			return await ctx.channel.send(':ballot_box_with_check: Sebedius\'s activities are `LOOPING`.');
 		}
 		else if (argv.idle) {
-			clearInterval(ctx.bot.activity);
 			await ctx.bot.user.setPresence({
 				status: 'dnd',
 				afk: true,

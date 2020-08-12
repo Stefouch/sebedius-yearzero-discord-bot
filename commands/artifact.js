@@ -42,7 +42,9 @@ module.exports = {
 		const artifact = random(artifacts);
 		const embed = new YZEmbed('Artifact', artifact);
 
-		if (!artifact) return ctx.reply('I\'m sorry, no artifact where found with this unknown package!');
-		return ctx.channel.send(embed);
+		if (!artifact) {
+			return await ctx.reply('I\'m sorry, no artifact where found with this unknown package!');
+		}
+		return await ctx.channel.send(embed);
 	},
 };

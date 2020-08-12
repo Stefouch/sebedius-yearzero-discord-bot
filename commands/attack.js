@@ -54,10 +54,10 @@ module.exports = {
 				if (attack.base > 0) {
 					const w = Math.ceil(Math.log10(attack.base));
 					str = `__**${atkDice + attack.base}** `;
-					effect = str.concat(effect.slice(w + 12));
+					effect = str.concat(effect.slice(w + 12 + 1));
 				}
 				else {
-					str = `__**${atkDice}** Dice, `;
+					str = `__**${atkDice}** Dice${attack.damage ? ', ' : ''}`;
 					effect = str.concat(effect.slice(2));
 				}
 			}
@@ -116,6 +116,8 @@ module.exports = {
 			const cooldown = ctx.bot.config.commands.roll.pushCooldown;
 			const rm = new ReactionMenu(message, cooldown, reactions);
 		}
+		console.log(monster);
+		console.log(attack);
 	},
 };
 

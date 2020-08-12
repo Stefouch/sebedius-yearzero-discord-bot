@@ -8,6 +8,7 @@ class YZEmbed extends MessageEmbed {
 	 * @param {string} description The embed's description
 	 * @param {?Discord.Message} [triggeringMessage=null] The triggering message (default is null)
 	 * @param {boolean} [hasAuthor=false] Shows or not the triggering message's author (default is false)
+	 * @extends Discord.MessageEmbed
 	 */
 	constructor(title, description, triggeringMessage = null, hasAuthor = false) {
 		super({
@@ -43,6 +44,7 @@ class YZMonsterEmbed extends MessageEmbed {
 	 * A Discord embed message for Year Zero monsters.
 	 * @param {YZMonster} monster Year Zero monster object
 	 * @param {?string} color Embed.color
+	 * @extends Discord.MessageEmbed
 	 */
 	constructor(monster, color = 0x1AA29B) {
 		super({
@@ -57,7 +59,7 @@ class YZMonsterEmbed extends MessageEmbed {
 		this.addField('Skills', monster.skillsToString(), true);
 		this.addField('Signature Attacks', monster.attacksToString(), false);
 		if (monster.special) {
-			const special = monster.special.replace(/{mutation}/g, 'Random mutation') + '.';
+			const special = monster.special.replace(/{mutation}/g, 'Random mutation');
 			this.addField('Special', special, false);
 		}
 

@@ -10,22 +10,34 @@ module.exports = {
 	moreDescriptions: [
 		[
 			'Arguments',
-			'• `-f|--fixed` – Uses a fixed number (doesn\'t add a D6).',
+			`• \`-fixed|-f\` – Uses a fixed number instead (doesn't add a D6).
+			• \`-nerves|-n\` – Applies the *Nerves of Steel* talent (−2 to the Panic roll).`,
 		],
 	],
 	// aliases: ['alien-panic'],
 	guildOnly: false,
 	args: true,
-	usage: '<stress> [-f|--fixed]',
+	usage: '<stress> [-fixed|-f] [-nerves|-n]',
 	async execute(args, ctx) {
-		const fixed = /-f|-fix/i.test(args[1]);
-
-		const panicRand = fixed ? 0 : Util.rand(1, 6);
-		const stress = +args[0] || 0;
+		const argv = require('yargs-parser')(args, {
+			boolean: ['fixed', 'nerves'],
+			alias: {
+				fixed: ['f'],
+				nerves: ['nerve', 'n'],
+			},
+			default: {
+				fixed: false,
+				nerves: false,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const panicRand = argv.fixed ? 0 : Math.max(0, Util.rand(1, 6) - (argv.nerves ? 2 : 0));
+		const stress = +argv._[0] || 0;
 		const panicVal = stress + panicRand;
 
 		const panicIcon = ctx.bot.config.commands.panic.icon;
-		const text = `${panicIcon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`;
+		const text = `${panicIcon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`
+			+ (argv.nerves ? ' (−2 *Nerves of Steel*)' : '');
 		const embed = getEmbedPanicRoll(panicVal, ctx);
 
 		// Interrupted skill roll reminder.
@@ -44,7 +56,7 @@ module.exports = {
 			);
 		}
 
-		return ctx.channel.send(text, embed);
+		return await ctx.channel.send(text, embed);
 	},
 };
 

@@ -361,13 +361,13 @@ class YZCombat {
 
 	/**
 	 * Opens a prompt for a user to select the combatant they were searching for.
-	 * @param {string} name The name of the combatant to search for
+	 * @param {?string} name The name of the combatant to search for
 	 * @param {?Discord.Message} choiceMessage Additional text to pass in the selector
 	 * @param {?boolean} [selectGroup=false] Whether to allow groups to be selected
 	 * @returns {YZCombatant} The selected Combatant, or None if the search failed
 	 * @async
 	 */
-	async selectCombatant(name, choiceMessage = null, selectGroup = false) {
+	async selectCombatant(name = '', choiceMessage = null, selectGroup = false) {
 		name = name.toLowerCase();
 		let matching = this.getCombatants(selectGroup).filter(c => c.name.toLowerCase() === name);
 		if (matching.length === 0) {
