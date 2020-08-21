@@ -5,7 +5,7 @@ const { RollParser } = require('../utils/RollParser');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { SUPPORTED_GAMES } = require('../utils/constants');
 const Config = require('../config.json');
-const yargsParser = require('yargs-parser');
+//const yargsParser = require('yargs-parser');
 
 module.exports = {
 	name: 'roll',
