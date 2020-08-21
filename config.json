@@ -35,12 +35,12 @@
 					"gearDamage": true
 				},
 				"fbl": {
-					"successIcon": "⚔",
+					"successIcon": "<:fblb6:585368712010399744>",
 					"trauma": true,
 					"gearDamage": true
 				},
 				"tales": {
-					"successIcon": "❇",
+					"successIcon": "<:talesb6:746306489668468737>",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
@@ -50,7 +50,7 @@
 					"detailed": true
 				},
 				"coriolis": {
-					"successIcon": "❇",
+					"successIcon": "<:coriolisb6:746306927524577280>",
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
@@ -72,7 +72,7 @@
 					]
 				},
 				"alien": {
-					"successIcon": "<:alienb6:585072583020380170>",
+					"successIcon": "<:alienb6:746320623436955691>",
 					"alias": {
 						"base": "skill",
 						"skill": "stress",
@@ -87,6 +87,15 @@
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
+						"neg": "--"
+					},
+					"hasBlankDice": true,
+					"detailed": true
+				},
+				"t2k": {
+					"successIcon": "❇",
+					"alias": {
+						"base": "skill",
 						"neg": "--"
 					},
 					"hasBlankDice": true,
