@@ -7,7 +7,7 @@ const { SUPPORTED_GAMES } = require('../utils/constants');
 const Config = require('../config.json');
 
 module.exports = {
-	name: 'roll',
+	name: 'rollt2k',
 	group: 'Twilight 2000',
 	description: 'Rolls dice for the Twilight 2000 roleplaying game.',
 	moreDescriptions: [
@@ -15,19 +15,12 @@ module.exports = {
 			'Rolling Simple Dice',
 			'`roll d6|d66|d666` – Rolls a D6, D66, or D666.'
 			+ '\n`roll XdY±Z` – Rolls X dice of range Y, modified by Z.'
-			+ '\n`roll init` – Rolls initiative (one D6).',
+			//+ '\n`roll init` – Rolls initiative (one D6).',
 		],
 		[
 			'Rolling Year Zero Dice',
 			'Use any combinations of these letters with a number:'
-			+ '\n• `b` – Base dice (attributes)'
-			+ '\n• `s` – Skill dice / Stress dice (for ALIEN)'
-			+ '\n• `n` – Negative dice (for MYZ and FBL)'
-			+ '\n• `d` – Generic dice'
-			+ '\n• `a8` – D8 Artifact dice (from FBL)'
-			+ '\n• `a10` – D10 Artifact dice (from FBL)'
-			+ '\n• `a12` – D12 Artifact dice (from FBL)'
-			+ '\n\n*Example: roll 5b 3s 2g*',
+			+ '\n\n*Example:* `rw A B`',
 		],
 		[
 			'Additional Arguments',
@@ -35,29 +28,19 @@ module.exports = {
 			+ '\n`-n <name>` : Defines a name for the roll.'
 			+ '\n`-p <number>` : Changes the maximum number of allowed pushes.'
 			+ '\n`-f` : "Full-auto", unlimited number of pushes (max 10).'
-			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
-			+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).',
+			//+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
+			//+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).',
 		],
 		[
 			'More Info',
 			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon under the message.`
 			+ ' The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.'
 			+ '\nTo clear the reaction menu, click the ❌ reaction icon.'
-			+ '\nCoriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).'
+			//+ '\nCoriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).'
 			+ `\nMax ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
 		],
-		[
-			'See Also',
-			'The following commands are shortcuts if you don\'t want to specify the [game] parameter each time.'
-			+ '\n`rm` – Rolls *Mutant: Year Zero* dice.'
-			+ '\n`rf` – Rolls *Forbidden Lands* dice.'
-			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
-			+ '\n`rc` – Rolls *Coriolis* dice.'
-			+ '\n`ra` – Rolls *ALIEN* dice.'
-			+ '\n`rv` – Rolls *Vaesen* dice.',
-		],
 	],
-	aliases: ['rw', 'lancew', 'lancerw', 'slåw', 'slaw'],
+	aliases: ['rollt2k', 'rw'],
 	guildOnly: false,
 	args: true,
 	usage: '<dice> [arguments]',
@@ -119,15 +102,29 @@ module.exports = {
 
 						for (const dieCouple of diceCouples) {
 
-							// Then, each couple is splitted in an array with the digit and the letter.
-							// const couple = dieCouple.match(/\d{1,2}|[dbsgna]/gi);
-							const couple = dieCouple.match(/\d{1,2}|[abcdfg]/gi);
+							let diceQty, dieTypeChar;
+							if (/d?\d{1,2}/i.test(dieCouple)) {
+								diceQty = dieCouple.match(/\d{1,2}/g)[0];
+								dieTypeChar = 'a';
+							}
+							else if (/[abcdf]/i.test(dieCouple)) {
+								const dieRank = dieCouple.match(/[abcdf]/gi)[0].toLowerCase();
+								switch (dieRank) {
+								case 'a': diceQty = 12; break;
+								case 'b': diceQty = 10; break;
+								case 'c': diceQty = 8; break;
+								}
+								dieTypeChar = 'a';
+							}
+							else {
+								const couple = dieCouple.match(/\d{1,2}|[abcdfg]/gi);
 
-							// Sorts numbers (dice quantity) in first position.
-							couple.sort();
+								// Sorts numbers (dice quantity) in first position.
+								couple.sort();
 
-							const diceQty = Number(couple[0]) || 1;
-							const dieTypeChar = couple[1].toLowerCase();
+								diceQty = Number(couple[0]) || 1;
+								dieTypeChar = couple[1].toLowerCase();
+							}
 
 							// For the chosen letter, we assign a die type.
 							let type;
