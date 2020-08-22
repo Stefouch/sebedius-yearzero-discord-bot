@@ -6,14 +6,14 @@ const YZRoll = require('../yearzero/YZRoll');
 const tableNames = {
 	myz: 'myz-mp-misfires',
 	gla: 'gla-fp-feraleffects',
-	mec: 'mec-ep-overheatings',
+	mek: 'mek-ep-overheatings',
 	ely: 'ely-ip-backlashes',
 };
 
 const titles = {
 	myz: 'Mutation Misfire',
 	gla: 'Animal Power Feral Effect',
-	mec: 'Module Overheating',
+	mek: 'Module Overheating',
 	ely: 'Contact Backlash',
 };
 
@@ -23,10 +23,10 @@ module.exports = {
 	description: 'Rolls the dice for a MYZ power.',
 	guildOnly: false,
 	args: true,
-	usage: '<myz|gla|mec|ely> <power>',
+	usage: '<myz|gla|mek|ely> <power>',
 	async execute(args, ctx) {
 		// Parses arguments.
-		const book = args[0];
+		const book = args[0].toLowerCase();
 		const power = Util.clamp(args[1], 1, 10);
 
 		// Validates arguments.
@@ -35,17 +35,16 @@ module.exports = {
 		}
 
 		// Rolls the dice.
-		const type = book === 'mec' ? 'gear' : 'base';
-		const roll = new YZRoll(ctx.author, { [type]: power }, titles[book]);
-		roll.setGame('myz');
+		const roll = new YZRoll('myz', ctx.author, titles[book])
+			.addDice(book === 'mek' ? 'gear' : 'base', power);
 
 		// Checks for misfires / feral effects / overheatings / backlashes.
 		let embed;
-		if (roll.banes > 0) {
+		if (roll.baneCount > 0) {
 			const table = Sebedius.getTable(null, './gamedata/myz/', tableNames[book], 'en', 'csv');
 			const ref = Util.rand(1, 6);
 			const entry = table.get(ref);
-			embed = new YZEmbed(`💥 ${roll.title} (${ref})`, entry.effect, ctx, true);
+			embed = new YZEmbed(`💥 ${roll.name} (${ref})`, entry.effect, ctx, true);
 		}
 
 		return await ctx.channel.send(

@@ -124,7 +124,7 @@ module.exports = {
 /**
  * Rolls the dice of an attack.
  * @param {YZAttack} attack A Year Zero attack
- * @param {string} monster The monster that used the attack
+ * @param {YZMonster} monster The monster that used the attack
  * @param {Discord.Message} message Discord message
  * @param {Discord.Client} bot The bot's client
  * @async
@@ -142,19 +142,14 @@ async function rollAttack(attack, monster, message, bot) {
 	}
 	else {
 		// Unfixed roll.
-		atkRoll = new YZRoll(
-			message.author,
-			{
-				base: attack.ranged ? monster.agi : monster.str,
-				skill: attack.ranged ? monster.skills.shoot : monster.skills.fight,
-				gear: attack.base,
-			},
-		);
+		atkRoll = new YZRoll(game, message.author, attack.name)
+			.addBaseDice(attack.ranged ? monster.agi : monster.str)
+			.addSkillDice(attack.ranged ? monster.skills.shoot : monster.skills.fight)
+			.addGearDice(attack.base);
 	}
-	atkRoll.setGame(game);
 
 	// Calculates damages.
-	const hit = atkRoll.sixes;
+	const hit = atkRoll.successCount;
 	let damage;
 	// No damage if undefined
 	if (attack.damage === undefined || attack.damage === null) {

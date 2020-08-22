@@ -61,7 +61,8 @@ module.exports = {
 			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
 			+ '\n`rc` – Rolls *Coriolis* dice.'
 			+ '\n`ra` – Rolls *ALIEN* dice.'
-			+ '\n`rv` – Rolls *Vaesen* dice.',
+			+ '\n`rv` – Rolls *Vaesen* dice.'
+			+ '\n`rw` – Rolls *Twilight 2000* dice.',
 		],
 	],
 	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
@@ -108,8 +109,10 @@ module.exports = {
 			}
 			const skill = (rollargv._[0].match(/6/g) || []).length;
 
-			roll = new YZRoll(ctx.author, { skill }, rollargv._[0].toUpperCase());
-			roll.maxPushes = 0;
+			//roll = new YZRoll(ctx.author, { skill }, rollargv._[0].toUpperCase());
+			roll = new YZRoll(game, ctx.author, rollargv._[0].toUpperCase())
+				.addSkillDice(skill);
+			roll.maxPush = 0;
 			roll.modifier = 0;
 		}
 		// If not, checks if the first argument is a YZ roll phrase.
@@ -177,7 +180,18 @@ module.exports = {
 			let rollTitle = '';
 			if (name) rollTitle = `${name}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
 
-			roll = new YZRoll(
+			roll = new YZRoll(game, ctx.author, rollTitle)
+				.addBaseDice(baseDiceQty)
+				.addSkillDice(skillDiceQty)
+				.addGearDice(gearDiceQty)
+				.addNegDice(negDiceQty)
+				.addStressDice(stressDiceQty);
+			if (artifactDice.length) {
+				artifactDice.forEach(d => {
+					roll.addDice('arto', 1, d);
+				});
+			}
+			/*roll = new YZRoll(
 				ctx.author,
 				{
 					base: baseDiceQty,
@@ -188,15 +202,17 @@ module.exports = {
 					artifactDice,
 				},
 				rollTitle,
-			);
+			);*/
 		}
 		// Checks for init roll.
 		else if (/initiative|init/i.test(rollargv._[0])) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
 				game = 'generic';
 			}
-			roll = new YZRoll(ctx.author, { skill: 1 }, 'Initiative');
-			roll.maxPushes = 0;
+			//roll = new YZRoll(ctx.author, { skill: 1 }, 'Initiative');
+			roll = new YZRoll(game, ctx.author, 'Initiative')
+				.addSkillDice(1);
+			roll.maxPush = 0;
 			roll.modifier = 0;
 		}
 		// Checks for generic rolls.
@@ -209,16 +225,20 @@ module.exports = {
 			const rollString = rollargv._[0].toUpperCase();
 			const title = name ? `${name} (${rollString})` : rollString;
 
-			roll = new YZRoll(ctx.author, { skill: 0 }, title);
-			roll.dice.skill = genRollResults;
+			//roll = new YZRoll(ctx.author, { skill: 0 }, title);
+			roll = new YZRoll(game, ctx.author, title)
+				.addSkillDice(genRollResults);
+			//roll.dice.skill = genRollResults;
 			if (genRoll.modifier) roll.modifier = genRoll.modifier;
-			roll.maxPushes = 0;
+			roll.maxPush = 0;
 			roll.modifier = 0;
 		}
 		// Checks if PRIDE roll alone.
 		else if (rollargv.pride || rollargv._.includes('pride')) {
 			game = 'fbl',
-			roll = new YZRoll(ctx.author, { artifactDice: [12] }, 'Pride');
+			//roll = new YZRoll(ctx.author, { artifactDice: [12] }, 'Pride');
+			roll = new YZRoll(game, ctx.author, 'Pride')
+				.addDice('arto', 1, 12);
 		}
 		// Exits if no check.
 		else {
@@ -233,7 +253,7 @@ module.exports = {
 			roll.setFullAuto(true);
 		}
 		else if (rollargv.push) {
-			roll.maxPushes = Number(rollargv.push) || 1;
+			roll.maxPush = Number(rollargv.push) || 1;
 		}
 
 		// Log and Roll.
@@ -334,7 +354,7 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 	// Detects additional dice from pushing.
 	if (gameOptions.extraPushDice) {
 		for (const extra of gameOptions.extraPushDice) {
-			pushedRoll.addDice(1, extra);
+			pushedRoll.addDice(extra);
 		}
 	}
 	// Logs.
@@ -369,12 +389,12 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
  */
 function getEmbedDiceResults(roll, ctx, opts) {
 
-	const s = roll.sixes;
+	const s = roll.successCount;
 	let desc = '';
 
 	if (roll.modifier != null) {
 		const mod = roll.modifier;
-		desc += `Result: **${roll.sum('skill') + mod}**\n(${roll.dice.skill.join(', ')})`;
+		desc += `Result: **${roll.sum('skill') + mod}**\n(${roll.dice.join(', ')})`;
 		if (mod !== 0) desc += ` ${mod > 0 ? '+' : ''}${mod}`;
 	}
 	else {
@@ -392,25 +412,34 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		}
 	}
 
-	const embed = new YZEmbed(roll.title, desc, ctx, true);
+	const embed = new YZEmbed(roll.name, desc, ctx, true);
 
 	if (opts.detailed) {
 		let results = '';
-		for (const type in roll.dice) {
-			if (roll.dice[type].length) {
-				results += `${type}: (${roll.dice[type].join(', ')})\n`;
+		for (const type of YZRoll.DIE_TYPES) {
+			const dice = roll.getDice(type);
+			if (dice.length) {
+				const diceResults = dice.map(d => d.result);
+				results += `> ${type}: \`(${diceResults.join(', ')})\`\n`;
 			}
 		}
-		if (roll.artifactDice.length) {
-			results += 'arto: ';
-			for (const d of roll.artifactDice) {
-				results += d.toString() + ' ';
+		if (roll.pushed) {
+			results += '\n*Previously*\n';
+			for (const type of YZRoll.DIE_TYPES) {
+				const dice = roll.getDice(type);
+				if (dice.length) {
+					for (let p = roll.pushCount; p > 0; p--) {
+						results += `**[${p}]** `;
+						const diceResults = dice.map(d => d.previousResults[p - 1]);
+						results += `${type}: \`(${diceResults.join(', ')})\`\n`;
+					}
+				}
 			}
 		}
 		embed.addField('Details', results, false);
 	}
 
-	if (roll.pushed) embed.setFooter(`${(roll.pushed > 1) ? `${roll.pushed}× ` : ''}Pushed`);
+	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}Pushed`);
 
 	return embed;
 }

@@ -272,7 +272,25 @@ class Sebedius extends Discord.Client {
 		const game = opts.iconTemplate || roll.game;
 		let str = '';
 
-		for (const type in roll.dice) {
+		for (const die of roll.dice) {
+			const val = die.result;
+			let iconType = die.type;
+
+			if (opts.alias) {
+				// Skipping types.
+				if (opts.alias[die.type] === '--') continue;
+				// Dice swaps, if any.
+				if (applyAliases && opts.alias[die.type]) iconType = opts.alias[die.type];
+			}
+			if (iconType === 'arto') {
+				str += DICE_ICONS.fbl.arto[val] || ` {**${val}**} `;
+			}
+			else {
+				str += DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
+			}
+		}
+
+	/*	for (const type in roll.dice) {
 			let iconType = type;
 			const nbre = roll.dice[type].length;
 
@@ -307,7 +325,7 @@ class Sebedius extends Discord.Client {
 			for (const artifactDie of roll.artifactDice) {
 				str += DICE_ICONS.fbl.arto[artifactDie.result];
 			}
-		}
+		}//*/
 
 		return str;
 	}

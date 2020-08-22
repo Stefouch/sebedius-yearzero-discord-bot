@@ -18,9 +18,8 @@ module.exports = {
 		if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
 			const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
 			const resTitle = args.length ? args.join(' ') : 'Resource';
-			const roll = new YZRoll(ctx.author.id, {}, resTitle);
-			roll.addArtifactDie(size);
-			roll.setGame('fbl');
+			const roll = new YZRoll('fbl', ctx.author, resTitle)
+				.addDice('arto', 1, size);
 			sendMessageForResourceDie(roll, ctx);
 		}
 		else {
@@ -32,14 +31,14 @@ module.exports = {
 function sendMessageForResourceDie(roll, ctx) {
 	if (roll.size > ctx.bot.config.commands.roll.max) return ctx.reply('Can\'t roll that, too many dice!');
 
-	const die = roll.artifactDice[0];
-	const desc = `**\`D${die.size}\`** Resource Die: **${die.result}**`;
-	const embed = new YZEmbed(roll.title, desc, ctx, true);
+	const die = roll.dice[0];
+	const desc = `**\`D${die.range}\`** Resource Die: **${die.result}**`;
+	const embed = new YZEmbed(roll.name, desc, ctx, true);
 	const text = Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]);
 
 	if (die.result <= 2) {
 		const resSizes = [0, 6, 8, 10, 12];
-		const newSize = resSizes[resSizes.indexOf(die.size) - 1];
+		const newSize = resSizes[resSizes.indexOf(die.range) - 1];
 
 		if (newSize > 0) {
 			embed.addField(
