@@ -170,7 +170,7 @@ Rolls a random attack from a monster.
 * `!scrap [quantity]` – Gets you a bunch of scrap.
 * `!rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
 * `!drawmutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
-* `!artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
+* `!artifact [all | myz meta gla mek ely astra]` – Draws a random artifact (no details).
 * `!threat` – Draws a random Zone threat (no details).
 * `!arkthreat` – Draws a random threat against the Ark (no details).
 
