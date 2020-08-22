@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.0] - 2020-08-23
+### Added
+- Support for **TWILIGHT 2000 __PRE-ALPHA__** rolls: `!rollt2k` or `!rw`. *(This is based on pre-alpha information gathered from Fria Ligan interviews.)*
+
+### Changed
+- `!artifact` parameters use `mek` instead of `mech`.
+- (Hidden) `!myzpower` parameters use `mek` instead of `mec`.
+- (JavaScript) YZRoll code revamped.
+
+### Fixed
+- Banes counting "ones" from negative dice. *(Shouldn't.)*
+
 ## [3.2.1] - 2020-08-12
 ### Added
 - New parameter `-nerves` for `!panic`.
