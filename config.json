@@ -95,7 +95,7 @@
 				"t2k": {
 					"successIcon": "❇",
 					"alias": {
-						"base": "skill",
+						"skill": "base",
 						"neg": "--"
 					},
 					"hasBlankDice": true,
