@@ -247,17 +247,25 @@ class YZRoll {
 	 * Adds a number of dice to the roll.
 	 * @param {string} type The type of dice to add ("base", "skill", "gear" or "neg")
 	 * @param {number} qty The quantity to add
-	 * @param {?number} [range=6] The number of faces of the die.
+	 * @param {?number} [range=6] The number of faces of the die
+	 * @param {?number} value The predefined value for this die
 	 * @returns {YZRoll} This roll
 	 */
-	addDice(type, qty, range = 6) {
+	addDice(type, qty, range = 6, value = null) {
 		if (!qty) return this;
 		for (let i = 0; i < qty; i++) {
-			const die = new YZDie(range, type);
-			die.roll();
-			this.dice.push(die);
+			this.dice.push(new YZDie(range, type, value));
 		}
 		return this;
+	}
+
+	/**
+	 * Gets all the dice of a certain type.
+	 * @param {string} type Dice type to search
+	 * @returns {YZDie[]}
+	 */
+	getDice(type) {
+		return this.dice.filter(d => d.type === type);
 	}
 
 	/**
@@ -266,7 +274,7 @@ class YZRoll {
 	 * @returns {number} The summed result
 	 */
 	sum(type = 'base') {
-		return this.getDice(type).reduce((acc, d) => acc + d.result);
+		return this.getDice(type).reduce((acc, d) => acc + d.result, 0);
 	}
 
 	/**
@@ -276,7 +284,7 @@ class YZRoll {
 	 */
 	baseSix(type = 'base') {
 		const result = this.getDice(type)
-			.reduce((acc, die) => acc + '' + die.result);
+			.reduce((acc, die) => acc + die.result, '');
 		return Number(result);
 	}
 
@@ -293,15 +301,6 @@ class YZRoll {
 		else {
 			return this.getDice(type).length;
 		}
-	}
-
-	/**
-	 * Gets all the dice of a certain type.
-	 * @param {string} type Dice type to search
-	 * @returns {YZDie[]}
-	 */
-	getDice(type) {
-		return this.dice.filter(d => d.type === type);
 	}
 
 	/**
@@ -349,9 +348,10 @@ class YZDie {
 	/**
 	 * Year Zero Die with type.
 	 * @param {?number} [range=6] The number of faces of the die
-	 * @param {?string} [type='skill'] The thype of the die
+	 * @param {?string} [type='skill'] The type of the die
+	 * @param {?number} [value=0] Any predefined value for the die
 	 */
-	constructor(range, type) {
+	constructor(range, type, value = 0) {
 		/**
 		 * The number of faces of the die.
 		 * @type {number}
@@ -368,8 +368,10 @@ class YZDie {
 		if (DIE_TYPES.includes(type)) this.type = type;
 		else type = 'skill';
 
-		this.result = 0;
+		this.result = +value;
 		this.previousResults = [];
+
+		if (!this.result) this.roll();
 	}
 
 	/**
