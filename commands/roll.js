@@ -100,7 +100,7 @@ module.exports = {
 		let roll;
 
 		// Year Zero Roll Regular Expression.
-		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i;
+		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d\d{1,2})|([abcdf])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		if (/^d6{1,3}$/i.test(rollargv._[0])) {
@@ -109,7 +109,6 @@ module.exports = {
 			}
 			const skill = (rollargv._[0].match(/6/g) || []).length;
 
-			//roll = new YZRoll(ctx.author, { skill }, rollargv._[0].toUpperCase());
 			roll = new YZRoll(game, ctx.author, rollargv._[0].toUpperCase())
 				.addSkillDice(skill);
 			roll.maxPush = 0;
@@ -187,29 +186,14 @@ module.exports = {
 				.addNegDice(negDiceQty)
 				.addStressDice(stressDiceQty);
 			if (artifactDice.length) {
-				artifactDice.forEach(d => {
-					roll.addDice('arto', 1, d);
-				});
+				artifactDice.forEach(d => roll.addDice('arto', 1, d));
 			}
-			/*roll = new YZRoll(
-				ctx.author,
-				{
-					base: baseDiceQty,
-					skill: skillDiceQty,
-					gear: gearDiceQty,
-					neg: negDiceQty,
-					stress: stressDiceQty,
-					artifactDice,
-				},
-				rollTitle,
-			);*/
 		}
 		// Checks for init roll.
 		else if (/initiative|init/i.test(rollargv._[0])) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
 				game = 'generic';
 			}
-			//roll = new YZRoll(ctx.author, { skill: 1 }, 'Initiative');
 			roll = new YZRoll(game, ctx.author, 'Initiative')
 				.addSkillDice(1);
 			roll.maxPush = 0;
@@ -225,18 +209,16 @@ module.exports = {
 			const rollString = rollargv._[0].toUpperCase();
 			const title = name ? `${name} (${rollString})` : rollString;
 
-			//roll = new YZRoll(ctx.author, { skill: 0 }, title);
-			roll = new YZRoll(game, ctx.author, title)
-				.addSkillDice(genRollResults);
-			//roll.dice.skill = genRollResults;
-			if (genRoll.modifier) roll.modifier = genRoll.modifier;
+			roll = new YZRoll(game, ctx.author, title);
+			genRollResults.forEach(d => {
+				roll.addDice('skill', 1, null, d);
+			});
 			roll.maxPush = 0;
-			roll.modifier = 0;
+			roll.modifier = genRoll.modifier || 0;
 		}
 		// Checks if PRIDE roll alone.
 		else if (rollargv.pride || rollargv._.includes('pride')) {
 			game = 'fbl',
-			//roll = new YZRoll(ctx.author, { artifactDice: [12] }, 'Pride');
 			roll = new YZRoll(game, ctx.author, 'Pride')
 				.addDice('arto', 1, 12);
 		}
@@ -394,7 +376,8 @@ function getEmbedDiceResults(roll, ctx, opts) {
 
 	if (roll.modifier != null) {
 		const mod = roll.modifier;
-		desc += `Result: **${roll.sum('skill') + mod}**\n(${roll.dice.join(', ')})`;
+		desc += `Result: **${roll.sum('skill') + mod}**`
+			+ `\n(${roll.dice.map(d => d.result).join(', ')})`;
 		if (mod !== 0) desc += ` ${mod > 0 ? '+' : ''}${mod}`;
 	}
 	else {
