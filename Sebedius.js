@@ -7,6 +7,7 @@ const PageMenu = require('./utils/PageMenu');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const { DIE_TYPES } = require('./yearzero/YZRoll');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -282,8 +283,13 @@ class Sebedius extends Discord.Client {
 				// Dice swaps, if any.
 				if (applyAliases && opts.alias[die.type]) iconType = opts.alias[die.type];
 			}
+			// Artifact Dice specific skin.
 			if (iconType === 'arto') {
 				str += DICE_ICONS.fbl.arto[val] || ` {**${val}**} `;
+			}
+			// Twilight 2000 specific skin.
+			else if (game === 't2k' && iconType === 'base' && die.range !== 6) {
+				str += DICE_ICONS.t2k['d' + die.range][val] || ` {**${val}**} `;
 			}
 			else {
 				str += DICE_ICONS[game][iconType][val] || ` {**${val}**} `;

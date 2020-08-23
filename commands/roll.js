@@ -34,7 +34,7 @@ module.exports = {
 			+ '\n• `a8` – D8 Artifact dice (from FBL)'
 			+ '\n• `a10` – D10 Artifact dice (from FBL)'
 			+ '\n• `a12` – D12 Artifact dice (from FBL)'
-			+ '\n\n*Example: roll 5b 3s 2g*',
+			+ '\n\n*Example:* `roll 5b 3s 2g`',
 		],
 		[
 			'Additional Arguments',
@@ -94,13 +94,13 @@ module.exports = {
 		if (SUPPORTED_GAMES.includes(rollargv._[0])) game = rollargv._.shift();
 		else game = await ctx.bot.getGame(ctx, 'myz');
 
-		// Year Zero dice quantities for the roll.
-		let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
-		const artifactDice = [];
+		//Year Zero dice quantities for the roll.
+		//let baseDiceQty = 0, skillDiceQty = 0, gearDiceQty = 0, negDiceQty = 0, stressDiceQty = 0;
+		//const artifactDice = [];
 		let roll;
 
 		// Year Zero Roll Regular Expression.
-		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d\d{1,2})|([abcdf])+)+$/i;
+		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		if (/^d6{1,3}$/i.test(rollargv._[0])) {
@@ -116,10 +116,17 @@ module.exports = {
 		}
 		// If not, checks if the first argument is a YZ roll phrase.
 		else if (yzRollRegex.test(rollargv._[0])) {
-			// If so, we process all uncategorized arguments.
+			// Creates the roll's title.
+			let rollTitle = '';
+			if (name) rollTitle = `${name}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
+
+			// Creates the roll.
+			roll = new YZRoll(game, ctx.author, rollTitle);
+
+			// Then, processes all uncategorized arguments.
 			for (const arg of rollargv._) {
-				// Checks if it's a roll phrase.
-				if (yzRollRegex.test(arg)) {
+				// Checks if it's a classic YZ roll phrase.
+				if (/^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i.test(arg)) {
 
 					// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
 					const diceCouples = arg.match(/(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
@@ -148,7 +155,8 @@ module.exports = {
 							case 's': type = 'skill'; break;
 							case 'g': type = 'gear'; break;
 							case 'n': type = 'neg'; break;
-							case 'a': artifactDice.push(diceQty); break;
+							//case 'a': artifactDice.push(diceQty); break;
+							case 'a': roll.addDice('arto', 1, diceQty);
 							}
 
 							if (type) {
@@ -159,13 +167,28 @@ module.exports = {
 								}
 
 								// Then adds the dice.
-								switch (type) {
+								roll.addDice(type, diceQty);
+								/*switch (type) {
 								case 'base': baseDiceQty += diceQty; break;
 								case 'skill': skillDiceQty += diceQty; break;
 								case 'gear': gearDiceQty += diceQty; break;
 								case 'neg': negDiceQty += diceQty; break;
 								case 'stress': stressDiceQty += diceQty; break;
-								}
+								}//*/
+							}
+						}
+					}
+				}
+				// Checks if it's a Twilight 2000 roll phrase.
+				else if (/^((d(6|8|10|12))|([abcd]+))+$/i.test(arg)) {
+					const diceCouples = arg.match(/(d(?:6|8|10|12))|([abcd])/gi);
+					if (diceCouples.length) {
+						for (const dieCouple of diceCouples) {
+							switch (dieCouple.toLowerCase()) {
+							case 'd6': case 'd': roll.addBaseDice(1); break;
+							case 'd8': case 'c': roll.addDice('base', 1, 8); break;
+							case 'd10': case 'b': roll.addDice('base', 1, 10); break;
+							case 'd12': case 'a': roll.addDice('base', 1, 12); break;
 							}
 						}
 					}
@@ -173,10 +196,11 @@ module.exports = {
 			}
 			// Adds extra Artifact Dice.
 			// 1) Forbidden Lands' Pride.
-			if (rollargv.pride || rollargv._.includes('pride')) artifactDice.push(12);
+			//if (rollargv.pride || rollargv._.includes('pride')) artifactDice.push(12);
+			if (rollargv.pride || rollargv._.includes('pride')) roll.addDice('arto', 1, 12);
 
 			// Rolls the dice.
-			let rollTitle = '';
+		/*	let rollTitle = '';
 			if (name) rollTitle = `${name}${rollargv.fullauto ? ' *(Full-Auto)*' : ''}`;
 
 			roll = new YZRoll(game, ctx.author, rollTitle)
@@ -187,7 +211,7 @@ module.exports = {
 				.addStressDice(stressDiceQty);
 			if (artifactDice.length) {
 				artifactDice.forEach(d => roll.addDice('arto', 1, d));
-			}
+			}//*/
 		}
 		// Checks for init roll.
 		else if (/initiative|init/i.test(rollargv._[0])) {

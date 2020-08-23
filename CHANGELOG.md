@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ## [3.3.0] - 2020-08-23
 ### Added
-- Support for **TWILIGHT 2000 __PRE-ALPHA__** rolls: `!rollt2k` or `!rw`. *(This is based on pre-alpha information gathered from Fria Ligan interviews.)*
+- Support for **TWILIGHT 2000 __PRE-ALPHA__** rolls: `!rolltwilight` or `!rw`. *(This is based on pre-alpha information gathered from Fria Ligan interviews.)*
 
 ### Changed
 - `!artifact` parameters use `mek` instead of `mech`.

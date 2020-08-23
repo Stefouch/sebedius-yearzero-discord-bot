@@ -215,6 +215,15 @@ Rolls a random attack from a monster.
 
 * `!rollvaesen|rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
 
+### **Twilight 2000** commands
+
+* `!rolltwilight|rw` – Shortcut for rolling dice. See the **Roll** command above for more details. Use any combinations of the following:
+  * `d12 | a` – D12 (attribute or skill)
+  * `d10 | b` – D10 (attribute or skill)
+  * `d8 | c` – D8 (attribute or skill)
+  * `d6 | d` – D6 (attribute or skill)
+  * `Xg` – X gear dice
+
 ### Other commands
 
 Only a member with administrator rights can use these commands:
