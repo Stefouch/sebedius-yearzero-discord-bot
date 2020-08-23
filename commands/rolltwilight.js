@@ -23,7 +23,7 @@ module.exports = {
 		[
 			'Arguments',
 			'Type `help roll` for the list of available arguments',
-		]
+		],
 		[
 			':warning: Disclaimer!',
 			'This is based on pre-alpha info gathered from Fria Ligan Interviews on internet.',
