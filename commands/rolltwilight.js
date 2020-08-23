@@ -22,7 +22,7 @@ module.exports = {
 		],
 		[
 			'Arguments',
-			'Type `help roll` for the list of available arguments',
+			'Type `help roll` for the list of available arguments.',
 		],
 		[
 			':warning: Disclaimer!',
