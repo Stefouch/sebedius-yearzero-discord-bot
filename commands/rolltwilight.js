@@ -32,7 +32,7 @@ module.exports = {
 	aliases: ['rollt2k', 'rw'],
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [arguments]',
+	usage: '[attribute] [skill] [ammo] [arguments]',
 	async execute(args, ctx) {
 		args.unshift('t2k');
 		await ctx.bot.commands.get('roll').execute(args, ctx);
