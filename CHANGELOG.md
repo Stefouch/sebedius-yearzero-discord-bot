@@ -3,11 +3,22 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.1] - 2020-08-24
+### Changed
+- Generic rolls parsing reworked.
+- Better Twilight 2000 dice emojis.
+
+### Fixed
+- A bug causing additional dice from pushes *(Coriolis & Alien RPG)* to not work.
+- A bug causing pushes details from *Coriolis* rolls to be inexact.
+- A bug causing generic rolls to stop functionning with games that have blank dice emojis.
+
 ## [3.3.0] - 2020-08-23
 ### Added
 - Support for **TWILIGHT 2000 __PRE-ALPHA__** rolls: `!rolltwilight` or `!rw`. *(This is based on pre-alpha information gathered from Fria Ligan interviews.)*
 
 ### Changed
+- Better dice emojis for *Alien RPG, Coriolis* and *Tales from the Loop*.
 - `!artifact` parameters use `mek` instead of `mech`.
 - (Hidden) `!myzpower` parameters use `mek` instead of `mec`.
 - (JavaScript) YZRoll code revamped.
