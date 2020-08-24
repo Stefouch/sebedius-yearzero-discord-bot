@@ -292,47 +292,13 @@ class Sebedius extends Discord.Client {
 				str += DICE_ICONS.t2k['d' + die.range][val] || ` {**${val}**} `;
 			}
 			else {
-				str += DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
+				const diceTypeIcons = DICE_ICONS[game][iconType];
+				str += diceTypeIcons && diceTypeIcons[val]
+					? diceTypeIcons[val]
+					: ` {**${val}**} `;
+				//str += DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
 			}
 		}
-
-	/*	for (const type in roll.dice) {
-			let iconType = type;
-			const nbre = roll.dice[type].length;
-
-			if (opts.alias) {
-				// Skipping types.
-				if (opts.alias[type] === '--') continue;
-				// Dice swaps, if any.
-				if (applyAliases && opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
-			}
-
-			if (nbre) {
-				str += '\n';
-
-				for (let k = 0; k < nbre; k++) {
-					const val = roll.dice[type][k];
-					const icon = DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
-					str += icon;
-
-					// This is calculated to make a space between pushed and not pushed rolls.
-					if (roll.pushed) {
-						const keep = roll.keeped[type];
-
-						if (k === keep - 1) {
-							str += '\t';
-						}
-					}
-				}
-			}
-		}
-
-		if (roll.artifactDice.length) {
-			for (const artifactDie of roll.artifactDice) {
-				str += DICE_ICONS.fbl.arto[artifactDie.result];
-			}
-		}//*/
-
 		return str;
 	}
 
