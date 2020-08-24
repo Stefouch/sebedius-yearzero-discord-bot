@@ -398,8 +398,8 @@ function getEmbedDiceResults(roll, ctx, opts) {
 					for (let p = roll.pushCount; p > 0; p--) {
 						results += `**[${p}]** `;
 						const diceResults = dice
-							//.filter(d => d.pushCount >= p)
-							.map(d => d.previousResults[p - 1]);
+							.filter(d => roll.pushCount - d.pushCount < p)
+							.map(d => d.previousResults[d.pushCount - (roll.pushCount - p) - 1]);
 						results += `${type}: \`(${diceResults.join(', ')})\`\n`;
 					}
 				}
