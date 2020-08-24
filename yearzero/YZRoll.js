@@ -1,5 +1,5 @@
-const { rand } = require('../utils/Util');
-const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress'];
+const { rand, isNumber } = require('../utils/Util');
+const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
 const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
 
@@ -248,13 +248,14 @@ class YZRoll {
 	 * @param {string} type The type of dice to add ("base", "skill", "gear" or "neg")
 	 * @param {number} qty The quantity to add
 	 * @param {?number} [range=6] The number of faces of the die
-	 * @param {?number} value The predefined value for this die
+	 * @param {?number} value The predefined value for the die
+	 * @param {?string} operator The operator of the die
 	 * @returns {YZRoll} This roll
 	 */
-	addDice(type, qty, range = 6, value = null) {
+	addDice(type, qty, range = 6, value = null, operator = '+') {
 		if (!qty) return this;
 		for (let i = 0; i < qty; i++) {
-			this.dice.push(new YZDie(range, type, value));
+			this.dice.push(new YZDie(range, type, value, operator));
 		}
 		return this;
 	}
@@ -270,11 +271,13 @@ class YZRoll {
 
 	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {?string} [type='base'] "base", "skill", "gear" or "neg" (default is "base")
+	 * @param {?string} type "base", "skill", "gear" or "neg" (default is `null`)
 	 * @returns {number} The summed result
 	 */
-	sum(type = 'base') {
-		return this.getDice(type).reduce((acc, d) => acc + d.result, 0);
+	sum(type = null) {
+		const dice = type ? this.getDice(type) : this.dice;
+		const expression = dice.reduce((acc, d) => acc + d.operator + d.result, '');
+		return eval(expression);
 	}
 
 	/**
@@ -301,6 +304,50 @@ class YZRoll {
 		else {
 			return this.getDice(type).length;
 		}
+	}
+
+	/**
+	 * Parses a roll resolvable string into a Year Zero Roll object.
+	 * @param {string} rollString A roll resolvable string
+	 * @param {?string} game The game of the roll
+	 * @param {?string} author The author of the roll
+	 * @param {?string} name The name of the roll
+	 * @returns {YZRoll} Parsed roll
+	 * @static
+	 */
+	static parse(rollString, game, author, name = null) {
+		// Creates the roll that will be modified below.
+		const roll = new YZRoll(game, author, name);
+
+		// Exits early if it is only a modifier (faster).
+		if (isNumber(rollString)) {
+			roll.addDice('modifier', 1, 0, +rollString);
+			return roll;
+		}
+
+		// Splits dice arguments.
+		const args = rollString.split(/(?=[*/+-])/);
+
+		// Exits early if no arg.
+		if (!args.length) return roll;
+
+		// Parses each arg.
+		for (const arg of args) {
+			arg.replace(/([*/+-]?)(\d*)[dD]?(\d*)((?:\[.*\])?)/, (match, operator, qty, range, type) => {
+				if (!qty && range) {
+					roll.addDice(type, 1, range, null, operator);
+				}
+				else if (qty && !range && !/d/i.test(match)) {
+					// Modifier.
+					roll.addDice('modifier', 1, 0, qty, operator);
+				}
+				else {
+					roll.addDice(type, qty, range === '' ? 6 : range, null, operator);
+				}
+			});
+		}
+		// Returns the parsed roll.
+		return roll;
 	}
 
 	/**
@@ -346,30 +393,51 @@ function resolveString(data) {
 class YZDie {
 
 	/**
-	 * Year Zero Die with type.
-	 * @param {?number} [range=6] The number of faces of the die
-	 * @param {?string} [type='skill'] The type of the die
+	 * Year Zero Die with type. The die is rolled if no value is predefined.
+	 * @param {?number} range The number of faces of the die
+	 * @param {?string} type The type of the die
 	 * @param {?number} [value=0] Any predefined value for the die
+	 * @param {?string} [operator='+'] The operator of the die
 	 */
-	constructor(range, type, value = 0) {
+	constructor(range, type, value = 0, operator = '+') {
 		/**
 		 * The number of faces of the die.
 		 * @type {number}
 		 */
-		this.range = +range || 6;
+		this.range = +range;
 
 		/**
 		 * The type of the die.
-		 * - `base`, `gear`, `stress`: 1 & 6+ not pushable.
-		 * - `skill`, `neg`, `arto`: 6+ not pushable.
+		 * - `base`, `gear`, `stress`, `ammo`: 1 & 6+ not pushable
+		 * - `skill`, `neg`, `arto`: 6+ not pushable
+		 * - `modifier`: Cannot be rolled
 		 * @type {string}
 		 */
-		this.type;
-		if (DIE_TYPES.includes(type)) this.type = type;
-		else type = 'skill';
+		this.type = DIE_TYPES.includes(type) ? type : null;
+		if (!range) this.type = 'modifier';
 
+		/**
+		 * The result of the die.
+		 * @type {number}
+		 */
 		this.result = +value;
+
+		/**
+		 * All previous results, in order of appearance.
+		 * @type {number[]}
+		 */
 		this.previousResults = [];
+
+		/**
+		 * The operator of the die.
+		 * - `+`: addition
+		 * - `-`: substraction
+		 * - `*`: multiplication
+		 * - `/`: division
+		 */
+		this.operator = ['+', '-', '*', '/'].includes(operator)
+			? operator
+			: '+';
 
 		if (!this.result) this.roll();
 	}
@@ -414,6 +482,7 @@ class YZDie {
 		case 'base':
 		case 'gear':
 		case 'stress':
+		case 'ammo':
 			if (this.result !== 1 && this.result < 6) {
 				return this.roll();
 			}
@@ -429,11 +498,15 @@ class YZDie {
 			else {
 				return this.result;
 			}
-		default: return this.roll();
+		case 'modifier':
+			return this.result;
+		default:
+			return this.roll();
 		}
 	}
 
 	toString() {
-		return `d${this.range}`;
+		if (this.type === 'modifier') return `${this.operator} ${this.result}`;
+		else return `${this.operator} d${this.range}${this.type ? `[${this.type}]` : ''}`;
 	}
 }
