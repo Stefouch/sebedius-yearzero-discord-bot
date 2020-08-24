@@ -96,10 +96,12 @@
 					"successIcon": "❇",
 					"alias": {
 						"skill": "base",
+						"gear": "ammo",
 						"neg": "--"
 					},
 					"hasBlankDice": true,
-					"detailed": true
+					"detailed": true,
+					"fumble": true
 				}
 			}
 		},
@@ -124,6 +126,7 @@
 	"yargs": {
 		"short-option-groups": false,
 		"duplicate-arguments-array": false,
-		"flatten-duplicate-arrays": true
+		"flatten-duplicate-arrays": true,
+		"unknown-options-as-args": true
 	}
 }
