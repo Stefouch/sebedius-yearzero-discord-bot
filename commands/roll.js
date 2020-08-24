@@ -376,6 +376,22 @@ function getEmbedDiceResults(roll, ctx, opts) {
 	if (opts.gearDamage) {
 		desc += `\nGear Damage: **${roll.gearDamage}**`;
 	}
+	if (roll.rof > 0) {
+		const ammoRollSum = roll.sum('ammo');
+	/*	if (roll.pushed) {
+			const ammos = roll
+				.getDice('ammo')
+				.map(d => d.previousResults)
+				.reduce((r, a) => r.map((b, i) => a[i] + b));
+
+			const ammoTotal = ammoRollSum + ammos.reduce((sum, x) => sum + x);
+
+			desc += `\nAmmo: ${ammos.join('+')}+${ammoRollSum} = **${ammoTotal}**`;
+		}
+		else {//*/
+			desc += `\nAmmo: **${ammoRollSum}**`;
+		//}
+	}
 	if (opts.panic && roll.panic) {
 		desc += '\n**PANIC!!!**';
 	}

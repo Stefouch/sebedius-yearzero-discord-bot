@@ -4,9 +4,11 @@ All notable changes to this project will be documented in this file.
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.3.1] - 2020-08-24
+### Added
+- Ammo count for *Twilight 2000* rolls.
 ### Changed
 - Generic rolls parsing reworked.
-- Better Twilight 2000 dice emojis.
+- Better *Twilight 2000* dice emojis.
 
 ### Fixed
 - A bug causing additional dice from pushes *(Coriolis & Alien RPG)* to not work.

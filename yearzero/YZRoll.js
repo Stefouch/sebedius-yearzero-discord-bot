@@ -131,7 +131,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get stress() {
-		return this.getDice('stress').length;
+		return this.count('stress');
 	}
 
 	/**
@@ -141,6 +141,15 @@ class YZRoll {
 	 */
 	get panic() {
 		return this.count('stress', 1);
+	}
+
+	/**
+	 * The Rate of Fire (number of Ammor dice - *Twilight 2000*).
+	 * @type {number}
+	 * @readonly
+	 */
+	get rof() {
+		return this.count('ammo');
 	}
 
 	/**
@@ -293,9 +302,10 @@ class YZRoll {
 
 	/**
 	 * Counts the values of a certain type in the roll.
+	 * If `seed` is omitted, counts all the dice of a certain type.
 	 * @param {string} type The type of the die
-	 * @param {number} seed The number to search (if omitted, )
-	 * @returns {number} Count
+	 * @param {number} seed The number to search.
+	 * @returns {number} Total count
 	 */
 	count(type, seed = null) {
 		if (seed) {
