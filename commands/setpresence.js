@@ -61,7 +61,10 @@ module.exports = {
 					name: '🚧 On Maintenance',
 					type: 'WATCHING',
 				},
-			});
+			})
+				.then(console.log)
+				.catch(console.error);
+
 			return await ctx.channel.send(':ballot_box_with_check: Sebedius is `ON MAINTENANCE`.');
 		}
 		argv.type = argv.type.toUpperCase();
