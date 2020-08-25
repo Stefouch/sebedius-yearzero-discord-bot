@@ -36,7 +36,7 @@ module.exports = {
 				name: ['activity', 'text', 'desc'],
 			},
 			default: {
-				name: ['Hello World!'],
+				name: ['Ready to roll dice!'],
 				afk: false,
 				type: ActivityTypes[0],
 				status: PresenceStatus[0],
@@ -48,45 +48,36 @@ module.exports = {
 		// Clears the Activities interval.
 		clearInterval(ctx.bot.activity);
 
-		// Restores the Activities interval.
-		if (argv.loop) {
-			await ctx.bot.user.setPresence({
-				status: argv.status,
-				afk: argv.afk,
-				activity: {
-					name: argv.name,
-					type: argv.type,
-				},
-			});
-			ctx.bot.activity = require('../utils/activities')(ctx.bot);
-			return await ctx.channel.send(':ballot_box_with_check: Sebedius\'s activities are `LOOPING`.');
-		}
-		else if (argv.idle) {
-			await ctx.bot.user.setPresence({
-				status: 'dnd',
-				afk: true,
-				activity: {
-					name: '🚧 On Maintenance',
-					type: 'WATCHING',
-				},
-			})
-				.then(console.log)
-				.catch(console.error);
-
-			return await ctx.channel.send(':ballot_box_with_check: Sebedius is `ON MAINTENANCE`.');
-		}
+		// Parses.
 		argv.type = argv.type.toUpperCase();
 		argv.status = argv.status.toLowerCase();
-		const name = argv.name.join(' ');
-		const type = ActivityTypes.includes(argv.type) ? argv.type : ActivityTypes[0];
-		const status = PresenceStatus.includes(argv.status) ? argv.status : PresenceStatus[0];
-		const afk = argv.afk ? true : false;
+		let name, type, status, afk, message;
+		if (argv.idle || argv._[0] === 'idle') {
+			name = '🚧 On Maintenance';
+			type = 'WATCHING';
+			status = 'dnd';
+			afk = true;
+			message = ':ballot_box_with_check: Sebedius is `ON MAINTENANCE`.';
+		}
+		else {
+			name = argv.name.join(' ');
+			type = ActivityTypes.includes(argv.type) ? argv.type : ActivityTypes[0];
+			status = PresenceStatus.includes(argv.status) ? argv.status : PresenceStatus[0];
+			afk = argv.afk ? true : false;
+			message = ':ballot_box_with_check: New status set with success.';
+		}
 
 		// Sets the presence.
 		await ctx.bot.user.setPresence({ status, afk, activity: { name, type } })
 			.then(console.log)
 			.catch(console.error);
 
-		return await ctx.channel.send(':ballot_box_with_check: New status set with success.');
+		// Restores the Activities interval.
+		if (argv.loop) {
+			ctx.bot.activity = require('../utils/activities')(ctx.bot);
+			message = ':ballot_box_with_check: Sebedius\'s activities are `LOOPING`.';
+		}
+
+		return await ctx.channel.send(message);
 	},
 };
