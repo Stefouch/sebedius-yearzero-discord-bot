@@ -28,7 +28,7 @@ bot.on('ready', async () => {
 	console.log('|===========================================================');
 
 	// Activities Loop.
-	bot.user.setActivity({ name: 'Ready to roll dice', type: 'PLAYING' });
+	bot.user.setActivity({ name: `v${bot.version}`, type: 'PLAYING' });
 	bot.activity = require('./utils/activities')(bot);
 
 	// Only for testing purposes.

@@ -1,15 +1,14 @@
-const fs = require('fs');
-
-const versionfile = './CHANGELOG.md';
+const { readFileSync } = require('fs');
+const CHANGELOG_FILE = './CHANGELOG.md';
 let version = 0;
 
 try {
-	const fileContent = fs.readFileSync(versionfile, 'utf8');
+	const fileContent = readFileSync(CHANGELOG_FILE, 'utf8');
 	if (!fileContent) return 0;
 	[, version] = fileContent.match(/^## \[(\d+\.\d+\.\d+)\]/m);
 }
 catch(error) {
-	console.error(`[ERROR] - Unable to load "${versionfile}"`, error);
+	console.error(`[ERROR] - Unable to load "${CHANGELOG_FILE}"`, error);
 }
 
 module.exports = {

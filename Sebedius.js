@@ -37,6 +37,7 @@ class Sebedius extends Discord.Client {
 		this.state = 'init';
 		this.muted = false;
 		this.config = config;
+		this.version = require('./utils/version').version;
 		this.commands = new Discord.Collection();
 		this.addCommands();
 

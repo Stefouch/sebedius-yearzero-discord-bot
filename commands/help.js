@@ -1,4 +1,3 @@
-const { version } = require('../utils/version');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
@@ -28,7 +27,7 @@ module.exports = {
 				color: 0x1AA29B,
 				title: '**Sebedius – Year Zero Discord Bot**',
 			});
-			embed.addField('🏁 Deployed Version', version, true);
+			embed.addField('🏁 Deployed Version', ctx.bot.version, true);
 			embed.addField('🛠 Developper', 'Stefouch#5202', true);
 			embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
 			embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
