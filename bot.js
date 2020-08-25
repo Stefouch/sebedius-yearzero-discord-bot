@@ -28,7 +28,7 @@ bot.on('ready', async () => {
 	console.log('|===========================================================');
 
 	// Activities Loop.
-	bot.user.setActivity({ name: 'Ready to roll dice', type: 'PLAYING' });
+	bot.user.setActivity({ name: `v${bot.version}`, type: 'PLAYING' });
 	bot.activity = require('./utils/activities')(bot);
 
 	// Only for testing purposes.
@@ -104,14 +104,14 @@ bot.on('message', async message => {
 	}
 	catch (error) {
 		console.error('[Error] At command execution.');
-		onError(message, error);
+		onError(error, message);
 	}
 });
 
 /* !
  * ERROR LISTENER
  */
-bot.on('error', error => onError(null, error));
+bot.on('error', error => onError(error));
 
 /* !
  * Catching UnhandledPromiseRejectionWarnings.
@@ -119,22 +119,25 @@ bot.on('error', error => onError(null, error));
 process.on('unhandledRejection', error => {
 	// Logs the error.
 	console.error('[Error] Uncaught Promise Rejection', error);
-	onError(null, error);
+	onError(error);
 });
 
 
 /**
  * Errors Manager.
- * @param {Discord.Message} ctx Discord message with context
  * @param {Error} error The catched error
+ * @param {Discord.Message} ctx Discord message with context
  * @async
  */
-async function onError(ctx, error) {
+async function onError(error, ctx) {
 	if (error instanceof HTTPError) {
 		console.error(error.name, error.code);
 	}
 	else if (error instanceof DiscordAPIError) {
 		console.error(error.name, error.code);
+	}
+	else if (error instanceof SebediusErrors.TooManyDiceError) {
+		if (ctx) ctx.reply(`:warning: Cannot roll that many dice! (${error.message})`);
 	}
 	else if (error instanceof SebediusErrors.NoSelectionElementsError) {
 		if (ctx) ctx.reply(':warning: There is no element to select.');

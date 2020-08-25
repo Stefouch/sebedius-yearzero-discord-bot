@@ -21,8 +21,8 @@ module.exports = {
 			// A maximum of 6 dice are rolled. See ALIEN corebook pg. 34 for details.
 			const resQty = Util.clamp(rating, 0, 6);
 			const resTitle = args.length ? args.join(' ') : 'Supply';
-			const roll = new YZRoll(ctx.author.id, { stress: resQty }, resTitle);
-			roll.setGame('alien');
+			const roll = new YZRoll('alien', ctx.author, resTitle)
+				.addStressDice(resQty);
 			sendMessageForResourceRoll(rating, roll, ctx);
 		}
 		else {
@@ -38,7 +38,7 @@ function sendMessageForResourceRoll(resRating, roll, ctx) {
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	const text = Sebedius.emojifyRoll(roll, gameOptions);
-	const embed = new YZEmbed(`**${roll.title.toUpperCase()}** (${resRating})`, null, ctx, true);
+	const embed = new YZEmbed(`**${roll.name.toUpperCase()}** (${resRating})`, null, ctx, true);
 
 	if (resRating === newRating) {
 		embed.addField(

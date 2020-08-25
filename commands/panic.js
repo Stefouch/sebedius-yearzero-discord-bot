@@ -11,16 +11,18 @@ module.exports = {
 		[
 			'Arguments',
 			`• \`-fixed|-f\` – Uses a fixed number instead (doesn't add a D6).
-			• \`-nerves|-n\` – Applies the *Nerves of Steel* talent (−2 to the Panic roll).`,
+			• \`-nerves|-n\` – Applies the *Nerves of Steel* talent (−2 to the Panic roll).
+			• \`-min <value>\` – Adjusts a minimum treshold for multiple consecutive panic effects.`,
 		],
 	],
 	// aliases: ['alien-panic'],
 	guildOnly: false,
-	args: true,
-	usage: '<stress> [-fixed|-f] [-nerves|-n]',
+	args: false,
+	usage: '<stress> [-fixed|-f] [-nerves|-n] [-min <value>]',
 	async execute(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['fixed', 'nerves'],
+			number: ['min'],
 			alias: {
 				fixed: ['f'],
 				nerves: ['nerve', 'n'],
@@ -28,17 +30,26 @@ module.exports = {
 			default: {
 				fixed: false,
 				nerves: false,
+				min: 0,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
 		const panicRand = argv.fixed ? 0 : Math.max(0, Util.rand(1, 6) - (argv.nerves ? 2 : 0));
 		const stress = +argv._[0] || 0;
 		const panicVal = stress + panicRand;
+		const panicMin = Util.clamp(argv.min, 0, 15);
+		const panicLowerThanMin = panicVal < panicMin;
+		const panicValMore = panicLowerThanMin ? panicMin + 1 : panicVal;
+		const panicRoll = Util.clamp(panicValMore, 0, 15);
 
-		const panicIcon = ctx.bot.config.commands.panic.icon;
-		const text = `${panicIcon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`
-			+ (argv.nerves ? ' (−2 *Nerves of Steel*)' : '');
-		const embed = getEmbedPanicRoll(panicVal, ctx);
+		const panicTable = Sebedius.getTable('PANIC', './gamedata/crits/', 'crits-alien-panic', 'en', 'csv');
+		const panicAction = panicTable.get(panicRoll);
+		if (!panicAction) return ctx.reply('❌ The panic effect wasn\'t found.');
+
+		const text = `${panicAction.icon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`
+			+ (argv.nerves ? ' (−2 *Nerves of Steel*)' : '')
+			+ (panicMin ? ` ${panicLowerThanMin ? '<' : '≥'} ${panicMin}` : '');
+		const embed = new YZEmbed(`${panicAction.injury} (${panicAction.ref})`, panicAction.effect, ctx, true);
 
 		// Interrupted skill roll reminder.
 		if (panicVal >= 10) {
@@ -59,20 +70,3 @@ module.exports = {
 		return await ctx.channel.send(text, embed);
 	},
 };
-
-/**
- * Gets an Embed with the result of a Panic Roll (ALIEN-rpg).
- * @param {number} panic The value of the Panic Roll
- * @param {Discord.Message} message The triggering message with context
- * @returns {Discord.RichEmbed} A Discord Embed Object
- */
-function getEmbedPanicRoll(panic, ctx) {
-	const panicTable = Sebedius.getTable('CRIT', './gamedata/crits/', 'crits-alien-panic', 'en', 'csv');
-	const panicRoll = Util.clamp(panic, 0, 15);
-	const criticalInjury = panicTable.get(panicRoll);
-
-	// Exits early if no critical injury was found.
-	if (!criticalInjury) return ctx.reply('❌ The critical injury wasn\'t found.');
-
-	return new YZEmbed(`**${criticalInjury.injury}**`, criticalInjury.effect, ctx, true);
-}

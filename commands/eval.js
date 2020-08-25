@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 const Util = require('../utils/Util');
 const { YZObject } = require('../yearzero/YZObject');
+const YZRoll = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'eval',

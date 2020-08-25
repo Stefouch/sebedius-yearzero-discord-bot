@@ -37,6 +37,7 @@ class Sebedius extends Discord.Client {
 		this.state = 'init';
 		this.muted = false;
 		this.config = config;
+		this.version = require('./utils/version').version;
 		this.commands = new Discord.Collection();
 		this.addCommands();
 
@@ -272,43 +273,33 @@ class Sebedius extends Discord.Client {
 		const game = opts.iconTemplate || roll.game;
 		let str = '';
 
-		for (const type in roll.dice) {
-			let iconType = type;
-			const nbre = roll.dice[type].length;
+		for (const die of roll.dice) {
+			const val = die.result;
+			const errorIcon = ` \`{${val}}\``;
+			let iconType = die.type;
 
 			if (opts.alias) {
 				// Skipping types.
-				if (opts.alias[type] === '--') continue;
+				if (opts.alias[die.type] === '--') continue;
 				// Dice swaps, if any.
-				if (applyAliases && opts.alias.hasOwnProperty(type)) iconType = opts.alias[type];
+				if (applyAliases && opts.alias[die.type]) iconType = opts.alias[die.type];
 			}
-
-			if (nbre) {
-				str += '\n';
-
-				for (let k = 0; k < nbre; k++) {
-					const val = roll.dice[type][k];
-					const icon = DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
-					str += icon;
-
-					// This is calculated to make a space between pushed and not pushed rolls.
-					if (roll.pushed) {
-						const keep = roll.keeped[type];
-
-						if (k === keep - 1) {
-							str += '\t';
-						}
-					}
-				}
+			// Artifact Dice specific skin.
+			if (iconType === 'arto') {
+				str += DICE_ICONS.fbl.arto[val] || errorIcon;
+			}
+			// Twilight 2000 specific skin.
+			else if (game === 't2k' && iconType === 'base' && die.range !== 6) {
+				str += DICE_ICONS.t2k['d' + die.range][val] || errorIcon;
+			}
+			else {
+				const diceTypeIcons = DICE_ICONS[game][iconType];
+				str += diceTypeIcons && diceTypeIcons[val]
+					? diceTypeIcons[val]
+					: errorIcon;
+				//str += DICE_ICONS[game][iconType][val] || errorIcon;
 			}
 		}
-
-		if (roll.artifactDice.length) {
-			for (const artifactDie of roll.artifactDice) {
-				str += DICE_ICONS.fbl.arto[artifactDie.result];
-			}
-		}
-
 		return str;
 	}
 

@@ -646,6 +646,25 @@ class Util {
 		}
 		return NaN;
 	}
+
+	/**
+	 * @typedef {string|Array|*} StringResolvable
+	 * Data that can be resolved to give a string. This can be:
+	 * * A string
+	 * * An array (joined with a new line delimiter to give a string)
+	 * * Any value
+	 */
+
+	/**
+	 * Resolves a StringResolvable to a string.
+	 * @param {StringResolvable} data The string resolvable to resolve
+	 * @returns {string}
+	 */
+	static resolveString(data) {
+		if (typeof data === 'string') return data;
+		if (data instanceof Array) return data.join(', ');
+		return String(data);
+	}
 }
 
 module.exports = Util;

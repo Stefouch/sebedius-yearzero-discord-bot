@@ -11,6 +11,7 @@ The supported games are:
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 * [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
+* Twilight 2000 v4
 
 # Add the Bot to your Server
 
@@ -66,7 +67,7 @@ Rolls dice for the Year Zero roleplaying games.
 ```
 
 * `[game]` is used to specify the skin of the rolled dice. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
-  * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
+  * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien`, `vaesen` and `t2k` *(Twilight 2000)*.
 * `<dice>`
   * **Simple Rolls**
     * `d6|d66|d666` – Rolls a D6, D66, or D666.
@@ -74,19 +75,21 @@ Rolls dice for the Year Zero roleplaying games.
     * `init` – Rolls initiative (one D6).
   * **Year Zero Rolls:** Use any combinations of these letters with a number: *E.g. 5b 3s 2g*
     * `b` – Base dice (attributes)
-    * `s` – Skill dice (or Stress Dice for the Alien RPG)
-    * `g` – Gear dice (from equipment)
-    * `n` – Negative dice (for MYZ and FBL)
+    * `s` – Skill dice (or Stress Dice for *Alien RPG*)
+    * `g` – Gear dice (or Ammo Dice for *Twilight 2000*)
+    * `n` – Negative dice (*MYZ* and *FBL* only)
     * `d` – Generic dice
-    * `a8` – D8 Artifact dice (see FBL)
-    * `a10` – D10 Artifact dice (see FBL)
-    * `a12` – D12 Artifact dice (see FBL)
+	* `a` – Ammo Dice (*Twilight 2000* only)
+    * `a8 | d8` – D8 Artifact dice (see *FBL*)
+    * `a10 | d10` – D10 Artifact dice (see *FBL*)
+    * `a12 | d12` – D12 Artifact dice (see *FBL*)
 * `[arguments]` are additional options for the roll:
-  * `-n <text>` : Defines a name for the roll.
-  * `-p <number>` : Changes the maximum number of allowed pushes.
-  * `-f` : "Full-auto", unlimited number of pushes (max 10).
+  * `-name|-n|-#|# <text>` : Defines a name for the roll.
+  * `-push|-p <number>` : Changes the maximum number of allowed pushes.
+  * `-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).
   * `-pride` : Adds a D12 Artifact Die to the roll.
   * `-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).
+  * `-minpanic <value>`: Adjust a minimum treshold for multiple consecutive panic effects (Alien RPG).
 
 #### Dice Cap
 
@@ -107,7 +110,7 @@ Rolls for a random critical injury.
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands.
-  * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `vaesen`.
+  * Choices: `myz` *(Mutant: Year Zero)*, `fbl` *(Forbidden Lands)*, `tales` *(Tales From The Loop)*, `coriolis`, `alien` and `t2k` *(Twilight 2000)*.
 * `[table]` – Specifies the table you want from this game *(default is "damage")*.
 * `[numeric]` – Specifies a fixed reference.
 * `[-private|-p]` – Sends the result in a private DM.
@@ -130,6 +133,7 @@ Gets a monster from the catalogs or generates a random monster according to the 
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted.
+  * Choices: `myz` *(Mutant: Year Zero)* and `alien`.
 * `<monster name>` – Specifies the monster you want to fetch.
 * `[-attack|-atk|-a [number]]` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type `<name> [number]` instead of the `-attack` argument).
 * `[-private|-p]` – Sends the message in a private DM.
@@ -145,6 +149,7 @@ Rolls a random attack from a monster.
 ```
 
 * `[game]` – Specifies the game you are using. Can be omitted.
+  * Choices: `myz` *(Mutant: Year Zero)* and `alien`.
 * `<monster name>` – Specifies the monster you want to fetch.
 * `[number]` – Specifies the desired attack instead of choosing a random one.
 * `[-private|-p]` – Sends the message in a private DM.
@@ -170,7 +175,7 @@ Rolls a random attack from a monster.
 * `!scrap [quantity]` – Gets you a bunch of scrap.
 * `!rumor` – Tells a random rumor. *(Thanks to Myr Midon's work.)*
 * `!drawmutation [all | gla zc2 zc5 psi]` – Draws a random mutation (no details).
-* `!artifact [all | myz meta gla mech ely astra]` – Draws a random artifact (no details).
+* `!artifact [all | myz meta gla mek ely astra]` – Draws a random artifact (no details).
 * `!threat` – Draws a random Zone threat (no details).
 * `!arkthreat` – Draws a random threat against the Ark (no details).
 
@@ -197,7 +202,10 @@ Rolls a random attack from a monster.
   * `synthetic|synth|s` – Critical injuries on Synthetics and Androids
   * `xeno|x` – Critical injuries for Xenomorphs
   * `mental|m` – Permanent mental traumas
-* `!panic <stress> [-fixed|-f] [-nerves]` – Rolls a random panic effect. Use the `-f` parameter for a fixed value. Use the `-nerves` parameter to apply the *Nerves of Steel* talent.
+* `!panic <stress> [-fixed|-f] [-nerves] [-min <value>]` – Rolls a random panic effect.
+  * Use the `-f` parameter for a fixed value.
+  * Use the `-nerves` parameter to apply the *Nerves of Steel* talent.
+  * Use the `-min <value>` parameter to adjust a minimum treshold for multiple consecutive panic effects.
 * `!planet` – Generates a random planet.
 * `!colony` – Generates a random colonized planet.
 * `!star` – Generates a random star sector.
@@ -214,6 +222,15 @@ Rolls a random attack from a monster.
 ### **Vaesen** commands
 
 * `!rollvaesen|rv` – Shortcut for rolling dice. See the **Roll** command above for more details.
+
+### **Twilight 2000** commands
+
+* `!rolltwilight|rw` – Shortcut for rolling dice. See the **Roll** command above for more details. Use any combinations of the following:
+  * `d12 | a` – D12 (attribute or skill)
+  * `d10 | b` – D10 (attribute or skill)
+  * `d8 | c` – D8 (attribute or skill)
+  * `d6 | d` – D6 (attribute or skill)
+  * `Xg` – X ammo dice
 
 ### Other commands
 
@@ -349,7 +366,7 @@ Hit me up if you've any question!
 
 # Support
 
-I'd like to thank **Jeremy Mettler**, **Joe Guilmette**, **Matt Kay**, **Dale Chenault**, **Narcomed** and all my other patrons and generous donators who are supporting this project and made it possible!
+I'd like to thank **Jeremy Mettler, Joe Guilmette, Matt Kay, Dale Chenault, Narcomed and all my other patrons** and generous donators who are supporting this project and made it possible!
 
 You too you can support this project!
 <br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.

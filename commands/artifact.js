@@ -8,7 +8,7 @@ module.exports = {
 	description: 'Draws a random artifact from the MYZ core rulebook. Available sources are:'
 		+ '\n• `myz` – Mutant: Year Zero (default)'
 		+ '\n• `gla` – Mutant: GenLab Alpha'
-		+ '\n• `mech` – Mutant: Mechatron'
+		+ '\n• `mek` – Mutant: Mechatron'
 		+ '\n• `ely` – Mutant: Elysium'
 		+ '\n• `astra` – Mutant: Ad Astra'
 		+ '\nMetaplot items are removed by default. Use `meta` to add them to the roll.'
@@ -16,7 +16,7 @@ module.exports = {
 	aliases: ['arto'],
 	guildOnly: false,
 	args: false,
-	usage: '[all | myz meta gla mech ely astra]',
+	usage: '[all | myz meta gla mek ely astra]',
 	async execute(args, ctx) {
 		// Lists all legal books
 		const legalBooks = new Array();

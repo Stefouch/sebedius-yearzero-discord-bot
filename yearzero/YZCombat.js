@@ -291,19 +291,15 @@ class YZCombat {
 		}
 
 		// Rolls the dice.
-		const armorRoll = new YZRoll(
-			controller,
-			{ [type]: armor },
-			`${combatant.name}: Armor Roll`,
-		);
-		armorRoll.setGame(game);
+		const armorRoll = new YZRoll(game, controller, `${combatant.name}: Armor Roll`)
+			.addDice(type, armor);
 
 		// Damaging the combatant.
-		damage -= armorRoll.sixes;
+		damage -= armorRoll.successCount;
 		if (damage > 0) combatant.hp = Math.max(combatant.hp - damage, 0);
 		// Damaging the armor.
 		if (damage > 0 && degradeArmor) {
-			combatant.armor -= armorRoll.banes;
+			combatant.armor -= armorRoll.baneCount;
 		}
 		return armorRoll;
 	}

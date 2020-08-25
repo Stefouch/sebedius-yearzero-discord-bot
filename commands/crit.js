@@ -31,6 +31,7 @@ module.exports = {
 			'Arguments',
 			'There are three main arguments you can use with this command in any order:'
 			+ '\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.'
+			+ `\n> Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`
 			+ '\n• `table` – Specifies the table you want from this game. See below for possible options *(default is "damage")*.'
 			+ '\n• `numeric` – Specifies a fixed reference.',
 		],

@@ -32,3 +32,10 @@ module.exports.SelectionCancelledError = class extends Error {
 		this.name = 'SelectionCancelled';
 	}
 };
+
+module.exports.TooManyDiceError = class extends Error {
+	constructor(msg) {
+		super(msg);
+		this.name = 'TooManyDice';
+	}
+};

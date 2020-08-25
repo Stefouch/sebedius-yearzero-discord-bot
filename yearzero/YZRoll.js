@@ -1,13 +1,17 @@
-const { rand } = require('../utils/Util');
+const { rand, isNumber, resolveString } = require('../utils/Util');
+const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
+const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
+const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)((?:\[.*\])?)/;
 
 class YZRoll {
 	/**
 	 * A Year Zero Roll object.
+	 * @param {?string} game The game of the roll
 	 * @param {string} author The author of the roll
-	 * @param {?DicePool} diceData Dice data (see DicePool)
-	 * @param {?string} title The title/name of the roll
+	 * @param {string} name The name of the roll
 	 */
-	constructor(author, diceData, title = null) {
+	constructor(game, author, name) {
 		/**
 		 * The author of the roll.
 		 * @name YZRoll#author
@@ -20,34 +24,27 @@ class YZRoll {
 		});
 
 		/**
-		 * The title/name of the roll.
+		 * The name of the roll.
 		 * @type {StringResolvable}
 		 */
-		this.title = resolveString(title);
+		this.name = name ? resolveString(name) : null;
 
 		/**
 		 * The game used.
 		 * @type {string}
 		 */
-		this.game = 'generic';
-
-		/**
-		 * The timestamp of the roll.
-		 * @type {number}
-		 */
-		this.timestamp = 0;
-		this.updateTimestamp();
+		this.game = game || 'generic';
 
 		/**
 		 * The number of times the roll was pushed.
 		 * @type {number}
 		 */
-		this.pushed = 0;
+		this.pushCount = 0;
 
 		/**
 		 * The maximum number of times the roll can be pushed.
 		 */
-		this.maxPushes = 1;
+		this.maxPush = 1;
 
 		/**
 		 * Tells if the roll can be pushed at will.
@@ -55,56 +52,11 @@ class YZRoll {
 		 */
 		this.isFullAuto = false;
 
-		if (diceData) this._diceSetup(diceData);
-	}
-
-	_diceSetup(diceData) {
 		/**
-		 * The dice of the roll.
-		 * @type {Object}
-		 * @property {number} base
-		 * @property {number} skill
-		 * @property {number} neg
-		 * @property {number} gear
-		 * @property {number} stress
+		 * The dice pool of the roll.
+		 * @type {YZDie[]}
 		 */
-		this.dice = { base: [], skill: [], neg: [], gear: [], stress: [] };
-		for (const type in this.dice) {
-			const qty = +diceData[type] || 0;
-			this.addDice(qty, type);
-		}
-
-		/**
-		 * The artifact dice of the roll.
-		 * @type {ArtifactDie[]}
-		 * @property {number} size
-		 * @property {number} result
-		 * @property {number} success
-		 */
-		this.artifactDice = [];
-		if (diceData.artifactDice) {
-			for (const d of diceData.artifactDice) {
-				const artifactDie = new ArtifactDie(d);
-				this.artifactDice.push(artifactDie);
-			}
-		}
-
-		/**
-		 * The quantity of dice keeped between pushes.
-		 * @type {Object}
-		 * @property {number} base
-		 * @property {number} skill
-		 * @property {number} neg
-		 * @property {number} gear
-		 * @property {number} stress
-		 */
-		this.keeped = { base: 0, skill: 0, neg: 0, gear: 0, stress: 0 };
-
-		/**
-		 * An extra modifier for the roll.
-		 * @type {number}
-		 */
-		this.modifier = diceData.modifier || null;
+		this.dice = [];
 	}
 
 	/**
@@ -113,52 +65,47 @@ class YZRoll {
 	 * @readonly
 	 */
 	get size() {
-		return this.dice.base.length
-			+ this.dice.skill.length
-			+ this.dice.gear.length
-			+ this.dice.neg.length
-			+ this.dice.stress.length
-			+ this.artifactDice.length;
+		return this.dice.length;
 	}
 
 	/**
-	 * The quantity of sixes (successes).
-	 * *(Don't forget to roll the Artifact Die before counting successes.)*
+	 * Wether the roll was pushed or not.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get pushed() {
+		return this.pushCount > 0;
+	}
+
+	/**
+	 * The quantity of successes.
 	 * @type {number}
 	 * @readonly
 	 */
-	get sixes() {
-		let sixes = YZRoll.count(6, this.dice.base)
-			+ YZRoll.count(6, this.dice.skill)
-			+ YZRoll.count(6, this.dice.gear)
-			+ YZRoll.count(6, this.dice.stress)
-			- YZRoll.count(6, this.dice.neg);
-
-		for (const artifactDie of this.artifactDice) {
-			sixes += artifactDie.success;
+	get successCount() {
+		let count = 0;
+		const stuntTable = this.game === 't2k' ? STUNTS_T2K : STUNTS;
+		for (const die of this.dice) {
+			if (die.type === 'neg') {
+				count -= stuntTable[die.result];
+			}
+			else {
+				count += stuntTable[die.result];
+			}
 		}
-
-		return sixes;
+		return count;
 	}
 
 	/**
 	 * The quantity of ones (banes).
-	 * *(Don't forget to roll the Artifact Die before counting banes.)*
 	 * @type {number}
 	 * @readonly
 	 */
-	get banes() {
-		let banes = YZRoll.count(1, this.dice.base)
-			+ YZRoll.count(1, this.dice.skill)
-			+ YZRoll.count(1, this.dice.gear)
-			+ YZRoll.count(1, this.dice.stress)
-			- YZRoll.count(1, this.dice.neg);
-
-		for (const artifactDie of this.artifactDice) {
-			if (artifactDie.result <= 1) banes++;
-		}
-
-		return banes;
+	get baneCount() {
+		const banableTypes = ['base', 'gear', 'stress', 'ammo'];
+		return this.dice
+			.filter(d => banableTypes.includes(d.type) && d.result === 1)
+			.length;
 	}
 
 	/**
@@ -167,7 +114,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get attributeTrauma() {
-		return (this.pushed > 0) ? YZRoll.count(1, this.dice.base) : 0;
+		return this.pushed ? this.count('base', 1) : 0;
 	}
 
 	/**
@@ -176,7 +123,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get gearDamage() {
-		return (this.pushed > 0) ? YZRoll.count(1, this.dice.gear) : 0;
+		return this.pushed ? this.count('gear', 1) : 0;
 	}
 
 	/**
@@ -185,7 +132,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get stress() {
-		return this.dice.stress.length;
+		return this.count('stress');
 	}
 
 	/**
@@ -194,7 +141,16 @@ class YZRoll {
 	 * @readonly
 	 */
 	get panic() {
-		return YZRoll.count(1, this.dice.stress);
+		return this.count('stress', 1);
+	}
+
+	/**
+	 * The Rate of Fire (number of Ammor dice - *Twilight 2000*).
+	 * @type {number}
+	 * @readonly
+	 */
+	get rof() {
+		return this.count('ammo');
 	}
 
 	/**
@@ -203,7 +159,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get hasNegative() {
-		return this.dice.neg.length > 0;
+		return this.count('neg').length > 0;
 	}
 
 	/**
@@ -212,173 +168,253 @@ class YZRoll {
 	 * @readonly
 	 */
 	get pushable() {
-		return this.pushed < this.maxPushes;
+		return (
+			this.pushCount < this.maxPush &&
+			this.dice.some(d => d.pushable)
+		);
+	}
+
+	/**
+	 * Allowed die types.
+	 * @type {string[]}
+	 * @constant
+	 * @readonly
+	 * @static
+	 */
+	static get DIE_TYPES() {
+		return DIE_TYPES;
+	}
+
+	/**
+	 * Regex used to parse rolls.
+	 * @type {RegExp}
+	 * @constant
+	 * @readonly
+	 * @static
+	 */
+	static get ROLLREGEX() {
+		return ROLLREGEX;
 	}
 
 	/**
 	 * Sets the Full Automatic Fire mode.
-	 * `maxPushes = 10`.
+	 * `maxPush = 10`.
 	 * @param {?boolean} [bool=true] Full Auto yes or no
+	 * @returns {YZRoll} This roll, with unlimited pushes
 	 */
 	setFullAuto(bool = true) {
 		this.isFullAuto = bool;
-		this.maxPushes = 10;
+		this.maxPush = 10;
+		return this;
 	}
 
 	/**
 	 * Sets the game played.
 	 * @param {string} game The game
-	 * @returns {boolean} Returns `true` if the change worked, otherwise returns `false`
+	 * @returns {YZRoll} This roll, with a new game parameter
 	 */
 	setGame(game) {
 		this.game = game;
-		return true;
+		return this;
 	}
 
 	/**
-	 * Updates the timestamp of the roll.
+	 * Sets the name of the roll.
+	 * @param {string} name The new name of the roll
+	 * @returns {YZRoll} This roll, renamed
 	 */
-	updateTimestamp() {
-		this.timestamp = Date.now();
+	setName(name) {
+		this.name = name;
+		return this;
 	}
 
 	/**
 	 * Pushes the roll, following the YZ rules.
-	 * @returns {YZRoll} The pushed roll.
+	 * @returns {YZRoll} This roll, pushed
 	 */
 	push() {
-		// Aborts if not pushable anymore.
 		if (!this.pushable) return this;
-
-		// Indications before pushing.
-		this.keeped = {
-			base: YZRoll.count(6, this.dice.base) + YZRoll.count(1, this.dice.base),
-			skill: YZRoll.count(6, this.dice.skill),
-			neg: YZRoll.count(6, this.dice.neg),
-			gear: YZRoll.count(6, this.dice.gear) + YZRoll.count(1, this.dice.gear),
-			stress: YZRoll.count(6, this.dice.stress),
-		};
-
-		this.pushed++;
-
-		// Pushing.
-		for (const type in this.dice) {
-			const rolledDice = this.dice[type];
-			const diceQty = rolledDice.length;
-
-			if (diceQty) {
-				const filteredDice = rolledDice.filter(value => {
-					if (type === 'skill' || type === 'neg' || type === 'stress') {
-						return value === 6;
-					}
-					else {
-						return (value === 6 || value === 1);
-					}
-				});
-				const newQty = diceQty - filteredDice.length;
-
-				for (let i = 0; i < newQty; i++) {
-					filteredDice.push(rand(1, 6));
-				}
-
-				this.dice[type] = filteredDice;
-			}
-		}
-
-		// Pushing Artifact Dice.
-		this.artifactDice.forEach(artifactDie => {
-			artifactDie.roll();
-		});
-
-		// Updating Timestamp.
-		this.updateTimestamp();
-
+		this.dice.forEach(d => d.push());
+		this.pushCount++;
 		return this;
 	}
 
 	/**
 	 * Adds a number of base dice to the roll.
-	 * @param {?number} [qty=1] The quantity to add
+	 * @param {number} qty The quantity to add
+	 * @returns {YZRoll} This roll
 	 */
-	addBaseDice(qty = 1) {
-		this.addDice(qty, 'base');
+	addBaseDice(qty) {
+		return this.addDice('base', qty);
 	}
 
 	/**
 	 * Adds a number of skill dice to the roll.
-	 * @param {?number} [qty=1] The quantity to add
+	 * @param {number} qty The quantity to add
+	 * @returns {YZRoll} This roll
 	 */
-	addSkillDice(qty = 1) {
-		this.addDice(qty, 'skill');
+	addSkillDice(qty) {
+		return this.addDice('skill', qty);
 	}
 
 	/**
 	 * Adds a number of gear dice to the roll.
-	 * @param {?number} [qty=1] The quantity to add
+	 * @param {number} qty The quantity to add
+	 * @returns {YZRoll} This roll
 	 */
-	addGearDice(qty = 1) {
-		this.addDice(qty, 'gear');
+	addGearDice(qty) {
+		return this.addDice('gear', qty);
 	}
 
 	/**
 	 * Adds a number of negative dice to the roll.
-	 * @param {?number} [qty=1] The quantity to add
+	 * @param {number} qty The quantity to add
+	 * @returns {YZRoll} This roll
 	 */
-	addNegDice(qty = 1) {
-		this.addDice(qty, 'neg');
+	addNegDice(qty) {
+		return this.addDice('neg', qty);
 	}
 
 	/**
 	 * Adds a number of stress dice to the roll.
-	 * @param {?number} [qty=1] The quantity to add
+	 * @param {number} qty The quantity to add
+	 * @returns {YZRoll} This roll
 	 */
-	addStressDice(qty = 1) {
-		this.addDice(qty, 'stress');
+	addStressDice(qty) {
+		return this.addDice('stress', qty);
 	}
 
 	/**
 	 * Adds a number of dice to the roll.
-	 * @param {?number} [qty=1] The quantity to add
 	 * @param {string} type The type of dice to add ("base", "skill", "gear" or "neg")
+	 * @param {number} qty The quantity to add
+	 * @param {?number} [range=6] The number of faces of the die
+	 * @param {?number} value The predefined value for the die
+	 * @param {?string} operator The operator of the die
+	 * @returns {YZRoll} This roll
 	 */
-	addDice(qty = 1, type) {
-		if (this.dice.hasOwnProperty(type)) {
-			for (let d = 0; d < qty; d++) this.dice[type].push(rand(1, 6));
+	addDice(type, qty, range = 6, value = null, operator = '+') {
+		if (!qty) return this;
+		for (let i = 0; i < qty; i++) {
+			this.dice.push(new YZDie(range, type, value, operator));
 		}
+		return this;
 	}
 
 	/**
-	 * Adds a single Artifact Die of the specified size.
-	 * @param {number} size The number of faces
+	 * Gets all the dice of a certain type.
+	 * @param {string} type Dice type to search
+	 * @returns {YZDie[]}
 	 */
-	addArtifactDie(size) {
-		this.artifactDice.push(new ArtifactDie(size));
+	getDice(type) {
+		return this.dice.filter(d => d.type === type);
+	}
+
+	/**
+	 * Reduces the Roll to a dice pool.
+	 * @returns {Object}
+	 */
+	pool() {
+		return this.dice
+			.map(d => d.type)
+			.reduce((obj, t) => {
+				if (!obj[t]) obj[t] = 1;
+				else obj[t]++;
+				return obj;
+			}, {});
 	}
 
 	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {?string} [type='base'] "base", "skill", "gear" or "neg" (default is "base")
+	 * @param {?string} type "base", "skill", "gear", "neg", etc...
 	 * @returns {number} The summed result
 	 */
-	sum(type = 'base') {
-		let result = 0;
-		if (this.dice.hasOwnProperty(type)) {
-			for (const value of this.dice[type]) result += value;
-		}
-		return result;
+	sum(type = null) {
+		const dice = type ? this.getDice(type) : this.dice;
+		const expression = dice.reduce((acc, d) => acc + d.operator + d.result, '');
+		return eval(expression);
 	}
 
 	/**
 	 * Gets the base-six sticky-result of the dice of a certain type.
-	 * @param {?string} [type='BASE'] "base", "skill", "gear" or "neg" (default is "base")
+	 * @param {?string} type "base", "skill", "gear", "neg", etc...
 	 * @returns {number} The sticked result
 	 */
-	baseSix(type = 'base') {
-		let result = '';
-		if (this.dice.hasOwnProperty(type)) {
-			for (const value of this.dice[type]) result += value;
+	baseSix(type = null) {
+		const dice = type ? this.getDice(type) : this.dice;
+		const expression = dice.reduce((acc, die) => acc + die.result, '');
+		return Number(expression);
+	}
+
+	/**
+	 * Counts the values of a certain type in the roll.
+	 * If `seed` is omitted, counts all the dice of a certain type.
+	 * @param {string} type The type of the die
+	 * @param {number} seed The number to search.
+	 * @returns {number} Total count
+	 */
+	count(type, seed = null) {
+		if (seed) {
+			return this.getDice(type).filter(d => d.result === seed).length;
 		}
-		return Number(result);
+		else {
+			return this.getDice(type).length;
+		}
+	}
+
+	/**
+	 * Turns the YZRoll into a roll phrase.
+	 * @returns {string}
+	 *
+	toPhrase() {
+		const out = [];
+		const dicepool = this.pool();
+		const dice = Object.keys(dicepool).map(t => `${dicepool[t]}d6[${t}]`);
+		out.push(dice.join('+'));
+	}//*/
+
+	/**
+	 * Parses a roll resolvable string into a Year Zero Roll object.
+	 * @param {string} rollString A roll resolvable string
+	 * @param {?string} game The game of the roll
+	 * @param {?string} author The author of the roll
+	 * @param {?string} name The name of the roll
+	 * @returns {YZRoll} Parsed roll
+	 * @static
+	 */
+	static parse(rollString, game, author, name = null) {
+		// Creates the roll that will be modified below.
+		const roll = new YZRoll(game, author, name);
+
+		// Exits early if it is only a modifier (faster).
+		if (isNumber(rollString)) {
+			roll.addDice('modifier', 1, 0, +rollString);
+			return roll;
+		}
+
+		// Splits dice arguments.
+		const args = rollString.split(/(?=[*/+-])/);
+
+		// Exits early if no arg.
+		if (!args.length) return roll;
+
+		// Parses each arg.
+		for (const arg of args) {
+			arg.replace(ROLLREGEX, (match, operator, qty, range, type) => {
+				if (!qty && range) {
+					roll.addDice(type, 1, range, null, operator);
+				}
+				else if (qty && !range && !/d/i.test(match)) {
+					// Modifier.
+					roll.addDice('modifier', 1, 0, qty, operator);
+				}
+				else {
+					roll.addDice(type, qty, range === '' ? 6 : range, null, operator);
+				}
+			});
+		}
+		// Returns the parsed roll.
+		return roll;
 	}
 
 	/**
@@ -386,124 +422,149 @@ class YZRoll {
 	 * @returns {string} The roll described in one sentence
 	 */
 	toString() {
-		let str = `${(this.title) ? `${this.title} ` : ''}Roll${(this.pushed) ? ' (pushed)' : ''}:`;
-		str += ` base[${this.dice.base.toString()}], skill[${this.dice.skill.toString()}], gear[${this.dice.gear.toString()}]`;
-
-		if (this.dice.stress.length) str += `, stress[${this.dice.stress.toString()}]`;
-		if (this.hasNegative) str += `, neg[${this.dice.neg.toString()}]`;
-
-		if (this.artifactDice.length) {
-			const artoStrings = [];
-			for (const artifactDie of this.artifactDice) {
-				artoStrings.push(artifactDie.toString());
-			}
-			str += `, ${artoStrings.join(', ')}`;
+		const out = [];
+		if (this.game !== 'generic') {
+			const dicepool = this.pool();
+			const dice = Object.keys(dicepool)
+				.map(t => `${dicepool[t]}d[${t}] `
+					+ `(${this.dice
+						.filter(d => d.type === t)
+						.map(d => d.result)
+						.join(',')
+					})`,
+				);
+			out.push(dice.join(' + '));
 		}
-
-		return str;
-	}
-
-	/**
-	 * Counts the values in a roll.
-	 * @param {number} face The value to count
-	 * @param {Array<number>} rolledDice The rolled results
-	 * @returns {number} The quantity of <face>
-	 */
-	static count(face, rolledDice) {
-		let count = 0;
-
-		// Counts only if there is something to count.
-		if (rolledDice.length) {
-
-			for (const dieValue of rolledDice) {
-
-				if (dieValue === face) {
-					count++;
-				}
-			}
+		else {
+			out.push('=', this.sum());
 		}
-		return count;
+		if (this.pushed) out.unshift('(pushed)');
+		if (this.name) out.unshift(`"${this.name}"`);
+		out.unshift(`<${this.game}>`);
+		return out.join(' ');
 	}
 }
 
 module.exports = YZRoll;
 
-/**
- * Resolves a StringResolvable to a string.
- * @param {StringResolvable} data The string resolvable to resolve
- * @returns {string}
- */
-function resolveString(data) {
-	if (typeof data === 'string') return data;
-	if (data instanceof Array) return data.join(', ');
-	return String(data);
-}
+class YZDie {
 
-/**
- * @typedef {string|Array|*} StringResolvable
- * Data that can be resolved to give a string. This can be:
- * * A string
- * * An array (joined with a new line delimiter to give a string)
- * * Any value
- */
-
-/**
- * @typedef {Object} DicePool
- * An object where you specify dice quantities.
- * @property {number} [base] The quantity of base dice (yellow color)
- * @property {number} [skill] The quantity of skill dice (green color)
- * @property {number} [gear] The quantity of gear dice (black color)
- * @property {number} [neg] The quantity of negative dice (red color)
- * @property {number} [artifactDie] The size of an artifact die
- */
-
-/**
- * Number of stunts according to the artifact die's face.
- * @type {number[]}
- */
-const ARTIFACT_STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
-
-class ArtifactDie {
-
-	constructor(size) {
+	/**
+	 * Year Zero Die with type. The die is rolled if no value is predefined.
+	 * @param {?number} range The number of faces of the die
+	 * @param {?string} type The type of the die
+	 * @param {?number} [value=0] Any predefined value for the die
+	 * @param {?string} [operator='+'] The operator of the die
+	 */
+	constructor(range, type, value = 0, operator = '+') {
 		/**
-		 * The size of the Artifact Die / the number of faces it has.
+		 * The number of faces of the die.
 		 * @type {number}
 		 */
-		this.size = +size;
+		this.range = +range;
 
 		/**
-		 * The result of the Artifact Die.
+		 * The type of the die.
+		 * - `base`, `gear`, `stress`, `ammo`: 1 & 6+ not pushable
+		 * - `skill`, `neg`, `arto`: 6+ not pushable
+		 * - `modifier`: Cannot be rolled
+		 * @type {string}
+		 */
+		this.type = DIE_TYPES.includes(type) ? type : null;
+		if (!range) this.type = 'modifier';
+
+		/**
+		 * The result of the die.
 		 * @type {number}
 		 */
-		this.result = 0;
+		this.result = +value;
 
-		this.roll();
+		/**
+		 * All previous results, in order of appearance.
+		 * @type {number[]}
+		 */
+		this.previousResults = [];
+
+		/**
+		 * The operator of the die.
+		 * - `+`: addition
+		 * - `-`: substraction
+		 * - `*`: multiplication
+		 * - `/`: division
+		 */
+		this.operator = ['+', '-', '*', '/'].includes(operator)
+			? operator
+			: '+';
+
+		if (!this.result) this.roll();
 	}
 
 	/**
-	 * Returns the number of success(es).
+	 * Number of times this die has been pushed.
 	 * @type {number}
 	 * @readonly
 	 */
-	get success() {
-		return ARTIFACT_STUNTS[this.result];
+	get pushCount() {
+		return this.previousResults.length;
 	}
 
 	/**
-	 * Rolls or rerolls the Artifact Die.
-	 * @returns {number} result
+	 * Wether this die has been pushed.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get pushed() {
+		return this.pushCount > 0;
+	}
+
+	/**
+	 * Wether the die can be pushed (according to its type).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get pushable() {
+		switch (this.type) {
+			case 'base':
+			case 'gear':
+			case 'stress':
+			case 'ammo':
+				if (this.result !== 1 && this.result < 6) return true;
+				else return false;
+			case 'skill':
+			case 'neg':
+			case 'arto':
+				if (this.result < 6) return true;
+				else return false;
+			case 'modifier':
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	/**
+	 * Rolls the die.
+	 * @returns {number} The new result
 	 */
 	roll() {
-		if (this.size) {
-			if (this.result < 6) {
-				this.result = rand(1, this.size);
-			}
-		}
+		this.result = rand(1, this.range);
 		return this.result;
 	}
 
+	/**
+	 * Pushes the die, according to its type.
+	 * @returns {number} The result, wether it has been pushed or not.
+	 */
+	push() {
+		// Stores the previous result.
+		this.previousResults.push(this.result);
+		// Reroll the die according to its type.
+		if (this.pushable) return this.roll();
+		else return this.result;
+	}
+
 	toString() {
-		return `D${this.size}(${this.result})`;
+		if (this.type === 'modifier') return `${this.operator} ${this.result}`;
+		else return `${this.operator} d${this.range}${this.type ? `[${this.type}]` : ''}`;
 	}
 }

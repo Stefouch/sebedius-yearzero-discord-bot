@@ -40,23 +40,19 @@ module.exports = {
 		}
 
 		// Rolls the Spell's Power Level (base dice).
-		const magicRoll = new YZRoll(
-			ctx.author,
-			{ base: basePowerLevel },
-			name,
-		);
-		magicRoll.setGame('fbl');
+		const magicRoll = new YZRoll('fbl', ctx.author, name)
+			.addBaseDice(basePowerLevel);
 
 		// Writes the description.
 		let desc = `Base Power Level: **${basePowerLevel}**`;
-		if (magicRoll.sixes > 0) {
-			desc += `\nOvercharging: **+${magicRoll.sixes}**`;
+		if (magicRoll.successCount > 0) {
+			desc += `\nOvercharging: **+${magicRoll.successCount}**`;
 		}
-		const embed = new YZEmbed(magicRoll.title, desc, ctx, true);
+		const embed = new YZEmbed(magicRoll.name, desc, ctx, true);
 
 		// Checks for Magic Mishaps.
 		let ref;
-		if (argv.mishap || magicRoll.banes) {
+		if (argv.mishap || magicRoll.baneCount) {
 			const mishapTable = Sebedius.getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', 'en', 'csv');
 			ref = +argv.mishap || Util.rollD66();
 			const mishap = mishapTable.get(ref);
