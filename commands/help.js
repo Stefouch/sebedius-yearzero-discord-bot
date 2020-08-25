@@ -13,6 +13,10 @@ module.exports = {
 		// Parsing arguments.
 		// See https://www.npmjs.com/package/yargs-parser#api for details.
 		const argv = require('yargs-parser')(args, {
+			boolean: ['dm'],
+			default: {
+				dm: false,
+			},
 			configuration: ctx.bot.config.yargs,
 		});
 
