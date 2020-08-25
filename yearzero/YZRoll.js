@@ -326,7 +326,7 @@ class YZRoll {
 
 	/**
 	 * Gets the sum of the dice of a certain type.
-	 * @param {?string} type "base", "skill", "gear" or "neg" (default is `null`)
+	 * @param {?string} type "base", "skill", "gear", "neg", etc...
 	 * @returns {number} The summed result
 	 */
 	sum(type = null) {
@@ -337,13 +337,13 @@ class YZRoll {
 
 	/**
 	 * Gets the base-six sticky-result of the dice of a certain type.
-	 * @param {?string} [type='BASE'] "base", "skill", "gear" or "neg" (default is "base")
+	 * @param {?string} type "base", "skill", "gear", "neg", etc...
 	 * @returns {number} The sticked result
 	 */
-	baseSix(type = 'base') {
-		const result = this.getDice(type)
-			.reduce((acc, die) => acc + die.result, '');
-		return Number(result);
+	baseSix(type = null) {
+		const dice = type ? this.getDice(type) : this.dice;
+		const expression = dice.reduce((acc, die) => acc + die.result, '');
+		return Number(expression);
 	}
 
 	/**
@@ -361,6 +361,17 @@ class YZRoll {
 			return this.getDice(type).length;
 		}
 	}
+
+	/**
+	 * Turns the YZRoll into a roll phrase.
+	 * @returns {string}
+	 *
+	toPhrase() {
+		const out = [];
+		const dicepool = this.pool();
+		const dice = Object.keys(dicepool).map(t => `${dicepool[t]}d6[${t}]`);
+		out.push(dice.join('+'));
+	}//*/
 
 	/**
 	 * Parses a roll resolvable string into a Year Zero Roll object.
@@ -415,7 +426,7 @@ class YZRoll {
 		if (this.game !== 'generic') {
 			const dicepool = this.pool();
 			const dice = Object.keys(dicepool)
-				.map(t => `${dicepool[t]}d6[${t}] `
+				.map(t => `${dicepool[t]}d[${t}] `
 					+ `(${this.dice
 						.filter(d => d.type === t)
 						.map(d => d.result)
@@ -429,6 +440,7 @@ class YZRoll {
 		}
 		if (this.pushed) out.unshift('(pushed)');
 		if (this.name) out.unshift(`"${this.name}"`);
+		out.unshift(`<${this.game}>`);
 		return out.join(' ');
 	}
 }
