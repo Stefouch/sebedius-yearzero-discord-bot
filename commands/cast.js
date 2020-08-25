@@ -48,7 +48,7 @@ module.exports = {
 		if (magicRoll.successCount > 0) {
 			desc += `\nOvercharging: **+${magicRoll.successCount}**`;
 		}
-		const embed = new YZEmbed(magicRoll.title, desc, ctx, true);
+		const embed = new YZEmbed(magicRoll.name, desc, ctx, true);
 
 		// Checks for Magic Mishaps.
 		let ref;
