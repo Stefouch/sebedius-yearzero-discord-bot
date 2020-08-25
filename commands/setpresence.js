@@ -50,6 +50,14 @@ module.exports = {
 
 		// Restores the Activities interval.
 		if (argv.loop) {
+			await ctx.bot.user.setPresence({
+				status: argv.status,
+				afk: argv.afk,
+				activity: {
+					name: argv.name,
+					type: argv.type,
+				},
+			});
 			ctx.bot.activity = require('../utils/activities')(ctx.bot);
 			return await ctx.channel.send(':ballot_box_with_check: Sebedius\'s activities are `LOOPING`.');
 		}
