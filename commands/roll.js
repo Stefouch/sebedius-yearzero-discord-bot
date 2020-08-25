@@ -8,6 +8,13 @@ const Config = require('../config.json');
 const { TooManyDiceError } = require('../utils/errors');
 const YargsParser = require('yargs-parser');
 
+const DICE_RANGE_ICONS = {
+	'6': DICE_ICONS.t2k.base[2],
+	'8': DICE_ICONS.t2k.d8[2],
+	'10': DICE_ICONS.t2k.d10[2],
+	'12': DICE_ICONS.t2k.d12[2],
+};
+
 module.exports = {
 	name: 'roll',
 	group: 'Core',
@@ -475,17 +482,11 @@ function getEmbedDiceResults(roll, ctx, opts) {
  * @returns {Discord.MessageEmbed} A Discord Embed Object
  */
 function getEmbedGenericDiceResults(roll, ctx) {
-	const diceRangeIcons = {
-		'6': DICE_ICONS.t2k.base[2],
-		'8': DICE_ICONS.t2k.d8[2],
-		'10': DICE_ICONS.t2k.d10[2],
-		'12': DICE_ICONS.t2k.d12[2],
-	};
 	const result = `${roll.name} = __**${roll.sum()}**__`;
 	const details = roll.dice.reduce((acc, d) => {
 		acc += ` ${d.operator} `;
 		if (d.type !== 'modifier') {
-			return acc + `${diceRangeIcons[d.range] || `\`D${d.range}\``} (${d.result})`;
+			return acc + `${DICE_RANGE_ICONS[d.range] || `\`D${d.range}\``} (${d.result})`;
 		}
 		else {
 			return acc + `\` ${d.result} \``;
