@@ -13,7 +13,7 @@ module.exports = {
 			+ '\n• `d8 | c` – Rolls a D8'
 			+ '\n• `d6 | d` – Rolls a D6'
 			+ '\n__Other__:'
-			+ '\n• `Xg` – Rolls X gear dice'
+			+ '\n• `Xg` – Rolls X ammo dice'
 			+ '\n• `Xd | Xb | Xs` – Rolls X base (D6) dice',
 		],
 		[
@@ -29,10 +29,10 @@ module.exports = {
 			'This is based on pre-alpha info gathered from Fria Ligan Interviews on internet.',
 		],
 	],
-	aliases: ['rollt2k', 'rw'],
+	aliases: ['rollt2k', 'rollw', 'rw'],
 	guildOnly: false,
 	args: true,
-	usage: '[attribute] [skill] [ammo] [arguments]',
+	usage: '[attribute and/or skill] [ammo] [arguments]',
 	async execute(args, ctx) {
 		args.unshift('t2k');
 		await ctx.bot.commands.get('roll').execute(args, ctx);

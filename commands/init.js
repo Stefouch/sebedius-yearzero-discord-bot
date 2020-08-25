@@ -1050,6 +1050,7 @@ async function attack(args, ctx) {
 		boolean: ['ad', 'h', 'degrade', 'noar'],
 		number: ['ab'],
 		alias: {
+			h: ['hidden', 'private'],
 			t: ['target'],
 			ad: ['bonus'],
 			degrade: ['x'],

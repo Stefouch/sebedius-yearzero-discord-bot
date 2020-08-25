@@ -7,7 +7,6 @@ const PageMenu = require('./utils/PageMenu');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
-const { DIE_TYPES } = require('./yearzero/YZRoll');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -275,6 +274,7 @@ class Sebedius extends Discord.Client {
 
 		for (const die of roll.dice) {
 			const val = die.result;
+			const errorIcon = ` \`{${val}}\``;
 			let iconType = die.type;
 
 			if (opts.alias) {
@@ -285,18 +285,18 @@ class Sebedius extends Discord.Client {
 			}
 			// Artifact Dice specific skin.
 			if (iconType === 'arto') {
-				str += DICE_ICONS.fbl.arto[val] || ` {**${val}**} `;
+				str += DICE_ICONS.fbl.arto[val] || errorIcon;
 			}
 			// Twilight 2000 specific skin.
 			else if (game === 't2k' && iconType === 'base' && die.range !== 6) {
-				str += DICE_ICONS.t2k['d' + die.range][val] || ` {**${val}**} `;
+				str += DICE_ICONS.t2k['d' + die.range][val] || errorIcon;
 			}
 			else {
 				const diceTypeIcons = DICE_ICONS[game][iconType];
 				str += diceTypeIcons && diceTypeIcons[val]
 					? diceTypeIcons[val]
-					: ` {**${val}**} `;
-				//str += DICE_ICONS[game][iconType][val] || ` {**${val}**} `;
+					: errorIcon;
+				//str += DICE_ICONS[game][iconType][val] || errorIcon;
 			}
 		}
 		return str;

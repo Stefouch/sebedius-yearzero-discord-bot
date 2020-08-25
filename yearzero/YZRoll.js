@@ -1,7 +1,8 @@
-const { rand, isNumber } = require('../utils/Util');
+const { rand, isNumber, resolveString } = require('../utils/Util');
 const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
 const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
+const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)((?:\[.*\])?)/;
 
 class YZRoll {
 	/**
@@ -26,7 +27,7 @@ class YZRoll {
 		 * The name of the roll.
 		 * @type {StringResolvable}
 		 */
-		this.name = resolveString(name);
+		this.name = name ? resolveString(name) : null;
 
 		/**
 		 * The game used.
@@ -101,7 +102,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get baneCount() {
-		const banableTypes = ['base', 'gear', 'stress'];
+		const banableTypes = ['base', 'gear', 'stress', 'ammo'];
 		return this.dice
 			.filter(d => banableTypes.includes(d.type) && d.result === 1)
 			.length;
@@ -158,7 +159,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get hasNegative() {
-		return this.getDice('neg').length > 0;
+		return this.count('neg').length > 0;
 	}
 
 	/**
@@ -167,18 +168,39 @@ class YZRoll {
 	 * @readonly
 	 */
 	get pushable() {
-		return this.pushCount < this.maxPush;
+		return (
+			this.pushCount < this.maxPush &&
+			this.dice.some(d => d.pushable)
+		);
 	}
 
+	/**
+	 * Allowed die types.
+	 * @type {string[]}
+	 * @constant
+	 * @readonly
+	 * @static
+	 */
 	static get DIE_TYPES() {
 		return DIE_TYPES;
+	}
+
+	/**
+	 * Regex used to parse rolls.
+	 * @type {RegExp}
+	 * @constant
+	 * @readonly
+	 * @static
+	 */
+	static get ROLLREGEX() {
+		return ROLLREGEX;
 	}
 
 	/**
 	 * Sets the Full Automatic Fire mode.
 	 * `maxPush = 10`.
 	 * @param {?boolean} [bool=true] Full Auto yes or no
-	 * @returns {YZRoll} This roll
+	 * @returns {YZRoll} This roll, with unlimited pushes
 	 */
 	setFullAuto(bool = true) {
 		this.isFullAuto = bool;
@@ -189,10 +211,20 @@ class YZRoll {
 	/**
 	 * Sets the game played.
 	 * @param {string} game The game
-	 * @returns {YZRoll} This roll
+	 * @returns {YZRoll} This roll, with a new game parameter
 	 */
 	setGame(game) {
 		this.game = game;
+		return this;
+	}
+
+	/**
+	 * Sets the name of the roll.
+	 * @param {string} name The new name of the roll
+	 * @returns {YZRoll} This roll, renamed
+	 */
+	setName(name) {
+		this.name = name;
 		return this;
 	}
 
@@ -279,6 +311,20 @@ class YZRoll {
 	}
 
 	/**
+	 * Reduces the Roll to a dice pool.
+	 * @returns {Object}
+	 */
+	pool() {
+		return this.dice
+			.map(d => d.type)
+			.reduce((obj, t) => {
+				if (!obj[t]) obj[t] = 1;
+				else obj[t]++;
+				return obj;
+			}, {});
+	}
+
+	/**
 	 * Gets the sum of the dice of a certain type.
 	 * @param {?string} type "base", "skill", "gear" or "neg" (default is `null`)
 	 * @returns {number} The summed result
@@ -343,7 +389,7 @@ class YZRoll {
 
 		// Parses each arg.
 		for (const arg of args) {
-			arg.replace(/([*/+-]?)(\d*)[dD]?(\d*)((?:\[.*\])?)/, (match, operator, qty, range, type) => {
+			arg.replace(ROLLREGEX, (match, operator, qty, range, type) => {
 				if (!qty && range) {
 					roll.addDice(type, 1, range, null, operator);
 				}
@@ -365,40 +411,29 @@ class YZRoll {
 	 * @returns {string} The roll described in one sentence
 	 */
 	toString() {
-		let str = `${this.name ? `${this.name} ` : ''}Roll${(this.pushed) ? ' (pushed)' : ''}: `;
-		const describedDice = [];
-		for (const type of DIE_TYPES) {
-			const dice = this.getDice(type);
-			if (dice.length) {
-				const diceResults = dice.map(d => d.result);
-				describedDice.push(`${type}[${diceResults}]`);
-			}
+		const out = [];
+		if (this.game !== 'generic') {
+			const dicepool = this.pool();
+			const dice = Object.keys(dicepool)
+				.map(t => `${dicepool[t]}d6[${t}] `
+					+ `(${this.dice
+						.filter(d => d.type === t)
+						.map(d => d.result)
+						.join(',')
+					})`,
+				);
+			out.push(dice.join(' + '));
 		}
-		str += describedDice.join(', ');
-		return str;
+		else {
+			out.push('=', this.sum());
+		}
+		if (this.pushed) out.unshift('(pushed)');
+		if (this.name) out.unshift(`"${this.name}"`);
+		return out.join(' ');
 	}
 }
 
 module.exports = YZRoll;
-
-/**
- * @typedef {string|Array|*} StringResolvable
- * Data that can be resolved to give a string. This can be:
- * * A string
- * * An array (joined with a new line delimiter to give a string)
- * * Any value
- */
-
-/**
- * Resolves a StringResolvable to a string.
- * @param {StringResolvable} data The string resolvable to resolve
- * @returns {string}
- */
-function resolveString(data) {
-	if (typeof data === 'string') return data;
-	if (data instanceof Array) return data.join(', ');
-	return String(data);
-}
 
 class YZDie {
 
@@ -471,6 +506,31 @@ class YZDie {
 	}
 
 	/**
+	 * Wether the die can be pushed (according to its type).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get pushable() {
+		switch (this.type) {
+			case 'base':
+			case 'gear':
+			case 'stress':
+			case 'ammo':
+				if (this.result !== 1 && this.result < 6) return true;
+				else return false;
+			case 'skill':
+			case 'neg':
+			case 'arto':
+				if (this.result < 6) return true;
+				else return false;
+			case 'modifier':
+				return false;
+			default:
+				return true;
+		}
+	}
+
+	/**
 	 * Rolls the die.
 	 * @returns {number} The new result
 	 */
@@ -486,33 +546,9 @@ class YZDie {
 	push() {
 		// Stores the previous result.
 		this.previousResults.push(this.result);
-
 		// Reroll the die according to its type.
-		switch (this.type) {
-		case 'base':
-		case 'gear':
-		case 'stress':
-		case 'ammo':
-			if (this.result !== 1 && this.result < 6) {
-				return this.roll();
-			}
-			else {
-				return this.result;
-			}
-		case 'skill':
-		case 'neg':
-		case 'arto':
-			if (this.result < 6) {
-				return this.roll();
-			}
-			else {
-				return this.result;
-			}
-		case 'modifier':
-			return this.result;
-		default:
-			return this.roll();
-		}
+		if (this.pushable) return this.roll();
+		else return this.result;
 	}
 
 	toString() {

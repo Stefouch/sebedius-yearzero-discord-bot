@@ -3,9 +3,28 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.2] - 2020-08-25
+### Added
+- New command argument `-min <value>` for `!panic`: Adjust a minimum treshold for multiple consecutive panic effects.
+- New command alias `!rollw` for `!rolltwilight`.
+- New argument aliases `#` and `-#` for `-name` in `!roll` command. *(You still need a space between `#` and the name.)*
+- More Panic emojis.
+
+### Changed
+- `!roll` command is more user-friendly. More differenciation between roll types (Year Zero rolls, D66/D666 rolls & Generic Rolls).
+- Push reaction menu is removed if no dice can be pushed.
+- Inverted the d8 *Twilight 2000* dice emojis.
+
+### Fixed
+- A bug with `-pride` argument in `!roll` command not working.
+- A bug with `--no-dm` argument in `!help` command not working.
+- A bug with defined names not showing in `!roll` command.
+- A bug with defined names not showing in `!cast` command.
+
 ## [3.3.1] - 2020-08-24
 ### Added
 - Ammo count for *Twilight 2000* rolls.
+
 ### Changed
 - Generic rolls parsing reworked.
 - Better *Twilight 2000* dice emojis.

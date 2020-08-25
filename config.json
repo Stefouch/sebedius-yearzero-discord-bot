@@ -93,7 +93,7 @@
 					"detailed": true
 				},
 				"t2k": {
-					"successIcon": "❇",
+					"successIcon": "🎯",
 					"alias": {
 						"skill": "base",
 						"gear": "ammo",
@@ -118,9 +118,6 @@
 		},
 		"scrap": {
 			"max": 20
-		},
-		"panic": {
-			"icon": "😱"
 		}
 	},
 	"yargs": {
