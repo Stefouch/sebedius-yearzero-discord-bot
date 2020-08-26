@@ -363,6 +363,26 @@ class YZRoll {
 	}
 
 	/**
+	 * Applies a difficulty modifier to the Year Zero Roll.
+	 * @param {number} modifier Difficulty modifier (bonus or malus)
+	 * @returns {YZRoll} This roll, modified
+	 */
+	modify(modifier) {
+		const isBonus = modifier > 0;
+		const mod = Math.abs(modifier);
+		let type;
+		if (this.game === 't2k') {
+		}
+		else if (this.game === 'myz' || this.game === 'fbl') {
+		}
+		else if (this.game === 'generic') {
+		}
+		else {
+		}
+		return this;
+	}
+
+	/**
 	 * Turns the YZRoll into a roll phrase.
 	 * @returns {string}
 	 *
