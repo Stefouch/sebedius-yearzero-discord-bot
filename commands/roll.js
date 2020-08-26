@@ -36,12 +36,13 @@ module.exports = {
 			'Rolling Year Zero Dice',
 			'Use any combinations of these letters with a number:'
 			+ '\n• `b` – Base dice (attributes)'
-			+ '\n• `s` – Skill dice / Stress dice (for ALIEN)'
-			+ '\n• `n` – Negative dice (for MYZ and FBL)'
-			+ '\n• `d` – Generic dice'
-			+ '\n• `a8` – D8 Artifact dice (from FBL)'
-			+ '\n• `a10` – D10 Artifact dice (from FBL)'
-			+ '\n• `a12` – D12 Artifact dice (from FBL)'
+			+ '\n• `s` – Skill dice (or Stress dice for *Alien RPG*)'
+			+ '\n• `n` – Negative dice (*MYZ* and *FBL* only)'
+			+ '\n• `d` – Generic dice (or Ammo dice for *Twilight 2000*)'
+			+ '\n• `a` – Ammo dice (*Twilight 2000* only)'
+			+ '\n• `a8` – D8 Artifact dice (see *FBL*)'
+			+ '\n• `a10` – D10 Artifact dice (see *FBL*)'
+			+ '\n• `a12` – D12 Artifact dice (see *FBL*)'
 			+ '\n\n*Example:* `roll 5b 3s 2g`',
 		],
 		[
@@ -118,12 +119,10 @@ module.exports = {
 		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
-		const isD66 = (
-			rollargv._.length === 1 &&
-			(
-				(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
-				(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
-			)
+		const isD66 = rollargv._.length === 1 &&
+		(
+			(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
+			(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
 		);
 		if (isD66) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
@@ -152,80 +151,74 @@ module.exports = {
 					// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
 					const diceCouples = arg.match(/(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
 
-					if (diceCouples.length) {
+					for (const dieCouple of diceCouples) {
 
-						for (const dieCouple of diceCouples) {
+						// Then, each couple is splitted in an array with the digit and the letter.
+						const couple = dieCouple.match(/\d{1,2}|[dbsgna]/gi);
 
-							// Then, each couple is splitted in an array with the digit and the letter.
-							const couple = dieCouple.match(/\d{1,2}|[dbsgna]/gi);
+						// Sorts numbers (dice quantity) in first position.
+						couple.sort();
 
-							// Sorts numbers (dice quantity) in first position.
-							couple.sort();
+						const diceQty = Number(couple[0]) || 1;
+						const dieTypeChar = couple[1].toLowerCase();
 
-							const diceQty = Number(couple[0]) || 1;
-							const dieTypeChar = couple[1].toLowerCase();
+						// For the chosen letter, we assign a die type.
+						let type;
+						switch (dieTypeChar) {
+							case 'b': type = 'base'; break;
+							case 'd':
+								if (game === 'alien') type = 'base';
+								else if (game === 't2k') type = 'ammo';
+								else type = 'skill';
+								break;
+							case 's': type = 'skill'; break;
+							case 'g': type = 'gear'; break;
+							case 'n': type = 'neg'; break;
+							case 'a':
+								if (game === 't2k') type = 'ammo';
+								else roll.addDice('arto', 1, diceQty);
+								break;
+						}
 
-							// For the chosen letter, we assign a die type.
-							let type;
-							switch (dieTypeChar) {
-								case 'b':
-									type = 'base';
-									break;
-								case 'd':
-									if (game === 'alien') type = 'base';
-									else if (game === 't2k') type = 'ammo';
-									else type = 'skill';
-									break;
-								case 's':
-									type = 'skill';
-									break;
-								case 'g':
-									type = 'gear';
-									break;
-								case 'n':
-									type = 'neg';
-									break;
-								case 'a':
-									if (game === 't2k') type = 'ammo';
-									else roll.addDice('arto', 1, diceQty);
-									break;
+						if (type) {
+							// First, checks if there are some type swap (see config roll aliases).
+							const diceOptions = ctx.bot.config.commands.roll.options[game].alias;
+							if (diceOptions) {
+								if (diceOptions.hasOwnProperty(type)) type = diceOptions[type];
 							}
-
-							if (type) {
-								// First, checks if there are some type swap (see config roll aliases).
-								const diceOptions = ctx.bot.config.commands.roll.options[game].alias;
-								if (diceOptions) {
-									if (diceOptions.hasOwnProperty(type)) type = diceOptions[type];
-								}
-								// Then adds the dice.
-								roll.addDice(type, diceQty);
-							}
+							// Then adds the dice.
+							// Type "--" means to skip.
+							if (type !== '--') roll.addDice(type, diceQty);
 						}
 					}
 				}
 				// Checks if it's a Twilight 2000 roll phrase.
 				else if (/^((d(6|8|10|12))|([abcd]+))+$/i.test(arg)) {
 					const diceCouples = arg.match(/(d(?:6|8|10|12))|([abcd])/gi);
-					if (diceCouples.length) {
-						for (const dieCouple of diceCouples) {
-							switch (dieCouple.toLowerCase()) {
-								case 'd6': case 'd':
-									if (game === 't2k') roll.addBaseDice(1);
-									else roll.addBaseDice(1);
-									break;
-								case 'd8': case 'c':
-									if (game === 't2k') roll.addDice('base', 1, 8);
-									else roll.addDice('arto', 1, 8);
-									break;
-								case 'd10': case 'b':
-									if (game === 't2k') roll.addDice('base', 1, 10);
-									else roll.addDice('arto', 1, 10);
-									break;
-								case 'd12': case 'a':
-									if (game === 't2k') roll.addDice('base', 1, 12);
-									else roll.addDice('arto', 1, 12);
-									break;
-							}
+
+					for (const dieCouple of diceCouples) {
+
+						switch (dieCouple.toLowerCase()) {
+							case 'd6':
+							case 'd':
+								if (game === 't2k') roll.addBaseDice(1);
+								else roll.addBaseDice(1);
+								break;
+							case 'd8':
+							case 'c':
+								if (game === 't2k') roll.addDice('base', 1, 8);
+								else roll.addDice('arto', 1, 8);
+								break;
+							case 'd10':
+							case 'b':
+								if (game === 't2k') roll.addDice('base', 1, 10);
+								else roll.addDice('arto', 1, 10);
+								break;
+							case 'd12':
+							case 'a':
+								if (game === 't2k') roll.addDice('base', 1, 12);
+								else roll.addDice('arto', 1, 12);
+								break;
 						}
 					}
 				}
@@ -256,7 +249,7 @@ module.exports = {
 			roll = YZRoll.parse(formula, game, ctx.author, `${name ? `${name}\n` : ''}${formula}`);
 			roll.maxPush = 0;
 		}
-		// Exits if no dice pattern found.
+		// Exits if no dice pattern were found.
 		else {
 			return ctx.reply(`ℹ️ I don't understand this syntax. Type \`${ctx.prefix}help roll\` for details on the proper usage.`);
 		}
@@ -274,7 +267,7 @@ module.exports = {
 		if (rollargv.minpanic) roll.minpanic = rollargv.minpanic;
 
 		// Logs and Roll.
-		console.log(`[ROLL] - ${roll.toString()}`);
+		console.log(roll.toString());
 
 		// Validations.
 		// Aborts if too many dice.
@@ -384,14 +377,6 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 	// Pushes the roll.
 	const pushedRoll = roll.push();
 
-	// Aborts if too many dice.
-	if (pushedRoll.size > ctx.bot.config.commands.roll.max) {
-		// throw new TooManyDiceError(pushedRoll.size);
-		// Cannot use error throwing because this function will not be catched by bot.js's error management.
-		collector.stop();
-		return ctx.reply(`:warning: Cannot roll that many dice! (${pushedRoll.size})`);
-	}
-
 	// Detects additional dice from pushing.
 	if (gameOptions.extraPushDice) {
 		for (const extra of gameOptions.extraPushDice) {
@@ -399,7 +384,15 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 		}
 	}
 	// Logs.
-	console.log(`[ROLL] - ${pushedRoll.toString()}`);
+	console.log(pushedRoll.toString());
+
+	// Aborts if too many dice.
+	if (pushedRoll.size > ctx.bot.config.commands.roll.max) {
+		// throw new TooManyDiceError(pushedRoll.size);
+		// Cannot use error throwing because this function will not be catched by bot.js's error management.
+		collector.stop();
+		return ctx.reply(`:warning: Cannot roll that many dice! (${pushedRoll.size})`);
+	}
 
 	// Stops the collector if it's the last push.
 	if (!roll.pushable) collector.stop();
@@ -429,7 +422,6 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
  * @returns {Discord.MessageEmbed} A Discord Embed Object
  */
 function getEmbedDiceResults(roll, ctx, opts) {
-
 	const s = roll.successCount;
 	let desc = `Success${s > 1 ? 'es' : ''}: **${s}**`;
 
@@ -442,7 +434,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 	}
 	if (roll.rof > 0) {
 		const ammoRollSum = roll.sum('ammo');
-	/*	if (roll.pushed) {
+		/*	if (roll.pushed) {
 			const ammos = roll
 				.getDice('ammo')
 				.map(d => d.previousResults)
@@ -453,7 +445,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 			desc += `\nAmmo: ${ammos.join('+')}+${ammoRollSum} = **${ammoTotal}**`;
 		}
 		else {//*/
-			desc += `\nAmmo: **${ammoRollSum}**`;
+		desc += `\nAmmo: **${ammoRollSum}**`;
 		//}
 	}
 	if (opts.panic && roll.panic) {

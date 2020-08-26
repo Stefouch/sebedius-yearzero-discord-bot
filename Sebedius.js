@@ -280,7 +280,7 @@ class Sebedius extends Discord.Client {
 
 			if (opts.alias) {
 				// Skipping types.
-				if (opts.alias[die.type] === '--') continue;
+				if (opts.alias[die.type] === '--' || die.type == null) continue;
 				// Dice swaps, if any.
 				if (applyAliases && opts.alias[die.type]) iconType = opts.alias[die.type];
 			}
