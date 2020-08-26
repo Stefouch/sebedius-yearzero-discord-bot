@@ -4,8 +4,14 @@ All notable changes to this project will be documented in this file.
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [3.3.3] - 2020-08-26
+### Changed
+- Ammo dice for *Twilight 2000* can be rolled with `Xa` or `Xd`.
+
 ### Fixed
 - A bug allowing Coriolis pushed rolls to go over the dice quantity limit.
+
+### Removed
+- Ammo dice for *Twilight 2000* cannot be rolled with `Xg` anymore.
 
 ## [3.3.2] - 2020-08-25
 ### Added

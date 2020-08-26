@@ -76,9 +76,9 @@ Rolls dice for the Year Zero roleplaying games.
   * **Year Zero Rolls:** Use any combinations of these letters with a number: *E.g. 5b 3s 2g*
     * `b` – Base dice (attributes)
     * `s` – Skill dice (or Stress Dice for *Alien RPG*)
-    * `g` – Gear dice (or Ammo Dice for *Twilight 2000*)
+    * `g` – Gear dice
     * `n` – Negative dice (*MYZ* and *FBL* only)
-    * `d` – Generic dice
+    * `d` – Generic dice (or Ammo Dice for *Twilight 2000*)
 	* `a` – Ammo Dice (*Twilight 2000* only)
     * `a8 | d8` – D8 Artifact dice (see *FBL*)
     * `a10 | d10` – D10 Artifact dice (see *FBL*)
@@ -230,7 +230,7 @@ Rolls a random attack from a monster.
   * `d10 | b` – D10 (attribute or skill)
   * `d8 | c` – D8 (attribute or skill)
   * `d6 | d` – D6 (attribute or skill)
-  * `Xg` – X ammo dice
+  * `Xd | Xa` – X Ammo dice
 
 ### Other commands
 
