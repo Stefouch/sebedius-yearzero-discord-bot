@@ -222,6 +222,10 @@ module.exports = {
 						}
 					}
 				}
+				// Checks if it's a modifier.
+				else if (/[+-]\d+/.test(arg)) {
+					roll.modify(+arg);
+				}
 			}
 			// Adds extra Artifact Dice.
 			// 1) Forbidden Lands' Pride.
