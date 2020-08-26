@@ -118,10 +118,14 @@ module.exports = {
 		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
-		if (
-			(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
-			(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
-		) {
+		const isD66 = (
+			rollargv._.length === 1 &&
+			(
+				(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
+				(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
+			)
+		);
+		if (isD66) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
 				roll.setGame('generic');
 			}
@@ -164,17 +168,23 @@ module.exports = {
 							// For the chosen letter, we assign a die type.
 							let type;
 							switch (dieTypeChar) {
-								case 'b': type = 'base'; break;
+								case 'b':
+									type = 'base';
+									break;
 								case 'd':
 									if (game === 'alien') type = 'base';
+									else if (game === 't2k') type = 'ammo';
 									else type = 'skill';
 									break;
-								case 's': type = 'skill'; break;
-								case 'g':
-									if (game === 't2k') type = 'ammo';
-									else type = 'gear';
+								case 's':
+									type = 'skill';
 									break;
-								case 'n': type = 'neg'; break;
+								case 'g':
+									type = 'gear';
+									break;
+								case 'n':
+									type = 'neg';
+									break;
 								case 'a':
 									if (game === 't2k') type = 'ammo';
 									else roll.addDice('arto', 1, diceQty);
@@ -373,6 +383,14 @@ async function messageRollResult(roll, ctx) {
 function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 	// Pushes the roll.
 	const pushedRoll = roll.push();
+
+	// Aborts if too many dice.
+	if (pushedRoll.size > ctx.bot.config.commands.roll.max) {
+		// throw new TooManyDiceError(pushedRoll.size);
+		// Cannot use error throwing because this function will not be catched by bot.js's error management.
+		collector.stop();
+		return ctx.reply(`:warning: Cannot roll that many dice! (${pushedRoll.size})`);
+	}
 
 	// Detects additional dice from pushing.
 	if (gameOptions.extraPushDice) {
