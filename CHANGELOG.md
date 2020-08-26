@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.3] - 2020-08-26
+### Fixed
+- A bug allowing Coriolis pushed rolls to go over the dice quantity limit.
+
 ## [3.3.2] - 2020-08-25
 ### Added
 - New command argument `-min <value>` for `!panic`: Adjust a minimum treshold for multiple consecutive panic effects.

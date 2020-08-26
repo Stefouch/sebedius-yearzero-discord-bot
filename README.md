@@ -88,8 +88,8 @@ Rolls dice for the Year Zero roleplaying games.
   * `-push|-p <number>` : Changes the maximum number of allowed pushes.
   * `-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).
   * `-pride` : Adds a D12 Artifact Die to the roll.
-  * `-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).
-  * `-minpanic <value>`: Adjust a minimum treshold for multiple consecutive panic effects (Alien RPG).
+  * `-nerves` : Applies the talent *Nerves of Steel* *(Alien RPG)*.
+  * `-minpanic <value>`: Adjust a minimum treshold for multiple consecutive panic effects *(Alien RPG)*.
 
 #### Dice Cap
 
@@ -237,7 +237,7 @@ Rolls a random attack from a monster.
 Only a member with administrator rights can use these commands:
 
 * `!setconf prefix [new prefix]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
-* `!setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
+* `!setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.
 * `!setconf lang [language code]` – Changes the default language (for translations). There are no options currently (it's implemented for future updates).
 
 ## Examples
@@ -256,7 +256,7 @@ Only a member with administrator rights can use these commands:
 
 `!rv 6d -p 2` – Rolls 6 dice for *Vaesen* and the roll can be pushed twice.
 
-`!ra 8b 2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
+`!ra 8b 2s` – Rolls 8 base and 2 stress dice for the *Alien RPG*. Pushing them will add an extra stress die.
 
 `!roll d66` – Rolls a D66 (D6 × 10 + D6).
 
@@ -272,11 +272,11 @@ Only a member with administrator rights can use these commands:
 
 `!drawinit -shuffle` – Shuffles all the initiative cards in a new deck (= reset).
 
-`!panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
+`!panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *Alien RPG*'s Panic table.
 
 `!crit fbl slash` – Draws a random critical injury from the Slash damage table in Forbidden Lands.
 
-`!crita dmg 66` – Draws the #66 critical injury from the Damage table in the ALIEN rpg. You're dead.
+`!crita dmg 66` – Draws the #66 critical injury from the Damage table in the *Alien RPG*. You're dead.
 
 ## Command Aliases
 
