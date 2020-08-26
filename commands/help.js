@@ -95,7 +95,7 @@ module.exports = {
 		}
 
 		if (command.moreDescriptions) {
-			for(const desc of command.moreDescriptions) {
+			for (const desc of command.moreDescriptions) {
 				embed.addField(desc[0], desc[1], false);
 			}
 		}

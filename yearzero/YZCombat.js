@@ -623,7 +623,7 @@ class YZCombatant {
 			enumerable: true,
 		});//*/
 
-		if(!data.controller) throw new Error('YZCombattant has no controller');
+		if (!data.controller) throw new Error('YZCombattant has no controller');
 		/**
 		 * The controller's Discord User ID of this combatant.
 		 * @type {string} Snowflake
