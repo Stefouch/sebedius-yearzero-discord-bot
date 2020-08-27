@@ -1,4 +1,4 @@
-const ArkThreats = require('../gamedata/ark-threats.list.json');
+const ArkThreats = require('../gamedata/myz/ark-threats.list.json');
 const { YZEmbed } = require('../utils/embeds');
 const { random } = require('../utils/Util');
 

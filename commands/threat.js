@@ -1,4 +1,4 @@
-const Threats = require('../gamedata/threats.list.json');
+const Threats = require('../gamedata/myz/threats.list.json');
 const { YZEmbed } = require('../utils/embeds');
 const Util = require('../utils/Util');
 

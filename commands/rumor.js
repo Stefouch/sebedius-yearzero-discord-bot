@@ -1,4 +1,4 @@
-const Rumors = require('../gamedata/rumors.json');
+const Rumors = require('../gamedata/myz/rumors.json');
 const { YZEmbed } = require('../utils/embeds');
 const Util = require('../utils/Util');
 

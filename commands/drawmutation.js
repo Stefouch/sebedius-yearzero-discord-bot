@@ -1,4 +1,4 @@
-const Muts = require('../gamedata/mutations.list.json');
+const Muts = require('../gamedata/myz/mutations.list.json');
 const Util = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 

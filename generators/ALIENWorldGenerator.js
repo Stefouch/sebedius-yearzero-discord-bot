@@ -1,15 +1,15 @@
 const fs = require('fs');
 const YZGenerator2 = require('../generators/YZGenerator2');
-const WorldData = require('../gamedata/planet-generator.json');
+const WorldData = require('../gamedata/alien/planet-generator.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 
 // Loading the available scrap.
 let nameList;
 try {
-	const listContent = fs.readFileSync('./gamedata/planet-names.list', 'utf8');
+	const listContent = fs.readFileSync('./gamedata/alien/planet-names.list', 'utf8');
 	nameList = listContent.split('\n');
-	console.log('[+] - Name list loaded: data/planet-names.list');
+	console.log('[+] - Name list loaded: data/alien/planet-names.list');
 }
 catch(error) {
 	console.error('[ERROR] - Unable to load the planet-names list:', error);
