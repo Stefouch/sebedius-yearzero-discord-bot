@@ -51,6 +51,7 @@ module.exports = {
 			+ '\n`-name|-n|-#|# <name>` : Defines a name for the roll.'
 			+ '\n`-push|-p <number>` : Changes the maximum number of allowed pushes.'
 			+ '\n`-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).'
+			+ '\n`-mod <±X>`: Applies a difficulty modifier of `+X` or `-X` to the roll.'
 			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
 			+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).'
 			+ '\n`-minpanic <value>` : Adjust a minimum treshold for multiple consecutive panic effects (Alien RPG).',
@@ -88,7 +89,7 @@ module.exports = {
 		// Parsing arguments. See https://www.npmjs.com/package/yargs-parser#api for details.
 		const rollargv = YargsParser(args, {
 			boolean: ['fullauto', 'nerves', 'pride'],
-			number: ['push', 'minpanic'],
+			number: ['push', 'minpanic', 'mod'],
 			array: ['name'],
 			alias: {
 				push: ['p', 'pushes'],
@@ -100,6 +101,7 @@ module.exports = {
 				fullauto: false,
 				nerves: false,
 				minpanic: 0,
+				mod: 0,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -223,7 +225,8 @@ module.exports = {
 					}
 				}
 				// Checks if it's a modifier.
-				else if (/[+-]\d+/.test(arg)) {
+				//TODO: '-1' unsupported arg due to Issue in Yargs Parser
+				else if (/^[+-]\d+$/.test(arg)) {
 					roll.modify(+arg);
 				}
 			}
@@ -266,12 +269,22 @@ module.exports = {
 			roll.maxPush = Number(rollargv.push) || 1;
 		}
 
+		// Applies extra modifiers.
+		if (rollargv.mod) {
+			roll.modify(+rollargv.mod);
+		}
+		//Temporary Yargs Parser issue fix.
+		Object.keys(rollargv).forEach(k => {
+			if (/\d+/.test(k)) roll.modify(-k);
+		});
+
 		// Nerves of Steel talent. Unofficial YZRoll's property.
 		if (rollargv.nerves) roll.nerves = true;
 		if (rollargv.minpanic) roll.minpanic = rollargv.minpanic;
 
 		// Logs and Roll.
 		console.log(roll.toString());
+		//console.log(rollargv);
 
 		// Validations.
 		// Aborts if too many dice.
