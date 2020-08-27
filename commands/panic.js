@@ -34,9 +34,9 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const panicRand = argv.fixed ? 0 : Math.max(0, Util.rand(1, 6) - (argv.nerves ? 2 : 0));
+		const panicRand = argv.fixed ? 0 : Math.max(0, Util.rand(1, 6));
 		const stress = +argv._[0] || 0;
-		const panicVal = stress + panicRand;
+		const panicVal = stress + panicRand - (argv.nerves ? 2 : 0);
 		const panicMin = Util.clamp(argv.min, 0, 15);
 		const panicLowerThanMin = panicVal < panicMin;
 		const panicValMore = panicLowerThanMin ? panicMin + 1 : panicVal;
@@ -47,7 +47,7 @@ module.exports = {
 		if (!panicAction) return ctx.reply('❌ The panic effect wasn\'t found.');
 
 		const text = `${panicAction.icon} PANIC ROLL: **${stress}** + ${DICE_ICONS.alien.skill[panicRand]}`
-			+ (argv.nerves ? ' (−2 *Nerves of Steel*)' : '')
+			+ (argv.nerves ? ' − 2 *(Nerves of Steel)*' : '')
 			+ (panicMin ? ` ${panicLowerThanMin ? '<' : '≥'} ${panicMin}` : '');
 		const embed = new YZEmbed(`${panicAction.injury} (${panicAction.ref})`, panicAction.effect, ctx, true);
 
