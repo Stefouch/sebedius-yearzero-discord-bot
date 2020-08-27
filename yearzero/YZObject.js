@@ -141,8 +141,8 @@ class YZObject {
 		str = str.toLowerCase();
 		let matching = catalog.filter(o => o.name.toLowerCase() === str);
 		if (matching.size === 0) {
-			matching = catalog.filter(
-				o => o.id.includes(str) ||
+			matching = catalog.filter(o =>
+				o.id.includes(str) ||
 				o.name.toLowerCase().includes(str),
 			);
 		}
@@ -180,7 +180,6 @@ class YZObject {
 }
 
 class YZMonster extends YZObject {
-
 	/**
 	 * Year Zero Monster.
 	 * @param {*} data
@@ -483,7 +482,7 @@ class YZMonster extends YZObject {
 	 * @param {?number} reference Specific attack, if any.
 	 * @returns {YZAttack}
 	 */
-	attack(reference = null) {
+	getAttack(reference = null) {
 		if (typeof this.attacks === 'string') {
 			return { effect: this.attacks };
 		}
@@ -502,11 +501,31 @@ class YZMonster extends YZObject {
 			const attack = this.attacks.get(ref);
 			if (!attack) return undefined;
 			if (attack.name === '{REROLL}' || !attack.effect) {
-				return this.attack();
+				return this.getAttack();
 			}
 			return attack;
 		}
 		return undefined;
+	}
+
+	getRollPhrase(attack) {
+		//const attack = this.getAttack(reference);
+		const out = [];
+
+		// Fixed roll (only Base dice).
+		if (/\(\d+\)/.test(attack.base)) {
+			out.push(`${Util.resolveNumber(attack.base)}d[base]`);
+		}
+		// Unfixed roll.
+		else {
+			const b = attack.ranged ? this.agi : this.str;
+			const s = attack.ranged ? this.skills.shoot : this.skills.fight;
+			const g = attack.base;
+			if (b) out.push(`${b}d[base]`);
+			if (s) out.push(`${s}d[skill]`);
+			if (g) out.push(`${g}d[gear]`);
+		}
+		return out.join('+');
 	}
 }
 

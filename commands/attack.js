@@ -32,7 +32,7 @@ module.exports = {
 		const { monster, argv } = await ctx.bot.commands.get('monster').parse(args, ctx);
 		const ref = Util.isNumber(argv.attack) ? argv.attack : null;
 		const successIcon = ctx.bot.config.commands.roll.options[monster.game].successIcon || 'success';
-		const attack = monster.attack(ref);
+		const attack = monster.getAttack(ref);
 		let effect = attack.effect
 			.replace(/~success/gi, successIcon)
 			.replace(/~/g, monster.name)
@@ -132,21 +132,24 @@ module.exports = {
 async function rollAttack(attack, monster, message, bot) {
 	const game = monster.game;
 	// Rolls the attack.
-	let atkRoll;
-	if (/\(\d+\)/.test(attack.base)) {
+	//const atkRoll = new YZRoll(game, message.author, attack.name);
+	const atkRoll = YZRoll.parse(
+		monster.getRollPhrase(attack),
+		game,
+		message.author,
+		attack.name,
+	);
+
+/*	if (/\(\d+\)/.test(attack.base)) {
 		// Fixed roll (only Base dice).
-		atkRoll = new YZRoll(
-			message.author,
-			{ base: Util.resolveNumber(attack.base) },
-		);
+		atkRoll.addBaseDice(Util.resolveNumber(attack.base));
 	}
 	else {
 		// Unfixed roll.
-		atkRoll = new YZRoll(game, message.author, attack.name)
-			.addBaseDice(attack.ranged ? monster.agi : monster.str)
-			.addSkillDice(attack.ranged ? monster.skills.shoot : monster.skills.fight)
-			.addGearDice(attack.base);
-	}
+		atkRoll.addBaseDice(attack.ranged ? monster.agi : monster.str);
+		atkRoll.addSkillDice(attack.ranged ? monster.skills.shoot : monster.skills.fight);
+		atkRoll.addGearDice(attack.base);
+	}//*/
 
 	// Calculates damages.
 	const hit = atkRoll.successCount;
