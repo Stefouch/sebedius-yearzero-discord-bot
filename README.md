@@ -87,6 +87,7 @@ Rolls dice for the Year Zero roleplaying games.
   * `-name|-n|-#|# <text>` : Defines a name for the roll.
   * `-push|-p <number>` : Changes the maximum number of allowed pushes.
   * `-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).
+  * `-mod <±X>`: Applies a difficulty modifier of `+X` or `-X` to the roll.
   * `-pride` : Adds a D12 Artifact Die to the roll.
   * `-nerves` : Applies the talent *Nerves of Steel* *(Alien RPG)*.
   * `-minpanic <value>`: Adjust a minimum treshold for multiple consecutive panic effects *(Alien RPG)*.

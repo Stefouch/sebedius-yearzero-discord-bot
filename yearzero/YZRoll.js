@@ -1,6 +1,7 @@
 const { rand, clamp, isNumber, resolveString } = require('../utils/Util');
 const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
 const DIE_RANGES = [6, 8, 10, 12];
+//const DIE_RANGES_T2K = ['d', 'c', 'b', 'a'];
 const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
 const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
