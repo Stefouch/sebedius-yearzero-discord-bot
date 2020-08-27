@@ -477,7 +477,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 			const dice = roll.getDice(type);
 			if (dice.length) {
 				const diceResults = dice.map(d => d.result);
-				results += `> ${type}: \`(${diceResults.join(', ')})\`\n`;
+				results += ` → [${type}]: ${diceResults.join(', ')}\n`;
 			}
 		}
 		if (roll.pushed) {
@@ -485,16 +485,15 @@ function getEmbedDiceResults(roll, ctx, opts) {
 				const dice = roll.getDice(type);
 				if (dice.length) {
 					for (let p = roll.pushCount; p > 0; p--) {
-						results += `**[${p}]** `;
 						const diceResults = dice
 							.filter(d => roll.pushCount - d.pushCount < p)
 							.map(d => d.previousResults[d.pushCount - (roll.pushCount - p) - 1]);
-						results += `${type}: \`(${diceResults.join(', ')})\`\n`;
+						results += `#${p} [${type}]: ${diceResults.join(', ')}\n`;
 					}
 				}
 			}
 		}
-		if (results) embed.addField('Details', results, false);
+		if (results) embed.addField('Details', '```php\n' + results + '\n```', false);
 	}
 
 	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}Pushed`);
