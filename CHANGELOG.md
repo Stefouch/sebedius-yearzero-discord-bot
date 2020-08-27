@@ -9,9 +9,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Ammo dice for *Twilight 2000* can also be rolled with `Xa` or `Xd`.
+- Better presentation of the details of the blank dice results in Embed messages.
 
 ### Fixed
 - A bug with monsters' attack dice in `!attack` command.
+- A bug with the *Nerves of Steel* talent not decreasing the Panic roll properly.
 - A bug allowing *Coriolis* pushed rolls to go over the dice quantity limit, causing a bot crash.
 
 ## [3.3.2] - 2020-08-25
