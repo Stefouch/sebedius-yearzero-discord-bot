@@ -1,8 +1,10 @@
-const { rand, isNumber, resolveString } = require('../utils/Util');
+const { rand, clamp, isNumber, resolveString } = require('../utils/Util');
 const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
+const DIE_RANGES = [6, 8, 10, 12];
+//const DIE_RANGES_T2K = ['d', 'c', 'b', 'a'];
 const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
-const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)((?:\[.*\])?)/;
+const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 
 class YZRoll {
 	/**
@@ -294,9 +296,31 @@ class YZRoll {
 	 * @returns {YZRoll} This roll
 	 */
 	addDice(type, qty, range = 6, value = null, operator = '+') {
-		if (!qty) return this;
-		for (let i = 0; i < qty; i++) {
+		if (qty < 0) return this.removeDice(type, Math.abs(qty));
+		for (; qty > 0; qty--) {
 			this.dice.push(new YZDie(range, type, value, operator));
+		}
+		return this;
+	}
+
+	/**
+	 * Removes a number of dice from the roll.
+	 * @param {string} type The type of dice to remove
+	 * @param {number} qty The quantity to remove
+	 * @returns {YZRoll} This roll
+	 */
+	removeDice(type, qty) {
+		for (; qty > 0; qty--) {
+			// Checks each dice and finds the last one with the specified type.
+			let index = this.dice.length - 1;
+			for (; index >= 0; index--) {
+				if (this.dice[index].type === type) break;
+			}
+			// If found one, removes it.
+			// Index = -1 if nothing was found.
+			if (index >= 0) {
+				this.dice.splice(index, 1);
+			}
 		}
 		return this;
 	}
@@ -315,8 +339,9 @@ class YZRoll {
 	 * @returns {Object}
 	 */
 	pool() {
+		// .slice(1) removes the die's operator.
 		return this.dice
-			.map(d => d.type)
+			.map(d => d.toString().slice(1))
 			.reduce((obj, t) => {
 				if (!obj[t]) obj[t] = 1;
 				else obj[t]++;
@@ -354,24 +379,56 @@ class YZRoll {
 	 * @returns {number} Total count
 	 */
 	count(type, seed = null) {
-		if (seed) {
-			return this.getDice(type).filter(d => d.result === seed).length;
-		}
-		else {
-			return this.getDice(type).length;
-		}
+		if (seed) return this.getDice(type).filter(d => d.result === seed).length;
+		return this.getDice(type).length;
 	}
 
 	/**
-	 * Turns the YZRoll into a roll phrase.
-	 * @returns {string}
-	 *
-	toPhrase() {
-		const out = [];
-		const dicepool = this.pool();
-		const dice = Object.keys(dicepool).map(t => `${dicepool[t]}d6[${t}]`);
-		out.push(dice.join('+'));
-	}//*/
+	 * Applies a difficulty modifier to the Year Zero Roll.
+	 * @param {number} mod Difficulty modifier (bonus or malus)
+	 * @returns {YZRoll} This roll, modified
+	 */
+	modify(mod) {
+		if (this.game === 't2k') {
+			const die = this.dice
+				.filter(d => d.type === 'base')
+				.reduce((a, b) => {
+					if (mod > 0) return a.range > b.range ? a : b;
+					return a.range < b.range ? a : b;
+				}, {});
+
+			let excess = 0;
+			this.dice.forEach(d => {
+				if (d === die) excess = d.modifyRange(mod);
+			});
+
+			// Positive excess means adding an extra die.
+			if (excess > 0) {
+				const ex = Math.min(DIE_RANGES.length, excess);
+				this.addDice('base', 1, DIE_RANGES[ex - 1]);
+				if (excess > ex) this.modify(excess - ex);
+			}
+			// Negative excess means removing the die and decreasing another one.
+			else if (excess < 0) {
+				this.dice.splice(this.dice.indexOf(die), 1);
+				if (this.count('base')) this.modify(excess);
+			}
+		}
+		else if (this.game === 'myz' || this.game === 'fbl') {
+			const negDiceQty = Math.max(-mod - this.count('skill'), 0);
+			// A negative modifier actually removes that many dice.
+			this.addSkillDice(mod);
+			if (negDiceQty > 0) this.addNegDice(negDiceQty);
+		}
+		else if (this.game === 'generic') {
+			this.addDice('modifier', 1, 0, mod);
+		}
+		else {
+			// A negative modifier actually removes that many dice.
+			this.addSkillDice(mod);
+		}
+		return this;
+	}
 
 	/**
 	 * Parses a roll resolvable string into a Year Zero Roll object.
@@ -418,6 +475,19 @@ class YZRoll {
 	}
 
 	/**
+	 * Turns the YZRoll into a roll phrase.
+	 * @returns {string}
+	 */
+	toPhrase() {
+		if (this.game === 'generic') return this.name;
+
+		const dicepool = this.pool();
+		return Object.keys(dicepool)
+			.map(t => `${dicepool[t]}${t}`)
+			.join('+');
+	}
+
+	/**
 	 * Returns the description of the roll.
 	 * @returns {string} The roll described in one sentence
 	 */
@@ -426,9 +496,9 @@ class YZRoll {
 		if (this.game !== 'generic') {
 			const dicepool = this.pool();
 			const dice = Object.keys(dicepool)
-				.map(t => `${dicepool[t]}d[${t}] `
+				.map(t => `${dicepool[t]}${t} `
 					+ `(${this.dice
-						.filter(d => d.type === t)
+						.filter(d => d.toString().slice(1) === t)
 						.map(d => d.result)
 						.join(',')
 					})`,
@@ -556,15 +626,47 @@ class YZDie {
 	 * @returns {number} The result, wether it has been pushed or not.
 	 */
 	push() {
-		// Stores the previous result.
 		this.previousResults.push(this.result);
-		// Reroll the die according to its type.
 		if (this.pushable) return this.roll();
 		else return this.result;
 	}
 
+	/**
+	 * Nullifies all properties of the die.
+	 * @returns {YZDie}
+	 *
+	reset() {
+		this.range = null;
+		this.type = null;
+		this.result = null;
+		this.previousResults = [];
+		this.operator = null;
+		return this;
+	}//*/
+
+	/**
+	 * Modifies the range of the die by a number of steps.
+	 * @param {number} mod Positive or negative number of steps
+	 * @returns {number} Number of skipped steps
+	 */
+	modifyRange(mod) {
+		if (this.type === 'modifier') return 0;
+
+		const rangeIndex = DIE_RANGES.indexOf(this.range);
+		if (rangeIndex < 0) return 0;
+
+		const maxRangeIndex = DIE_RANGES.length - 1;
+		const newRangeIndex = rangeIndex + mod;
+		const range = clamp(newRangeIndex, 0, maxRangeIndex);
+
+		this.range = DIE_RANGES[range];
+		this.roll();
+
+		return newRangeIndex - range;
+	}
+
 	toString() {
-		if (this.type === 'modifier') return `${this.operator} ${this.result}`;
-		else return `${this.operator} d${this.range}${this.type ? `[${this.type}]` : ''}`;
+		if (this.type === 'modifier') return `${this.operator}${this.result}`;
+		else return `${this.operator}d${this.range}${this.type ? `[${this.type}]` : ''}`;
 	}
 }

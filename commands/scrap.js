@@ -38,7 +38,7 @@ module.exports = {
 function getScrapList() {
 	let scrapList;
 	try {
-		const scrapContent = fs.readFileSync('./gamedata/scrap.list', 'utf8');
+		const scrapContent = fs.readFileSync('./gamedata/myz/scrap.list', 'utf8');
 		scrapList = scrapContent.split('\n');
 		// console.log('[+] - Scrap list loaded: data/scrap.list');
 	}

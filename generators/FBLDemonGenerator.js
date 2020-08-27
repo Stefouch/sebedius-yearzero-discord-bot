@@ -1,5 +1,5 @@
 const YZGenerator = require('./YZGenerator');
-const DemonData = require('../gamedata/demon-generator.json');
+const DemonData = require('../gamedata/fbl/demon-generator.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 

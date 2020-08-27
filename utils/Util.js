@@ -196,7 +196,7 @@ class Util {
 	 */
 	static camelToKebabCase(string) {
 		// Don't bother trying to transform a string that isn't well-formed camelCase.
-		if(!/^([a-z]+[A-Z])+[a-z]+$/.test(string)) return string;
+		if (!/^([a-z]+[A-Z])+[a-z]+$/.test(string)) return string;
 
 		return string.replace(/([a-z]+)([A-Z])/g, (match, before, after) => {
 			return before + '-' + after;

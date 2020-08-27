@@ -96,7 +96,7 @@
 					"successIcon": "🎯",
 					"alias": {
 						"skill": "base",
-						"gear": "ammo",
+						"gear": "base",
 						"neg": "--"
 					},
 					"hasBlankDice": true,

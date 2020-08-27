@@ -1,6 +1,6 @@
 const YZGenerator = require('./YZGenerator');
-const MonsterData = require('../gamedata/monster-generator.json');
-const Muts = require('../gamedata/mutations.list.json');
+const MonsterData = require('../gamedata/myz/monster-generator.json');
+const Muts = require('../gamedata/myz/mutations.list.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 

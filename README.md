@@ -76,9 +76,9 @@ Rolls dice for the Year Zero roleplaying games.
   * **Year Zero Rolls:** Use any combinations of these letters with a number: *E.g. 5b 3s 2g*
     * `b` – Base dice (attributes)
     * `s` – Skill dice (or Stress Dice for *Alien RPG*)
-    * `g` – Gear dice (or Ammo Dice for *Twilight 2000*)
+    * `g` – Gear dice
     * `n` – Negative dice (*MYZ* and *FBL* only)
-    * `d` – Generic dice
+    * `d` – Generic dice (or Ammo Dice for *Twilight 2000*)
 	* `a` – Ammo Dice (*Twilight 2000* only)
     * `a8 | d8` – D8 Artifact dice (see *FBL*)
     * `a10 | d10` – D10 Artifact dice (see *FBL*)
@@ -87,9 +87,10 @@ Rolls dice for the Year Zero roleplaying games.
   * `-name|-n|-#|# <text>` : Defines a name for the roll.
   * `-push|-p <number>` : Changes the maximum number of allowed pushes.
   * `-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).
+  * `-mod <±X>`: Applies a difficulty modifier of `+X` or `-X` to the roll.
   * `-pride` : Adds a D12 Artifact Die to the roll.
-  * `-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).
-  * `-minpanic <value>`: Adjust a minimum treshold for multiple consecutive panic effects (Alien RPG).
+  * `-nerves` : Applies the talent *Nerves of Steel* *(Alien RPG)*.
+  * `-minpanic <value>`: Adjust a minimum treshold for multiple consecutive panic effects *(Alien RPG)*.
 
 #### Dice Cap
 
@@ -230,14 +231,14 @@ Rolls a random attack from a monster.
   * `d10 | b` – D10 (attribute or skill)
   * `d8 | c` – D8 (attribute or skill)
   * `d6 | d` – D6 (attribute or skill)
-  * `Xg` – X ammo dice
+  * `Xd | Xa` – X Ammo dice
 
 ### Other commands
 
 Only a member with administrator rights can use these commands:
 
 * `!setconf prefix [new prefix]` – Changes the bot's prefix to a new value (can be '?' or '>' or anything else).
-* `!setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`.
+* `!setconf game [game code]` – Changes the default game used (for dice skins and critical tables). Options are: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.
 * `!setconf lang [language code]` – Changes the default language (for translations). There are no options currently (it's implemented for future updates).
 
 ## Examples
@@ -256,7 +257,7 @@ Only a member with administrator rights can use these commands:
 
 `!rv 6d -p 2` – Rolls 6 dice for *Vaesen* and the roll can be pushed twice.
 
-`!ra 8b 2s` – Rolls 8 base and 2 stress dice for *ALIEN*. Pushing them will add an extra stress die.
+`!ra 8b 2s` – Rolls 8 base and 2 stress dice for the *Alien RPG*. Pushing them will add an extra stress die.
 
 `!roll d66` – Rolls a D66 (D6 × 10 + D6).
 
@@ -272,11 +273,11 @@ Only a member with administrator rights can use these commands:
 
 `!drawinit -shuffle` – Shuffles all the initiative cards in a new deck (= reset).
 
-`!panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *ALIEN* rpg's Panic table.
+`!panic 4` – Rolls a D6 and adds 4 to the result, then returns the result from the *Alien RPG*'s Panic table.
 
 `!crit fbl slash` – Draws a random critical injury from the Slash damage table in Forbidden Lands.
 
-`!crita dmg 66` – Draws the #66 critical injury from the Damage table in the ALIEN rpg. You're dead.
+`!crita dmg 66` – Draws the #66 critical injury from the Damage table in the *Alien RPG*. You're dead.
 
 ## Command Aliases
 
