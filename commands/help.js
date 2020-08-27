@@ -14,7 +14,7 @@ module.exports = {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['dm'],
 			default: {
-				dm: false,
+				dm: true,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
