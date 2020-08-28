@@ -7,11 +7,11 @@
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/) & extensions
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
+* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
-* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
-* Twilight 2000 v4
+* Twilight 2000 v4 *(based pre-alpha unofficial rules)*
 
 # Add the Bot to your Server
 
@@ -297,22 +297,6 @@ This is a detailed list of needed permissions:
 * `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission.
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
 
-### Troubleshooting
-
-If the bot is missing any permission above, it might not work properly.
-
-| Symptoms | Probable Cause | Fix |
-| --- | --- | --- |
-| Roll command: the push emoji reaction is not removed after a few minutes.| `MANAGE_MESSAGE` is missing. | See below. |
-| Roll command: the push emoji reaction don't appear at all and the roll can't be pushed | `READ_MESSAGE_HISTORY` is missing. | See below. |
-| The bot does not respond to a command. | Latency, wrong prefix, or bot crash. | Wait and retry. Check latency with command `!ping`, check the prefix by mentioning the bot. |
-
-1. Check that the bot has all the required permissions in the server (check its role).
-2. Check also that it has no denied permission in the channel (maybe the role `@everyone` or another one is removing the needed permission).
-3. Kick the bot and re-invite it to your server using the link at the top of this Readme.
-4. As a last resort, you can temporary give full admin rights to the bot, it'll fix all permission problems.
-4. Contact me for extra support, I'll be glad to help.
-
 # List of Changes
 
 See the [CHANGELOG](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot.
@@ -329,33 +313,6 @@ The dice images are courtery of several people. Thanks to them for sharing them!
 - *Tales* & *Coriolis* dice by Jonathan Pay.
 - *Alien RPG* dice by Radomir Balint. 
 - *Vaesen* dice by Matt Kay.
-
-# Contributing
-
-If you've experience with the Discord.js API, you're more than welcome to help expand this project.
-
-If you've free time for encoding the monsters data or translate some gamedata, please contact me!
-
-## How to Run Sebedius Locally
-
-Install [Node.JS](https://nodejs.org/en/download/)
-
-Install the required packages with the command:
-```
-npm install
-```
-
-Create a `.env` file with the following parameter:
-```
-TOKEN="YourBotTokenAlphanumericChain"
-```
-
-Start the bot with the command:
-```
-npm start
-```
-
-And enjoy!
 
 # Contact
 
