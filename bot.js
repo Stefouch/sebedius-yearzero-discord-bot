@@ -19,7 +19,8 @@ const bot = new Sebedius(require('./config.json'));
  * READY LISTENER
  */
 bot.on('ready', async () => {
-	bot.admin = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
+	await bot.populateBans();
+	bot.admin = await bot.getUser(bot.config.ownerID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
@@ -49,6 +50,9 @@ bot.on('message', async message => {
 	if (message.author.bot) return;
 	// if (message.author.id === bot.user.id) return;
 
+	// Exits if the bot is not ready.
+	if (bot.state !== 'ready') return;
+
 	// Gets the guild's prefixes (an array).
 	const prefixes = await bot.getPrefixes(message);
 	let prefix;
@@ -61,8 +65,9 @@ bot.on('message', async message => {
 	if (!prefix) return;
 
 	// Aborts if the user or the channel are banned.
-	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
-	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
+	if (bot.mutedUsers.has(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
+	//if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
+	//if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
 
 	// Adds important data to the context of the message.
 	message.prefix = prefix;
@@ -109,6 +114,36 @@ bot.on('message', async message => {
 });
 
 /* !
+ * GUILD LISTENER
+ */
+bot.on('guildCreate', async guild => {
+	console.log(`[GUILD] Joined: ${guild.name} (${guild.id})`);
+	if (bot.blacklistedServers.has(guild.id)) {
+		return await guild.leave();
+	}
+	// if (bot.whitelistedServers.has(guild.id)) return;
+	guild = await guild.fetch();
+	const bots = guild.members.cache.filter(m => m.bot).size;
+	const members = guild.memberCount;
+	const ratio = bots / members;
+	if (ratio >= 0.6 && members >= 20) {
+		console.warn(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
+		try {
+			await guild.owner.send(
+				'Please do not add me to bot collection servers. '
+				+ 'Your server was flagged for having over 60% bots.'
+				+ 'If you believe this is an error, please PM the bot author.',
+			);
+		}
+		catch (error) { console.error(error); }
+		await guild.leave();
+	}
+});
+bot.on('guildDelete', guild => {
+	console.log(`[GUILD] Left: ${guild.name} (${guild.id})`);
+});
+
+/* !
  * ERROR LISTENER
  */
 bot.on('error', error => onError(error));
@@ -121,7 +156,6 @@ process.on('unhandledRejection', error => {
 	console.error('[Error] Uncaught Promise Rejection', error);
 	onError(error);
 });
-
 
 /**
  * Errors Manager.

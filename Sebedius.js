@@ -8,9 +8,9 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
-if (process.env.NODE_ENV !== 'production') {
+//if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
-}
+//}
 
 class Sebedius extends Discord.Client {
 
@@ -49,7 +49,8 @@ class Sebedius extends Discord.Client {
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
-		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
+		//this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
+		this.dbUri = process.env.NODE_ENV !== 'production' ? process.env.DATABASE_URL : null;
 		console.log('      > Creation...');
 		this.kdb = {
 			prefixes: new Keyv(this.dbUri, { namespace: 'prefix' }),
@@ -58,6 +59,8 @@ class Sebedius extends Discord.Client {
 			langs: new Keyv(this.dbUri, { namespace: 'lang' }),
 			combats: new Keyv(this.dbUri, { namespace: 'combat' }),
 			stats: new Keyv(this.dbUri, { namespace: 'count' }),
+			blacklistedServers: new Keyv(this.dbUri, { namespace: 'blacklist' }),
+			mutedUsers: new Keyv(this.dbUri, { namespace: 'ban' }),
 		};
 		this.kdb.prefixes.on('error', err => console.error('Keyv Connection Error: prefixes', err));
 		this.kdb.initiatives.on('error', err => console.error('Keyv Connection Error: initiatives', err));
@@ -65,12 +68,48 @@ class Sebedius extends Discord.Client {
 		this.kdb.langs.on('error', err => console.error('Keyv Connection Error: langs', err));
 		this.kdb.combats.on('error', err => console.error('Keyv Connection Error: combats', err));
 		this.kdb.stats.on('error', err => console.error('Keyv Connection Error: stats', err));
+		this.kdb.blacklistedServers.on('error', err => console.error('Keyv Connection Error: blacklistedServers', err));
+		this.kdb.mutedUsers.on('error', err => console.error('Keyv Connection Error: mutedUsers', err));
+
+		// Loads blacklists.
+		this.blacklistedServers = new Set();
+		this.mutedUsers = new Set();
+
+		// Ready.
 		console.log('      > Loaded & Ready!');
 	}
 
-	async kdbEntries() {
-		const entries = await this.kdb.combats.opts.store.query('SELECT * FROM keyv;');
+	/**
+	 * Gets all the entries of a database.
+	 * @param {string} namespace Database's namespace
+	 * @returns {Promise<Array>}
+	 * @async
+	 */
+	async kdbEntries(namespace) {
+		let entries = [];
+		const db = this.kdb[namespace];
+		if (db) {
+			const store = db.opts.store;
+			if (store instanceof Map) {
+				entries = [...store.entries()];
+			}
+			else {
+				entries = await store.query(
+					`SELECT * FROM keyv
+					WHERE key LIKE '${namespace}%'`,
+				);
+			}
+		}
 		console.log(entries);
+		return entries;
+	}
+
+	async populateBans() {
+		(await this.kdbEntries('mutedUsers')).forEach(u => {
+			console.log(u);
+			const uid = 0;
+			this.mutedUsers.add(uid);
+		});
 	}
 
 	/**
@@ -92,6 +131,42 @@ class Sebedius extends Discord.Client {
 			this.commands.set(command.name, command);
 			console.log(`[+] - Command loaded: ${command.name}.js`);
 		}
+	}
+
+	/**
+	 * Gets a User.
+	 * @param {Snowflake} userId User ID
+	 * @returns {Promise<Discord.User>}
+	 * @async
+	 */
+	async getUser(userId) {
+		let user = this.users.cache.get(userId);
+		if (!user) user = await this.users.fetch(userId).catch(console.error);
+		return user;
+	}
+
+	/**
+	 * Gets a Channel.
+	 * @param {Snowflake} chanId Channel ID
+	 * @returns {Promise<Discord.BaseChannel>}
+	 * @async
+	 */
+	async getChannel(chanId) {
+		let chan = this.channels.cache.get(chanId);
+		if (!chan) chan = await this.channels.fetch(chanId).catch(console.error);
+		return chan;
+	}
+
+	/**
+	 * Gets a Guild.
+	 * @param {Snowflake} guildId Guild ID
+	 * @returns {Promise<Discord.Guild>}
+	 * @async
+	 */
+	async getGuild(guildId) {
+		let guild = this.guilds.cache.get(guildId);
+		if (!guild) guild = await this.guilds.fetch(guildId).catch(console.error);
+		return guild;
 	}
 
 	/**
@@ -470,7 +545,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	static async getUserFromMention(mention, client) {
-		// The id is the first and only match found by the RegEx.
+		// The id is the first and only match found by the RegExp.
 		const matches = mention.match(/^<@!?(\d+)>$/);
 
 		// If supplied variable was not a mention, matches will be null instead of an array.
@@ -492,7 +567,7 @@ class Sebedius extends Discord.Client {
 	 * Fetches a Member based on its name, mention or ID.
 	 * @param {string} needle Name, mention or ID
 	 * @param {Discord.Message} ctx The triggering message with context
-	 * @returns {Promise<Discord.Member>|Discord.Member}
+	 * @returns {Promise<Discord.Member>}
 	 * @static
 	 * @async
 	 */

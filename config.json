@@ -4,8 +4,6 @@
 	"ownerID": "405389936783523840",
 	"defaultPrefix": "!",
 	"perms": { "bitfield": 355392 },
-	"bannedServers": [],
-	"bannedUsers": [],
 	"activityLoopDelay": 600,
 	"commands": {
 		"roll": {
