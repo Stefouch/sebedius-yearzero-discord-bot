@@ -1,7 +1,7 @@
-const { version } = require('discord.js');
 const ms = require('ms');
 const os = require('os');
 const worker = require('core-worker');
+const { version } = require('discord.js');
 const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
@@ -23,8 +23,7 @@ module.exports = {
 			ctx.bot.guilds.cache.forEach(guild => {
 				guilds.push(`* ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
 			});
-			ctx.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
-			setOnlineActivity(ctx.bot, guilds.length);
+			await ctx.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
 		}
 		// Gets info from the Bot.
 		else if (args.includes('botinfo')) {
@@ -46,21 +45,14 @@ module.exports = {
 					.addField('NPM Version', npmv.data.replace('\n', ''), true)
 					.addField('OS', `${os.platform()} (${process.arch})`, true)
 					.setTimestamp();
-				ctx.channel.send(stats);
+				await ctx.channel.send(stats);
 			}
 			catch (err) {
 				console.error('Botinfo Error', err);
 			}
 		}
+		else {
+			await ctx.reply('Hello! Please give me a subcommand.');
+		}
 	},
 };
-
-/**
- * Sets the bot's activity to online.
- * @param {Discord.client} client The bot's client
- * @param {number} serverQty Quantity of servers the bot is connected to.
- */
-function setOnlineActivity(client, serverQty) {
-	client.user.setActivity(`YZE on ${serverQty} server${(serverQty > 1) ? 's' : ''}`, { type: 'PLAYING' });
-	client.user.setPresence({ status: 'online', afk: false });
-}
