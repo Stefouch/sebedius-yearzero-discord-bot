@@ -66,15 +66,6 @@ bot.on('message', async message => {
 	}
 	if (!prefix) return;
 
-	// Aborts if the user or the guild are banned.
-	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
-		return await message.reply('⛔ You have been banned and cannot use my commands.');
-	}
-	if (bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
-		return await message.reply('⛔ This server has been banned and cannot use my commands.');
-		// return await message.channel.guild.leave();
-	}
-
 	// Adds important data to the context of the message.
 	message.prefix = prefix;
 	message.bot = bot;
@@ -89,6 +80,15 @@ bot.on('message', async message => {
 
 	// Exits early if there is no command with this name.
 	if (!command) return;
+
+	// Aborts if the user or the guild are banned.
+	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
+		return await message.reply('⛔ You have been muted and cannot use my commands.');
+	}
+	if (bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
+		return await message.reply('⛔ This server has been blacklisted and cannot use my commands.');
+		// return await message.channel.guild.leave();
+	}
 
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && message.channel.type !== 'text') {
