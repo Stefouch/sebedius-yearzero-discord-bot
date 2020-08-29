@@ -3,7 +3,7 @@ const { MessageEmbed } = require('discord.js');
 module.exports = {
 	name: 'help',
 	group: 'Core',
-	description: 'List all availabe commands or info about a specific command.'
+	description: 'Lists all available commands. If a command\'s name is specified, prints more info about that specific command instead.'
 		+ '\nUse the argument `--no-dm` to display the help message on the channel.',
 	guildOnly: false,
 	args: false,

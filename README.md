@@ -11,7 +11,7 @@ The supported games are:
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 * [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
-* Twilight 2000 v4
+* Twilight 2000 v4 *(unofficial pre-alpha rules)*
 
 # Add the Bot to your Server
 

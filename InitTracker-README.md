@@ -125,7 +125,7 @@ Inflicts damage to another combatant.
 | `-ab\|-bonus` | Armor bonus (applied after all other modifications). |
 | `-x\|-degrade` | Wether the armor should be degraded. If omitted, uses the default from the game set. |
 | `-noar\|-noarmor` | Skips the armor roll. |
-| `-h|-hidden|-private` | Hides the armor roll. |
+| `-h\|-hidden\|-private` | Hides the armor roll. |
 
 ### `!init remove <name>`
 

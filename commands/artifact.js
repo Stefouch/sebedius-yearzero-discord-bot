@@ -5,13 +5,13 @@ const { random } = require('../utils/Util');
 module.exports = {
 	name: 'artifact',
 	group: 'Mutant: Year Zero',
-	description: 'Draws a random artifact from the MYZ core rulebook. Available sources are:'
-		+ '\n• `myz` – Mutant: Year Zero (default)'
+	description: 'Draws a random artifact from the MYZ core rulebook. Available sources are (combine one or more):'
+		+ '\n• `myz` – Mutant: Year Zero (default if none are specified)'
 		+ '\n• `gla` – Mutant: GenLab Alpha'
 		+ '\n• `mek` – Mutant: Mechatron'
 		+ '\n• `ely` – Mutant: Elysium'
 		+ '\n• `astra` – Mutant: Ad Astra'
-		+ '\nMetaplot items are removed by default. Use `meta` to add them to the roll.'
+		+ '\nMetaplot items are removed by default. Use `meta` to add them to the stack.'
 		+ '\nUse `all` to pick from all book sources (including metaplot items).',
 	aliases: ['arto'],
 	guildOnly: false,
