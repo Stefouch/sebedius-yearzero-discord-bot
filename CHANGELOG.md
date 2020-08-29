@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.3.x] - 2020-09-01
+### Added
+- New admin tools to remotely manage the bot.
+
 ## [3.3.3] - 2020-08-26
 ### Added
 - New command argument `-mod <±X>` for `!roll`: Applies a difficulty modifier of `+X` or `-X` to the roll.
