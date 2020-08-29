@@ -19,10 +19,12 @@ module.exports = {
 		if (args.length >= 2) {
 			switch (args[0]) {
 				case 'mute': case 'ban': return await mute(ctx, args[1]);
+				case 'unmute': case 'unban': return await unmute(ctx, args[1]);
 				case 'blacklist': return await blacklist(ctx, args[1]);
+				case 'whitelist': return await whitelist(ctx, args[1]);
 				case 'leave': return await leave(ctx, args[1]);
 				case 'whois': return await whois(ctx, args[1]);
-				case 'servinfo': return await servInfo(ctx, args[1]);
+				case 'servinfo': return await guildInfo(ctx, args[1]);
 				case 'chansay': {
 					args.shift();
 					const channel = args.shift();
@@ -34,20 +36,10 @@ module.exports = {
 		else {
 			switch (args[0]) {
 				case 'botinfo': case 'info': return await botInfo(ctx);
+				case 'servers': return await listGuilds(ctx);
 			}
 		}
-		// Lists servers the bot is connected to
-		// and updates the bot's activity according to the updated value.
-		if (args.includes('servers') || args.includes('serv')) {
-			const guilds = [];
-			ctx.bot.guilds.cache.forEach(guild => {
-				guilds.push(`* ${guild.name} (${guild.id}) m: ${guild.memberCount}`);
-			});
-			return await ctx.author.send(`List of guilds:\n${guilds.join('\n')}`, { split: true });
-		}
-		else {
-			return await ctx.reply('Hello! Please give me a subcommand.');
-		}
+		return await ctx.reply('Hello! Please give me a subcommand.');
 	},
 };
 
@@ -112,7 +104,7 @@ async function whois(ctx, userId) {
  * @param {Snowflake} guildId Guild ID
  * @async
  */
-async function servInfo(ctx, guildId) {
+async function guildInfo(ctx, guildId) {
 	const guild = await ctx.bot.getGuild(guildId);
 	const embed = new GuildEmbed(guild);
 	// await embed.addInviteField();
@@ -146,8 +138,36 @@ async function mute(ctx, userId) {
 	const resp = await ctx.bot.kdb.mutedUsers.set(userId);
 	const msg = resp
 		? `✅ User **${userId}** has been banned.`
+		: `❌ User **${userId}** was not banned.`;
+	return await ctx.reply(msg);
+}
+
+/**
+ * Unbans/unmutes a user.
+ * @param {Discord.message} ctx Discord message with context
+ * @param {Snowflake} userId User ID
+ * @async
+ */
+async function unmute(ctx, userId) {
+	ctx.bot.mutedUsers.delete(userId);
+	const resp = await ctx.bot.kdb.mutedUsers.delete(userId);
+	const msg = resp
+		? `✅ User **${userId}** has been unbanned.`
 		: '❌ An error occured.';
 	return await ctx.reply(msg);
+}
+
+/**
+ * Prints the list of all servers.
+ * @param {Discord.Message} ctx Discord message with context
+ * @async
+ */
+async function listGuilds(ctx) {
+	const guilds = ['List of guilds:'];
+	ctx.bot.guilds.cache.forEach(g => {
+		guilds.push(`${g.name} (${g.id}): **${g.memberCount}** members`);
+	});
+	return await ctx.author.send(guilds.join('\n'), { split: true });
 }
 
 /**
