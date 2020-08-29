@@ -1,25 +1,34 @@
 {
   "name": "sebedius_yz_discord_bot",
   "version": "3.0.0",
-  "description": "A Bot Companion for running Year Zero roleplaying games over Discord.",
-  "main": "bot.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node .",
-    "lint": "eslint ."
-  },
+  "description": "A bot companion for running Year Zero roleplaying games over Discord.",
+  "author": "Stefouch",
+  "license": "MIT",
+  "homepage": "https://stefouch.be/",
   "keywords": [
     "year zero",
     "free league publishing",
     "dice",
     "roll"
   ],
-  "author": "Stefouch",
-  "license": "MIT",
-  "bugs": {
-    "email": "support@stefouch.be"
+  "readme": "https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Stefouch/sebedius-myz-discord-bot.git"
   },
-  "homepage": "https://stefouch.be/",
+  "bugs": {
+    "url": "https://github.com/Stefouch/sebedius-myz-discord-bot/issues"
+  },
+  "engines": {
+    "npm": ">=6.14.5",
+    "node": ">=12.18.0"
+  },
+  "main": "bot.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node .",
+    "lint": "eslint ."
+  },
   "dependencies": {
     "@keyv/postgres": "^1.0.16",
     "card-deck": "^1.0.1",
