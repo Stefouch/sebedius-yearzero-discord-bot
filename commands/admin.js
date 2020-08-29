@@ -58,20 +58,20 @@ module.exports = {
  * @async
  */
 async function blacklist(ctx, guildId) {
-	ctx.bot.blacklistedServers.add(guildId);
-	const resp = await ctx.bot.kdb.blacklistedServers.set(guildId, 1);
+	ctx.bot.blacklistedGuilds.add(guildId);
+	const resp = await ctx.bot.kdb.blacklistedGuilds.set(guildId, 1);
 	const msg = resp
-		? `:white_check_mark: Server "${guildId}" has been blacklisted.`
-		: ':x: An error occured.';
+		? `✅ Server "${guildId}" has been blacklisted.`
+		: '❌ An error occured.';
 	return await ctx.reply(msg);
 }
 
 async function whitelist(ctx, guildId) {
-	ctx.bot.blacklistedServers.delete(guildId);
-	const resp = await ctx.bot.kdb.blacklistedServers.delete(guildId);
+	ctx.bot.blacklistedGuilds.delete(guildId);
+	const resp = await ctx.bot.kdb.blacklistedGuilds.delete(guildId);
 	const msg = resp
-		? `:white_check_mark: Server "${guildId}" has been removed from the blacklist.`
-		: `:x: Server "${guildId}" is not blacklisted.`;
+		? `✅ Server "${guildId}" has been removed from the blacklist.`
+		: `❌ Server "${guildId}" is not blacklisted.`;
 	return await ctx.reply(msg);
 }
 
@@ -87,8 +87,8 @@ async function chanSay(ctx, chanId, message) {
 	if (!chan) return await ctx.reply(':x: Channel not found');
 	const resp = await chan.send(message);
 	const msg = resp
-		? ':white_check_mark: Message sent.'
-		: ':x: Message not sent.';
+		? '✅ Message sent.'
+		: '❌ Message not sent.';
 	return await ctx.reply(msg);
 }
 
@@ -113,12 +113,7 @@ async function whois(ctx, userId) {
  * @async
  */
 async function servInfo(ctx, guildId) {
-	let guild = await ctx.bot.getGuild(guildId);
-	if (!guild) {
-		const chan = await ctx.bot.getChannel(guildId);
-		if (!chan) return false;
-		else guild = chan.guild;
-	}
+	const guild = await ctx.bot.getGuild(guildId);
 	const embed = new GuildEmbed(guild);
 	// await embed.addInviteField();
 	return ctx.channel.send(embed);
@@ -135,8 +130,8 @@ async function leave(ctx, guildId) {
 	if (!guild) return false;
 	const resp = await guild.leave();
 	const msg = resp
-		? `:white_check_mark: Left guild **${guild.name}**`
-		: ':x: An error occured.';
+		? `✅ Left guild **${guild.name}**`
+		: '❌ An error occured.';
 	return await ctx.reply(msg);
 }
 
@@ -148,10 +143,10 @@ async function leave(ctx, guildId) {
  */
 async function mute(ctx, userId) {
 	ctx.bot.mutedUsers.add(userId);
-	const resp = await ctx.bot.kdb.mutedUsers.set(userId, 1);
+	const resp = await ctx.bot.kdb.mutedUsers.set(userId);
 	const msg = resp
-		? `:white_check_mark: User **${userId}** has been muted.`
-		: ':x: An error occured.';
+		? `✅ User **${userId}** has been banned.`
+		: '❌ An error occured.';
 	return await ctx.reply(msg);
 }
 

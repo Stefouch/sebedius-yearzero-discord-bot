@@ -19,14 +19,16 @@ const bot = new Sebedius(require('./config.json'));
  * READY LISTENER
  */
 bot.on('ready', async () => {
-	await bot.populateBans();
-	bot.admin = await bot.getUser(bot.config.ownerID);
+	bot.admin = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
 	console.log(`| Logged in as: ${bot.user.tag} (${bot.user.id})`);
 	console.log(`| # Servers: ${bot.guilds.cache.size}`);
 	console.log('|===========================================================');
+
+	// Sets banned users and blacklisted guilds. (Promise)
+	bot.populateBans();
 
 	// Activities Loop.
 	bot.user.setActivity({ name: `v${bot.version}`, type: 'PLAYING' });
@@ -64,10 +66,14 @@ bot.on('message', async message => {
 	}
 	if (!prefix) return;
 
-	// Aborts if the user or the channel are banned.
-	if (bot.mutedUsers.has(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
-	//if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
-	//if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
+	// Aborts if the user or the guild are banned.
+	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
+		return await message.reply('⛔ You have been banned and cannot use my commands.');
+	}
+	if (bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
+		return await message.reply('⛔ This server has been banned and cannot use my commands.');
+		// return await message.channel.guild.leave();
+	}
 
 	// Adds important data to the context of the message.
 	message.prefix = prefix;
@@ -118,12 +124,12 @@ bot.on('message', async message => {
  */
 bot.on('guildCreate', async guild => {
 	console.log(`[GUILD] Joined: ${guild.name} (${guild.id})`);
-	if (bot.blacklistedServers.has(guild.id)) {
+	if (bot.blacklistedGuilds.has(guild.id)) {
 		return await guild.leave();
 	}
-	// if (bot.whitelistedServers.has(guild.id)) return;
+	// if (bot.whitelistedGuilds.has(guild.id)) return;
 	guild = await guild.fetch();
-	const bots = guild.members.cache.filter(m => m.bot).size;
+	const bots = guild.members.cache.filter(m => m.user.bot).size;
 	const members = guild.memberCount;
 	const ratio = bots / members;
 	if (ratio >= 0.6 && members >= 20) {
@@ -135,7 +141,7 @@ bot.on('guildCreate', async guild => {
 				+ 'If you believe this is an error, please PM the bot author.',
 			);
 		}
-		catch (error) { console.error(error); }
+		catch (err) { console.error(err); }
 		await guild.leave();
 	}
 });

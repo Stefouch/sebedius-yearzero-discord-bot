@@ -8,9 +8,21 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
-//if (process.env.NODE_ENV !== 'production') {
+// Databases map: { name: namespace }
+const DB_MAP = {
+	prefixes: 'prefix',
+	initiatives: 'initiative',
+	games: 'game',
+	langs: 'lang',
+	combats: 'combat',
+	stats: 'count',
+	blacklistedGuilds: 'blacklisted',
+	mutedUsers: 'muted',
+};
+
+if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
-//}
+}
 
 class Sebedius extends Discord.Client {
 
@@ -25,8 +37,8 @@ class Sebedius extends Discord.Client {
 				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
 				intents: [
 					'GUILDS',
-					// 'GUILD_PRESENCES',
-					// 'GUILD_MEMBERS',
+					'GUILD_PRESENCES',
+					'GUILD_MEMBERS',
 					'GUILD_MESSAGES',
 					'GUILD_MESSAGE_REACTIONS',
 					'DIRECT_MESSAGES',
@@ -49,30 +61,17 @@ class Sebedius extends Discord.Client {
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
-		//this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
-		this.dbUri = process.env.NODE_ENV !== 'production' ? process.env.DATABASE_URL : null;
+		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
+		//this.dbUri = process.env.NODE_ENV !== 'production' ? process.env.DATABASE_URL : null;
 		console.log('      > Creation...');
-		this.kdb = {
-			prefixes: new Keyv(this.dbUri, { namespace: 'prefix' }),
-			initiatives: new Keyv(this.dbUri, { namespace: 'initiative' }),
-			games: new Keyv(this.dbUri, { namespace: 'game' }),
-			langs: new Keyv(this.dbUri, { namespace: 'lang' }),
-			combats: new Keyv(this.dbUri, { namespace: 'combat' }),
-			stats: new Keyv(this.dbUri, { namespace: 'count' }),
-			blacklistedServers: new Keyv(this.dbUri, { namespace: 'blacklist' }),
-			mutedUsers: new Keyv(this.dbUri, { namespace: 'ban' }),
-		};
-		this.kdb.prefixes.on('error', err => console.error('Keyv Connection Error: prefixes', err));
-		this.kdb.initiatives.on('error', err => console.error('Keyv Connection Error: initiatives', err));
-		this.kdb.games.on('error', err => console.error('Keyv Connection Error: games', err));
-		this.kdb.langs.on('error', err => console.error('Keyv Connection Error: langs', err));
-		this.kdb.combats.on('error', err => console.error('Keyv Connection Error: combats', err));
-		this.kdb.stats.on('error', err => console.error('Keyv Connection Error: stats', err));
-		this.kdb.blacklistedServers.on('error', err => console.error('Keyv Connection Error: blacklistedServers', err));
-		this.kdb.mutedUsers.on('error', err => console.error('Keyv Connection Error: mutedUsers', err));
+		this.kdb = {};
+		for (const name in DB_MAP) {
+			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
+			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}`, err));
+		}
 
 		// Loads blacklists.
-		this.blacklistedServers = new Set();
+		this.blacklistedGuilds = new Set();
 		this.mutedUsers = new Set();
 
 		// Ready.
@@ -81,35 +80,45 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets all the entries of a database.
-	 * @param {string} namespace Database's namespace
-	 * @returns {Promise<Array>}
+	 * @param {string} name Database's name
+	 * @param {?string} namespace Database's namespace, if you one to specify another one.
+	 * @returns {Promise<Array<String, String>>} Promise of an Array of [Key, Value]
 	 * @async
 	 */
-	async kdbEntries(namespace) {
+	async kdbEntries(name, namespace = null) {
 		let entries = [];
-		const db = this.kdb[namespace];
+		const db = this.kdb[name];
 		if (db) {
 			const store = db.opts.store;
 			if (store instanceof Map) {
 				entries = [...store.entries()];
 			}
 			else {
+				const nmspc = namespace ? namespace : DB_MAP[name];
 				entries = await store.query(
 					`SELECT * FROM keyv
-					WHERE key LIKE '${namespace}%'`,
+					WHERE key LIKE '${nmspc}%'`,
 				);
+				entries = entries.map(kv => [kv.key, kv.value]);
 			}
 		}
-		console.log(entries);
 		return entries;
 	}
 
+	/**
+	 * Populates mutedUsers & blacklistedGuilds Sets.
+	 * @async
+	 */
 	async populateBans() {
-		(await this.kdbEntries('mutedUsers')).forEach(u => {
-			console.log(u);
-			const uid = 0;
-			this.mutedUsers.add(uid);
-		});
+		const bans = ['mutedUsers', 'blacklistedGuilds'];
+		for (const b of bans) {
+			(await this.kdbEntries(b)).forEach(e => {
+				const regex = new RegExp(`${DB_MAP[b]}:(\\d+)`);
+				const uid = e[0].replace(regex, '$1');
+				this[b].add(uid);
+				console.log(`>! ${DB_MAP[b].toUpperCase()}: ${uid}`);
+			});
+		}
 	}
 
 	/**
@@ -159,13 +168,17 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a Guild.
-	 * @param {Snowflake} guildId Guild ID
+	 * @param {Snowflake} guildId Guild ID, or guild's Channel ID.
 	 * @returns {Promise<Discord.Guild>}
 	 * @async
 	 */
 	async getGuild(guildId) {
 		let guild = this.guilds.cache.get(guildId);
 		if (!guild) guild = await this.guilds.fetch(guildId).catch(console.error);
+		if (!guild) {
+			const chan = await this.getChannel(guildId);
+			if (chan) guild = chan.guild;
+		}
 		return guild;
 	}
 
