@@ -85,7 +85,7 @@ bot.on('message', async message => {
 	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
 		return await message.reply('⛔ You have been muted and cannot use my commands.');
 	}
-	if (bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
+	if (message.channel.type === 'text' && bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
 		return await message.reply('⛔ This server has been blacklisted and cannot use my commands.');
 		// return await message.channel.guild.leave();
 	}
