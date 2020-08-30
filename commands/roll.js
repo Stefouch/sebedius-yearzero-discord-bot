@@ -34,15 +34,15 @@ module.exports = {
 		],
 		[
 			'Rolling Year Zero Dice',
-			'Use any combinations of these letters with a number:'
+			'Use a number in any combinations with these letters:'
 			+ '\n• `b` – Base dice (attributes)'
 			+ '\n• `s` – Skill dice (or Stress dice for *Alien RPG*)'
 			+ '\n• `n` – Negative dice (*MYZ* and *FBL* only)'
 			+ '\n• `d` – Generic dice (or Ammo dice for *Twilight 2000*)'
 			+ '\n• `a` – Ammo dice (*Twilight 2000* only)'
-			+ '\n• `a8` – D8 Artifact dice (see *FBL*)'
-			+ '\n• `a10` – D10 Artifact dice (see *FBL*)'
-			+ '\n• `a12` – D12 Artifact dice (see *FBL*)'
+			+ '\n• `a8` – D8 Artifact die (see *FBL*)'
+			+ '\n• `a10` – D10 Artifact die (see *FBL*)'
+			+ '\n• `a12` – D12 Artifact die (see *FBL*)'
 			+ '\n\n*Example:* `roll 5b 3s 2g`',
 		],
 		[
@@ -54,7 +54,7 @@ module.exports = {
 			+ '\n`-mod <±X>`: Applies a difficulty modifier of `+X` or `-X` to the roll.'
 			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
 			+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).'
-			+ '\n`-minpanic <value>` : Adjust a minimum treshold for multiple consecutive panic effects (Alien RPG).',
+			+ '\n`-minpanic <value>` : Adjusts a minimum treshold for multiple consecutive panic effects (Alien RPG).',
 		],
 		[
 			'More Info',
@@ -71,15 +71,15 @@ module.exports = {
 			+ '\n`rf` – Rolls *Forbidden Lands* dice.'
 			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
 			+ '\n`rc` – Rolls *Coriolis* dice.'
-			+ '\n`ra` – Rolls *ALIEN* dice.'
+			+ '\n`ra` – Rolls *Alien RPG* dice.'
 			+ '\n`rv` – Rolls *Vaesen* dice.'
-			+ '\n`rw` – Rolls *Twilight 2000* dice.',
+			+ '\n`rw` – Rolls *Twilight 2000 4E* dice.',
 		],
 	],
 	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
 	guildOnly: false,
 	args: true,
-	usage: '[game] <dice> [arguments]',
+	usage: '[game] <dice...> [arguments...]',
 	async execute(args, ctx) {
 		// Changes '#' with '-name'.
 		const hashTagIndex = args.indexOf('#');
