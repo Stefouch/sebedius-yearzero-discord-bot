@@ -7,6 +7,6 @@ module.exports = {
 	args: true,
 	usage: '<ep>',
 	async execute(args, ctx) {
-		await ctx.bot.commands.get('myzpower').execute(['mec', args[0]], ctx);
+		await ctx.bot.commands.get('myzpower').execute(['mek', args[0]], ctx);
 	},
 };
