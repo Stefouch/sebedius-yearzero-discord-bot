@@ -23,35 +23,8 @@ The link will prompt you to authorize the bot on a server. Once the bot's author
 
 Commands are triggered with the prefix `!` or by mentioning the bot. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
 
-
-
-
-
-### Generic commands
-
-* `!ping` – Checks the bot's latency.
-* `!invite` – Prints a link to invite Sebedius to your server.
-* `!changelog` – Prints a link to the official changelog.
-
-### **Forbidden Lands** commands
-
-
-* `!demon` – Generates a random demon according to the tables found in the *Gamemaster's Guide*.
-
-### **ALIEN** commands
-
-* `!planet` – Generates a random planet.
-* `!colony` – Generates a random colonized planet.
-* `!star` – Generates a random star sector.
-* `!job <cargo | mil | expe>` – Generates a random job.
-
-
-
-## Command Aliases
-
-Most commands have aliases. For example, hitting `!roll` or `!sla` or `!r` has the same output.
-
-Type `!help <command>` for a list of aliases for a specific command.
+Check the **Wiki** for the list of available commands:
+https://github.com/Stefouch/sebedius-myz-discord-bot/wiki#list-of-commands
 
 # Permissions
 
