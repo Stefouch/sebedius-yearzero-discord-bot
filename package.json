@@ -20,7 +20,7 @@
   "bugs": {
     "url": "https://github.com/Stefouch/sebedius-myz-discord-bot/issues"
   },
-  "engines": {
+  "-engines": {
     "npm": ">=6.14.5",
     "node": ">=12.18.0"
   },
