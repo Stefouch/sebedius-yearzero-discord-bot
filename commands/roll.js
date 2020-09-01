@@ -17,7 +17,7 @@ const DICE_RANGE_ICONS = {
 
 module.exports = {
 	name: 'roll',
-	group: 'Core',
+	group: 'Common',
 	description: 'Rolls dice for any Year Zero roleplaying game.',
 	moreDescriptions: [
 		[
@@ -242,6 +242,9 @@ module.exports = {
 			roll.setName(`Initiative${name ? ` (${name})` : ''}`)
 				.addSkillDice(1)
 				.maxPush = 0;
+
+			// Forces Init Roll Embed. Unofficial YZRoll's property.
+			roll.initiative = true;
 		}
 		// Checks if PRIDE roll alone.
 		else if (rollargv.pride || rollargv._.includes('pride')) {
@@ -284,7 +287,6 @@ module.exports = {
 
 		// Logs and Roll.
 		console.log(roll.toString());
-		//console.log(rollargv);
 
 		// Validations.
 		// Aborts if too many dice.
@@ -300,7 +302,13 @@ module.exports = {
 		if (roll.d66) {
 			await ctx.channel.send(
 				Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getD66EmbedDiceResults(roll, ctx),
+				getEmbedD66Results(roll, ctx),
+			);
+		}
+		else if(roll.initiative) {
+			await ctx.channel.send(
+				Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				getEmbedInitRollResults(roll, ctx),
 			);
 		}
 		else if (roll.game === 'generic') {
@@ -463,7 +471,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		}
 		else {//*/
 		desc += `\nAmmo: **${ammoRollSum}**`;
-		//}
+		// }
 	}
 	if (opts.panic && roll.panic) {
 		desc += '\n**PANIC!!!**';
@@ -534,7 +542,7 @@ function getEmbedGenericDiceResults(roll, ctx) {
  * @param {Discord.Message} ctx The triggering message with context
  * @returns {Discord.MessageEmbed} A Discord Embed Object
  */
-function getD66EmbedDiceResults(roll, ctx) {
+function getEmbedD66Results(roll, ctx) {
 	const embed = new YZEmbed(
 		`${roll.name} = __**${roll.baseSix('skill')}**__`,
 		undefined,
@@ -542,5 +550,22 @@ function getD66EmbedDiceResults(roll, ctx) {
 		true,
 	);
 	embed.setFooter('Single D6 / D66 / D666 Roll');
+	return embed;
+}
+
+/**
+ * Gets an Embed for the __Init Roll__ dice results.
+ * @param {YZRoll} roll The 'Roll' Object
+ * @param {Discord.Message} ctx The triggering message with context
+ * @returns {Discord.MessageEmbed} A Discord Embed Object
+ */
+function getEmbedInitRollResults(roll, ctx) {
+	const embed = new YZEmbed(
+		roll.name,
+		'```\n' + roll.sum() + '\n```',
+		ctx,
+		true,
+	);
+	// embed.setFooter('Initiative Roll');
 	return embed;
 }
