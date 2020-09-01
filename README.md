@@ -1,8 +1,27 @@
-# Year Zero Discord Bot
+<h1 align="center">Year Zero Discord Bot<br /><i>Sebedius</i></h1>
+<p>
+  <img alt="Version" src="https://img.shields.io/badge/version-3.4.0-blue.svg?cacheSeconds=2592000" />
+  <a href="https://discord.js.org/" target="_blank">
+    <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v12-informational?logo=discord" />
+  </a>
+  <a href="https://github.com/Stefouch/sebedius-myz-discord-bot/wiki" target="_blank">
+    <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg" />
+  </a>
+  <a href="https://github.com/Stefouch/sebedius-myz-discord-bot/graphs/commit-activity" target="_blank">
+    <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg" />
+  </a>
+  <a href="https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/LICENSE" target="_blank">
+    <img alt="License: MIT" src="https://img.shields.io/github/license/Stefouch/sebedius-myz-discord-bot" />
+  </a>
+  <a href="https://www.patreon.com/Stefouch">
+    <img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon">
+  </a>
+  <a href="https://twitter.com/stefouch" target="_blank">
+    <img alt="Twitter: stefouch" src="https://img.shields.io/twitter/follow/stefouch.svg?style=social" />
+  </a>
+</p>
 
-[![Discord Bots](https://discordbots.org/api/widget/status/543445246143365130.svg)](https://discordbots.org/bot/543445246143365130)
-
-**Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by *Free League Publishing (Fria Ligan)*.
+> **Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by *Free League Publishing (Fria Ligan)*.
 
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/) & extensions
@@ -13,20 +32,43 @@ The supported games are:
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 * Twilight 2000 4E *(unofficial pre-alpha rules)*
 
-# Add the Bot to your Server
+# How to Use
 
-Follow this link: https://discordapp.com/api/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=355392
+1. [Add the bot to your server](https://discord.com/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=355392)<br />
+The link will prompt you to authorize the bot on a server. Once the bot is authorized, you'll see it in the Member List.
 
-The link will prompt you to authorize the bot on a server. Once the bot's authorized, you'll see it in the Member List.
+2. [Read the Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki#list-of-commands)<br />
+Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebedius`.<br />*Example:* `!help` *or* `!roll`
 
-# Available Commands
+# Author
 
-Commands are triggered with the prefix `!` or by mentioning the bot. This prefix can be configured for your server. The commands can be executed from channels and some of them privately through DMs.
+## 👤 Stefouch
 
-Check the **Wiki** for the list of available commands:
-https://github.com/Stefouch/sebedius-myz-discord-bot/wiki#list-of-commands
+* **Twitter:** [@stefouch](https://twitter.com/stefouch)
+* **Github:** [@Stefouch](https://github.com/Stefouch)
+* **Discord:** Stefouch#5202 on [Year Zero Worlds](https://discord.gg/ftxkYZn)
 
-# Permissions
+# 🤝 Contributing
+
+Contributions, issues and feature requests are welcome!<br />Feel free to check [issues page](https://github.com/Stefouch/sebedius-myz-discord-bot/issues). You can also take a look at the [contributing guide](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CONTRIBUTING.md).
+
+# 🙏 Show Your Support
+
+Give a ⭐️ if this project helped you!
+
+<a href="https://www.patreon.com/Stefouch">
+  <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
+</a>
+
+Let's thank **Jeremy Mettler, Joe Guilmette, Matt Kay, Dale Chenault, Narcomed and all my other patrons** and generous donators who are supporting this project and are making it possible! *May the bot be merciful with their rolls.*
+
+[paypal.me/Stefouch](https://www.paypal.me/stefouch)
+
+# List of Changes
+
+See the [changelog](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot since 2019.
+
+# ☑ Permissions
 
 This is a detailed list of needed permissions:
 
@@ -38,44 +80,21 @@ This is a detailed list of needed permissions:
 * `READ_MESSAGE_HISTORY` : The bot cannot react to its own message without this permission.
 * `USE_EXTERNAL_EMOJIS` : The bot uses custom dice emojis.
 
-# List of Changes
+# 📝 License
 
-See the [CHANGELOG](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot.
+> The literal and graphical information presented with this bot about *Mutant: Year Zero*, *Forbidden Lands*, *Alien RPG*, *Twiligh 2000*, *Coriolis*, *Tales From the Loop* and *Vaesen*, including the textures (if any), is copyright *Free League Publishing (Fria Ligan)*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
 
-# License
+The dice images are courtery of the following people.<br />
+All credit goes to them!
 
-The literal and graphical information presented with this bot about *Mutant: Year Zero*, *Forbidden Lands* & *ALIEN*, including the textures, is copyright *Fria Ligan / Free League Publishing*. This bot is not produced by, endorsed by, supported by, or affiliated with *Fria Ligan*.
+- *Forbidden Lands* dice by **Hilton Perantunes**.
+- *Coriolis* & *Tales* dice by **Jonathan Pay**.
+- *Alien RPG* dice by **Radomir Balint**.
+- *Vaesen* dice by **Matt Kay**.
 
-The bot's JavasScript source code is under MIT license.
+Copyright © 2019-2020 [Stefouch](https://github.com/Stefouch).<br />
+This project JavaScript code is [MIT](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/LICENSE) licensed.
 
-The dice images are courtery of several people. Thanks to them for sharing them!
 
-- *Forbidden Lands* dice by Hilton Perantunes.
-- *Tales* & *Coriolis* dice by Jonathan Pay.
-- *Alien RPG* dice by Radomir Balint. 
-- *Vaesen* dice by Matt Kay.
-
-# Contributing
-
-If you've experience with the Discord.js API, you're more than welcome to help expand this project.
-
-If you've free time for encoding the monsters data or translate some gamedata, please contact me!
-
-# Contact
-
-Hit me up if you've any question!
-
-**Twitter:** [Stefouch](https://twitter.com/stefouch)
-
-**Discord:** Stefouch#5202 (join the [Year Zero Worlds](https://discord.gg/ftxkYZn) discord server for extra support and testing the bot.)
-
-# Support
-
-I'd like to thank **Jeremy Mettler, Joe Guilmette, Matt Kay, Dale Chenault, Narcomed and all my other patrons** and generous donators who are supporting this project and made it possible!
-
-You too you can support this project!
-<br />Visit the [Stefouch's Patreon page](https://patreon.com/Stefouch) for details.
-
-Paypal: [paypal.me/Stefouch](https://www.paypal.me/stefouch)
-
-=]¦¦¦¬ 
+***
+_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
