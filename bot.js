@@ -108,8 +108,8 @@ bot.on('message', async message => {
 	}
 
 	try {
-		console.log(`[COMMAND] ${message.author.tag} (${message.author.id})`
-			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
+		console.log(`[CMD] ${message.author.tag} (${message.author.id})`
+			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id}) in #${message.channel.name} (${message.channel.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
 		await command.execute(args, message);
