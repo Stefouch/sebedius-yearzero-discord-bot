@@ -20,9 +20,9 @@ const DB_MAP = {
 	mutedUsers: 'muted',
 };
 
-if (process.env.NODE_ENV !== 'production') {
+//if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
-}
+//}
 
 class Sebedius extends Discord.Client {
 
@@ -61,8 +61,8 @@ class Sebedius extends Discord.Client {
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
-		// this.dbUri = process.env.DATABASE_URL;
 		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
+		this.dbUri = process.env.DATABASE_URL;
 		console.log('      > Creation...');
 		this.kdb = {};
 		for (const name in DB_MAP) {
@@ -282,15 +282,12 @@ class Sebedius extends Discord.Client {
 		}
 		// Otherwise, loads from db and cache.
 		else {
-		console.log('not cached');
 			fetchedItem = await client.kdb[collectionName].get(guildID)
 				.catch(console.error);
-		console.log('fetched: ', fetchedItem);
 			if (!fetchedItem) fetchedItem = defaultItem;
 			if (fetchedItem) client[collectionName].set(guildID, fetchedItem);
 		}
 		// Returns the fetched prefixes.
-	console.log('Return fetchedItem: ', fetchedItem);
 		return fetchedItem;
 	}
 

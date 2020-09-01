@@ -47,15 +47,14 @@ bot.on('ready', async () => {
  * MESSAGE LISTENER
  */
 bot.on('message', async message => {
-console.log('$$$$ NEW COMMAND $$$');
 	// Exits early is the message was send by a bot
 	// and prevents bot from responding to its own messages.
 	if (message.author.bot) return;
 	// if (message.author.id === bot.user.id) return;
-console.log('passed message.author.bot');
+
 	// Exits if the bot is not ready.
 	if (bot.state !== 'ready') return;
-console.log('passed bot.state');
+
 	// Gets the guild's prefixes (an array).
 	const prefixes = await bot.getPrefixes(message);
 	let prefix;
@@ -64,9 +63,9 @@ console.log('passed bot.state');
 			prefix = pfx;
 			break;
 		}
-	}console.log('prefix: ', prefix);
+	}
 	if (!prefix) return;
-console.log('passed prefix');
+
 	// Adds important data to the context of the message.
 	message.prefix = prefix;
 	message.bot = bot;
@@ -81,7 +80,7 @@ console.log('passed prefix');
 
 	// Exits early if there is no command with this name.
 	if (!command) return;
-console.log('passed command');
+
 	// Aborts if the user or the guild are banned.
 	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
 		console.log(`[Banlist] User ${message.author.id} is MUTED.`);
@@ -92,7 +91,7 @@ console.log('passed command');
 		return await message.reply('⛔ This server has been blacklisted and cannot use my commands.');
 		// return await message.channel.guild.leave();
 	}
-console.log('passed banlist');
+
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && message.channel.type !== 'text') {
 		return message.reply('⚠️ I can\'t execute that command inside DMs!');
