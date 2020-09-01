@@ -1,4 +1,6 @@
 # TODO List
+- Revamp !HELP
+- PARTIALS ? (decrease memory usage)
 - Support for CHARACTER SHEETS (via Google)!
 - Init Tracker
   * Can't add a note to a group

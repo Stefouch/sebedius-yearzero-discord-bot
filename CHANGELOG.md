@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - New README.md file.
 - Migrated most of the help into the [Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki).
+- (API) Intents GUILD_PRESENCES & GUILD_MEMBERS enabled for the Admin tools.
 
 ### Fixed
 - A bug with `!module` command not working at all.
