@@ -1,6 +1,6 @@
 {
-  "name": "sebedius_yz_discord_bot",
-  "version": "3.0.0",
+  "name": "sebedius-yz-discord-bot",
+  "version": "3.4.0",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
   "license": "MIT",
@@ -12,6 +12,7 @@
     "roll"
   ],
   "readme": "https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md",
+  "wiki": "https://github.com/Stefouch/sebedius-myz-discord-bot/wiki",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Stefouch/sebedius-myz-discord-bot.git"
