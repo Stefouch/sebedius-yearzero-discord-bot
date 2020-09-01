@@ -29,9 +29,9 @@
 The supported games are:
 * [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/) & extensions
 * [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
+* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
-* [ALIEN The Roleplaying Game](https://alien-rpg.com/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
 * Twilight 2000 4E *(unofficial pre-alpha rules)*
 
