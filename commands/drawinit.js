@@ -5,7 +5,7 @@ const YZInitDeck = require('../yearzero/YZInitDeck');
 
 module.exports = {
 	name: 'drawinit',
-	group: 'Core',
+	group: 'Common',
 	description: 'Draws one or more initiative cards. The deck is specific to each Discord server.\n\n'
 		+ `__Parameter__
 		• \`[speed]\` – Number of initiative cards to draw. Default: 1.

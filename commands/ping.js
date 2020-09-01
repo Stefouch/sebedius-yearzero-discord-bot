@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'ping',
-	group: 'Core',
+	group: 'Other',
 	description: 'Checks the bot\'s latency.',
 	guildOnly: false,
 	args: false,

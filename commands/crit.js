@@ -24,7 +24,7 @@ const critTypeAliases = {
 
 module.exports = {
 	name: 'crit',
-	group: 'Core',
+	group: 'Common',
 	description: 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
 	moreDescriptions: [
 		[

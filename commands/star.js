@@ -4,8 +4,8 @@ const Util = require('../utils/Util');
 
 module.exports = {
 	name: 'star',
-	group: 'ALIEN rpg',
-	description: 'Generates a Star sector for the ALIEN rpg.',
+	group: 'Alien RPG',
+	description: 'Generates a Star sector for the Alien RPG.',
 	aliases: ['★'],
 	guildOnly: false,
 	args: false,

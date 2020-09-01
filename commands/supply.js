@@ -5,7 +5,7 @@ const YZRoll = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'supply',
-	group: 'ALIEN rpg',
+	group: 'Alien RPG',
 	description: 'Rolls for a supply.',
 	aliases: ['sup'],
 	guildOnly: false,

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'critalien',
-	group: 'ALIEN rpg',
+	group: 'Alien RPG',
 	description: 'Rolls for a random critical injury.'
 		+ '\nType `help crit` for more details.',
 	aliases: ['crita'],
