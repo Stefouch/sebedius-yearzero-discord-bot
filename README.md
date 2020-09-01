@@ -40,9 +40,12 @@ The link will prompt you to authorize the bot on a server. Once the bot is autho
 2. [Read the Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki#list-of-commands)<br />
 Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebedius`.<br />*Example:* `!help` *or* `!roll`
 
+3. [Roll dice](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/%21roll)<br />
+*Example:* `!roll 7d` *or* `!roll 3b 3s 1g`
+
 # Author
 
-## 👤 Stefouch
+### 👤 Stefouch
 
 * **Twitter:** [@stefouch](https://twitter.com/stefouch)
 * **Github:** [@Stefouch](https://github.com/Stefouch)
@@ -68,9 +71,9 @@ Let's thank **Jeremy Mettler, Joe Guilmette, Matt Kay, Dale Chenault, Narcomed a
 
 See the [changelog](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot since 2019.
 
-# ☑ Permissions
+# Permissions
 
-This is a detailed list of needed permissions:
+This is a detailed list of needed permissions for the bot:
 
 * `ADD_REACTIONS` : The bot uses a reaction menu for roll pushing.
 * `VIEW_CHANNEL` : Mandatory.

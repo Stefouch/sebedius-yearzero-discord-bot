@@ -8,8 +8,8 @@ You can help expanding Sebedius's knowledge on the following topics:
 * Translations *(French, Svenska, German, etc.)*
 * Gamedata
   * Critical Injuries tables
-  * [Catalogs](./wiki/Catalogs-%28Gamedata%29) (Monsters)
-  * [Signature Attack](./wiki/Signature-Attack-%28Gamedata%29)
+  * [Catalogs](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/Catalogs-%28Gamedata%29) (Monsters)
+  * [Signature Attack](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/Signature-Attack-%28Gamedata%29)
 
 ## How to Run Sebedius Locally
 
