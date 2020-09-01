@@ -5,6 +5,7 @@
 	"defaultPrefix": "!",
 	"perms": { "bitfield": 355392 },
 	"activityLoopDelay": 600,
+	"color": "0x1AA29B",
 	"commands": {
 		"roll": {
 			"max": 42,
