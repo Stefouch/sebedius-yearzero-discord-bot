@@ -20,9 +20,9 @@ const DB_MAP = {
 	mutedUsers: 'muted',
 };
 
-//if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
-//}
+}
 
 class Sebedius extends Discord.Client {
 
@@ -62,10 +62,11 @@ class Sebedius extends Discord.Client {
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
 		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
-		this.dbUri = process.env.DATABASE_URL;
+		// this.dbUri = process.env.DATABASE_URL;
 		console.log('      > Creation...');
 		this.kdb = {};
 		for (const name in DB_MAP) {
+			console.log(`        bot.kdb.${name}: "${DB_MAP[name]}"`);
 			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
 			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}`, err));
 		}
