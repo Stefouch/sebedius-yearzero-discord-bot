@@ -18,6 +18,5 @@
 - Fear
 
 ## Twilight 2000
-- T2K dice
-- T2K mechanism
+- Critics
 
