@@ -62,7 +62,6 @@ class Sebedius extends Discord.Client {
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
 		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
-		//this.dbUri = process.env.NODE_ENV !== 'production' ? process.env.DATABASE_URL : null;
 		console.log('      > Creation...');
 		this.kdb = {};
 		for (const name in DB_MAP) {
@@ -124,9 +123,19 @@ class Sebedius extends Discord.Client {
 	/**
 	 * The bot's mention.
 	 * @type {string} `<@0123456789>`
+	 * @readonly
 	 */
 	get mention() {
 		return Sebedius.getMention(this.user);
+	}
+
+	/**
+	 * The bot's invite link.
+	 * @type {string}
+	 * @readonly
+	 */
+	get inviteURL() {
+		return `https://discord.com/oauth2/authorize?client_id=${this.config.botID}&scope=bot&permissions=${this.config.perms.bitfield}`;
 	}
 
 	/**
@@ -294,7 +303,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets the commands' statistics.
-	 * @returns {Discord.Collection}
+	 * @returns {Discord.Collection<String, Number>} Collection<CommandName, Count>
 	 * @async
 	 */
 	async getStats() {
@@ -602,7 +611,7 @@ class Sebedius extends Discord.Client {
 	 * @static
 	 */
 	static getMention(user) {
-		return `<@!${user.id}>`;
+		return `<@${user.id}>`;
 	}
 }
 
