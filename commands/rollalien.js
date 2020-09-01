@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'rollalien',
-	group: 'ALIEN rpg',
+	group: 'Alien RPG',
 	description: 'Rolls dice for the *ALIEN* roleplaying game.'
 		+ '\nType `help roll` for more details.',
 	aliases: ['rolla', 'ra', 'lancea', 'lancera', 'slåa', 'slaa'],

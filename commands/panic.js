@@ -5,7 +5,7 @@ const { DICE_ICONS } = require('../utils/constants');
 
 module.exports = {
 	name: 'panic',
-	group: 'ALIEN rpg',
+	group: 'Alien RPG',
 	description: 'Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.',
 	moreDescriptions: [
 		[

@@ -5,7 +5,7 @@ const Util = require('../utils/Util');
 
 /**
  * A Year Zero Star
- * For ALIEN rpg.
+ * For Alien RPG.
  */
 class ALIENStarGenerator extends YZGenerator2 {
 	/**

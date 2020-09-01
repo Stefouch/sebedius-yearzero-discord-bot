@@ -7,7 +7,7 @@ const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'attack',
-	group: 'Core',
+	group: 'Common',
 	description: 'Rolls a random attack from a monster.',
 	moreDescriptions: [
 		[

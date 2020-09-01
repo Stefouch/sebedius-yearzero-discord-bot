@@ -27,6 +27,9 @@ bot.on('ready', async () => {
 	console.log(`| # Servers: ${bot.guilds.cache.size}`);
 	console.log('|===========================================================');
 
+	// Sets banned users and blacklisted guilds. (Promise)
+	bot.populateBans();
+
 	// Activities Loop.
 	bot.user.setActivity({ name: `v${bot.version}`, type: 'PLAYING' });
 	bot.activity = require('./utils/activities')(bot);
@@ -49,6 +52,9 @@ bot.on('message', async message => {
 	if (message.author.bot) return;
 	// if (message.author.id === bot.user.id) return;
 
+	// Exits if the bot is not ready.
+	if (bot.state !== 'ready') return;
+
 	// Gets the guild's prefixes (an array).
 	const prefixes = await bot.getPrefixes(message);
 	let prefix;
@@ -59,10 +65,6 @@ bot.on('message', async message => {
 		}
 	}
 	if (!prefix) return;
-
-	// Aborts if the user or the channel are banned.
-	if (bot.config.bannedUsers.includes(message.author.id)) return message.reply('🚫 This user has been banned and cannot use me anymore.');
-	if (bot.config.bannedServers.includes(message.channel.id)) return message.reply('🚫 This server has been banned and cannot use me anymore.');
 
 	// Adds important data to the context of the message.
 	message.prefix = prefix;
@@ -78,6 +80,17 @@ bot.on('message', async message => {
 
 	// Exits early if there is no command with this name.
 	if (!command) return;
+
+	// Aborts if the user or the guild are banned.
+	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
+		console.log(`[Banlist] User ${message.author.id} is MUTED.`);
+		return await message.reply('⛔ You have been muted and cannot use my commands.');
+	}
+	if (message.channel.type === 'text' && bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
+		console.log(`[Banlist] Guild ${message.guild.id} is BLACKLISTED.`);
+		return await message.reply('⛔ This server has been blacklisted and cannot use my commands.');
+		// return await message.channel.guild.leave();
+	}
 
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && message.channel.type !== 'text') {
@@ -95,8 +108,8 @@ bot.on('message', async message => {
 	}
 
 	try {
-		console.log(`[COMMAND] ${message.author.tag} (${message.author.id})`
-			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id})` : '')
+		console.log(`[CMD] ${message.author.tag} (${message.author.id})`
+			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id}) in #${message.channel.name} (${message.channel.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
 		await command.execute(args, message);
@@ -106,6 +119,36 @@ bot.on('message', async message => {
 		console.error('[Error] At command execution.');
 		onError(error, message);
 	}
+});
+
+/* !
+ * GUILD LISTENER
+ */
+bot.on('guildCreate', async guild => {
+	console.log(`[GUILD] Joined: ${guild.name} (${guild.id})`);
+	if (bot.blacklistedGuilds.has(guild.id)) {
+		return await guild.leave();
+	}
+	// if (bot.whitelistedGuilds.has(guild.id)) return;
+	guild = await guild.fetch();
+	const bots = guild.members.cache.filter(m => m.user.bot).size;
+	const members = guild.memberCount;
+	const ratio = bots / members;
+	if (ratio >= 0.6 && members >= 20) {
+		console.warn(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
+		try {
+			await guild.owner.send(
+				'Please do not add me to bot collection servers. '
+				+ 'Your server was flagged for having over 60% bots.'
+				+ 'If you believe this is an error, please PM the bot author.',
+			);
+		}
+		catch (err) { console.error(err); }
+		await guild.leave();
+	}
+});
+bot.on('guildDelete', guild => {
+	console.log(`[GUILD] Left: ${guild.name} (${guild.id})`);
 });
 
 /* !
@@ -121,7 +164,6 @@ process.on('unhandledRejection', error => {
 	console.error('[Error] Uncaught Promise Rejection', error);
 	onError(error);
 });
-
 
 /**
  * Errors Manager.

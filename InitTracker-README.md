@@ -121,11 +121,11 @@ Inflicts damage to another combatant.
 | --- | --- |
 | `-t\|-target <names...>` | The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the `\|` character. *E.g.: `-t Bob\|Will\|Smith`* |
 | `-ap [value]` | Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value. |
-| `-ad` | Armor doubled. *(E.g.: for Shotguns in ALIEN rpg.)* |
+| `-ad` | Armor doubled. *(E.g.: for Shotguns in Alien RPG.)* |
 | `-ab\|-bonus` | Armor bonus (applied after all other modifications). |
 | `-x\|-degrade` | Wether the armor should be degraded. If omitted, uses the default from the game set. |
 | `-noar\|-noarmor` | Skips the armor roll. |
-| `-h|-hidden|-private` | Hides the armor roll. |
+| `-h\|-hidden\|-private` | Hides the armor roll. |
 
 ### `!init remove <name>`
 

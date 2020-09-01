@@ -1,4 +1,6 @@
 # TODO List
+- Revamp !HELP
+- PARTIALS ? (decrease memory usage)
 - Support for CHARACTER SHEETS (via Google)!
 - Init Tracker
   * Can't add a note to a group
@@ -18,6 +20,5 @@
 - Fear
 
 ## Twilight 2000
-- T2K dice
-- T2K mechanism
+- Critics
 

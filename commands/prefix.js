@@ -2,8 +2,8 @@ const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'prefix',
-	group: 'Core',
-	description: 'Gets the prefixes for this server. Sets a new one with the option `add`.',
+	group: 'Other',
+	description: 'Gets the prefixes for this server. Sets a new one with the option `set`.',
 	guildOnly: false,
 	args: false,
 	usage: '[set <new prefix>]',

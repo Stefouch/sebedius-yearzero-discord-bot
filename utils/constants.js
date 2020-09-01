@@ -30,7 +30,7 @@ module.exports = {
 		coriolis: ['close', 'short', 'long', 'extreme'],
 		alien: ['engaged', 'short', 'medium', 'long', 'extreme'],
 		vaesen: ['0', '1', '2', '3', '4'],
-		t2k: ['0', '1', '2', '3', '4'],
+		t2k: ['0', '1', '2', '3', '4', '5', '6', '7'],
 	},
 	WEAPON_FEATURES: {
 		boolean: [

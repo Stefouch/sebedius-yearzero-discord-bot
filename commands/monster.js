@@ -5,7 +5,7 @@ const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'monster',
-	group: 'Core',
+	group: 'Common',
 	description: 'Gets a monster from the catalogs or generates a random monster according to the tables found in'
 		+ ' the *Zone Compendium 1: The Lair of the Saurians* if no argument is provided.',
 	moreDescriptions: [
