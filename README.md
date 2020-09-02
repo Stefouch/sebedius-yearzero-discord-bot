@@ -1,4 +1,4 @@
-<h1 align="center">Year Zero Discord Bot<br /><i>Sebedius</i></h1>
+<h1 align="center">Year Zero Discord Bot<br />🎲 <i>Sebedius</i> 🎲</h1>
 <p align="center">
   <a href="https://discordbots.org/bot/543445246143365130" target="_blank">
     <img alt="Status" src="https://top.gg/api/widget/status/543445246143365130.svg" />
