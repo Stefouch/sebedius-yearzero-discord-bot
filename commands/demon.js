@@ -1,7 +1,7 @@
-const { YZEmbed } = require('../utils/embeds');
 const Demon = require('../generators/FBLDemonGenerator');
-const { RollParser } = require('../utils/RollParser');
-const Util = require('../utils/Util');
+const { YZEmbed } = require('../utils/embeds');
+const { alignText, strCamelToNorm } = require('../utils/Util');
+const { substitute } = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'demon',
@@ -43,7 +43,7 @@ module.exports = {
 		let skillsText = '';
 
 		for (const key in demon.skills) {
-			if (demon.skills[key] > 0) skillsText += `\n${Util.strCamelToNorm(key)} **${demon.skills[key]}**`;
+			if (demon.skills[key] > 0) skillsText += `\n${strCamelToNorm(key)} **${demon.skills[key]}**`;
 		}
 
 		if (!skillsText.length) skillsText = '*None*';
@@ -53,18 +53,18 @@ module.exports = {
 		// Demon's attack(s).
 		const intvlColLen = 7, nameColLen = 18, diceColLen = 6, dmgColLen = 8;
 		let attacksText = '```\n'
-			+ Util.alignText(demon.attacksRoll, intvlColLen, 0)
-			+ Util.alignText('Name', nameColLen, 0)
-			+ Util.alignText('Base', diceColLen, 0)
-			+ Util.alignText('Damage', dmgColLen, 0)
+			+ alignText(demon.attacksRoll, intvlColLen, 0)
+			+ alignText('Name', nameColLen, 0)
+			+ alignText('Base', diceColLen, 0)
+			+ alignText('Damage', dmgColLen, 0)
 			+ 'Range\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
 
 		for (const attack of demon.attacks) {
 			attacksText += '\n'
-				+ Util.alignText(`${attack.interval}`, intvlColLen, 0)
-				+ Util.alignText(`${attack.name}`, nameColLen, 0)
-				+ Util.alignText(`${attack.base}D`, diceColLen, 0)
-				+ Util.alignText(`${attack.damage}`, dmgColLen, 0)
+				+ alignText(`${attack.interval}`, intvlColLen, 0)
+				+ alignText(`${attack.name}`, nameColLen, 0)
+				+ alignText(`${attack.base}D`, diceColLen, 0)
+				+ alignText(`${attack.damage}`, dmgColLen, 0)
 				+ `${attack.range}\n`;
 
 			if (attack.special) attacksText += `     > ${attack.special}\n`;
@@ -78,11 +78,11 @@ module.exports = {
 		let abilitiesText = '';
 
 		for (const ability of demon.abilities) {
-			abilitiesText += `\n**${ability[0]}:** ${RollParser.supersede(ability[1])}`;
+			abilitiesText += `\n**${ability[0]}:** ${substitute(ability[1])}`;
 		}
 
 		for (const strength of demon.strengths) {
-			abilitiesText += `\n**${strength[0]}:** ${RollParser.supersede(strength[1])}`;
+			abilitiesText += `\n**${strength[0]}:** ${substitute(strength[1])}`;
 		}
 
 		embed.addField('Abilities', abilitiesText, false);
