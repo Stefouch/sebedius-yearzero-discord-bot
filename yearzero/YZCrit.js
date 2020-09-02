@@ -3,15 +3,15 @@ class YZCrit {
 	/**
 	 * A Year Zero Critical Injury object.
 	 * @param {Object} data Critical data
+	 * @param {number} data.ref
+	 * @param {string} data.injury
+	 * @param {boolean} data.lethal
+	 * @param {number} data.healMalus
+	 * @param {number} data.timeLimit
+	 * @param {string} data.timeLimitUnit
+	 * @param {string} data.effect
+	 * @param {number} data.healingTime
 	 * @throws {SyntaxError} If no data was given
-	 * @property {number} ref
-	 * @property {string} injury
-	 * @property {boolean} lethal
-	 * @property {number} healMalus
-	 * @property {number} timeLimit
-	 * @property {string} timeLimitUnit
-	 * @property {string} effect
-	 * @property {number} healingTime
 	 */
 	constructor(data) {
 		if (!data) throw new SyntaxError('No data given to create this Crit');
