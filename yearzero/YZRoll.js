@@ -475,6 +475,17 @@ class YZRoll {
 	}
 
 	/**
+	 * Parses and sums all roll resolvable strings in a text.
+	 * @param {string} str Text to parse
+	 * @returns {string} Processed replacements
+	 */
+	static substitute(str) {
+		// const regex = new RegExp(ROLLREGEX, 'g');
+		const regex = /(\d*)(?:[dD])(\d+)([+-]\d+)*/g;
+		return str.replace(regex, match => YZRoll.parse(match).sum());
+	}
+
+	/**
 	 * Turns the YZRoll into a roll phrase.
 	 * @returns {string}
 	 */
@@ -566,7 +577,7 @@ class YZDie {
 			? operator
 			: '+';
 
-		if (!this.result) this.roll();
+		if (!this.result && type !== 'modifier') this.roll();
 	}
 
 	/**
@@ -628,7 +639,7 @@ class YZDie {
 	push() {
 		this.previousResults.push(this.result);
 		if (this.pushable) return this.roll();
-		else return this.result;
+		return this.result;
 	}
 
 	/**
