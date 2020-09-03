@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { readdirSync, readFileSync, existsSync } = require('fs');
 const Keyv = require('keyv');
 const Discord = require('discord.js');
 const YZCrit = require('./yearzero/YZCrit');
@@ -50,14 +50,17 @@ class Sebedius extends Discord.Client {
 		this.muted = false;
 		this.config = config;
 		this.version = require('./utils/version').version;
-		this.commands = new Discord.Collection();
-		this.addCommands();
 
 		// Caching for the current session.
+		this.blacklistedGuilds = new Set();
+		this.mutedUsers = new Set();
 		this.prefixes = new Discord.Collection();
 		this.games = new Discord.Collection();
 		this.langs = new Discord.Collection();
 		this.combats = new Discord.Collection();
+		this.cooldowns = new Discord.Collection();
+		this.commands = new Discord.Collection();
+		this.addCommands();
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
@@ -70,10 +73,6 @@ class Sebedius extends Discord.Client {
 			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
 			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}`, err));
 		}
-
-		// Loads blacklists.
-		this.blacklistedGuilds = new Set();
-		this.mutedUsers = new Set();
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
@@ -144,7 +143,19 @@ class Sebedius extends Discord.Client {
 	 * Creates the list of commands.
 	 */
 	addCommands() {
-		const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+		// Imports each command from subdirectories.
+		// Warning: bot crashes if a command is not in a subdir.
+		/* const dir = './commands/';
+		readdirSync(dir).forEach(d => {
+			const commands = readdirSync(`${dir}/${d}/`).filter(f => f.endsWith('.js'));
+			for (const file of commands) {
+				const command = require(`${dir}/${d}/${file}`);
+				this.commands.set(command.name, command);
+				console.log(`[+] - Command loaded: ${command.name}.js`);
+			}
+		}); //*/
+		// Imports each command from a single directory.
+		const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
 
 		for (const file of commandFiles) {
 			const command = require('./commands/' + file);
@@ -333,11 +344,11 @@ class Sebedius extends Discord.Client {
 		let filePath = `${pathName}.${lang}.${ext}`;
 
 		// If the language does not exist for this file, use the english default.
-		if (!fs.existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
+		if (!existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
 
 		let elements;
 		try {
-			const fileContent = fs.readFileSync(filePath, 'utf8');
+			const fileContent = readFileSync(filePath, 'utf8');
 			elements = Util.csvToJSON(fileContent);
 		}
 		catch(error) {
