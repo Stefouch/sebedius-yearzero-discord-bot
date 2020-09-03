@@ -3,9 +3,20 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [3.4.1] - 2020-09-02
+## [3.5.0] - 2020-09-04
+### Added
+- New command: `!embed` – Creates an embed message.
+
+### Changed
+- `!help` command revamped.
+- (JavaScript) Refactored whole commands architecture.
+- (JavaScript) Added command cooldown support.
+
 ### Fixed
 - A bug with `!roll` command where a modifier of `±0` was translated into `±1`.
+
+## Removed
+- Argument `--no-dm` from `!help` command.
 
 ## [3.4.0] - 2020-09-01
 ### Added
