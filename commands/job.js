@@ -1,16 +1,16 @@
 const { YZEmbed } = require('../utils/embeds');
 const Job = require('../generators/ALIENJobGenerator');
-const Util = require('../utils/Util');
+const { random } = require('../utils/Util');
 
 module.exports = {
 	name: 'job',
-	group: 'Alien RPG',
-	description: 'Generates a random job for the Alien RPG.',
 	// aliases: ['aquest'],
+	category: 'alien',
+	description: 'Generates a random job for the Alien RPG.',
 	guildOnly: false,
 	args: true,
 	usage: `<${Job.jobTypes.join('|')}>`,
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		if (!args.length) return ctx.reply('Please specify job type');
 
 		let type = '';
@@ -19,7 +19,7 @@ module.exports = {
 		else if (/^(mil|mill|military|militarymission|military mission)$/i.test(args[0])) { type = 'mil'; }
 		else if (/^(expe|exped|expedition)$/i.test(args[0])) { type = 'expe'; }
 		else {
-			type = Util.random(Job.jobTypes);
+			type = random(Job.jobTypes);
 		}
 		// else return ctx.reply('Please specify a correct job type: `cargo`, `mil` or `expe`');
 

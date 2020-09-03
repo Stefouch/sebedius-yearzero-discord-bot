@@ -1,16 +1,16 @@
-const { YZEmbed } = require('../utils/embeds');
 const Star = require('../generators/ALIENStarGenerator');
-const Util = require('../utils/Util');
+const { YZEmbed } = require('../utils/embeds');
+const { zeroise, rand } = require('../utils/Util');
 
 module.exports = {
 	name: 'star',
-	group: 'Alien RPG',
-	description: 'Generates a Star sector for the Alien RPG.',
 	aliases: ['★'],
+	category: 'alien',
+	description: 'Generates a Star sector for the Alien RPG.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const star = new Star();
 		const embed = new YZStarEmbed(star);
 
@@ -21,7 +21,7 @@ module.exports = {
 class YZStarEmbed extends YZEmbed {
 	constructor(star) {
 		super(
-			`${star.code}-${Util.zeroise(Util.rand(1, 9999), 4)}`,
+			`${star.code}-${zeroise(rand(1, 9999), 4)}`,
 			`Type: ${star.name}\nOrbiting Objects: ${star.orbitSize}`,
 		);
 

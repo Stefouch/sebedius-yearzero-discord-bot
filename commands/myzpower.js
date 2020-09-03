@@ -1,5 +1,5 @@
-const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
+const { getTable, emojifyRoll } = require('../Sebedius');
+const { clamp, rand } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 
@@ -19,15 +19,15 @@ const titles = {
 
 module.exports = {
 	name: 'myzpower',
-	group: 'Mutant: Year Zero',
+	category: 'myz',
 	description: 'Rolls the dice for a MYZ power.',
 	guildOnly: false,
 	args: true,
 	usage: '<myz|gla|mek|ely> <power>',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Parses arguments.
 		const book = args[0].toLowerCase();
-		const power = Util.clamp(args[1], 1, 10);
+		const power = clamp(args[1], 1, 10);
 
 		// Validates arguments.
 		if (!tableNames.hasOwnProperty(book) || !power) {
@@ -41,14 +41,14 @@ module.exports = {
 		// Checks for misfires / feral effects / overheatings / backlashes.
 		let embed;
 		if (roll.baneCount > 0) {
-			const table = Sebedius.getTable(null, './gamedata/myz/', tableNames[book], 'en', 'csv');
-			const ref = Util.rand(1, 6);
+			const table = getTable(null, './gamedata/myz/', tableNames[book], 'en', 'csv');
+			const ref = rand(1, 6);
 			const entry = table.get(ref);
 			embed = new YZEmbed(`💥 ${roll.name} (${ref})`, entry.effect, ctx, true);
 		}
 
 		return await ctx.channel.send(
-			Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options.myz),
+			emojifyRoll(roll, ctx.bot.config.commands.roll.options.myz),
 			embed,
 		);
 	},

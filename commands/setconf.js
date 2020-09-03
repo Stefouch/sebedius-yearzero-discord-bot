@@ -2,7 +2,7 @@ const { SUPPORTED_GAMES, SUPPORTED_LANGS, SOURCE_MAP } = require('../utils/const
 
 module.exports = {
 	name: 'setconf',
-	group: 'Customization',
+	category: 'misc',
 	description: 'Sets the bot\'s configuration for this server. If you omit the new value, it returns the current value.'
 		+ ' See possible parameters:'
 		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
@@ -12,7 +12,7 @@ module.exports = {
 	guildOnly: true,
 	args: true,
 	usage: '<parameter> [new value]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Exits early if the message's author doesn't have the ADMINISTRATOR Permission.
 		// The Bot Admin may bypass this security check.
 		if (

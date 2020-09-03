@@ -1,11 +1,12 @@
-const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
+const { getMention } = require('../Sebedius');
+const { clamp } = require('../utils/Util');
 const { CARDS_ICONS } = require('../utils/constants');
 const YZInitDeck = require('../yearzero/YZInitDeck');
 
 module.exports = {
 	name: 'drawinit',
-	group: 'Common',
+	aliases: ['draw-init', 'drawinitiative'],
+	category: 'common',
 	description: 'Draws one or more initiative cards. The deck is specific to each Discord server.\n\n'
 		+ `__Parameter__
 		• \`[speed]\` – Number of initiative cards to draw. Default: 1.
@@ -13,11 +14,10 @@ module.exports = {
 		__Arguments__
 		• \`[-haste <value>]\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
 		• \`[-shuffle]\` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`,
-	aliases: ['draw-init', 'drawinitiative'],
 	guildOnly: true,
 	args: false,
 	usage: '[speed] [-haste <value>] [-shuffle]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['shuffle'],
 			number: ['haste'],
@@ -27,8 +27,8 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const speed = Util.clamp(+argv._[0], 1, 10) || 1;
-		const haste = Util.clamp(+argv.haste, 1, 10) || 1;
+		const speed = clamp(+argv._[0], 1, 10) || 1;
+		const haste = clamp(+argv.haste, 1, 10) || 1;
 		const shuffle = argv.shuffle ? true : false;
 
 		// Initializes the card database.
@@ -74,5 +74,5 @@ module.exports = {
 
 function getDrawCardText(cards, ctx) {
 	if (!Array.isArray(cards)) return getDrawCardText([cards]);
-	return `${Sebedius.getMention(ctx.member)} **Initiative:** ${cards.map(c => CARDS_ICONS[c]).join(' ')}`;
+	return `${getMention(ctx.member)} **Initiative:** ${cards.map(c => CARDS_ICONS[c]).join(' ')}`;
 }

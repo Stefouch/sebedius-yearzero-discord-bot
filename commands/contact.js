@@ -1,12 +1,12 @@
 module.exports = {
 	name: 'contact',
-	group: 'Mutant: Year Zero',
-	description: 'Rolls dice for an Elysium Contact and checks for any Backlash.',
 	aliases: ['ip'],
+	category: 'myz',
+	description: 'Rolls dice for an Elysium Contact and checks for any Backlash.',
 	guildOnly: false,
 	args: true,
 	usage: '<ip>',
-	async execute(args, ctx) {
-		await ctx.bot.commands.get('myzpower').execute(['ely', args[0]], ctx);
+	async run(args, ctx) {
+		await ctx.bot.commands.get('myzpower').run(['ely', args[0]], ctx);
 	},
 };

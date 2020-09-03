@@ -9,9 +9,9 @@ module.exports = {
 		// const deck2 = new YZDeck(JSON.parse(store));
 		// console.log(deck2);
 		// console.log('end');
-		// TestCommand.execute();
+		// TestCommand.run();
 		// const args = ['bob'];
 		// const message = null;
-		// client.commands.get('job').execute(args, message, client);
+		// client.commands.get('job').run(args, message, client);
 	},
 };

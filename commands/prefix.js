@@ -2,15 +2,15 @@ const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'prefix',
-	group: 'Other',
+	category: 'misc',
 	description: 'Gets the prefixes for this server. Sets a new one with the option `set`.',
 	guildOnly: false,
 	args: false,
 	usage: '[set <new prefix>]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		if (args.length > 0) {
 			if (args[0].toLowerCase() === 'set' && args.length === 2) {
-				return await ctx.bot.commands.get('setconf').execute(['prefix', args[1]], ctx);
+				return await ctx.bot.commands.get('setconf').run(['prefix', args[1]], ctx);
 			}
 			else {
 				return await ctx.reply(

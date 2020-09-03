@@ -6,13 +6,13 @@ const { YZEmbed, UserEmbed, GuildEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'admin',
-	group: 'Administration',
+	category: 'admin',
 	description: 'Performs bot\'s maintenance. Only available for the bot\'s owner.',
 	adminOnly: true,
 	guildOnly: true,
 	args: true,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 

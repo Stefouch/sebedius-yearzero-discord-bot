@@ -1,12 +1,12 @@
 module.exports = {
 	name: 'br',
-	group: 'PBP Tools',
-	description: 'Prints a scene break.',
 	// aliases: [],
+	category: 'pbptool',
+	description: 'Prints a scene break.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		await ctx.channel.send('``` ```');
 		try {
 			await ctx.delete();

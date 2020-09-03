@@ -1,17 +1,17 @@
 const ms = require('ms');
-const Util = require('../utils/Util');
-const Sebedius = require('../Sebedius');
+const { paginate } = require('../utils/Util');
+const { confirm } = require('../Sebedius');
 const { MessageEmbed } = require('discord.js');
 
 module.exports = {
 	name: 'stats',
-	group: 'Administration',
+	category: 'admin',
 	description: 'Prints bot\'s statistics. Use argument `--clear` to erase the stats.',
 	adminOnly: true,
 	guildOnly: false,
 	args: false,
 	usage: '[-clear]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const msg = await ctx.channel.send(':1234: Fetching bot statistics...');
 		const stats = await ctx.bot.getStats();
 
@@ -24,7 +24,7 @@ module.exports = {
 			.map((n, cmd) => `${cmd}: **${n}**`);
 
 		// Paginates.
-		const pages = Util.paginate(report, report.length / 3);
+		const pages = paginate(report, report.length / 3);
 
 		// Creates a Discord.MessageEmbed and sends it.
 		const firstDay = ctx.bot.config.commands.stats.start;
@@ -48,7 +48,7 @@ module.exports = {
 			const text = ':speech_balloon::warning: Are you sure you want to **erase ALL stats**?'
 				+ ' *(reply with yes/no)*';
 
-			const clear = await Sebedius.confirm(ctx, text, true);
+			const clear = await confirm(ctx, text, true);
 			if (clear) {
 				await ctx.bot.kdb.stats.clear();
 				await ctx.channel.send(':broom: Database cleared.');

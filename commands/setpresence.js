@@ -3,7 +3,8 @@ const PresenceStatus = ['online', 'idle', 'invisible', 'dnd'];
 
 module.exports = {
 	name: 'setpresence',
-	group: 'Administration',
+	aliases: ['setactivity'],
+	category: 'admin',
 	description: 'Sets the presence of the bot.',
 	moreDescriptions: [
 		[
@@ -23,7 +24,7 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '[-name|text <text..>] [-type <?>] [-status <?>] [-idle] [-loop] [-afk]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 

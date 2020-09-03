@@ -4,13 +4,13 @@ const { random } = require('../utils/Util');
 
 module.exports = {
 	name: 'arkthreat',
-	group: 'Mutant: Year Zero',
-	description: 'Draws a random threat against the Ark.',
 	aliases: ['akth'],
+	category: 'myz',
+	description: 'Draws a random threat against the Ark.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const embed = new YZEmbed('Threat Against the Ark', random(ArkThreats));
 		return ctx.channel.send(embed);
 	},

@@ -4,7 +4,8 @@ const { random } = require('../utils/Util');
 
 module.exports = {
 	name: 'artifact',
-	group: 'Mutant: Year Zero',
+	aliases: ['arto'],
+	category: 'myz',
 	description: 'Draws a random artifact from the MYZ core rulebook. Available sources are (combine one or more):'
 		+ '\n• `myz` – Mutant: Year Zero (default if none are specified)'
 		+ '\n• `gla` – Mutant: GenLab Alpha'
@@ -13,11 +14,10 @@ module.exports = {
 		+ '\n• `astra` – Mutant: Ad Astra'
 		+ '\nMetaplot items are removed by default. Use `meta` to add them to the stack.'
 		+ '\nUse `all` to pick from all book sources (including metaplot items).',
-	aliases: ['arto'],
 	guildOnly: false,
 	args: false,
 	usage: '[all | myz meta gla mek ely astra]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Artos) legalBooks.push(book);

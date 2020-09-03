@@ -3,13 +3,13 @@ const Planet = require('../generators/ALIENWorldGenerator');
 
 module.exports = {
 	name: 'colony',
-	group: 'Alien RPG',
-	description: 'Generates a colonized planet for the Alien RPG.',
 	aliases: ['colo'],
+	category: 'alien',
+	description: 'Generates a colonized planet for the Alien RPG.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const o = new Planet('rocky', true, 1);
 		const embed = new YZEmbed(o.title, o.description);
 

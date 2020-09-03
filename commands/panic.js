@@ -1,11 +1,12 @@
-const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
+const { getTable } = require('../Sebedius');
+const { clamp, rand } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { DICE_ICONS } = require('../utils/constants');
 
 module.exports = {
 	name: 'panic',
-	group: 'Alien RPG',
+	// aliases: ['alien-panic'],
+	category: 'alien',
 	description: 'Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.',
 	moreDescriptions: [
 		[
@@ -15,11 +16,10 @@ module.exports = {
 			• \`-min <value>\` – Adjusts a minimum treshold for multiple consecutive panic effects.`,
 		],
 	],
-	// aliases: ['alien-panic'],
 	guildOnly: false,
 	args: false,
 	usage: '<stress> [-fixed|-f] [-nerves|-n] [-min <value>]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['fixed', 'nerves'],
 			number: ['min'],
@@ -34,15 +34,15 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const panicRand = argv.fixed ? 0 : Math.max(0, Util.rand(1, 6));
+		const panicRand = argv.fixed ? 0 : Math.max(0, rand(1, 6));
 		const stress = +argv._[0] || 0;
 		const panicVal = stress + panicRand - (argv.nerves ? 2 : 0);
-		const panicMin = Util.clamp(argv.min, 0, 15);
+		const panicMin = clamp(argv.min, 0, 15);
 		const panicLowerThanMin = panicVal < panicMin;
 		const panicValMore = panicLowerThanMin ? panicMin + 1 : panicVal;
-		const panicRoll = Util.clamp(panicValMore, 0, 15);
+		const panicRoll = clamp(panicValMore, 0, 15);
 
-		const panicTable = Sebedius.getTable('PANIC', './gamedata/crits/', 'crits-alien-panic', 'en', 'csv');
+		const panicTable = getTable('PANIC', './gamedata/crits/', 'crits-alien-panic', 'en', 'csv');
 		const panicAction = panicTable.get(panicRoll);
 		if (!panicAction) return ctx.reply('❌ The panic effect wasn\'t found.');
 

@@ -5,16 +5,16 @@ const { substitute } = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'demon',
-	group: 'Forbidden Lands',
+	aliases: ['generate-demon'],
+	category: 'fbl',
 	description: 'Generates a random demon according to the tables found in'
 		+ ' the *Forbidden Lands - Gamemaster\'s Guide*.'
 		+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
 		+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
-	aliases: ['generate-demon'],
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const demon = new Demon();
 
 		const embed = new YZEmbed(

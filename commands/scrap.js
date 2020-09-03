@@ -1,18 +1,18 @@
-const fs = require('fs');
-const Config = require('../config.json');
+const { readFileSync } = require('fs');
 const { YZEmbed } = require('../utils/embeds');
 const { clamp, random } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
+const SCRAP_MAX = require('../config.json').commands.scrap.max;
 
 module.exports = {
 	name: 'scrap',
-	group: 'Mutant: Year Zero',
-	description: `Gets random scrap. Max ${Config.commands.scrap.max} items.`,
 	aliases: ['junk'],
+	category: 'myz',
+	description: `Gets random scrap. Max ${SCRAP_MAX} items.`,
 	guildOnly: false,
 	args: false,
 	usage: '[quantity]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		let desc = '';
 		let qty = 1;
 
@@ -38,7 +38,7 @@ module.exports = {
 function getScrapList() {
 	let scrapList;
 	try {
-		const scrapContent = fs.readFileSync('./gamedata/myz/scrap.list', 'utf8');
+		const scrapContent = readFileSync('./gamedata/myz/scrap.list', 'utf8');
 		scrapList = scrapContent.split('\n');
 	}
 	catch(error) {

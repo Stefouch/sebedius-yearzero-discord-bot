@@ -31,7 +31,8 @@ const YARGS_PARSE_COMBATANT = {
 
 module.exports = {
 	name: 'init',
-	group: 'Common',
+	aliases: ['i', 'initiative'],
+	category: 'common',
 	description: 'Initiative tracker. Inspired from the [D&D Avrae Discord bot](https://avrae.io/).',
 	moreDescriptions: [
 		[
@@ -194,36 +195,35 @@ module.exports = {
 			'Ends combat in the channel. The parameter `-force` forces an init to end, in case it\'s erroring.',
 		],
 	],
-	aliases: ['i', 'initiative'],
 	guildOnly: true,
 	args: true,
 	usage: '<subcommand>',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Gets the subcommand.
 		const subcmd = args.shift().toLowerCase();
 		try {
 			// Chooses the function for the subcommand.
 			switch (subcmd) {
-			case 'help': case 'h': await help(args, ctx); break;
-			case 'begin': await begin(args, ctx); break;
-			case 'add': await add(args, ctx); break;
-			case 'join': await join(args, ctx); break;
-			case 'madd': await madd(args, ctx); break;
-			case 'next': case 'n': await next(args, ctx); break;
-			case 'prev': case 'p': case 'previous': await prev(args, ctx); break;
-			case 'move': case 'goto': await move(args, ctx); break;
-			case 'skipround': case 'skip': await skipround(args, ctx); break;
-			case 'meta': await meta(args, ctx); break;
-			case 'list': case 'summary': await list(args, ctx); break;
-			case 'note': await note(args, ctx); break;
-			case 'edit': await edit(args, ctx); break;
-			case 'status': await status(args, ctx); break;
-			case 'hp': case 'health': case 'life': await setHp(args, ctx); break;
-			case 'attack': case 'atk': await attack(args, ctx); break;
-			case 'remove': await remove(args, ctx); break;
-			case 'end': await end(args, ctx); break;
-			default:
-				return ctx.reply(`:information_source: Incorrect usage. Use \`${ctx.prefix}help init\` for help.`);
+				case 'help': case 'h': await help(args, ctx); break;
+				case 'begin': await begin(args, ctx); break;
+				case 'add': await add(args, ctx); break;
+				case 'join': await join(args, ctx); break;
+				case 'madd': await madd(args, ctx); break;
+				case 'next': case 'n': await next(args, ctx); break;
+				case 'prev': case 'p': case 'previous': await prev(args, ctx); break;
+				case 'move': case 'goto': await move(args, ctx); break;
+				case 'skipround': case 'skip': await skipround(args, ctx); break;
+				case 'meta': await meta(args, ctx); break;
+				case 'list': case 'summary': await list(args, ctx); break;
+				case 'note': await note(args, ctx); break;
+				case 'edit': await edit(args, ctx); break;
+				case 'status': await status(args, ctx); break;
+				case 'hp': case 'health': case 'life': await setHp(args, ctx); break;
+				case 'attack': case 'atk': await attack(args, ctx); break;
+				case 'remove': await remove(args, ctx); break;
+				case 'end': await end(args, ctx); break;
+				default:
+					return ctx.reply(`:information_source: Incorrect usage. Use \`${ctx.prefix}help init\` for help.`);
 			}
 		}
 		catch (error) {
@@ -260,11 +260,11 @@ async function help(args, ctx) {
 	let subcmd;
 	if (args.length) subcmd = args.shift().toLowerCase();
 	if (!subcmd) {
-		return ctx.bot.commands.get('help').execute(['init'], ctx);
+		return ctx.bot.commands.get('help').run(['init'], ctx);
 	}
 	const subcmdDesc = module.exports.subDescriptions.find(d => d[0].toLowerCase().includes(subcmd));
 	if (!subcmdDesc) {
-		return ctx.bot.commands.get('help').execute(['init'], ctx);
+		return ctx.bot.commands.get('help').run(['init'], ctx);
 	}
 	const title = subcmdDesc[0].toLowerCase();
 	const description = subcmdDesc[1];
@@ -1132,7 +1132,7 @@ async function attack(args, ctx) {
 
 	if (combatant.hp <= 0) {
 		out.push(`:skull: **${combatant.name}** is \`BROKEN\` by damage.`);
-		// await ctx.bot.commands.get('crit').execute([], ctx);
+		// await ctx.bot.commands.get('crit').run([], ctx);
 	}
 
 	await combat.final();

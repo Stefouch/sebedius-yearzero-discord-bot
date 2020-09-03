@@ -1,11 +1,12 @@
 const { YZMonster } = require('../yearzero/YZObject');
 const Monster = require('../generators/MYZMonsterGenerator');
-const Util = require('../utils/Util');
+const { isNumber, strCamelToNorm, alignText } = require('../utils/Util');
 const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'monster',
-	group: 'Common',
+	aliases: ['mon', 'creature', 'pokemon'],
+	category: 'common',
 	description: 'Gets a monster from the catalogs or generates a random monster according to the tables found in'
 		+ ' the *Zone Compendium 1: The Lair of the Saurians* if no argument is provided.',
 	moreDescriptions: [
@@ -23,11 +24,10 @@ module.exports = {
 			• Click ❌ to stop the reaction menu.`,
 		],
 	],
-	aliases: ['mon', 'creature', 'pokemon'],
 	guildOnly: false,
 	args: false,
 	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Old MYZ monster generator.
 		if (!args.length) return await generateRandomMYZMonster(ctx);
 
@@ -41,9 +41,9 @@ module.exports = {
 
 		if (argv.attack) {
 			const argk = [monster.game, monster.name];
-			if (Util.isNumber(argv.attack)) argk.push(argv.attack);
+			if (isNumber(argv.attack)) argk.push(argv.attack);
 			if (argv.private) argk.push('-p');
-			return await ctx.bot.commands.get('attack').execute(argk, ctx);
+			return await ctx.bot.commands.get('attack').run(argk, ctx);
 		}
 		return monster;
 	},
@@ -70,7 +70,7 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 		// Parses any reference.
-		if (!argv.attack && Util.isNumber(argv._[argv._.length - 1])) {
+		if (!argv.attack && isNumber(argv._[argv._.length - 1])) {
 			argv.attack = argv._.pop();
 		}
 
@@ -132,7 +132,7 @@ async function generateRandomMYZMonster(ctx) {
 			if (skName === 'fight') { if (!monster.melee) continue; }
 			if (skName === 'shoot') { if (!monster.ranged) continue; }
 
-			skillsText += `\n${Util.strCamelToNorm(skName)}: **${monster.skills[skName]}**`;
+			skillsText += `\n${strCamelToNorm(skName)}: **${monster.skills[skName]}**`;
 		}
 	}
 	else {
@@ -144,15 +144,15 @@ async function generateRandomMYZMonster(ctx) {
 	// Creature's attack(s).
 	const nameColLen = 16, dmgColLen = 10, rangeColLen = 9;
 	let attacksText = '```'
-		+ Util.alignText('\nName', nameColLen, 0)
-		+ Util.alignText('Damage', dmgColLen, 0)
-		+ Util.alignText('Range', rangeColLen, 0)
+		+ alignText('\nName', nameColLen, 0)
+		+ alignText('Damage', dmgColLen, 0)
+		+ alignText('Range', rangeColLen, 0)
 		+ 'Special';
 
 	for (const attack of monster.attacks) {
-		attacksText += Util.alignText(`\n${attack.name}`, nameColLen, 0)
-			+ Util.alignText(`${attack.damage}`, dmgColLen, 0)
-			+ Util.alignText(`${attack.range}`, rangeColLen, 0)
+		attacksText += alignText(`\n${attack.name}`, nameColLen, 0)
+			+ alignText(`${attack.damage}`, dmgColLen, 0)
+			+ alignText(`${attack.range}`, rangeColLen, 0)
 			+ (attack.special ? attack.special : '–');
 	}
 

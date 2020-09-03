@@ -1,25 +1,25 @@
-const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
+const { emojifyRoll } = require('../Sebedius');
+const { isNumber, clamp } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'supply',
-	group: 'Alien RPG',
-	description: 'Rolls for a supply.',
 	aliases: ['sup'],
+	category: 'alien',
+	description: 'Rolls for a supply.',
 	guildOnly: false,
 	args: true,
 	usage: '<rating> [name]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		let rating;
 		// Accepts "8" and "8d", but not "d8".
 		if (/^\d{1,2}d$/i.test(args[0])) rating = args.shift().match(/\d+/)[0];
 		else rating = +args.shift();
 
-		if (Util.isNumber(rating)) {
+		if (isNumber(rating)) {
 			// A maximum of 6 dice are rolled. See ALIEN corebook pg. 34 for details.
-			const resQty = Util.clamp(rating, 0, 6);
+			const resQty = clamp(rating, 0, 6);
 			const resTitle = args.length ? args.join(' ') : 'Supply';
 			const roll = new YZRoll('alien', ctx.author, resTitle)
 				.addStressDice(resQty);
@@ -37,7 +37,7 @@ function sendMessageForResourceRoll(resRating, roll, ctx) {
 
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
-	const text = Sebedius.emojifyRoll(roll, gameOptions);
+	const text = emojifyRoll(roll, gameOptions);
 	const embed = new YZEmbed(`**${roll.name.toUpperCase()}** (${resRating})`, null, ctx, true);
 
 	if (resRating === newRating) {

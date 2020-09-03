@@ -1,18 +1,18 @@
 const Threats = require('../gamedata/myz/threats.list.json');
 const { YZEmbed } = require('../utils/embeds');
-const Util = require('../utils/Util');
+const { rand, rollD66, capitalize } = require('../utils/Util');
 
 module.exports = {
 	name: 'threat',
-	group: 'Mutant: Year Zero',
-	description: 'Draws a random Zone threat.',
 	aliases: ['thr'],
+	category: 'myz',
+	description: 'Draws a random Zone threat.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Rolls for the threat type.
-		const nb = Util.rand(1, 6);
+		const nb = rand(1, 6);
 		let type;
 
 		if (nb <= 2) type = 'humanoids';
@@ -23,7 +23,7 @@ module.exports = {
 		const threats = Threats.myz[type];
 
 		// Rolls for the threat from the chosen type.
-		const rnd = Util.rollD66();
+		const rnd = rollD66();
 		let threat;
 
 		for (let i = rnd; i > 10; i--) {
@@ -33,7 +33,7 @@ module.exports = {
 			}
 		}
 
-		const typeStr = Util.capitalize(type).slice(0, -1);
+		const typeStr = capitalize(type).slice(0, -1);
 		const embed = new YZEmbed('Zone Threat', `${typeStr} – ${threat}`);
 
 		return ctx.channel.send(embed);
