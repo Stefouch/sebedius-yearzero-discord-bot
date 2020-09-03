@@ -6,6 +6,7 @@
 	"perms": { "bitfield": 355392 },
 	"activityLoopDelay": 600,
 	"color": "0x1AA29B",
+	"wikiURL": "https://github.com/Stefouch/sebedius-myz-discord-bot/wiki",
 	"commands": {
 		"roll": {
 			"max": 42,
