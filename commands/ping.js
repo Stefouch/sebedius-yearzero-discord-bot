@@ -2,12 +2,13 @@ const { checkPermissions } = require('../Sebedius');
 
 module.exports = {
 	name: 'ping',
-	group: 'Other',
+	category: 'misc',
 	description: 'Checks the bot\'s latency.',
+	cooldown: 10,
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Aborts if the bot doesn't have the needed permissions.
 		if (!checkPermissions(ctx)) return;
 
