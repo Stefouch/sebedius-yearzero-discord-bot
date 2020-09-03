@@ -5,7 +5,7 @@
  * @author	Stefouch
  * ===========================================================
  */
-const { HTTPError, DiscordAPIError } = require('discord.js');
+const { HTTPError, DiscordAPIError, Collection } = require('discord.js');
 const SebediusErrors = require('./utils/errors');
 
 // First, loads the ENV variables (e.g. bot's token).
@@ -16,7 +16,7 @@ const Sebedius = require('./Sebedius');
 const bot = new Sebedius(require('./config.json'));
 
 /* !
- * READY LISTENER
+ * READY HANDLER
  */
 bot.on('ready', async () => {
 	bot.admin = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
@@ -44,7 +44,7 @@ bot.on('ready', async () => {
 });
 
 /* !
- * MESSAGE LISTENER
+ * MESSAGE HANDLER
  */
 bot.on('message', async message => {
 	// Exits early is the message was send by a bot
@@ -100,19 +100,40 @@ bot.on('message', async message => {
 	// Notifies if arguments are missing.
 	if (command.args && !args.length) {
 		let reply = `ℹ️ ${message.author} You didn't provide any arguments!`;
-
 		if (command.usage) {
 			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
 		}
 		return message.channel.send(reply);
 	}
 
+	// Sets the cooldown.
+	if (command.cooldown) {
+		if (!bot.cooldowns.has(command.name)) {
+			bot.cooldowns.set(command.name, new Collection());
+		}
+		const timeNow = Date.now();
+		const timeStamps = bot.cooldowns.get(command.name);
+		const cdAmount = (command.cooldown || 5) * 1000;
+		if (timeStamps.has(message.author.id)) {
+			const cdExpire = timeStamps.get(message.author.id) + cdAmount;
+			if (timeNow < cdExpire) {
+				const timeLeft = (cdExpire - timeNow) / 1000;
+				return message.reply(
+					`Please wait ${timeLeft.toFixed(0)} second(s) before reusing the command \`${prefix}${command.name}\``,
+				);
+			}
+		}
+		timeStamps.set(message.author.id, timeNow);
+		setTimeout(() => timeStamps.delete(message.author.id), cdAmount);
+	}
+
+	// Runs the command.
 	try {
 		console.log(`[CMD] ${message.author.tag} (${message.author.id})`
 			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id}) in #${message.channel.name} (${message.channel.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
-		await command.execute(args, message);
+		await command.run(args, message);
 		bot.raiseCommandStats(command.name);
 	}
 	catch (error) {
@@ -122,7 +143,7 @@ bot.on('message', async message => {
 });
 
 /* !
- * GUILD LISTENER
+ * GUILD HANDLER
  */
 bot.on('guildCreate', async guild => {
 	console.log(`[GUILD] Joined: ${guild.name} (${guild.id})`);
@@ -166,7 +187,7 @@ process.on('unhandledRejection', error => {
 });
 
 /**
- * Errors Manager.
+ * Errors Handler.
  * @param {Error} error The catched error
  * @param {Discord.Message} ctx Discord message with context
  * @async
