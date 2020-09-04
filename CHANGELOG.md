@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - `!help` command revamped.
-- (JavaScript) Refactored whole commands architecture.
+- (JavaScript) Refactored the whole commands architecture.
 - (JavaScript) Added command cooldown support.
 
 ### Fixed
