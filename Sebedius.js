@@ -24,8 +24,15 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
+/**
+ * ! SEBEDIUS !
+ * @extends {Discord.Client}
+ */
 class Sebedius extends Discord.Client {
-
+	/**
+	 * Sebedius Client
+	 * @param {*} config Config data (JSON file)
+	 */
 	constructor(config) {
 		// ClientOptions: https://discord.js.org/#/docs/main/master/typedef/ClientOptions
 		super({
@@ -71,7 +78,7 @@ class Sebedius extends Discord.Client {
 		for (const name in DB_MAP) {
 			console.log(`        bot.kdb.${name}: "${DB_MAP[name]}"`);
 			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
-			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}`, err));
+			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}\n`, err));
 		}
 
 		// Ready.
@@ -627,6 +634,20 @@ class Sebedius extends Discord.Client {
 	static getMention(user) {
 		return `<@${user.id}>`;
 	}
+
+	/**
+	 * Processes a Discord Message into a Message with context.
+	 * @param {Discord.Message} message The Discord message without context
+	 * @param {string} prefix The prefix of the command
+	 * @returns {ContextMessage} Discord message with context
+	 * @static
+	 */
+	static processMessage(message, prefix) {
+		// Creates a message with context.
+		const ctx = new ContextMessage(prefix, message.client);
+		// Returns a shallow copy of the Discord message merged with the context.
+		return Object.assign(ctx, message);
+	}
 }
 
 function whenMentionedOrPrefixed(prefixes, client) {
@@ -637,3 +658,45 @@ function whenMentionedOrPrefixed(prefixes, client) {
 }
 
 module.exports = Sebedius;
+
+/**
+ * Represents a Discord message with context.
+ * @extends {Discord.Message}
+ * @see Sebedius.processMessage
+ */
+class ContextMessage extends Discord.Message {
+	/**
+	 * @param {string} prefix The prefix used to trigger the command
+	 * @param {Discord.Client} client The instantiating client
+	 * @param {Object} data The data for the message
+	 * @param {Discord.TextChannel|Discord.DMChannel|Discord.NewsChannel} channel The channel the message was sent in
+	 */
+	constructor(prefix, client, data, channel) {
+		super(client, data, channel);
+
+		/**
+		 * The prefix used to trigger the command.
+		 * @type {string}
+		 */
+		this.prefix = prefix;
+	}
+
+	/**
+	 * The bot client (Sebedius).
+	 * @type {Discord.Client}
+	 * @readonly
+	 */
+	get bot() { return this.client; }
+
+	/**
+	 * Sends a message to the channel.
+	 * @param {StringResolvable|Discord.APIMessage} [content=''] The content to send
+	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
+	 * @returns {Promise<Discord.Message|Discord.Message[]>}
+	 * @async
+	 */
+	async send(content, options) {
+		// if (this.channel.type === 'dm') return await this.author.send(content, options);
+		return await this.channel.send(content, options);
+	}
+}

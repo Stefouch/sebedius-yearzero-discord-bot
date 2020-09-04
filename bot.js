@@ -13,6 +13,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 const Sebedius = require('./Sebedius');
+const { processMessage } = require('./Sebedius');
 const bot = new Sebedius(require('./config.json'));
 
 /* !
@@ -33,9 +34,6 @@ bot.on('ready', async () => {
 	// Activities Loop.
 	bot.user.setActivity({ name: `v${bot.version}`, type: 'PLAYING' });
 	bot.activity = require('./utils/activities')(bot);
-
-	// Only for testing purposes.
-	// if (process.env.NODE_ENV !== 'production') test(bot);
 
 	// Warns the admin that the bot is ready!
 	if (process.env.NODE_ENV === 'production') {
@@ -67,11 +65,12 @@ bot.on('message', async message => {
 	if (!prefix) return;
 
 	// Adds important data to the context of the message.
-	message.prefix = prefix;
-	message.bot = bot;
+	// message.prefix = prefix;
+	// message.bot = bot;
+	const ctx = processMessage(message, prefix);
 
 	// Parses the arguments.
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const args = ctx.content.slice(prefix.length).trim().split(/ +/);
 	const commandName = args.shift().toLowerCase();
 
 	// Gets the command from its name, with support for aliases.
@@ -82,28 +81,28 @@ bot.on('message', async message => {
 	if (!command) return;
 
 	// Aborts if the user or the guild are banned.
-	if (bot.mutedUsers.has(message.author.id) && message.author.id !== bot.admin.id) {
-		console.log(`[Banlist] User ${message.author.id} is MUTED.`);
-		return await message.reply('⛔ You have been muted and cannot use my commands.');
+	if (bot.mutedUsers.has(ctx.author.id) && ctx.author.id !== bot.admin.id) {
+		console.log(`[Banlist] User ${ctx.author.id} is MUTED.`);
+		return await ctx.reply('⛔ You have been muted and cannot use my commands.');
 	}
-	if (message.channel.type === 'text' && bot.blacklistedGuilds.has(message.guild.id) && message.author.id !== bot.admin.id) {
-		console.log(`[Banlist] Guild ${message.guild.id} is BLACKLISTED.`);
-		return await message.reply('⛔ This server has been blacklisted and cannot use my commands.');
-		// return await message.channel.guild.leave();
+	if (ctx.channel.type === 'text' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.admin.id) {
+		console.log(`[Banlist] Guild ${ctx.guild.id} is BLACKLISTED.`);
+		return await ctx.reply('⛔ This server has been blacklisted and cannot use my commands.');
+		// return await ctx.channel.guild.leave();
 	}
 
 	// Notifies if can't DM (= PM).
-	if (command.guildOnly && message.channel.type !== 'text') {
-		return message.reply('⚠️ I can\'t execute that command inside DMs!');
+	if (command.guildOnly && ctx.channel.type !== 'text') {
+		return ctx.reply('⚠️ I can\'t execute that command inside DMs!');
 	}
 
 	// Notifies if arguments are missing.
 	if (command.args && !args.length) {
-		let reply = `ℹ️ ${message.author} You didn't provide any arguments!`;
+		let reply = `ℹ️ ${ctx.author} You didn't provide any arguments!`;
 		if (command.usage) {
 			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
 		}
-		return message.channel.send(reply);
+		return ctx.channel.send(reply);
 	}
 
 	// Sets the cooldown.
@@ -114,31 +113,31 @@ bot.on('message', async message => {
 		const timeNow = Date.now();
 		const timeStamps = bot.cooldowns.get(command.name);
 		const cdAmount = (command.cooldown || 5) * 1000;
-		if (timeStamps.has(message.author.id)) {
-			const cdExpire = timeStamps.get(message.author.id) + cdAmount;
+		if (timeStamps.has(ctx.author.id)) {
+			const cdExpire = timeStamps.get(ctx.author.id) + cdAmount;
 			if (timeNow < cdExpire) {
 				const timeLeft = (cdExpire - timeNow) / 1000;
-				return message.reply(
+				return ctx.reply(
 					`Please wait ${timeLeft.toFixed(0)} second(s) before reusing the command \`${prefix}${command.name}\``,
 				);
 			}
 		}
-		timeStamps.set(message.author.id, timeNow);
-		setTimeout(() => timeStamps.delete(message.author.id), cdAmount);
+		timeStamps.set(ctx.author.id, timeNow);
+		setTimeout(() => timeStamps.delete(ctx.author.id), cdAmount);
 	}
 
 	// Runs the command.
 	try {
-		console.log(`[CMD] ${message.author.tag} (${message.author.id})`
-			+ (message.guild ? ` at ${message.guild.name} (${message.guild.id}) in #${message.channel.name} (${message.channel.id})` : '')
+		console.log(`[CMD] ${ctx.author.tag} (${ctx.author.id})`
+			+ (ctx.guild ? ` at ${ctx.guild.name} (${ctx.guild.id}) in #${ctx.channel.name} (${ctx.channel.id})` : '')
 			+ `: ${command.name}`, args.toString(),
 		);
-		await command.run(args, message);
+		await command.run(args, ctx);
 		bot.raiseCommandStats(command.name);
 	}
 	catch (error) {
 		console.error('[Error] At command execution.');
-		onError(error, message);
+		onError(error, ctx);
 	}
 });
 
