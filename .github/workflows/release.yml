@@ -28,7 +28,7 @@ jobs:
       run: npm ci
     - name: Build (if any)
       run: npm run build --if-present
-    - name: Testing the Code
+    - name: Performing Tests
       run: npm test
 #    - name: Release
 #      run: npx semantic-release
