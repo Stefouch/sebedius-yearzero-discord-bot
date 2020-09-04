@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - `!help` command revamped.
 - (JavaScript) Refactored the whole commands architecture.
+- (JavaScript) Discord.Message "ctx" now uses Sebedius.ContextMessage which extends Discord.Message
 - (JavaScript) Added command cooldown support.
 
 ### Fixed
