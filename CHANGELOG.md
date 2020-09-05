@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - (JavaScript) Refactored the whole commands architecture.
 - (JavaScript) Discord.Message "ctx" now uses Sebedius.ContextMessage which extends Discord.Message
 - (JavaScript) Added command cooldown support.
+- (GitHub) Use of GitHub CI for workflow tests.
 
 ### Fixed
 - A bug with `!roll` command where a modifier of `±0` was translated into `±1`.
