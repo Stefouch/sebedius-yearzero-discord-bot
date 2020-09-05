@@ -28,3 +28,5 @@ jobs:
       run: npm ci --verbose
     - name: Performing Tests
       run: npm test
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
