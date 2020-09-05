@@ -10,6 +10,12 @@ describe('Testing database connections', function() {
 	const name = 'test';
 	let kdb;
 
+	it('Should have a DATABASE_URL environment variable', function() {
+		const dbType = 'postgres';
+		const partialURI = process.env.DATABASE_URL.slice(0, dbType.length);
+		assert.strictEqual(partialURI, dbType);
+	});
+
 	it('Should be able to create a Keyv DB', async function() {
 		kdb = new Keyv(process.env.DATABASE_URL, { namespace: name });
 		kdb.on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}S\n`, err));
