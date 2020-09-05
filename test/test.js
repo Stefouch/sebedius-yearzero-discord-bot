@@ -19,17 +19,17 @@ describe('Testing database connections', function() {
 	});
 
 	it('Should be able to set a DB entry', async function() {
-		const james = await kdb.set('007', 'James Bond');
-		assert.strictEqual(james, true);
+		const mutant = await kdb.set('project', 'E.D.E.N.');
+		assert.strictEqual(mutant, true);
 	});
 
 	it('Should be able to get that DB entry', async function() {
-		const bond = await kdb.get('007');
-		assert.strictEqual(bond, 'James Bond');
+		const mutant = await kdb.get('project');
+		assert.strictEqual(mutant, 'E.D.E.N.');
 	});
 
 	it('Should be able to delete that DB entry', async function() {
-		const kill = await kdb.delete('007');
-		assert.strictEqual(kill, true);
+		const ark = await kdb.delete('project');
+		assert.strictEqual(ark, true);
 	});
 });
