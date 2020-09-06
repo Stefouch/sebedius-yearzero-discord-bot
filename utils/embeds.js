@@ -90,7 +90,7 @@ class UserEmbed extends MessageEmbed {
 		});
 		this.user = user;
 		if (user.bot) this.addField('Bot', ':warning: This user is a bot!', true);
-		if (user.flags.bitfield) this.addField('Flags', user.flags.bitfield, true);
+		// if (user.flags.bitfield) this.addField('Flags', user.flags.bitfield, true);
 		if (user.lasMessage) this.addField('Last Message', user.lasMessage.content, false);
 	}
 }
