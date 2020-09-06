@@ -7,7 +7,9 @@ const Keyv = require('keyv');
 const Util = require('../utils/Util');
 const YZRoll = require('../yearzero/YZRoll');
 
-require('dotenv').config();
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
 
 describe('Testing the YZRoll', function() {
 	const roll = new YZRoll('myz', 'Stefouch', 'Test Roll');
