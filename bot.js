@@ -9,11 +9,12 @@ const { HTTPError, DiscordAPIError, Collection } = require('discord.js');
 const SebediusErrors = require('./utils/errors');
 
 // First, loads the ENV variables (e.g. bot's token).
+// If not in production mode.
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
+// Second, creates the (custom) bot client.
 const Sebedius = require('./Sebedius');
-const { processMessage } = require('./Sebedius');
 const bot = new Sebedius(require('./config.json'));
 
 /* !
@@ -67,7 +68,7 @@ bot.on('message', async message => {
 	// Adds important data to the context of the message.
 	// message.prefix = prefix;
 	// message.bot = bot;
-	const ctx = processMessage(message, prefix);
+	const ctx = Sebedius.processMessage(message, prefix);
 
 	// Parses the arguments.
 	const args = ctx.content.slice(prefix.length).trim().split(/ +/);
@@ -90,6 +91,9 @@ bot.on('message', async message => {
 		return await ctx.reply('⛔ This server has been blacklisted and cannot use my commands.');
 		// return await ctx.channel.guild.leave();
 	}
+
+	// Aborts if the command is owner-only and the user is not the owner.
+	if (command.ownerOnly && ctx.author.id !== bot.owner.id) return;
 
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && ctx.channel.type !== 'text') {
