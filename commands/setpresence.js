@@ -53,6 +53,7 @@ module.exports = {
 		argv.type = argv.type.toUpperCase();
 		argv.status = argv.status.toLowerCase();
 		let name, type, status, afk, message;
+
 		if (argv.idle || argv._[0] === 'idle') {
 			name = '🚧 On Maintenance';
 			type = 'WATCHING';
