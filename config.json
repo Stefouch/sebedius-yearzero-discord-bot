@@ -2,6 +2,8 @@
 	"botID": "543445246143365130",
 	"betaBotID": "549319447240769542",
 	"ownerID": "405389936783523840",
+	"botGuildID": "585361465641271296",
+	"botLogChannelID": "752170706522865664",
 	"defaultPrefix": "!",
 	"perms": { "bitfield": 355392 },
 	"activityLoopDelay": 600,
