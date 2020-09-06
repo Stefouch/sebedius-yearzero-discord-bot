@@ -9,12 +9,14 @@ module.exports = {
 	category: 'admin',
 	description: 'Performs bot\'s maintenance. Only available for the bot\'s owner.',
 	ownerOnly: true,
-	guildOnly: true,
+	guildOnly: false,
 	args: true,
 	usage: '',
 	async run(args, ctx) {
 		// Exits early if not the bot's owner.
-		if (ctx.author.id !== ctx.bot.config.ownerID) return;
+		if (ctx.author.id !== ctx.bot.owner.id) return;
+
+		// await ctx.delete().catch(console.error);
 
 		if (args.length >= 2) {
 			switch (args[0]) {
@@ -35,6 +37,7 @@ module.exports = {
 		}
 		else {
 			switch (args[0]) {
+				case 'reload': return botReload();
 				case 'botinfo': case 'info': return await botInfo(ctx);
 				case 'servers': return await listGuilds(ctx);
 			}
@@ -42,6 +45,14 @@ module.exports = {
 		return await ctx.reply('Hello! Please give me a subcommand.');
 	},
 };
+
+/**
+ * Reloads the bot.
+ * @async
+ */
+async function botReload() {
+	// process.exit();
+}
 
 /**
  * Blacklists a guild.
@@ -156,6 +167,7 @@ async function unmute(ctx, userId) {
 		: '❌ An error occured.';
 	return await ctx.reply(msg);
 }
+
 
 /**
  * Prints the list of all servers.
