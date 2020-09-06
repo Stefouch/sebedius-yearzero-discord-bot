@@ -14,10 +14,10 @@ module.exports = {
 	usage: '<parameter> [new value]',
 	async run(args, ctx) {
 		// Exits early if the message's author doesn't have the ADMINISTRATOR Permission.
-		// The Bot Admin may bypass this security check.
+		// The bot.owner may bypass this security check.
 		if (
 			!ctx.member.hasPermission('ADMINISTRATOR')
-			&& ctx.author.id !== ctx.bot.config.ownerID
+			&& ctx.author.id !== ctx.bot.owner.id
 		) {
 			return ctx.reply('⛔ This command is only available for admins.');
 		}

@@ -20,7 +20,7 @@ const bot = new Sebedius(require('./config.json'));
  * READY HANDLER
  */
 bot.on('ready', async () => {
-	bot.admin = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
+	bot.owner = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
@@ -37,7 +37,7 @@ bot.on('ready', async () => {
 
 	// Warns the admin that the bot is ready!
 	if (process.env.NODE_ENV === 'production') {
-		bot.admin.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
+		bot.owner.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
 	}
 });
 
@@ -81,11 +81,11 @@ bot.on('message', async message => {
 	if (!command) return;
 
 	// Aborts if the user or the guild are banned.
-	if (bot.mutedUsers.has(ctx.author.id) && ctx.author.id !== bot.admin.id) {
+	if (bot.mutedUsers.has(ctx.author.id) && ctx.author.id !== bot.owner.id) {
 		console.log(`[Banlist] User ${ctx.author.id} is MUTED.`);
 		return await ctx.reply('⛔ You have been muted and cannot use my commands.');
 	}
-	if (ctx.channel.type === 'text' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.admin.id) {
+	if (ctx.channel.type === 'text' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
 		console.log(`[Banlist] Guild ${ctx.guild.id} is BLACKLISTED.`);
 		return await ctx.reply('⛔ This server has been blacklisted and cannot use my commands.');
 		// return await ctx.channel.guild.leave();
@@ -217,7 +217,7 @@ async function onError(error, ctx) {
 				+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
 				+ `\n**Stack:** ${error.stack}`;
-			bot.admin.send(msg, { split: true })
+			bot.owner.send(msg, { split: true })
 				.catch(console.error);
 		}
 		if (ctx) {

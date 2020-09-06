@@ -7,7 +7,7 @@ module.exports = {
 	name: 'eval',
 	category: 'admin',
 	description: 'Debug function for the bot owner.',
-	adminOnly: true,
+	ownerOnly: true,
 	guildOnly: false,
 	args: false,
 	usage: '<expression>',

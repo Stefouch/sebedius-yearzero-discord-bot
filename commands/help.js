@@ -52,8 +52,8 @@ module.exports = {
 				// Adds a link to the wiki.
 				embed.description = `${ctx.bot.config.wikiURL}#list-of-commands`;
 
-				// Hides adminOnly commands.
-				const commands = ctx.bot.commands.filter(cmd => cmd.adminOnly !== true);
+				// Hides ownerOnly commands.
+				const commands = ctx.bot.commands.filter(cmd => cmd.ownerOnly !== true);
 
 				// Build the list of types of commands.
 				const commandsGroups = commands.map(cmd => cmd.category).sort();
@@ -73,7 +73,7 @@ module.exports = {
 				}
 			}
 			// Sends the embed.
-			if (argv.list && ctx.author.id !== ctx.bot.admin.id) {
+			if (argv.list && ctx.author.id !== ctx.bot.owner.id) {
 				return ctx.author.send(embed)
 					.then(() => {
 						if (ctx.channel.type === 'dm') return;

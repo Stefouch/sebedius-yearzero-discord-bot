@@ -20,7 +20,7 @@ module.exports = {
 			• \`-idle\` – Shortcut for \`-status dnd -type watching -afk -name 🚧 On Maintenance\`.`,
 		],
 	],
-	adminOnly: true,
+	ownerOnly: true,
 	guildOnly: false,
 	args: true,
 	usage: '[-name|text <text..>] [-type <?>] [-status <?>] [-idle] [-loop] [-afk]',

@@ -7,7 +7,7 @@ module.exports = {
 	name: 'stats',
 	category: 'admin',
 	description: 'Prints bot\'s statistics. Use argument `--clear` to erase the stats.',
-	adminOnly: true,
+	ownerOnly: true,
 	guildOnly: false,
 	args: false,
 	usage: '[-clear]',

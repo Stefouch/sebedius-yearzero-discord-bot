@@ -8,7 +8,7 @@ module.exports = {
 	name: 'admin',
 	category: 'admin',
 	description: 'Performs bot\'s maintenance. Only available for the bot\'s owner.',
-	adminOnly: true,
+	ownerOnly: true,
 	guildOnly: true,
 	args: true,
 	usage: '',
