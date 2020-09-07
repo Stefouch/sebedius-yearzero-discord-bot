@@ -6,9 +6,11 @@ const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
 const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 
+/**
+ * A Year Zero Roll object.
+ */
 class YZRoll {
 	/**
-	 * A Year Zero Roll object.
 	 * @param {?string} game The game of the roll
 	 * @param {string} author The author of the roll
 	 * @param {string} name The name of the roll
@@ -528,10 +530,11 @@ class YZRoll {
 
 module.exports = YZRoll;
 
+/**
+ * Year Zero Die with type. The die is rolled if no value is predefined.
+ */
 class YZDie {
-
 	/**
-	 * Year Zero Die with type. The die is rolled if no value is predefined.
 	 * @param {?number} range The number of faces of the die
 	 * @param {?string} type The type of the die
 	 * @param {?number} [value=0] Any predefined value for the die

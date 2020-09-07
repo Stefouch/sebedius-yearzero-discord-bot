@@ -1,7 +1,8 @@
+/**
+ * A Year Zero Critical Injury object.
+ */
 class YZCrit {
-
 	/**
-	 * A Year Zero Critical Injury object.
 	 * @param {Object} data Critical data
 	 * @param {number} data.ref
 	 * @param {string} data.injury

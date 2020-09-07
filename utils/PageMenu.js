@@ -2,10 +2,12 @@ const { MessageEmbed } = require('discord.js');
 const ReactionMenu = require('./ReactionMenu');
 const { clamp } = require('./Util');
 
+/**
+ * Create a menu with navigable pages.
+ * Stop deletes the menu message.
+ */
 class PageMenu {
 	/**
-	 * Create a menu with navigable pages.
-	 * Stop deletes the menu message.
 	 * @param {Discord.Message} channel Discord message with context
 	 * @param {string} userID (Snowflake) The ID of the user you want to let control the menu
 	 * @param {?number} [time=120000] Cooldown (in milliseconds)
