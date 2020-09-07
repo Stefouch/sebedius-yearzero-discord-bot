@@ -1,14 +1,16 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
 
+/**
+ * A Discord.MessageEmbed with predefined properties.
+ * @extends {MessageEmbed}
+ */
 class YZEmbed extends MessageEmbed {
 	/**
-	 * A Discord.MessageEmbed with predefined properties.
 	 * @param {string} title The embed's title
 	 * @param {string} description The embed's description
 	 * @param {?Discord.Message} [triggeringMessage=null] The triggering message (default is null)
 	 * @param {boolean} [hasAuthor=false] Shows or not the triggering message's author (default is false)
-	 * @extends Discord.MessageEmbed
 	 */
 	constructor(title, description, triggeringMessage = null, hasAuthor = false) {
 		super({
@@ -38,12 +40,14 @@ class YZEmbed extends MessageEmbed {
 	}
 }
 
+/**
+ * A Discord embed message for Year Zero monsters.
+ * @extends {MessageEmbed}
+ */
 class YZMonsterEmbed extends MessageEmbed {
 	/**
-	 * A Discord embed message for Year Zero monsters.
 	 * @param {YZMonster} monster Year Zero monster object
-	 * @param {?string} color Embed.color
-	 * @extends Discord.MessageEmbed
+	 * @param {?string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(monster, color = 0x1AA29B) {
 		super({
@@ -66,21 +70,28 @@ class YZMonsterEmbed extends MessageEmbed {
 	}
 }
 
+/**
+ * A Discord embed message that displays info about a user.
+ * @extends {MessageEmbed}
+ */
 class UserEmbed extends MessageEmbed {
 	/**
-	 * A Discord embed message that displays info about a user.
 	 * @param {Discord.User} user Discord User
-	 * @param {?string} color Embed.color
+	 * @param {?string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(user, color = 0x1AA29B) {
 		super({
 			color,
 			title: `${user.username} (${user.tag})`,
 			description: `Language: **${user.locale}**`,
-			thumbnail: { url: user.avatarURL() },
+			thumbnail: { url: user.displayAvatarURL() },
 			timestamp: new Date(),
 			footer: { text: `ID: ${user.id}` },
 			fields: [
+				{
+					name: 'Status',
+					value: user.presence.status.toUpperCase(),
+				},
 				{
 					name: 'Created At',
 					value: user.createdAt,
@@ -91,15 +102,18 @@ class UserEmbed extends MessageEmbed {
 		this.user = user;
 		if (user.bot) this.addField('Bot', ':warning: This user is a bot!', true);
 		// if (user.flags.bitfield) this.addField('Flags', user.flags.bitfield, true);
-		if (user.lasMessage) this.addField('Last Message', user.lasMessage.content, false);
+		if (user.lastMessage) this.addField('Last Message', user.lastMessage.content, false);
 	}
 }
 
+/**
+ * A Discord embed message that displays info about a user.
+ * @extends {MessageEmbed}
+ */
 class GuildEmbed extends MessageEmbed {
 	/**
-	 * A Discord embed message that displays info about a user.
 	 * @param {Discord.Guild} guild Discord Guild
-	 * @param {?string} color Embed.color
+	 * @param {?string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(guild, color = 0x1AA29B) {
 		super({
@@ -116,8 +130,18 @@ class GuildEmbed extends MessageEmbed {
 					inline: true,
 				},
 				{
+					name: 'Text Channels',
+					value: guild.channels.cache.filter(ch => ch.type === 'text').size,
+					inline: true,
+				},
+				{
+					name: 'Voice Channels',
+					value: guild.channels.cache.filter(ch => ch.type === 'voice').size,
+					inline: true,
+				},
+				{
 					name: 'Owner',
-					value: guild.ownerID,
+					value: `${guild.owner.user.tag} (${guild.ownerID})`,
 					inline: true,
 				},
 				{
@@ -129,6 +153,7 @@ class GuildEmbed extends MessageEmbed {
 		});
 		this.guild = guild;
 	}
+
 	async addInviteField(inline = false) {
 		let invite = null;
 		/* try {
