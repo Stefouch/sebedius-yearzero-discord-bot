@@ -6,6 +6,7 @@
  * ===========================================================
  */
 const { HTTPError, DiscordAPIError, Collection } = require('discord.js');
+const { GuildEmbed } = require('./utils/embeds');
 const SebediusErrors = require('./utils/errors');
 
 // First, loads the ENV variables (e.g. bot's token).
@@ -22,6 +23,7 @@ const bot = new Sebedius(require('./config.json'));
  */
 bot.on('ready', async () => {
 	bot.owner = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
+	bot.logChannel = bot.channels.cache.get(bot.config.botLogChannelID) || await bot.channels.fetch(bot.config.botLogChannelID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
@@ -38,7 +40,8 @@ bot.on('ready', async () => {
 
 	// Warns the admin that the bot is ready!
 	if (process.env.NODE_ENV === 'production') {
-		bot.owner.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
+		// bot.owner.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
+		bot.logChannel.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
 	}
 });
 
@@ -150,6 +153,7 @@ bot.on('message', async message => {
  */
 bot.on('guildCreate', async guild => {
 	console.log(`[GUILD] Joined: ${guild.name} (${guild.id})`);
+	bot.logChannel.send('Guild Joined', new GuildEmbed(guild));
 	if (bot.blacklistedGuilds.has(guild.id)) {
 		return await guild.leave();
 	}
@@ -173,6 +177,7 @@ bot.on('guildCreate', async guild => {
 });
 bot.on('guildDelete', guild => {
 	console.log(`[GUILD] Left: ${guild.name} (${guild.id})`);
+	bot.logChannel.send('Guild Left', new GuildEmbed(guild));
 });
 
 /* !
