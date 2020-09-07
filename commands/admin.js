@@ -1,7 +1,7 @@
 const ms = require('ms');
 const os = require('os');
 const worker = require('core-worker');
-const { version } = require('discord.js');
+const { version, MessageMentions } = require('discord.js');
 const { YZEmbed, UserEmbed, GuildEmbed } = require('../utils/embeds');
 
 module.exports = {
@@ -16,7 +16,7 @@ module.exports = {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.owner.id) return;
 
-		// await ctx.delete().catch(console.error);
+		await ctx.delete().catch(console.error);
 
 		if (args.length >= 2) {
 			switch (args[0]) {
@@ -25,8 +25,8 @@ module.exports = {
 				case 'blacklist': return await blacklist(ctx, args[1]);
 				case 'whitelist': return await whitelist(ctx, args[1]);
 				case 'leave': return await leave(ctx, args[1]);
-				case 'whois': return await whois(ctx, args[1]);
-				case 'servinfo': return await guildInfo(ctx, args[1]);
+				case 'whois': case 'userinfo': return await whois(ctx, args[1]);
+				case 'serverinfo': return await guildInfo(ctx, args[1]);
 				case 'chansay': {
 					args.shift();
 					const channel = args.shift();
@@ -98,13 +98,18 @@ async function chanSay(ctx, chanId, message) {
 /**
  * Prints info from a user.
  * @param {Discord.message} ctx Discord message with context
- * @param {Snowflake} userId User ID
+ * @param {Snowflake} userId User ID or user's mention
  * @async
  */
 async function whois(ctx, userId) {
-	const user = await ctx.bot.getUser(userId);
+	let user;
+	if (MessageMentions.USERS_PATTERN.test(userId)) {
+		user = ctx.mentions.users.first();
+	}
+	else {
+		user = await ctx.bot.getUser(userId);
+	}
 	if (!user) return await ctx.reply(':x: User not found.');
-	console.log(user);
 	const embed = new UserEmbed(user);
 	return await ctx.channel.send(embed);
 }
@@ -195,7 +200,8 @@ async function botInfo(ctx) {
 			.addField('Memory Usage', `${(process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)} MB`, true)
 			.addField('Swap Partition Size', `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`, true)
 			.addField('Uptime', ms(ctx.bot.uptime), true)
-			.addField('Users', ctx.bot.users.cache.size, true)
+			// .addField('Users', ctx.bot.users.cache.size, true)
+			.addField('Users', ctx.guilds.cache.reduce((sum, g) => sum + g.memberCount), true)
 			.addField('Servers', ctx.bot.guilds.cache.size, true)
 			.addField('Channels', ctx.bot.channels.cache.size, true)
 			.addField('Emojis', ctx.bot.emojis.cache.size, true)
