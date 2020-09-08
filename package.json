@@ -1,13 +1,27 @@
 {
   "name": "sebedius-yz-discord-bot",
-  "version": "3.4.0",
+  "version": "3.5.0",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
   "license": "MIT",
   "homepage": "https://stefouch.be/",
   "keywords": [
     "year zero",
+    "year zero engine",
+    "yz",
+    "yze",
+    "mutant",
+    "myz",
+    "forbidden lands",
+    "fbl",
+    "alien",
+    "coriolis",
+    "tales from the loop",
+    "vaesen",
+    "twilight 2000",
+    "t2k",
     "free league publishing",
+    "fria ligan",
     "dice",
     "roll"
   ],
@@ -26,7 +40,7 @@
   },
   "main": "bot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --exit",
     "start": "node .",
     "lint": "eslint ."
   },
@@ -42,6 +56,8 @@
     "yargs-parser": "^19.0.4"
   },
   "devDependencies": {
-    "eslint": "^7.8.1"
+    "chai": "^4.2.0",
+    "eslint": "^7.8.1",
+    "mocha": "^8.1.3"
   }
 }

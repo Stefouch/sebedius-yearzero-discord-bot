@@ -73,7 +73,7 @@ class Util {
 
 	/**
 	 * Generates a string of random alphanumeric characters.
-	 * @param {?number} [length=4] Number of characters to return
+	 * @param {number} [length=4] Number of characters to return
 	 */
 	static randomID(length = 4) {
 		return Math.random().toString(36).substr(2, (length || 4) + 2);
@@ -271,12 +271,12 @@ class Util {
 	 * Aligns a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container
-	 * @param {?number} [axis=0.5] Multiplier specifying axis of alignment:
+	 * @param {number} [axis=0.5] Multiplier specifying axis of alignment:
 	 * * 0.0: Left-aligned
 	 * * 0.5: Centred
 	 * * 1.0: Right-aligned
 	 * * The default is 0.5 (center-aligned).
-	 * @param {?string} [char=' '] Character to pad with. Defaults to space (U+0020)
+	 * @param {string} [char=' '] Character to pad with. Defaults to space (U+0020)
 	 * @return {string}
 	 */
 	static alignText(input, width, axis, char) {
@@ -299,7 +299,7 @@ class Util {
 	 * Words are pushed onto the following line, unless they exceed the line's total length limit.
 	 *
 	 * @param {string} input Block of text to wrap
-	 * @param {?number} [len=80] Number of characters permitted on each line.
+	 * @param {number} [len=80] Number of characters permitted on each line.
 	 * @return {string[]} An array of fold points, preserving any new-lines in the original text.
 	 */
 	static wordWrap(input, len) {
@@ -622,7 +622,7 @@ class Util {
 	 * If *val* starts with + or -, it returns *base + val*.
 	 * Otherwise, it returns *val*.
 	 * @param {string} val
-	 * @param {?number} [base=0]
+	 * @param {number} [base=0]
 	 * @returns {number}
 	 */
 	static modifOrSet(val, base = 0) {

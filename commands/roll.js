@@ -1,4 +1,4 @@
-const Sebedius = require('../Sebedius');
+const { emojifyRoll, checkPermissions } = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
 const { trimString } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
@@ -17,7 +17,8 @@ const DICE_RANGE_ICONS = {
 
 module.exports = {
 	name: 'roll',
-	group: 'Common',
+	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
+	category: 'common',
 	description: 'Rolls dice for any Year Zero roleplaying game.',
 	moreDescriptions: [
 		[
@@ -76,11 +77,10 @@ module.exports = {
 			+ '\n`rw` – Rolls *Twilight 2000 4E* dice.',
 		],
 	],
-	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
 	guildOnly: false,
 	args: true,
 	usage: '[game] <dice...> [arguments...]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Changes '#' with '-name'.
 		const hashTagIndex = args.indexOf('#');
 		if (~hashTagIndex && !args.some(arg => /^(-#|-n|-name)$/.test(arg))) {
@@ -301,13 +301,13 @@ module.exports = {
 		// Sends the message.
 		if (roll.d66) {
 			await ctx.channel.send(
-				Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
 				getEmbedD66Results(roll, ctx),
 			);
 		}
 		else if(roll.initiative) {
 			await ctx.channel.send(
-				Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
 				getEmbedInitRollResults(roll, ctx),
 			);
 		}
@@ -331,7 +331,7 @@ module.exports = {
  */
 async function messageRollResult(roll, ctx) {
 	// Aborts if the bot doesn't have the needed permissions.
-	if (!Sebedius.checkPermissions(ctx)) return;
+	if (!checkPermissions(ctx)) return;
 
 	// OPTIONS
 	// Important for all below.
@@ -341,7 +341,7 @@ async function messageRollResult(roll, ctx) {
 
 	// Sends the message.
 	await ctx.channel.send(
-		Sebedius.emojifyRoll(roll, gameOptions),
+		emojifyRoll(roll, gameOptions),
 		getEmbedDiceResults(roll, ctx, gameOptions),
 	)
 		.then(rollMessage => {
@@ -350,7 +350,7 @@ async function messageRollResult(roll, ctx) {
 				const panicArgs = [roll.stress];
 				if (roll.nerves) panicArgs.push('-nerves');
 				if (roll.minpanic) panicArgs.push('-min', roll.minpanic);
-				return ctx.bot.commands.get('panic').execute(panicArgs, ctx);
+				return ctx.bot.commands.get('panic').run(panicArgs, ctx);
 			}
 			if (roll.pushable) {
 				// Creates an array of objects containing the required information
@@ -416,7 +416,7 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 		// throw new TooManyDiceError(pushedRoll.size);
 		// Cannot use error throwing because this function will not be catched by bot.js's error management.
 		collector.stop();
-		return ctx.reply(`:warning: Cannot roll that many dice! (${pushedRoll.size})`);
+		return ctx.reply(`⚠️ Cannot roll that many dice! (${pushedRoll.size})`);
 	}
 
 	// Stops the collector if it's the last push.
@@ -425,7 +425,7 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
 		rollMessage.edit(
-			Sebedius.emojifyRoll(pushedRoll, gameOptions),
+			emojifyRoll(pushedRoll, gameOptions),
 			getEmbedDiceResults(pushedRoll, ctx, gameOptions),
 		)
 			.catch(console.error);
@@ -435,7 +435,7 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 		collector.stop();
 		const panicArgs = [pushedRoll.stress];
 		if (roll.nerves) panicArgs.push('-nerves');
-		return ctx.bot.commands.get('panic').execute(panicArgs, ctx);
+		return ctx.bot.commands.get('panic').run(panicArgs, ctx);
 	}
 }
 

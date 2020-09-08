@@ -1,6 +1,9 @@
 const { Message } = require('discord.js');
 const Util = require('./Util');
 
+/**
+ * Creates a Reaction Menu for a message.
+ */
 class ReactionMenu {
 	/**
 	 * @typedef ReactionData
@@ -11,7 +14,6 @@ class ReactionMenu {
 	 */
 
 	/**
-	 * Creates a Reaction Menu for a message.
 	 * @param {Discord.Message} message Discord message to attach the reaction menu
 	 * @param {number} time Cooldown (in milliseconds)
 	 * @param {ReactionData[]} reactionsData An array of objects containing the data needed to create the reactions

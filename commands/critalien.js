@@ -1,14 +1,14 @@
 module.exports = {
 	name: 'critalien',
-	group: 'Alien RPG',
+	aliases: ['crita'],
+	category: 'alien',
 	description: 'Rolls for a random critical injury.'
 		+ '\nType `help crit` for more details.',
-	aliases: ['crita'],
 	guildOnly: false,
 	args: false,
 	usage: '[table] [numeric]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		args.unshift('alien');
-		await ctx.bot.commands.get('crit').execute(args, ctx);
+		await ctx.bot.commands.get('crit').run(args, ctx);
 	},
 };

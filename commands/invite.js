@@ -2,17 +2,17 @@ const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'invite',
-	group: 'Other',
-	description: 'Prints a link to invite Sebedius to your server.',
 	aliases: ['inv'],
+	category: 'misc',
+	description: 'Prints a link to invite Sebedius to your server.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const embed = new YZEmbed(
 			'🎲 Sebedius Invite',
 			'You can invite Sebedius to your server here: '
-			+ `https://discordapp.com/api/oauth2/authorize?client_id=${ctx.bot.config.botID}&scope=bot&permissions=${ctx.bot.config.perms.bitfield}`,
+			+ `${ctx.bot.inviteURL}`,
 			ctx,
 		);
 		return ctx.channel.send(embed);

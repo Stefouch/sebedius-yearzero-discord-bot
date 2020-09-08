@@ -3,11 +3,10 @@ const Deck = require('card-deck');
 /**
  * A Year Zero deck of cards.
  * Useful for initiative cards.
- * @extends Deck from module `card-deck`
+ * @extends {Deck} from module `card-deck`
  */
 class YZInitDeck extends Deck {
 	/**
-	 * Defines a deck.
 	 * @param {?Array<*>} [data=YZInitDeck.INITIATIVE_CARDS] An array of objects, default are initiative cards
 	 */
 	constructor(data) {
@@ -38,9 +37,9 @@ class YZInitDeck extends Deck {
 	/**
 	 * Loot cards: draw then discard.
 	 * @param {number} numDraw Number of cards to draw
-	 * @param {?number} [numKeep=1] Number of cards to keep
+	 * @param {number} [numKeep=1] Number of cards to keep
 	 * @param {?Function} fn Callback function to sort the best cards to keep
-	 * @param {?boolean} [shuffle=false] Wheter the discarded cards should be shuffled back into the deck
+	 * @param {boolean} [shuffle=false] Wheter the discarded cards should be shuffled back into the deck
 	 * @returns {number[]}
 	 */
 	loot(numDraw, numKeep = 1, fn = null, shuffle = false) {

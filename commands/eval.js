@@ -5,13 +5,13 @@ const YZRoll = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'eval',
-	group: 'Administration',
+	category: 'admin',
 	description: 'Debug function for the bot owner.',
-	adminOnly: true,
+	ownerOnly: true,
 	guildOnly: false,
 	args: false,
 	usage: '<expression>',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 

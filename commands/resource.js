@@ -1,18 +1,18 @@
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
-const Sebedius = require('../Sebedius');
+const { emojifyRoll } = require('../Sebedius');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
 module.exports = {
 	name: 'resource',
-	group: 'Forbidden Lands',
-	description: 'Rolls a Resource Die.',
 	aliases: ['res', 'ressource', 'resources', 'ressources'],
+	category: 'fbl',
+	description: 'Rolls a Resource Die.',
 	guildOnly: false,
 	args: true,
 	usage: '<d6|d8|d10|d12> [name]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const resourceDieArgument = args.shift();
 
 		if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
@@ -34,7 +34,7 @@ function sendMessageForResourceDie(roll, ctx) {
 	const die = roll.dice[0];
 	const desc = `**\`D${die.range}\`** Resource Die: **${die.result}**`;
 	const embed = new YZEmbed(roll.name, desc, ctx, true);
-	const text = Sebedius.emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]);
+	const text = emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]);
 
 	if (die.result <= 2) {
 		const resSizes = [0, 6, 8, 10, 12];

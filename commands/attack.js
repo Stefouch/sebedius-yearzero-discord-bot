@@ -1,13 +1,14 @@
-const Sebedius = require('../Sebedius');
+const { emojifyRoll } = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
-const Util = require('../utils/Util');
+const { isNumber, resolveNumber } = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'attack',
-	group: 'Common',
+	aliases: ['atk', 'atq'],
+	category: 'common',
 	description: 'Rolls a random attack from a monster.',
 	moreDescriptions: [
 		[
@@ -24,13 +25,12 @@ module.exports = {
 			• Click ❌ to stop the reaction menu.`,
 		],
 	],
-	aliases: ['atk', 'atq'],
 	guildOnly: false,
 	args: true,
 	usage: '[game] <monster name> [number] [-private|-p]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const { monster, argv } = await ctx.bot.commands.get('monster').parse(args, ctx);
-		const ref = Util.isNumber(argv.attack) ? argv.attack : null;
+		const ref = isNumber(argv.attack) ? argv.attack : null;
 		const successIcon = ctx.bot.config.commands.roll.options[monster.game].successIcon || 'success';
 		const attack = monster.getAttack(ref);
 		let effect = attack.effect
@@ -161,7 +161,7 @@ async function rollAttack(attack, monster, message, bot) {
 	else if (hit > 0) {
 		// Fixed damage
 		if (/\(\d+\)/.test(attack.damage)) {
-			damage = Util.resolveNumber(attack.damage);
+			damage = resolveNumber(attack.damage);
 		}
 		// Regular damage
 		else {
@@ -174,7 +174,7 @@ async function rollAttack(attack, monster, message, bot) {
 
 	// Sends the message.
 	await message.channel.send(
-		Sebedius.emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
+		emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
 		damage
 			? new YZEmbed(`Damage × ${damage}`, ':boom:'.repeat(damage))
 			: null,
@@ -193,5 +193,5 @@ async function rollAttack(attack, monster, message, bot) {
 async function rollCrit(game, table, num, privacy, ctx) {
 	const args = [game, table, num];
 	if (privacy) args.push('-p');
-	return await ctx.bot.commands.get('crit').execute(args, ctx);
+	return await ctx.bot.commands.get('crit').run(args, ctx);
 }

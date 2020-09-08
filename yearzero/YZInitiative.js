@@ -1,14 +1,15 @@
-const Util = require('../utils/Util');
 const YZInitDeck = require('./YZInitDeck');
 const { Collection } = require('discord.js');
+const { closest, clamp } = require('../utils/Util');
 
+/**
+ * A Discord Collection (extends Map) with initiative slots.
+ * K: {number} initiative value.
+ * V: {string} Combatant's reference (ID).
+ * @extends {Collection}
+ */
 module.exports = class YZInitiative extends Collection {
-
 	/**
-	 * A Discord Collection (extends Map) with initiative slots.
-	 * K: {number} initiative value.
-	 * V: {string} Combatant's reference (ID).
-	 * @type {Discord.Collection}
 	 * @param {?Iterable} data Array of Key-Value pairs
 	 * @param {?number[]} initiativeCards Specified initiative cards
 	 */
@@ -118,7 +119,7 @@ module.exports = class YZInitiative extends Collection {
 		else {
 			slotIndex = this.slots.indexOf(current);
 			if (slotIndex < 0) {
-				const slot = Util.closest(current, this.slots);
+				const slot = closest(current, this.slots);
 				slotIndex = this.slots.indexOf(slot);
 			}
 			if (slotIndex + 1 >= this.size) slotIndex = 0;
@@ -140,7 +141,7 @@ module.exports = class YZInitiative extends Collection {
 		else {
 			slotIndex = this.slots.indexOf(current);
 			if (slotIndex < 0) {
-				const slot = Util.closest(current, this.slots);
+				const slot = closest(current, this.slots);
 				slotIndex = this.slots.indexOf(slot);
 			}
 			if (slotIndex - 1 < 0) slotIndex = this.size - 1;
@@ -157,13 +158,12 @@ module.exports = class YZInitiative extends Collection {
 	 */
 	drawInit(speed = 1, loot = null) {
 		// Min 1 card, Max 10 cards.
-		const numKeep = Util.clamp(speed, 1, 10);
-		const numDraw = Util.clamp(loot, 1, 10);
+		const numKeep = clamp(speed, 1, 10);
+		const numDraw = clamp(loot, 1, 10);
 
 		// If more cards are drawn that the remaining number,
 		// draws the remaining cards and shuffle a new deck for the lasts.
 		const sortFn = (a, b) => a - b;
-		//const size = this.initiativeDeck.size;
 		const cards = [];
 
 		for (let i = 0; i < numKeep; i++) {
@@ -236,7 +236,6 @@ module.exports = class YZInitiative extends Collection {
 
 	stringifyMapObject() {
 		return JSON.stringify(Array.from(this.entries()));
-		return new Map(JSON.parse('text'));
 	}
 };
 

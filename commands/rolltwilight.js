@@ -1,6 +1,7 @@
 module.exports = {
 	name: 'rolltwilight',
-	group: 'Twilight 2000',
+	aliases: ['rollt2k', 'rollw', 'rw'],
+	category: 't2k',
 	description: 'Rolls dice for the *Twilight 2000* roleplaying game.'
 		+ '\nType `help roll` for more details.',
 	moreDescriptions: [
@@ -25,16 +26,15 @@ module.exports = {
 			'Type `help roll` for the list of available arguments.',
 		],
 		[
-			':warning: Disclaimer!',
+			'⚠️ Disclaimer!',
 			'This is based on pre-alpha info gathered from Fria Ligan Interviews on internet.',
 		],
 	],
-	aliases: ['rollt2k', 'rollw', 'rw'],
 	guildOnly: false,
 	args: true,
 	usage: '[attribute and/or skill] [ammo] [arguments]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		args.unshift('t2k');
-		await ctx.bot.commands.get('roll').execute(args, ctx);
+		await ctx.bot.commands.get('roll').run(args, ctx);
 	},
 };

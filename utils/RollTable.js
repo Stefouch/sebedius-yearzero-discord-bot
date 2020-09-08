@@ -1,5 +1,12 @@
+/**
+ * A rollable table.
+ * @extends {Map}
+ */
 class RollTable extends Map {
-
+	/**
+	 * @param {string} name The name of the table
+	 * @param {*} iterable An Array or other iterable object whose elements are key-value pairs.
+	 */
 	constructor(name, iterable) {
 		super(iterable);
 		this.name = name;

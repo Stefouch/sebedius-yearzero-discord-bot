@@ -2,12 +2,12 @@ const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'changelog',
-	group: 'Other',
+	category: 'misc',
 	description: 'Prints a link to the official changelog.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		const embed = new YZEmbed(
 			'📑 Sebedius Changelog',
 			'You can check out the latest patch notes at '

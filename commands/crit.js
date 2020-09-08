@@ -1,5 +1,5 @@
-const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
+const { getTable } = require('../Sebedius');
+const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 
@@ -24,7 +24,7 @@ const critTypeAliases = {
 
 module.exports = {
 	name: 'crit',
-	group: 'Common',
+	category: 'common',
 	description: 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
 	moreDescriptions: [
 		[
@@ -63,7 +63,7 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[game] [table] [numeric] [-private|-p]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Exits early if too many arguments
 		if (args.length > 4) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
 
@@ -75,7 +75,7 @@ module.exports = {
 				privacy = true;
 			}
 			// Checks and sets any fixed reference.
-			else if (!fixedReference && Util.isNumber(arg)) {
+			else if (!fixedReference && isNumber(arg)) {
 				fixedReference = +arg;
 			}
 			// Checks and sets the game.
@@ -120,7 +120,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = Sebedius.getTable('CRIT', './gamedata/crits/', fileName);
+		const critsTable = getTable('CRIT', './gamedata/crits/', fileName);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
@@ -128,7 +128,7 @@ module.exports = {
 		if (critsTable.size === 0) return ctx.reply('❌ An error occured: `critsTable size 0`.');
 
 		// Rolls the Critical Injuries table.
-		const critRoll = fixedReference || Util.rollD66();
+		const critRoll = fixedReference || rollD66();
 		const crit = critsTable.get(critRoll);
 
 		// Exits early if no critical injury was found.
@@ -155,7 +155,7 @@ module.exports = {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
 						ctx.channel.send('⚰');
-					}, Util.rollD66() * 150);
+					}, rollD66() * 150);
 				}
 			})
 			.catch(error => {
@@ -184,7 +184,7 @@ function getEmbedCrit(crit, name, ctx) {
 		}
 		else {
 			title = 'Healing Time';
-			text = `${Util.sumD6(crit.healingTime)} days until end of effects.`;
+			text = `${sumD6(crit.healingTime)} days until end of effects.`;
 		}
 		embed.addField(title, text, false);
 	}
@@ -200,7 +200,7 @@ function getEmbedCrit(crit, name, ctx) {
 			}
 
 			if (/s$/.test(crit.timeLimitUnit)) {
-				text += ` within the next **${Util.sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
+				text += ` within the next **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
 			}
 			else {
 				text += ` within **one ${crit.timeLimitUnit}**`;

@@ -1,13 +1,13 @@
 module.exports = {
 	name: 'planet',
-	group: 'Alien RPG',
-	description: 'Generates an uncolonized planet for the Alien RPG.',
 	aliases: ['world'],
+	category: 'alien',
+	description: 'Generates an uncolonized planet for the Alien RPG.',
 	guildOnly: false,
 	args: false,
 	usage: '',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Exits early and executes "!colony empty".
-		return ctx.bot.commands.get('colony').execute(['empty'], ctx);
+		return ctx.bot.commands.get('colony').run(['empty'], ctx);
 	},
 };

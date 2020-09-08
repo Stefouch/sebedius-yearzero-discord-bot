@@ -1,21 +1,21 @@
 const Muts = require('../gamedata/myz/mutations.list.json');
-const Util = require('../utils/Util');
+const { random } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 
 module.exports = {
 	name: 'drawmutation',
-	group: 'Mutant: Year Zero',
+	aliases: ['drawmut'],
+	category: 'myz',
 	description: 'Draws a random mutation from the MYZ core rulebook. Available sources are:'
 		+ '\n• `gla` – Adds *Mutant: GenLab Alpha* mutations'
 		+ '\n• `zc2` – Adds *Zone Compendium 2: Dead Blue Sea* mutations'
 		+ '\n• `zc5` – Adds *Zone Compendium 5: Hotel Imperator* mutations'
 		+ '\n• `psi` – Draws only from Psionic/mental mutations'
 		+ '\nUse `all` to pick from all book sources.',
-	aliases: ['drawmut'],
 	guildOnly: false,
 	args: false,
 	usage: '[all | gla zc2 zc5 psi]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Muts) legalBooks.push(book);
@@ -37,7 +37,7 @@ module.exports = {
 			}
 		});
 
-		const mutation = Util.random(mutations);
+		const mutation = random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
 
 		await ctx.channel.send(embed);

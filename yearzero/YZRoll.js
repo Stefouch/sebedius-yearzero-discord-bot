@@ -6,12 +6,14 @@ const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
 const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
 const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 
+/**
+ * A Year Zero Roll object.
+ */
 class YZRoll {
 	/**
-	 * A Year Zero Roll object.
 	 * @param {?string} game The game of the roll
-	 * @param {string} author The author of the roll
-	 * @param {string} name The name of the roll
+	 * @param {?string} author The author of the roll
+	 * @param {?string} name The name of the roll
 	 */
 	constructor(game, author, name) {
 		/**
@@ -201,7 +203,7 @@ class YZRoll {
 	/**
 	 * Sets the Full Automatic Fire mode.
 	 * `maxPush = 10`.
-	 * @param {?boolean} [bool=true] Full Auto yes or no
+	 * @param {boolean} [bool=true] Full Auto yes or no
 	 * @returns {YZRoll} This roll, with unlimited pushes
 	 */
 	setFullAuto(bool = true) {
@@ -292,7 +294,7 @@ class YZRoll {
 	 * @param {number} qty The quantity to add
 	 * @param {?number} [range=6] The number of faces of the die
 	 * @param {?number} value The predefined value for the die
-	 * @param {?string} operator The operator of the die
+	 * @param {string} [operator='+'] The operator of the die
 	 * @returns {YZRoll} This roll
 	 */
 	addDice(type, qty, range = 6, value = null, operator = '+') {
@@ -475,6 +477,17 @@ class YZRoll {
 	}
 
 	/**
+	 * Parses and sums all roll resolvable strings in a text.
+	 * @param {string} str Text to parse
+	 * @returns {string} Processed replacements
+	 */
+	static substitute(str) {
+		// const regex = new RegExp(ROLLREGEX, 'g');
+		const regex = /(\d*)(?:[dD])(\d+)([+-]\d+)*/g;
+		return str.replace(regex, match => YZRoll.parse(match).sum());
+	}
+
+	/**
 	 * Turns the YZRoll into a roll phrase.
 	 * @returns {string}
 	 */
@@ -517,10 +530,11 @@ class YZRoll {
 
 module.exports = YZRoll;
 
+/**
+ * Year Zero Die with type. The die is rolled if no value is predefined.
+ */
 class YZDie {
-
 	/**
-	 * Year Zero Die with type. The die is rolled if no value is predefined.
 	 * @param {?number} range The number of faces of the die
 	 * @param {?string} type The type of the die
 	 * @param {?number} [value=0] Any predefined value for the die
@@ -566,7 +580,7 @@ class YZDie {
 			? operator
 			: '+';
 
-		if (!this.result) this.roll();
+		if (!this.result && type !== 'modifier') this.roll();
 	}
 
 	/**
@@ -628,7 +642,7 @@ class YZDie {
 	push() {
 		this.previousResults.push(this.result);
 		if (this.pushable) return this.roll();
-		else return this.result;
+		return this.result;
 	}
 
 	/**

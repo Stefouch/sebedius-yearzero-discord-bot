@@ -1,4 +1,4 @@
-const fs = require('fs');
+const { readdirSync, readFileSync, existsSync } = require('fs');
 const Keyv = require('keyv');
 const Discord = require('discord.js');
 const YZCrit = require('./yearzero/YZCrit');
@@ -8,7 +8,11 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
-// Databases map: { name: namespace }
+/**
+ * Databases map.
+ * @type {Object} { name: namespace }
+ * @constant
+ */
 const DB_MAP = {
 	prefixes: 'prefix',
 	initiatives: 'initiative',
@@ -24,17 +28,25 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
+/**
+ * ! SEBEDIUS !
+ * @extends {Discord.Client}
+ */
 class Sebedius extends Discord.Client {
-
+	/**
+	 * Sebedius Client
+	 * @param {*} config Config data (JSON file)
+	 */
 	constructor(config) {
 		// ClientOptions: https://discord.js.org/#/docs/main/master/typedef/ClientOptions
 		super({
 			messageCacheMaxSize: 100,
 			messageCacheLifetime: 60 * 10,
 			messageSweepInterval: 90,
-			// partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+			// partials: ['MESSAGE', 'REACTION'],
 			ws: {
 				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
+				// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
 				intents: [
 					'GUILDS',
 					'GUILD_PRESENCES',
@@ -50,14 +62,17 @@ class Sebedius extends Discord.Client {
 		this.muted = false;
 		this.config = config;
 		this.version = require('./utils/version').version;
-		this.commands = new Discord.Collection();
-		this.addCommands();
 
 		// Caching for the current session.
+		this.blacklistedGuilds = new Set();
+		this.mutedUsers = new Set();
 		this.prefixes = new Discord.Collection();
 		this.games = new Discord.Collection();
 		this.langs = new Discord.Collection();
 		this.combats = new Discord.Collection();
+		this.cooldowns = new Discord.Collection();
+		this.commands = new Discord.Collection();
+		this.addCommands();
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
@@ -68,15 +83,83 @@ class Sebedius extends Discord.Client {
 		for (const name in DB_MAP) {
 			console.log(`        bot.kdb.${name}: "${DB_MAP[name]}"`);
 			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
-			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}`, err));
+			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}\n`, err));
 		}
-
-		// Loads blacklists.
-		this.blacklistedGuilds = new Set();
-		this.mutedUsers = new Set();
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
+	}
+
+	/**
+	 * The ID of the user that the client is logged in as.
+	 * @type {Discord.Snowflake}
+	 */
+	get id() {
+		return this.user.id;
+	}
+
+	/**
+	 * The bot's mention.
+	 * @type {string} `<@0123456789>`
+	 * @readonly
+	 */
+	get mention() {
+		return Sebedius.getMention(this.user);
+	}
+
+	/**
+	 * The bot's invite link.
+	 * @type {string}
+	 * @readonly
+	 */
+	get inviteURL() {
+		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${this.config.perms.bitfield}`;
+	}
+
+	/**
+	 * Creates the list of commands.
+	 */
+	addCommands() {
+		// Imports each command from subdirectories.
+		// Warning: bot crashes if a command is not in a subdir.
+		/* const dir = './commands/';
+		readdirSync(dir).forEach(d => {
+			const commands = readdirSync(`${dir}/${d}/`).filter(f => f.endsWith('.js'));
+			for (const file of commands) {
+				const command = require(`${dir}/${d}/${file}`);
+				this.commands.set(command.name, command);
+				console.log(`[+] - Command loaded: ${command.name}.js`);
+			}
+		}); //*/
+		// Imports each command from a single directory.
+		const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+		for (const file of commandFiles) {
+			const command = require('./commands/' + file);
+			this.commands.set(command.name, command);
+			console.log(`[+] - Command loaded: ${command.name}.js`);
+		}
+	}
+
+	/**
+	 * Logs a message to the LogChannel of the bot.
+	 * @param {Discord.StringResolvable|Discord.APIMessage} [message=''] The message to log
+	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
+	 * @see Discord.TextChannel.send()
+	 * @async
+	 */
+	async log(message = '', options = {}) {
+		if (typeof message === 'string') console.log(`:>> ${message}`);
+		else if (message instanceof Discord.MessageEmbed) console.log(`:>> ${message.title} — ${message.description}`);
+		else console.log(':>> [LOG]\n', message);
+
+		if (!message || this.state !== 'ready') return;
+
+		const channel = this.logChannel
+			|| this.channels.cache.get(this.config.botLogChannelID)
+			|| await this.channels.fetch(this.config.botLogChannelID);
+
+		if (channel) return await channel.send(message, options);
 	}
 
 	/**
@@ -95,7 +178,7 @@ class Sebedius extends Discord.Client {
 				entries = [...store.entries()];
 			}
 			else {
-				const nmspc = namespace ? namespace : DB_MAP[name];
+				const nmspc = namespace ? namespace : DB_MAP[name] || name;
 				entries = await store.query(
 					`SELECT * FROM keyv
 					WHERE key LIKE '${nmspc}%'`,
@@ -104,6 +187,30 @@ class Sebedius extends Discord.Client {
 			}
 		}
 		return entries;
+	}
+
+	/**
+	 * Removes all entries in the database for a guild.
+	 * @param {Discord.Snowflake} guildID
+	 * @returns {string[]} An array with the names of the databases where an entry has been removed.
+	 */
+	async kdbCleanGuild(guildID) {
+		// List of databases' names that can contain entries from a guild.
+		const kdbs = ['prefixes', 'initiatives', 'games', 'langs'];
+		const deletedEntries = [];
+
+		// Iterates over the databases
+		for (const name of kdbs) {
+			// Deletes the entry, if any.
+			const del = await this.kdb[name].delete(guildID);
+			if (del) {
+				// If deleted, removes it also from the cache.
+				this[name].delete(guildID);
+				// And registers the occurence of a deletion.
+				deletedEntries.push(name);
+			}
+		}
+		return deletedEntries;
 	}
 
 	/**
@@ -123,39 +230,8 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
-	 * The bot's mention.
-	 * @type {string} `<@0123456789>`
-	 * @readonly
-	 */
-	get mention() {
-		return Sebedius.getMention(this.user);
-	}
-
-	/**
-	 * The bot's invite link.
-	 * @type {string}
-	 * @readonly
-	 */
-	get inviteURL() {
-		return `https://discord.com/oauth2/authorize?client_id=${this.config.botID}&scope=bot&permissions=${this.config.perms.bitfield}`;
-	}
-
-	/**
-	 * Creates the list of commands.
-	 */
-	addCommands() {
-		const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-		for (const file of commandFiles) {
-			const command = require('./commands/' + file);
-			this.commands.set(command.name, command);
-			console.log(`[+] - Command loaded: ${command.name}.js`);
-		}
-	}
-
-	/**
 	 * Gets a User.
-	 * @param {Snowflake} userId User ID
+	 * @param {Discord.Snowflake} userId User ID
 	 * @returns {Promise<Discord.User>}
 	 * @async
 	 */
@@ -167,7 +243,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a Channel.
-	 * @param {Snowflake} chanId Channel ID
+	 * @param {Discord.Snowflake} chanId Channel ID
 	 * @returns {Promise<Discord.BaseChannel>}
 	 * @async
 	 */
@@ -179,7 +255,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a Guild.
-	 * @param {Snowflake} guildId Guild ID, or guild's Channel ID.
+	 * @param {Discord.Snowflake} guildId Guild ID, or guild's Channel ID.
 	 * @returns {Promise<Discord.Guild>}
 	 * @async
 	 */
@@ -323,8 +399,8 @@ class Sebedius extends Discord.Client {
 	 * @param {string} type Type of table to return (`CRIT` or `null`)
 	 * @param {string} path Folder path to the file with the ending `/`
 	 * @param {string} fileName Filename without path, ext or lang-ext
-	 * @param {?string} [lang='en'] The language to use, default is `en` English
-	 * @param {?string} [ext='csv'] File extension
+	 * @param {string} [lang='en'] The language to use, default is `en` English
+	 * @param {string} [ext='csv'] File extension
 	 * @returns {RollTable}
 	 * @static
 	 */
@@ -333,11 +409,11 @@ class Sebedius extends Discord.Client {
 		let filePath = `${pathName}.${lang}.${ext}`;
 
 		// If the language does not exist for this file, use the english default.
-		if (!fs.existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
+		if (!existsSync(filePath)) filePath = `${pathName}.en.${ext}`;
 
 		let elements;
 		try {
-			const fileContent = fs.readFileSync(filePath, 'utf8');
+			const fileContent = readFileSync(filePath, 'utf8');
 			elements = Util.csvToJSON(fileContent);
 		}
 		catch(error) {
@@ -366,7 +442,7 @@ class Sebedius extends Discord.Client {
 	 * Returns a text with all the dice turned into emojis.
 	 * @param {YZRoll} roll The roll
 	 * @param {Object} opts Options of the roll command
-	 * @param {?boolean} [applyAliases=false] Whether to apply the aliases
+	 * @param {boolean} [applyAliases=false] Whether to apply the aliases
 	 * @returns {string} The manufactured text
 	 */
 	static emojifyRoll(roll, opts, applyAliases = false) {
@@ -502,7 +578,7 @@ class Sebedius extends Discord.Client {
 	 * Confirms whether a user wants to take an action.
 	 * @param {Discord.Message} message The current message
 	 * @param {string} text The message for the user to confirm
-	 * @param {?boolean} [deleteMessages=false] Whether to delete the messages
+	 * @param {boolean} [deleteMessages=false] Whether to delete the messages
 	 * @returns {boolean|null} Whether the user confirmed or not. None if no reply was recieved
 	 */
 	static async confirm(message, text, deleteMessages = false) {
@@ -546,7 +622,8 @@ class Sebedius extends Discord.Client {
 		if (serverMissingPerms.length || channelMissingPerms.length) {
 			let msg = '🛑 **Missing Permissions!**'
 				+ '\nThe bot does not have sufficient permission in this channel and will not work properly.'
-				+ ' Check the Readme (`help`) for the list of required permissions.';
+				+ ` Check the Readme (\`${ctx.prefix}help\`) for the list of required permissions.`
+				+ ' Check the wiki for more troubleshooting.';
 			if (serverMissingPerms.length) {
 				msg += `\n**Role Missing Permission(s):** \`${serverMissingPerms.join('`, `')}\``;
 			}
@@ -616,6 +693,20 @@ class Sebedius extends Discord.Client {
 	static getMention(user) {
 		return `<@${user.id}>`;
 	}
+
+	/**
+	 * Processes a Discord Message into a Message with context.
+	 * @param {Discord.Message} message The Discord message without context
+	 * @param {string} prefix The prefix of the command
+	 * @returns {ContextMessage} Discord message with context
+	 * @static
+	 */
+	static processMessage(message, prefix) {
+		// Creates a message with context.
+		const ctx = new ContextMessage(prefix, message.client);
+		// Returns a shallow copy of the Discord message merged with the context.
+		return Object.assign(ctx, message);
+	}
 }
 
 function whenMentionedOrPrefixed(prefixes, client) {
@@ -626,3 +717,45 @@ function whenMentionedOrPrefixed(prefixes, client) {
 }
 
 module.exports = Sebedius;
+
+/**
+ * Represents a Discord message with context.
+ * @extends {Discord.Message}
+ * @see Sebedius.processMessage
+ */
+class ContextMessage extends Discord.Message {
+	/**
+	 * @param {string} prefix The prefix used to trigger the command
+	 * @param {Discord.Client} client The instantiating client
+	 * @param {Object} data The data for the message
+	 * @param {Discord.TextChannel|Discord.DMChannel|Discord.NewsChannel} channel The channel the message was sent in
+	 */
+	constructor(prefix, client, data, channel) {
+		super(client, data, channel);
+
+		/**
+		 * The prefix used to trigger the command.
+		 * @type {string}
+		 */
+		this.prefix = prefix;
+	}
+
+	/**
+	 * The bot client (Sebedius).
+	 * @type {Discord.Client}
+	 * @readonly
+	 */
+	get bot() { return this.client; }
+
+	/**
+	 * Sends a message to the channel.
+	 * @param {StringResolvable|Discord.APIMessage} [content=''] The content to send
+	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
+	 * @returns {Promise<Discord.Message|Discord.Message[]>}
+	 * @async
+	 */
+	async send(content, options) {
+		// if (this.channel.type === 'dm') return await this.author.send(content, options);
+		return await this.channel.send(content, options);
+	}
+}

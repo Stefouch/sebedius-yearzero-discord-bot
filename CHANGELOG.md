@@ -3,6 +3,24 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.5.0] - 2020-09-04
+### Added
+- New command: `!embed` – Creates an embed message.
+
+### Changed
+- `!help` command revamped.
+- (JavaScript) Refactored the whole commands architecture.
+- (JavaScript) Discord.Message "ctx" now uses Sebedius.ContextMessage which extends Discord.Message
+- (JavaScript) Added command cooldown support.
+- (Database) Databases are cleaned of orphaned entries when the bot leaves a server. 
+- (GitHub) Use of GitHub CI for workflow tests.
+
+### Fixed
+- A bug with `!roll` command where a modifier of `±0` was translated into `±1`.
+
+## Removed
+- Argument `--no-dm` from `!help` command.
+
 ## [3.4.0] - 2020-09-01
 ### Added
 - New command argument `-list` for `!help`: Gets a list of all commands.

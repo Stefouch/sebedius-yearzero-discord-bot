@@ -27,9 +27,11 @@ const CATALOG_SOURCES = {
 // Placeholder.
 const CATALOGS = {};
 
+/**
+ * A Year Zero Object.
+ */
 class YZObject {
 	/**
-	 * A Year Zero Object.
 	 * @param {*} data
 	 */
 	constructor(data) {
@@ -179,9 +181,12 @@ class YZObject {
 	}
 }
 
+/**
+ * Year Zero Monster.
+ * @extends {YZObject}
+ */
 class YZMonster extends YZObject {
 	/**
-	 * Year Zero Monster.
 	 * @param {*} data
 	 * @param {*} attacks
 	 */
@@ -529,7 +534,12 @@ class YZMonster extends YZObject {
 	}
 }
 
+/**
+ * A Year Zero Weapon.
+ * @extends {YZObject}
+ */
 class YZWeapon extends YZObject {
+
 	constructor(data) {
 		super(data);
 		this.ranged = Util.getBoolean(this.ranged);

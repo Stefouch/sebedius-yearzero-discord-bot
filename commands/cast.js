@@ -1,17 +1,17 @@
-const Sebedius = require('../Sebedius');
-const Util = require('../utils/Util');
+const { getTable, emojifyRoll } = require('../Sebedius');
+const { clamp, isNumber, rollD66 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 
 module.exports = {
 	name: 'cast',
-	group: 'Forbidden Lands',
-	description: 'Cast a spell. Use the `-mishap` parameter if you want a specific mishap.',
 	aliases: ['magic'],
+	category: 'fbl',
+	description: 'Cast a spell. Use the `-mishap` parameter if you want a specific mishap.',
 	guildOnly: false,
 	args: true,
 	usage: '<power> [name] [-mishap <value>]',
-	async execute(args, ctx) {
+	async run(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {
 			array: ['name'],
@@ -26,17 +26,17 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 		// Validates the arguments.
-		const basePowerLevel = Math.ceil(Util.clamp(argv._.shift(), 1, 20));
+		const basePowerLevel = Math.ceil(clamp(argv._.shift(), 1, 20));
 		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
-			return await ctx.reply(':warning: Invalid Magic Mishap\'s reference!');
+			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');
 		}
 		if (argv.mishap && !basePowerLevel) {
-			return await ctx.bot.commands.get('mishap').execute([argv.mishap], ctx);
+			return await ctx.bot.commands.get('mishap').run([argv.mishap], ctx);
 		}
-		if (!basePowerLevel || !Util.isNumber(basePowerLevel)) {
-			return await ctx.reply(':warning: Invalid Power Level!');
+		if (!basePowerLevel || !isNumber(basePowerLevel)) {
+			return await ctx.reply('⚠️ Invalid Power Level!');
 		}
 
 		// Rolls the Spell's Power Level (base dice).
@@ -53,15 +53,15 @@ module.exports = {
 		// Checks for Magic Mishaps.
 		let ref;
 		if (argv.mishap || magicRoll.baneCount) {
-			const mishapTable = Sebedius.getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', 'en', 'csv');
-			ref = +argv.mishap || Util.rollD66();
+			const mishapTable = getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', 'en', 'csv');
+			ref = +argv.mishap || rollD66();
 			const mishap = mishapTable.get(ref);
 			embed.addField(`💥 Magic Mishap (${ref})`, mishap.effect.replace('{prefix}', ctx.prefix));
 		}
 
 		// Sends the message.
 		await ctx.channel.send(
-			Sebedius.emojifyRoll(magicRoll, ctx.bot.config.commands.roll.options.fbl),
+			emojifyRoll(magicRoll, ctx.bot.config.commands.roll.options.fbl),
 			embed,
 		);
 	},
