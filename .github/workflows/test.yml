@@ -31,3 +31,4 @@ jobs:
       run: npm test
       env:
         DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        DISCORD_BETA_BOT_TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}

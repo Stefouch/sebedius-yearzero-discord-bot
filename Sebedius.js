@@ -43,9 +43,10 @@ class Sebedius extends Discord.Client {
 			messageCacheMaxSize: 100,
 			messageCacheLifetime: 60 * 10,
 			messageSweepInterval: 90,
-			// partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+			// partials: ['MESSAGE', 'REACTION'],
 			ws: {
 				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
+				// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
 				intents: [
 					'GUILDS',
 					'GUILD_PRESENCES',
