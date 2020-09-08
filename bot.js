@@ -228,7 +228,7 @@ async function onError(error, ctx) {
 	}
 	else {
 		// Sends me a message if the error is Unknown.
-		if (process.env.NODE_ENV !== 'production') {
+		if (process.env.NODE_ENV === 'production') {
 			const msg = `**Error:** ${error.toString()}`
 				+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
