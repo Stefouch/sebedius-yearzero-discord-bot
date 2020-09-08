@@ -38,7 +38,7 @@ module.exports = {
 			'fullauto', 'gyrojet', 'heavy', 'juryrigged', 'mounted',
 			'light', 'rot', 'tiny',
 		],
-		number: [ 'armor-piercing', 'barrels', 'blast-power'],
+		number: ['armor-piercing', 'barrels', 'blast-power'],
 	},
 	SOURCE_MAP: {
 		myz: 'Mutant: Year Zero',
