@@ -30,13 +30,13 @@ module.exports = {
 		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
-			return await ctx.reply(':warning: Invalid Magic Mishap\'s reference!');
+			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');
 		}
 		if (argv.mishap && !basePowerLevel) {
 			return await ctx.bot.commands.get('mishap').run([argv.mishap], ctx);
 		}
 		if (!basePowerLevel || !isNumber(basePowerLevel)) {
-			return await ctx.reply(':warning: Invalid Power Level!');
+			return await ctx.reply('⚠️ Invalid Power Level!');
 		}
 
 		// Rolls the Spell's Power Level (base dice).

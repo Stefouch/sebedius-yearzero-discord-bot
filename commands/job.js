@@ -52,7 +52,7 @@ module.exports = {
 		// COMPLICATION(S)
 		job.complications.forEach(compl => {
 			embed.addField(
-				`:warning: Possible Complication: **${compl.name}**`,
+				`⚠️ Possible Complication: **${compl.name}**`,
 				compl.description,
 			);
 		});

@@ -416,7 +416,7 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 		// throw new TooManyDiceError(pushedRoll.size);
 		// Cannot use error throwing because this function will not be catched by bot.js's error management.
 		collector.stop();
-		return ctx.reply(`:warning: Cannot roll that many dice! (${pushedRoll.size})`);
+		return ctx.reply(`⚠️ Cannot roll that many dice! (${pushedRoll.size})`);
 	}
 
 	// Stops the collector if it's the last push.

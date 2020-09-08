@@ -87,7 +87,7 @@ async function whitelist(ctx, guildId) {
  */
 async function chanSay(ctx, chanId, message) {
 	const chan = await ctx.bot.getChannel(chanId);
-	if (!chan) return await ctx.reply(':x: Channel not found');
+	if (!chan) return await ctx.reply('❌ Channel not found');
 	const resp = await chan.send(message);
 	const msg = resp
 		? '✅ Message sent.'
@@ -109,7 +109,7 @@ async function whois(ctx, userId) {
 	else {
 		user = await ctx.bot.getUser(userId);
 	}
-	if (!user) return await ctx.reply(':x: User not found.');
+	if (!user) return await ctx.reply('❌ User not found.');
 	const embed = new UserEmbed(user);
 	return await ctx.channel.send(embed);
 }

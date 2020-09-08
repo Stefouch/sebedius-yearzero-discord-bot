@@ -228,7 +228,7 @@ module.exports = {
 		}
 		catch (error) {
 			if (error instanceof ChannelInCombat) {
-				return ctx.reply(':warning: Cannot start a new combat instance because there is already one in progress.');
+				return ctx.reply('⚠️ Cannot start a new combat instance because there is already one in progress.');
 			}
 			else if (error instanceof CombatNotFound) {
 				return ctx.reply(`:information_source: No combat instance. Type \`${ctx.prefix}init begin\`.`);
@@ -344,17 +344,17 @@ async function add(args, ctx) {
 	const notes = argv.notes ? argv.notes.join(' ') : null;
 	let controller = ctx.author.id;
 
-	if (!name) return ctx.reply(':warning: This combatant needs a name.');
+	if (!name) return ctx.reply('⚠️ This combatant needs a name.');
 
 	if (argv.controller) {
 		const member = await Sebedius.fetchMember(argv.controller.join(' '), ctx);
 		if (member) controller = member.id;
 	}
 	if (hp < 1) {
-		return ctx.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
+		return ctx.reply('⚠️ You must pass in a positive nonzero HP with the `-hp` tag.');
 	}
 	if (armor < 0) {
-		return ctx.reply(':warning: You must pass in a positive AR with the `-ar` tag.');
+		return ctx.reply('⚠️ You must pass in a positive AR with the `-ar` tag.');
 	}
 
 	// Gets the Combat instance for this channel.
@@ -362,7 +362,7 @@ async function add(args, ctx) {
 
 	// Exits if the combatant already exists.
 	if (combat.getCombatant(name)) {
-		return ctx.reply(':warning: Combatant already exists.');
+		return ctx.reply('⚠️ Combatant already exists.');
 	}
 
 	// Creates the combatant.
@@ -370,8 +370,8 @@ async function add(args, ctx) {
 
 	if (places) {
 		places.forEach(p => {
-			if (!Util.isNumber(p)) return ctx.reply(':warning: You must pass in numbers with the `-p` tag.');
-			else if (p < 1) return ctx.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
+			if (!Util.isNumber(p)) return ctx.reply('⚠️ You must pass in numbers with the `-p` tag.');
+			else if (p < 1) return ctx.reply('⚠️ You must pass in a positive nonzero initiative value with the `-p` tag.');
 		});
 		me.inits = places.map(init => +init);
 	}
@@ -416,10 +416,10 @@ async function join(args, ctx) {
 		.setColor(ctx.member.displayColor);//*/
 
 	if (hp < 1) {
-		return ctx.reply(':warning: You must pass in a positive nonzero HP with the `-hp` tag.');
+		return ctx.reply('⚠️ You must pass in a positive nonzero HP with the `-hp` tag.');
 	}
 	if (armor < 0) {
-		return ctx.reply(':warning: You must pass in a positive AR with the `-ar` tag.');
+		return ctx.reply('⚠️ You must pass in a positive AR with the `-ar` tag.');
 	}
 
 	// Gets the Combat instance for this channel.
@@ -427,7 +427,7 @@ async function join(args, ctx) {
 
 	// Exits if the combatant already exists.
 	if (combat.getCombatant(name)) {
-		return ctx.reply(':warning: Combatant already exists.');
+		return ctx.reply('⚠️ Combatant already exists.');
 	}
 
 	// Creates the combatant.
@@ -435,8 +435,8 @@ async function join(args, ctx) {
 
 	if (places) {
 		places.forEach(p => {
-			if (!Util.isNumber(p)) return ctx.reply(':warning: You must pass in numbers with the `-p` tag.');
-			else if (p < 1) return ctx.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
+			if (!Util.isNumber(p)) return ctx.reply('⚠️ You must pass in numbers with the `-p` tag.');
+			else if (p < 1) return ctx.reply('⚠️ You must pass in a positive nonzero initiative value with the `-p` tag.');
 		});
 		me.inits = places.map(init => +init);
 	}
@@ -479,7 +479,7 @@ async function madd(args, ctx) {
 	const qty = argv.n ? Util.clamp(+argv.n, 1, 25) : 1;
 
 	if (name_template.length <= 3) {
-		return await ctx.channel.send(':warning: Please indicate a name for the monster.');
+		return await ctx.channel.send('⚠️ Please indicate a name for the monster.');
 	}
 
 	let out = '';
@@ -497,7 +497,7 @@ async function madd(args, ctx) {
 				name = rawName.replace('$X', nameNum);
 			}
 			else {
-				out += ':x: Combatant already exists.\n';
+				out += '❌ Combatant already exists.\n';
 				toContinue = true;
 				break;
 			}
@@ -511,8 +511,8 @@ async function madd(args, ctx) {
 
 			if (places) {
 				places.forEach(p => {
-					if (!Util.isNumber(p)) return ctx.reply(':warning: You must pass in numbers with the `-p` tag.');
-					else if (p < 1) return ctx.reply(':warning: You must pass in a positive nonzero initiative value with the `-p` tag.');
+					if (!Util.isNumber(p)) return ctx.reply('⚠️ You must pass in numbers with the `-p` tag.');
+					else if (p < 1) return ctx.reply('⚠️ You must pass in a positive nonzero initiative value with the `-p` tag.');
 				});
 				me.inits = places;
 			}
@@ -528,7 +528,7 @@ async function madd(args, ctx) {
 		}
 		catch (error) {
 			console.warn(error);
-			out += `:x: Error adding combatant: ${error.name}`;
+			out += `❌ Error adding combatant: ${error.name}`;
 		}
 	}
 	await combat.final();
@@ -545,7 +545,7 @@ async function next(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply(':x: There are no combatants.');
+		return ctx.reply('❌ There are no combatants.');
 	}
 
 	const isAllowedToPass =
@@ -596,10 +596,10 @@ async function prev(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply(':x: There are no combatants.');
+		return ctx.reply('❌ There are no combatants.');
 	}
 	if (!combat.index) {
-		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
+		return ctx.reply(`⚠️ Please start combat with \`${ctx.prefix}init next\` first.`);
 	}
 	if (combat.round <= 1 && combat.index <= combat.initiatives.min) {
 		return ctx.reply(':information_source: There is no previous turn.');
@@ -619,7 +619,7 @@ async function move(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply(':x: There are no combatants.');
+		return ctx.reply('❌ There are no combatants.');
 	}
 
 	let combatant;
@@ -659,10 +659,10 @@ async function skipround(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply(':x: There are no combatants.');
+		return ctx.reply('❌ There are no combatants.');
 	}
 	if (!combat.index) {
-		return ctx.reply(`:warning: Please start combat with \`${ctx.prefix}init next\` first.`);
+		return ctx.reply(`⚠️ Please start combat with \`${ctx.prefix}init next\` first.`);
 	}
 
 	const numRounds = +args.shift();
@@ -775,7 +775,7 @@ async function edit(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply(':x: There are no combatants.');
+		return ctx.reply('❌ There are no combatants.');
 	}
 
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
@@ -784,7 +784,7 @@ async function edit(args, ctx) {
 
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return ctx.reply(':x: Combatant not found.');
+		return ctx.reply('❌ Combatant not found.');
 	}
 
 	// const options = {};
@@ -801,7 +801,7 @@ async function edit(args, ctx) {
 	if (argv.controller) {
 		const member = await Sebedius.fetchMember(argv.controller.join(' '), ctx);
 		if (!member) {
-			out.push(':x: New controller not found.');
+			out.push('❌ New controller not found.');
 		}
 		else {
 			combatant.controller = member.id;
@@ -832,7 +832,7 @@ async function edit(args, ctx) {
 	}
 	if (argv.p) {
 		if (combatant === combat.currentCombatant) {
-			out.push(':x: You cannot change a combatant\'s initiative on their own turn.');
+			out.push('❌ You cannot change a combatant\'s initiative on their own turn.');
 		}
 		else if (argv.p.length) {
 			const oldInits = combatant.inits;
@@ -850,7 +850,7 @@ async function edit(args, ctx) {
 			out.push(`:zap: ${combatant.name}'s initiative set to \`${combatant.inits.join('`, `')}\` (was ${oldInits}).`);
 		}
 		else {
-			out.push(`:warning: Invalid argument: ${argv.p}.`);
+			out.push(`⚠️ Invalid argument: ${argv.p}.`);
 		}
 		modifCount++;
 	}
@@ -858,14 +858,14 @@ async function edit(args, ctx) {
 		const oldName = combatant.name;
 		const newName = argv.name.join(' ');
 		if (combat.getCombatant(newName, true)) {
-			out.push(`:x: There is already another combatant with the name ${newName}`);
+			out.push(`❌ There is already another combatant with the name ${newName}`);
 		}
 		else if (newName) {
 			combatant.name = newName;
 			out.push(`:ticket: ${oldName}'s name set to **${newName}**.`);
 		}
 		else {
-			out.push(':warning: You must pass in a name with the `-name` tag.');
+			out.push('⚠️ You must pass in a name with the `-name` tag.');
 		}
 		modifCount++;
 	}
@@ -873,7 +873,7 @@ async function edit(args, ctx) {
 		const oldMax = combatant.maxhp;
 		const newMax = Util.modifOrSet(argv.max, oldMax);
 		if (newMax < 1) {
-			out.push(':warning: Max HP must at least be 1.');
+			out.push('⚠️ Max HP must at least be 1.');
 		}
 		else {
 			combatant.maxhp = newMax;
@@ -962,7 +962,7 @@ async function status(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return ctx.reply(':x: Combatant or group not found.');
+		return ctx.reply('❌ Combatant or group not found.');
 	}
 
 	let privacy = argv.private;
@@ -1018,7 +1018,7 @@ async function setHp(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name);
 	if (!combatant) {
-		return ctx.reply(':x: Combatant not found.');
+		return ctx.reply('❌ Combatant not found.');
 	}
 
 	if (!Util.isNumber(hp)) {
@@ -1088,7 +1088,7 @@ async function attack(args, ctx) {
 	if (!combatantName) {
 		combatant = combat.currentCombatant;
 		if (!combatant) {
-			return ctx.channel.send(`:warning: You must start combat with \`${ctx.prefix}init next\` first.`);
+			return ctx.channel.send(`⚠️ You must start combat with \`${ctx.prefix}init next\` first.`);
 		}
 	}
 	else {
@@ -1097,7 +1097,7 @@ async function attack(args, ctx) {
 		}
 		catch (error) {
 			console.error(error);
-			return ctx.channel.send(':x: Target not found.');
+			return ctx.channel.send('❌ Target not found.');
 		}
 	}
 	// Warns.
@@ -1150,7 +1150,7 @@ async function remove(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return ctx.reply(':x: Combatant not found.');
+		return ctx.reply('❌ Combatant not found.');
 	}
 	if (combatant === combat.currentCombatant) {
 		return ctx.reply(':information_source: You cannot remove a combatant on their own turn.');
@@ -1181,17 +1181,17 @@ async function end(args, ctx) {
 		true,
 	);
 	if (toEnd === null || toEnd === undefined) {
-		return ctx.channel.send(':x: Timed out waiting for a response or invalid response.')
+		return ctx.channel.send('❌ Timed out waiting for a response or invalid response.')
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 	else if (!toEnd) {
-		return ctx.channel.send(':x: OK, cancelling.')
+		return ctx.channel.send('❌ OK, cancelling.')
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 
-	const msg = await ctx.channel.send(':stop_button: OK, ending...');
+	const msg = await ctx.channel.send('⏹️ OK, ending...');
 	if (!args.includes('-force')) {
 		const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 		try {

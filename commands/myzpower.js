@@ -31,7 +31,7 @@ module.exports = {
 
 		// Validates arguments.
 		if (!tableNames.hasOwnProperty(book) || !power) {
-			return await ctx.reply(':warning: Invalid arguments!');
+			return await ctx.reply('⚠️ Invalid arguments!');
 		}
 
 		// Rolls the dice.
