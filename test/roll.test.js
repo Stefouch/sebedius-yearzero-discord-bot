@@ -3,7 +3,7 @@ const expect = require('chai').expect;
 const Util = require('../utils/Util');
 const YZRoll = require('../yearzero/YZRoll');
 
-describe('Testing the YZRoll', function() {
+describe('YZRoll Module', function() {
 	const roll = new YZRoll('myz', 'Stefouch', 'Test Roll');
 
 	let count = 0;
@@ -39,7 +39,7 @@ describe('Testing the YZRoll', function() {
 			expect(r.getDice('modifier'), '-3').to.have.lengthOf(1);
 		});
 
-		it('Checking a modifier ±0', function() {
+		it('Checking a ±0 modifier', function() {
 			let r = YZRoll.parse('1+0');
 			expect(r.getDice('modifier')).to.have.lengthOf(2);
 			expect(r.sum()).to.equal(1);

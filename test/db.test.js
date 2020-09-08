@@ -10,7 +10,7 @@ if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
 }
 
-describe('Testing database connections', function() {
+describe('Keyv & PostGreSQL Database', function() {
 	this.slow(500);
 	this.timeout(5000);
 	this.retries(3);
