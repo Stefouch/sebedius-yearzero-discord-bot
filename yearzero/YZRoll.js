@@ -12,8 +12,8 @@ const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 class YZRoll {
 	/**
 	 * @param {?string} game The game of the roll
-	 * @param {string} author The author of the roll
-	 * @param {string} name The name of the roll
+	 * @param {?string} author The author of the roll
+	 * @param {?string} name The name of the roll
 	 */
 	constructor(game, author, name) {
 		/**
@@ -203,7 +203,7 @@ class YZRoll {
 	/**
 	 * Sets the Full Automatic Fire mode.
 	 * `maxPush = 10`.
-	 * @param {?boolean} [bool=true] Full Auto yes or no
+	 * @param {boolean} [bool=true] Full Auto yes or no
 	 * @returns {YZRoll} This roll, with unlimited pushes
 	 */
 	setFullAuto(bool = true) {
@@ -294,7 +294,7 @@ class YZRoll {
 	 * @param {number} qty The quantity to add
 	 * @param {?number} [range=6] The number of faces of the die
 	 * @param {?number} value The predefined value for the die
-	 * @param {?string} operator The operator of the die
+	 * @param {string} [operator='+'] The operator of the die
 	 * @returns {YZRoll} This roll
 	 */
 	addDice(type, qty, range = 6, value = null, operator = '+') {

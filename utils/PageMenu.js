@@ -10,9 +10,9 @@ class PageMenu {
 	/**
 	 * @param {Discord.Message} channel Discord message with context
 	 * @param {string} userID (Snowflake) The ID of the user you want to let control the menu
-	 * @param {?number} [time=120000] Cooldown (in milliseconds)
-	 * @param {?Discord.MessageEmbed[]} pages An array of page objects
-	 * @param {?ReactionMenu#ReactionData} reactionData Use this if you want to customize the next, previous and stop reactions
+	 * @param {number} [time=120000] Cooldown (in milliseconds)
+	 * @param {Discord.MessageEmbed[]} [pages] An array of page objects
+	 * @param {ReactionMenu#ReactionData} [reactionData={}] Use this if you want to customize the next, previous and stop reactions
 	 */
 	constructor(channel, userID, time = 120000, pages = [new MessageEmbed({ title: 'Default Page' })], reactionData = {}) {
 		this.channel = channel;
