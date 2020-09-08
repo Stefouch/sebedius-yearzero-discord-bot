@@ -86,6 +86,75 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
+	 * The ID of the user that the client is logged in as.
+	 * @type {Discord.Snowflake}
+	 */
+	get id() {
+		return this.user.id;
+	}
+
+	/**
+	 * The bot's mention.
+	 * @type {string} `<@0123456789>`
+	 * @readonly
+	 */
+	get mention() {
+		return Sebedius.getMention(this.user);
+	}
+
+	/**
+	 * The bot's invite link.
+	 * @type {string}
+	 * @readonly
+	 */
+	get inviteURL() {
+		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${this.config.perms.bitfield}`;
+	}
+
+	/**
+	 * Creates the list of commands.
+	 */
+	addCommands() {
+		// Imports each command from subdirectories.
+		// Warning: bot crashes if a command is not in a subdir.
+		/* const dir = './commands/';
+		readdirSync(dir).forEach(d => {
+			const commands = readdirSync(`${dir}/${d}/`).filter(f => f.endsWith('.js'));
+			for (const file of commands) {
+				const command = require(`${dir}/${d}/${file}`);
+				this.commands.set(command.name, command);
+				console.log(`[+] - Command loaded: ${command.name}.js`);
+			}
+		}); //*/
+		// Imports each command from a single directory.
+		const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
+
+		for (const file of commandFiles) {
+			const command = require('./commands/' + file);
+			this.commands.set(command.name, command);
+			console.log(`[+] - Command loaded: ${command.name}.js`);
+		}
+	}
+
+	/**
+	 * Logs a message to the LogChannel of the bot.
+	 * @param {string|Discord.MessageEmbed} message The message to send
+	 * @async
+	 */
+	async log(message) {
+		if (typeof message === 'string') console.log(`:>> ${message}`);
+		else if (message instanceof Discord.MessageEmbed) console.log(`:>> ${message.title} - ${message.description}`);
+
+		if (this.state !== 'ready') throw new Errors.SebediusError('Can\'t send message. State NOT EQUAL to [READY]');
+
+		const channel = this.logChannel
+			|| this.channels.cache.get(this.config.botLogChannelID)
+			|| await this.channels.fetch(this.config.botLogChannelID);
+
+		return await channel.send(message);
+	}
+
+	/**
 	 * Gets all the entries of a database.
 	 * @param {string} name Database's name
 	 * @param {?string} namespace Database's namespace, if you one to specify another one.
@@ -129,51 +198,8 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
-	 * The bot's mention.
-	 * @type {string} `<@0123456789>`
-	 * @readonly
-	 */
-	get mention() {
-		return Sebedius.getMention(this.user);
-	}
-
-	/**
-	 * The bot's invite link.
-	 * @type {string}
-	 * @readonly
-	 */
-	get inviteURL() {
-		return `https://discord.com/oauth2/authorize?client_id=${this.config.botID}&scope=bot&permissions=${this.config.perms.bitfield}`;
-	}
-
-	/**
-	 * Creates the list of commands.
-	 */
-	addCommands() {
-		// Imports each command from subdirectories.
-		// Warning: bot crashes if a command is not in a subdir.
-		/* const dir = './commands/';
-		readdirSync(dir).forEach(d => {
-			const commands = readdirSync(`${dir}/${d}/`).filter(f => f.endsWith('.js'));
-			for (const file of commands) {
-				const command = require(`${dir}/${d}/${file}`);
-				this.commands.set(command.name, command);
-				console.log(`[+] - Command loaded: ${command.name}.js`);
-			}
-		}); //*/
-		// Imports each command from a single directory.
-		const commandFiles = readdirSync('./commands').filter(file => file.endsWith('.js'));
-
-		for (const file of commandFiles) {
-			const command = require('./commands/' + file);
-			this.commands.set(command.name, command);
-			console.log(`[+] - Command loaded: ${command.name}.js`);
-		}
-	}
-
-	/**
 	 * Gets a User.
-	 * @param {Snowflake} userId User ID
+	 * @param {Discord.Snowflake} userId User ID
 	 * @returns {Promise<Discord.User>}
 	 * @async
 	 */
@@ -185,7 +211,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a Channel.
-	 * @param {Snowflake} chanId Channel ID
+	 * @param {Discord.Snowflake} chanId Channel ID
 	 * @returns {Promise<Discord.BaseChannel>}
 	 * @async
 	 */
@@ -197,7 +223,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a Guild.
-	 * @param {Snowflake} guildId Guild ID, or guild's Channel ID.
+	 * @param {Discord.Snowflake} guildId Guild ID, or guild's Channel ID.
 	 * @returns {Promise<Discord.Guild>}
 	 * @async
 	 */
