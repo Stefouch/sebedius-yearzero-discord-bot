@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - (JavaScript) Refactored the whole commands architecture.
 - (JavaScript) Discord.Message "ctx" now uses Sebedius.ContextMessage which extends Discord.Message
 - (JavaScript) Added command cooldown support.
+- (Database) Databases are cleaned of orphaned entries when the bot leaves a server. 
 - (GitHub) Use of GitHub CI for workflow tests.
 
 ### Fixed

@@ -8,7 +8,11 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
-// Databases map: { name: namespace }
+/**
+ * Databases map.
+ * @type {Object} { name: namespace }
+ * @constant
+ */
 const DB_MAP = {
 	prefixes: 'prefix',
 	initiatives: 'initiative',
@@ -138,12 +142,15 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Logs a message to the LogChannel of the bot.
-	 * @param {string} message The message to log
-	 * @param {?(Discord.MessageOptions|Discord.MessageAdditions)} [options] The options to provide
+	 * @param {Discord.StringResolvable|Discord.APIMessage} [message=''] The message to log
+	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
+	 * @see Discord.TextChannel.send()
 	 * @async
 	 */
-	async log(message, embed = null) {
-		console.log(`:>> ${message}`);
+	async log(message = '', options = {}) {
+		if (typeof message === 'string') console.log(`:>> ${message}`);
+		else if (message instanceof Discord.MessageEmbed) console.log(`:>> ${message.title} — ${message.description}`);
+		else console.log(':>> [LOG]\n', message);
 
 		if (!message || this.state !== 'ready') return;
 
@@ -151,7 +158,7 @@ class Sebedius extends Discord.Client {
 			|| this.channels.cache.get(this.config.botLogChannelID)
 			|| await this.channels.fetch(this.config.botLogChannelID);
 
-		if (channel) return await channel.send(message, embed);
+		if (channel) return await channel.send(message, options);
 	}
 
 	/**
@@ -179,6 +186,30 @@ class Sebedius extends Discord.Client {
 			}
 		}
 		return entries;
+	}
+
+	/**
+	 * Removes all entries in the database for a guild.
+	 * @param {Discord.Snowflake} guildID
+	 * @returns {string[]} An array with the names of the databases where an entry has been removed.
+	 */
+	async kdbCleanGuild(guildID) {
+		// List of databases' names that can contain entries from a guild.
+		const kdbs = ['prefixes', 'initiatives', 'games', 'langs'];
+		const deletedEntries = [];
+
+		// Iterates over the databases
+		for (const name of kdbs) {
+			// Deletes the entry, if any.
+			const del = await this.kdb[name].delete(guildID);
+			if (del) {
+				// If deleted, removes it also from the cache.
+				this[name].delete(guildID);
+				// And registers the occurence of a deletion.
+				deletedEntries.push(name);
+			}
+		}
+		return deletedEntries;
 	}
 
 	/**

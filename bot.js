@@ -136,7 +136,7 @@ bot.on('message', async message => {
 	// Runs the command.
 	console.log(`[CMD] ${ctx.author.tag} (${ctx.author.id})`
 		+ (ctx.guild ? ` at ${ctx.guild.name} (${ctx.guild.id}) in #${ctx.channel.name} (${ctx.channel.id})` : '')
-		+ `: ${command.name}`, args.toString(),
+		+ `: ${ctx.prefix}${command.name}`, args.join(' '),
 	);
 	try {
 		await command.run(args, ctx);
@@ -152,12 +152,13 @@ bot.on('message', async message => {
  * GUILD HANDLER
  */
 bot.on('guildCreate', async guild => {
-	bot.log(
+	await bot.log(
 		`[GUILD] Joined: ${guild.name} (${guild.id})`,
 		new GuildEmbed(guild),
 	);
 
 	if (bot.blacklistedGuilds.has(guild.id)) {
+		bot.log('Guild was blacklisted. Leaving.');
 		return await guild.leave();
 	}
 	// if (bot.whitelistedGuilds.has(guild.id)) return;
@@ -167,7 +168,7 @@ bot.on('guildCreate', async guild => {
 	const ratio = bots / members;
 
 	if (ratio >= 0.6 && members >= 20) {
-		console.warn(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
+		bot.log(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
 		try {
 			await guild.owner.send(
 				'Please do not add me to bot collection servers. '
@@ -180,11 +181,20 @@ bot.on('guildCreate', async guild => {
 	}
 });
 
-bot.on('guildDelete', guild => {
-	bot.log(
+bot.on('guildDelete', async guild => {
+	await bot.log(
 		`[GUILD] Left: ${guild.name} (${guild.id})`,
 		new GuildEmbed(guild),
 	);
+
+	// Empties the databases from entries with this guild.
+	const deletedEntries = await bot.kdbCleanGuild(guild.id);
+	if (deletedEntries.length) {
+		const msg = deletedEntries.map(name => {
+			return `[KDB] Deleted entry "${guild.id}" from \`${name}\` database.`;
+		});
+		bot.log(msg.join('\n'));
+	}
 });
 
 /* !
