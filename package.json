@@ -40,7 +40,7 @@
   },
   "main": "bot.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha --exit",
     "start": "node .",
     "lint": "eslint ."
   },
