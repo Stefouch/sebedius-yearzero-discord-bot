@@ -218,3 +218,8 @@ async function botInfo(ctx) {
 		console.error('Botinfo Error', err);
 	}
 }
+
+/**
+ * A Discord snowflake.
+ * @typedef {string} Snowflake
+ */
