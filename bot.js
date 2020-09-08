@@ -158,7 +158,6 @@ bot.on('guildCreate', async guild => {
 		return await guild.leave();
 	}
 	// if (bot.whitelistedGuilds.has(guild.id)) return;
-	guild = await guild.fetch();
 	const bots = guild.members.cache.filter(m => m.user.bot).size;
 	const members = guild.memberCount;
 	const ratio = bots / members;
@@ -175,6 +174,7 @@ bot.on('guildCreate', async guild => {
 		await guild.leave();
 	}
 });
+
 bot.on('guildDelete', guild => {
 	console.log(`[GUILD] Left: ${guild.name} (${guild.id})`);
 	bot.logChannel.send('Guild Left', new GuildEmbed(guild));
