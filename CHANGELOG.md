@@ -18,7 +18,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - A bug with `!roll` command where a modifier of `±0` was translated into `±1`.
 
-## Removed
+### Removed
 - Argument `--no-dm` from `!help` command.
 
 ## [3.4.0] - 2020-09-01
