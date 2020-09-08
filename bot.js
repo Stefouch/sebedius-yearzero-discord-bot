@@ -134,11 +134,11 @@ bot.on('message', async message => {
 	}
 
 	// Runs the command.
+	console.log(`[CMD] ${ctx.author.tag} (${ctx.author.id})`
+		+ (ctx.guild ? ` at ${ctx.guild.name} (${ctx.guild.id}) in #${ctx.channel.name} (${ctx.channel.id})` : '')
+		+ `: ${command.name}`, args.toString(),
+	);
 	try {
-		console.log(`[CMD] ${ctx.author.tag} (${ctx.author.id})`
-			+ (ctx.guild ? ` at ${ctx.guild.name} (${ctx.guild.id}) in #${ctx.channel.name} (${ctx.channel.id})` : '')
-			+ `: ${command.name}`, args.toString(),
-		);
 		await command.run(args, ctx);
 		bot.raiseCommandStats(command.name);
 	}
@@ -152,15 +152,20 @@ bot.on('message', async message => {
  * GUILD HANDLER
  */
 bot.on('guildCreate', async guild => {
-	console.log(`[GUILD] Joined: ${guild.name} (${guild.id})`);
-	bot.logChannel.send('Guild Joined', new GuildEmbed(guild));
+	bot.log(
+		`[GUILD] Joined: ${guild.name} (${guild.id})`,
+		new GuildEmbed(guild),
+	);
+
 	if (bot.blacklistedGuilds.has(guild.id)) {
 		return await guild.leave();
 	}
 	// if (bot.whitelistedGuilds.has(guild.id)) return;
+
 	const bots = guild.members.cache.filter(m => m.user.bot).size;
 	const members = guild.memberCount;
 	const ratio = bots / members;
+
 	if (ratio >= 0.6 && members >= 20) {
 		console.warn(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
 		try {
@@ -176,8 +181,10 @@ bot.on('guildCreate', async guild => {
 });
 
 bot.on('guildDelete', guild => {
-	console.log(`[GUILD] Left: ${guild.name} (${guild.id})`);
-	bot.logChannel.send('Guild Left', new GuildEmbed(guild));
+	bot.log(
+		`[GUILD] Left: ${guild.name} (${guild.id})`,
+		new GuildEmbed(guild),
+	);
 });
 
 /* !
@@ -208,26 +215,27 @@ async function onError(error, ctx) {
 		console.error(error.name, error.code);
 	}
 	else if (error instanceof SebediusErrors.TooManyDiceError) {
-		if (ctx) ctx.reply(`:warning: Cannot roll that many dice! (${error.message})`);
+		if (ctx) ctx.reply(`⚠️ Cannot roll that many dice! (${error.message})`);
 	}
 	else if (error instanceof SebediusErrors.NoSelectionElementsError) {
-		if (ctx) ctx.reply(':warning: There is no element to select.');
+		if (ctx) ctx.reply('⚠️ There is no element to select.');
 	}
 	else if (error instanceof SebediusErrors.SelectionCancelledError) {
-		if (ctx) ctx.reply(':stop_button: Selection cancelled.');
+		if (ctx) ctx.reply('⏹️ Selection cancelled.');
 	}
 	else if (error instanceof SebediusErrors.NotFoundError) {
-		if (ctx) ctx.reply(`:warning: [${error.name}] ${error.message}.`);
+		if (ctx) ctx.reply(`⚠️ [${error.name}] ${error.message}.`);
 	}
 	else {
 		// Sends me a message if the error is Unknown.
-		if (process.env.NODE_ENV === 'production') {
+		if (process.env.NODE_ENV !== 'production') {
 			const msg = `**Error:** ${error.toString()}`
 				+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
 				+ `\n**Stack:** ${error.stack}`;
-			bot.owner.send(msg, { split: true })
-				.catch(console.error);
+			// bot.owner.send(msg, { split: true })
+			// 	.catch(console.error);
+			bot.log(msg, { split: true });
 		}
 		if (ctx) {
 			ctx.reply(`❌ There was an error trying to execute that command! (${error.toString()})`)

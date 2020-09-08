@@ -138,20 +138,20 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Logs a message to the LogChannel of the bot.
-	 * @param {string|Discord.MessageEmbed} message The message to send
+	 * @param {string} message The message to log
+	 * @param {?(Discord.MessageOptions|Discord.MessageAdditions)} [options] The options to provide
 	 * @async
 	 */
-	async log(message) {
-		if (typeof message === 'string') console.log(`:>> ${message}`);
-		else if (message instanceof Discord.MessageEmbed) console.log(`:>> ${message.title} - ${message.description}`);
+	async log(message, embed = null) {
+		console.log(`:>> ${message}`);
 
-		if (this.state !== 'ready') throw new Errors.SebediusError('Can\'t send message. State NOT EQUAL to [READY]');
+		if (!message || this.state !== 'ready') return;
 
 		const channel = this.logChannel
 			|| this.channels.cache.get(this.config.botLogChannelID)
 			|| await this.channels.fetch(this.config.botLogChannelID);
 
-		return await channel.send(message);
+		if (channel) return await channel.send(message, embed);
 	}
 
 	/**
@@ -170,7 +170,7 @@ class Sebedius extends Discord.Client {
 				entries = [...store.entries()];
 			}
 			else {
-				const nmspc = namespace ? namespace : DB_MAP[name];
+				const nmspc = namespace ? namespace : DB_MAP[name] || name;
 				entries = await store.query(
 					`SELECT * FROM keyv
 					WHERE key LIKE '${nmspc}%'`,
@@ -367,8 +367,8 @@ class Sebedius extends Discord.Client {
 	 * @param {string} type Type of table to return (`CRIT` or `null`)
 	 * @param {string} path Folder path to the file with the ending `/`
 	 * @param {string} fileName Filename without path, ext or lang-ext
-	 * @param {?string} [lang='en'] The language to use, default is `en` English
-	 * @param {?string} [ext='csv'] File extension
+	 * @param {string} [lang='en'] The language to use, default is `en` English
+	 * @param {string} [ext='csv'] File extension
 	 * @returns {RollTable}
 	 * @static
 	 */
@@ -410,7 +410,7 @@ class Sebedius extends Discord.Client {
 	 * Returns a text with all the dice turned into emojis.
 	 * @param {YZRoll} roll The roll
 	 * @param {Object} opts Options of the roll command
-	 * @param {?boolean} [applyAliases=false] Whether to apply the aliases
+	 * @param {boolean} [applyAliases=false] Whether to apply the aliases
 	 * @returns {string} The manufactured text
 	 */
 	static emojifyRoll(roll, opts, applyAliases = false) {
@@ -546,7 +546,7 @@ class Sebedius extends Discord.Client {
 	 * Confirms whether a user wants to take an action.
 	 * @param {Discord.Message} message The current message
 	 * @param {string} text The message for the user to confirm
-	 * @param {?boolean} [deleteMessages=false] Whether to delete the messages
+	 * @param {boolean} [deleteMessages=false] Whether to delete the messages
 	 * @returns {boolean|null} Whether the user confirmed or not. None if no reply was recieved
 	 */
 	static async confirm(message, text, deleteMessages = false) {
@@ -590,7 +590,8 @@ class Sebedius extends Discord.Client {
 		if (serverMissingPerms.length || channelMissingPerms.length) {
 			let msg = '🛑 **Missing Permissions!**'
 				+ '\nThe bot does not have sufficient permission in this channel and will not work properly.'
-				+ ' Check the Readme (`help`) for the list of required permissions.';
+				+ ` Check the Readme (\`${ctx.prefix}help\`) for the list of required permissions.`
+				+ ' Check the wiki for more troubleshooting.';
 			if (serverMissingPerms.length) {
 				msg += `\n**Role Missing Permission(s):** \`${serverMissingPerms.join('`, `')}\``;
 			}
