@@ -159,7 +159,7 @@ class Sebedius extends Discord.Client {
 			|| this.channels.cache.get(this.config.botLogChannelID)
 			|| await this.channels.fetch(this.config.botLogChannelID);
 
-		if (channel) return await channel.send(message, options);
+		if (channel) return await channel.send(message, options).catch(console.error);
 	}
 
 	/**
