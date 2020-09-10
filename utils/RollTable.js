@@ -10,7 +10,7 @@ class RollTable extends Map {
 	 * @param {?string} roll The die (or dice) required to roll the table
 	 * @param {?*} iterable An Array or another iterable object whose elements are key-value pairs
 	 */
-	constructor(name, roll = null, iterable) {
+	constructor(name = '<Unnamed>', roll = null, iterable) {
 		super(iterable);
 
 		/**
@@ -179,6 +179,7 @@ class RollTable extends Map {
 	/**
 	 * Returns a random entry from a RollTable object.
 	 * @returns {*} or `undefined` if not found
+	 * @throws {ReferenceError} if the table is corrupted
 	 */
 	random() {
 		// Generates a random seed based on the quantity of entries (length).
@@ -208,8 +209,26 @@ class RollTable extends Map {
 				rngesus = convertToBijective(seed, seq);
 			}
 		}
-		// Returns the value of the random reference.
-		return this.get(rngesus);
+		// Gets the value of the random reference.
+		const item = this.get(rngesus);
+
+		// If not found, throws an error
+		// as that would mean the table is corrupted.
+		// Useful for debugging.
+		if (item == undefined) {
+			throw new ReferenceError(
+				`RollTable "${this.name}" - Random Value Not Found`
+				+ `\nMin: ${this.min}, Max: ${this.max}, Length: ${this.length}, Size: ${this.size}`
+				+ `\nRoll: ${this.roll} → Seed: ${seed} → Rngesus: ${rngesus}`
+				+ `\nValue: ${item}`,
+			);
+		}
+
+		// Logs.
+		console.log(`:>> 🎲[${this.name}]: '${rngesus}' → ${item}`);
+
+		// Returns the random value.
+		return item;
 	}
 }
 
