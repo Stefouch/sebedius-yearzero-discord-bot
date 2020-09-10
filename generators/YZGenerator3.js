@@ -37,9 +37,12 @@ class YZGenerator3 {
 	 * @static
 	 */
 	static parseRollTable(data) {
-		if (!data.refs) throw new TypeError('No References');
+		if (!data.refs) return data;
 
 		const rt = new RollTable(data.name, data.roll);
+
+		// Adds an ID (not officialy supported in the class).
+		rt.id = data.id;
 
 		for (const ref in data.refs) {
 			let value = data.refs[ref];

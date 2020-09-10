@@ -1,4 +1,5 @@
 rotLevel:
+  id: ROT_LEVEL
   name: Rot Level
   roll: D66
   refs:
@@ -7,10 +8,12 @@ rotLevel:
     '56-66': 2
 
 threat:
+  id: THREAT_TABLE
   name: Threat
   roll: D6
   refs:
     '1-2':
+      id: HUMANOID
       name: Humanoid
       roll: D66
       refs:
@@ -20,7 +23,7 @@ threat:
         '21-22': ${{ mmyz-humanoid-doomcultist }}
         '23-25': ${{ mmyz-humanoid-exiledmutant }}
         '26-32': Expedition from another Ark
-        '33-35': ${{ Helldriver }}
+        '33-35': ${{ mmyz-humanoid-helldriver }}
         '36-42': ${{ mmyz-humanoid-morlock }}
         '43-44': ${{ mmyz-humanoid-novacultist }}
         '45-46': Patrol from the Ark
@@ -29,7 +32,8 @@ threat:
         '55-56': ${{ mmyz-humanoid-watertrader }}
         '61-62': ${{ mmyz-humanoid-wrecker }}
         '63-66': ${{ mmyz-humanoid-zoneghoul }}
-    '3':
+    '3-5':
+      id: MONSTER
       name: Monster
       roll: D66
       refs:
@@ -57,6 +61,7 @@ threat:
         '64': ${{ mmyz-monster-zonespider }}
         '65-66': ${{ mmyz-monster-zonewasps }}
     '6':
+      id: PHENOMENON
       name: Phenomenon
       roll: D66
       refs:
@@ -81,24 +86,52 @@ threat:
         '64-66': Zone Smog
 
 environment:
+  id: ENVIRONMENT
   name: Environment
   roll: D66
   refs:
-    '11-12': 1
-    '13-15': 2
-    '16-21': 3
-    '22-24': 4
-    '25-26': 5
-    '31': 6
-    '32': 7
-    '33-35': 8
-    '36-42': 9
-    '43-51': 10
-    '52-56': 11
-    '61-64': 12
-    '65-66': 13
+    '11-12':
+      id: THICK_WOOD
+      name: Thick Wood
+    '13-15':
+      id: SCRUBLANDS
+      name: Scrublands
+    '16-21':
+      id: MARSHLANDS
+      name: Marshlands
+    '22-24':
+      id: DEAD_WOODS
+      name: Dead Woods
+    '25-26':
+      id: ASH_DESERT
+      name: Ash Desert
+    '31':
+      id: HUGE_CRATER
+      name: Huge Crater
+    '32':
+      id: GLASIFIED_FIELD
+      name: Glasified Field
+    '33-35':
+      id: OVERGROWN_RUINS
+      name: Overgrown Ruins
+    '36-42':
+      id: CRUMBLING_RUINS
+      name: Crumbling Ruins
+    '43-51':
+      id: DECAYED_RUINS
+      name: Decayed Ruins
+    '52-56':
+      id: UNSCATHED_RUINS
+      name: Unscathed Ruins
+    '61-64':
+      id: DERELICT_INDUSTRIES
+      name: Derelict Industries
+    '65-66':
+      id: SETTLEMENT
+      name: Settlement
 
 normalRuin:
+  id: RUIN_NORMAL
   name: Normal Ruin
   roll: D66
   refs:
@@ -368,6 +401,7 @@ normalRuin:
         beyond. Now, the only passengers are decaying corpses.
 
 industrialRuin:
+  id: RUIN_INDUSTRIAL
   name: Industrial Ruin
   roll: D66
   refs:
@@ -458,6 +492,7 @@ industrialRuin:
         out. It was much too late, of course.
 
 mood:
+  id: MOOD
   name: Mood
   roll: D66
   refs:

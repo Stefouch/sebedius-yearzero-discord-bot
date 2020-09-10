@@ -526,6 +526,24 @@ class YZRoll {
 		out.unshift(`<${this.game}>`);
 		return out.join(' ');
 	}
+
+	/**
+	 * Returns only the values of the dice in the roll.
+	 * @returns {string}
+	 */
+	toValues() {
+		return this.dice
+			.map(d => d.valueOf())
+			.join(', ');
+	}
+
+	/**
+	 * Returns the primitive value of the roll.
+	 * @returns {number}
+	 */
+	valueOf() {
+		return this.sum();
+	}
 }
 
 module.exports = YZRoll;
@@ -682,5 +700,9 @@ class YZDie {
 	toString() {
 		if (this.type === 'modifier') return `${this.operator}${this.result}`;
 		else return `${this.operator}d${this.range}${this.type ? `[${this.type}]` : ''}`;
+	}
+
+	valueOf() {
+		return +`${this.operator}${this.result}`;
 	}
 }
