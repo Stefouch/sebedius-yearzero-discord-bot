@@ -43,7 +43,7 @@ module.exports = {
 		});
 		const title = argv._.length ? trimString(argv._.join(' '), 100) : '';
 		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
-		const fileName = `./gamedata/myz/myz-zonesectors.${lang}.data.yml`;
+		const fileName = `./gamedata/myz/myz-zonesectors.${lang}.yml`;
 		const h = () => argv.hide ? '||' : '';
 
 		// Creates the Zone Sector.
