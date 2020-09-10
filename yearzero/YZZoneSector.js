@@ -198,7 +198,7 @@ class YZZoneSector {
 		// Counts quantity of threats.
 		// Max: 6.
 		let qty = this.threatRoll.baneCount;
-		if (modifier != undefined) qty = clamp(modifOrSet(modifier, qty), 0, 6);
+		if (modifier != undefined) qty = clamp(modifOrSet(modifier, qty), 0, 5);
 
 		// Adds threats, if any.
 		for (; qty > 0; qty--) {
