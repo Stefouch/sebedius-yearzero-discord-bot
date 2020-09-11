@@ -206,7 +206,7 @@ class Util {
 	/**
 	 * Adds the prefix a or an to a string.
 	 * @param {string} str The string to add a or an
-	 * @param {boolean} upper Wether the prefix should be capitalized or not
+	 * @param {boolean} upper Whether the prefix should be capitalized or not
 	 * @returns {string}
 	 */
 	static aORan(str, upper = false) {
@@ -444,6 +444,18 @@ class Util {
 	}
 
 	/**
+	 * Checks if is an Object.
+	 * Does not count Arrays.
+	 * @param {*} val Value to check
+	 * @returns {boolean}
+	 */
+	static isObject(val) {
+		if (val === null) return false;
+		if (val instanceof Array) return false;
+		return ((typeof val === 'function') || (typeof val === 'object'));
+	}
+
+	/**
 	 * Checks if is a number.
 	 * @param {*} x Value to check
 	 * @returns {boolean}
@@ -455,15 +467,22 @@ class Util {
 	}
 
 	/**
-	 * Checks if is an Object.
-	 * Does not count Arrays.
-	 * @param {*} val Value to check
+	 * Checks whether all the digits in a given number are the same or not.
+	 * @param {number} n Number to check
 	 * @returns {boolean}
+	 *
+	 * @example
+	 * hasSameDigits(1234); // false
+	 * hasSameDigits(1111); // true
+	 * hasSameDigits(22222222); // true
 	 */
-	static isObject(val) {
-		if (val === null) return false;
-		if (val instanceof Array) return false;
-		return ((typeof val === 'function') || (typeof val === 'object'));
+	static hasSameDigits(n) {
+		const first = n % 10;
+		while (n) {
+			if (n % 10 !== first) return false;
+			n = Math.floor(n / 10);
+		}
+		return true;
 	}
 
 	/**

@@ -269,7 +269,7 @@ class YZCombat {
 	 * @param {YZCombatant} combatant The target to damage
 	 * @param {number} damage The quantity of damage
 	 * @param {?string} game The game used for the armor dice skin
-	 * @param {?boolean} [degradeArmor=false] Wether the armor should be degraded by rolled banes
+	 * @param {?boolean} [degradeArmor=false] Whether the armor should be degraded by rolled banes
 	 * @param {?number} [armorMod=0] Armor modifier (after factor)
 	 * @param {?number} [armorFactor=1] Armor multiplicator (use 0.5 for armor piercing)
 	 * @returns {YZRoll} The armor roll
@@ -310,7 +310,7 @@ class YZCombat {
 	 * @param {?number[]} inits The initiative to create a group at if a group is not found
 	 * @param {?number} [speed=1] The speed of the group
 	 * @param {?number} [haste=1] The haste of the group
-	 * @param {?boolean} [strict=true] Wether the group name must be a full case insensitive match
+	 * @param {?boolean} [strict=true] Whether the group name must be a full case insensitive match
 	 * @returns {YZCombatantGroup}
 	 */
 	getGroup(name, strict = true, inits = null, speed = 1, haste = 1) {
@@ -513,7 +513,7 @@ class YZCombat {
 
 	/**
 	 * Returns the generated summary message content.
-	 * @param {boolean} hidden Wether it's private or not
+	 * @param {boolean} hidden Whether it's private or not
 	 * @returns {string}
 	 */
 	getSummary(hidden = false) {
@@ -773,7 +773,7 @@ class YZCombatant {
 	 * Gets a short summary of a combatant's status.
 	 * @param {number} init The initiative value
 	 * @param {?boolean} [hidden=false] Whether to return the full revealed stats or not
-	 * @param {?boolean} [hideNotes=false] Wether to Hide notes or not
+	 * @param {?boolean} [hideNotes=false] Whether to Hide notes or not
 	 * @returns {string} A string describing the combatant
 	 */
 	getSummary(init, hidden = false, hideNotes = false) {

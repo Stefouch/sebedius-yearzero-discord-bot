@@ -3,6 +3,11 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.6.0] - 2020-09-11
+### Added
+- New command: `!sector` – Creates a random Mutant: Year Zero Zone sector.
+- New command: `!journey` – Performs a Forbidden Lands Journey.
+
 ## [3.5.0] - 2020-09-04
 ### Added
 - New command: `!embed` – Creates an embed message.
@@ -18,7 +23,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 - A bug with `!roll` command where a modifier of `±0` was translated into `±1`.
 
-## Removed
+### Removed
 - Argument `--no-dm` from `!help` command.
 
 ## [3.4.0] - 2020-09-01
