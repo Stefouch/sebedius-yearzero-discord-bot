@@ -2,8 +2,8 @@ module.exports = {
 	SUPPORTED_GAMES: ['myz', 'fbl', 'tales', 'coriolis', 'alien', 'vaesen', 't2k'],
 	SUPPORTED_LANGS: {
 		en: 'English',
-		fr: 'Français',
-		sw: 'Svenska',
+		// fr: 'Français',
+		// sw: 'Svenska',
 	},
 	DAMAGE_TYPES: ['damage', 'slash', 'blunt', 'stab'],
 	DAMAGE_TYPES_ABBREVIATIONS: ['dmg', 'sl', 'bl', 'st'],
