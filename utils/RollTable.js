@@ -1,5 +1,7 @@
 const { rand, hasSameDigits, convertToBijective } = require('./Util');
 
+const SEPARATOR_REGEX = /[-–—−]/;
+
 /**
  * A rollable table.
  * @extends {Map}
@@ -36,8 +38,8 @@ class RollTable extends Map {
 
 		for (const key of this.keys()) {
 			if (typeof key === 'string') {
-				if (/-/.test(key)) {
-					const boundaries = key.split('-');
+				if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
 					const min = +boundaries[0];
 					// const max = +boundaries[1];
 					n = Math.min(n, min);
@@ -64,8 +66,8 @@ class RollTable extends Map {
 
 		for (const key of this.keys()) {
 			if (typeof key === 'string') {
-				if (/-/.test(key)) {
-					const boundaries = key.split('-');
+				if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
 					// const min = +boundaries[0];
 					const max = +boundaries[1];
 					n = Math.max(n, max);
@@ -101,8 +103,8 @@ class RollTable extends Map {
 
 		// for (const key of this.keys()) {
 		// 	if (typeof key === 'string') {
-		// 		if (/-/.test(key)) {
-		// 			const boundaries = key.split('-');
+		// 		if (SEPEX.test(key)) {
+		// 			const boundaries = key.split(SEPEX);
 		// 			const min = +boundaries[0];
 		// 			const max = +boundaries[1];
 		// 			len += (max - min + 1);
@@ -141,8 +143,8 @@ class RollTable extends Map {
 				if (regexKey.test(key)) {
 					return val;
 				}
-				else if (/-/.test(key)) {
-					const boundaries = key.split('-');
+				else if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
 					const min = +boundaries[0];
 					const max = +boundaries[1];
 					if (reference >= min && reference <= max) return val;
@@ -165,8 +167,8 @@ class RollTable extends Map {
 				if (regexKey.test(key)) {
 					return true;
 				}
-				else if (/-/.test(key)) {
-					const boundaries = key.split('-');
+				else if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
 					const min = +boundaries[0];
 					const max = +boundaries[1];
 					if (reference >= min && reference <= max) return true;
