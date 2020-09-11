@@ -53,6 +53,7 @@
     "keyv": "^4.0.1",
     "ms": "^2.1.2",
     "os": "^0.1.1",
+    "yaml": "^1.10.0",
     "yargs-parser": "^19.0.4"
   },
   "devDependencies": {
