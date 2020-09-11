@@ -26,13 +26,13 @@ module.exports = {
 		[
 			'Arguments for the Creation',
 			`• \`-quarter|-q|-qd <label>\` – Defines the current Quarter of Day.
-			Options are: MORNING, __DAY__, EVENING, NIGHT.
+			Available labels are: MORNING, __DAY__, EVENING, NIGHT.
 
 			• \`-season|-s <label>\` – Defines the current season.
-			Options are: __SPRING__, SUMMER, AUTUMN, WINTER.
+			Available labels are: __SPRING__, SUMMER, AUTUMN, WINTER.
 
 			• \`-terrain|-t <label>\` – Defines the current terrain type.
-			Options are: ${T_OPTS}.
+			Available labels are: ${T_OPTS}.
 			
 			*Defaults are __underlined__.*`,
 		],
