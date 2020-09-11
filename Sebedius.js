@@ -486,9 +486,9 @@ class Sebedius extends Discord.Client {
 	 * @param {Discord.Message} ctx Discord message with context
 	 * @param {Array<string, Object>[]} choices An array of arrays with [name, object]
 	 * @param {string} text Additional text to attach to the selection message
-	 * @param {boolean} del Wether to delete the selection message
-	 * @param {boolean} pm Wether the selection message is sent in a PM (Discord DM)
-	 * @param {boolean} forceSelect Wether to force selection even if only one choice possible
+	 * @param {boolean} del Whether to delete the selection message
+	 * @param {boolean} pm Whether the selection message is sent in a PM (Discord DM)
+	 * @param {boolean} forceSelect Whether to force selection even if only one choice possible
 	 * @returns {*} The selected choice
 	 * @throws {NoSelectionElementsError} If len(choices) is 0.
 	 * @throws {SelectionCancelledError} If selection is cancelled.

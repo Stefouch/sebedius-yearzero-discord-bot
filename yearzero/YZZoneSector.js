@@ -162,7 +162,7 @@ class YZZoneSector {
 	}
 
 	/**
-	 * Wether the sector holds some ruins or not.
+	 * Whether the sector holds some ruins or not.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -171,7 +171,7 @@ class YZZoneSector {
 	}
 
 	/**
-	 * Wether the sector hides some normal ruins or not.
+	 * Whether the sector hides some normal ruins or not.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -183,7 +183,7 @@ class YZZoneSector {
 	}
 
 	/**
-	 * Wether the sector hides some industrial ruins or not.
+	 * Whether the sector hides some industrial ruins or not.
 	 * @type {boolean}
 	 * @readonly
 	 */

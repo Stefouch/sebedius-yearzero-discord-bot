@@ -73,7 +73,7 @@ class YZRoll {
 	}
 
 	/**
-	 * Wether the roll was pushed or not.
+	 * Whether the roll was pushed or not.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -611,7 +611,7 @@ class YZDie {
 	}
 
 	/**
-	 * Wether this die has been pushed.
+	 * Whether this die has been pushed.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -620,7 +620,7 @@ class YZDie {
 	}
 
 	/**
-	 * Wether the die can be pushed (according to its type).
+	 * Whether the die can be pushed (according to its type).
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -655,7 +655,7 @@ class YZDie {
 
 	/**
 	 * Pushes the die, according to its type.
-	 * @returns {number} The result, wether it has been pushed or not.
+	 * @returns {number} The result, Whether it has been pushed or not.
 	 */
 	push() {
 		this.previousResults.push(this.result);

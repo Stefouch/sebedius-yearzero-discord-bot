@@ -206,7 +206,7 @@ class Util {
 	/**
 	 * Adds the prefix a or an to a string.
 	 * @param {string} str The string to add a or an
-	 * @param {boolean} upper Wether the prefix should be capitalized or not
+	 * @param {boolean} upper Whether the prefix should be capitalized or not
 	 * @returns {string}
 	 */
 	static aORan(str, upper = false) {

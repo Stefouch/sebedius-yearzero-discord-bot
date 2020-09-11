@@ -182,7 +182,7 @@ module.exports = {
 			• \`-ap [value]\` Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value.
 			• \`-ad\` – Armor doubled. *(E.g.: for Shotguns in Alien RPG.)*
 			• \`-ab|-bonus\` – Armor bonus (applied after all other modifications).
-			• \`-x|-degrade\` – Wether the armor should be degraded. If omitted, uses the default from the game set.
+			• \`-x|-degrade\` – Whether the armor should be degraded. If omitted, uses the default from the game set.
 			• \`-noar|-noarmor\` – Skips the armor roll.
 			• \`-h\` – Hides the armor roll.`,
 		],
