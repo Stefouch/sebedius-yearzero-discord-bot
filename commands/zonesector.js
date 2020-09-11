@@ -10,7 +10,16 @@ module.exports = {
 	category: 'myz',
 	description: 'Creates a random Zone sector.',
 	moreDescriptions: [
-		[],
+		[
+			'Arguments',
+			`• \`-rot|-rotlevel <0-3>\` – Sets the Rot Level between 0 and 3.
+			• \`-threats|-t <0-5>\` – Sets or modifies (if prefixing with ±) the number of Threats to draw between 0 (none) and 5.
+			• \`-threatlevel|-lvl <0-10>\` – Sets or modifies (if ±) the Threat Level between 0 (none) and 10.
+			• \`-night|-dark\` – Adds +3 to the Threat Level.
+			• \`-ruin|-r\` – Forces the placement of a large ruin.
+			• \`-lang|-language|-lng <language_code>\` – Uses a different language. See \`!setconf\` for available options.
+			• \`-hide|-private|-h\` – Hides most information behind several spoiler tags.`,
+		],
 	],
 	guildOnly: false,
 	args: false,
