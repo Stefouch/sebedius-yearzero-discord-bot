@@ -1,7 +1,7 @@
+const { Collection } = require('discord.js');
 const YZGenerator3 = require('../generators/YZGenerator3');
 const YZTerrainTypesFlags = require('./YZTerrainTypesFlags');
-const { Collection } = require('discord.js');
-const { capitalize } = require('../utils/Util');
+const { capitalize, strCamelToNorm } = require('../utils/Util');
 
 /**
  * A Forbidden Lands Journey.
@@ -151,31 +151,54 @@ class YZJourney {
 		return mishapTable.random();
 	}
 
+	/**
+	 * Journey's generic description.
+	 * @returns {string}
+	 */
 	getDescription() {
-		return 'List of ';
+		return 'List of available actions:\n`'
+			+ YZJourney.Activities
+				.array()
+				.map(a => strCamelToNorm(a.tag).toUpperCase())
+				.join('`, `')
+			+ '`';
 	}
 
+	/**
+	 * Terrain's description.
+	 * @returns {string}
+	 */
 	getTerrainDescription() {
 		const lands = this.terrain
 			.toArray()
 			.map(t => capitalize(t.toLowerCase()));
-		const str = `Terrain${lands.length > 1 ? 's' : ''}: ${lands.join(', ')}`;
+		const str = '`' + lands.join('`, `') + '\n`'
+			+ '*(' + capitalize(this.terrain.modifiers.movement.toLowerCase()) + ')*';
 		return str;
 	}
 
+	/**
+	 * Modifiers' description.
+	 * @returns {string}
+	 */
 	getModifiersDescriptions() {
-		const str = `Forage: **${this.forageModifier > 0 ? '+' : ''}${this.forageModifier}**`
-			+ `\nHunt: **${this.huntModifier > 0 ? '+' : ''}${this.huntModifier}**`;
+		const str = (this.inDarkness ? 'Lead the Way: **-2**\n' : '')
+			+ `Forage: **${this.forageModifier > 0 ? '+' : ''}${this.forageModifier}**\n`
+			+ `Hunt: **${this.huntModifier > 0 ? '+' : ''}${this.huntModifier}**`;
 		return str;
 	}
 
+	/**
+	 * Reactions' description.
+	 * @returns {string}
+	 *
 	getReactionsDescription() {
 		let str = 'React to the message to trigger a Mishap table:\n';
 		this.constructor.Activities.forEach(acti => {
 			if (acti.mishap) str += `\n${acti.icon} : ${this.data[acti.mishap].name}`;
 		});
 		return str;
-	}
+	}//*/
 }
 
 YZJourney.Activities = new Collection(Object.entries({
@@ -275,7 +298,7 @@ YZJourney.QUARTER_DAYS = {
 YZJourney.SEASONS = {
 	SPRING: 10,
 	SUMMER: 20,
-	AUTOMN: 30,
+	AUTUMN: 30,
 	WINTER: 40,
 };
 
@@ -301,7 +324,7 @@ YZJourney.DAYLIGHT = {
 YZJourney.FORAGE_MODIFIER_BY_SEASON = {
 	SPRING: -1,
 	SUMMER: 0,
-	AUTOMN: +1,
+	AUTUMN: +1,
 	WINTER: -2,
 };
 
