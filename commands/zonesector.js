@@ -5,8 +5,8 @@ const { capitalize, trimString } = require('../utils/Util');
 const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
-	name: 'sector',
-	aliases: ['zonesector'],
+	name: 'zonesector',
+	aliases: ['sector'],
 	category: 'myz',
 	description: 'Creates a random Zone sector.',
 	moreDescriptions: [
