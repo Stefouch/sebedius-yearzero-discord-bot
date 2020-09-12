@@ -59,11 +59,11 @@ class YZJourney {
 			}
 		}
 		else if (Array.isArray(options.terrains) && options.terrains.length) {
-			options.terrains.forEach(t => {
+			for (const t of options.terrains) {
 				if (Object.keys(YZTerrainTypesFlags.FLAGS).includes(t.toUpperCase())) {
 					this.terrain.add(t.toUpperCase());
 				}
-			});
+			}
 		}
 		else {
 			this.terrain.add('PLAINS');
@@ -152,82 +152,57 @@ class YZJourney {
 	}
 
 	/**
-	 * Journey's generic description.
+	 * Translates the name of an object in this class parsed data.
+	 * @param {string} name name to translate
 	 * @returns {string}
 	 */
-	getDescription() {
-		return 'List of available actions:\n`'
-			+ YZJourney.Activities
-				.array()
-				.map(a => strCamelToNorm(a.tag).toUpperCase())
-				.join('`, `')
-			+ '`';
+	_(name) {
+		if (name in this.data) return this.data[name].name;
+		return name;
 	}
-
-	/**
-	 * Terrain's description.
-	 * @returns {string}
-	 */
-	getTerrainDescription() {
-		const lands = this.terrain
-			.toArray()
-			.map(t => capitalize(t.toLowerCase()));
-		const str = '`' + lands.join('`, `') + '\n`'
-			+ '*(' + capitalize(this.terrain.modifiers.movement.toLowerCase()) + ')*';
-		return str;
-	}
-
-	/**
-	 * Modifiers' description.
-	 * @returns {string}
-	 */
-	getModifiersDescriptions() {
-		const str = (this.inDarkness ? 'Lead the Way: **-2**\n' : '')
-			+ `Forage: **${this.forageModifier > 0 ? '+' : ''}${this.forageModifier}**\n`
-			+ `Hunt: **${this.huntModifier > 0 ? '+' : ''}${this.huntModifier}**`;
-		return str;
-	}
-
-	/**
-	 * Reactions' description.
-	 * @returns {string}
-	 *
-	getReactionsDescription() {
-		let str = 'React to the message to trigger a Mishap table:\n';
-		this.constructor.Activities.forEach(acti => {
-			if (acti.mishap) str += `\n${acti.icon} : ${this.data[acti.mishap].name}`;
-		});
-		return str;
-	}//*/
 }
 
+/**
+ * @type {Collection<string, Activity>}
+ * @readonly
+ * @constant
+ *
+ * @typedef {Object} Activity
+ * @property {string} tag
+ * @property {string|null} mishap
+ * @property {string} icon
+ * @property {Object} rules
+ * @property {number} rules.limit
+ * @property {string[]} rules.restricted
+ */
 YZJourney.Activities = new Collection(Object.entries({
 	HIKE: {
 		tag: 'hike',
 		mishap: null,
-		icon: null,
+		// Hiking boot emoji
+		icon: '🥾',
 	},
-	LEADTHEWAY: {
+	LEAD_THE_WAY: {
 		tag: 'leadTheWay',
-		mishap: 'leadingTheWayMishap',
+		mishap: 'leadingTheWayMishaps',
 		icon: '🗺️',
 		rules: {
 			limit: 1,
 			restricted: ['KEEPWATCH'],
 		},
 	},
-	KEEPWATCH: {
+	KEEP_WATCH: {
 		tag: 'keepWatch',
 		mishap: null,
-		icon: null,
+		icon: '👁️',
 		rules: {
 			limit: 1,
 			restricted: ['LEADTHEWAY'],
 		},
 	},
-	MAKECAMP: {
+	MAKE_CAMP: {
 		tag: 'makeCamp',
-		mishap: 'makingCampMishap',
+		mishap: 'makingCampMishaps',
 		icon: '⛺',
 		rules: {
 			restricted: ['HIKE'],
@@ -235,15 +210,16 @@ YZJourney.Activities = new Collection(Object.entries({
 	},
 	FORAGE: {
 		tag: 'forage',
-		mishap: 'foragingMishap',
-		icon: '🍇',
+		mishap: 'foragingMishaps',
+		// icon: '🍇',
+		icon: '🍒',
 		rules: {
 			restricted: ['HIKE'],
 		},
 	},
 	HUNT: {
 		tag: 'hunt',
-		mishap: 'huntingMishap',
+		mishap: 'huntingMishaps',
 		icon: '🏹',
 		rules: {
 			restricted: ['HIKE'],
@@ -251,8 +227,9 @@ YZJourney.Activities = new Collection(Object.entries({
 	},
 	FISH: {
 		tag: 'fish',
-		mishap: 'fishingMishap',
-		icon: '🐟',
+		mishap: 'fishingMishaps',
+		// icon: '🐟',
+		icon: '🎣',
 		rules: {
 			restricted: ['HIKE'],
 		},
@@ -260,7 +237,7 @@ YZJourney.Activities = new Collection(Object.entries({
 	REST: {
 		tag: 'rest',
 		mishap: null,
-		icon: null,
+		icon: '☕',
 		rules: {
 			restricted: ['HIKE'],
 		},
@@ -268,7 +245,7 @@ YZJourney.Activities = new Collection(Object.entries({
 	SLEEP: {
 		tag: 'sleep',
 		mishap: null,
-		icon: null,
+		icon: '💤',
 		rules: {
 			restricted: ['HIKE'],
 		},
@@ -276,15 +253,17 @@ YZJourney.Activities = new Collection(Object.entries({
 	EXPLORE: {
 		tag: 'explore',
 		mishap: null,
-		icon: null,
+		// Compass emoji
+		icon: '🧭',
 		rules: {
 			restricted: ['HIKE'],
 		},
 	},
-	SEATRAVEL: {
+	SEA_TRAVEL: {
 		tag: 'seaTravel',
-		mishap: 'seaTravelMishap',
-		icon: '⛵',
+		mishap: 'seaTravelMishaps',
+		// icon: '⛵',
+		icon: '🌊',
 	},
 }));
 
