@@ -101,14 +101,14 @@ module.exports = {
 
 		if (zs.threats.size) {
 			const thrs = [];
-			zs.threats.forEach(t => {
+			for (const t of zs.threats) {
 				if (t.value instanceof YZMonster) {
 					thrs.push(`${h()}${t.icon} __${t.value.name}__${h()}`);
 				}
 				else {
 					thrs.push(`${h()}${t.icon} __${t.value}__${h()}`);
 				}
-			});
+			}
 			embed.addField('Threats', `${thrs.join('\n')}`, true);
 		}
 
