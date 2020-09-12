@@ -39,10 +39,10 @@ class YZTerrainTypesFlags extends BitField {
  * Numeric terrain type flags. All available properties:
  * * `PLAINS`
  * * `FOREST`
- * * `DARKFOREST`
+ * * `DARK_FOREST`
  * * `HILLS`
  * * `MOUTAINS`
- * * `HIGHMOUNTAINS`
+ * * `HIGH_MOUNTAINS`
  * * `LAKE`
  * * `RIVER`
  * * `MARSHLANDS`
@@ -52,10 +52,10 @@ class YZTerrainTypesFlags extends BitField {
 YZTerrainTypesFlags.FLAGS = {
 	PLAINS: 1 << 1,
 	FOREST: 1 << 2,
-	DARKFOREST: 1 << 3,
+	DARK_FOREST: 1 << 3,
 	HILLS: 1 << 4,
 	MOUTAINS: 1 << 5,
-	HIGHMOUNTAINS: 1 << 6,
+	HIGH_MOUNTAINS: 1 << 6,
 	LAKE: 1 << 7,
 	RIVER: 1 << 8,
 	MARSHLANDS: 1 << 9,
@@ -74,7 +74,7 @@ YZTerrainTypesFlags.Modifiers = {
 		forage: +1,
 		hunt: +1,
 	},
-	DARKFOREST: {
+	DARK_FOREST: {
 		movement: 'DIFFICULT',
 		forage: -1,
 		hunt: 0,
@@ -89,7 +89,7 @@ YZTerrainTypesFlags.Modifiers = {
 		forage: -2,
 		hunt: -1,
 	},
-	HIGHMOUNTAINS: {
+	HIGH_MOUNTAINS: {
 		movement: 'IMPASSABLE',
 		forage: NaN,
 		hunt: NaN,
