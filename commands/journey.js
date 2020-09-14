@@ -58,7 +58,7 @@ module.exports = {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			array: ['name'],
-			boolean: ['create', 'mishap', 'weather'],
+			boolean: ['create', 'mishap', 'fbr'],
 			string: ['lang', 'quarterDay', 'season', 'terrains'],
 			alias: {
 				create: ['c'],
@@ -68,13 +68,13 @@ module.exports = {
 				quarterDay: ['d', 'q', 'qd', 'quarter', 'quarterday'],
 				season: ['s'],
 				terrains: ['t', 'terrain'],
-				weather: ['w'],
+				fbr: ['bitterreach', 'snow', 'ice'],
 			},
 			default: {
 				create: false,
 				mishap: false,
 				lang: 'en',
-				weather: false,
+				fbr: false,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -105,14 +105,16 @@ module.exports = {
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
 		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
-		const fileName = `./gamedata/fbl/fbl-journeys.${lang}.yml`;
+		const fileName = argv.fbr
+			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
+			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;
 
 		// YZJourney options' placeholder.
 		const createOptions = {
 			quarterDay: null,
 			season: null,
 			terrains: null,
-			weather: argv.weather,
+			fbr: argv.fbr,
 		};
 
 		// Builds the options for the YZJourney.
@@ -123,7 +125,7 @@ module.exports = {
 				if (opt === 'quarterDay') stack = YZJourney.QUARTER_DAYS;
 				else if (opt === 'season') stack = YZJourney.SEASONS;
 				else if (opt === 'terrains') stack = YZTerrainTypesFlags.FLAGS;
-				else if (opt === 'weather') continue;
+				else if (opt === 'fbr') continue;
 				else throw new ReferenceError('Dumb Stefouch!');
 				const haystack = Object.keys(stack);
 
@@ -182,6 +184,11 @@ module.exports = {
 					},
 				],
 			});
+			// Adds weather details, if any.
+			if (jou.fbr) {
+				embed.addField('Weather', getWeatherDescription(jou), false);
+			}
+
 			// Sends the Embed Message.
 			const embedMessage = await ctx.send(embed);
 
@@ -261,11 +268,13 @@ async function select(ctx, needle = '', choices, text) {
 async function addActivitiesReactions(message, jou) {
 	for (const acti of YZJourney.Activities.array()) {
 		if (acti.icon) {
+			// Skips some reactions according to the settings.
 			if (acti.tag === 'hike') continue;
 			if (acti.tag === 'forage' && (jou.isWater || jou.isImpassable)) continue;
 			if (acti.tag === 'hunt' && jou.isImpassable) continue;
 			if (acti.tag === 'seaTravel' && (jou.isImpassable || !jou.isWater)) continue;
 			if (acti.tag === 'fish' && !jou.isWater) continue;
+			// Adds the reaction.
 			await message.react(acti.icon);
 		}
 	}
@@ -323,7 +332,8 @@ function getCharacteristicsDescription(jou) {
  * @returns {string}
  */
 function getModifiersDescription(jou) {
-	return (jou.inDarkness ? `${jou._('leadingTheWayMishaps')}: **-2**\n` : '')
+	return (jou.leadTheWayModifier ? `${jou._('leadingTheWayMishaps')}: **${jou.leadTheWayModifier}**\n` : '')
+		+ (jou.makeCampModifier ? `${jou._('makingCampMishaps')}: **${jou.makeCampModifier}**\n` : '')
 		+ `${jou._('foragingMishaps')}: **${jou.forageModifier > 0 ? '+' : ''}${isNaN(jou.forageModifier) ? '—' : jou.forageModifier}**\n`
 		+ `${jou._('huntingMishaps')}: **${jou.huntModifier > 0 ? '+' : ''}${isNaN(jou.huntModifier) ? '—' : jou.huntModifier}**`;
 }
@@ -336,4 +346,18 @@ function getActivitiesDescription(jou) {
 	return YZJourney.Activities
 		.map(acti => `${acti.icon} ${jou._(acti.mishap ? acti.mishap : acti.tag)}`)
 		.join('\n');
+}
+
+/**
+ * Weather's description.
+ * @param {YZJourney} jou
+ * @returns {string}
+ */
+function getWeatherDescription(jou) {
+	if (!jou.fbr) return '—';
+	let str = '';
+	for (const [type, wd] of Object.entries(jou.weatherDetailed)) {
+		str += `> **${capitalize(type)}:** \`${wd.name}\`\n${wd.effect}\n\n`;
+	}
+	return str;
 }

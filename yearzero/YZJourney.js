@@ -1,6 +1,8 @@
 const { Collection, BitField } = require('discord.js');
 const YZGenerator3 = require('../generators/YZGenerator3');
 const YZTerrainTypesFlags = require('./YZTerrainTypesFlags');
+const Util = require('../utils/Util');
+const { strToKebab, kebabToCamelCase } = require('../utils/Util');
 
 /**
  * A Forbidden Lands Journey.
@@ -12,7 +14,7 @@ class YZJourney {
 	 * @param {string} options.season The current season (default is SPRING), in UPPERCASE!
 	 * @param {string} options.quarterDay The current Quarter of the Day (default is DAY), in UPPERCASE!
 	 * @param {string|string[]} options.terrains Terrain types, in UPPERCASE!
-	 * @param {boolean} options.weather Whether the weather should be rolled
+	 * @param {boolean} options.fbr Whether to use Bitter Reach Mishaps
 	 */
 	constructor(filename, options = {}) {
 		this.filename = filename;
@@ -56,17 +58,52 @@ class YZJourney {
 		}
 
 		/**
-		 * The weather of the hex.
-		 * @type {Object}
-		 * @param {string[]} wind [ name, details ]
-		 * @param {string[]} snowfall [ name, details ]
-		 * @param {string[]} cold [ name, details ]
+		 * Whether it uses Bitter Reach.
+		 * @type {boolean}
 		 */
-		this.weather = options.weather
-			? { wind: this.data.weatherWind.random(),
-				snowfall: this.data.weatherSnowfall.random(),
-				cold: this.data.weatherCold.random() }
-			: {};
+		this.fbr = options.fbr ? true : false;
+
+		/**
+		 * The weather of the hex, detailed.
+		 * @type {Object}
+		 * @property {Object} wind
+		 * @property {string} wind.id
+		 * @property {string} wind.name
+		 * @property {string} wind.effect
+		 * @property {Object} snowfall
+		 * @property {string} snowfall.id
+		 * @property {string} snowfall.name
+		 * @property {string} snowfall.effect
+		 * @property {Object} cold
+		 * @property {string} cold.id
+		 * @property {string} cold.name
+		 * @property {string} cold.effect
+		 */
+		this.weatherDetailed = {
+			wind: null,
+			snowfall: null,
+			cold: null,
+		};
+
+		/**
+		 * The weather of the hex, flags only.
+		 * @type {WeatherFlags} BitField
+		 */
+		this.weather = new WeatherFlags();
+
+		// Populates weather data.
+		if (options.fbr) {
+			for (const w in this.weatherDetailed) {
+				const dataName = kebabToCamelCase(strToKebab(`weather ${w}`));
+				let mod = 0;
+				if (w === 'cold') {
+					if (this.isWindy) mod++;
+					else if (this.isStormy) mod += 2;
+				}
+				this.weatherDetailed[w] = this.data[dataName].random(mod);
+				this.weather.add(this.weatherDetailed[w].id);
+			}
+		}
 	}
 
 	/**
@@ -112,7 +149,7 @@ class YZJourney {
 	 * @readonly
 	 */
 	get hasWeather() {
-		return 'wind' in this.weather;
+		return 'wind' in this.weather && this.weather.wind != null;
 	}
 
 	/**
@@ -151,6 +188,67 @@ class YZJourney {
 			YZTerrainTypesFlags.FLAGS.ICE_FOREST,
 			YZTerrainTypesFlags.FLAGS.SEA_ICE,
 		]);
+	}
+
+	/**
+	 * Whether the weather's Wind is Strong Wind (Bitter Reach).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isWindy() {
+		return this.weather.has(WeatherFlags.FLAGS.WIND_STRONG_WIND);
+	}
+
+	/**
+	 * Whether the weather's Wind is Storm (Bitter Reach).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isStormy() {
+		return this.weather.has(WeatherFlags.FLAGS.WIND_STORM);
+	}
+
+	/**
+	 * Whether the weather's Snowfall is Light Flurry (Bitter Reach).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isSnowyLight() {
+		return this.weather.has(WeatherFlags.FLAGS.SNOWFALL_LIGHT_FLURRY);
+	}
+
+	/**
+	 * Whether the weather's Snowfall is Heavy Snowfall (Bitter Reach).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isSnowyHard() {
+		return this.weather.has(WeatherFlags.FLAGS.SNOWFALL_HEAVY_SNOWFALL);
+	}
+
+	/**
+	 * Leading the Way modifier.
+	 * @type {number}
+	 * @readonly
+	 */
+	get leadTheWayModifier() {
+		let n = 0;
+		if (this.inDarkness) n -= 2;
+		if (this.isSnowyLight) n--;
+		else if (this.isSnowyHard) n -= 2;
+		return n;
+	}
+
+	/**
+	 * Making Camp modifier.
+	 * @type {number}
+	 * @readonly
+	 */
+	get makeCampModifier() {
+		let n = 0;
+		if (this.isWindy) n--;
+		else if (this.isStormy) n -= 2;
+		return n;
 	}
 
 	/**
@@ -199,7 +297,7 @@ class YZJourney {
 
 	/**
 	 * Translates the name of an object in this class parsed data.
-	 * @param {string} name name to translate
+	 * @param {string} name Name to translate
 	 * @returns {string}
 	 */
 	_(name) {
@@ -209,18 +307,20 @@ class YZJourney {
 }
 
 /**
+ * A Journey's Activity.
  * @typedef {Object} Activity
- * @property {string} tag
- * @property {string|null} mishap
- * @property {string} icon
- * @property {Object} rules
- * @property {number} rules.limit
- * @property {string[]} rules.restricted
+ * @property {string} tag Codename of the activity
+ * @property {string|null} mishap Codename of the Mishap table for the activity
+ * @property {string} icon Emoji for the activity
+ * @property {Object} rules Special rules for the activity // TODO
+ * @property {number} rules.limit Maximum number of players for this activity.
+ * @property {string[]} rules.restricted Flags of other
  */
 
 /**
+ * Collection of Activities and their properties.
+ * K: Activity.FLAG, V: Properties
  * @type {Collection<string, Activity>}
- * @readonly
  * @constant
  */
 YZJourney.Activities = new Collection(Object.entries({
@@ -314,6 +414,11 @@ YZJourney.Activities = new Collection(Object.entries({
 	},
 }));
 
+/**
+ * Numeric Quarter Day flags
+ * @type {Object<string, number>}
+ * @constant
+ */
 YZJourney.QUARTER_DAYS = {
 	MORNING: 1,
 	DAY: 2,
@@ -321,6 +426,11 @@ YZJourney.QUARTER_DAYS = {
 	NIGHT: 4,
 };
 
+/**
+ * Numeric Seasons flags.
+ * @type {Object<string, number>}
+ * @constant
+ */
 YZJourney.SEASONS = {
 	SPRING: 10,
 	SUMMER: 20,
@@ -328,6 +438,12 @@ YZJourney.SEASONS = {
 	WINTER: 40,
 };
 
+/**
+ * Numeric combinations of Quarter Day and Season flags.
+ * Used to determine the sunset.
+ * @type {Object<number, boolean>}
+ * @constant
+ */
 YZJourney.DAYLIGHT = {
 	11: true,
 	12: true,
@@ -347,6 +463,11 @@ YZJourney.DAYLIGHT = {
 	44: false,
 };
 
+/**
+ * Season's modifiers for foraging.
+ * @type {Object<string, number>}
+ * @constant
+ */
 YZJourney.FORAGE_MODIFIER_BY_SEASON = {
 	SPRING: -1,
 	SUMMER: 0,
@@ -356,6 +477,10 @@ YZJourney.FORAGE_MODIFIER_BY_SEASON = {
 
 module.exports = YZJourney;
 
+/**
+ * Data structure for Weather flags.
+ * @extends {BitField}
+ */
 class WeatherFlags extends BitField {}
 WeatherFlags.FLAGS = {
 	WIND_LIGHT_BREEZE: 1 << 1,
