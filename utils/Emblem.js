@@ -99,7 +99,7 @@ class Emblem {
 	 */
 	serialize(...hasParams) {
 		const serialized = {};
-		for (const [flag, bit] of Object.entries(this.constructor.FLAGS)) serialized[flag] = this.has(bit, ...hasParams);
+		for (const [flag, bit] of Object.entries(this.constructor.RANKS)) serialized[flag] = this.has(bit, ...hasParams);
 		return serialized;
 	}
 
@@ -109,7 +109,7 @@ class Emblem {
 	 * @returns {string[]}
 	 */
 	toArray(...hasParams) {
-		return Object.keys(this.constructor.FLAGS).filter(bit => this.has(bit, ...hasParams));
+		return Object.keys(this.constructor.RANKS).filter(bit => this.has(bit, ...hasParams));
 	}
 
 	toString() {
@@ -130,7 +130,7 @@ class Emblem {
 
 	/**
 	 * Data that can be resolved to give an emblem. This can be:
-	 * * A string (see {@link Emblem.FLAGS})
+	 * * A string (see {@link Emblem.RANKS})
 	 * * A bit number
 	 * * An instance of Emblem
 	 * * An Array of EmblemResolvable
@@ -146,7 +146,7 @@ class Emblem {
 		if (typeof bit === 'number' && bit >= 0) return bit;
 		if (bit instanceof Emblem) return bit.emblem;
 		if (Array.isArray(bit)) return bit.map(p => this.resolve(p)).reduce((prev, p) => prev | p, 0);
-		if (typeof bit === 'string' && typeof this.FLAGS[bit] !== 'undefined') return this.FLAGS[bit];
+		if (typeof bit === 'string' && typeof this.RANKS[bit] !== 'undefined') return this.RANKS[bit];
 		const error = new RangeError('EMBLEM_INVALID');
 		error.bit = bit;
 		throw error;
@@ -154,11 +154,11 @@ class Emblem {
 }
 
 /**
- * Numeric emblem flags.
+ * Numeric emblem RANKS.
  * <info>Defined in extension classes</info>
  * @type {Object}
  * @abstract
  */
-Emblem.FLAGS = {};
+Emblem.RANKS = {};
 
 module.exports = Emblem;
