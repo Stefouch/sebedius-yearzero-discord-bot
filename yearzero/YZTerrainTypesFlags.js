@@ -85,6 +85,7 @@ YZTerrainTypesFlags.FLAGS = {
 /**
  * Terrain Modifiers.
  * @type {Object.<string, TerrainModifier}
+ * @constant
  */
 YZTerrainTypesFlags.Modifiers = {
 	PLAINS: {
@@ -174,6 +175,11 @@ YZTerrainTypesFlags.Modifiers = {
 	},
 };
 
+/**
+ * Numeric terrain's movement restrictions.
+ * @type {Object<string, number>}
+ * @constant
+ */
 YZTerrainTypesFlags.TERRAIN_MOVEMENTS = {
 	OPEN: 1,
 	DIFFICULT: 2,
