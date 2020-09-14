@@ -50,11 +50,15 @@ module.exports = {
 	guildOnly: false,
 	args: true,
 	usage: '<create | mishap [activity]> [arguments...]',
+	/**
+	 * @param {string[]} args
+	 * @param {import('../utils/ContextMessage')} ctx
+	 */
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			array: ['name'],
-			boolean: ['create', 'mishap'],
+			boolean: ['create', 'mishap', 'weather'],
 			string: ['lang', 'quarterDay', 'season', 'terrains'],
 			alias: {
 				create: ['c'],
@@ -64,11 +68,13 @@ module.exports = {
 				quarterDay: ['d', 'q', 'qd', 'quarter', 'quarterday'],
 				season: ['s'],
 				terrains: ['t', 'terrain'],
+				weather: ['w'],
 			},
 			default: {
 				create: false,
 				mishap: false,
 				lang: 'en',
+				weather: false,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -77,11 +83,11 @@ module.exports = {
 		let activityName;
 
 		// Validates subcommands.
-		if (argv._.length && (argv._[0].toLowerCase() === 'create' || argv._[0].toLowerCase() === 'c')) {
+		if (!argv.create && argv._.length && (argv._[0].toLowerCase() === 'create' || argv._[0].toLowerCase() === 'c')) {
 			argv._.shift();
 			argv.create = true;
 		}
-		if (argv._.length && (argv._[0].toLowerCase() === 'mishap' || argv._[0].toLowerCase() === 'm')) {
+		if (!argv.mishap && argv._.length && (argv._[0].toLowerCase() === 'mishap' || argv._[0].toLowerCase() === 'm')) {
 			argv._.shift();
 			argv.mishap = true;
 		}
@@ -89,7 +95,7 @@ module.exports = {
 			const activities = YZJourney.Activities
 				.filter(a => a.mishap)
 				.keyArray();
-			activityName = await select(ctx, argv._.length ? argv._.shift() : '', activities);
+			activityName = await select(ctx, argv._.length ? argv._.shift() : '', activities, 'Choose an **Activity** with a **Mishap**');
 		}
 
 		// Exits early if no subcommand was specified.
@@ -106,6 +112,7 @@ module.exports = {
 			quarterDay: null,
 			season: null,
 			terrains: null,
+			weather: argv.weather,
 		};
 
 		// Builds the options for the YZJourney.
@@ -116,15 +123,14 @@ module.exports = {
 				if (opt === 'quarterDay') stack = YZJourney.QUARTER_DAYS;
 				else if (opt === 'season') stack = YZJourney.SEASONS;
 				else if (opt === 'terrains') stack = YZTerrainTypesFlags.FLAGS;
+				else if (opt === 'weather') continue;
 				else throw new ReferenceError('Dumb Stefouch!');
 				const haystack = Object.keys(stack);
 
 				// Triggers a message selector if the argument was called.
 				if (argv[opt] != undefined) {
-					createOptions[opt] = await select(
-						ctx, argv[opt],
-						haystack,
-					);
+					const selectedOpt = await select(ctx, argv[opt], haystack, `Choose a **${strCamelToNorm(opt)}**`);
+					if (selectedOpt) createOptions[opt] = selectedOpt.toUpperCase();
 				}
 				// Otherwise, checks each unused argument from `argv`
 				// if a word matches one of the constant's keys.
@@ -161,14 +167,12 @@ module.exports = {
 					},
 					{
 						name: 'Activities',
-						value: getReactionsDescription(jou),
+						value: getActivitiesDescription(jou),
 						inline: true,
 					},
 					{
 						name: 'Characteristics',
-						value: `Quarter Day: **${capitalize(jou.quarterDay)}**`
-							+ `\nSeason: **${capitalize(jou.season)}**`
-							+ `\n${jou.dayIcon} *${jou.inDaylight ? 'in daylight' : 'in darkness'}*`,
+						value: getCharacteristicsDescription(jou),
 						inline: true,
 					},
 					{
@@ -182,14 +186,14 @@ module.exports = {
 			const embedMessage = await ctx.send(embed);
 
 			// Adds a reaction menu.
-			// Clicking 📌 will add all the Activities icons.
-			const rm = new ReactionMenu(embedMessage, 30000, [
+			// Clicking ▶️ will add all the Activities icons.
+			const rm = new ReactionMenu(embedMessage, 45000, [
 				{
-					icon: '📌',
+					icon: '▶️',
 					owner: ctx.author.id,
 					fn: async collector => {
 						collector.stop();
-						setTimeout(() => addActivitiesReactions(embedMessage), 1000);
+						setTimeout(() => addActivitiesReactions(embedMessage, jou), 1000);
 					},
 
 				},
@@ -204,7 +208,7 @@ module.exports = {
 					.filter(a => a.mishap)
 					.map(a => [capitalize(a.tag.toLowerCase()), a]);
 
-				activity = await getSelection(ctx, mishaps);
+				activity = await getSelection(ctx, mishaps, 'Choose an **Activity**');
 			}
 			else {
 				activity = YZJourney.Activities.get(activityName);
@@ -230,30 +234,38 @@ module.exports = {
 
 /**
  * Launches a message selector for user input.
- * @param {string} needle Word that pre-filters the list of choices
- * @param {string[]} haystack List of choices
+ * @param {import('../utils/ContextMessage')} ctx Discord message with context
+ * @param {string} [needle] Word that pre-filters the list of choices
+ * @param {string[]} choices An array of arrays with [name, object]
+ * @param {?string} text Additional text to attach to the selection message
  * @returns {string}
  */
-async function select(ctx, needle, haystack) {
+async function select(ctx, needle = '', choices, text) {
 	needle = needle.toLowerCase();
-	let matchings = haystack.filter(x => x.toLowerCase() === needle);
+	let matchings = choices.filter(x => x.toLowerCase() === needle);
 	if (!matchings.length) {
-		matchings = haystack.filter(x => x.toLowerCase().includes(needle));
+		matchings = choices.filter(x => x.toLowerCase().includes(needle));
 	}
 	if (!matchings.length) {
-		matchings = haystack;
+		matchings = choices;
 	}
 	matchings = matchings.map(x => [capitalize(x.toLowerCase().replace(/_/g, ' ')), x]);
-	return await getSelection(ctx, matchings);
+	return await getSelection(ctx, matchings, text);
 }
 
 /**
  * Adds all Activities icons as reaction emojis under the message.
- * @param {Discord.Message} message Message to react
+ * @param {import('discord.js').Message} message Message to react
+ * @param {YZJourney} jou
  */
-async function addActivitiesReactions(message) {
-	for (const [, acti] of YZJourney.Activities) {
+async function addActivitiesReactions(message, jou) {
+	for (const acti of YZJourney.Activities.array()) {
 		if (acti.icon) {
+			if (acti.tag === 'hike') continue;
+			if (acti.tag === 'forage' && (jou.isWater || jou.isImpassable)) continue;
+			if (acti.tag === 'hunt' && jou.isImpassable) continue;
+			if (acti.tag === 'seaTravel' && (jou.isImpassable || !jou.isWater)) continue;
+			if (acti.tag === 'fish' && !jou.isWater) continue;
 			await message.react(acti.icon);
 		}
 	}
@@ -264,12 +276,7 @@ async function addActivitiesReactions(message) {
  * @returns {string}
  */
 function getDescription() {
-	return 'List of available actions:\n`'
-		+ YZJourney.Activities
-			.array()
-			.map(a => strCamelToNorm(a.tag).toUpperCase())
-			.join('`, `')
-		+ '`';
+	return 'Choose an Activity and roll for `SURVIVAL`.';
 }
 
 /**
@@ -282,8 +289,32 @@ function getTerrainDescription(jou) {
 		.toArray()
 		.map(t => capitalize(t.toLowerCase().replace(/_/g, ' ')));
 
-	return '`' + lands.join('`, `') + '`\n'
-		+ '*(' + capitalize(jou.terrain.modifiers.movement.toLowerCase()) + ')*';
+	let str = '`' + lands.join('`, `') + '` — '
+		+ capitalize(jou.terrain.modifiers.movement.toLowerCase().replace(/_/g, ' '));
+
+	if (jou.terrain.modifiers.movement === 'OPEN') {
+		str += '\n*On foot: 2 Hexagons / Quarter\nOn Horse-back: 3 Hexagons / Quarter*';
+	}
+	else if (jou.terrain.modifiers.movement === 'DIFFICULT') {
+		str += '\n*On foot: 1 Hexagon / Quarter\nOn Horse-back: 1 Hexagon / Quarter*';
+	}
+	else if (jou.terrain.modifiers.movement.includes('BOAT')) {
+		str += '\n*On boat: 2 hexagons / Quarter*';
+	}
+
+	return str;
+}
+
+/**
+ * Characteristics' description.
+ * @param {YZJourney} jou
+ * @returns {string}
+ */
+function getCharacteristicsDescription(jou) {
+	return `Quarter Day: **${capitalize(jou.quarterDay)}**`
+		+ `\nSeason: **${capitalize(jou.season)}**`
+		+ `\n${jou.dayIcon} ${jou.inDaylight ? 'Daylight' : 'Darkness'}`
+		+ (jou.isIcy ? '\n❄️ Icy' : '');
 }
 
 /**
@@ -293,15 +324,15 @@ function getTerrainDescription(jou) {
  */
 function getModifiersDescription(jou) {
 	return (jou.inDarkness ? `${jou._('leadingTheWayMishaps')}: **-2**\n` : '')
-		+ `${jou._('foragingMishaps')}: **${jou.forageModifier > 0 ? '+' : ''}${jou.forageModifier}**\n`
-		+ `${jou._('huntingMishaps')}: **${jou.huntModifier > 0 ? '+' : ''}${jou.huntModifier}**`;
+		+ `${jou._('foragingMishaps')}: **${jou.forageModifier > 0 ? '+' : ''}${isNaN(jou.forageModifier) ? '—' : jou.forageModifier}**\n`
+		+ `${jou._('huntingMishaps')}: **${jou.huntModifier > 0 ? '+' : ''}${isNaN(jou.huntModifier) ? '—' : jou.huntModifier}**`;
 }
 /**
  * Reactions' description.
  * @param {YZJourney} jou
  * @returns {string}
  */
-function getReactionsDescription(jou) {
+function getActivitiesDescription(jou) {
 	return YZJourney.Activities
 		.map(acti => `${acti.icon} ${jou._(acti.mishap ? acti.mishap : acti.tag)}`)
 		.join('\n');
