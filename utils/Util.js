@@ -689,6 +689,12 @@ class Util {
 module.exports = Util;
 
 /**
+ * Useful:
+ * const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+ * const isObject = d => typeof d === 'object' && d !== null;
+ */
+
+/**
  * Regular Expression IndexOf for Arrays
  * This little addition to the Array prototype will iterate over array
  * and return the index of the first element which matches the provided
