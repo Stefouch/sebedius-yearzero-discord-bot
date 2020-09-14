@@ -1,7 +1,6 @@
-const { Collection } = require('discord.js');
+const { Collection, BitField } = require('discord.js');
 const YZGenerator3 = require('../generators/YZGenerator3');
 const YZTerrainTypesFlags = require('./YZTerrainTypesFlags');
-const { capitalize, strCamelToNorm } = require('../utils/Util');
 
 /**
  * A Forbidden Lands Journey.
@@ -10,9 +9,10 @@ class YZJourney {
 	/**
 	 * @param {string} filename Filename containing the generator data
 	 * @param {Object} [options={}] Options to provide
-	 * @param {string} options.season The current season (default is SPRING)
-	 * @param {string} options.quarterDay The current Quarter of the Day (default is DAY)
-	 * @param {string|string[]} options.terrains Terrain types
+	 * @param {string} options.season The current season (default is SPRING), in UPPERCASE!
+	 * @param {string} options.quarterDay The current Quarter of the Day (default is DAY), in UPPERCASE!
+	 * @param {string|string[]} options.terrains Terrain types, in UPPERCASE!
+	 * @param {boolean} options.weather Whether the weather should be rolled
 	 */
 	constructor(filename, options = {}) {
 		this.filename = filename;
@@ -23,28 +23,14 @@ class YZJourney {
 		 * @type {string}
 		 * @see {YZJourney.SEASONS}
 		 */
-		this.season = 'SPRING';
-
-		// Applies Season from options.
-		if (options.season) {
-			if (Object.keys(this.constructor.SEASONS).includes(options.season.toUpperCase())) {
-				this.season = options.season.toUpperCase();
-			}
-		}
+		this.season = options.season in this.constructor.SEASONS ? options.season : 'SPRING';
 
 		/**
 		 * The current Quarter of Day.
 		 * @param {string}
 		 * @see {YZJourney.QUARTER_DAYS}
 		 */
-		this.quarterDay = 'DAY';
-
-		// Applies Quarter Day from options.
-		if (options.quarterDay) {
-			if (Object.keys(this.constructor.QUARTER_DAYS).includes(options.quarterDay.toUpperCase())) {
-				this.quarterDay = options.quarterDay.toUpperCase();
-			}
-		}
+		this.quarterDay = options.quarterDay in this.constructor.QUARTER_DAYS ? options.quarterDay : 'DAY';
 
 		/**
 		 * The types of terrain.
@@ -54,20 +40,33 @@ class YZJourney {
 
 		// Applies Terrain from options, or uses default.
 		if (typeof options.terrains === 'string') {
-			if (Object.keys(YZTerrainTypesFlags.FLAGS).includes(options.terrains.toUpperCase())) {
-				this.terrain.add(options.terrains.toUpperCase());
+			if (options.terrains in YZTerrainTypesFlags.FLAGS) {
+				this.terrain.add(options.terrains);
 			}
 		}
 		else if (Array.isArray(options.terrains) && options.terrains.length) {
 			for (const t of options.terrains) {
-				if (Object.keys(YZTerrainTypesFlags.FLAGS).includes(t.toUpperCase())) {
-					this.terrain.add(t.toUpperCase());
+				if (t in YZTerrainTypesFlags.FLAGS) {
+					this.terrain.add(t);
 				}
 			}
 		}
 		else {
 			this.terrain.add('PLAINS');
 		}
+
+		/**
+		 * The weather of the hex.
+		 * @type {Object}
+		 * @param {string[]} wind [ name, details ]
+		 * @param {string[]} snowfall [ name, details ]
+		 * @param {string[]} cold [ name, details ]
+		 */
+		this.weather = options.weather
+			? { wind: this.data.weatherWind.random(),
+				snowfall: this.data.weatherSnowfall.random(),
+				cold: this.data.weatherCold.random() }
+			: {};
 	}
 
 	/**
@@ -105,6 +104,53 @@ class YZJourney {
 	 */
 	get dayIcon() {
 		return this.inDaylight ? '☀️' : '🌘';
+	}
+
+	/**
+	 * Whether some Weather is defined for this hex.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get hasWeather() {
+		return 'wind' in this.weather;
+	}
+
+	/**
+	 * Whether the terrain is a River or a Lake.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isWater() {
+		return this.terrain.any([
+			YZTerrainTypesFlags.FLAGS.RIVER,
+			YZTerrainTypesFlags.FLAGS.LAKE,
+			YZTerrainTypesFlags.FLAGS.OCEAN,
+			YZTerrainTypesFlags.FLAGS.SEA_ICE,
+		]);
+	}
+
+	/**
+	 * Whether the terrain is Impassable (High Mountains).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isImpassable() {
+		return this.terrain.has(YZTerrainTypesFlags.FLAGS.HIGH_MOUNTAINS);
+	}
+
+	/**
+	 * Whether the terrain is Icy or Snowy (Bitter Reach).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get isIcy() {
+		return this.terrain.any([
+			YZTerrainTypesFlags.FLAGS.TUNDRA,
+			YZTerrainTypesFlags.FLAGS.ICE_CAP,
+			YZTerrainTypesFlags.FLAGS.BENEATH_THE_ICE,
+			YZTerrainTypesFlags.FLAGS.ICE_FOREST,
+			YZTerrainTypesFlags.FLAGS.SEA_ICE,
+		]);
 	}
 
 	/**
@@ -163,10 +209,6 @@ class YZJourney {
 }
 
 /**
- * @type {Collection<string, Activity>}
- * @readonly
- * @constant
- *
  * @typedef {Object} Activity
  * @property {string} tag
  * @property {string|null} mishap
@@ -174,6 +216,12 @@ class YZJourney {
  * @property {Object} rules
  * @property {number} rules.limit
  * @property {string[]} rules.restricted
+ */
+
+/**
+ * @type {Collection<string, Activity>}
+ * @readonly
+ * @constant
  */
 YZJourney.Activities = new Collection(Object.entries({
 	HIKE: {
@@ -211,7 +259,6 @@ YZJourney.Activities = new Collection(Object.entries({
 	FORAGE: {
 		tag: 'forage',
 		mishap: 'foragingMishaps',
-		// icon: '🍇',
 		icon: '🍒',
 		rules: {
 			restricted: ['HIKE'],
@@ -308,3 +355,16 @@ YZJourney.FORAGE_MODIFIER_BY_SEASON = {
 };
 
 module.exports = YZJourney;
+
+class WeatherFlags extends BitField {}
+WeatherFlags.FLAGS = {
+	WIND_LIGHT_BREEZE: 1 << 1,
+	WIND_STRONG_WIND: 1 << 2,
+	WIND_STORM: 1 << 3,
+	SNOWFALL_NO_SNOW: 1 << 4,
+	SNOWFALL_LIGHT_FLURRY: 1 << 5,
+	SNOWFALL_HEAVY_SNOWFALL: 1 << 6,
+	COLD_COLD: 1 << 7,
+	COLD_BITTING: 1 << 8,
+	COLD_TO_THE_BONE: 1 << 9,
+};
