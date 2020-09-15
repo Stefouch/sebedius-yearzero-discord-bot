@@ -20,36 +20,52 @@ describe('Discord Bot Client', function() {
 
 	// Fake discord message object
 	const fakeMessage = {
+		id: '755385578366697533',
+		type: 0,
 		author: {
-			id: '0123456789',
+			id: '405389936783523840',
 			username: 'Bishop',
 		},
-		client: 'bot',
+		client: bot,
 		content: 'Weylan-Yutani builds better worlds!',
 		channel: {
 			send: function(msg) {
 				return;
 			},
 			guild: {
-				id: '0123456789',
+				id: '585361465641271296',
 			},
 		},
-		toString: () => 'hello',
 	};
-	// const fakeCtx = Object.assign(new ContextMessage('!', bot), fakeMessage);
-	// const messageSendSpy = sinon.spy(fakeCtx.channel, 'send');
+	let fakeCtx, messageSendSpy;
 
 	it('Sebedius is successfully created', function() {
 		expect(bot.config.defaultPrefix === '!');
 	});
 
 	describe('# Check each command', function() {
+		this.beforeEach(function() {
+			fakeCtx = new ContextMessage('!', bot, fakeMessage,
+				new Discord.TextChannel(
+					new Discord.Guild(bot,
+						{ type: 0 },
+					),
+					{},
+				),
+			);
+			messageSendSpy = sinon.spy(fakeCtx);
+		});
+
 		for (const [cmdName, cmd] of bot.commands) {
 
 			it(`Command: ${cmdName}`, async function() {
 				expect(cmd.name).to.equal(cmdName);
 				expect(cmd.category).to.be.a('string').with.length.greaterThan(1);
 				expect(cmd.description).to.be.a('string').with.length.greaterThan(1);
+
+				// const spyCtx = sinon.spy(fakeMessage);
+				cmd.run([''], messageSendSpy);
+				expect(messageSendSpy.called);
 
 				// await cmd.run([''], fakeCtx);
 				// expect(messageSendSpy.calledOnce);
