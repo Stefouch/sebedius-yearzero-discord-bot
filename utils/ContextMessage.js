@@ -24,7 +24,7 @@ class ContextMessage extends Discord.Message {
 
 	/**
 	 * The bot client (Sebedius).
-	 * @type {Discord.Client}
+	 * @type {Discord.Client|import('../Sebedius')}
 	 * @readonly
 	 */
 	get bot() { return this.client; }
