@@ -18,6 +18,12 @@ describe('Keyv & PostGreSQL Database', function() {
 	const key = 'project', value = 'E.D.E.N.';
 	let kdb;
 
+	this.beforeEach(function() {
+		if (process.env.NODE_ENV !== 'production') {
+			this.skip();
+		}
+	});
+
 	it('Should have NodeJS version ^12.x or lower', function() {
 		const nodeVersion = +process.version.split('.')[0].slice(1);
 		nodeVersion.should.not.be.greaterThan(12);
