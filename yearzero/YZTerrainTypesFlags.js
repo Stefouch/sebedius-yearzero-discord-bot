@@ -87,6 +87,7 @@ YZTerrainTypesFlags.FLAGS = {
  * @type {Object.<string, TerrainModifier}
  * @constant
  */
+};
 YZTerrainTypesFlags.Modifiers = {
 	PLAINS: {
 		movement: 'OPEN',
