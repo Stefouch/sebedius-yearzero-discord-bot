@@ -3,73 +3,73 @@
  */
 class Emblem {
 	/**
-	 * @param {EmblemResolvable} [bits=0] Bit(s) to read from
+	 * @param {EmblemResolvable} [ranks=0] Rank(s) to read from
 	 */
-	constructor(bits) {
+	constructor(ranks) {
 		/**
-		 * Bitfield of the packed bits
+		 * Rankfield of the packed ranks
 		 * @type {number}
 		 */
-		this.emblem = this.constructor.resolve(bits);
+		this.emblem = this.constructor.resolve(ranks);
 	}
 
 	/**
-	 * Checks whether the emblem has a bit, or any of multiple bits.
-	 * @param {EmblemResolvable} bit Bit(s) to check for
+	 * Checks whether the emblem has a rank, or any of multiple ranks.
+	 * @param {EmblemResolvable} rank Rank(s) to check for
 	 * @returns {boolean}
 	 */
-	any(bit) {
-		return (this.emblem & this.constructor.resolve(bit)) !== 0;
+	any(rank) {
+		return (this.emblem & this.constructor.resolve(rank)) !== 0;
 	}
 
 	/**
 	 * Checks if this emblem equals another
-	 * @param {EmblemResolvable} bit Bit(s) to check for
+	 * @param {EmblemResolvable} rank Rank(s) to check for
 	 * @returns {boolean}
 	 */
-	equals(bit) {
-		return this.emblem === this.constructor.resolve(bit);
+	equals(rank) {
+		return this.emblem === this.constructor.resolve(rank);
 	}
 
 	/**
-	 * Checks whether the emblem has a bit, or multiple bits.
-	 * @param {EmblemResolvable} bit Bit(s) to check for
+	 * Checks whether the emblem has a rank, or multiple ranks.
+	 * @param {EmblemResolvable} rank Rank(s) to check for
 	 * @returns {boolean}
 	 */
-	has(bit) {
-		if (Array.isArray(bit)) return bit.every(p => this.has(p));
-		bit = this.constructor.resolve(bit);
-		return (this.emblem & bit) === bit;
+	has(rank) {
+		if (Array.isArray(rank)) return rank.every(p => this.has(p));
+		rank = this.constructor.resolve(rank);
+		return (this.emblem & rank) === rank;
 	}
 
 	/**
-	 * Gets all given bits that are missing from the emblem.
-	 * @param {EmblemResolvable} bits Bit(s) to check for
+	 * Gets all given ranks that are missing from the emblem.
+	 * @param {EmblemResolvable} ranks Rank(s) to check for
 	 * @param {...*} hasParams Additional parameters for the has method, if any
 	 * @returns {string[]}
 	 */
-	missing(bits, ...hasParams) {
-		if (!Array.isArray(bits)) bits = new this.constructor(bits).toArray(false);
-		return bits.filter(p => !this.has(p, ...hasParams));
+	missing(ranks, ...hasParams) {
+		if (!Array.isArray(ranks)) ranks = new this.constructor(ranks).toArray(false);
+		return ranks.filter(p => !this.has(p, ...hasParams));
 	}
 
 	/**
-	 * Freezes these bits, making them immutable.
-	 * @returns {Readonly<Emblem>} These bits
+	 * Freezes these ranks, making them immutable.
+	 * @returns {Readonly<Emblem>} These ranks
 	 */
 	freeze() {
 		return Object.freeze(this);
 	}
 
 	/**
-	 * Adds bits to these ones.
-	 * @param {...EmblemResolvable} [bits] Bits to add
-	 * @returns {Emblem} These bits or new Emblem if the instance is frozen.
+	 * Adds ranks to these ones.
+	 * @param {...EmblemResolvable} [ranks] Ranks to add
+	 * @returns {Emblem} These ranks or new Emblem if the instance is frozen.
 	 */
-	add(...bits) {
+	add(...ranks) {
 		let total = 0;
-		for (const bit of bits) {
-			total |= this.constructor.resolve(bit);
+		for (const rank of ranks) {
+			total |= this.constructor.resolve(rank);
 		}
 		if (Object.isFrozen(this)) return new this.constructor(this.emblem | total);
 		this.emblem |= total;
@@ -77,14 +77,14 @@ class Emblem {
 	}
 
 	/**
-	 * Removes bits from these.
-	 * @param {...EmblemResolvable} [bits] Bits to remove
-	 * @returns {Emblem} These bits or new Emblem if the instance is frozen.
+	 * Removes ranks from these.
+	 * @param {...EmblemResolvable} [ranks] Ranks to remove
+	 * @returns {Emblem} These ranks or new Emblem if the instance is frozen.
 	 */
-	remove(...bits) {
+	remove(...ranks) {
 		let total = 0;
-		for (const bit of bits) {
-			total |= this.constructor.resolve(bit);
+		for (const rank of ranks) {
+			total |= this.constructor.resolve(rank);
 		}
 		if (Object.isFrozen(this)) return new this.constructor(this.emblem & ~total);
 		this.emblem &= ~total;
@@ -93,23 +93,23 @@ class Emblem {
 
 	/**
 	 * Gets an object mapping field names to a {@link boolean} indicating whether the
-	 * bit is available.
+	 * rank is available.
 	 * @param {...*} hasParams Additional parameters for the has method, if any
 	 * @returns {Object}
 	 */
 	serialize(...hasParams) {
 		const serialized = {};
-		for (const [flag, bit] of Object.entries(this.constructor.RANKS)) serialized[flag] = this.has(bit, ...hasParams);
+		for (const [flag, rank] of Object.entries(this.constructor.RANKS)) serialized[flag] = this.has(rank, ...hasParams);
 		return serialized;
 	}
 
 	/**
-	 * Gets an {@link Array} of emblem names based on the bits available.
+	 * Gets an {@link Array} of emblem names based on the ranks available.
 	 * @param {...*} hasParams Additional parameters for the has method, if any
 	 * @returns {string[]}
 	 */
 	toArray(...hasParams) {
-		return Object.keys(this.constructor.RANKS).filter(bit => this.has(bit, ...hasParams));
+		return Object.keys(this.constructor.RANKS).filter(rank => this.has(rank, ...hasParams));
 	}
 
 	toString() {
@@ -131,7 +131,7 @@ class Emblem {
 	/**
 	 * Data that can be resolved to give an emblem. This can be:
 	 * * A string (see {@link Emblem.RANKS})
-	 * * A bit number
+	 * * A rank number
 	 * * An instance of Emblem
 	 * * An Array of EmblemResolvable
 	 * @typedef {string|number|Emblem|EmblemResolvable[]} EmblemResolvable
@@ -139,16 +139,16 @@ class Emblem {
 
 	/**
 	 * Resolves emblems to their numeric form.
-	 * @param {EmblemResolvable} [bit=0] - bit(s) to resolve
+	 * @param {EmblemResolvable} [rank=0] - rank(s) to resolve
 	 * @returns {number}
 	 */
-	static resolve(bit = 0) {
-		if (typeof bit === 'number' && bit >= 0) return bit;
-		if (bit instanceof Emblem) return bit.emblem;
-		if (Array.isArray(bit)) return bit.map(p => this.resolve(p)).reduce((prev, p) => prev | p, 0);
-		if (typeof bit === 'string' && typeof this.RANKS[bit] !== 'undefined') return this.RANKS[bit];
+	static resolve(rank = 0) {
+		if (typeof rank === 'number' && rank >= 0) return rank;
+		if (rank instanceof Emblem) return rank.emblem;
+		if (Array.isArray(rank)) return rank.map(p => this.resolve(p)).reduce((prev, p) => prev | p, 0);
+		if (typeof rank === 'string' && typeof this.RANKS[rank] !== 'undefined') return this.RANKS[rank];
 		const error = new RangeError('EMBLEM_INVALID');
-		error.bit = bit;
+		error.rank = rank;
 		throw error;
 	}
 }
