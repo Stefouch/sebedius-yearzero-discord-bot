@@ -233,7 +233,7 @@ class Util {
 	static bubbleFormat(value, max, fillFromRight = false) {
 		if (max > 100) return `${value}/${max}`;
 		const used = max - value;
-		const filled = '\u25c9'.repeat(value);
+		const filled = '\\🔘'.repeat(value);
 		const empty = '\u3007'.repeat(used);
 		if (fillFromRight) return empty + filled;
 		return filled + empty;
