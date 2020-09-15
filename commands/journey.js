@@ -15,35 +15,43 @@ module.exports = {
 	name: 'journey',
 	aliases: ['jou'],
 	category: 'fbl',
-	description: 'Performs a Forbidden Lands Journey.',
+	description: 'Performs a *Forbidden Lands* Journey.'
+	+ '\nWith this command, you can **Create** a Journey with defined *Quarter Day*, *Season* and *Terrain* to display information about the roll modifiers and the available activities. Players can then use a reaction menu to choose their activity as a reminder for the GM.'
+	+ '\nYou can also draw a random **Mishap** for a failed activity.'
+	+ '\nWeather effects and Mishaps tables for *The Bitter Reach* are also available.',
 	moreDescriptions: [
 		[
-			'Arguments',
-			`• \`-create|-c\` – Creates a Journey (basic).
-			• \`-mishap|-m [activity]\` – Draws a random Journey mishap.
-			• \`-lang [language_code]\` – Sets the language.
-			• \`[title]\` – Defines a title.`,
+			'Subcommands',
+			'• `create|c` or `-create|-c` – Creates a Journey.'
+			+ '\n• `mishap|m` or `-mishap|-m` – Draws a random Journey mishap.'
+			+ '\n• `help` – Displays this help.',
 		],
 		[
-			'Arguments for the Creation',
-			`• \`-quarter|-q|-qd <label>\` – Defines the current Quarter of Day.
-			Available labels are: MORNING, __DAY__, EVENING, NIGHT.
-
-			• \`-season|-s <label>\` – Defines the current season.
-			Available labels are: __SPRING__, SUMMER, AUTUMN, WINTER.
-
-			• \`-terrain|-t <label>\` – Defines the current terrain type.
-			Available labels are: ${T_OPTS}.
-			
-			*Defaults are __underlined__.*`,
+			'Create: `!journey  create|c  [QUARTER_DAY] [SEASON] [TERRAIN] [arguments...]`',
+			'`[QUARTER_DAY]` – Defines the current **Quarter of Day**. Available options are: `morning`, `day` *(default)*, `evening` and `night`.'
+			+ '\n• `-quarter|-q|-d|-quarterday|-qd [search]` – Prompts a menu to choose a **Quarter of Day** option, filtered by what you provided in the `[search]` parameter.'
+			+ '\n• `[SEASON]` – Defines the current **Season**. Available options are: `spring` *(default)*, `summer`, `autumn` and `winter`.'
+			+ '\n• `-season|-s [search]` – Prompts a menu.'
+			+ '\n• `[TERRAIN]` – Defines the current **Terrain** type. Available options are: `plains` *(default)*, `forest`, `dark_forest`, `hills`, `mountains`, `high_mountains`, `lake`, `river`, `ocean`, `marshlands`, `quagmire`, `ruins`, *(Bitter Reach)* `tundra`, `ice_cap`, `beneath_the_ice`, `ice_forest` and `sea_ice`.'
+			+ '\n• `-terrain|-t [search]` – Prompts a menu.'
+			+ '\n• `...arguments` – See other common arguments below.',
 		],
 		[
-			'Mishap Activities',
-			YZJourney.Activities
+			'Mishap: `!journey  mishap|m  [activity] [...arguments]`',
+			'Possible activities that have Mishaps: '
+			+ '`' + YZJourney.Activities
 				.filter(a => a.mishap)
-				.keyArray()
-				.join(', ')
-				.toLowerCase(),
+				.array()
+				.map(a => a.tag)
+				.join('`, `')
+				.toLowerCase() + '`'
+			+ '\n*If no activity is specified, the bot prompts a menu to choose one (filtered by partial words you may have provided).*',
+		],
+		[
+			'Other Common Arguments',
+			'• `-fbr|-bitterreach|-snow|-ice` – Uses *Forbidden Lands: The Bitter Reach* Mishaps tables and draws random *Bitter Reach* weather effects.'
+			+ '\n • `-name|-title|-n <title>` – Defines a title.'
+			+ '\n • `-lang|-language|-lng <language_code>` – Uses a different language. See `setconf` command for available options.',
 		],
 	],
 	cooldown: 60,
@@ -83,6 +91,9 @@ module.exports = {
 		let activityName;
 
 		// Validates subcommands.
+		if (argv._.length === 1 && argv._[0].toLowerCase() === 'help') {
+			return await ctx.bot.commands.get('help').run(['journey'], ctx);
+		}
 		if (!argv.create && argv._.length && (argv._[0].toLowerCase() === 'create' || argv._[0].toLowerCase() === 'c')) {
 			argv._.shift();
 			argv.create = true;
@@ -100,7 +111,7 @@ module.exports = {
 
 		// Exits early if no subcommand was specified.
 		if (!argv.create && !argv.mishap) {
-			return ctx.reply('ℹ️ Please choose a subcommand `create` or `mishap`.');
+			return ctx.reply('ℹ️ Please choose a subcommand `create`, `mishap` or `help`.');
 		}
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
@@ -161,6 +172,7 @@ module.exports = {
 				color: ctx.bot.config.color,
 				title: `JOURNEY${title ? ` — "${title}"` : ''}`,
 				description: getDescription(jou),
+				footer: `Game: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`,
 				fields: [
 					{
 						name: 'Terrain',
@@ -233,6 +245,7 @@ module.exports = {
 				ctx, true,
 			);
 			embed.addField(`**\`${mishap[0].toUpperCase()}\`**`, mishap[1]);
+			embed.setFooter(`Game: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`);
 
 			return await ctx.send(embed);
 		}
@@ -270,8 +283,8 @@ async function addActivitiesReactions(message, jou) {
 		if (acti.icon) {
 			// Skips some reactions according to the settings.
 			if (acti.tag === 'hike') continue;
-			if (acti.tag === 'forage' && (jou.isWater || jou.isImpassable)) continue;
-			if (acti.tag === 'hunt' && jou.isImpassable) continue;
+			if (acti.tag === 'forage' && isNaN(jou.forageModifier)) continue;
+			if (acti.tag === 'hunt' && isNaN(jou.huntModifier)) continue;
 			if (acti.tag === 'seaTravel' && (jou.isImpassable || !jou.isWater)) continue;
 			if (acti.tag === 'fish' && !jou.isWater) continue;
 			// Adds the reaction.
