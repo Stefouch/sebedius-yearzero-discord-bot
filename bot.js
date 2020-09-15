@@ -113,7 +113,8 @@ bot.on('message', async message => {
 	}
 
 	// Sets the cooldown.
-	if (command.cooldown) {
+	// Skips for the bot owner.
+	if (command.cooldown && ctx.author.id !== bot.owner.id) {
 		if (!bot.cooldowns.has(command.name)) {
 			bot.cooldowns.set(command.name, new Collection());
 		}

@@ -1,6 +1,17 @@
-leadingTheWayMishap:
+hike:
+  name: Hike
+keepWatch:
+  name: Keep Watch
+rest:
+  name: Rest
+sleep:
+  name: Sleep
+explore:
+  name: Explore
+
+leadingTheWayMishaps:
   id: JOURNEY_MISHAP_LEAD_THE_WAY
-  name: Leading the Way
+  name: Lead the Way
   roll: D66
   refs:
     '11-12':
@@ -9,7 +20,7 @@ leadingTheWayMishap:
         The ground gives way under your feet. You have walked
         into an area of quicksand. You are completely stuck,
         and you must roll `MIGHT` to escape. If you fail, you
-        suffer 1 point of damage to Agility and must roll again.
+        suffer **1** point of damage to Agility and must roll again.
         Whoever pulls free can help anyone who is still stuck.
         You also need to go around the treacherous area
         and won’t make any progress on the map during this
@@ -20,7 +31,7 @@ leadingTheWayMishap:
         The way forward is blocked by rocks, fallen trees, thick
         shrubbery, or flooding (depending on the terrain type
         in the hex). You must roll `MIGHT` or `MOVE` to be able to
-        move forward. If you fail, you suffer 1 point of damage
+        move forward. If you fail, you suffer **1** point of damage
         to Strength and must roll again. Anyone who rolls
         successfully can help anyone who did not. You won’t
         make any progress on the map during this Quarter Day.
@@ -49,8 +60,8 @@ leadingTheWayMishap:
       - >-
         You are walking in rough terrain when the ground sud-
         denly opens beneath your feet. You must roll `MOVE` – if
-        you fail, you suffer an attack with four Base Dice and
-        Weapon Damage 1 (blunt trauma).
+        you fail, you suffer an attack with __**four** Base Dice and
+        Weapon Damage **1**__ *(blunt trauma)*.
     '41-45':
       - Downpour
       - >-
@@ -65,20 +76,20 @@ leadingTheWayMishap:
         You are caught unawares by a thick fog. The distance
         you cover this Quarter Day is decreased by one hex. In
         difficult terrain, you’re stuck in the hex you started. In
-        addition, each adventurer suffers 1 point of damage to
+        addition, each adventurer suffers **1** point of damage to
         Empathy from the gloomy mist.
     '53-54':
       - Wasps’ Nest
       - >-
         You step right into a nest of wasps. An angry swarm
         attack the entire group. Each adventurer must make a
-        `MOVE` roll or suffer an attack with four Base Dice, causing damage to Agility.
+        `MOVE` roll or suffer an attack with __**four** Base Dice, causing damage to **Agility**__.
     '55-61':
       - Mosquito Swarm
       - >-
         A large swarm of mosquitoes or gnats attacks you,
         driving you crazy with their bites and buzzing. They
-        attack with four Base Dice, causing damage to Empathy.
+        attack with __**four** Base Dice, causing damage to **Empathy**__.
     '62-64':
       - Savage Animal
       - >-
@@ -94,20 +105,20 @@ leadingTheWayMishap:
         at some inappropriate time, eat your food or steal
         something.
 
-foragingMishap:
+foragingMishaps:
   id: JOURNEY_MISHAP_FORAGE
-  name: Foraging
+  name: Forage
   roll: D6
   refs:
     '1':
       - Poisonous
       - >-
         You find one unit of `VEGETABLES`, but it is poisonous, something
-        you only discover during your next meal. The poison in the `VEGETABLES` has a Potency of 3.
+        you only discover during your next meal. The poison in the `VEGETABLES` has a __Potency of **3**__.
     '2':
       - Leeches Blood
       - >-
-        sucking leeches bite into your flesh and you suffer 1 point
+        sucking leeches bite into your flesh and you suffer **1** point
         of damage to Strength. The leeches can be removed by making a
         successful `HEALING` roll. If you fail the roll you suffer another point
         of damage, but manage to get them off anyway.
@@ -136,9 +147,9 @@ foragingMishap:
         by the GM – it might make a noise at some inappropriate
         time, eat your food or steal something.
 
-huntingMishap:
+huntingMishaps:
   id: JOURNEY_MISHAP_HUNT
-  name: Hunting
+  name: Hunt
   roll: D6
   refs:
     '1':
@@ -171,12 +182,12 @@ huntingMishap:
       - Sick Prey
       - >-
         You bring down a random animal, but is sick and whoever eats
-        of its flesh is infected by a disease with a Virulence rating of 3.
+        of its flesh is infected by a disease with a __Virulence rating of **3**__.
         This is discovered during your next meal.
 
-fishingMishap:
+fishingMishaps:
   id: JOURNEY_MISHAP_FISH
-  name: Fishing
+  name: Fish
   roll: D6
   refs:
     '1':
@@ -207,11 +218,11 @@ fishingMishap:
       - Attacked
       - >-
         A vicious fish or eel attacks you, causing a nasty bleeding
-        wound. You suffer 1 point of damage to Strength.
+        wound. You suffer **1** point of damage to Strength.
 
-makingCampMishap:
+makingCampMishaps:
   id: JOURNEY_MISHAP_MAKE_CAMP
-  name: Making Camp
+  name: Make Camp
   roll: D66
   refs:
     '11-13':
@@ -248,29 +259,29 @@ makingCampMishap:
       - >-
         Suddenly, the flames from your campfire spread out of control.
         Your tents, sleeping furs and other gear catch fire. Each
-        adventurer suffers an attack with five Base Dice (Weapon
-        Damage 1). Each adventurer must also make a `MOVE` roll to
+        adventurer suffers an attack with __**five** Base Dice (Weapon
+        Damage **1**)__. Each adventurer must also make a `MOVE` roll to
         save her gear. Failure means that one piece of equipment
         (the GM decides which) is lost in the fire.
     '43-45':
       - Ants
       - >-
         Your camp sits right in the middle of an ant road. You all suffer
-        1 point of damage to Agility and no one gets any `SLEEP` here.
+        **1** point of damage to Agility and no one gets any `SLEEP` here.
     '46-51':
       - Lice
       - >-
         A randomly selected adventurer has caught lice. It itches
         horribly, and she gets a rash all over the body. The victim
-        suffers 1 point of damage to Agility each day and cannot
+        suffers **1** point of damage to Agility each day and cannot
         `SLEEP`. A successful `HEALING` roll stops the effect.
     '52-54':
       - Mosquito Swarm
       - >-
         A large swarm of mosquitoes or gnats attacks the camp,
         driving everyone crazy with their bites and buzzing. They
-        attack all adventurers with four Base Dice, causing damage
-        to Empathy.
+        attack all adventurers with __**four** Base Dice, causing damage
+        to **Empathy**__.
     '55-56':
       - Savage Animal
       - >-
@@ -289,7 +300,7 @@ makingCampMishap:
         broken. The GM decides what item it is. The item can be
         repaired with a `CRAFTING` roll.
 
-seaTravelMishap:
+seaTravelMishaps:
   id: JOURNEY_MISHAP_SEA_TRAVEL
   name: Sea Travel
   roll: D66
@@ -329,44 +340,55 @@ seaTravelMishap:
         Your boat runs aground and must be abandoned or repaired with
         a `CRAFTING` roll. The boat must be on the shore to be repaired.
 
-hunt:
-  id: HUNT
-  name: Hunt
-  roll: D6
-  refs:
-    '1':
-      animal: Mouse
-      difficulty: +1
-      requirement: Weapon or trap
-      meat: 1
-      pelts: 0
-    '2':
-      animal: Crow
-      difficulty: 0
-      requirement: Weapon
-      meat: 1
-      pelts: 0
-    '3':
-      animal: Rabbit
-      difficulty: +1
-      requirement: Weapon or trap
-      meat: 2
-      pelts: 1
-    '4':
-      animal: Fox
-      difficulty: -1
-      requirement: Weapon or trap
-      meat: 3
-      pelts: 1
-    '5':
-      animal: Boar
-      difficulty: -1
-      requirement: Weapon
-      meat: 4
-      pelts: 2
-    '6':
-      animal: Deer
-      difficulty: 0
-      requirement: Weapon
-      meat: 5
-      pelts: 3
+# hikingDistance:
+#   name: Hiking Distance
+#   hexName: Hexagon
+#   hexesPerQuarterDay:
+#     open:
+#       foot: 2
+#       horse: 3
+#     difficult:
+#       foot: 1
+#       horse: 1
+
+# hunt:
+#   id: HUNT
+#   name: Hunt
+#   roll: D6
+#   refs:
+#     '1':
+#       animal: Mouse
+#       difficulty: **+1**
+#       requirement: Weapon or trap
+#       meat: 1
+#       pelts: 0
+#     '2':
+#       animal: Crow
+#       difficulty: 0
+#       requirement: Weapon
+#       meat: 1
+#       pelts: 0
+#     '3':
+#       animal: Rabbit
+#       difficulty: **+1**
+#       requirement: Weapon or trap
+#       meat: 2
+#       pelts: 1
+#     '4':
+#       animal: Fox
+#       difficulty: -1
+#       requirement: Weapon or trap
+#       meat: 3
+#       pelts: 1
+#     '5':
+#       animal: Boar
+#       difficulty: -1
+#       requirement: Weapon
+#       meat: 4
+#       pelts: 2
+#     '6':
+#       animal: Deer
+#       difficulty: 0
+#       requirement: Weapon
+#       meat: 5
+#       pelts: 3

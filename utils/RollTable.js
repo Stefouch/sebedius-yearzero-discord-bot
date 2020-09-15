@@ -25,7 +25,7 @@ class RollTable extends Map {
 		 * The die (or dice) required to roll the table.
 		 * @type {string}
 		 */
-		this.roll = /^d\d+$/i.test(roll) ? roll.toUpperCase() : null;
+		this.roll = /^\d?d\d+$/i.test(roll) ? roll.toUpperCase() : null;
 	}
 
 	/**
@@ -98,22 +98,6 @@ class RollTable extends Map {
 			}
 		}
 		return Math.round(this.max / this.min);
-
-		//let len = 0;
-
-		// for (const key of this.keys()) {
-		// 	if (typeof key === 'string') {
-		// 		if (SEPEX.test(key)) {
-		// 			const boundaries = key.split(SEPEX);
-		// 			const min = +boundaries[0];
-		// 			const max = +boundaries[1];
-		// 			len += (max - min + 1);
-		// 		}
-		// 		else { len++; }
-		// 	}
-		// 	else { len++; }
-		// }
-		// return len;
 	}
 
 	/**
@@ -136,6 +120,9 @@ class RollTable extends Map {
 	 * @returns {*} The entry associated with the specified roll value, or undefined if the value can't be found in the table
 	 */
 	get(reference) {
+		if (reference < this.min) return this.get(this.min);
+		if (reference > this.max) return this.get(this.max);
+
 		const regexKey = new RegExp(reference, 'i');
 
 		for (const [key, val] of this.entries()) {
@@ -180,12 +167,13 @@ class RollTable extends Map {
 
 	/**
 	 * Returns a random entry from a RollTable object.
+	 * @param {number} [cheat=0] Additional modifier to the random-generated number
 	 * @returns {*} or `undefined` if not found
 	 * @throws {ReferenceError} if the table is corrupted
 	 */
-	random() {
+	random(cheat = 0) {
 		// Generates a random seed based on the quantity of entries (length).
-		let seed = rand(1, this.length);
+		let seed = rand(1, this.length) + cheat;
 
 		// Praises the RNG Jesus.
 		let rngesus = seed;
@@ -227,7 +215,7 @@ class RollTable extends Map {
 		}
 
 		// Logs.
-		console.log(`:>> 🎲[${this.name}]: '${rngesus}' → ${item}`);
+		// console.log(`:>> 🎲[${this.name}]: '${rngesus}' → ${item}`);
 
 		// Returns the random value.
 		return item;

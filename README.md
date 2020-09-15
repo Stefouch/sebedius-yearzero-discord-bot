@@ -3,7 +3,7 @@
   <a href="https://discordbots.org/bot/543445246143365130" target="_blank">
     <img alt="Status" src="https://top.gg/api/widget/status/543445246143365130.svg" />
   </a>
-  <img alt="Version" src="https://img.shields.io/badge/version-3.6.0-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-3.7.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://discord.js.org/" target="_blank">
     <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v12-informational?logo=discord" />
   </a>
@@ -41,9 +41,9 @@ The supported games are:
 The link will prompt you to authorize the bot on a server. Once the bot is authorized, you'll see it in the Member List.
 
 2. [Read the Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki#list-of-commands)<br />
-Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebedius`.<br />*Example:* `!help` *or* `!roll`
+Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebedius`.<br />*Example:* `!help` *or* `@Sebedius help`
 
-3. [Roll dice](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/%21roll)<br />
+3. [Roll the dice](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/%21roll)<br />
 *Example:* `!roll 7d` *or* `!roll 3b 3s 1g`
 
 # Author

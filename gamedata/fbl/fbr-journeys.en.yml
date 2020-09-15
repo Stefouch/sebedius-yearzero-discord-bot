@@ -1,0 +1,468 @@
+hike:
+  name: Hike
+keepWatch:
+  name: Keep Watch
+rest:
+  name: Rest
+sleep:
+  name: Sleep
+explore:
+  name: Explore
+
+leadingTheWayMishaps:
+  id: FBR_JOURNEY_MISHAP_LEAD_THE_WAY
+  name: Lead the Way
+  roll: D66
+  refs:
+    '11-13':
+      - Sinksnow
+      - >-
+        The snow collapses beneath your feet and you sink deep
+        into a crushing, white embrace. Everyone in the group
+        must make a `MIGHT` roll. Failure means one point of damage
+        to AGILITY and another `MIGHT` roll to break free. PCs who are
+        not stuck can help. You must also find a way around the
+        treacherous area and make no progress on the map this
+        Quarter Day.
+    '14-16':
+      - Impassable Terrain
+      - >-
+        The way ahead is blocked by ice, snow or rocks. To pass
+        the obstruction everyone in the group must make a
+        `MIGHT` or `MOVE` roll. Failure means one point of damage to
+        STRENGTH and another roll to pass. PCs who make the roll
+        can help others. You make no progress on the map this
+        Quarter Day.
+    '21-23':
+      - Lost
+      - >-
+        You have gotten lost and make no progress on the map
+        this Quarter Day. The pathfinder must succeed at a `SURVIVAL`
+        roll to find the way out of the hexagon. They may
+        make one try per Quarter Day.
+    '24-26':
+      - Broken Gear
+      - >-
+        A PC’s ski or snowshoe breaks. They count as if traveling
+        on foot until the gear is repaired with a `CRAFTING` roll.
+    '31-33':
+      - Cold Front
+      - >-
+        A cold front rolls in. Everyone in the group must make an
+        `ENDURANCE` roll. Those who fail become COLD. This can be
+        avoided by immediately `MAKING CAMP`, but that stops the
+        journey for this Quarter Day.
+    '34-36':
+      - Avalanche
+      - >-
+        An avalanche rushes down upon you. Every PC must
+        succeed at a `SURVIVAL`, `MOVE` or `MIGHT` roll to not be swept
+        away by the oncoming snow. Each player decides for
+        themselves which skill to use. A PC who fails is caught in
+        the avalanche and suffers an attack with __**six** Base Dice and
+        Weapon Damage **1**__ *(blunt trauma)* and becomes COLD. After
+        this, the PC must make a `MIGHT` roll to break free from the
+        snow. Anyone who gets stuck must make an `ENDURANCE`
+        roll against the COLD every hour but also gets a chance to
+        break free every hour.
+    '41-43':
+      - Blizzard
+      - >-
+        You see a dark wall of snow hurtling towards you, and
+        you are soon caught in a violent blizzard. You are forced
+        to make camp and lose your progress for this Quarter Day.
+    '44-46':
+      - Heavy Snowfall
+      - >-
+        You are surprised by dense snowfall. The distance you
+        can cover this Quarter Day is decreased by one hexagon.
+        If reduced to zero, you make no progress at all. All adventurers
+        also suffer one point of damage to Empathy due to
+        the despair of plodding through the heavy snowfall that
+        never seems to stop.
+    '51-53':
+      - Snow blindness
+      - >-
+        The white ocean of snow and ice overwhelms your sight.
+        Everything seems to disappear in a white haze. Every PC
+        must succeed at a `SURVIVAL` roll to not be afflicted by snow
+        blindness. Those who fail act as if in total darkness during
+        the next Quarter Day.
+    '54-56':
+      - Fall
+      - >-
+        The pathfinder falls into a crevice in the ice or down a
+        steep slope. A failed `MOVE` roll causes a random critical
+        injury (blunt trauma). The crevice may lead to tunnels
+        that let you keep hiking beneath the ice (see page 39) if
+        the GM wishes.
+    '61-63':
+      - Ravenous wolves
+      - >-
+        You are attacked by D3 ravenous wolves (see page 126 in
+        the Gamemaster’s Guide).
+    '64-66':
+      - Ruins!
+      - >-
+        You stumble across a previously undiscovered ruin!
+        Whether or not this turns out to be lucky will soon
+        become clear. The GM uses the tables in Chapter 12 to
+        create adventure sites and bring the ruin to life.
+
+foragingMishaps:
+  id: FBR_JOURNEY_MISHAP_FORAGE
+  name: Forage
+  roll: D6
+  refs:
+    '1':
+      - Broken Gear
+      - >-
+        Your ski or snowshoe breaks. It counts as if you are traveling
+        on foot until the gear is repaired with a `CRAFTING` roll.
+    '2':
+      - Angry Birds
+      - >-
+        A colony of waddlerbirds defends their nests from intruding
+        adventurers. No food is found, and the PC is soiled by
+        the attacks of the waddlerbirds.
+    '3':
+      - Poisonous Roots
+      - >-
+        You find roots that correspond to one unit of `VEGETABLES`.
+        The roots are poisonous, however, which you discover when
+        you cook them. Anyone eating the roots must make an
+        `ENDURANCE` roll against the hallucinogenic poison (__Potency **3**__).
+    '4':
+      - Wild Animal
+      - >-
+        You encounter a wolf, bear or other ferocious animal that feels
+        threatened and attacks you. The GM selects a suitable animal
+        from the table on page 126 in the Gamemaster’s Guide.
+    '5':
+      - Rotten Eggs
+      - >-
+        You find abandoned bird nests and may gather D6 eggs
+        that would correspond to one unit of `VEGETABLES` if they
+        were fresh. They are rotten, however, and stink to high
+        heaven when cracked open. Creative players can surely
+        find a use for them even if they are inedible.
+    '6':
+      - Ruins!
+      - >-
+        Your search has brought you to a ruin. Deeply absorbed
+        in your own thoughts you fail to notice that the ruin is
+        inhabited! An animal has made the location into its lair and
+        intends to defend it against the intruder.
+
+huntingMishaps:
+  id: FBR_JOURNEY_MISHAP_HUNT
+  name: Hunt
+  roll: D6
+  refs:
+    '1':
+      - Sprained ankle
+      - >-
+        You fall or twist your ankle and suffer a critical injury, equivalent
+        to result 25-26 in the table for blunt trauma on page 197.
+    '2':
+      - Lost gear/weapon
+      - You lose some of your hunting gear or a weapon. The GM decides which.
+    '3':
+      - Torn Clothes
+      - >-
+        Your clothes are damaged. Your boots break or your robe rips
+        on thorny plants or sharp rocks. You must roll for for the effects of cold.
+        Your clothes can be mended by making a successful `CRAFTING` roll.
+    '4':
+      - Trap
+      - >-
+        You step into another hunter’s trap. It could be a snare,
+        a net, or a covered pit. You suffer one point of damage to
+        Strength and must make a `MOVE` roll to get out of the trap.
+    '5':
+      - Savage Animal
+      - >-
+        A wolf, bear or other wild animal feels threatened, and attacks
+        you. The GM chooses an animal from the table on page 124 of
+        the Gamemaster’s Guide.
+    '6':
+      - Sick Prey
+      - >-
+        You bring down a random animal, but is sick and whoever eats
+        of its flesh is infected by a disease with a __Virulence rating of **3**__.
+        This is discovered during your next meal.
+
+fishingMishaps:
+  id: FBR_JOURNEY_MISHAP_FISH
+  name: Fish
+  roll: D6
+  refs:
+    '1':
+      - Snagged Hook or Net
+      - >-
+        Your hook or net snags on something. You must make a
+        MIGHT roll to be able to retrieve your fishing gear.
+    '2':
+      - Hook in Finger
+      - >-
+        You succeed at getting your own finger caught on the hook
+        instead of a fish. You suffer one point of damage to `STRENGTH`.
+    '3':
+      - Broken Gear
+      - >-
+        Your fishing equipment breaks. You must repair it with a
+        `CRAFTING` roll or acquire new equipment.
+    '4':
+      - Overboard
+      - >-
+        You lose balance and fall into the water. See the rules for
+        drowning on page 113 in the Player’s Handbook. If you survive
+        and get out of the water, you still become COLD as per
+        the rules on page 111 in the Player’s Handbook.
+    '5':
+      - Leak
+      - >-
+        If you are fishing from a boat, it springs a leak. The leak
+        must be repaired with a `CRAFTING` roll before you can
+        resume `FISHING`. If you are `FISHING` from the ice it cracks
+        beneath you and you must make a `MOVE` roll to not fall into
+        the water. See the rules for drowning and becoming COLD in
+        the Player’s Handbook.
+    '6':
+      - Attack
+      - >-
+        A crab attacks you and cuts open a bleeding wound in your
+        hand. You suffer one point of damage to Strength.
+
+makingCampMishaps:
+  id: FBR_JOURNEY_MISHAP_MAKE_CAMP
+  name: Make Camp
+  roll: D66
+  refs:
+    '11-13':
+      - Lice
+      - >-
+        A random adventurer has gotten lice in their sleeping furs or in
+        their clothes. They itch something fierce and the victim develops
+        a red rash all over her body. The victim suffers one point of
+        damage to Agility every day due to the scratching and is unable
+        to `SLEEP`. A successful `HEALING` roll staves off the effect.
+    '14-16':
+      - Thieving Animals
+      - >-
+        A greedy weasel or waddlerbird has run off with a piece of
+        gear. The GM decides what has been stolen. A successful
+        `SCOUTING` roll reveals the animal’s nest, where the equipment is
+        found together with two `SIMPLE CARRIED FINDS`.
+    '21-23':
+      - Bad Campsite
+      - >-
+        The campsite is poorly chosen and very uncomfortable to
+        `SLEEP` in. No one gets any `SLEEP` until you find a new campsite.
+    '24-26':
+      - Fire Goes Out
+      - >-
+        You forget to feed the fire and it goes out. You lack adequate
+        protection against the COLD for the night (see page 31).
+    '31-33':
+      - Heavy Snowfall
+      - >-
+        Heavy snowfall suddenly buries the camp. You must make a `MIGHT`
+        roll (one rolls and the others may help) to get out from under the
+        snow and your journey is delayed by a full Quarter Day.
+    '34-36':
+      - Mice
+      - >-
+        Mice have gotten into the food. Everyone in the party must
+        lower their Resource Die for `FOOD` one step.
+    '41-43':
+      - Fire!
+      - >-
+        Suddenly, the flames from your campfire spread out of control.
+        Your tents, sleeping furs and other gear all catch fire.
+        Each adventurer suffers an attack with __**five** Base Dice (Weapon
+        Damage **1**)__. Each adventurer must also make a `MOVE` roll to save
+        their gear. Failure means that one piece of equipment (the GM
+        decides which) is lost in the fire.
+    '44-46':
+      - Herd of Reindeer
+      - >-
+        A herd of reindeer passes close to or through the camp and
+        chaos ensues! It is impossible to `REST` or `SLEEP` this Quarter Day.
+    '51-53':
+      - Howling Wolves
+      - >-
+        Wolves howl throughout the night in the wastes surrounding your
+        camp. This Quarter Day doesn’t count towards your need to `SLEEP`.
+    '54-56':
+      - Broken Gear
+      - >-
+        An item belonging to a random PC breaks when you `MAKE CAMP`.
+        The GM decides what breaks. The piece of equipment may be
+        repaired by a successful `CRAFTING` roll.
+    '61-63':
+      - Wild Animal
+      - >-
+        A bear, a couple of wolves or some other wild animal feels
+        threatened and attacks the camp. The GM selects a suitable
+        animal from the table on page 126 in the Gamemaster’s Guide.
+    '64-66':
+      - Haunted Site
+      - >-
+        The campsite is haunted by spirits from the age of the winter
+        elves. They chatter and scream at you in your dreams and this
+        Quarter Day doesn’t count towards your need for `SLEEP`.
+
+seaTravelMishaps:
+  id: FBR_JOURNEY_MISHAP_SEA_TRAVEL
+  name: Sea Travel
+  roll: D66
+  refs:
+    '1':
+      - Iceberg
+      - >-
+        An enormous iceberg blocks your path and you are unable to
+        advance on the map this Quarter Day.
+    '2':
+      - Heavy Snowfall
+      - >-
+        You are surprised by dense snowfall. The distance you can cover
+        this Quarter Day decreases by one hexagon. All adventurers also
+        suffer one point of damage to Agility due to physical exhaustion
+        as you struggle to navigate the boat through the rough weather.
+    '3':
+      - Sea Monster
+      - >-
+        The wake from a sea monster makes the boat lurch. Everyone
+        onboard must succeed at a `MOVE` roll to not lose their balance and
+        fall into the water. See the rules for drowning on page 113 in the
+        Player’s Handbook. Anyone who falls overboard also becomes COLD.
+    '4':
+      - Leak
+      - >-
+        The boat is attacked by a Pikebeast and springs a leak. The leak
+        must be repaired with a `CRAFTING` roll before you may continue
+        your journey. If the damage is not repaired the ship will sink
+        after D6 Quarter Hours.
+    '5':
+      - Submerged Obstacle
+      - >-
+        Your boat collides with an iceberg or some other object hidden
+        beneath the surface of the water, and must be abandoned or
+        repaired with a `CRAFTING` roll. The boat must be pulled up on the
+        sea ice or on land to be repaired.
+    '6':
+      - Stuck in the Ice
+      - >-
+        Your boat gets stuck in the heavy ice. Someone may hack the
+        boat free, with the help of others, by succeeding at a `MIGHT` roll.
+        Otherwise the boat must be abandoned and the journey back to
+        land goes over treacherous ice.
+
+weatherWind:
+  id: FBR_WEATHER_WIND
+  name: Wind
+  roll: D6
+  refs:
+    '1-3':
+      id: WIND_LIGHT_BREEZE
+      name: Light Breeze
+      effect: No effect.
+    '4-5':
+      id: WIND_STRONG_WIND
+      name: Strong Wind
+      effect: Modification **+1** to the roll on the Cold table and **–1** to all attempts to `MAKE CAMP`.
+    '6':
+      id: WIND_STORM
+      name: Storm
+      effect: >-
+        Modification **+2** to the roll for Cold and **–2** to all attempts to `MAKE CAMP`.
+        All PCs must succeed at an `ENDURANCE` roll to be able to `HIKE` for a Quarter Day.
+
+weatherSnowfall:
+  id: FBR_WEATHER_SNOWFALL
+  name: Snowfall
+  roll: D6
+  refs:
+    '1-3':
+      id: SNOWFALL_NO_SNOW
+      name: No Snow
+      effect: No effect.
+    '4-5':
+      id: SNOWFALL_LIGHT_FLURRY
+      name: Light Flurry
+      effect: Modification **–1** to `LEAD THE WAY`.
+    '6':
+      id: SNOWFALL_HEAVY_SNOWFALL
+      name: Heavy Snowfall
+      effect: >-
+        Modification **–2** to `LEAD THE WAY`. All PCs must succeed at an
+        `ENDURANCE` roll to be able to `HIKE` for a Quarter Day. When there is a storm and
+        heavy snowfall the `ENDURANCE` roll is made with a **–2** modifier.
+
+weatherCold:
+  id: FBR_WEATHER_COLD
+  name: Cold
+  roll: D6
+  refs:
+    '1-3':
+      id: COLD_COLD
+      name: Cold
+      effect: >-
+        Every PC without adequate protection against the cold (see below)
+        must make an `ENDURANCE` roll every Quarter Day to not become COLD.
+    '4-5':
+      id: COLD_BITTING
+      name: Bitting
+      effect: >-
+        Every PC without adequate protection must make an `ENDURANCE` roll
+        every Quarter Hour to not become COLD.
+    '6':
+      id: COLD_TO_THE_BONE
+      name: To The Bone
+      effect: >-
+        Even PCs with adequate protection must make an `ENDURANCE` roll
+        every Quarter Day to not become COLD. PCs without adequate protection
+        must roll every Quarter Hour, with a **–2** modifier.
+
+# hunt:
+#   id: HUNT
+#   name: Hunt
+#   roll: D6
+#   refs:
+#     '1':
+#       animal: Mouse
+#       difficulty: **+1**
+#       requirement: Weapon or trap
+#       meat: 1
+#       pelts: 0
+#     '2':
+#       animal: Ptarmigan
+#       difficulty: 0
+#       requirement: Weapon
+#       meat: 1
+#       pelts: 0
+#     '3':
+#       animal: Rabbit
+#       difficulty: **+1**
+#       requirement: Weapon or trap
+#       meat: 2
+#       pelts: 1
+#     '4':
+#       animal: Fox
+#       difficulty: -1
+#       requirement: Weapon or trap
+#       meat: 3
+#       pelts: 1
+#     '5':
+#       animal: Wolf
+#       difficulty: -1
+#       requirement: Weapon
+#       meat: 4
+#       pelts: 2
+#     '6':
+#       animal: Reindeer
+#       difficulty: 0
+#       requirement: Weapon
+#       meat: 5
+#       pelts: 3
