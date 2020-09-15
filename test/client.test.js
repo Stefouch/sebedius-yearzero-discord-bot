@@ -2,7 +2,7 @@
 
 const { describe, it } = require('mocha');
 const expect = require('chai').expect;
-// const should = require('chai').should();
+const sinon = require('sinon');
 const Discord = require('discord.js');
 const Sebedius = require('../Sebedius');
 const ContextMessage = require('../utils/ContextMessage');
@@ -18,21 +18,45 @@ describe('Discord Bot Client', function() {
 	const token = process.env.TOKEN;
 	const bot = new Sebedius(require('../config.json'));
 
-	it('Sebedius is created without error', function() {
+	// Fake discord message object
+	const fakeMessage = {
+		author: {
+			id: '0123456789',
+			username: 'Bishop',
+		},
+		client: 'bot',
+		content: 'Weylan-Yutani builds better worlds!',
+		channel: {
+			send: function(msg) {
+				return;
+			},
+			guild: {
+				id: '0123456789',
+			},
+		},
+		toString: () => 'hello',
+	};
+	// const fakeCtx = Object.assign(new ContextMessage('!', bot), fakeMessage);
+	// const messageSendSpy = sinon.spy(fakeCtx.channel, 'send');
+
+	it('Sebedius is successfully created', function() {
 		expect(bot.config.defaultPrefix === '!');
 	});
 
-	describe('# Test each commad', function() {
+	describe('# Check each command', function() {
 		for (const [cmdName, cmd] of bot.commands) {
 
-			it(`Command: ${cmdName}`, function() {
+			it(`Command: ${cmdName}`, async function() {
 				expect(cmd.name).to.equal(cmdName);
 				expect(cmd.category).to.be.a('string').with.length.greaterThan(1);
 				expect(cmd.description).to.be.a('string').with.length.greaterThan(1);
 
-				expect(
-					cmd.run(['Hi!'], new ContextMessage('!', bot, {}, new Discord.TextChannel())),
-				).to.be.a('Message');
+				// await cmd.run([''], fakeCtx);
+				// expect(messageSendSpy.calledOnce);
+
+				// expect(
+				// 	cmd.run(['Hi!'], new ContextMessage('!', bot, new Discord.Message(), new Discord.TextChannel())),
+				// ).to.be.a('Message');
 			});
 		}
 	});
