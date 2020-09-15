@@ -4,11 +4,16 @@ const Discord = require('discord.js');
 const YZCrit = require('./yearzero/YZCrit');
 const Util = require('./utils/Util');
 const PageMenu = require('./utils/PageMenu');
+const ContextMessage = require('./utils/ContextMessage');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
-// Databases map: { name: namespace }
+/**
+ * Databases map.
+ * @type {Object} { name: namespace }
+ * @constant
+ */
 const DB_MAP = {
 	prefixes: 'prefix',
 	initiatives: 'initiative',
@@ -139,20 +144,23 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Logs a message to the LogChannel of the bot.
-	 * @param {string|Discord.MessageEmbed} message The message to send
+	 * @param {Discord.StringResolvable|Discord.APIMessage} [message=''] The message to log
+	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
+	 * @see Discord.TextChannel.send()
 	 * @async
 	 */
-	async log(message) {
+	async log(message = '', options = {}) {
 		if (typeof message === 'string') console.log(`:>> ${message}`);
-		else if (message instanceof Discord.MessageEmbed) console.log(`:>> ${message.title} - ${message.description}`);
+		else if (message instanceof Discord.MessageEmbed) console.log(`:>> ${message.title} — ${message.description}`);
+		else console.log(':>> [LOG]\n', message);
 
-		if (this.state !== 'ready') throw new Errors.SebediusError('Can\'t send message. State NOT EQUAL to [READY]');
+		if (!message || this.state !== 'ready') return;
 
 		const channel = this.logChannel
 			|| this.channels.cache.get(this.config.botLogChannelID)
 			|| await this.channels.fetch(this.config.botLogChannelID);
 
-		return await channel.send(message);
+		if (channel) return await channel.send(message, options).catch(console.error);
 	}
 
 	/**
@@ -171,7 +179,7 @@ class Sebedius extends Discord.Client {
 				entries = [...store.entries()];
 			}
 			else {
-				const nmspc = namespace ? namespace : DB_MAP[name];
+				const nmspc = namespace ? namespace : DB_MAP[name] || name;
 				entries = await store.query(
 					`SELECT * FROM keyv
 					WHERE key LIKE '${nmspc}%'`,
@@ -180,6 +188,30 @@ class Sebedius extends Discord.Client {
 			}
 		}
 		return entries;
+	}
+
+	/**
+	 * Removes all entries in the database for a guild.
+	 * @param {Discord.Snowflake} guildID
+	 * @returns {string[]} An array with the names of the databases where an entry has been removed.
+	 */
+	async kdbCleanGuild(guildID) {
+		// List of databases' names that can contain entries from a guild.
+		const kdbs = ['prefixes', 'initiatives', 'games', 'langs'];
+		const deletedEntries = [];
+
+		// Iterates over the databases
+		for (const name of kdbs) {
+			// Deletes the entry, if any.
+			const del = await this.kdb[name].delete(guildID);
+			if (del) {
+				// If deleted, removes it also from the cache.
+				this[name].delete(guildID);
+				// And registers the occurence of a deletion.
+				deletedEntries.push(name);
+			}
+		}
+		return deletedEntries;
 	}
 
 	/**
@@ -368,8 +400,8 @@ class Sebedius extends Discord.Client {
 	 * @param {string} type Type of table to return (`CRIT` or `null`)
 	 * @param {string} path Folder path to the file with the ending `/`
 	 * @param {string} fileName Filename without path, ext or lang-ext
-	 * @param {?string} [lang='en'] The language to use, default is `en` English
-	 * @param {?string} [ext='csv'] File extension
+	 * @param {string} [lang='en'] The language to use, default is `en` English
+	 * @param {string} [ext='csv'] File extension
 	 * @returns {RollTable}
 	 * @static
 	 */
@@ -411,7 +443,7 @@ class Sebedius extends Discord.Client {
 	 * Returns a text with all the dice turned into emojis.
 	 * @param {YZRoll} roll The roll
 	 * @param {Object} opts Options of the roll command
-	 * @param {?boolean} [applyAliases=false] Whether to apply the aliases
+	 * @param {boolean} [applyAliases=false] Whether to apply the aliases
 	 * @returns {string} The manufactured text
 	 */
 	static emojifyRoll(roll, opts, applyAliases = false) {
@@ -455,9 +487,9 @@ class Sebedius extends Discord.Client {
 	 * @param {Discord.Message} ctx Discord message with context
 	 * @param {Array<string, Object>[]} choices An array of arrays with [name, object]
 	 * @param {string} text Additional text to attach to the selection message
-	 * @param {boolean} del Wether to delete the selection message
-	 * @param {boolean} pm Wether the selection message is sent in a PM (Discord DM)
-	 * @param {boolean} forceSelect Wether to force selection even if only one choice possible
+	 * @param {boolean} del Whether to delete the selection message
+	 * @param {boolean} pm Whether the selection message is sent in a PM (Discord DM)
+	 * @param {boolean} forceSelect Whether to force selection even if only one choice possible
 	 * @returns {*} The selected choice
 	 * @throws {NoSelectionElementsError} If len(choices) is 0.
 	 * @throws {SelectionCancelledError} If selection is cancelled.
@@ -491,7 +523,7 @@ class Sebedius extends Discord.Client {
 				embed.setFooter(`page ${page + 1}/${paginatedChoices.length}`);
 			}
 			if (text) {
-				embed.addField('Note', text, false);
+				embed.addField('Info', text, false);
 			}
 			if (pm) {
 				embed.addField(
@@ -547,7 +579,7 @@ class Sebedius extends Discord.Client {
 	 * Confirms whether a user wants to take an action.
 	 * @param {Discord.Message} message The current message
 	 * @param {string} text The message for the user to confirm
-	 * @param {?boolean} [deleteMessages=false] Whether to delete the messages
+	 * @param {boolean} [deleteMessages=false] Whether to delete the messages
 	 * @returns {boolean|null} Whether the user confirmed or not. None if no reply was recieved
 	 */
 	static async confirm(message, text, deleteMessages = false) {
@@ -591,7 +623,8 @@ class Sebedius extends Discord.Client {
 		if (serverMissingPerms.length || channelMissingPerms.length) {
 			let msg = '🛑 **Missing Permissions!**'
 				+ '\nThe bot does not have sufficient permission in this channel and will not work properly.'
-				+ ' Check the Readme (`help`) for the list of required permissions.';
+				+ ` Check the Readme (\`${ctx.prefix}help\`) for the list of required permissions.`
+				+ ' Check the wiki for more troubleshooting.';
 			if (serverMissingPerms.length) {
 				msg += `\n**Role Missing Permission(s):** \`${serverMissingPerms.join('`, `')}\``;
 			}
@@ -685,45 +718,3 @@ function whenMentionedOrPrefixed(prefixes, client) {
 }
 
 module.exports = Sebedius;
-
-/**
- * Represents a Discord message with context.
- * @extends {Discord.Message}
- * @see Sebedius.processMessage
- */
-class ContextMessage extends Discord.Message {
-	/**
-	 * @param {string} prefix The prefix used to trigger the command
-	 * @param {Discord.Client} client The instantiating client
-	 * @param {Object} data The data for the message
-	 * @param {Discord.TextChannel|Discord.DMChannel|Discord.NewsChannel} channel The channel the message was sent in
-	 */
-	constructor(prefix, client, data, channel) {
-		super(client, data, channel);
-
-		/**
-		 * The prefix used to trigger the command.
-		 * @type {string}
-		 */
-		this.prefix = prefix;
-	}
-
-	/**
-	 * The bot client (Sebedius).
-	 * @type {Discord.Client}
-	 * @readonly
-	 */
-	get bot() { return this.client; }
-
-	/**
-	 * Sends a message to the channel.
-	 * @param {StringResolvable|Discord.APIMessage} [content=''] The content to send
-	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
-	 * @returns {Promise<Discord.Message|Discord.Message[]>}
-	 * @async
-	 */
-	async send(content, options) {
-		// if (this.channel.type === 'dm') return await this.author.send(content, options);
-		return await this.channel.send(content, options);
-	}
-}

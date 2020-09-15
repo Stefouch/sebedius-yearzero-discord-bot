@@ -12,14 +12,14 @@ module.exports = {
 		const arg = args.join(' ').split('|');
 
 		// Checks for 2 arguments: title & description.
-		if (arg.length < 2) return ctx.reply(`:warning: Invalid arguments. Try \`${ctx.prefix}help embed\``);
+		if (arg.length < 2) return ctx.reply(`⚠️ Invalid arguments. Try \`${ctx.prefix}help embed\``);
 
 		const title = arg.shift().trim();
 		const description = arg[0].trim();
 
 		// Checks that title & description are not empty.
-		if (!title.length) return ctx.reply(':warning: Embed\'s `title` is empty.');
-		if (!description.length) return ctx.reply(':warning: Embed\'s `description` is empty.');
+		if (!title.length) return ctx.reply('⚠️ Embed\'s `title` is empty.');
+		if (!description.length) return ctx.reply('⚠️ Embed\'s `description` is empty.');
 
 		const embed = new MessageEmbed({ title, description });
 

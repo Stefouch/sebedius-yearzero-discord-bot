@@ -12,8 +12,8 @@ const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 class YZRoll {
 	/**
 	 * @param {?string} game The game of the roll
-	 * @param {string} author The author of the roll
-	 * @param {string} name The name of the roll
+	 * @param {?string} author The author of the roll
+	 * @param {?string} name The name of the roll
 	 */
 	constructor(game, author, name) {
 		/**
@@ -73,7 +73,7 @@ class YZRoll {
 	}
 
 	/**
-	 * Wether the roll was pushed or not.
+	 * Whether the roll was pushed or not.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -203,7 +203,7 @@ class YZRoll {
 	/**
 	 * Sets the Full Automatic Fire mode.
 	 * `maxPush = 10`.
-	 * @param {?boolean} [bool=true] Full Auto yes or no
+	 * @param {boolean} [bool=true] Full Auto yes or no
 	 * @returns {YZRoll} This roll, with unlimited pushes
 	 */
 	setFullAuto(bool = true) {
@@ -294,7 +294,7 @@ class YZRoll {
 	 * @param {number} qty The quantity to add
 	 * @param {?number} [range=6] The number of faces of the die
 	 * @param {?number} value The predefined value for the die
-	 * @param {?string} operator The operator of the die
+	 * @param {string} [operator='+'] The operator of the die
 	 * @returns {YZRoll} This roll
 	 */
 	addDice(type, qty, range = 6, value = null, operator = '+') {
@@ -526,6 +526,24 @@ class YZRoll {
 		out.unshift(`<${this.game}>`);
 		return out.join(' ');
 	}
+
+	/**
+	 * Returns only the values of the dice in the roll.
+	 * @returns {string}
+	 */
+	toValues() {
+		return this.dice
+			.map(d => d.valueOf())
+			.join(', ');
+	}
+
+	/**
+	 * Returns the primitive value of the roll.
+	 * @returns {number}
+	 */
+	valueOf() {
+		return this.sum();
+	}
 }
 
 module.exports = YZRoll;
@@ -593,7 +611,7 @@ class YZDie {
 	}
 
 	/**
-	 * Wether this die has been pushed.
+	 * Whether this die has been pushed.
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -602,7 +620,7 @@ class YZDie {
 	}
 
 	/**
-	 * Wether the die can be pushed (according to its type).
+	 * Whether the die can be pushed (according to its type).
 	 * @type {boolean}
 	 * @readonly
 	 */
@@ -637,7 +655,7 @@ class YZDie {
 
 	/**
 	 * Pushes the die, according to its type.
-	 * @returns {number} The result, wether it has been pushed or not.
+	 * @returns {number} The result, Whether it has been pushed or not.
 	 */
 	push() {
 		this.previousResults.push(this.result);
@@ -682,5 +700,9 @@ class YZDie {
 	toString() {
 		if (this.type === 'modifier') return `${this.operator}${this.result}`;
 		else return `${this.operator}d${this.range}${this.type ? `[${this.type}]` : ''}`;
+	}
+
+	valueOf() {
+		return +`${this.operator}${this.result}`;
 	}
 }

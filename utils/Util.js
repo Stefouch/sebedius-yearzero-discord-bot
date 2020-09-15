@@ -73,7 +73,7 @@ class Util {
 
 	/**
 	 * Generates a string of random alphanumeric characters.
-	 * @param {?number} [length=4] Number of characters to return
+	 * @param {number} [length=4] Number of characters to return
 	 */
 	static randomID(length = 4) {
 		return Math.random().toString(36).substr(2, (length || 4) + 2);
@@ -206,7 +206,7 @@ class Util {
 	/**
 	 * Adds the prefix a or an to a string.
 	 * @param {string} str The string to add a or an
-	 * @param {boolean} upper Wether the prefix should be capitalized or not
+	 * @param {boolean} upper Whether the prefix should be capitalized or not
 	 * @returns {string}
 	 */
 	static aORan(str, upper = false) {
@@ -233,7 +233,7 @@ class Util {
 	static bubbleFormat(value, max, fillFromRight = false) {
 		if (max > 100) return `${value}/${max}`;
 		const used = max - value;
-		const filled = '\u25c9'.repeat(value);
+		const filled = '\\🔘'.repeat(value);
 		const empty = '\u3007'.repeat(used);
 		if (fillFromRight) return empty + filled;
 		return filled + empty;
@@ -271,12 +271,12 @@ class Util {
 	 * Aligns a string by padding it with leading/trailing whitespace.
 	 * @param {string} input
 	 * @param {number} width Character width of the container
-	 * @param {?number} [axis=0.5] Multiplier specifying axis of alignment:
+	 * @param {number} [axis=0.5] Multiplier specifying axis of alignment:
 	 * * 0.0: Left-aligned
 	 * * 0.5: Centred
 	 * * 1.0: Right-aligned
 	 * * The default is 0.5 (center-aligned).
-	 * @param {?string} [char=' '] Character to pad with. Defaults to space (U+0020)
+	 * @param {string} [char=' '] Character to pad with. Defaults to space (U+0020)
 	 * @return {string}
 	 */
 	static alignText(input, width, axis, char) {
@@ -299,7 +299,7 @@ class Util {
 	 * Words are pushed onto the following line, unless they exceed the line's total length limit.
 	 *
 	 * @param {string} input Block of text to wrap
-	 * @param {?number} [len=80] Number of characters permitted on each line.
+	 * @param {number} [len=80] Number of characters permitted on each line.
 	 * @return {string[]} An array of fold points, preserving any new-lines in the original text.
 	 */
 	static wordWrap(input, len) {
@@ -444,6 +444,18 @@ class Util {
 	}
 
 	/**
+	 * Checks if is an Object.
+	 * Does not count Arrays.
+	 * @param {*} val Value to check
+	 * @returns {boolean}
+	 */
+	static isObject(val) {
+		if (val === null) return false;
+		if (val instanceof Array) return false;
+		return ((typeof val === 'function') || (typeof val === 'object'));
+	}
+
+	/**
 	 * Checks if is a number.
 	 * @param {*} x Value to check
 	 * @returns {boolean}
@@ -455,15 +467,22 @@ class Util {
 	}
 
 	/**
-	 * Checks if is an Object.
-	 * Does not count Arrays.
-	 * @param {*} val Value to check
+	 * Checks whether all the digits in a given number are the same or not.
+	 * @param {number} n Number to check
 	 * @returns {boolean}
+	 *
+	 * @example
+	 * hasSameDigits(1234); // false
+	 * hasSameDigits(1111); // true
+	 * hasSameDigits(22222222); // true
 	 */
-	static isObject(val) {
-		if (val === null) return false;
-		if (val instanceof Array) return false;
-		return ((typeof val === 'function') || (typeof val === 'object'));
+	static hasSameDigits(n) {
+		const first = n % 10;
+		while (n) {
+			if (n % 10 !== first) return false;
+			n = Math.floor(n / 10);
+		}
+		return true;
 	}
 
 	/**
@@ -622,7 +641,7 @@ class Util {
 	 * If *val* starts with + or -, it returns *base + val*.
 	 * Otherwise, it returns *val*.
 	 * @param {string} val
-	 * @param {?number} [base=0]
+	 * @param {number} [base=0]
 	 * @returns {number}
 	 */
 	static modifOrSet(val, base = 0) {
@@ -668,6 +687,12 @@ class Util {
 }
 
 module.exports = Util;
+
+/**
+ * Useful:
+ * const has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+ * const isObject = d => typeof d === 'object' && d !== null;
+ */
 
 /**
  * Regular Expression IndexOf for Arrays

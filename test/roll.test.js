@@ -2,6 +2,7 @@ const { describe, it } = require('mocha');
 const expect = require('chai').expect;
 const Util = require('../utils/Util');
 const YZRoll = require('../yearzero/YZRoll');
+const RollTable = require('../utils/RollTable');
 
 describe('YZRoll Module', function() {
 	const roll = new YZRoll('myz', 'Stefouch', 'Test Roll');
@@ -47,5 +48,57 @@ describe('YZRoll Module', function() {
 			expect(r.getDice('modifier')).to.have.lengthOf(2);
 			expect(r.sum()).to.equal(1);
 		});
+	});
+});
+
+describe('RollTable Module - D6', function() {
+	const rt = new RollTable('Box of Stef', 'D6', [
+		['1-3', 'Sebedius'],
+		['4-5', 'Thaddeus'],
+		['6', 'Retzius'],
+	]);
+
+	it('Should return Sebedius', function() {
+		expect(rt.get(0)).to.equal('Sebedius');
+	});
+
+	it('Should return Thaddeus', function() {
+		expect(rt.get('5')).to.equal('Thaddeus');
+	});
+
+	it('Should return Retzius', function() {
+		expect(rt.get(7)).to.equal('Retzius');
+	});
+
+	it('Should return correct random values', function() {
+		for (let i = 0; i < 1000; i++) {
+			expect(rt.random()).to.be.a('string');
+		}
+	});
+});
+
+describe('RollTable Module - D66', function() {
+	const rt = new RollTable('Box of Stef', 'D6', [
+		['11-22', 'Sebedius'],
+		['23-56', 'Thaddeus'],
+		['61-66', 'Retzius'],
+	]);
+
+	it('Should return Sebedius', function() {
+		expect(rt.get(0)).to.equal('Sebedius');
+	});
+
+	it('Should return Thaddeus', function() {
+		expect(rt.get('33')).to.equal('Thaddeus');
+	});
+
+	it('Should return Retzius', function() {
+		expect(rt.get(100)).to.equal('Retzius');
+	});
+
+	it('Should return correct random values', function() {
+		for (let i = 0; i < 10000; i++) {
+			expect(rt.random()).to.be.a('string');
+		}
 	});
 });

@@ -47,7 +47,7 @@ class YZEmbed extends MessageEmbed {
 class YZMonsterEmbed extends MessageEmbed {
 	/**
 	 * @param {YZMonster} monster Year Zero monster object
-	 * @param {?string} [color=0x1AA29B] Embed.color
+	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(monster, color = 0x1AA29B) {
 		super({
@@ -77,7 +77,7 @@ class YZMonsterEmbed extends MessageEmbed {
 class UserEmbed extends MessageEmbed {
 	/**
 	 * @param {Discord.User} user Discord User
-	 * @param {?string} [color=0x1AA29B] Embed.color
+	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(user, color = 0x1AA29B) {
 		super({
@@ -100,7 +100,7 @@ class UserEmbed extends MessageEmbed {
 			],
 		});
 		this.user = user;
-		if (user.bot) this.addField('Bot', ':warning: This user is a bot!', true);
+		if (user.bot) this.addField('Bot', '⚠️ This user is a bot!', true);
 		// if (user.flags.bitfield) this.addField('Flags', user.flags.bitfield, true);
 		if (user.lastMessage) this.addField('Last Message', user.lastMessage.content, false);
 	}
@@ -113,7 +113,7 @@ class UserEmbed extends MessageEmbed {
 class GuildEmbed extends MessageEmbed {
 	/**
 	 * @param {Discord.Guild} guild Discord Guild
-	 * @param {?string} [color=0x1AA29B] Embed.color
+	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(guild, color = 0x1AA29B) {
 		super({

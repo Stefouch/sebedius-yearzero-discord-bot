@@ -11,7 +11,7 @@ module.exports = {
 	usage: '[reference]',
 	async run(args, ctx) {
 		if (args[0] && !/[123456]{2}/.test(args[0])) {
-			return await ctx.reply(':warning: Invalid Magic Mishap\'s reference!');
+			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');
 		}
 		const mishapTable = getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', 'en', 'csv');
 		const ref = +args[0] || rollD66();

@@ -1,3 +1,7 @@
+const { rand, hasSameDigits, convertToBijective } = require('./Util');
+
+const SEPARATOR_REGEX = /[-–—−]/;
+
 /**
  * A rollable table.
  * @extends {Map}
@@ -5,11 +9,79 @@
 class RollTable extends Map {
 	/**
 	 * @param {string} name The name of the table
-	 * @param {*} iterable An Array or other iterable object whose elements are key-value pairs.
+	 * @param {?string} roll The die (or dice) required to roll the table
+	 * @param {?*} iterable An Array or another iterable object whose elements are key-value pairs
 	 */
-	constructor(name, iterable) {
+	constructor(name = '<Unnamed>', roll = null, iterable) {
 		super(iterable);
+
+		/**
+		 * The name of the table.
+		 * @type {string}
+		 */
 		this.name = name;
+
+		/**
+		 * The die (or dice) required to roll the table.
+		 * @type {string}
+		 */
+		this.roll = /^\d?d\d+$/i.test(roll) ? roll.toUpperCase() : null;
+	}
+
+	/**
+	 * The lowest reference.
+	 * @type {number}
+	 * @readonly
+	 */
+	get min() {
+		let n = Number.MAX_VALUE;
+
+		for (const key of this.keys()) {
+			if (typeof key === 'string') {
+				if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
+					const min = +boundaries[0];
+					// const max = +boundaries[1];
+					n = Math.min(n, min);
+				}
+				else if (/^[-+]?\d+$/.test(key)) {
+					n = Math.min(n, +key);
+				}
+			}
+			else if (typeof key === 'number') {
+				n = Math.min(n, key);
+			}
+		}
+		if (n === Number.MAX_VALUE) return undefined;
+		return n;
+	}
+
+	/**
+	 * The highest reference.
+	 * @type {number}
+	 * @readonly
+	 */
+	get max() {
+		let n = 0;
+
+		for (const key of this.keys()) {
+			if (typeof key === 'string') {
+				if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
+					// const min = +boundaries[0];
+					const max = +boundaries[1];
+					n = Math.max(n, max);
+				}
+				else if (/^[-+]?\d+$/.test(key)) {
+					n = Math.max(n, +key);
+				}
+			}
+			else if (typeof key === 'number') {
+				n = Math.max(n, key);
+			}
+		}
+		if (n <= 0) return undefined;
+		return n;
 	}
 
 	/**
@@ -19,21 +91,13 @@ class RollTable extends Map {
 	 * @readonly
 	 */
 	get length() {
-		let len = 0;
-
-		for (const key of this.keys()) {
-			if (typeof key === 'string') {
-				if (/-/.test(key)) {
-					const boundaries = key.split('-');
-					const min = +boundaries[0];
-					const max = +boundaries[1];
-					len += (max - min + 1);
-				}
-				else { len++; }
+		if (this.min <= 1) return this.max;
+		if (this.min === 11 || this.min === 111) {
+			if (hasSameDigits(this.max)) {
+				return (+`${this.max}`.charAt(0)) ** Math.ceil(Math.log10(this.max));
 			}
-			else { len++; }
 		}
-		return len;
+		return Math.round(this.max / this.min);
 	}
 
 	/**
@@ -42,10 +106,11 @@ class RollTable extends Map {
 	 * @readonly
 	 */
 	get d() {
+		if (this.roll) return this.roll;
 		if (this.length === 6) return 'D6';
-		else if (this.length === 36) return 'D66';
-		else if (this.length === 216) return 'D666';
-		else return `D${this.length}`;
+		if (this.length === 36) return 'D66';
+		if (this.length === 216) return 'D666';
+		return `D${this.length}`;
 	}
 
 	/**
@@ -55,6 +120,9 @@ class RollTable extends Map {
 	 * @returns {*} The entry associated with the specified roll value, or undefined if the value can't be found in the table
 	 */
 	get(reference) {
+		if (reference < this.min) return this.get(this.min);
+		if (reference > this.max) return this.get(this.max);
+
 		const regexKey = new RegExp(reference, 'i');
 
 		for (const [key, val] of this.entries()) {
@@ -62,8 +130,8 @@ class RollTable extends Map {
 				if (regexKey.test(key)) {
 					return val;
 				}
-				else if (/-/.test(key)) {
-					const boundaries = key.split('-');
+				else if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
 					const min = +boundaries[0];
 					const max = +boundaries[1];
 					if (reference >= min && reference <= max) return val;
@@ -86,8 +154,8 @@ class RollTable extends Map {
 				if (regexKey.test(key)) {
 					return true;
 				}
-				else if (/-/.test(key)) {
-					const boundaries = key.split('-');
+				else if (SEPARATOR_REGEX.test(key)) {
+					const boundaries = key.split(SEPARATOR_REGEX);
 					const min = +boundaries[0];
 					const max = +boundaries[1];
 					if (reference >= min && reference <= max) return true;
@@ -95,6 +163,62 @@ class RollTable extends Map {
 			}
 		}
 		return super.has(reference);
+	}
+
+	/**
+	 * Returns a random entry from a RollTable object.
+	 * @param {number} [cheat=0] Additional modifier to the random-generated number
+	 * @returns {*} or `undefined` if not found
+	 * @throws {ReferenceError} if the table is corrupted
+	 */
+	random(cheat = 0) {
+		// Generates a random seed based on the quantity of entries (length).
+		let seed = rand(1, this.length) + cheat;
+
+		// Praises the RNG Jesus.
+		let rngesus = seed;
+
+		// If the roll uses a D66 or D66 (or something similar)
+		// `rngesus` must be adapted.
+		if (this.min === 11 || this.min === 111) {
+			if (hasSameDigits(this.max)) {
+				// Gets the actual Base. D66 = 6; D88 = 8;
+				const digit = +`${this.max}`.charAt(0);
+
+				// Adjusts the seed.
+				let log = Math.floor(Math.log10(this.max));
+				for (; log > 0; log--) seed += digit ** log;
+
+				// Creates sequence for the Base <digit>
+				const seq = Array(digit)
+					.fill()
+					.map((x, i) => i + 1)
+					.join('');
+
+				// Converts the seed into a valid reference.
+				rngesus = convertToBijective(seed, seq);
+			}
+		}
+		// Gets the value of the random reference.
+		const item = this.get(rngesus);
+
+		// If not found, throws an error
+		// as that would mean the table is corrupted.
+		// Useful for debugging.
+		if (item == undefined) {
+			throw new ReferenceError(
+				`RollTable "${this.name}" - Random Value Not Found`
+				+ `\nMin: ${this.min}, Max: ${this.max}, Length: ${this.length}, Size: ${this.size}`
+				+ `\nRoll: ${this.roll} → Seed: ${seed} → Rngesus: ${rngesus}`
+				+ `\nValue: ${item}`,
+			);
+		}
+
+		// Logs.
+		// console.log(`:>> 🎲[${this.name}]: '${rngesus}' → ${item}`);
+
+		// Returns the random value.
+		return item;
 	}
 }
 

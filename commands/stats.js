@@ -45,7 +45,7 @@ module.exports = {
 		catch (err) { console.error(err); }
 
 		if (args.includes('-clear')) {
-			const text = ':speech_balloon::warning: Are you sure you want to **erase ALL stats**?'
+			const text = ':speech_balloon:⚠️ Are you sure you want to **erase ALL stats**?'
 				+ ' *(reply with yes/no)*';
 
 			const clear = await confirm(ctx, text, true);

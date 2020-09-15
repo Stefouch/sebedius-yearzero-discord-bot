@@ -14,23 +14,23 @@ class ReactionMenu {
 	 */
 
 	/**
-	 * @param {Discord.Message} message Discord message to attach the reaction menu
+	 * @param {import('discord.js').Message} message Discord message to attach the reaction menu
 	 * @param {number} time Cooldown (in milliseconds)
 	 * @param {ReactionData[]} reactionsData An array of objects containing the data needed to create the reactions
 	 */
 	constructor(message, time, reactionsData) {
 		/**
-		 * @type {Discord.Message}
+		 * @type {import('discord.js').Message}
 		 */
 		this.message = message;
 
 		/**
-		 * @type {Discord.TextChannel}
+		 * @type {import('discord.js').TextChannel}
 		 */
 		this.channel = this.message.channel;
 
 		/**
-		 * @type {Discord.User}
+		 * @type {import('discord.js').User}
 		 */
 		this.bot = this.message.author;
 
@@ -42,7 +42,7 @@ class ReactionMenu {
 
 		/**
 		 * The collector associated with this menu.
-		 * @type {Discord.Collector}
+		 * @type {import('discord.js').Collector}
 		 */
 		this.collector = null;
 
