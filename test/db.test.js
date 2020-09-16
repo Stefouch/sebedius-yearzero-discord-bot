@@ -2,7 +2,6 @@
 
 const { describe, it } = require('mocha');
 const expect = require('chai').expect;
-const should = require('chai').should();
 const Keyv = require('keyv');
 const Util = require('../utils/Util');
 
@@ -26,8 +25,8 @@ describe('Keyv & PostGreSQL Database', function() {
 
 	it('Should have NodeJS version ^12.x or lower', function() {
 		const nodeVersion = +process.version.split('.')[0].slice(1);
-		nodeVersion.should.not.be.greaterThan(12);
-		nodeVersion.should.be.greaterThan(8);
+		expect(nodeVersion).to.not.be.greaterThan(12);
+		expect(nodeVersion).to.be.greaterThan(8);
 	});
 
 	it('Should have a DATABASE_URL environment variable', function() {
@@ -50,16 +49,16 @@ describe('Keyv & PostGreSQL Database', function() {
 
 	it('Should be able to set a DB entry', async function() {
 		const mutant = await kdb.set(key, value);
-		mutant.should.be.true;
+		expect(mutant).to.be.true;
 	});
 
 	it('Should be able to get that DB entry', async function() {
 		const mutant = await kdb.get(key);
-		mutant.should.equal(value);
+		expect(mutant).to.equal(value);
 	});
 
 	it('Should be able to delete that DB entry', async function() {
 		const ark = await kdb.delete(key);
-		ark.should.be.true;
+		expect(ark).to.be.true;
 	});
 });
