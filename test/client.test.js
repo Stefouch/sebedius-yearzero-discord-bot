@@ -1,11 +1,9 @@
-/* eslint-disable no-unused-vars */
-
 const { describe, it, beforeEach, afterEach } = require('mocha');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const Discord = require('discord.js');
 const Sebedius = require('../Sebedius');
-const ContextMessage = require('../utils/ContextMessage');
+// const ContextMessage = require('../utils/ContextMessage');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -18,9 +16,11 @@ describe('Discord Bot Client', function() {
 
 	// const token = process.env.TOKEN;
 	const bot = new Sebedius(require('../config.json'));
-	bot.user = {
+	bot.user = new Discord.User(bot, {
+		username: 'Sebedius',
+		discriminator: '1234',
 		id: bot.config.betaBotID,
-	},
+	}),
 	bot.muted = true;
 	bot.state = 'ready',
 	bot.owner = new Discord.User(bot, {
@@ -46,40 +46,68 @@ describe('Discord Bot Client', function() {
 			ctx = Sebedius.processMessage(message, '!');
 
 			// Creates a SinonJS Spy.
-			// sandbox.spy(ctx, 'send');
 		});
 
 		afterEach(function() {
-			// sandbox.restore();
+			sandbox.restore();
+		});
+
+		it('All commands should have correct properties', function() {
+			for (const [cmdName, cmd] of bot.commands) {
+				expect(cmd.name, 'Command name').to.equal(cmdName);
+				expect(cmd.category, 'Command category').to.be.a('string').with.length.greaterThan(0);
+				expect(cmd.description, 'Command').to.be.a('string').with.length.greaterThan(0);
+			}
 		});
 
 		for (const [cmdName, cmd] of bot.commands) {
 
-			it(`Command: ${cmdName}`, function() {
+			it(`Command: ${cmdName}`, async function() {
 				expect(cmd.name).to.equal(cmdName);
 				expect(cmd.category).to.be.a('string').with.length.greaterThan(0);
 				expect(cmd.description).to.be.a('string').with.length.greaterThan(0);
 
-				let args = [''];
-				if (cmdName.startsWith('roll')) args = ['5b3s2g'];
-				else if (cmdName === 'journey') args = ['create', 'summer', '-fbr'];
+				let args = [];
+				if (cmdName === 'attack') args = ['alien', 'bloodburster', '1'];
+				else if (cmdName === 'cast') args = ['6', 'Fireball'];
+				else if (cmdName === 'contact') args = ['99'];
+				else if (cmdName === 'critfbl') args = ['stab', '69'];
+				else if (cmdName.startsWith('crit')) args = ['42'];
+				else if (cmdName === 'embed') args = ['Hello|World'];
+				else if (cmdName === 'eval') args = ['true'];
+				else if (cmdName === 'feral') args = ['99'];
+				else if (cmdName === 'help') args = ['help'];
+				else if (cmdName === 'init') args = ['help'];
+				else if (cmdName === 'job') args = ['mil'];
+				else if (cmdName === 'journey') args = ['create', 'night', 'summer', 'hills', '-fbr'];
+				else if (cmdName === 'module') args = ['99'];
+				else if (cmdName === 'monster') args = ['myz', 'cannibal'];
+				else if (cmdName === 'mutation') args = ['99'];
+				else if (cmdName === 'myzpower') args = ['myz', '99'];
+				else if (cmdName === 'resource') args = ['d8', 'Torches'];
+				else if (cmdName.startsWith('roll')) args = ['d66', '#', 'Uber Roll!'];
+				else if (cmdName === 'setconf') args = ['lang'];
+				else if (cmdName === 'setpresence') args = ['idle'];
 
-				// cmd.run(args, ctx).then((response) => {
-				// 	console.log(response);
-				// 	expect(response).to.be.a('Discord.Message');
-				// 	done();
-				// });
+				// const sendSpy = sinon.spy(ctx, 'send');
+				// const channelSendSpy = sinon.spy(ctx.channel, 'send');
+				const matahari = sandbox.spy(ctx.channel, 'send');
+
+				if (cmdName !== 'ping') await cmd.run(args, ctx);
+
+				if (cmd.category === 'admin') expect(true).to.be.true;
+				else if (['ping', 'setconf', 'setpresence'].includes(cmdName)) expect(matahari.notCalled).to.be.true;
+				else expect(matahari.calledOnce).to.be.true;
 			});
 		}
 	});
 });
 
 function createFakeDiscordMessage(client) {
-	const guildID = Discord.SnowflakeUtil.generate();
 	// Creates a fake Discord Guild/Server.
 	const guild = new Discord.Guild(client, {
 		name: 'Fake Guild',
-		id: guildID,
+		id: Discord.SnowflakeUtil.generate(),
 		type: 0,
 		owner_id: client.user.id,
 	});
@@ -95,12 +123,13 @@ function createFakeDiscordMessage(client) {
 	client.guilds.cache.set(guild.id, guild);
 
 	// Creates a fake Discord TextChannel.
-	const channel = new Discord.TextChannel(guild, {
+	const channel = Object.assign(new Discord.TextChannel(guild, {
 		name: 'Fake Channel',
 		id: Discord.SnowflakeUtil.generate(),
 		type: 0,
+	}), {
+		send: async (msg) => ctxFakeReply(client, channel, msg),
 	});
-	channel.send = (msg) => new Promise(() => ctxFakeReply(client, channel));
 	guild.channels.cache.set(channel.id, channel);
 	client.channels.cache.set(channel.id, channel);
 
@@ -125,9 +154,18 @@ function createFakeDiscordMessage(client) {
 		guild,
 	));
 	guild.members.cache.set(member.id, member);
+	guild.members.cache.set(client.user.id, new Discord.GuildMember(
+		client,
+		{
+			nick: 'Seb',
+			user: client.user,
+			roles: [guild.roles.cache.first().id],
+		},
+		guild,
+	));
 
 	// Creates a fake Discord Message.
-	const message = new Discord.Message(
+	const message = Object.assign(new Discord.Message(
 		client,
 		{
 			name: 'Fake Message',
@@ -136,8 +174,9 @@ function createFakeDiscordMessage(client) {
 			member: member,
 		},
 		channel,
-	);
-	message.reply = (msg) => new Promise(() => ctxFakeReply(client, channel));
+	), {
+		reply: async (msg) => ctxFakeReply(client, channel, msg),
+	});
 	channel.messages.cache.set(message.id, message);
 
 	return message;
