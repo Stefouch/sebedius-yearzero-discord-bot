@@ -3,7 +3,6 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const Discord = require('discord.js');
 const Sebedius = require('../Sebedius');
-// const ContextMessage = require('../utils/ContextMessage');
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
@@ -31,41 +30,40 @@ describe('Discord Bot Client', function() {
 	bot.users.cache.set(bot.owner.id, bot.owner);
 
 	it('Sebedius is successfully created', function() {
-		expect(bot.config.defaultPrefix).to.equal('!');
+		expect(bot).to.be.instanceOf(Sebedius);
 		expect(bot.id).to.equal(bot.config.betaBotID);
+		expect(bot.owner).to.be.instanceOf(Discord.User);
 		expect(bot.owner.id).to.equal(bot.config.ownerID);
+		expect(bot.config.defaultPrefix).to.equal('!');
+		expect(bot.commands.size).to.be.greaterThan(51);
 	});
 
-	describe('# Check each command', function() {
+	it('All commands should have correct properties', function() {
+		for (const [cmdName, cmd] of bot.commands) {
+			expect(cmd.name, 'Command name').to.equal(cmdName);
+			expect(cmd.category, 'Command category').to.be.a('string').with.length.greaterThan(0);
+			expect(cmd.description, 'Command description').to.be.a('string').with.length.greaterThan(0);
+		}
+	});
+
+	describe('# Check each command with custom args', function() {
 		const sandbox = sinon.createSandbox();
 		let ctx;
 
 		beforeEach(function() {
 			// Creates a Discord message with context (CTX).
-			const message = createFakeDiscordMessage(bot);
+			const message = fakeDiscord(bot);
 			ctx = Sebedius.processMessage(message, '!');
-
-			// Creates a SinonJS Spy.
 		});
 
 		afterEach(function() {
 			sandbox.restore();
 		});
 
-		it('All commands should have correct properties', function() {
-			for (const [cmdName, cmd] of bot.commands) {
-				expect(cmd.name, 'Command name').to.equal(cmdName);
-				expect(cmd.category, 'Command category').to.be.a('string').with.length.greaterThan(0);
-				expect(cmd.description, 'Command').to.be.a('string').with.length.greaterThan(0);
-			}
-		});
-
 		for (const [cmdName, cmd] of bot.commands) {
 
 			it(`Command: ${cmdName}`, async function() {
-				expect(cmd.name).to.equal(cmdName);
-				expect(cmd.category).to.be.a('string').with.length.greaterThan(0);
-				expect(cmd.description).to.be.a('string').with.length.greaterThan(0);
+				if (cmd.category === 'admin') this.skip();
 
 				let args = [];
 				if (cmdName === 'attack') args = ['alien', 'bloodburster', '1'];
@@ -85,32 +83,44 @@ describe('Discord Bot Client', function() {
 				else if (cmdName === 'mutation') args = ['99'];
 				else if (cmdName === 'myzpower') args = ['myz', '99'];
 				else if (cmdName === 'resource') args = ['d8', 'Torches'];
-				else if (cmdName.startsWith('roll')) args = ['d66', '#', 'Uber Roll!'];
+				else if (cmdName.startsWith('roll')) args = ['5b2g', 'd10', '-p', '0', '#', 'Uber Roll!'];
 				else if (cmdName === 'setconf') args = ['lang'];
 				else if (cmdName === 'setpresence') args = ['idle'];
 
-				// const sendSpy = sinon.spy(ctx, 'send');
-				// const channelSendSpy = sinon.spy(ctx.channel, 'send');
 				const matahari = sandbox.spy(ctx.channel, 'send');
 
-				if (cmdName !== 'ping') await cmd.run(args, ctx);
+				await cmd.run(args, ctx);
 
-				if (cmd.category === 'admin') expect(true).to.be.true;
-				else if (['ping', 'setconf', 'setpresence'].includes(cmdName)) expect(matahari.notCalled).to.be.true;
+				if (['setconf', 'setpresence'].includes(cmdName)) expect(matahari.notCalled).to.be.true;
 				else expect(matahari.calledOnce).to.be.true;
 			});
 		}
 	});
 });
 
-function createFakeDiscordMessage(client) {
+/**
+ * Creates a fake Discord message with full needed data.
+ * Includes (all cached):
+ * * 1x Guild
+ * * 1x Role (@everyone)
+ * * 1x TextChannel
+ * * 1x User
+ * * 2x GuildMembers
+ * * 1x Message (returned) with overriden methods: `send`, `reply`, `delete` and `react`.
+ * @param {Discord.Client} client The bot
+ * @returns {Discord.Message}
+ */
+function fakeDiscord(client) {
 	// Creates a fake Discord Guild/Server.
-	const guild = new Discord.Guild(client, {
-		name: 'Fake Guild',
-		id: Discord.SnowflakeUtil.generate(),
-		type: 0,
-		owner_id: client.user.id,
-	});
+	const guild = new Discord.Guild(
+		client,
+		{
+			name: 'Fake Guild',
+			id: Discord.SnowflakeUtil.generate(),
+			type: 0,
+			owner_id: client.user.id,
+		},
+	);
 	guild.roles.cache.set(guild.id, new Discord.Role(
 		client,
 		{
@@ -123,36 +133,49 @@ function createFakeDiscordMessage(client) {
 	client.guilds.cache.set(guild.id, guild);
 
 	// Creates a fake Discord TextChannel.
-	const channel = Object.assign(new Discord.TextChannel(guild, {
-		name: 'Fake Channel',
-		id: Discord.SnowflakeUtil.generate(),
-		type: 0,
-	}), {
-		send: async (msg) => ctxFakeReply(client, channel, msg),
-	});
+	const channel = Object.assign(
+		new Discord.TextChannel(
+			guild,
+			{
+				name: 'Fake Channel',
+				id: Discord.SnowflakeUtil.generate(),
+				type: 0,
+			},
+		),
+		{
+			send: async (msg) => fakeSimpleMessage(client, channel, msg),
+		},
+	);
 	guild.channels.cache.set(channel.id, channel);
 	client.channels.cache.set(channel.id, channel);
 
 	// Creates a fake Discord User.
-	const user = new Discord.User(client, {
-		username: 'Stefouch',
-		discriminator: '0000',
-		id: Discord.SnowflakeUtil.generate(),
-	});
+	const user = new Discord.User(
+		client,
+		{
+			username: 'Stefouch',
+			discriminator: '0000',
+			id: Discord.SnowflakeUtil.generate(),
+		},
+	);
 	client.users.cache.set(user.id, user);
 
 	// Creates a fake Discord GuildMember.
-	const member = Object.assign({
-		displayColor: 11493413,
-	}, new Discord.GuildMember(
-		client,
+	const member = Object.assign(
 		{
-			nick: 'Stef',
-			user: user,
-			roles: [guild.roles.cache.first().id],
+			displayColor: 11493413,
+			// TODO: permissions: new Discord.Permissions(Discord.Permissions.ALL),
 		},
-		guild,
-	));
+		new Discord.GuildMember(
+			client,
+			{
+				nick: 'Stef',
+				user: user,
+				roles: [guild.roles.cache.first().id],
+			},
+			guild,
+		),
+	);
 	guild.members.cache.set(member.id, member);
 	guild.members.cache.set(client.user.id, new Discord.GuildMember(
 		client,
@@ -165,27 +188,62 @@ function createFakeDiscordMessage(client) {
 	));
 
 	// Creates a fake Discord Message.
-	const message = Object.assign(new Discord.Message(
-		client,
+	const message = Object.assign(
+		new Discord.Message(
+			client,
+			{
+				name: 'Fake Message',
+				id: Discord.SnowflakeUtil.generate(),
+				author: user,
+				member: member,
+			},
+			channel,
+		),
 		{
-			name: 'Fake Message',
-			id: Discord.SnowflakeUtil.generate(),
-			author: user,
-			member: member,
+			edit: async (msg) => fakeSimpleMessage(client, channel, msg),
+			reply: async (msg) => fakeSimpleMessage(client, channel, msg),
+			react: async () => true,
+			delete: async () => true,
 		},
-		channel,
-	), {
-		reply: async (msg) => ctxFakeReply(client, channel, msg),
-	});
+	);
 	channel.messages.cache.set(message.id, message);
 
 	return message;
 }
 
-function ctxFakeReply(client, channel) {
-	return new Discord.Message(client, {
+/**
+ * Creates a simple fake Discord Message.
+ * @param {Discord.Client} client
+ * @param {Discord.TextChannel} channel
+ * @param {string} [msg]
+ * @returns {Discord.Message|Object}
+ */
+function fakeSimpleMessage(client, channel, msg = 'Hello') {
+	return {
+		client,
 		id: Discord.SnowflakeUtil.generate(),
 		author: client.user,
-		content: 'Say!',
-	}, channel);
+		content: msg,
+		channel: channel,
+		member: {
+			displayColor: 0,
+		},
+		send: async () => true,
+		edit: async () => true,
+		reply: async () => true,
+		react: async () => true,
+		delete: async () => true,
+		createReactionCollector: () => {
+			return { on: () => true };
+		},
+	};
+	// return new Discord.Message(
+	// 	client,
+	// 	{
+	// 		id: Discord.SnowflakeUtil.generate(),
+	// 		author: client.user,
+	// 		content: msg,
+	// 	},
+	// 	channel,
+	// );
 }
