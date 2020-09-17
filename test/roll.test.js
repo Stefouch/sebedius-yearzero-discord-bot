@@ -58,6 +58,14 @@ describe('RollTable Module - D6', function() {
 		['6', 'Retzius'],
 	]);
 
+	it('Should have correct properties', function() {
+		expect(rt.min).to.equal(1);
+		expect(rt.max).to.equal(6);
+		expect(rt.length).to.equal(6);
+		expect(rt.size).to.equal(3);
+		expect(rt.d).to.equal('D6');
+	});
+
 	it('Should return Sebedius', function() {
 		expect(rt.get(0)).to.equal('Sebedius');
 	});
@@ -78,11 +86,19 @@ describe('RollTable Module - D6', function() {
 });
 
 describe('RollTable Module - D66', function() {
-	const rt = new RollTable('Box of Stef', 'D6', [
+	const rt = new RollTable('Box of Stef', 'D66', [
 		['11-22', 'Sebedius'],
 		['23-56', 'Thaddeus'],
 		['61-66', 'Retzius'],
 	]);
+
+	it('Should have correct properties', function() {
+		expect(rt.min).to.equal(11);
+		expect(rt.max).to.equal(66);
+		expect(rt.length).to.equal(36);
+		expect(rt.size).to.equal(3);
+		expect(rt.d).to.equal('D66');
+	});
 
 	it('Should return Sebedius', function() {
 		expect(rt.get(0)).to.equal('Sebedius');

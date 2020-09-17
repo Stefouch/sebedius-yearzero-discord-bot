@@ -37,6 +37,7 @@ class ContextMessage extends Discord.Message {
 	 * @async
 	 */
 	async send(content, options) {
+		// if (this.client.muted) return;
 		// if (this.channel.type === 'dm') return await this.author.send(content, options);
 		return await this.channel.send(content, options);
 	}
