@@ -21,10 +21,10 @@ describe('Keyv & PostGreSQL Database', function() {
 		}
 	});
 
-	it('Should have NodeJS version ^12.x or lower', function() {
+	it('Should have NodeJS version within (10.x-13.x)', function() {
 		const nodeVersion = +process.version.split('.')[0].slice(1);
-		expect(nodeVersion).to.not.be.greaterThan(12);
-		expect(nodeVersion).to.be.greaterThan(8);
+		expect(nodeVersion).to.not.be.greaterThan(13);
+		expect(nodeVersion).to.be.greaterThan(9);
 	});
 
 	it('Should have a DATABASE_URL environment variable', function() {
