@@ -1,6 +1,6 @@
 {
   "name": "sebedius-yz-discord-bot",
-  "version": "3.7.0",
+  "version": "3.7.1",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "core-worker": "^0.3.5",
     "discord.js": "^12.3.1",
     "dotenv": "^8.2.0",
-    "keyv": "^4.0.1",
+    "keyv": "^4.0.3",
     "ms": "^2.1.2",
     "os": "^0.1.1",
     "yaml": "^1.10.0",
