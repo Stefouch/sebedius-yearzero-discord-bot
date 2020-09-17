@@ -16,8 +16,9 @@ jobs:
 
     strategy:
       matrix:
+        # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
-        node-version: [ 10.x, 12.x ]
+        node-version: [ 11.x, 12.x, 13.x ]
 
     steps:
     - name: 📡 Checkout
