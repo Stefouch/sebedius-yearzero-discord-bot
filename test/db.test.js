@@ -17,7 +17,7 @@ describe('Keyv & PostGreSQL Database', function() {
 
 	this.beforeEach(function() {
 		if (process.env.NODE_ENV !== 'production') {
-			this.skip();
+			// this.skip();
 		}
 	});
 
