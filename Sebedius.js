@@ -373,10 +373,15 @@ class Sebedius extends Discord.Client {
 	 * Increases by 1 the number of uses for this command.
 	 * Used for statistics purposes.
 	 * @param {string} commandName The command.name property
+	 * @param {Discord.Message} message Discord message
 	 * @returns {number}
 	 * @async
 	 */
-	async raiseCommandStats(commandName) {
+	async raiseCommandStats(commandName, message) {
+		if (commandName === 'roll' || commandName === 'crit') {
+			const defaultGame = await this.constructor.getConf('games', message, message.bot);
+			if (defaultGame) commandName += defaultGame;
+		}
 		const count = await this.kdb.stats.get(commandName) || 0;
 		return await this.kdb.stats.set(commandName, count + 1);
 	}
