@@ -141,7 +141,7 @@ bot.on('message', async message => {
 	);
 	try {
 		await command.run(args, ctx);
-		bot.raiseCommandStats(command.name);
+		bot.raiseCommandStats(command.name, ctx);
 	}
 	catch (error) {
 		console.error('[Error] At command execution.');

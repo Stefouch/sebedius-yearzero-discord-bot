@@ -7,6 +7,9 @@ All notable changes to this project will be documented in this file.
 ### Added
 - (GitHub) More protection against breaking updates: GitHub CI can now test all commands individually.
 
+### Fixed
+- Correct statistics for `!roll` and `!crit` commands.
+
 ## [3.7.0] - 2020-09-15
 ### Changed
 - Command `!journey` has been revamped.
