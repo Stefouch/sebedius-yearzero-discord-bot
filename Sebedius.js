@@ -7,6 +7,7 @@ const PageMenu = require('./utils/PageMenu');
 const ContextMessage = require('./utils/ContextMessage');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
+const CharacterSheetManager = require('./yearzero/sheet/CharacterSheetManager');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
 /**
@@ -86,6 +87,9 @@ class Sebedius extends Discord.Client {
 			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
 			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}\n`, err));
 		}
+
+		// Managers.
+		this.characters = new CharacterSheetManager(this);
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
