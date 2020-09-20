@@ -2,35 +2,40 @@ const YZRoll = require('../YZRoll');
 const { PRIMITIVE_ATTRIBUTE_MAP, SKILL_MAP } = require('../../utils/constants');
 
 /**
- * A standard Year Zero Character Sheet.
+ * The base model for managing Year Zero sheets.
  */
-class YZCharacterSheet {
+class BaseSheet {
 	/**
-	 * @param {Object} data Character sheet's data
-	 * @param {string} [data.name] Character's name
-	 * @param {string} [data.game='myz'] Character's game
-	 * @param {AttributesData} [data.attributes] Character's attributes
-	 * @param {SkillsData} [data.skills] Character's skills
-	 * @param {number} [data.armor] Character's Armor Rating
+	 * @param {import('discord.js').Snowflake} owner Owner's ID
+	 * @param {Object} data Sheet's data
+	 * @param {string} [data.name] Name
+	 * @param {string} [data.game='myz'] Game code
+	 * @param {AttributesData} [data.attributes] Attributes
+	 * @param {SkillsData} [data.skills] Skills
+	 * @param {?string} [data.type] Sheet's type
+	 * @param {number} [data.armor] Armor Rating
 	 *
 	 * @typedef {Object[]|Object<string, number>} AttributesData
+	 * Attributes' Data. Either:
 	 * * [ { attribute1.raw }, { attribute2.raw }]
 	 * * { attribute1: value1, attribute2: value2 }
 	 *
 	 * @typedef {Object[]|Object<string, number>} SkillsData
+	 * Skills' Data. Either:
 	 * * [ { skill1.raw }, { skill2.raw }]
 	 * * { skill1: value1, skill2: value2 }
 	 */
-	constructor(id, data = {
-		name: 'Unnamed character',
+	constructor(owner, data = {
+		name: '???',
 		game: 'myz',
+		type: null,
 		armor: 0,
 	}) {
 		/**
-		 * The ID of the character sheet.
+		 * The ID of the character's owner.
 		 * @type {string}
 		 */
-		this.id = id;
+		this.owner = owner;
 
 		/**
 		 * The name of the character.
@@ -39,10 +44,16 @@ class YZCharacterSheet {
 		this.name = data.name;
 
 		/**
-		 * The game for the character
+		 * The code for the game of the character
 		 * @type {string}
 		 */
 		this.game = data.game;
+
+		/**
+		 * The type of the sheet.
+		 * @type {string}
+		 */
+		this.type = data.type || 'base';
 
 		/**
 		 * The Armor Rating for the character.
@@ -93,7 +104,7 @@ class YZCharacterSheet {
 	}
 
 	/**
-	 * The primitive Strength's value for the character.
+	 * The Strength's value for the character.
 	 * Used for close-combat.
 	 * @type {number}
 	 * @readonly
@@ -104,8 +115,8 @@ class YZCharacterSheet {
 		return undefined;
 	}
 	/**
-	 * The primitive Agility's value for the character.
-	 * Ued for ranged-combat.
+	 * The Agility's value for the character.
+	 * Used for ranged-combat.
 	 * @type {number}
 	 * @readonly
 	 */
@@ -117,29 +128,29 @@ class YZCharacterSheet {
 
 	/**
 	 * Gets an attribute.
-	 * @param {string|PrimitiveAttribute} attribute Attribute's name or primitive
+	 * @param {string|PrimitiveAttribute} attributeName Attribute's name or primitive
 	 * @returns {Attribute}
 	 */
-	getAttribute(attribute) {
-		let attr = this.attributes.find(a => a.name === attribute || a.primitive === attribute);
-		if (!attr) attr = this.attributes.find(a => a.name.includes(attribute));
+	getAttribute(attributeName) {
+		let attr = this.attributes.find(a => a.name === attributeName || a.primitive === attributeName);
+		if (!attr) attr = this.attributes.find(a => a.name.includes(attributeName));
 		return attr;
 	}
 
 	/**
 	 * Gets a skill.
-	 * @param {string} skill Skill's name
+	 * @param {string} skillName Skill's name
 	 * @returns {Skill}
 	 */
-	getSkill(skill) {
-		let sk = this.skills.find(s => s.name === skill);
-		if (!sk) sk = this.skills.find(s => s.name.includes(skill));
-		return sk;
+	getSkill(skillName) {
+		let skill = this.skills.find(s => s.name === skillName);
+		if (!skill) skill = this.skills.find(s => s.name.includes(skillName));
+		return skill;
 	}
 
 	/**
-	 * Gets the dice.
-	 * @param {string} name Skill or attribute name.
+	 * Gets the dice for a skill test.
+	 * @param {string} name Skill- or attribute's name.
 	 * @returns {YZRoll}
 	 */
 	getDice(name) {
@@ -155,68 +166,22 @@ class YZCharacterSheet {
 
 	toRaw() {
 		return {
-			id: this.id,
+			owner: this.owner,
 			name: this.name,
 			game: this.game,
+			type: this.type,
 			attributes: this.attributes.map(a => a.toRaw()),
 			skills: this.skills.map(s => s.toRaw()),
 			armor: this.armor,
 		};
 	}
-}
-
-module.exports = YZCharacterSheet;
-
-/**
- * A Year Zero Skill.
- */
-class Skill {
-	/**
-	 * @param {string} name The name of the skill
-	 * @param {number} [value=0] The level of the skill
-	 * @param {?PrimitiveAttribute} [attribute] The primitive attribute related to the skill
-	 */
-	constructor(name, value = 0, attribute = null) {
-		/**
-		 * The name of the skill.
-		 * @type {string}
-		 */
-		this.name = name;
-
-		/**
-		 * The level of the skill.
-		 * @type {number}
-		 */
-		this.value = value;
-
-		/**
-		 * The primitive attribute related to the skill.
-		 * @type {PrimitiveAttribute}
-		 */
-		this.attribute = attribute || SKILL_MAP[name];
-	}
-
-	toRaw() {
-		return {
-			name: this.name,
-			value: this.value,
-			attribute: this.attribute,
-		};
-	}
-
-	static fromRaw(raw) {
-		return new this(raw.name, raw.value, raw.attribute);
-	}
-
 
 	toString() {
-		return `Skill [ ${this.name} (${this.value}) ]`;
-	}
-
-	valueOf() {
-		return this.value;
+		return `Sheet { ${this.name} }`;
 	}
 }
+
+module.exports = BaseSheet;
 
 /**
  * A Year Zero Attribute.
@@ -261,7 +226,58 @@ class Attribute {
 	}
 
 	toString() {
-		return `Attribute [ ${this.name} (${this.value}) ]`;
+		return `Attribute { ${this.name} => ${this.value} }`;
+	}
+
+	valueOf() {
+		return this.value;
+	}
+}
+
+/**
+ * A Year Zero Skill.
+ */
+class Skill {
+	/**
+	 * @param {string} name The name of the skill
+	 * @param {number} [value=0] The level of the skill
+	 * @param {?PrimitiveAttribute} [attribute] The primitive attribute related to the skill
+	 */
+	constructor(name, value = 0, attribute = null) {
+		/**
+		 * The name of the skill.
+		 * @type {string}
+		 */
+		this.name = name;
+
+		/**
+		 * The level of the skill.
+		 * @type {number}
+		 */
+		this.value = value;
+
+		/**
+		 * The primitive attribute related to the skill.
+		 * @type {PrimitiveAttribute}
+		 */
+		this.attribute = attribute || SKILL_MAP[name];
+	}
+
+	toRaw() {
+		return {
+			name: this.name,
+			value: this.value,
+			attribute: this.attribute,
+		};
+	}
+
+	static fromRaw(raw) {
+		return new this(raw.name, raw.value, raw.attribute);
+	}
+
+
+	toString() {
+		return `Skill { ${this.name} => ${this.value} }`;
 	}
 
 	valueOf() {
@@ -271,8 +287,8 @@ class Attribute {
 
 /**
  * @typedef {string} PrimitiveAttribute
- * * `str` - Strength
- * * `agi` - Agility
- * * `int` - Wits
- * * `emp` - Empathy
+ * * `str` – Strength
+ * * `agi` – Agility
+ * * `int` – Wits
+ * * `emp` – Empathy
  */
