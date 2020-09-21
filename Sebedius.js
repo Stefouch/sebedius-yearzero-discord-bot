@@ -7,7 +7,7 @@ const PageMenu = require('./utils/PageMenu');
 const ContextMessage = require('./utils/ContextMessage');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
-const CharacterSheetManager = require('./yearzero/sheet/CharacterSheetManager');
+const CharacterManager = require('./yearzero/sheet/CharacterManager');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
 /**
@@ -89,7 +89,7 @@ class Sebedius extends Discord.Client {
 		}
 
 		// Managers.
-		this.characters = new CharacterSheetManager(this);
+		this.characters = new CharacterManager(this);
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
