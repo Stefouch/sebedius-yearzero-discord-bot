@@ -2,20 +2,28 @@ const fetch = require('node-fetch');
 const SheetLoader = require('./SheetLoader');
 const ForbiddenLandsCharacter = require('../FBLCharacter');
 
+/**
+ * Imports a Forbidden Lands character sheet from Lasse's forbidden-sheets.com
+ * @extends {SheetLoader}
+ */
 class LasseForbiddenSheet extends SheetLoader {
+	/**
+	 * @param {string} url The URL where to fetch the character.
+	 */
 	constructor(url) {
 		super(url);
 	}
 
 	/**
 	 * Loads the character.
-	 * @param {import('discord.js').Snowflake} id Owner's ID
+	 * @param {import('discord.js').Snowflake} ownerID Owner's ID
 	 * @returns {Promise<ForbiddenLandsCharacter>}
 	 */
-	async loadCharacter(id) {
+	async loadCharacter(ownerID) {
 		const data = await this.fetch();
 
-		const char = new ForbiddenLandsCharacter(id, {
+		const char = new ForbiddenLandsCharacter(ownerID, {
+			url: this.url,
 			name: data.name,
 			attributes: this.getAttributes(),
 			skills: this.getSkills(),
