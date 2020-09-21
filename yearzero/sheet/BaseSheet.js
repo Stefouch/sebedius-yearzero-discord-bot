@@ -1,4 +1,5 @@
 const YZRoll = require('../YZRoll');
+const { SnowflakeUtil } = require('discord.js');
 const { PRIMITIVE_ATTRIBUTE_MAP, SKILL_MAP } = require('../../utils/constants');
 
 /**
@@ -8,32 +9,39 @@ class BaseSheet {
 	/**
 	 * @param {import('discord.js').Snowflake} owner Owner's ID
 	 * @param {Object} data Sheet's data
+	 * @param {import('discord.js').Snowflake} [data.id] Sheet's ID
 	 * @param {string} [data.name] Name
 	 * @param {string} [data.game='myz'] Game code
+	 * @param {string} [data.type='base'] Sheet's type
 	 * @param {AttributesData} [data.attributes] Attributes
 	 * @param {SkillsData} [data.skills] Skills
-	 * @param {?string} [data.type] Sheet's type
 	 * @param {number} [data.armor] Armor Rating
 	 *
 	 * @typedef {Object[]|Object<string, number>} AttributesData
 	 * Attributes' Data. Either:
-	 * * [ { attribute1.raw }, { attribute2.raw }]
-	 * * { attribute1: value1, attribute2: value2 }
+	 * * `[ { attribute1_raw }, { attribute2_raw }]`
+	 * * `{ attribute1: value1, attribute2: value2 }`
 	 *
 	 * @typedef {Object[]|Object<string, number>} SkillsData
 	 * Skills' Data. Either:
-	 * * [ { skill1.raw }, { skill2.raw }]
-	 * * { skill1: value1, skill2: value2 }
+	 * * `[ { skill1_raw }, { skill2_raw }]`
+	 * * `{ skill1: value1, skill2: value2 }`
 	 */
 	constructor(owner, data = {
 		name: '???',
 		game: 'myz',
-		type: null,
+		type: 'base',
 		armor: 0,
 	}) {
 		/**
+		 * The ID of the character.
+		 * @type {import('discord.js').Snowflake}
+		 */
+		this.id = data.id || SnowflakeUtil.generate();
+
+		/**
 		 * The ID of the character's owner.
-		 * @type {string}
+		 * @type {import('discord.js').Snowflake}
 		 */
 		this.owner = owner;
 
@@ -53,7 +61,7 @@ class BaseSheet {
 		 * The type of the sheet.
 		 * @type {string}
 		 */
-		this.type = data.type || 'base';
+		this.type = data.type;
 
 		/**
 		 * The Armor Rating for the character.
@@ -101,6 +109,15 @@ class BaseSheet {
 				this.skills.push(new Skill(skill, skills[skill]));
 			}
 		}
+	}
+
+	/**
+	 * The time the sheet was created at.
+	 * @type {Date}
+	 * @readonly
+	 */
+	get createdAt() {
+		return SnowflakeUtil.deconstruct(this.id).date;
 	}
 
 	/**
@@ -166,6 +183,7 @@ class BaseSheet {
 
 	toRaw() {
 		return {
+			id: this.id,
 			owner: this.owner,
 			name: this.name,
 			game: this.game,
@@ -174,6 +192,10 @@ class BaseSheet {
 			skills: this.skills.map(s => s.toRaw()),
 			armor: this.armor,
 		};
+	}
+
+	static fromRaw(raw) {
+		return new this(raw.owner, raw);
 	}
 
 	toString() {
