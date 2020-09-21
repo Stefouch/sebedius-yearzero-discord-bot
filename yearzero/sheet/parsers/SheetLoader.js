@@ -3,11 +3,11 @@
  */
 class SheetLoader {
 	/**
-	 * @param {string} url The url to fetch for the character.
+	 * @param {string} url The URL where to fetch the character.
 	 */
 	constructor(url) {
 		/**
-		 * The url to fetch for the character.
+		 * The URL where to fetch the character.
 		 * @type {string}
 		 */
 		this.url = url;
