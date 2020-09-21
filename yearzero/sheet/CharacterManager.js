@@ -1,26 +1,19 @@
 const Keyv = require('keyv');
 const { Collection } = require('discord.js');
 const Character = require('./Character');
+const ForbiddenLandsCharacter = require('./FBLCharacter');
 const LasseForbiddenSheet = require('./parsers/LasseForbiddenSheet');
 
 /**
  * Manages the character sheets and holds its cache.
  */
-class CharacterSheetManager {
-	constructor(client, iterable, cacheType = Collection) {
-		/**
-		 * The client that instantiated this Manager.
-		 * @name client
-		 * @type {import('discord.js').Client}
-		 * @readonly
-		 */
-		Object.defineProperty(this, 'client', { value: client });
-
+class CharacterManager {
+	constructor(dbUri, iterable, cacheType = Collection) {
 		/**
 		 * The database of the manager.
 		 * @type {Keyv}
 		 */
-		this.store = new Keyv(client.dbUri, { namespace: 'character' });
+		this.store = new Keyv(dbUri, { namespace: 'character' });
 		this.store.on('error', err => console.error('Keyv Connection Error: CHARACTERS\n', err));
 
 		/**
@@ -31,7 +24,7 @@ class CharacterSheetManager {
 
 		/**
 		 * Holds the cache for the data model.
-		 * @type {Collection}
+		 * @type {Collection<import('discord.js').Snowflake, Character>}
 		 */
 		this.cache = new cacheType();
 		if (iterable) for (const i of iterable) this.add(i);
@@ -39,43 +32,121 @@ class CharacterSheetManager {
 
 	/**
 	 * Adds to cache.
-	 * @param {*} data 
-	 * @param {boolean} cache 
-	 * @param {boolean} store 
-	 * @param {string} id
+	 * @param {*} data Character to add
+	 * @param {boolean} cache Whether to add the character to the cache
+	 * @param {Object} options
+	 * @returns {Character}
 	 */
-	add(data, cache = true, store = true, { id, extras = [] } = {}) {
+	add(data, cache = true, { id } = {}) {
 		const existing = this.cache.get(id || data.id);
 		if (existing) return existing;
 
-		// TODO
-		const entry = data ? new Character(id, data, ...extras) : data;
-		if (cache) {
-			this.cache.set(id || entry.id, entry);
-		}
-		return entry;
+		const character = data instanceof Character ? data : this.create(data);
+		if (cache) this.cache.set(id || character.id, character);
+		return character;
 	}
 
 	/**
-	 * Obtains a character from an url, or the character cache if it's already available.
-	 * @param {import('discord.js').Snowflake} id ID of the character or the url.
-	 * @param {boolean} [cache=true] Whether to cache the new character object if it isn't already
-	 * @param {boolean} [force=false] Whether to skip the cache check and request the API
-	 * @returns {Promise<Character>}
+	 * Creates a Character.
+	 * @param {Object} data Raw data of the character
+	 * @returns {ForbiddenLandsCharacter|Character}
 	 */
-	async fetch(id, cache = true, force = false) {
-		if (!force) {
-			const existing = this.cache.get(id);
-			if (existing) return existing;
+	create(data) {
+		if (data.game === 'fbl') return new ForbiddenLandsCharacter(data.owner, data);
+		return new Character(data.owner, data);
+	}
+
+	remove(id) {
+		this.cache.sweep(c => c.id === id || c.owner === id);
+	}
+
+	async cleanse(id) {
+		return await this.store.delete(id) | this.remove(id);
+	}
+
+	/**
+	 * Save a character to the database.
+	 * @param {Character} character Character to save.
+	 * @param {boolean} cleanse Whether old character entries should be removed.
+	 * @returns {Character} The saved character.
+	 * @async
+	 */
+	async save(character, cleanse = true) {
+		// Gets all the existing player's characters.
+		/** @type {*[]|[]} */
+		let characters = await this.store.get(character.owner) || [];
+
+		// Removes older entries.
+		if (cleanse) {
+			const now = Date.now();
+			characters = characters.filter(c => now - c.ttl <= this.constructor.TTL);
 		}
 
-		let character;
-		if (LasseForbiddenSheet.URL_REGEX.test(id)) {
-			character = await new LasseForbiddenSheet(id)
-				.loadCharacter(id);
+		// Removes existing entry(ies) that will be replaced.
+		characters = characters.filter(c => c.id !== character.id);
+
+		// Adds the new character to the list.
+		characters.push(character.toRaw());
+
+		// Stores in the database.
+		const isSet = await this.store.set(character.owner, characters, this.constructor.TTL);
+		if (!isSet) throw new Error(`Could not save the character(s) to the database for owner: ${character.owner}`);
+		return this.add(character);
+	}
+
+	/**
+	 * Obtains a character from the database, or the character cache if it's already available.
+	 * @param {import('discord.js').Snowflake} characterID Character's ID
+	 * @param {import('discord.js').Snowflake} ownerID Owner's ID
+	 * @param {boolean} [cache=true] Whether to cache the new character object if it isn't already
+	 * @param {boolean} [force=false] Whether to skip the cache check and request the API
+	 * @returns {Promise<Character[]>}
+	 */
+	async fetch(characterID, ownerID, cache = true, force = false) {
+		if (!force) {
+			const existing = this.cache.get(characterID);
+			if (existing) return existing;
 		}
-		return this.add(character, cache);
+		const datas = await this.fetchAll(ownerID, cache);
+		const data = datas.find(c => c.id === characterID);
+		return this.add(data, cache);
+	}
+
+	/**
+	 * Obtains all characters of a single player from the database.
+	 * @param {import('discord.js').Snowflake} ownerID Owner's ID
+	 * @param {boolean} [cache=false] Whether to cache the new character object if it isn't already
+	 * @returns {Promise<Character[]>}
+	 */
+	async fetchAll(ownerID, cache = false) {
+		const datas = await this.store.get(ownerID) || [];
+		if (cache) for (const data of datas) this.add(data);
+		return datas;
+	}
+
+	/**
+	 * Imports a character from an API.
+	 * @param {import('discord.js').Snowflake} ownerID Owner's ID
+	 * @param {string} url URL where to fetch the character's data
+	 * @returns {Promise<Character>}
+	 * @async
+	 */
+	async import(ownerID, url) {
+		let character;
+		if (LasseForbiddenSheet.URL_REGEX.test(url)) {
+			character = await new LasseForbiddenSheet(url)
+				.loadCharacter(ownerID);
+		}
+		if (!character) throw new ReferenceError('@CharacterManager Import API - Character Not Found');
+		return this.add(character);
 	}
 }
 
-module.exports = CharacterSheetManager;
+/**
+ * Maximum TTL: 30 days.
+ * @type {number}
+ * @constant
+ */
+CharacterManager.TTL = 1000 * 60 * 60 * 24 * 30;
+
+module.exports = CharacterManager;
