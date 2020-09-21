@@ -89,7 +89,7 @@ class Sebedius extends Discord.Client {
 		}
 
 		// Managers.
-		this.characters = new CharacterManager(this);
+		this.characters = new CharacterManager(this.dbUri);
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
