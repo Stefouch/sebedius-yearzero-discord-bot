@@ -38,8 +38,8 @@ class CharacterManager {
 	 * @returns {Character}
 	 */
 	add(data, cache = true, { id } = {}) {
-		const existing = this.cache.get(id || data.id);
-		if (existing) return existing;
+		// const existing = this.cache.get(id || data.id);
+		// if (existing) return existing;
 
 		const character = data instanceof Character ? data : this.create(data);
 		if (cache) this.cache.set(id || character.id, character);
@@ -56,24 +56,34 @@ class CharacterManager {
 		return new Character(data.owner, data);
 	}
 
+	/**
+	 * Removes some entries from the cache.
+	 * @param {import('discord.js').Snowflake} id Character- and/or owner's ID
+	 */
 	remove(id) {
 		this.cache.sweep(c => c.id === id || c.owner === id);
 	}
 
+	/**
+	 * Removes all entries from the cache and the database for a single player.
+	 * @param {import('discord.js').Snowflake} id Owner's ID
+	 * @async
+	 */
 	async cleanse(id) {
-		return await this.store.delete(id) | this.remove(id);
+		this.remove(id);
+		await this.store.delete(id);
 	}
 
 	/**
-	 * Save a character to the database.
+	 * Saves a character to the database.
 	 * @param {Character} character Character to save.
-	 * @param {boolean} cleanse Whether old character entries should be removed.
+	 * @param {boolean} cleanse Whether old character entries should be removed in the process.
 	 * @returns {Character} The saved character.
 	 * @async
 	 */
 	async save(character, cleanse = true) {
 		// Gets all the existing player's characters.
-		/** @type {*[]|[]} */
+		/** @type {Character[]} but in raw */
 		let characters = await this.store.get(character.owner) || [];
 
 		// Removes older entries.
