@@ -21,6 +21,7 @@ const DB_MAP = {
 	games: 'game',
 	langs: 'lang',
 	combats: 'combat',
+	characters: 'character',
 	stats: 'count',
 	blacklistedGuilds: 'blacklisted',
 	mutedUsers: 'muted',
@@ -89,7 +90,7 @@ class Sebedius extends Discord.Client {
 		}
 
 		// Managers.
-		this.characters = new CharacterManager(this.dbUri);
+		this.characters = new CharacterManager(this.kdb.characters);
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
