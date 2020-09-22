@@ -1,20 +1,18 @@
-const Keyv = require('keyv');
 const { Collection } = require('discord.js');
 const Character = require('./Character');
 const ForbiddenLandsCharacter = require('./FBLCharacter');
-const LasseForbiddenSheet = require('./parsers/LasseForbiddenSheet');
+const LasseForbiddenSheetParser = require('./parsers/LasseFS');
 
 /**
  * Manages the character sheets and holds its cache.
  */
 class CharacterManager {
-	constructor(dbUri, iterable, cacheType = Collection) {
+	constructor(store, iterable, cacheType = Collection) {
 		/**
 		 * The database of the manager.
-		 * @type {Keyv}
+		 * @type {import('keyv')}
 		 */
-		this.store = new Keyv(dbUri, { namespace: 'character' });
-		this.store.on('error', err => console.error('Keyv Connection Error: CHARACTERS\n', err));
+		this.store = store;
 
 		/**
 		 * The type of Collection of the Manager.
@@ -81,7 +79,7 @@ class CharacterManager {
 	 * @returns {Character} The saved character.
 	 * @async
 	 */
-	async save(character, cleanse = true) {
+	async commit(character, cleanse = true) {
 		// Gets all the existing player's characters.
 		/** @type {Character[]} but in raw */
 		let characters = await this.store.get(character.owner) || [];
@@ -110,7 +108,7 @@ class CharacterManager {
 	 * @param {import('discord.js').Snowflake} ownerID Owner's ID
 	 * @param {boolean} [cache=true] Whether to cache the new character object if it isn't already
 	 * @param {boolean} [force=false] Whether to skip the cache check and request the API
-	 * @returns {Promise<Character[]>}
+	 * @returns {Promise<Character>}
 	 */
 	async fetch(characterID, ownerID, cache = true, force = false) {
 		if (!force) {
@@ -143,8 +141,8 @@ class CharacterManager {
 	 */
 	async import(ownerID, url) {
 		let character;
-		if (LasseForbiddenSheet.URL_REGEX.test(url)) {
-			character = await new LasseForbiddenSheet(url)
+		if (LasseForbiddenSheetParser.URL_REGEX.test(url)) {
+			character = await new LasseForbiddenSheetParser(url)
 				.loadCharacter(ownerID);
 		}
 		if (!character) throw new ReferenceError('@CharacterManager Import API - Character Not Found');
