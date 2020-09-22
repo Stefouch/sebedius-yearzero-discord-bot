@@ -22,6 +22,12 @@ class Character extends BaseSheet {
 		this.ttl = Date.now();
 
 		/**
+		 * Whether this character is still active.
+		 * @type {boolean}
+		 */
+		this.active = data.active ? true : false;
+
+		/**
 		 * The weapons of the character.
 		 * @type {YZWeapon[]}
 		 */
@@ -38,6 +44,7 @@ class Character extends BaseSheet {
 		return Object.assign(super.toRaw(), {
 			url: this.url,
 			ttl: this.ttl,
+			active: this.active,
 		});
 	}
 }
