@@ -1,6 +1,7 @@
 const YZRoll = require('../YZRoll');
 const { SnowflakeUtil } = require('discord.js');
 const { PRIMITIVE_ATTRIBUTE_MAP, SKILL_MAP } = require('../../utils/constants');
+const version = require('../../utils/version');
 
 /**
  * The base model for managing Year Zero sheets.
@@ -44,6 +45,12 @@ class BaseSheet {
 		 * @type {import('discord.js').Snowflake}
 		 */
 		this.owner = owner;
+
+		/**
+		 * The current version of the sheet.
+		 * @type {string}
+		 */
+		this.version = data.version || version;
 
 		/**
 		 * The name of the character.
@@ -185,6 +192,7 @@ class BaseSheet {
 		return {
 			id: this.id,
 			owner: this.owner,
+			version: this.version,
 			name: this.name,
 			game: this.game,
 			type: this.type,
@@ -199,7 +207,7 @@ class BaseSheet {
 	}
 
 	toString() {
-		return `Sheet { ${this.name} }`;
+		return `Sheet { ${this.id} => ${this.name} }`;
 	}
 }
 
@@ -248,7 +256,7 @@ class Attribute {
 	}
 
 	toString() {
-		return `Attribute { ${this.name} => ${this.value} }`;
+		return `Attribute { ${this.name}: ${this.value} }`;
 	}
 
 	valueOf() {
@@ -299,7 +307,7 @@ class Skill {
 
 
 	toString() {
-		return `Skill { ${this.name} => ${this.value} }`;
+		return `Skill { ${this.name}: ${this.value} }`;
 	}
 
 	valueOf() {
