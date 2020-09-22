@@ -1,7 +1,7 @@
 /**
  * Base model for online Sheet parsers.
  */
-class SheetLoader {
+class SheetParser {
 	/**
 	 * @param {string} url The URL where to fetch the character.
 	 */
@@ -28,4 +28,4 @@ class SheetLoader {
 	}
 }
 
-module.exports = SheetLoader;
+module.exports = SheetParser;

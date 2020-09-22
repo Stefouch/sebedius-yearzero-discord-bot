@@ -1,12 +1,12 @@
 const fetch = require('node-fetch');
-const SheetLoader = require('./SheetLoader');
+const SheetParser = require('./SheetParser');
 const ForbiddenLandsCharacter = require('../FBLCharacter');
 
 /**
  * Imports a Forbidden Lands character sheet from Lasse's forbidden-sheets.com
- * @extends {SheetLoader}
+ * @extends {SheetParser}
  */
-class LasseForbiddenSheet extends SheetLoader {
+class LasseForbiddenSheetParser extends SheetParser {
 	/**
 	 * @param {string} url The URL where to fetch the character.
 	 */
@@ -116,6 +116,6 @@ class LasseForbiddenSheet extends SheetLoader {
 	}
 }
 
-LasseForbiddenSheet.URL_REGEX = /^https:\/\/europe-west1-forbidden-sheets.cloudfunctions.net\/sheets\?id=([a-zA-Z0-9]+)$/;
+LasseForbiddenSheetParser.URL_REGEX = /^https:\/\/europe-west1-forbidden-sheets.cloudfunctions.net\/sheets\?id=([a-zA-Z0-9]+)$/;
 
-module.exports = LasseForbiddenSheet;
+module.exports = LasseForbiddenSheetParser;
