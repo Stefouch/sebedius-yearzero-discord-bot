@@ -15,7 +15,7 @@ module.exports = {
 	async run(args, ctx) {
 		const character = await ctx.bot.characters.import(ctx.author.id, args[0]);
 
-		// if (args[1] === '-show') {
+		// if (args[1] === '-v') {
 			console.log(character);
 			await ctx.send(new CharacterEmbed(character, ctx));
 		// }
