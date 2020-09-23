@@ -53,6 +53,7 @@ class Character extends BaseSheet {
 			ttl: this.ttl,
 			active: this.active,
 			kin: this.kin,
+			weapons: this.weapons.map(w => w.toRaw()),
 		});
 	}
 }
