@@ -7,6 +7,7 @@ class ForbiddenLandsCharacter extends SurvivalCharacter {
 
 		/**
 		 * The profession (role) of the character.
+		 * @type {string}
 		 */
 		this.profession = data.profession;
 	}
