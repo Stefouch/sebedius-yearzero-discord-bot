@@ -1,4 +1,5 @@
 const BaseSheet = require('./BaseSheet');
+const Weapon = require('../Weapon');
 
 /**
  * A Year Zero Character Sheet.
@@ -28,8 +29,14 @@ class Character extends BaseSheet {
 		this.active = data.active ? true : false;
 
 		/**
+		 * The kin or race of the character.
+		 * @type {string}
+		 */
+		this.kin = data.kin || data.race || 'human';
+
+		/**
 		 * The weapons of the character.
-		 * @type {YZWeapon[]}
+		 * @type {Weapon[]}
 		 */
 		this.weapons = [];
 
@@ -37,7 +44,7 @@ class Character extends BaseSheet {
 	}
 
 	_setupWeapons(weapons) {
-		for (const w of weapons) this.weapons.push(w);
+		for (const w of weapons) this.weapons.push(new Weapon(w));
 	}
 
 	toRaw() {
@@ -45,6 +52,7 @@ class Character extends BaseSheet {
 			url: this.url,
 			ttl: this.ttl,
 			active: this.active,
+			kin: this.kin,
 		});
 	}
 }

@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
-const Character = require('./Character');
-const ForbiddenLandsCharacter = require('./FBLCharacter');
-const LasseForbiddenSheet = require('./parsers/LasseForbiddenSheet');
+const Character = require('./sheet/Character');
+const ForbiddenLandsCharacter = require('./sheet/FBLCharacter');
+const LasseForbiddenSheet = require('./sheet/parsers/LasseFS');
 
 /**
  * Manages the character sheets and holds its cache.

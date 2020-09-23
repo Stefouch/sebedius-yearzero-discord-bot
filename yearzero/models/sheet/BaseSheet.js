@@ -1,10 +1,10 @@
-const YZRoll = require('../YZRoll');
+const YZRoll = require('../../YZRoll');
 const { SnowflakeUtil } = require('discord.js');
-const { PRIMITIVE_ATTRIBUTE_MAP, SKILL_MAP } = require('../../utils/constants');
-const version = require('../../utils/version');
+const { PRIMITIVE_ATTRIBUTE_MAP, SKILL_MAP } = require('../../../utils/constants');
+const SEBEDIUS_VERSION = require('../../../utils/version');
 
 /**
- * The base model for managing Year Zero sheets.
+ * The base model for Year Zero sheets.
  */
 class BaseSheet {
 	/**
@@ -28,12 +28,7 @@ class BaseSheet {
 	 * * `[ { skill1_raw }, { skill2_raw }]`
 	 * * `{ skill1: value1, skill2: value2 }`
 	 */
-	constructor(owner, data = {
-		name: '???',
-		game: 'myz',
-		type: 'base',
-		armor: 0,
-	}) {
+	constructor(owner, data) {
 		/**
 		 * The ID of the character.
 		 * @type {import('discord.js').Snowflake}
@@ -50,31 +45,31 @@ class BaseSheet {
 		 * The current version of the sheet.
 		 * @type {string}
 		 */
-		this.version = data.version || version;
+		this.version = data.version || SEBEDIUS_VERSION;
 
 		/**
 		 * The name of the character.
 		 * @type {string}
 		 */
-		this.name = data.name;
+		this.name = data.name || '???';
 
 		/**
 		 * The code for the game of the character
 		 * @type {string}
 		 */
-		this.game = data.game;
+		this.game = data.game || 'myz';
 
 		/**
 		 * The type of the sheet.
 		 * @type {string}
 		 */
-		this.type = data.type;
+		this.type = data.type || 'base';
 
 		/**
 		 * The Armor Rating for the character.
 		 * @type {number}
 		 */
-		this.armor = data.armor;
+		this.armor = data.armor || 0;
 
 		/**
 		 * The attributes of the character.
@@ -135,9 +130,10 @@ class BaseSheet {
 	 */
 	get str() {
 		const attr = this.attributes.find(a => a.primitive === 'str');
-		if (attr) return attr.value;
+		if (attr) return attr.total;
 		return undefined;
 	}
+
 	/**
 	 * The Agility's value for the character.
 	 * Used for ranged-combat.
@@ -146,7 +142,29 @@ class BaseSheet {
 	 */
 	get agi() {
 		const attr = this.attributes.find(a => a.primitive === 'agi');
-		if (attr) return attr.value;
+		if (attr) return attr.total;
+		return undefined;
+	}
+
+	/**
+	 * The Wits's value for the character.
+	 * @type {number}
+	 * @readonly
+	 */
+	get int() {
+		const attr = this.attributes.find(a => a.primitive === 'int');
+		if (attr) return attr.total;
+		return undefined;
+	}
+
+	/**
+	 * The Empathy's value for the character.
+	 * @type {number}
+	 * @readonly
+	 */
+	get emp() {
+		const attr = this.attributes.find(a => a.primitive === 'emp');
+		if (attr) return attr.total;
 		return undefined;
 	}
 
@@ -184,7 +202,7 @@ class BaseSheet {
 		if (!attribute) throw new TypeError('UNKNOWN ATTRIBUTE - Cannot get attribute value');
 
 		return new YZRoll(this.game, this.name, name)
-			.addBaseDice(attribute.value)
+			.addBaseDice(attribute.total)
 			.addSkillDice(skill ? skill.value : 0);
 	}
 
@@ -218,10 +236,11 @@ module.exports = BaseSheet;
  */
 class Attribute {
 	/**
-	 * @param {string} name The name of the skill
-	 * @param {number} [value=0] The level of the skill
+	 * @param {string} name The name of the attribute
+	 * @param {number} [value=0] The level of the attribute
+	 * @param {number} [trauma=0] The quantity of trauma on the attribute
 	 */
-	constructor(name, value = 0) {
+	constructor(name, value = 0, trauma = 0) {
 		/**
 		 * The attribute's name.
 		 * @type {string}
@@ -233,10 +252,25 @@ class Attribute {
 		 * @type {number}
 		 */
 		this.value = value;
+
+		/**
+		 * The quantity of trauma on the attribute.
+		 * @type {number}
+		 */
+		this.trauma = trauma;
 	}
 
 	/**
-	 * The primitive of this attribute.
+	 * The total value of the attribute.
+	 * @type {number}
+	 * @readonly
+	 */
+	get total() {
+		return this.value - this.trauma;
+	}
+
+	/**
+	 * The primitive of the attribute.
 	 * @type {PrimitiveAttribute}
 	 * @readonly
 	 */
@@ -248,19 +282,20 @@ class Attribute {
 		return {
 			name: this.name,
 			value: this.value,
+			trauma: this.trauma,
 		};
 	}
 
 	static fromRaw(raw) {
-		return new this(raw.name, raw.value);
+		return new this(raw.name, raw.value, raw.trauma);
 	}
 
 	toString() {
-		return `Attribute { ${this.name}: ${this.value} }`;
+		return `Attribute { ${this.name}: ${this.total}/${this.value} }`;
 	}
 
 	valueOf() {
-		return this.value;
+		return this.total;
 	}
 }
 

@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const SheetParser = require('./SheetParser');
 const ForbiddenLandsCharacter = require('../FBLCharacter');
+const { trimString } = require('../../../../utils/Util');
 
 /**
  * Imports a Forbidden Lands character sheet from Lasse's forbidden-sheets.com
@@ -24,11 +25,20 @@ class LasseForbiddenSheetParser extends SheetParser {
 
 		const char = new ForbiddenLandsCharacter(ownerID, {
 			url: this.url,
-			name: data.name,
+			name: trimString(data.name, 100),
+			kin: trimString(data.kin, 100),
+			profession: trimString(data.profession, 100),
 			attributes: this.getAttributes(),
 			skills: this.getSkills(),
 			armor: this.getArmorRating(),
+			weapons: this.getWeapons(),
+			hungry: data.hungry,
+			thirsty: data.thirsty,
+			sleepy: data.sleepy,
+			cold: data.cold,
 		});
+
+		char.description = `Kin: *${char.kin}*\nProfession: *${char.profession}*`;
 
 		return char;
 	}
@@ -40,7 +50,8 @@ class LasseForbiddenSheetParser extends SheetParser {
 	 * @async
 	 */
 	async fetch() {
-		const response = await fetch(this.url);
+		const id = this.constructor.URL_REGEX.exec(this.url)[1];
+		const response = await fetch(this.constructor.URI + id);
 		const data = await response.json();
 		this.characterData = data[0];
 		return data[0];
@@ -55,7 +66,8 @@ class LasseForbiddenSheetParser extends SheetParser {
 			.map(a => {
 				return {
 					name: a,
-					value: (+this.characterData[a] || 0) - this.countPips(a, false),
+					value: +this.characterData[a] || 0,
+					trauma: this.countPips(a, true),
 				};
 			});
 	}
@@ -101,6 +113,28 @@ class LasseForbiddenSheetParser extends SheetParser {
 	}
 
 	/**
+	 * Creates an array of weapons.
+	 * @type {Weapon[]}
+	 */
+	getWeapons() {
+		const weapons = [];
+		for (let i = 1; i <= 5; i++) {
+			if (this.characterData[`weapon${i}`] && this.characterData[`weapon${i}`].length) {
+				weapons.push({
+					name: trimString(this.characterData[`weapon${i}`], 100),
+					bonus: +this.characterData[`weapon${i}Bonus`],
+					damage: +this.characterData[`weapon${i}Damage`],
+					range: trimString(this.characterData[`weapon${i}Range`], 10),
+					comment: trimString(this.characterData[`weapon${i}Comment`], 100),
+					source: 'fbl',
+					weight: 1,
+				});
+			}
+		}
+		return weapons;
+	}
+
+	/**
 	 * Counts checked or unchecked pips for a given property.
 	 * @param {string} propertyName property$
 	 * @param {boolean} checked Whether to count checked or unchecked pips
@@ -116,6 +150,9 @@ class LasseForbiddenSheetParser extends SheetParser {
 	}
 }
 
-LasseForbiddenSheetParser.URL_REGEX = /^https:\/\/europe-west1-forbidden-sheets.cloudfunctions.net\/sheets\?id=([a-zA-Z0-9]+)$/;
+LasseForbiddenSheetParser.URL = 'https://www.forbidden-sheets.com/?id=';
+LasseForbiddenSheetParser.URL_REGEX = /^https:\/\/www\.forbidden-sheets\.com\/\?(?:sheet|id)=([a-zA-Z0-9]+)$/;
+LasseForbiddenSheetParser.URI = 'https://europe-west1-forbidden-sheets.cloudfunctions.net/sheets?id=';
+//LasseForbiddenSheetParser.URI_REGEX = /^https:\/\/europe-west1-forbidden-sheets\.cloudfunctions\.net\/sheets\?id=([a-zA-Z0-9]+)$/;
 
 module.exports = LasseForbiddenSheetParser;

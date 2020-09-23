@@ -1,7 +1,7 @@
 const { Collection } = require('discord.js');
-const Character = require('./Character');
-const ForbiddenLandsCharacter = require('./FBLCharacter');
-const LasseForbiddenSheetParser = require('./parsers/LasseFS');
+const Character = require('./sheet/Character');
+const ForbiddenLandsCharacter = require('./sheet/FBLCharacter');
+const LasseForbiddenSheetParser = require('./sheet/parsers/LasseFS');
 
 /**
  * Manages the character sheets and holds its cache.
@@ -145,7 +145,7 @@ class CharacterManager {
 			character = await new LasseForbiddenSheetParser(url)
 				.loadCharacter(ownerID);
 		}
-		if (!character) throw new ReferenceError('@CharacterManager Import API - Character Not Found');
+		if (!character) throw new ReferenceError('@CharacterManager Import API - Unknown URL');
 		return this.add(character);
 	}
 }
