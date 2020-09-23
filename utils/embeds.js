@@ -77,7 +77,7 @@ class YZMonsterEmbed extends MessageEmbed {
  */
 class CharacterEmbed extends MessageEmbed {
 	/**
-	 * @param {import('../yearzero/sheet/Character')} character Character
+	 * @param {import('../yearzero/models/sheet/Character')} character Character
 	 * @param {import('./ContextMessage')} ctx Discord message with context
 	 */
 	constructor(character, ctx) {
@@ -91,25 +91,43 @@ class CharacterEmbed extends MessageEmbed {
 				: undefined,
 			title: character.name,
 			description: character.description,
+			thumbnail: character.portrait,
 			footer: { text: `ID: ${character.id}` },
 			fields: [
 				{
 					name: 'Attributes',
 					value: character.attributes
-						.map(a => `${strCamelToNorm(a.name)}: **${a.value}**`)
-						.join('\n'),
-					inline: true,
-				},
-				{
-					name: 'Skills',
-					value: character.skills
-						.filter(s => s.value > 0)
-						.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`)
+						.map(a => {
+							return `${strCamelToNorm(a.name)}: **${a.value}**`
+							+ (a.trauma ? ` (-${a.trauma})` : '');
+						})
 						.join('\n'),
 					inline: true,
 				},
 			],
 		});
+
+		// Adds the skills.
+		// It uses this way because an embed field must have a value
+		// And the character could have 0 skills.
+		const skills = character.skills.filter(s => s.value > 0);
+		if (skills.length) {
+			this.addField(
+				'Skills',
+				skills.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`).join('\n'),
+				true,
+			);
+		}
+
+		// Adds the weapons.
+		// It uses this way because same reason as above.
+		if (character.weapons.length) {
+			this.addField(
+				'Weapons',
+				character.weapons.map(w => w.toString()).join('\n'),
+				false,
+			);
+		}
 	}
 }
 
