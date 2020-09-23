@@ -11,11 +11,9 @@ catch(error) {
 	console.error(`[ERROR] - Unable to load "${CHANGELOG_FILE}"`, error);
 }
 
-module.exports = {
-	/**
-	 * A simple function that returns the version of the bot.
-	 * @returns {string}
-	 * @readonly
-	 */
-	get version() { return version; },
-};
+/**
+ * A simple function that returns the version of the bot.
+ * @returns {string}
+ * @readonly
+ */
+module.exports = `${version}`;
