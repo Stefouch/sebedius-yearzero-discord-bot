@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
 describe('Discord Bot Client', function() {
 	// this.slow(500);
 	this.timeout(5000);
-	// this.retries(3);
+	this.retries(3);
 
 	// const token = process.env.TOKEN;
 	const bot = new Sebedius(require('../config.json'));
@@ -76,6 +76,7 @@ describe('Discord Bot Client', function() {
 				else if (cmdName === 'feral') args = ['99'];
 				else if (cmdName === 'help') args = ['help'];
 				else if (cmdName === 'init') args = ['help'];
+				else if (cmdName === 'importcharacter') args = ['https://www.forbidden-sheets.com/?id=zDSKbYGfPHf2ioKL2LWg', '-v'];
 				else if (cmdName === 'job') args = ['mil'];
 				else if (cmdName === 'journey') args = ['create', 'night', 'summer', 'hills', '-fbr'];
 				else if (cmdName === 'module') args = ['99'];

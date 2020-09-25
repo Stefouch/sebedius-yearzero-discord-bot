@@ -4,7 +4,7 @@ const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9(
 
 module.exports = {
 	name: 'importcharacter',
-	aliases: ['importsheet', 'import', 'lasse'],
+	aliases: ['importsheet', 'import', 'lasse', 'forbidden-sheet'],
 	category: 'common',
 	description: 'Imports a character sheet',
 	guildOnly: true,
@@ -22,17 +22,17 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const [url] = URL_REGEX.exec(argv._[0]);
+		const url = argv._[0];
 
 		// Exits early is the argument is not a valid URL.
-		if (!url) return await ctx.reply('⚠️ Invalid URL');
+		if (!URL_REGEX.test(url)) return await ctx.reply('⚠️ Invalid URL');
 
 		// Imports the character.
 		const character = await ctx.bot.characters.import(ctx.author.id, url);
 
 		if (argv.v) {
 			console.log(character);
-			await ctx.send(new CharacterEmbed(character, ctx));
+			await ctx.channel.send(new CharacterEmbed(character, ctx));
 		}
 	},
 };
