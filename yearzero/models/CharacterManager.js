@@ -45,7 +45,7 @@ class CharacterManager {
 	}
 
 	/**
-	 * Creates a Character.
+	 * Creates a Character from raw data.
 	 * @param {Object} data Raw data of the character
 	 * @param {?string} owner Custom owner's ID
 	 * @returns {ForbiddenLandsCharacter|Character}
@@ -78,7 +78,7 @@ class CharacterManager {
 	 * Deletes a Character from the cache and the database.
 	 * If `charID` is omitted, instead deletes all the owner's Characters.
 	 * @param {string} ownerID Owner's ID
-	 * @param {string} charID Character's ID
+	 * @param {?string} charID Character's ID
 	 * @async
 	 */
 	async delete(ownerID, charID) {
@@ -119,8 +119,8 @@ class CharacterManager {
 		characters.forEach(c => c.active = false);
 
 		const activeCharacter = characters.find(c => c.id === character.id);
-		character.active = true;
 		activeCharacter.active = true;
+		character.active = true;
 
 		await this.commit(character.owner, characters);
 	}
@@ -138,7 +138,7 @@ class CharacterManager {
 
 	/**
 	 * Imports a character from an API.
-	 * @param {import('discord.js').Snowflake} ownerID Owner's ID
+	 * @param {string} ownerID Owner's ID
 	 * @param {string} url URL where to fetch the character's data
 	 * @param {boolean} [active=true] Whether to set the imported character as active
 	 * @param {boolean} [cache=true] Whether to store the character in the cache
