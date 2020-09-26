@@ -74,6 +74,11 @@ class Sebedius extends Discord.Client {
 		this.langs = new Discord.Collection();
 		this.combats = new Discord.Collection();
 		this.cooldowns = new Discord.Collection();
+
+		/**
+		 * The bot's library of commands.
+		 * @type {Discord.Collection<string, import('./utils/Command')>} K: commandName, V: command
+		 */
 		this.commands = new Discord.Collection();
 		this.addCommands();
 
@@ -90,6 +95,7 @@ class Sebedius extends Discord.Client {
 		}
 
 		// Managers.
+		/** @type {CharacterManager} */
 		this.characters = new CharacterManager(this.kdb.characters);
 
 		// Ready.
