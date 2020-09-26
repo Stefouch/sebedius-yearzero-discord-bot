@@ -18,7 +18,7 @@ module.exports = {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['v'],
 			default: {
-				v: true,
+				v: false,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -27,12 +27,37 @@ module.exports = {
 		// Exits early is the argument is not a valid URL.
 		if (!URL_REGEX.test(url)) return await ctx.reply('⚠️ Invalid URL');
 
+		const importInfoMsg = await ctx.channel.send('📥 Importing character...');
+
 		// Imports the character.
 		const character = await ctx.bot.characters.import(ctx.author.id, url);
+
+		if (!character) {
+			await importInfoMsg.edit(`❌ Could not retrieve character from ${url}`)
+				.catch(console.error);
+		}
+		else {
+			await importInfoMsg.edit(`✅ **${character.name}** was successfully imported!`)
+				.catch(console.error);
+
+			setTimeout(() => tryDelete(importInfoMsg), 3000);
+		}
 
 		if (argv.v) {
 			console.log(character);
 			await ctx.channel.send(new CharacterEmbed(character, ctx));
 		}
+
+		await tryDelete(ctx);
 	},
 };
+
+/**
+ * Tries to delete a message. Catches errors.
+ * @param {*} message Message to delete
+ * @async
+ */
+async function tryDelete(message) {
+	try { await message.delete(); }
+	catch (error) { console.error(error); }
+}
