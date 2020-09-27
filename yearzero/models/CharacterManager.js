@@ -79,21 +79,24 @@ class CharacterManager {
 	 * If `charID` is omitted, instead deletes all the owner's Characters.
 	 * @param {string} ownerID Owner's ID
 	 * @param {?string} charID Character's ID
+	 * @returns {number} The number of deleted entries
 	 * @async
 	 */
 	async delete(ownerID, charID) {
+		let count = 0;
 		if (!charID) {
-			this.cache.sweep(c => c.owner === ownerID);
+			count += this.cache.sweep(c => c.owner === ownerID);
 			await this.store.delete(ownerID);
 		}
 		else {
-			this.cache.delete(charID);
+			count += +this.cache.delete(charID);
 			const characters = (await this.store.get(ownerID) || [])
 				.filter(c => c.id !== charID);
 
 			if (!characters.length) await this.store.delete(ownerID);
 			else await this.commit(ownerID, characters);
 		}
+		return count;
 	}
 
 	/**
