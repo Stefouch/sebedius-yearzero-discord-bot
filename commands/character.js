@@ -1,5 +1,5 @@
 const Command = require('../utils/Command');
-const { getSelection } = require('../Sebedius');
+const { confirm, getSelection, tryDelete } = require('../Sebedius');
 const { CharacterEmbed } = require('../utils/embeds');
 
 module.exports = new class CharacterCommand extends Command {
@@ -9,6 +9,15 @@ module.exports = new class CharacterCommand extends Command {
 			aliases: ['char'],
 			category: 'common',
 			description: 'Manages your characters.',
+			moreDescriptions: [
+				[
+					'Subcommands',
+					'• `sheet` – Prints the embed sheet of your currently active character.'
+					+ '\n• `list` – Lists your characters.'
+					+ '\n• `update [-v]` – Updates your current character sheet. The `-v` argument displays an embed sheet.'
+					+ '\n• `delete` – Deletes a character.',
+				],
+			],
 			guildOnly: true,
 			args: false,
 			usage: '[subcommand]',
@@ -20,15 +29,23 @@ module.exports = new class CharacterCommand extends Command {
 	 * @param {import('../utils/ContextMessage')} ctx Discord message with context
 	 */
 	async run(args, ctx) {
-		const arg = (args[0] || '').toLowerCase();
+		const argv = require('yargs-parser')(args, {
+			boolean: ['v'],
+			default: {
+				v: false,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+
+		const arg = (argv._[0] || '').toLowerCase();
 		switch (arg) {
 			case 'sheet': await characterSheet(ctx); break;
 			case 'list': await characterList(ctx); break;
+			case 'update': await characterUpdate(ctx, argv.v); break;
 			case 'delete': case 'del': case 'remove': await characterDelete(ctx); break;
-			case 'update': await characterUpdate(ctx, args[1] ? (args[1] === '-v' ? true : false) : false); break; // TODO
 			default: await characterSwitch(ctx, arg);
 		}
-
+		await tryDelete(ctx);
 	}
 };
 
@@ -47,10 +64,11 @@ async function characterSwitch(ctx, name) {
 		return await ctx.reply(`Your currently active character is: **${activeCharacter.name}**`, { deleteAfter: 20 });
 	}
 
-	const selectedCharacter = getSelection(ctx, characters.map(c => [c.name, c]));
+	const selectedCharacter = await getSelection(ctx, characters.map(c => [c.name, c]));
 	await ctx.bot.characters.setActive(selectedCharacter);
-	await tryDelete(ctx);
 	await ctx.reply(`Your active character was changed to: **${selectedCharacter.name}**`, { deleteAfter: 20 });
+
+	return selectedCharacter;
 }
 
 /**
@@ -60,6 +78,8 @@ async function characterSwitch(ctx, name) {
  */
 async function characterSheet(ctx) {
 	const character = await ctx.bot.characters.fetch(ctx.author.id);
+	if (!character) return await ctx.reply('You have no active character.');
+
 	return await ctx.send(new CharacterEmbed(character, ctx));
 }
 
@@ -73,7 +93,7 @@ async function characterList(ctx) {
 	if (!characters) return await ctx.reply('You have no character.');
 
 	return await ctx.reply(
-		'Your characters:\n'
+		`Your character${characters.length > 1 ? 's' : ''}:\n`
 		+ characters.map(c => c.name).sort().join(', ')
 		+ '.',
 	);
@@ -86,27 +106,33 @@ async function characterList(ctx) {
  */
 async function characterDelete(ctx) {
 	// TODO
+	const characters = await ctx.bot.characters.store.get(ctx.author.id);
+	if (!characters) return await ctx.reply('You have no character.');
+
+	const selectedCharacter = await getSelection(ctx, characters.map(c => [`${c.name} (${c.id})`, c]));
+
+	const confirmation = await confirm(ctx, `⚠️ Are you sure you want to delete **${selectedCharacter.name}**? *(Reply with yes/no)*`, true);
+
+	if (confirmation) {
+		const deleted = await ctx.bot.characters.delete(ctx.author.id, selectedCharacter.id);
+		if (deleted) return await ctx.send(`🧼 Character **${selectedCharacter.name}** has been deleted.`);
+	}
+	return await ctx.send('❌ No character was deleted.', { deleteAfter: 20 });
 }
 
 /**
  * Updates the current character sheet.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
- * @param {boolean} show Shows the character sheet after update
+ * @param {boolean} [show=false] Whether to show the character sheet after update
  * @async
  */
-async function characterUpdate(ctx, show) {
+async function characterUpdate(ctx, show = false) {
 	const oldCharacter = await ctx.bot.characters.fetch(ctx.author.id);
 	if (!oldCharacter) return await ctx.reply('You have no character.');
 	if (!oldCharacter.url) return await ctx.reply('Cannot find the URL of the active character.');
-	// TODO
-}
 
-/**
- * Tries to delete a message. Catches errors.
- * @param {*} message Message to delete
- * @async
- */
-async function tryDelete(message) {
-	try { await message.delete(); }
-	catch (error) { console.error(error); }
+	// TODO
+	const args = [oldCharacter.url];
+	if (show) args.push('-v');
+	return await ctx.bot.commands.get('importcharacter').run(args, ctx);
 }
