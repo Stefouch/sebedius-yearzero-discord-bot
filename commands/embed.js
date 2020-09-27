@@ -23,7 +23,7 @@ module.exports = {
 
 		const embed = new MessageEmbed({ title, description });
 
-		await ctx.channel.send(embed);
+		await ctx.send(embed);
 		await ctx.delete().catch(console.error);
 	},
 };

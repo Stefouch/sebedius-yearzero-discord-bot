@@ -37,7 +37,7 @@ module.exports = {
 		// Creates the embed and sends the message.
 		const membed = new YZMonsterEmbed(monster);
 		if (argv.private) await ctx.author.send(membed);
-		else await ctx.channel.send(membed);
+		else await ctx.send(membed);
 
 		if (argv.attack) {
 			const argk = [monster.game, monster.name];
@@ -173,5 +173,5 @@ async function generateRandomMYZMonster(ctx) {
 	}
 
 	// console.log(monster);
-	return await ctx.channel.send(embed);
+	return await ctx.send(embed);
 }

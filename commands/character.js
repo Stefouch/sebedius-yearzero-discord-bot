@@ -60,7 +60,7 @@ async function characterSwitch(ctx, name) {
  */
 async function characterSheet(ctx) {
 	const character = await ctx.bot.characters.fetch(ctx.author.id);
-	return await ctx.channel.send(new CharacterEmbed(character, ctx));
+	return await ctx.send(new CharacterEmbed(character, ctx));
 }
 
 /**

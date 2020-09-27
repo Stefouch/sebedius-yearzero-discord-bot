@@ -300,19 +300,19 @@ module.exports = {
 
 		// Sends the message.
 		if (roll.d66) {
-			await ctx.channel.send(
+			await ctx.send(
 				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
 				getEmbedD66Results(roll, ctx),
 			);
 		}
 		else if(roll.initiative) {
-			await ctx.channel.send(
+			await ctx.send(
 				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
 				getEmbedInitRollResults(roll, ctx),
 			);
 		}
 		else if (roll.game === 'generic') {
-			await ctx.channel.send(getEmbedGenericDiceResults(roll, ctx));
+			await ctx.send(getEmbedGenericDiceResults(roll, ctx));
 		}
 		else {
 			await messageRollResult(roll, ctx);
@@ -340,7 +340,7 @@ async function messageRollResult(roll, ctx) {
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	// Sends the message.
-	await ctx.channel.send(
+	await ctx.send(
 		emojifyRoll(roll, gameOptions),
 		getEmbedDiceResults(roll, ctx, gameOptions),
 	)

@@ -109,7 +109,7 @@ bot.on('message', async message => {
 		if (command.usage) {
 			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
 		}
-		return ctx.channel.send(reply);
+		return ctx.send(reply);
 	}
 
 	// Sets the cooldown.

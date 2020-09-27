@@ -111,7 +111,7 @@ async function whois(ctx, userId) {
 	}
 	if (!user) return await ctx.reply('❌ User not found.');
 	const embed = new UserEmbed(user);
-	return await ctx.channel.send(embed);
+	return await ctx.send(embed);
 }
 
 /**
@@ -124,7 +124,7 @@ async function guildInfo(ctx, guildId) {
 	const guild = await ctx.bot.getGuild(guildId);
 	const embed = new GuildEmbed(guild);
 	// await embed.addInviteField();
-	return ctx.channel.send(embed);
+	return ctx.send(embed);
 }
 
 /**
@@ -212,7 +212,7 @@ async function botInfo(ctx) {
 			.addField('NPM Version', npmv.data.replace('\n', ''), true)
 			.addField('OS', `${os.platform()} (${process.arch})`, true)
 			.setTimestamp();
-		await ctx.channel.send(stats);
+		await ctx.send(stats);
 	}
 	catch (err) {
 		console.error('Botinfo Error', err);

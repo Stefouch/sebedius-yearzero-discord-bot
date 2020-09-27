@@ -21,6 +21,6 @@ module.exports = {
 		}
 		const msg = `1. ${ctx.bot.mention}\n2. ${ctx.prefix}`;
 		const embed = new YZEmbed('Sebedius Prefixes', msg).setFooter('2 prefixes');
-		return await ctx.channel.send(embed);
+		return await ctx.send(embed);
 	},
 };

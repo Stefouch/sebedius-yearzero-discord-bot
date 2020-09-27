@@ -80,6 +80,6 @@ module.exports = {
 			message = ':ballot_box_with_check: Sebedius\'s activities are `LOOPING`.';
 		}
 
-		return await ctx.channel.send(message);
+		return await ctx.send(message);
 	},
 };

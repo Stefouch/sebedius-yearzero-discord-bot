@@ -49,6 +49,6 @@ module.exports = {
 			embed.addField('Event', colo.hook, false);
 		}
 
-		return ctx.channel.send(embed);
+		return ctx.send(embed);
 	},
 };

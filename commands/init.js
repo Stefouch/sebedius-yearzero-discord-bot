@@ -273,7 +273,7 @@ async function help(args, ctx) {
 		description,
 		color: ctx.member.displayColor,
 	});
-	await ctx.channel.send(embed);
+	await ctx.send(embed);
 }
 
 /**
@@ -298,7 +298,7 @@ async function begin(args, ctx) {
 	if (argv.turnnotif) options.turnnotif = argv.turnnotif;
 
 	// Builds the summary message and the combat instance.
-	const tempSummaryMsg = await ctx.channel.send('```Awaiting combatants...```');
+	const tempSummaryMsg = await ctx.send('```Awaiting combatants...```');
 	const combat = new YZCombat(
 		ctx.channel.id,
 		tempSummaryMsg.id,
@@ -322,7 +322,7 @@ async function begin(args, ctx) {
 		+ `${ctx.prefix}init add <name> [options...]\n`
 		+ `${ctx.prefix}init madd <monster name> [options...]\n`
 		+ '```';
-	await ctx.channel.send(desc);
+	await ctx.send(desc);
 }
 
 /**
@@ -378,12 +378,12 @@ async function add(args, ctx) {
 
 	if (!group) {
 		combat.addCombatant(me);
-		await ctx.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		await ctx.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 		grp.addCombatant(me);
-		await ctx.channel.send(
+		await ctx.send(
 			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
 		);
 	}
@@ -443,18 +443,18 @@ async function join(args, ctx) {
 
 	if (!group) {
 		combat.addCombatant(me);
-		await ctx.channel.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		await ctx.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
 		// embed.setFooter('Added to combat!');
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 		grp.addCombatant(me);
-		await ctx.channel.send(
+		await ctx.send(
 			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
 		);
 	}
 	await combat.final();
-	// await ctx.channel.send(embed);
+	// await ctx.send(embed);
 }
 
 /**
@@ -479,7 +479,7 @@ async function madd(args, ctx) {
 	const qty = argv.n ? Util.clamp(+argv.n, 1, 25) : 1;
 
 	if (name_template.length <= 3) {
-		return await ctx.channel.send('⚠️ Please indicate a name for the monster.');
+		return await ctx.send('⚠️ Please indicate a name for the monster.');
 	}
 
 	let out = '';
@@ -532,7 +532,7 @@ async function madd(args, ctx) {
 		}
 	}
 	await combat.final();
-	await ctx.channel.send(out);
+	await ctx.send(out);
 }
 
 /**
@@ -583,7 +583,7 @@ async function next(args, ctx) {
 	out.push(combat.getTurnString());
 
 	await combat.final();
-	await ctx.channel.send(out.join('\n'));
+	await ctx.send(out.join('\n'));
 }
 
 /**
@@ -606,7 +606,7 @@ async function prev(args, ctx) {
 	}
 	combat.rewindTurn();
 	await combat.final();
-	await ctx.channel.send(combat.getTurnString());
+	await ctx.send(combat.getTurnString());
 }
 
 /**
@@ -646,7 +646,7 @@ async function move(args, ctx) {
 		combat.gotoTurn(combatant, true);
 	}
 	await combat.final();
-	await ctx.channel.send(combat.getTurnString());
+	await ctx.send(combat.getTurnString());
 }
 
 /**
@@ -685,7 +685,7 @@ async function skipround(args, ctx) {
 	out.push(combat.getTurnString());
 
 	await combat.final();
-	await ctx.channel.send(out.join('\n'));
+	await ctx.send(out.join('\n'));
 }
 
 /**
@@ -723,7 +723,7 @@ async function meta(args, ctx) {
 
 	combat.options = options;
 	await combat.final();
-	await ctx.channel.send(outStr);
+	await ctx.send(outStr);
 }
 
 /**
@@ -936,7 +936,7 @@ async function edit(args, ctx) {
 	}
 	if (modifCount > 0) {
 		await combat.final();
-		await ctx.channel.send(out.join('\n'));
+		await ctx.send(out.join('\n'));
 	}
 	else {
 		await ctx.reply(':information_source: Nothing was modified.');
@@ -984,7 +984,7 @@ async function status(args, ctx) {
 		}
 	}
 	else {
-		await ctx.channel.send(`\`\`\`markdown\n${statusStr}\`\`\``);
+		await ctx.send(`\`\`\`markdown\n${statusStr}\`\`\``);
 	}
 }
 
@@ -992,7 +992,7 @@ async function status(args, ctx) {
 	const deltaend = delta ? ` (${delta})` : '';
 
 	if (combatant.isPrivate()) {
-		await ctx.channel.send(`${combatant.name}: ${combatant.hpString()}`);
+		await ctx.send(`${combatant.name}: ${combatant.hpString()}`);
 
 		const controller = await Sebedius.fetchMember(combatant.controller, ctx);
 		if (controller) {
@@ -1000,7 +1000,7 @@ async function status(args, ctx) {
 		}
 	}
 	else {
-		await ctx.channel.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
+		await ctx.send(`${combatant.name}: ${combatant.hpString(true)}${deltaend}`);
 	}
 }//*/
 
@@ -1022,7 +1022,7 @@ async function setHp(args, ctx) {
 	}
 
 	if (!Util.isNumber(hp)) {
-		await ctx.channel.send(`\`\`\`\n${combatant.name}: ${combatant.hpString()}\n\`\`\``);
+		await ctx.send(`\`\`\`\n${combatant.name}: ${combatant.hpString()}\n\`\`\``);
 		if (combatant.isPrivate()) {
 			const controller = ctx.guild.members.get(combatant.controller);
 			if (controller) {
@@ -1088,7 +1088,7 @@ async function attack(args, ctx) {
 	if (!combatantName) {
 		combatant = combat.currentCombatant;
 		if (!combatant) {
-			return ctx.channel.send(`⚠️ You must start combat with \`${ctx.prefix}init next\` first.`);
+			return ctx.send(`⚠️ You must start combat with \`${ctx.prefix}init next\` first.`);
 		}
 	}
 	else {
@@ -1097,11 +1097,11 @@ async function attack(args, ctx) {
 		}
 		catch (error) {
 			console.error(error);
-			return ctx.channel.send('❌ Target not found.');
+			return ctx.send('❌ Target not found.');
 		}
 	}
 	// Warns.
-	await ctx.channel.send(`:crossed_swords: Attacking **${combatant.name}** with **${damage}** damage.`);
+	await ctx.send(`:crossed_swords: Attacking **${combatant.name}** with **${damage}** damage.`);
 
 	// Rolls the armor.
 	const armorRoll = combat.damageCombatant(combatant, damage, game, degradeArmor, armorMod, armorFactor);
@@ -1127,7 +1127,7 @@ async function attack(args, ctx) {
 				:shield: Damage absorbed: **${damage - finalDamage}**
 				${armorDamage > 0 ? `:anger: Armor degraded: **-${armorDamage}**` : ''}`,
 			);
-		await ctx.channel.send(dice, embed);
+		await ctx.send(dice, embed);
 	}
 
 	if (combatant.hp <= 0) {
@@ -1136,7 +1136,7 @@ async function attack(args, ctx) {
 	}
 
 	await combat.final();
-	if (out.length) await ctx.channel.send(out.join('\n'));
+	if (out.length) await ctx.send(out.join('\n'));
 }
 
 /**
@@ -1164,7 +1164,7 @@ async function remove(args, ctx) {
 		}
 	}
 	combat.removeCombatant(combatant);
-	await ctx.channel.send(`:soap: **${combatant.name}** removed from combat.`);
+	await ctx.send(`:soap: **${combatant.name}** removed from combat.`);
 	await combat.final();
 }
 
@@ -1181,17 +1181,17 @@ async function end(args, ctx) {
 		true,
 	);
 	if (toEnd === null || toEnd === undefined) {
-		return ctx.channel.send('❌ Timed out waiting for a response or invalid response.')
+		return ctx.send('❌ Timed out waiting for a response or invalid response.')
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 	else if (!toEnd) {
-		return ctx.channel.send('❌ OK, cancelling.')
+		return ctx.send('❌ OK, cancelling.')
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 
-	const msg = await ctx.channel.send('⏹️ OK, ending...');
+	const msg = await ctx.send('⏹️ OK, ending...');
 	if (!args.includes('-force')) {
 		const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 		try {

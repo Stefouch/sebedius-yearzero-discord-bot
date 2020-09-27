@@ -16,7 +16,7 @@ module.exports = {
 	 * @param {import('../utils/ContextMessage')} ctx Discord message with context
 	 */
 	async run(args, ctx) {
-		const msg = await ctx.channel.send(':1234: Fetching bot statistics...');
+		const msg = await ctx.send(':1234: Fetching bot statistics...');
 		const stats = await ctx.bot.getStats();
 
 		// Counts the total.
@@ -57,7 +57,7 @@ module.exports = {
 			const clear = await confirm(ctx, text, true);
 			if (clear) {
 				await ctx.bot.kdb.stats.clear();
-				await ctx.channel.send(':broom: Database cleared.');
+				await ctx.send(':broom: Database cleared.');
 			}
 		}
 	},

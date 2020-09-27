@@ -31,7 +31,7 @@ module.exports = {
 		const title = `Scrap Item${(qty > 1) ? 's' : ''} Found`;
 		const embed = new YZEmbed(title, desc, ctx, true);
 
-		return await ctx.channel.send(embed);
+		return await ctx.send(embed);
 	},
 };
 
