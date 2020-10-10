@@ -1024,7 +1024,7 @@ async function setHp(args, ctx) {
 	if (!Util.isNumber(hp)) {
 		await ctx.send(`\`\`\`\n${combatant.name}: ${combatant.hpString()}\n\`\`\``);
 		if (combatant.isPrivate()) {
-			const controller = ctx.guild.members.get(combatant.controller);
+			const controller = ctx.guild.members.cache.get(combatant.controller);
 			if (controller) {
 				await controller.send(`\`\`\`\n${combatant.name}'s HP: ${combatant.hpString(true)}\n\`\`\``);
 			}
