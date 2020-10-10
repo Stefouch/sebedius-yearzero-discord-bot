@@ -50,8 +50,8 @@ class Sebedius extends Discord.Client {
 				// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
 				intents: [
 					'GUILDS',
-					'GUILD_PRESENCES',
-					'GUILD_MEMBERS',
+					// 'GUILD_PRESENCES',
+					// 'GUILD_MEMBERS',
 					'GUILD_MESSAGES',
 					'GUILD_MESSAGE_REACTIONS',
 					'DIRECT_MESSAGES',

@@ -155,7 +155,7 @@ bot.on('message', async message => {
 bot.on('guildCreate', async guild => {
 	await bot.log(
 		`[GUILD] Joined: ${guild.name} (${guild.id})`,
-		new GuildEmbed(guild),
+		// new GuildEmbed(guild),
 	);
 
 	if (bot.blacklistedGuilds.has(guild.id)) {
@@ -169,7 +169,7 @@ bot.on('guildCreate', async guild => {
 	const ratio = bots / members;
 
 	if (ratio >= 0.6 && members >= 20) {
-		bot.log(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
+		await bot.log(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
 		try {
 			await guild.owner.send(
 				'Please do not add me to bot collection servers. '
@@ -185,7 +185,7 @@ bot.on('guildCreate', async guild => {
 bot.on('guildDelete', async guild => {
 	await bot.log(
 		`[GUILD] Left: ${guild.name} (${guild.id})`,
-		new GuildEmbed(guild),
+		// new GuildEmbed(guild),
 	);
 
 	// Empties the databases from entries with this guild.
@@ -194,7 +194,7 @@ bot.on('guildDelete', async guild => {
 		const msg = deletedEntries.map(name => {
 			return `[KDB] Deleted entry "${guild.id}" from \`${name}\` database.`;
 		});
-		bot.log(msg.join('\n'));
+		await bot.log(msg.join('\n'));
 	}
 });
 
