@@ -3,6 +3,7 @@ const expect = require('chai').expect;
 const Util = require('../utils/Util');
 const YZRoll = require('../yearzero/YZRoll');
 const RollTable = require('../utils/RollTable');
+const { clamp } = require('../utils/Util');
 
 describe('YZRoll Module', function() {
 	const roll = new YZRoll('myz', 'Stefouch', 'Test Roll');
@@ -25,6 +26,33 @@ describe('YZRoll Module', function() {
 	it('Should be pushable only once by default', function() {
 		roll.push().push().push();
 		expect(roll.pushCount).to.equal(1);
+	});
+
+	describe('# T2K Rolls', function() {
+		const ranges = [6, 8, 10, 12];
+
+		// For each range...
+		for (let r = 0; r < ranges.length; r++) {
+			// ...roll 1 or 2 base dice...
+			for (let n = 1; n < 3; n++) {
+				// ...with -10 to +10 modifier.
+				for(let m = -10; m < 11; m++) {
+					const rw = new YZRoll('t2k').addDice('base', n, ranges[r]);
+					const title = `Should ${m >= 0 ? 'add +' : 'remove '}${m} to ${rw.toPhrase()}`;
+
+					it(title, function() {
+						// Checks the correct initial size.
+						expect(rw.size).to.equal(n);
+
+						// Checks the modifier.
+						rw.modify(m);
+						const x = clamp(n * (r + 1) + m, 1, 8);
+						const y = rw.dice.reduce((sum, d) => sum + ranges.indexOf(d.range) + 1, 0);
+						expect(x).to.equal(y);
+					});
+				}
+			}
+		}
 	});
 
 	describe('# Roll Parser: YZRoll.parse()', function() {

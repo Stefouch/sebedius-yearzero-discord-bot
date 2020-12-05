@@ -38,7 +38,7 @@ module.exports = {
 			title: ':1234: Commands Statistics',
 			description: 'This is the usage statistics for the bot\'s commands.'
 				+ `\nNumber of servers the bot can see: **${ctx.bot.guilds.cache.size}**`,
-			footer: `Total: ${total} — Since: ${ms(dateDiff, true)}`,
+			footer: { text: `Total: ${total} — Since: ${ms(dateDiff, true)}` },
 		});
 
 		for (const pg of pages) {

@@ -24,6 +24,7 @@
 					"trauma": false,
 					"gearDamage": false,
 					"panic": false,
+					"mishap": false,
 					"alias": {
 						"base": "skill",
 						"gear": "skill",
@@ -103,7 +104,7 @@
 					},
 					"hasBlankDice": true,
 					"detailed": true,
-					"fumble": true
+					"mishap": true
 				}
 			}
 		},
@@ -116,7 +117,7 @@
 			}
 		},
 		"stats": {
-			"start": "2020-07-07"
+			"start": "2020-12-05"
 		},
 		"scrap": {
 			"max": 20
