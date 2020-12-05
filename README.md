@@ -3,7 +3,7 @@
   <a href="https://discordbots.org/bot/543445246143365130" target="_blank">
     <img alt="Status" src="https://top.gg/api/widget/status/543445246143365130.svg" />
   </a>
-  <img alt="Version" src="https://img.shields.io/badge/version-3.7.1-blue.svg?cacheSeconds=2592000" />
+  <img alt="Version" src="https://img.shields.io/badge/version-3.8.0-blue.svg?cacheSeconds=2592000" />
   <a href="https://discord.js.org/" target="_blank">
     <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v12-informational?logo=discord" />
   </a>
@@ -33,7 +33,7 @@ The supported games are:
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
-* [Twilight 2000 4E](https://frialigan.se/en/games/twilight-2000/) *(unofficial pre-alpha rules)*
+* [Twilight 2000 4E](https://frialigan.se/en/games/twilight-2000/) *(alpha rules)*
 
 # How to Use
 

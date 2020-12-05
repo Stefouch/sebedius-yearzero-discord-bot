@@ -3,6 +3,20 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.8.0] - 2020-12-04
+### Added
+- Twilight 2000 4E rolls (`!rw` command) show more detailed info for Ammo dice.
+
+### Changed
+- New dice emojis for Twilight 2000 4E.
+- New default D6 emoji [#53](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/53).
+- New default emoji for deadly critics [#66](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/66).
+
+### Fixed
+- Correct Twilight 2000 4E rolls (`!rw` command) based on the official alpha rules.
+- Issue [#59](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/59)
+- Issue [#65](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/65).
+
 ## [3.7.2] - 2020-10-10
 ### Fixed
 - Temporary fix for a Discord privileged intents' issue.

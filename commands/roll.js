@@ -9,10 +9,10 @@ const { TooManyDiceError } = require('../utils/errors');
 const YargsParser = require('yargs-parser');
 
 const DICE_RANGE_ICONS = {
-	'6': DICE_ICONS.t2k.base[2],
-	'8': DICE_ICONS.t2k.d8[2],
-	'10': DICE_ICONS.t2k.d10[2],
-	'12': DICE_ICONS.t2k.d12[2],
+	'6': DICE_ICONS.generic.d6,
+	'8': DICE_ICONS.generic.d8,
+	'10': DICE_ICONS.generic.d10,
+	'12': DICE_ICONS.generic.d12,
 };
 
 module.exports = {
@@ -102,6 +102,7 @@ module.exports = {
 				nerves: false,
 				minpanic: 0,
 				mod: 0,
+				push: 1,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -268,8 +269,8 @@ module.exports = {
 		if (rollargv.fullauto) {
 			roll.setFullAuto(true);
 		}
-		else if (rollargv.push) {
-			roll.maxPush = Number(rollargv.push) || 1;
+		else if (rollargv.push !== 1) {
+			roll.maxPush = Number(rollargv.push);
 		}
 
 		// Applies extra modifiers.
@@ -458,20 +459,14 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		desc += `\nGear Damage: **${roll.gearDamage}**`;
 	}
 	if (roll.rof > 0) {
-		const ammoRollSum = roll.sum('ammo');
-		/*	if (roll.pushed) {
-			const ammos = roll
-				.getDice('ammo')
-				.map(d => d.previousResults)
-				.reduce((r, a) => r.map((b, i) => a[i] + b));
-
-			const ammoTotal = ammoRollSum + ammos.reduce((sum, x) => sum + x);
-
-			desc += `\nAmmo: ${ammos.join('+')}+${ammoRollSum} = **${ammoTotal}**`;
+		const n = roll.count('ammo', 6);
+		if (n > 0) {
+			desc += `\n${s > 1 ? 'Extra Hit' : 'Suppression'}${n > 1 ? 's' : ''}: **${n}**`;
 		}
-		else {//*/
-		desc += `\nAmmo: **${ammoRollSum}**`;
-		// }
+		desc += `\nAmmo Spent: **${roll.sum('ammo')}**`;
+	}
+	if (opts.mishap && roll.mishap) {
+		desc += '\n**MISHAP** 💢';
 	}
 	if (opts.panic && roll.panic) {
 		desc += '\n**PANIC!!!**';
