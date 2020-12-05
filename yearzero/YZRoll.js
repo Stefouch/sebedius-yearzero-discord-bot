@@ -2,8 +2,8 @@ const { rand, clamp, isNumber, resolveString } = require('../utils/Util');
 const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
 const DIE_RANGES = [6, 8, 10, 12];
 //const DIE_RANGES_T2K = ['d', 'c', 'b', 'a'];
-const STUNTS = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
-const STUNTS_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
+const SUCCESSES_TABLE = [0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4];
+const SUCCESSES_TABLE_T2K = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2];
 const ROLLREGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 
 /**
@@ -88,13 +88,13 @@ class YZRoll {
 	 */
 	get successCount() {
 		let count = 0;
-		const stuntTable = this.game === 't2k' ? STUNTS_T2K : STUNTS;
+		const successesTable = this.game === 't2k' ? SUCCESSES_TABLE_T2K : SUCCESSES_TABLE;
 		for (const die of this.dice) {
 			if (die.type === 'neg') {
-				count -= stuntTable[die.result];
+				count -= successesTable[die.result];
 			}
-			else {
-				count += stuntTable[die.result];
+			else if (die.type !== 'modifier' && die.type !== 'ammo') {
+				count += successesTable[die.result];
 			}
 		}
 		return count;
@@ -149,12 +149,23 @@ class YZRoll {
 	}
 
 	/**
-	 * The Rate of Fire (number of Ammor dice - *Twilight 2000*).
+	 * The Rate of Fire (number of Ammo dice - *Twilight 2000*).
 	 * @type {number}
 	 * @readonly
 	 */
 	get rof() {
 		return this.count('ammo');
+	}
+
+	/**
+	 * Tells if the roll is a mishap (double 1's).
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get mishap() {
+		if (this.game !== 't2k') return false;
+		const n = this.dice.filter(d => d.type !== 'modifier' && d.result === 1).length;
+		return n >= 2 || n >= this.dice.length;
 	}
 
 	/**
@@ -174,7 +185,8 @@ class YZRoll {
 	get pushable() {
 		return (
 			this.pushCount < this.maxPush &&
-			this.dice.some(d => d.pushable)
+			this.dice.some(d => d.pushable) &&
+			!this.mishap
 		);
 	}
 
@@ -202,7 +214,7 @@ class YZRoll {
 
 	/**
 	 * Sets the Full Automatic Fire mode.
-	 * `maxPush = 10`.
+	 * `maxPush = 10` to avoid abuses.
 	 * @param {boolean} [bool=true] Full Auto yes or no
 	 * @returns {YZRoll} This roll, with unlimited pushes
 	 */
@@ -395,25 +407,40 @@ class YZRoll {
 			const die = this.dice
 				.filter(d => d.type === 'base')
 				.reduce((a, b) => {
-					if (mod > 0) return a.range > b.range ? a : b;
+					if (mod > 0) {
+						if (b.range >= 12) return a;
+						return a.range > b.range ? a : b;
+					}
 					return a.range < b.range ? a : b;
 				}, {});
 
-			let excess = 0;
+			let excess = mod;
 			this.dice.forEach(d => {
-				if (d === die) excess = d.modifyRange(mod);
+				if (d === die) excess -= d.modifyRange(mod);
 			});
 
 			// Positive excess means adding an extra die.
+			// Note: The pool can only have a maximum of 2 base dice.
 			if (excess > 0) {
-				const ex = Math.min(DIE_RANGES.length, excess);
-				this.addDice('base', 1, DIE_RANGES[ex - 1]);
-				if (excess > ex) this.modify(excess - ex);
+				if (this.count('base') < 2) {
+					const ex = Math.min(DIE_RANGES.length, excess);
+					this.addDice('base', 1, DIE_RANGES[ex - 1]);
+					if (excess > ex) this.modify(excess - ex);
+				}
+				else {
+					const diceBelowMaxRange = this.dice
+						.filter(d => d.type === 'base' && d.range < 12)
+						.length;
+
+					if (diceBelowMaxRange > 0) this.modify(excess);
+				}
 			}
 			// Negative excess means removing the die and decreasing another one.
-			else if (excess < 0) {
+			// Note: The pool has always at least 1 base die.
+			else if (excess < 0 && this.count('base') > 1) {
 				this.dice.splice(this.dice.indexOf(die), 1);
-				if (this.count('base')) this.modify(excess);
+				// We add 1 because we removed one die (which is 1 step).
+				this.modify(excess + 1);
 			}
 		}
 		else if (this.game === 'myz' || this.game === 'fbl') {
@@ -426,7 +453,7 @@ class YZRoll {
 			this.addDice('modifier', 1, 0, mod);
 		}
 		else {
-			// A negative modifier actually removes that many dice.
+			// Note: A negative modifier actually removes that many dice here with this function.
 			this.addSkillDice(mod);
 		}
 		return this;
@@ -629,14 +656,16 @@ class YZDie {
 			case 'base':
 			case 'gear':
 			case 'stress':
-			case 'ammo':
 				if (this.result !== 1 && this.result < 6) return true;
-				else return false;
+				return false;
+			case 'ammo':
+				if (this.result !== 1) return true;
+				return false;
 			case 'skill':
 			case 'neg':
 			case 'arto':
 				if (this.result < 6) return true;
-				else return false;
+				return false;
 			case 'modifier':
 				return false;
 			default:
@@ -679,22 +708,22 @@ class YZDie {
 	/**
 	 * Modifies the range of the die by a number of steps.
 	 * @param {number} mod Positive or negative number of steps
-	 * @returns {number} Number of skipped steps
+	 * @returns {number} Number of increased steps
 	 */
 	modifyRange(mod) {
 		if (this.type === 'modifier') return 0;
 
-		const rangeIndex = DIE_RANGES.indexOf(this.range);
-		if (rangeIndex < 0) return 0;
+		const currentRangeIndex = DIE_RANGES.indexOf(this.range);
+		if (currentRangeIndex < 0) return 0;
 
 		const maxRangeIndex = DIE_RANGES.length - 1;
-		const newRangeIndex = rangeIndex + mod;
-		const range = clamp(newRangeIndex, 0, maxRangeIndex);
+		const newRangeIndex = currentRangeIndex + mod;
+		const rangeIndex = clamp(newRangeIndex, 0, maxRangeIndex);
 
-		this.range = DIE_RANGES[range];
+		this.range = DIE_RANGES[rangeIndex];
 		this.roll();
 
-		return newRangeIndex - range;
+		return rangeIndex - currentRangeIndex;
 	}
 
 	toString() {

@@ -1,6 +1,6 @@
 module.exports = {
-	name: 'rolltwilight',
-	aliases: ['rollt2k', 'rollw', 'rw'],
+	name: 'rollt2k',
+	aliases: ['rolltwilight', 'rollw', 'rw'],
 	category: 't2k',
 	description: 'Rolls dice for the *Twilight 2000* roleplaying game.'
 		+ '\nType `help roll` for more details.',

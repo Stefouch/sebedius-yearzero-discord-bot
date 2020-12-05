@@ -59,8 +59,8 @@ module.exports = {
 	args: true,
 	usage: '<create | mishap [activity]> [arguments...]',
 	/**
-	 * @param {string[]} args
-	 * @param {import('../utils/ContextMessage')} ctx
+	 * @param {string[]} args Command's arguments
+	 * @param {import('../utils/ContextMessage')} ctx Discord message with context
 	 */
 	async run(args, ctx) {
 		// Parses arguments.

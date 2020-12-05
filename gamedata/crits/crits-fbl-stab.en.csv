@@ -7,9 +7,9 @@ ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
 34;Severed Tendon;false;0;0;;To RUN becomes a slow action.;3
 35-41;Impaled Shoulder;false;0;0;;Two-handed wea-pons cannot be used.;2
 42-43;Pierced Eye;false;0;0;;MARKSMANSHIP and SCOUTING -2.;2
-44-45;Skewered Groin;false;0;0;;1 point of damage suffered at every MOV E or MELEE roll.;2
+44-45;Skewered Groin;false;0;0;;1 point of damage suffered at every MOVE or MELEE roll.;2
 46-51;Punctured Lung;true;0;1;days;ENDURANCE and MOVE -2.;1
-52-54;Bleeding Gut;true;0;1;hours;1 point of damage at each roll for MIGHT, MOV E and MELEE.;1
+52-54;Bleeding Gut;true;0;1;hours;1 point of damage at each roll for MIGHT, MOVE and MELEE.;1
 55-56;Ruptured Intestines;true;0;1;hours;Disease with Virulence 6.;2
 61;Severed Arm Artery;true;-1;1;minutes;Two-handed wea-pons cannot be used.;1
 62;Severed Leg Artery;true;-1;1;minutes;To RUN becomes a slow action.;1

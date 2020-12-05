@@ -154,7 +154,7 @@ module.exports = {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
-						ctx.channel.send('⚰');
+						ctx.channel.send('🪦');
 					}, rollD66() * 150);
 				}
 			})

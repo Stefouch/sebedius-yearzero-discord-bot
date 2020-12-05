@@ -11,6 +11,10 @@ module.exports = {
 	guildOnly: false,
 	args: false,
 	usage: '[-clear]',
+	/**
+	 * @param {string[]} args Command's arguments
+	 * @param {import('../utils/ContextMessage')} ctx Discord message with context
+	 */
 	async run(args, ctx) {
 		const msg = await ctx.channel.send(':1234: Fetching bot statistics...');
 		const stats = await ctx.bot.getStats();
@@ -29,11 +33,13 @@ module.exports = {
 		// Creates a Discord.MessageEmbed and sends it.
 		const firstDay = ctx.bot.config.commands.stats.start;
 		const dateDiff = Math.abs(Date.now() - new Date(firstDay));
-		const embed = new MessageEmbed()
-			.setTitle(':1234: Commands Statistics')
-			.setDescription('This is the usage statistics for the bot\'s commands.')
-			.setColor(msg.channel.type === 'dm' ? 0x0 : msg.member.displayColor)
-			.setFooter(`Total: ${total} — Since: ${ms(dateDiff, true)}`);
+		const embed = new MessageEmbed({
+			color: msg.channel.type === 'dm' ? 0x0 : msg.member.displayColor,
+			title: ':1234: Commands Statistics',
+			description: 'This is the usage statistics for the bot\'s commands.'
+				+ `\nNumber of servers the bot can see: **${ctx.bot.guilds.cache.size}**`,
+			footer: { text: `Total: ${total} — Since: ${ms(dateDiff, true)}` },
+		});
 
 		for (const pg of pages) {
 			embed.addField('==========', pg, true);
