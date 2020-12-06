@@ -68,6 +68,7 @@ describe('Discord Bot Client', function() {
 				let args = [];
 				if (cmdName === 'attack') args = ['alien', 'bloodburster', '1'];
 				else if (cmdName === 'cast') args = ['6', 'Fireball'];
+				else if (cmdName === 'character') this.skip();
 				else if (cmdName === 'contact') args = ['99'];
 				else if (cmdName === 'critfbl') args = ['stab', '69'];
 				else if (cmdName.startsWith('crit')) args = ['42'];
