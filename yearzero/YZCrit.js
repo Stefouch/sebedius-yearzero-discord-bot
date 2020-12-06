@@ -33,10 +33,7 @@ class YZCrit {
 		 * Tells if the injury is lethal.
 		 * @type {boolean}
 		 */
-		this.lethal = false;
-		if (typeof data.lethal === 'boolean') this.lethal = data.lethal;
-		else if (data.lethal === 'true') this.lethal = true;
-		else if (data.lethal === 'false') this.lethal = false;
+		this.lethal = data.lethal ? true : false;
 
 		/**
 		 * The malus to `HEAL` skill rolls.
@@ -86,7 +83,7 @@ class YZCrit {
 	 * @readonly
 	 */
 	get fatal() {
-		return this.lethal && this.healingTime === 0;
+		return this.lethal && this.timeLimit === 0;
 	}
 }
 
