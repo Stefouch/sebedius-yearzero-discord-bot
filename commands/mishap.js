@@ -23,6 +23,6 @@ module.exports = {
 			ctx,
 			true,
 		);
-		return await ctx.channel.send(embed);
+		return await ctx.send(embed);
 	},
 };

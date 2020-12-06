@@ -13,6 +13,6 @@ module.exports = {
 	async run(args, ctx) {
 		const legend = new Legend();
 		const embed = new YZEmbed('Legend', legend.story);
-		return await ctx.channel.send(embed);
+		return await ctx.send(embed);
 	},
 };

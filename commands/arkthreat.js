@@ -12,6 +12,6 @@ module.exports = {
 	usage: '',
 	async run(args, ctx) {
 		const embed = new YZEmbed('Threat Against the Ark', random(ArkThreats));
-		return ctx.channel.send(embed);
+		return ctx.send(embed);
 	},
 };

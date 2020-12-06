@@ -172,7 +172,7 @@ module.exports = {
 				color: ctx.bot.config.color,
 				title: `JOURNEY${title ? ` — "${title}"` : ''}`,
 				description: getDescription(jou),
-				footer: `Game: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`,
+				footer: { text: `Game: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}` },
 				fields: [
 					{
 						name: 'Terrain',

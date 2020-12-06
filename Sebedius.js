@@ -7,6 +7,7 @@ const PageMenu = require('./utils/PageMenu');
 const ContextMessage = require('./utils/ContextMessage');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
+const CharacterManager = require('./yearzero/models/CharacterManager');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 
 /**
@@ -20,6 +21,7 @@ const DB_MAP = {
 	games: 'game',
 	langs: 'lang',
 	combats: 'combat',
+	characters: 'character',
 	stats: 'count',
 	blacklistedGuilds: 'blacklisted',
 	mutedUsers: 'muted',
@@ -62,7 +64,7 @@ class Sebedius extends Discord.Client {
 		this.state = 'init';
 		this.muted = false;
 		this.config = config;
-		this.version = require('./utils/version').version;
+		this.version = require('./utils/version');
 
 		// Caching for the current session.
 		this.blacklistedGuilds = new Set();
@@ -72,6 +74,11 @@ class Sebedius extends Discord.Client {
 		this.langs = new Discord.Collection();
 		this.combats = new Discord.Collection();
 		this.cooldowns = new Discord.Collection();
+
+		/**
+		 * The bot's library of commands.
+		 * @type {Discord.Collection<string, import('./utils/Command')>} K: commandName, V: command
+		 */
 		this.commands = new Discord.Collection();
 		this.addCommands();
 
@@ -86,6 +93,10 @@ class Sebedius extends Discord.Client {
 			this.kdb[name] = new Keyv(this.dbUri, { namespace: DB_MAP[name] });
 			this.kdb[name].on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}\n`, err));
 		}
+
+		// Managers.
+		/** @type {CharacterManager} */
+		this.characters = new CharacterManager(this.kdb.characters);
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
@@ -585,7 +596,7 @@ class Sebedius extends Discord.Client {
 	 * @param {Discord.Message} message The current message
 	 * @param {string} text The message for the user to confirm
 	 * @param {boolean} [deleteMessages=false] Whether to delete the messages
-	 * @returns {boolean|null} Whether the user confirmed or not. None if no reply was recieved
+	 * @returns {boolean|null} Whether the user confirmed or not. None if no reply was received
 	 */
 	static async confirm(message, text, deleteMessages = false) {
 		const msg = await message.channel.send(text);
@@ -712,6 +723,16 @@ class Sebedius extends Discord.Client {
 		const ctx = new ContextMessage(prefix, message.client);
 		// Returns a shallow copy of the Discord message merged with the context.
 		return Object.assign(ctx, message);
+	}
+
+	/**
+	 * Tries to delete a message. Catches errors.
+	 * @param {*} message Message to delete
+	 * @async
+	 */
+	static async tryDelete(message) {
+		try { await message.delete(); }
+		catch (error) { console.error(error); }
 	}
 }
 

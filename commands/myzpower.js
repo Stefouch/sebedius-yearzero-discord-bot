@@ -47,7 +47,7 @@ module.exports = {
 			embed = new YZEmbed(`💥 ${roll.name} (${ref})`, entry.effect, ctx, true);
 		}
 
-		return await ctx.channel.send(
+		return await ctx.send(
 			emojifyRoll(roll, ctx.bot.config.commands.roll.options.myz),
 			embed,
 		);

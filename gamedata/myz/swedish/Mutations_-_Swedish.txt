@@ -1,0 +1,56 @@
+{
+	"myz": [
+		"Syraspott",
+		"Amfibisk",
+		"Likätare",
+		"Hyperreflexer",
+		"Pyrokinesi",
+		"Fyrarmad",
+		"Hoppförmåga",
+		"Magnetism",
+		"Mänsklig planta",
+		"Insektoid",
+		"Insektsvingar",
+		"Luxvarelse",
+		"Vilddjur",
+		"Mardrömmare",
+		"Mental dominans",
+		"Parasit",
+		"Patokinesi",
+		"Pyrokinesis",
+		"Reptilisk",
+		"Röt-ätare",
+		"Sonar",
+		"Sporsäckar",
+		"Sprinter",
+		"Telepati",
+		"Spårsinne"
+	],
+	"gla": [
+		"Monsterkontroll *(Mutant: GenLab Alpha)*",
+		"Kryokinesi *(Mutant: GenLab Alpha)*",
+		"Mänsklig Padda*(Mutant: GenLab Alpha)*",
+		"Regenerera *(Mutant: GenLab Alpha)*"
+	],
+	"zc2": [
+		"Kryokinesi *(ZC2: Dead Blue Sea)*",
+		"Mänsklig Padda *(ZC2: Dead Blue Sea)*"
+	],
+	"zc5": [
+		"Beastmaster *(ZC5: Hotel Imperator)*",
+		"Klärvoajans *(ZC5: Hotel Imperator)*",
+		"Electric *(ZC5: Hotel Imperator)*",
+		"Telekinetic *(ZC5: Hotel Imperator)*"
+	],
+	"psi": [
+		"Monsterkontroll *(Mutant: GenLab Alpha)*",
+		"Klärvoajans *(ZC5: Hotel Imperator)*",
+		"Kryokinesi *(ZC2: Dead Blue Sea)*",
+		"Mardrömmare",
+		"Patokinesi",
+		"Mental dominans",
+		"Pyrokinesis",
+		"Telekinetic *(ZC5: Hotel Imperator)*",
+		"Telepati"
+	]
+}

@@ -40,7 +40,7 @@ module.exports = {
 		const mutation = random(mutations);
 		const embed = new YZEmbed('Mutation', mutation);
 
-		await ctx.channel.send(embed);
+		await ctx.send(embed);
 
 		return mutation;
 	},

@@ -88,7 +88,7 @@ module.exports = {
 		// Sends the message.
 		let message;
 		if (argv.private) message = await ctx.author.send(embed);
-		else message = await ctx.channel.send(embed);
+		else message = await ctx.send(embed);
 
 		// Adds a Reaction Menu to roll the dice of the attack.
 		if (attack.base || attack.damage || attack.crit) {

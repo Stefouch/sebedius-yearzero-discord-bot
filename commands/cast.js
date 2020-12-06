@@ -60,7 +60,7 @@ module.exports = {
 		}
 
 		// Sends the message.
-		await ctx.channel.send(
+		await ctx.send(
 			emojifyRoll(magicRoll, ctx.bot.config.commands.roll.options.fbl),
 			embed,
 		);

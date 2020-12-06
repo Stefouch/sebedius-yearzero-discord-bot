@@ -27,7 +27,7 @@ module.exports = {
 					.setTitle('Whoops! Too long!')
 					.setColor('#36393e')
 					.addField(`${evaled.length} characters!`, 'That\'s past the charcacter limit! You can find the output in the console.');
-				ctx.channel.send({ embed: tooLong });
+				ctx.send({ embed: tooLong });
 				console.log(evaled);
 				return;
 			}
@@ -39,7 +39,7 @@ module.exports = {
 				.setFooter('Sebedius Eval')
 				.setTimestamp();
 
-			ctx.channel.send({ embed: successfulEval });
+			ctx.send({ embed: successfulEval });
 		}
 		catch(err) {
 			console.error(err);
@@ -52,7 +52,7 @@ module.exports = {
 				.setFooter('Evaluation Error')
 				.setTimestamp();
 
-			ctx.channel.send({ embed: failedEval });
+			ctx.send({ embed: failedEval });
 		}
 	},
 };

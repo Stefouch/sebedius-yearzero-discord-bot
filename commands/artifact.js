@@ -45,6 +45,6 @@ module.exports = {
 		if (!artifact) {
 			return await ctx.reply('I\'m sorry, no artifact where found with this unknown package!');
 		}
-		return await ctx.channel.send(embed);
+		return await ctx.send(embed);
 	},
 };

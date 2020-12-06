@@ -69,6 +69,6 @@ module.exports = {
 
 		console.log(`:>> Panic! ${panicVal}`);
 
-		return await ctx.channel.send(text, embed);
+		return await ctx.send(text, embed);
 	},
 };
