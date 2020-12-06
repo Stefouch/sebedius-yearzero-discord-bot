@@ -461,7 +461,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 	if (roll.rof > 0) {
 		const n = roll.count('ammo', 6);
 		if (n > 0) {
-			desc += `\n${s > 1 ? 'Extra Hit' : 'Suppression'}${n > 1 ? 's' : ''}: **${n}**`;
+			desc += `\n${s > 0 ? 'Extra Hit' : 'Suppression'}${n > 1 ? 's' : ''}: **${n}**`;
 		}
 		desc += `\nAmmo Spent: **${roll.sum('ammo')}**`;
 	}
