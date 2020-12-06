@@ -164,8 +164,7 @@ class YZRoll {
 	 */
 	get mishap() {
 		if (this.game !== 't2k') return false;
-		const n = this.dice.filter(d => d.type !== 'modifier' && d.result === 1).length;
-		return n >= 2 || n >= this.dice.length;
+		return this.baneCount >= 2 || this.baneCount >= this.dice.length;
 	}
 
 	/**
