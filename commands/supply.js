@@ -58,5 +58,5 @@ function sendMessageForResourceRoll(resRating, roll, ctx) {
 			'The consumable is fully depleted.\tRating: **0**',
 		);
 	}
-	ctx.channel.send(text, embed);
+	ctx.send(text, embed);
 }

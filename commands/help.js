@@ -84,7 +84,7 @@ module.exports = {
 						ctx.reply('❌ It seems like I can\'t DM you! Do you have DMs disabled?');
 					});
 			}
-			return ctx.channel.send(embed);
+			return ctx.send(embed);
 		}
 		// Otherwise, sends a specific help message if a command name is provided.
 		const { commands } = ctx.bot;
@@ -119,6 +119,6 @@ module.exports = {
 		embed.addField('Wiki', `${ctx.bot.config.wikiURL}/%21${command.name}`);
 
 		// Sends the specific help message.
-		return ctx.channel.send(embed);
+		return ctx.send(embed);
 	},
 };

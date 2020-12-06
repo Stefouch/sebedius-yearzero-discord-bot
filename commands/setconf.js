@@ -42,17 +42,17 @@ module.exports = {
 				if (key === 'prefix') {
 					ctx.bot.prefixes.set(guildID, newVal);
 					await ctx.bot.kdb.prefixes.set(guildID, newVal);
-					ctx.channel.send(`✅ My prefix has been set to "**${newVal}**"`);
+					ctx.send(`✅ My prefix has been set to "**${newVal}**"`);
 				}
 				else if (key === 'game' && SUPPORTED_GAMES.includes(newVal)) {
 					ctx.bot.games.set(guildID, newVal);
 					await ctx.bot.kdb.games.set(guildID, newVal);
-					ctx.channel.send(`✅ The default game has been set to **${SOURCE_MAP[newVal]}**`);
+					ctx.send(`✅ The default game has been set to **${SOURCE_MAP[newVal]}**`);
 				}
 				else if (key === 'lang' && Object.keys(SUPPORTED_LANGS).includes(newVal)) {
 					ctx.bot.langs.set(guildID, newVal);
 					await ctx.bot.kdb.langs.set(guildID, newVal);
-					ctx.channel.send(`✅ The default language has been set to **${SUPPORTED_LANGS[newVal]}**`);
+					ctx.send(`✅ The default language has been set to **${SUPPORTED_LANGS[newVal]}**`);
 				}
 				else {
 					ctx.reply(`❌ The value you typed for **${key}** is unsupported.`);
@@ -62,7 +62,7 @@ module.exports = {
 			else {
 				const namespace = dbNamespaces[key];
 				const value = await ctx.bot.kdb[namespace].get(guildID);
-				if (value) ctx.channel.send(`🏷️ Parameter: "${key}" = "${value}"`);
+				if (value) ctx.send(`🏷️ Parameter: "${key}" = "${value}"`);
 				else ctx.reply(`❌ Impossible to get the value from **${key}** parameter.`);
 			}
 		}

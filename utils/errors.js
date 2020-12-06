@@ -33,9 +33,23 @@ module.exports.SelectionCancelledError = class extends Error {
 	}
 };
 
-module.exports.TooManyDiceError = class extends Error {
+module.exports.TooManyDiceError = class extends module.exports.SebediusError {
 	constructor(msg) {
 		super(msg);
 		this.name = 'TooManyDice';
+	}
+};
+
+module.exports.NoCharacterError = class extends module.exports.NotFoundError {
+	constructor(msg) {
+		super(msg);
+		this.name = 'NoCharacter';
+	}
+};
+
+module.exports.ExternalImportError = class extends module.exports.SebediusError {
+	constructor(msg) {
+		super(msg);
+		this.name = 'ExternalImportError';
 	}
 };

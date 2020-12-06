@@ -63,7 +63,7 @@ module.exports = {
 
 		out.push(getDrawCardText(drawnCards, ctx));
 		await ctx.bot.kdb.initiatives.set(gid, deck._stack, ttl);
-		return ctx.channel.send(out.join('\n'));
+		return ctx.send(out.join('\n'));
 
 		async function reset() {
 			deck = new YZInitDeck();

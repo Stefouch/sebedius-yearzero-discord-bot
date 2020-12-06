@@ -59,5 +59,5 @@ function sendMessageForResourceDie(roll, ctx) {
 			'The Resource Die didn\'t decrease.',
 		);
 	}
-	ctx.channel.send(text, embed);
+	ctx.send(text, embed);
 }

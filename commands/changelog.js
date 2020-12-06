@@ -14,6 +14,6 @@ module.exports = {
 			+ 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md',
 			ctx,
 		);
-		return ctx.channel.send(embed);
+		return ctx.send(embed);
 	},
 };

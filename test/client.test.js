@@ -68,6 +68,7 @@ describe('Discord Bot Client', function() {
 				let args = [];
 				if (cmdName === 'attack') args = ['alien', 'bloodburster', '1'];
 				else if (cmdName === 'cast') args = ['6', 'Fireball'];
+				else if (cmdName === 'character') this.skip();
 				else if (cmdName === 'contact') args = ['99'];
 				else if (cmdName === 'critfbl') args = ['stab', '69'];
 				else if (cmdName.startsWith('crit')) args = ['42'];
@@ -76,6 +77,7 @@ describe('Discord Bot Client', function() {
 				else if (cmdName === 'feral') args = ['99'];
 				else if (cmdName === 'help') args = ['help'];
 				else if (cmdName === 'init') args = ['help'];
+				else if (cmdName === 'importcharacter') this.skip();
 				else if (cmdName === 'job') args = ['mil'];
 				else if (cmdName === 'journey') args = ['create', 'night', 'summer', 'hills', '-fbr'];
 				else if (cmdName === 'module') args = ['99'];
@@ -87,7 +89,7 @@ describe('Discord Bot Client', function() {
 				else if (cmdName === 'setconf') args = ['lang'];
 				else if (cmdName === 'setpresence') args = ['idle'];
 
-				const matahari = sandbox.spy(ctx.channel, 'send');
+				const matahari = sandbox.spy(ctx, 'send');
 
 				await cmd.run(args, ctx);
 

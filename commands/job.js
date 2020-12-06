@@ -57,7 +57,7 @@ module.exports = {
 			);
 		});
 
-		return ctx.channel.send(embed);
+		return ctx.send(embed);
 	},
 };
 

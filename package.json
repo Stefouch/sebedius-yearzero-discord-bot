@@ -1,6 +1,6 @@
 {
   "name": "sebedius-yz-discord-bot",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
   "license": "MIT",
@@ -48,7 +48,7 @@
     "@keyv/postgres": "^1.0.16",
     "card-deck": "^1.0.1",
     "core-worker": "^0.3.5",
-    "discord.js": "^12.3.1",
+    "discord.js": "^12.5.1",
     "dotenv": "^8.2.0",
     "keyv": "^4.0.3",
     "ms": "^2.1.2",
@@ -58,8 +58,8 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "eslint": "^7.9.0",
-    "mocha": "^8.1.3",
-    "sinon": "^9.0.3"
+    "eslint": "^7.15.0",
+    "mocha": "^8.2.1",
+    "sinon": "^9.2.1"
   }
 }

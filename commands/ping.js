@@ -12,7 +12,7 @@ module.exports = {
 		// Aborts if the bot doesn't have the needed permissions.
 		if (!checkPermissions(ctx)) return;
 
-		const msg = await ctx.channel.send('Pinging...');
+		const msg = await ctx.send('Pinging...');
 		return await msg.edit(`Pong! Latency is ${msg.createdTimestamp - ctx.createdTimestamp}ms.`);
 	},
 };

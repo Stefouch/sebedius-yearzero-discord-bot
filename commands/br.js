@@ -7,7 +7,7 @@ module.exports = {
 	args: false,
 	usage: '',
 	async run(args, ctx) {
-		await ctx.channel.send('``` ```');
+		await ctx.send('``` ```');
 		try {
 			await ctx.delete();
 		}

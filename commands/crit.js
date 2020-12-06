@@ -149,12 +149,12 @@ module.exports = {
 		if (privacy) {
 			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx));
 		}
-		return await ctx.channel.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
+		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
 			.then(() => {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
-						ctx.channel.send('🪦');
+						ctx.send('🪦');
 					}, rollD66() * 150);
 				}
 			})

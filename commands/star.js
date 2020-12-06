@@ -14,7 +14,7 @@ module.exports = {
 		const star = new Star();
 		const embed = new YZStarEmbed(star);
 
-		return ctx.channel.send('New star system discovered.\nPreliminary survey data:', embed);
+		return ctx.send('New star system discovered.\nPreliminary survey data:', embed);
 	},
 };
 

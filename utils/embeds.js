@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
+const { strCamelToNorm } = require('./Util');
 
 /**
  * A Discord.MessageEmbed with predefined properties.
@@ -9,7 +10,7 @@ class YZEmbed extends MessageEmbed {
 	/**
 	 * @param {string} title The embed's title
 	 * @param {string} description The embed's description
-	 * @param {?Discord.Message} [triggeringMessage=null] The triggering message (default is null)
+	 * @param {?import('discord.js').Message} [triggeringMessage=null] The triggering message (default is null)
 	 * @param {boolean} [hasAuthor=false] Shows or not the triggering message's author (default is false)
 	 */
 	constructor(title, description, triggeringMessage = null, hasAuthor = false) {
@@ -46,7 +47,7 @@ class YZEmbed extends MessageEmbed {
  */
 class YZMonsterEmbed extends MessageEmbed {
 	/**
-	 * @param {YZMonster} monster Year Zero monster object
+	 * @param {import('../yearzero/YZObject').YZMonster} monster Year Zero monster object
 	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(monster, color = 0x1AA29B) {
@@ -71,12 +72,72 @@ class YZMonsterEmbed extends MessageEmbed {
 }
 
 /**
+ * A Discord embed message that displays info about a Character.
+ * @extends {MessageEmbed}
+ */
+class CharacterEmbed extends MessageEmbed {
+	/**
+	 * @param {import('../yearzero/models/sheet/Character')} character Character
+	 * @param {import('./ContextMessage')} ctx Discord message with context
+	 */
+	constructor(character, ctx) {
+		super({
+			color: ctx ? ctx.member.displayColor : undefined,
+			author: ctx
+				? {
+					name: ctx.member.displayName,
+					iconURL: ctx.author.avatarURL(),
+				}
+				: undefined,
+			title: character.name,
+			description: character.description,
+			thumbnail: character.portrait,
+			footer: { text: `ID: ${character.id}` },
+			fields: [
+				{
+					name: 'Attributes',
+					value: character.attributes
+						.map(a => {
+							return `${strCamelToNorm(a.name)}: **${a.value}**`
+							+ (a.trauma ? ` (-${a.trauma})` : '');
+						})
+						.join('\n'),
+					inline: true,
+				},
+			],
+		});
+
+		// Adds the skills.
+		// It uses this way because an embed field must have a value
+		// And the character could have 0 skills.
+		const skills = character.skills.filter(s => s.value > 0);
+		if (skills.length) {
+			this.addField(
+				'Skills',
+				skills.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`).join('\n'),
+				true,
+			);
+		}
+
+		// Adds the weapons.
+		// It uses this way because same reason as above.
+		if (character.weapons.length) {
+			this.addField(
+				'Weapons',
+				character.weapons.map(w => w.toString()).join('\n'),
+				false,
+			);
+		}
+	}
+}
+
+/**
  * A Discord embed message that displays info about a user.
  * @extends {MessageEmbed}
  */
 class UserEmbed extends MessageEmbed {
 	/**
-	 * @param {Discord.User} user Discord User
+	 * @param {import('discord.js').User} user Discord User
 	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(user, color = 0x1AA29B) {
@@ -112,7 +173,7 @@ class UserEmbed extends MessageEmbed {
  */
 class GuildEmbed extends MessageEmbed {
 	/**
-	 * @param {Discord.Guild} guild Discord Guild
+	 * @param {import('discord.js').Guild} guild Discord Guild
 	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(guild, color = 0x1AA29B) {
@@ -173,4 +234,4 @@ class GuildEmbed extends MessageEmbed {
 	}
 }
 
-module.exports = { YZEmbed, YZMonsterEmbed, UserEmbed, GuildEmbed };
+module.exports = { YZEmbed, YZMonsterEmbed, CharacterEmbed, UserEmbed, GuildEmbed };
