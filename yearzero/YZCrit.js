@@ -33,7 +33,11 @@ class YZCrit {
 		 * Tells if the injury is lethal.
 		 * @type {boolean}
 		 */
-		this.lethal = data.lethal ? true : false;
+		this.lethal = false;
+		// Must be done like this because of the CSV importer which doesn't convert strings into booleans.
+		if (typeof data.lethal === 'boolean') this.lethal = data.lethal;
+		else if (data.lethal === 'true') this.lethal = true;
+		else if (data.lethal === 'false') this.lethal = false;
 
 		/**
 		 * The malus to `HEAL` skill rolls.
