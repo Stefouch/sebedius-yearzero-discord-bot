@@ -19,7 +19,7 @@ module.exports = {
 			!ctx.member.hasPermission('ADMINISTRATOR')
 			&& ctx.author.id !== ctx.bot.owner.id
 		) {
-			return ctx.reply('⛔ This command is only available for admins.');
+			return ctx.reply('⛔ This command is only available for member with the ADMINISTRATOR role.');
 		}
 
 		// The property command.args = true,
