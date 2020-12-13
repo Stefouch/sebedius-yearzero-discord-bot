@@ -364,13 +364,20 @@ class YZRoll {
 
 	/**
 	 * Gets the sum of the dice of a certain type.
+	 * TODO Better sum function with operators priorities and parentheses.
 	 * @param {?string} type "base", "skill", "gear", "neg", etc...
 	 * @returns {number} The summed result
 	 */
 	sum(type = null) {
 		const dice = type ? this.getDice(type) : this.dice;
-		const expression = dice.reduce((acc, d) => acc + d.operator + d.result, '');
-		return eval(expression);
+		let sum = 0;
+		for (const d of dice) {
+			if (d.operator === '+') sum += d.result;
+			else if (d.operator === '-') sum -= d.result;
+			else if (d.operator === '*') sum *= d.result;
+			else if (d.operator === '/') sum /= d.result;
+		}
+		return sum;
 	}
 
 	/**

@@ -73,6 +73,7 @@ class Sebedius extends Discord.Client {
 		this.games = new Discord.Collection();
 		this.langs = new Discord.Collection();
 		this.combats = new Discord.Collection();
+		this.initiatives = new Set();
 		this.cooldowns = new Discord.Collection();
 
 		/**
