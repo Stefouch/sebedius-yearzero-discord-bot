@@ -1,0 +1,18 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-16;Zittern;false;0;0;;-1 auf alle Würfe auf Geschicklichkeit.;1
+21;Weißes Haar;false;0;0;;Deine Haare werden weiß.;-1
+22-24;Beklommen;false;0;0;;-1 auf alle Würfe auf Verstand.;1
+25-31;Mürrisch;false;0;0;;-1 auf alle Würfe auf Empathie.;1
+32-35;Albträume;false;0;0;;Würfel auf MENSCHENKENNTNIS, wenn du einen Tagesabschnitt mit SCHLAFEN verbringst. Misserfolg bedeutet, dass der SCHLAF nicht zählt.;1
+36-41;Nachtaktiv;false;0;0;;Du kannst nur bei Tageslicht SCHLAFEN.;2
+42-43;Verängstigt;false;0;0;;Du wirst durch etwas verängstigt, das damit zu tun hat, wie du Gebrochen wurdest. Die SL entscheidet, was. Du erleidest 1 Punkt Schaden auf Verstand für jede Runde, in der du auf NAHER Reichweite zur Ursache deiner Furcht bist.;2
+44-45;Trunksüchtig;false;0;0;;Du musst jeden Tag Wein oder Met trinken, sonst erleidest du 1 Punkt Schaden auf Geschicklichkeit.;3
+46-51;Klaustrophobisch;false;0;0;;Für jeden Zug (15 Minuten), den du in beengten Räumen verbringst, erleidest du 1 Punkt Schaden auf Verstand.;2
+52;Pathologischer Lügner;false;0;0;;Du kannst nicht aufhören zu lügen. Über alles. *(Diese Wirkung sollte durch Rollenspiel ausgespielt werden.)*;2
+53-54;Paranoia;false;0;0;;Du bist dir sicher, dass jemand hinter dir her ist. *(Diese Wirkung sollte durch Rollenspiel ausgespielt werden.)*;2
+55;Wahnvorstellung;false;0;0;;Du bist fest von einer völlig unwahren Sache überzeugt *(zum Beispiel, dass ein bestimmtes Volk nicht existiert.)*;3
+56;Halluzinationen;false;0;0;;Würfel jeden Tagesabschnitt auf MENSCHENKENNTNIS. Wenn der Wurf misslingt, erliegst du einer starken Halluzination. Die SL bestimmt die Details.;3
+61-62;Veränderte Persönlichkeit;false;0;0;;Deine Persönlichkeit wird auf fundamentale Weise geändert. Entscheide gemeinsam mit der SL, was diese Veränderung ist. *(Die Auswirkung sollte durch Rollenspiel ausgespielt werden.)*;-1
+63;Amnesie;false;0;0;;Du verlierst dein vollständiges Gedächtnis und kannst dich nicht mehr erinnern wer du oder die anderen Abenteurer sind. *(Diese Wirkung sollte durch Rollenspiel ausgespielt werden.)*;1
+64-65;Katatonisch;false;0;0;;Du starrst verständnislos in die Leere und reagierst auf keine äußeren Reize.;1
+66;Herzinfarkt;true;0;0;;Dein Herz kommt zum Stillstand und du stirbst vor lauter Angst.;0

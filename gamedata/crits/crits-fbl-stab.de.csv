@@ -1,0 +1,18 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-13;Durchstochenes Ohr;false;0;0;;Kein Effect;0
+14-16;Aufgespießter Fuß;false;0;0;;RENNEN wird zu einer langsamen Aktion.;1
+21-23;Durchbohrte Hand;false;0;0;;Zweihändige Waffen können nicht benutzt werden.;1
+24-26;Durchstochene Wange;false;0;0;;-1 auf MANIPULATION.;1
+31-33;Durchbohrter Schenkel;false;0;0;;RENNEN wird zu einer langsamen Aktion.;2
+34;Durchtrennte Sehne;false;0;0;;RENNEN wird zu einer langsamen Aktion.;3
+35-41;Durchbohrte Schulter;false;0;0;;Zweihändige Waffen können nicht benutzt werden.;2
+42-43;Durchstochenes Auge;false;0;0;;-2 auf FERNKAMPF und AUSKUNDSCHAFTEN.;2
+44-45;Durchstoßene Leiste;false;0;0;;1 Punkt Schaden bei jedem Wurf auf BEWEGEN oder NAHKAMPF.;2
+46-51;Durchstochene Lunge;true;0;1;days;-2 auf AUSDAUER und BEWEGEN.;1
+52-54;Innere Blutungen;true;0;1;hours;1 Punkt Schaden bei jedem Wurf auf BEWEGEN oder NAHKAMPF.;1
+55-56;Gerissene Eingeweide;true;0;1;hours;Krankheit mit Ansteckungskraft 6.;2
+61;Durchtrennte Armarterie;true;-1;1;minutes;Zweihändige Waffen können nicht benutzt werden.;1
+62;Durchtrennte Beinarterie;true;-1;1;minutes;RENNEN wird zu einer langsamen Aktion.;1
+63;Durchbohrter Hals;true;-1;1;turns;-2 auf AUSDAUER.;2
+64;Durchbohrter Schädel;true;0;0;;Du stirbst sofort.;0
+65-66;Durchbohrtes Herz;true;0;0;;Dein Herz schlägt zum letzten Mal.;0
