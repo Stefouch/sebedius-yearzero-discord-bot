@@ -1,7 +1,7 @@
 const { getTable } = require('../Sebedius');
 const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
-const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -33,7 +33,8 @@ module.exports = {
 			+ '\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.'
 			+ `\n> Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`
 			+ '\n• `table` – Specifies the table you want from this game. See below for possible options *(default is "damage")*.'
-			+ '\n• `numeric` – Specifies a fixed reference.',
+			+ '\n• `numeric` – Specifies a fixed reference.'
+			+ '\n• `language_code` – Uses a different language. See `setconf` command for available options.',
 		],
 		[
 			'☢️ Mutant: Year Zero',
@@ -62,13 +63,13 @@ module.exports = {
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric] [-private|-p]',
+	usage: '[game] [table] [numeric] [language_code] [-private|-p]',
 	async run(args, ctx) {
 		// Exits early if too many arguments
-		if (args.length > 4) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
+		if (args.length > 5) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
 
 		// Parsing arguments.
-		let game, type, fixedReference, privacy = false;
+		let game, type, fixedReference, privacy = false, lang;
 		for (const arg of args) {
 			// Checks privacy.
 			if (!privacy && (arg === '-private' || arg === '-p')) {
@@ -97,6 +98,9 @@ module.exports = {
 					}
 				}
 			}
+			else if (!lang && Object.keys(SUPPORTED_LANGS).includes(arg)) {
+				lang = arg;
+			}
 			else {
 				console.warn(`   • Unknown argument: ${arg}`);
 			}
@@ -104,6 +108,7 @@ module.exports = {
 		// Defaults.
 		if (!game) game = await ctx.bot.getGame(ctx, 'myz');
 		if (!type) type = 'damage';
+		if (!lang) lang = 'en';
 
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
@@ -120,7 +125,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = getTable('CRIT', './gamedata/crits/', fileName);
+		const critsTable = getTable('CRIT', './gamedata/crits/', fileName, lang);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
