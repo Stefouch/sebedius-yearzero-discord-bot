@@ -2,6 +2,7 @@ module.exports = {
 	SUPPORTED_GAMES: ['myz', 'fbl', 'tales', 'coriolis', 'alien', 'vaesen', 't2k'],
 	SUPPORTED_LANGS: {
 		en: 'English',
+		de: 'Deutsch',
 		// fr: 'Français',
 		// sw: 'Svenska',
 	},
