@@ -2,6 +2,7 @@ const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
 const { alignText, strCamelToNorm } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
+const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'demon',
@@ -15,7 +16,19 @@ module.exports = {
 	args: false,
 	usage: '',
 	async run(args, ctx) {
-		const demon = new Demon();
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language']
+			},
+			default: {
+				lang: 'en'
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+
+		const demon = new Demon(lang);
 
 		const embed = new YZEmbed(
 			`${demon.form.toUpperCase()} DEMON`,
