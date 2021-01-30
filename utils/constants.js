@@ -6,6 +6,7 @@ module.exports = {
 		// fr: 'Français',
 		// sw: 'Svenska',
 	},
+	LOWERCASE_LANGS: ['en'],
 	DAMAGE_TYPES: ['damage', 'slash', 'blunt', 'stab'],
 	DAMAGE_TYPES_ABBREVIATIONS: ['dmg', 'sl', 'bl', 'st'],
 	ATTRIBUTES: [

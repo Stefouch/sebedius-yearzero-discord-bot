@@ -1,5 +1,6 @@
 const { YZEmbed } = require('../utils/embeds');
 const Legend = require('../generators/FBLLegendGenerator');
+const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'legend',
@@ -11,7 +12,19 @@ module.exports = {
 	args: false,
 	usage: '',
 	async run(args, ctx) {
-		const legend = new Legend();
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language']
+			},
+			default: {
+				lang: 'en'
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+
+		const legend = new Legend(lang);
 		const embed = new YZEmbed('Legend', legend.story);
 		return await ctx.send(embed);
 	},
