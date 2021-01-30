@@ -2,6 +2,7 @@ const { getTable, emojifyRoll } = require('../Sebedius');
 const { clamp, isNumber, rollD66 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
+const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'cast',
@@ -16,18 +17,22 @@ module.exports = {
 		const argv = require('yargs-parser')(args, {
 			array: ['name'],
 			number: ['mishap'],
+			string: ['lang'],
 			alias: {
 				name: ['n'],
+				lang: ['lng', 'language'],
 			},
 			default: {
 				name: ['Spell Casting'],
 				mishap: null,
+				lang: 'en',
 			},
 			configuration: ctx.bot.config.yargs,
 		});
 		// Validates the arguments.
 		const basePowerLevel = Math.ceil(clamp(argv._.shift(), 1, 20));
 		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
 			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');
@@ -53,7 +58,7 @@ module.exports = {
 		// Checks for Magic Mishaps.
 		let ref;
 		if (argv.mishap || magicRoll.baneCount) {
-			const mishapTable = getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', 'en', 'csv');
+			const mishapTable = getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', lang, 'csv');
 			ref = +argv.mishap || rollD66();
 			const mishap = mishapTable.get(ref);
 			embed.addField(`💥 Magic Mishap (${ref})`, mishap.effect.replace('{prefix}', ctx.prefix));
