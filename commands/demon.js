@@ -22,11 +22,13 @@ module.exports = {
 				lang: ['lng', 'language']
 			},
 			default: {
-				lang: 'en'
+				lang: null
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
+					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
+					?? 'en';
 
 		const demon = new Demon(lang);
 

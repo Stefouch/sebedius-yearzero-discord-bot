@@ -81,7 +81,7 @@ module.exports = {
 			default: {
 				create: false,
 				mishap: false,
-				lang: 'en',
+				lang: null,
 				fbr: false,
 			},
 			configuration: ctx.bot.config.yargs,
@@ -115,7 +115,9 @@ module.exports = {
 		}
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
+					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
+					?? 'en';
 		const fileName = argv.fbr
 			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
 			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;

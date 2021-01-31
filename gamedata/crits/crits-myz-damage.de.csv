@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;Atemnot;false;0;0;;Kein Effekt.;0
+12;Benommenheit;false;0;0;;Kein Effekt.;0
+13;Verstauchtes Handgelenk;false;0;0;;−1 auf Schießen und Prügeln.;1
+14;Verstauchter Knöchel;false;0;0;;−1 auf Bewegen und Schleichen.;1
+15;Gehirnerschütterung;false;0;0;;−1 auf Auskundschaften und Begreifen.;1
+16;Verletztes Schienbein;false;0;0;;−1 auf Bewegen und Schleichen.;2
+21;Gebrochene Nase;false;0;0;;−1 auf Manipulieren, +1 auf Einschüchtern, Mutation Spurenlesen nicht einsetzbar.;2
+22;Gebrochene Finger;false;0;0;;−1 auf Schießen und Prügeln.;2
+23;Gebrochene Zehen;false;0;0;;−1 auf Bewegen und Schleichen.;2
+24;Ausgeschlagene Zähne;false;0;0;;−1 auf Manipulieren, +1 auf Einschüchtern.;2
+25;Unterleib lädiert;false;0;0;;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;2
+26;Ramponierter Oberschenkel;false;0;0;;−2 auf Bewegen und Schleichen.;2
+31;Verwundeter Bizeps;false;0;0;;−2 auf Schießen und Prügeln.;2
+32;Durchtrennte Achillessehne;false;0;0;;−2 auf Bewegen und Schleichen.;2
+33;Ausgerenkte Schulter;false;0;0;;−3 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden;1
+34;Zertrümmerte Rippen;false;0;0;;−2 auf Bewegen und Prügeln.;2
+35;Gebrochener Unterarm;false;0;0;;Du kannst keine zweihändigen Waffen führen.;3
+36;Gebrochenes Bein;false;0;0;;−2 auf Bewegen und Schleichen.;3
+41;Abgerissenes Ohr;false;0;0;;−1 auf Auskundschaften, Mutation Sonar nicht einsetzbar.;3
+42;Ausgestochenes Auge;false;0;0;;−2 auf Schießen und Auskundschaften.;3
+43;Perforierte Lunge;true;0;1;Tagen;−2 auf Erdulden und Bewegen.;2
+44;Verletzte Niere;true;0;1;Tagen;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;3
+45;Zertrümmertes Knie;true;0;1;Tage;−2 auf Bewegen und Schleichen.;4
+46;Zertrümmerter Ellbogen;true;0;1;Tagen;−2 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden;4
+51;Zertrümmerter Fuß;true;0;1;Tagen;−2 auf Bewegen und Schleichen.;4
+52;Blutender Bauch;true;0;1;Stunden;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;1
+53;Zermatschtes Gesicht;true;0;1;Stunden;−2 auf Manipulieren.;4
+54;Geplatzter Darm;true;0;1;Stunden;Du erleidest pro Stunde einen Punkt Fäulnis bis du Geheilt wirst.;2
+55;Geschädigtes Rückgrat;false;0;0;;Gelähmt von der Hüfte abwärts. Der Effekt ist dauerhaft, wenn er während der Heilungszeit nicht Geheilt wird.;4
+56;Halsverletzung;false;0;0;;Gelähmt vom Hals abwärts. Der Effekt ist dauerhaft, wenn er während der Heilungszeit nicht Geheilt wird.;4
+61;Innere Blutungen;true;-1;1;Minuten;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;2
+62;Durchtrennte Armschlagader;true;-1;1;Minuten;−1 auf Erdulden und Bewegen.;1
+63;Durchtrennte Beinschlagader;true;-1;1;Minuten;−1 auf Erdulden und Bewegen.;1
+64;Durchtrennte Halsschlagader;true;-1;1;Zügen;−1 auf Erdulden und Bewegen.;1
+65;Durchbohrtes Herz;true;0;0;;Dein Herz schlägt ein letztes Mal und du bist tot. Zeit für einen neuen SC.;0
+66;Zermalmter Schädel;true;0;0;;Du stirbst sofort und wirst Eden niemals sehen.;0

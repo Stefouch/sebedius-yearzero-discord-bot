@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;Atemnot;false;0;0;;Für eine Runde betäubt.;0
+12;Desorientiert;false;0;0;;Für eine Runde betäubt.;0
+13;Verstauchtes Handgelenk;false;0;0;;Lässt gehaltenen Gegenstand fallen, dann -1 auf Fernkampf und Nahkampf.;1
+14;Verstauchter Knöchel;false;0;0;;Fällt zu Boden, dann -1 auf Beweglichkeit und Infiltration.;1
+15;Gehirnerschütterung;false;0;0;;Für eine Runde betäubt, dann -1 auf alle speziellen Fertigkeiten.;1
+16;Verletztes Schienbein;false;0;0;;Fällt zu Boden, dann -1 auf Beweglichkeit und Infiltration.;2
+21;Gebrochene Nase;false;0;0;;Für eine Runde betäubt, dann -2 auf Manipulation.;1
+22;Gebrochene Finger;false;0;0;;Lässt gehaltenen Gegenstand fallen, dann -2 auf Fernkampf und Nahkampf.;2
+23;Gebrochene Zehen;false;0;0;;Für eine Runde betäubt, dann -2 auf Beweglichkeit und Infiltration.;2
+24;Ausgeschlagene Zähne;false;0;0;;Für eine Runde betäubt, dann -2 auf Manipulation.;2
+25;Treffer im Schritt;false;0;0;;Für zwei Runden betäubt, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.;2
+26;Ausgerenkte Schulter;false;0;0;;Für eine Runde betäubt, dann -3 auf Kraftakt und Nahkampf.;1
+31;Gebrochene Rippen;false;0;0;;Für eine Runde betäubt, dann -2 auf Beweglichkeit und Nahkampf.;2
+32;Gebrochener Arm;false;0;0;;Für eine Runde betäubt, dann -3 auf Fernkampf und Nahkampf.;3
+33;Gebrochenes Bein;false;0;0;;Fällt zu Boden, dann Bewegungsrate halbiert und -2 auf Beweglichkeit und Infiltration;3
+34;Abgerissenes Ohr;false;0;0;;Für eine Runde betäubt, dann -2 auf Beobachtung. `Dauerhafte hässliche Narbe`.;3
+35;Ausgestochenes Auge;false;0;0;;Für eine Runde betäubt, dann -2 auf Fernkampf und Beobachtung.;3
+36;Punktierte Lunge;true;0;1;Tagen;Für eine Runde betäubt, dann -3 auf Beweglichkeit.;2
+41;Verletzte Niere;true;0;1;Tagen;Für zwei Runden betäubt, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.;3
+42;Zertrümmerter Fuß;true;0;1;Tagen;Fällt zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.;4
+43;Zertrümmerter Ellbogen;true;0;1;Tagen;Für eine Runde betäubt, dann -2 auf Kraftakt und Nahkampf. Verwendung von zweihändigen Waffen unmöglich.;4
+44;Zertrümmertes Knie;true;0;1;Stunden;Für eine Runde betäubt, geht zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.;4
+45;Zerschmettertes Gesicht;true;0;1;Stunden;W6 Stunden bewusstlos, dann -2 auf Manipulation.;4
+46;Durchbohrte Eingeweide;true;0;1;Stunden;Für eine Runde betäubt, dann 1 Punkt Schaden pro Stunde, bis erste Hilfe geleistet wird.;2
+51;Gebrochenes Rückgrat;true;0;1;Stunden;Für W6 Stunden bewusstlos, dann von der Hüfte ab gelähmt. Wird keine medizinische Hilfe während der Heilungszeit geleistet, wird die Lähmung permanent.;4
+52;Gebrochener Hals;true;0;1;Stunden;Für W6 Stunden bewusstlos, dann vom Hals ab gelähmt. Wird keine medizinische Hilfe während der Heilungszeit geleistet, wird die Lähmung permanent.;4
+53;Blutender Bauch;true;0;1;Minuten;1 Schadenspunkt pro Runde, bis erste Hilfe geleistet wird.;1
+54;Innere Blutungen;true;-1;1;Minuten;W6 Stunden bewusstlos, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.;2
+55;Durchtrennte Armarterie;true;-1;1;Minuten;W6 Stunden bewusstlos, dann -1 auf Beweglichkeit.;1
+56;Durchtrennte Beinarterie;true;-1;1;Minuten;W6 Stunden bewusstlos, dann -2 auf Beweglichkeit.;1
+61;Zerstörter Arm;true;-1;1;Minuten;W6 Stunden bewusstlos, dann -2 auf Beweglichkeit. Der Arm wird dauerhaft zerstört. Verwendung von zweihändigen Waffen unmöglich.;3
+62;Zerstörtes Bein;true;-1;1;Minuten;W6 Stunden bewusstlos, dann -2 auf Beweglichkeit. Das Bein wird dauerhaft zerstört. Bewegung wird halbiert.;3
+63;Durchtrennte Halsschlagader;true;-1;1;Minuten;W6 Stunden bewusstlos, dann -1 auf Beweglichkeit.;1
+64;Durchtrennte Aorta;true;-1;1;Minuten;W6 Stunden bewusstlos, dann -2 auf Beweglichkeit.;2
+65;Durchbohrtes Herz;true;0;0;;Dein Herz schlägt ein allerletztes Mal. Erschaffe einen neuen SC.;0
+66;Zermalmter Schädel;true;0;0;;Du wirst augenblicklich getötet. Dein Abenteuer endet hier. Erschaffe einen neuen SC.;0

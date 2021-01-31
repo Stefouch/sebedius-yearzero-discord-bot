@@ -25,14 +25,16 @@ module.exports = {
 			default: {
 				name: ['Spell Casting'],
 				mishap: null,
-				lang: 'en',
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
 		// Validates the arguments.
 		const basePowerLevel = Math.ceil(clamp(argv._.shift(), 1, 20));
 		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
+					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
+					?? 'en';
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
 			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');

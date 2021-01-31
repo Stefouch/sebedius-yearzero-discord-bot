@@ -7,10 +7,11 @@ const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
 	fbl: { slash: true, blunt: true, stab: true, horror: true, pushed: 'myz', nontypical: 'myz' },
 	alien: { damage: true, mental: true, synthetic: true, xeno: true },
+	coriolis: { damage: true, nontypical: true },
 };
 
 const critTypeAliases = {
-	nontypical: ['nt'],
+	nontypical: ['nt', 'atypical', 'at'],
 	pushed: ['p'],
 	damage: ['dmg'],
 	slash: ['sl'],
@@ -33,8 +34,7 @@ module.exports = {
 			+ '\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.'
 			+ `\n> Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`
 			+ '\n• `table` – Specifies the table you want from this game. See below for possible options *(default is "damage")*.'
-			+ '\n• `numeric` – Specifies a fixed reference.'
-			+ '\n• `language_code` – Uses a different language. See `setconf` command for available options.',
+			+ '\n• `numeric` – Specifies a fixed reference.',
 		],
 		[
 			'☢️ Mutant: Year Zero',
@@ -59,24 +59,44 @@ module.exports = {
 			+ '\n• `x` | `xeno` : Critical injuries for Xenomorphs.'
 			+ '\n• `m` | `mental` : Permanent mental traumas.',
 		],
+		[
+			'🌟 Coriolis: The Third Horizon',
+			'• `dmg` | `damage` : Critical injuries from damage.'
+			+ '\n• `at` | `atypical` : Critical injury for atypical damage.'
+		],
 	],
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric] [language_code] [-private|-p]',
+	usage: '[game] [table] [numeric] [-private|-p] [-lang language_code]',
 	async run(args, ctx) {
 		// Exits early if too many arguments
-		if (args.length > 5) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
+		if (args.length > 6) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
 
 		// Parsing arguments.
-		let game, type, fixedReference, privacy = false, lang;
-		for (const arg of args) {
-			// Checks privacy.
-			if (!privacy && (arg === '-private' || arg === '-p')) {
-				privacy = true;
-			}
+		const argv = require('yargs-parser')(args, {
+			boolean: ['private'],
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+				private: ['p'],
+			},
+			default: {
+				lang: null,
+				private: false,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+
+		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
+					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
+					?? 'en';
+		const privacy = argv.private;
+
+		let game, type, fixedReference;
+		for (const arg of argv._) {
 			// Checks and sets any fixed reference.
-			else if (!fixedReference && isNumber(arg)) {
+			if (!fixedReference && isNumber(arg)) {
 				fixedReference = +arg;
 			}
 			// Checks and sets the game.
@@ -98,9 +118,6 @@ module.exports = {
 					}
 				}
 			}
-			else if (!lang && Object.keys(SUPPORTED_LANGS).includes(arg)) {
-				lang = arg;
-			}
 			else {
 				console.warn(`   • Unknown argument: ${arg}`);
 			}
@@ -108,7 +125,6 @@ module.exports = {
 		// Defaults.
 		if (!game) game = await ctx.bot.getGame(ctx, 'myz');
 		if (!type) type = 'damage';
-		if (!lang) lang = 'en';
 
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
