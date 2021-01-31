@@ -39,6 +39,7 @@ module.exports = {
 			+ '\n• `b` – Base dice (attributes)'
 			+ '\n• `s` – Skill dice (or Stress dice for *Alien RPG*)'
 			+ '\n• `n` – Negative dice (*MYZ* and *FBL* only)'
+			+ '\n• `g` – Gear dice (*MYZ* and *FBL* only)'
 			+ '\n• `d` – Generic dice (or Ammo dice for *Twilight 2000*)'
 			+ '\n• `a` – Ammo dice (*Twilight 2000* only)'
 			+ '\n• `a8` – D8 Artifact die (see *FBL*)'
