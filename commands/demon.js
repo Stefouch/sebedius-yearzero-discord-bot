@@ -1,8 +1,7 @@
 const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
-const { alignText, strCamelToNorm } = require('../utils/Util');
+const { alignText, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
-const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'demon',
@@ -14,7 +13,7 @@ module.exports = {
 		+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang language_code]',
 	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			string: ['lang'],
@@ -26,9 +25,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
-					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
-					?? 'en';
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 
 		const demon = new Demon(lang);
 

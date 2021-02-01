@@ -1,3 +1,6 @@
+const { SUPPORTED_LANGS } = require('../utils/constants');
+const ContextMessage = require('./ContextMessage');
+
 /**
  * A collection of useful functions.
  */
@@ -683,6 +686,19 @@ class Util {
 		if (typeof data === 'string') return data;
 		if (data instanceof Array) return data.join(', ');
 		return String(data);
+	}
+
+	/**
+	 * Takes the provided language code, checks it against the SUPPORTED_LANGS-table 
+	 * and if not found calls the getLanguage-method to read from DB or return default
+	 * @param {string} lang Language code (for example provided by arguments)
+	 * @param {ContextMessage} ctx The context (for bot and guild.id)
+	 * @returns {string} A valid language code
+	 */
+	static async getValidLanguageCode(lang, ctx){
+		return Object.keys(SUPPORTED_LANGS).includes(lang) 
+				? lang 
+				: await ctx.bot.getLanguage(ctx);
 	}
 }
 

@@ -1,8 +1,7 @@
 const { getTable, emojifyRoll } = require('../Sebedius');
-const { clamp, isNumber, rollD66 } = require('../utils/Util');
+const { clamp, isNumber, rollD66, getValidLanguageCode } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
-const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'cast',
@@ -11,7 +10,7 @@ module.exports = {
 	description: 'Cast a spell. Use the `-mishap` parameter if you want a specific mishap.',
 	guildOnly: false,
 	args: true,
-	usage: '<power> [name] [-mishap <value>]',
+	usage: '<power> [name] [-mishap <value>] [-lang language_code]',
 	async run(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {
@@ -32,9 +31,7 @@ module.exports = {
 		// Validates the arguments.
 		const basePowerLevel = Math.ceil(clamp(argv._.shift(), 1, 20));
 		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
-					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
-					?? 'en';
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
 			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');

@@ -1,6 +1,6 @@
 const { YZEmbed } = require('../utils/embeds');
 const Legend = require('../generators/FBLLegendGenerator');
-const { SUPPORTED_LANGS } = require('../utils/constants');
+const { getValidLanguageCode } = require('../utils/Util');
 
 module.exports = {
 	name: 'legend',
@@ -10,7 +10,7 @@ module.exports = {
 		+ 'the *Forbidden Lands - Gamemaster\'s Guide*.',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang language_code]',
 	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			string: ['lang'],
@@ -22,9 +22,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
-					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
-					?? 'en';
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 
 		const legend = new Legend(lang);
 		const embed = new YZEmbed('Legend', legend.story);

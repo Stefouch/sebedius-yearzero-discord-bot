@@ -1,7 +1,7 @@
 const { getTable } = require('../Sebedius');
-const { isNumber, rollD66, sumD6 } = require('../utils/Util');
+const { isNumber, rollD66, sumD6, getValidLanguageCode } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
-const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
+const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -51,7 +51,7 @@ module.exports = {
 			+ '\n• `h` | `horror` : Horror traumas.'
 			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
 			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).'
-			+ '\n\n• Add `-lucky [rank]` instead of the fixed reference to use the talent (rank is optional, default is 1).',
+			+ '\n• Add `-lucky [rank]` instead of the fixed reference to use the talent (rank is optional, default is 1).',
 		],
 		[
 			'👾 ALIEN',
@@ -92,9 +92,7 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang 
-					: await ctx.bot.kdb.langs.get(ctx.guild.id) 
-					?? 'en';
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 		const privacy = argv.private;
 
 		let game, type, fixedReference;
