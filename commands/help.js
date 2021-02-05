@@ -36,7 +36,7 @@ module.exports = {
 			// Generic help message.
 			if (!argv.list) {
 				embed.addField('🏁 Deployed Version', ctx.bot.version, true);
-				embed.addField('🛠 Developper', 'Stefouch#5202', true);
+				embed.addField('🛠 Developer', 'Stefouch#5202', true);
 				embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
 				embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
 				embed.addField('🔗 Invite Link', ctx.bot.inviteURL, false);

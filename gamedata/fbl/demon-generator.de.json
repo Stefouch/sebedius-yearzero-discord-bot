@@ -1,0 +1,286 @@
+{
+	"form": {
+		"roll": "D66",
+		"data": {
+			"11": {
+				"form": "Mensch",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": "D6",
+				"symbol": "🙅‍"
+			},
+			"25": {
+				"form": "Minotaurus",
+				"attributes": ["D6+5", 3, 3, 3],
+				"armor": "D6",
+				"symbol": "🐮"
+			},
+			"31": {
+				"form": "Ziege",
+				"attributes": ["D6+3", 4, 3, 3],
+				"armor": "D6",
+				"symbol": "🐐"
+			},
+			"33": {
+				"form": "Bär",
+				"attributes": ["D6+6", 3, 3, 3],
+				"armor": "D6",
+				"symbol": "🐻"
+			},
+			"35": {
+				"form": "Schlange",
+				"attributes": ["D6+4", 4, 3, 3],
+				"armor": "D6",
+				"symbol": "🐍"
+			},
+			"41": {
+				"form": "Untoter",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": "D6",
+				"symbol": "💀"
+			},
+			"43": {
+				"form": "Spinne",
+				"attributes": ["D6+5", 4, 3, 3],
+				"armor": "D6",
+				"symbol": "🕷"
+			},
+			"45": {
+				"form": "Giftschlange",
+				"attributes": ["D6+3", 4, 3, 3],
+				"armor": "D6",
+				"symbol": "🐍"
+			},
+			"51": {
+				"form": "Wolf",
+				"attributes": ["D6+4", 4, 3, 3],
+				"armor": "D6",
+				"symbol": "🐺"
+			},
+			"53": {
+				"form": "Insekt",
+				"attributes": ["D6+2", 3, 3, 3],
+				"armor": "D6",
+				"symbol": "🐞"
+			},
+			"55": {
+				"form": "Wolfsmensch",
+				"attributes": ["D6+4", 4, 3, 3],
+				"armor": "D6",
+				"symbol": "🐺"
+			},
+			"61": {
+				"form": "Riesenkrabbe",
+				"attributes": ["D6+5", 2, 3, 3],
+				"armor": "D6+3",
+				"symbol": "🦀"
+			},
+			"63": {
+				"form": "Riesenkröte",
+				"attributes": ["D6+5", 2, 3, 3],
+				"armor": "D6",
+				"symbol": "🐸"
+			},
+			"64": {
+				"form": "Krake",
+				"attributes": ["D6+4", 2, 3, 3],
+				"armor": "D6",
+				"effect": "Rennen ist an Land eine langsame Aktion.",
+				"symbol": "🦑"
+			},
+			"65": {
+				"form": "Nebel",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": 0,
+				"effect": "Kann von physischen Waffen nicht verwundet werden.",
+				"symbol": "👻"
+			},
+			"66": {
+				"form": "Schatten",
+				"attributes": ["D6+3", 3, 3, 3],
+				"armor": 0,
+				"effect": "Kann von physischen Waffen nicht verwundet werden.",
+				"symbol": "👻"
+			}
+		}
+	},
+	"abilities": {
+		"roll": "D66",
+		"array": true,
+		"data": {
+			"11": ["Steinhaut", "Rüstungsschutz +6"],
+			"13": ["Riesig", "Stärke +2W6"],
+			"15": ["Brennender Körper", "Immun gegen Feuer."],
+			"21": ["Aus Eis", "Rüstungsschutz +2"],
+			"23": ["Mumifiziert", "Furchtangriff W6+5"],
+			"25": ["Schleimig", "Kann sich durch sehr kleine Öffnungen bewegen."],
+			"31": ["Übernatürlich schön", "Manipulation +2"],
+			"33": ["Von Geschwüren bedeckt", "Ansteckende Berührung, Ansteckungsgefahr W6+5"],
+			"35": ["Federn", "Rüstungsschutz +2"],
+			"41": ["Flügel", "Kann fliegen, Bewegungsrate 3"],
+			"44": ["Von Licht erfüllt", "Furchtangriff W6+5"],
+			"46": ["Rankenbehangen", "Rüstungsschutz +3"],
+			"51": ["Durchsichtig", "Alle Angriffe erhalten einen Malus von −3."],
+			"54": ["Von Augen bedeckt", "Ziehe eine zusätzliche Initiativekarte und lege die schlechteste ab."],
+			"55": ["Keine Augen", "Ziehe eine zusätzliche Initiativekarte und lege die beste ab."],
+			"56": { "REROLL": 2 }
+		}
+	},
+	"attacks": {
+		"roll": "D66",
+		"array": true,
+		"count": 2,
+		"data": {
+			"11": {
+				"name": "Klauen",
+				"base": "D6+4",
+				"damage": [1, 1, 2, 2, 2, 3],
+				"range": "Arm"
+			},
+			"16": {
+				"name": "Zähne",
+				"base": "D6+5",
+				"damage": [1, 1, 2, 2, 2, 3],
+				"range": "Arm"
+			},
+			"23": {
+				"name": "Horn",
+				"base": "D6+6",
+				"damage": [2, 2, 2, 2, 3, 3],
+				"range": "Arm"
+			},
+			"26": {
+				"name": "Tentakeln",
+				"base": "D6+4",
+				"damage": [1, 1, 2, 2, 2, 2],
+				"range": "Nah",
+				"special": "danach FESTGEHALTEN"
+			},
+			"33": {
+				"name": "Feuer",
+				"base": "D6+6",
+				"damage": 1,
+				"range": "Nah",
+				"special": "Das Opfer nimmt jede Runde 1 Punkt Schaden, bis die Flammen mit einem erfolgreichen BEWEGEN-Wurf gelöscht werden."
+			},
+			"36": {
+				"name": "Kälte",
+				"base": "D6+5",
+				"damage": 1,
+				"range": "Nah",
+				"special": "Das Opfer ist augenblicklich UNTERKÜHLT."
+			},
+			"42": {
+				"name": "Brüllen",
+				"base": "D3+6",
+				"damage": 0,
+				"range": "Nah",
+				"special": "Furchtangriff"
+			},
+			"46": {
+				"name": "Todesblick",
+				"base": "D6+5",
+				"damage": 0,
+				"range": "Nah",
+				"special": "Furchtangriff"
+			},
+			"52": {
+				"define": "Schwere Waffe",
+				"roll": "1D6",
+				"data": {
+					"1": {
+						"name": "Langschwert",
+						"base": "D6+5+2",
+						"damage": 2,
+						"range": "Arm",
+						"special": "Schwer, Scharf, Stich, Parade"
+					},
+					"2": {
+						"name": "Zweihandschwert",
+						"base": "D6+5+2",
+						"damage": 3,
+						"range": "Arm",
+						"special": "Schwer, Scharf, Stich, Parade"
+					},
+					"3": {
+						"name": "Schwerer Kriegshammer",
+						"base": "D6+5+2",
+						"damage": 3,
+						"range": "Arm",
+						"special": "Schwer, Stumpf, Haken"
+					},
+					"4": {
+						"name": "Morgenstern",
+						"base": "D6+5+2",
+						"damage": 2,
+						"range": "Arm",
+						"special": "Stumpf"
+					},
+					"5": {
+						"name": "Zweihandaxt",
+						"base": "D6+5+2",
+						"damage": 3,
+						"range": "Arm",
+						"special": "Schwer, Scharf, Haken"
+					},
+					"6": {
+						"name": "Dreizack",
+						"base": "D6+5+1",
+						"damage": 2,
+						"range": "Nah",
+						"special": "Stich, Haken"
+					}
+				}
+			},
+			"61": { "REROLL": 3 },
+			"66": { "REROLL": 4 }
+		}
+	},
+	"strengths": {
+		"roll": "D66",
+		"array": true,
+		"_comment": "The official german version has a bad translation on '26'. They translated 'turns' with 'Runden' (rounds) instead of 'Züge'. As that doesn't make sense the entry differs here.",
+		"data": {
+			"11": ["Immun gegen Waffen", "Nur waffenlose Angriffe und Zauber können den Dämon verletzen."],
+			"15": ["Immun gegen Feuer", "Kann nicht von Feuer verletzt werden."],
+			"23": ["Immun gegen Kälte", "Kälte hat keinen Einfluss auf den Dämon."],
+			"26": ["Blitzschnell", "Zieht zwei Initiativekarten und handelt in beiden Zügen."],
+			"33": ["Immun gegen physische Angriffe", "Physische Angriffe sind wirkungslos."],
+			"35": ["Parasit", "Der Dämon kann Kontrolle über sein Opfer ergreifen, indem er es berührt. Dies funktioniert wie der Zauber PUPPENSPIELER mit Machtstufe 3."],
+			"41": ["Regeneration", "Erhält jede Runde W3 Stärke zurück."],
+			"44": ["Lähmung", "Ein Opfer, das vom Dämon berührt wird, leidet unter einem lähmenden Gift mit Wirksamkeit W6+5."],
+			"46": ["Giftig", "Ein Opfer, das vom Dämon berührt wird, leidet unter einem tödlichen Gift mit Wirksamkeit W6+5."],
+			"52": ["Gestaltwandler", "Kann sich in jede Kreatur verwandeln. Die Kopie dieses Wesens ist bis auf ein kleines Detail (z. B. die Augenfarbe) perfekt."],
+			"55": ["Körperlos", "Kann sich durch feste Stoffe bewegen."],
+			"61": ["Schweben", "Berührt den Boden nicht. Kann bis zu 10 Meter über dem Boden schweben."],
+			"63": ["Teleportation", "Kann sich jede zweite Runde augenblicklich an jeden Ort innerhalb WEITER Reichweite teleportieren."],
+			"65": { "REROLL": 2 }
+		}
+	},
+	"weaknesses": {
+		"roll": "D66",
+		"array": true,
+		"data": {
+			"11": ["Wasser", "Erleidet W3 Schaden, wenn er mit Wasser angespritzt wird."],
+			"14": ["Feuer", "Erleidet doppelten Schaden durch Feuer."],
+			"16": ["Kälte", "Erleidet doppelten Schaden durch Kälte."],
+			"22": ["Licht", "Lichtempfindlich; muss sich von starken Lichtquellen wegbewegen. Falls dies nicht möglich ist, erleidet der Dämon jede Runde W3 Schaden von kleineren Lichtquellen (z. B. Fackeln) und W6 Schaden von großen Lichtquellen (z. B. Sonne)."],
+			"25": ["Silber", "Erleidet doppelten Schaden durch Waffen aus Silber."],
+			"32": ["Gold", "Erleidet doppelten Schaden durch Waffen aus Gold."],
+			"34": ["Kinder", "Kann den Anblick von Kindern nicht ertragen und muss sich von ihnen entfernen. Falls dies nicht möglich ist, erleidet der Dämon jede Runde W3 Schaden."],
+			"36": ["Elfen", "Kann den Anblick von Elfen nicht ertragen und muss sich von ihnen entfernen. Falls dies nicht möglich ist, erleidet der Dämon jede Runde W3 Schaden."],
+			"42": ["Zwerge", "Kann den Anblick von Zwergen nicht ertragen und muss sich von ihnen entfernen. Falls dies nicht möglich ist, erleidet der Dämon jede Runde W3 Schaden."],
+			"44": ["Heilige Symbole", "Kann den Anblick von heiligen Symbolen nicht ertragen und muss sich von ihnen entfernen. Falls dies nicht möglich ist, erleidet der Dämon jede Runde W3 Schaden."],
+			"53": ["Musik", "Kann den Klang von Musik und Melodien nicht ertragen und muss sich davon entfernen. Falls dies nicht möglich ist, erleidet der Dämon jede Runde W3 Schaden."],
+			"61": ["Erde", "Erleidet W3 Schaden durch den Kontakt mit Erde."],
+			"64": ["Holz", "Erleidet doppelten Schaden durch Waffen aus Holz."]
+		}
+	},
+	"skills": {
+		"scout": "D6-1",
+		"sneak": "D6-1",
+		"move": "D6-1",
+		"lore": "D6-1",
+		"insight": "D6-1",
+		"manipulation": "D6-1"
+	}
+}

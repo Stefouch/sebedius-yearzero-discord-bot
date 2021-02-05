@@ -3,8 +3,7 @@ const { getSelection } = require('../Sebedius');
 const YZJourney = require('../yearzero/YZJourney');
 const YZTerrainTypesFlags = require('../yearzero/YZTerrainTypesFlags');
 const { YZEmbed } = require('../utils/embeds');
-const { capitalize, trimString, strCamelToNorm } = require('../utils/Util');
-const { SUPPORTED_LANGS } = require('../utils/constants');
+const { capitalize, trimString, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
 const ReactionMenu = require('../utils/ReactionMenu');
 
 const T_OPTS = Object.keys(YZTerrainTypesFlags.FLAGS)
@@ -81,7 +80,7 @@ module.exports = {
 			default: {
 				create: false,
 				mishap: false,
-				lang: 'en',
+				lang: null,
 				fbr: false,
 			},
 			configuration: ctx.bot.config.yargs,
@@ -115,7 +114,7 @@ module.exports = {
 		}
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 		const fileName = argv.fbr
 			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
 			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;

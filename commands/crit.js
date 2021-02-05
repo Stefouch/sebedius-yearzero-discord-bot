@@ -1,5 +1,5 @@
 const { getTable } = require('../Sebedius');
-const { isNumber, rollD66, sumD6 } = require('../utils/Util');
+const { isNumber, rollD66, sumD6, getValidLanguageCode } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 
@@ -7,10 +7,11 @@ const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
 	fbl: { slash: true, blunt: true, stab: true, horror: true, pushed: 'myz', nontypical: 'myz' },
 	alien: { damage: true, mental: true, synthetic: true, xeno: true },
+	coriolis: { damage: true, nontypical: true },
 };
 
 const critTypeAliases = {
-	nontypical: ['nt'],
+	nontypical: ['nt', 'atypical', 'at'],
 	pushed: ['p'],
 	damage: ['dmg'],
 	slash: ['sl'],
@@ -49,7 +50,8 @@ module.exports = {
 			+ '\n• `st` | `stab` : Critical injuries due to Stab wounds.'
 			+ '\n• `h` | `horror` : Horror traumas.'
 			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
-			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
+			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).'
+			+ '\n• Add `-lucky [rank]` instead of the fixed reference to use the talent (rank is optional, default is 1).',
 		],
 		[
 			'👾 ALIEN',
@@ -58,24 +60,45 @@ module.exports = {
 			+ '\n• `x` | `xeno` : Critical injuries for Xenomorphs.'
 			+ '\n• `m` | `mental` : Permanent mental traumas.',
 		],
+		[
+			'🌟 Coriolis: The Third Horizon',
+			'• `dmg` | `damage` : Critical injuries from damage.'
+			+ '\n• `at` | `atypical` : Critical injury for atypical damage.'
+		],
 	],
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric] [-private|-p]',
+	usage: '[game] [table] [numeric|-lucky [rank]] [-private|-p] [-lang language_code]',
 	async run(args, ctx) {
 		// Exits early if too many arguments
-		if (args.length > 4) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
+		if (args.length > 7) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
 
 		// Parsing arguments.
-		let game, type, fixedReference, privacy = false;
-		for (const arg of args) {
-			// Checks privacy.
-			if (!privacy && (arg === '-private' || arg === '-p')) {
-				privacy = true;
-			}
+		const argv = require('yargs-parser')(args, {
+			boolean: ['private'],
+			number: ['lucky'],
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+				lucky: ['ly'],
+				private: ['p'],
+			},
+			default: {
+				lang: null,
+				lucky: null,
+				private: false,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+
+		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const privacy = argv.private;
+
+		let game, type, fixedReference;
+		for (const arg of argv._) {
 			// Checks and sets any fixed reference.
-			else if (!fixedReference && isNumber(arg)) {
+			if (!fixedReference && isNumber(arg)) {
 				fixedReference = +arg;
 			}
 			// Checks and sets the game.
@@ -120,7 +143,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = getTable('CRIT', './gamedata/crits/', fileName);
+		const critsTable = getTable('CRIT', './gamedata/crits/', fileName, lang);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
@@ -128,7 +151,7 @@ module.exports = {
 		if (critsTable.size === 0) return ctx.reply('❌ An error occured: `critsTable size 0`.');
 
 		// Rolls the Critical Injuries table.
-		const critRoll = fixedReference || rollD66();
+		const critRoll = fixedReference || rollLucky(argv.lucky) || rollD66();
 		const crit = critsTable.get(critRoll);
 
 		// Exits early if no critical injury was found.
@@ -215,4 +238,33 @@ function getEmbedCrit(crit, name, ctx) {
 	embed.setFooter(`Table: ${name}`);
 
 	return embed;
+}
+
+/**
+ * Uses the 'Lucky'-talent with it's corresponding rank
+ * @param {number} rank The rank of the talent (1-3)
+ * @returns {number} The final critical injury
+ */
+ function rollLucky(rank) {
+	if (!isNumber(rank)) return;
+	if (rank < 1) rank = 1;
+
+	// Rank 3: Choose whichever you want
+	// TODO: Display a list or message. Currently just returns lowest possible value
+	if (rank == 3) return 11;
+
+	let value = rollD66();
+	// Rank 1: roll twice, take the lower
+	if (rank >= 1) {
+		value = Math.min(value, rollD66());
+	}
+	//Rank 2: Roll twice, take the lowest, reverse that and take the lowest of those two
+	if (rank >= 2) {
+		const reversed = parseInt(value.toString().split('').reverse().join(''));
+		value = Math.min(value, reversed);
+	}
+
+	// TODO: Show rolls and manipulation in Embed
+	
+	return value;
 }

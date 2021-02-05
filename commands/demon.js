@@ -1,6 +1,6 @@
 const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
-const { alignText, strCamelToNorm } = require('../utils/Util');
+const { alignText, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
 
 module.exports = {
@@ -13,9 +13,21 @@ module.exports = {
 		+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang language_code]',
 	async run(args, ctx) {
-		const demon = new Demon();
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language']
+			},
+			default: {
+				lang: null
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await getValidLanguageCode(argv.lang, ctx);
+
+		const demon = new Demon(lang);
 
 		const embed = new YZEmbed(
 			`${demon.form.toUpperCase()} DEMON`,
