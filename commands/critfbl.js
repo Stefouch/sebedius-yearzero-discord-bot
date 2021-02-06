@@ -2,8 +2,7 @@ module.exports = {
 	name: 'critfbl',
 	aliases: ['critf'],
 	category: 'fbl',
-	description: 'Rolls for a random critical injury.'
-		+ '\nType `help crit` for more details.',
+	description: 'ccritfbl-description',
 	guildOnly: false,
 	args: false,
 	usage: '[table] [numeric|-lucky [rank]]',

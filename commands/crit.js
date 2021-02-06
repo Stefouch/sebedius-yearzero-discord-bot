@@ -2,6 +2,7 @@ const { getTable } = require('../Sebedius');
 const { isNumber, rollD66, sumD6, getValidLanguageCode } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
+const { __ } = require('../utils/locales');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -26,46 +27,8 @@ const critTypeAliases = {
 module.exports = {
 	name: 'crit',
 	category: 'common',
-	description: 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
-	moreDescriptions: [
-		[
-			'Arguments',
-			'There are three main arguments you can use with this command in any order:'
-			+ '\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.'
-			+ `\n> Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`
-			+ '\n• `table` – Specifies the table you want from this game. See below for possible options *(default is "damage")*.'
-			+ '\n• `numeric` – Specifies a fixed reference.',
-		],
-		[
-			'☢️ Mutant: Year Zero',
-			'• `dmg` | `damage` : Critical injuries from damage.'
-			+ '\n• `h` | `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
-			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
-			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
-		],
-		[
-			'⚔️ Forbidden Lands',
-			'• `sl` | `slash` : Critical injuries due to Slash wounds.'
-			+ '\n• `bl` | `blunt` : Critical injuries due to Blunt force.'
-			+ '\n• `st` | `stab` : Critical injuries due to Stab wounds.'
-			+ '\n• `h` | `horror` : Horror traumas.'
-			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
-			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).'
-			+ '\n• Add `-lucky [rank]` instead of the fixed reference to use the talent (rank is optional, default is 1).',
-		],
-		[
-			'👾 ALIEN',
-			'• `dmg` | `damage` : Critical injuries from damage.'
-			+ '\n• `s`, `synth` | `synthetic` : Critical injuries on Synthetics and Androids.'
-			+ '\n• `x` | `xeno` : Critical injuries for Xenomorphs.'
-			+ '\n• `m` | `mental` : Permanent mental traumas.',
-		],
-		[
-			'🌟 Coriolis: The Third Horizon',
-			'• `dmg` | `damage` : Critical injuries from damage.'
-			+ '\n• `at` | `atypical` : Critical injury for atypical damage.'
-		],
-	],
+	description: 'ccrit-description',
+	moreDescriptions: 'ccrit-moredescriptions',
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
@@ -170,9 +133,9 @@ module.exports = {
 
 		// Sends the message.
 		if (privacy) {
-			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx));
+			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang));
 		}
-		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
+		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang))
 			.then(() => {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
@@ -194,7 +157,7 @@ module.exports = {
  * @param {Discord.Message} ctx The triggering message with context
  * @returns {YZEmbed} A rich embed
  */
-function getEmbedCrit(crit, name, ctx) {
+function getEmbedCrit(crit, name, ctx, lang) {
 	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, ctx, true);
 
 	if (crit.healingTime) {
@@ -202,12 +165,12 @@ function getEmbedCrit(crit, name, ctx) {
 
 		// -1 means permanent effect.
 		if (crit.healingTime === -1) {
-			title = 'Permanent';
-			text = 'These effects are permanent.';
+			title = __('permanent', lang);
+			text = __('permanent-effects', lang);
 		}
 		else {
-			title = 'Healing Time';
-			text = `${sumD6(crit.healingTime)} days until end of effects.`;
+			title = __('healing-time', lang);
+			text = `${sumD6(crit.healingTime)} ` + __('healing-time-until-end-text', lang);
 		}
 		embed.addField(title, text, false);
 	}
@@ -216,26 +179,26 @@ function getEmbedCrit(crit, name, ctx) {
 		let text = '';
 
 		if (crit.timeLimit) {
-			text = '⚠ This critical injury is **LETHAL** and must be HEALED';
+			text = '⚠ ' + __('ccrit-lethality-start', lang);
 
 			if (crit.healMalus) {
-				text += ` (modified by **${crit.healMalus}**)`;
+				text += __('ccrit-lethality-healmalus', lang) + ` **${crit.healMalus}**)`;
 			}
 
-			if (/s$/.test(crit.timeLimitUnit)) {
-				text += ` within the next **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
+			if (/s$/.test(crit.timeLimitUnit) || /(ge|en)$/.test(crit.timeLimitUnit)) {
+				text += __('ccrit-lethality-timelimit-multiple', lang) + ` **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
 			}
 			else {
-				text += ` within **one ${crit.timeLimitUnit}**`;
+				text += __('ccrit-lethality-timelimit-single', lang) + ` ${crit.timeLimitUnit}**`;
 			}
-			text += ' or the character will die.';
+			text += __('ccrit-lethality-end', lang);
 		}
 		else {
 			text += '💀💀💀';
 		}
-		embed.addField('Lethality', text, false);
+		embed.addField(__('lethality', lang), text, false);
 	}
-	embed.setFooter(`Table: ${name}`);
+	embed.setFooter(__('table', lang) + `: ${name}`);
 
 	return embed;
 }

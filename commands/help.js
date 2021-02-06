@@ -1,5 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('../utils/constants');
+const { getValidLanguageCode } = require('../utils/Util');
+const { __ } = require('../utils/locales');
 const CATEGORY_LIST = {
 	common: 'Common',
 	misc: 'Miscellaneous',
@@ -12,19 +14,23 @@ module.exports = {
 	description: 'Lists all available commands. If a command\'s name is specified, prints more info about that specific command instead.',
 	guildOnly: false,
 	args: false,
-	usage: '[command name] [-list|-commands]',
+	usage: '[command name] [-list|-commands] [-lang language_code]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			boolean: ['list'],
+			string: ['lang'],
 			alias: {
 				list: ['commands'],
+				lang: ['lng', 'language'],
 			},
 			default: {
 				list: false,
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 
 		// Sends a generic help message if no command name was provided.
 		if (!argv._.length) {
@@ -100,17 +106,17 @@ module.exports = {
 			title: `**${command.name.toUpperCase()}**`,
 		});
 		if (command.aliases) {
-			embed.addField('Aliases', command.aliases.join(', '), true);
+			embed.addField(__('aliases', lang), command.aliases.join(', '), true);
 		}
 		if (command.usage) {
-			embed.addField('Usage', `\`${ctx.prefix}${command.name} ${command.usage}\``, true);
+			embed.addField(__('usage', lang), `\`${ctx.prefix}${command.name} ${command.usage}\``, true);
 		}
 		if (command.description) {
-			embed.addField('Description', command.description, false);
+			embed.addField(__('description', lang), __(command.description, lang), false);
 		}
 
 		if (command.moreDescriptions) {
-			for (const desc of command.moreDescriptions) {
+			for (const desc of __(command.moreDescriptions, lang)) {
 				embed.addField(desc[0], desc[1], false);
 			}
 		}
