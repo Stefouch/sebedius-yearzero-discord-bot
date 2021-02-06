@@ -1,0 +1,69 @@
+id;grip;bonus;damage;range;ranged;features;special;source
+wmyz-assaultrifle;2;3;2;3;true;Artifact|Clip|Fullauto;;myz
+wmyz-baseballbat-spiked;1;2;2;0;;;Gebastelt;myz
+wmyz-baseballbat-wooden;1;2;1;0;;;Kann in der Zone gefunden werden;myz
+wmyz-bicyclechain;1;1;1;1;;;;myz
+wmyz-bluntinstrument;1;1;1;0;;;Bratpfanne, Golfschläger, Hockeyschläger, Eisenrohr, Yo-Yo;myz
+wmyz-bow;2;1;1;3;true;;Gebastelt;myz
+wmyz-brassknuckles;1;1;1;0;;Light;Gebastelt;myz
+wmyz-chainknife;1;2;3;0;;Energy|Light;;zc1
+wmyz-chainsaw;2;2;3;0;;Artifact|Heavy;;myz
+wmyz-compoundbow;2;2;1;3;true;Artifact;;myz
+wmyz-crossbow;2;3;1;3;true;Artifact;;myz
+wmyz-decapitator;2;1;3;1;;Heavy;Sieht aus wie eine Todessichel;zs1
+wmyz-emprifle;2;3;3;3;true;Artifact|Energy;Nur gegen Roboter/Elektronik, ignoriert Panzerung;gla
+wmyz-flamethrower;2;1;2;1;true;Heavy;Gebastelt;myz
+wmyz-flaregun;1;2;2;2;true;Artifact;;myz
+wmyz-gausspistol;1;2;2;3;true;Artifact|Energy|Armor Piercing 3|Light;;ely
+wmyz-gaussrifle;2;2;2;4;true;Artifact|Energy|Armor Piercing 3;;ely
+wmyz-grenade-energy;1;0;2;2;true;Artifact|Explosive|Blast Power 15|Rot|Light;;gla
+wmyz-grenade-frag;1;0;1;2;true;Artifact|Explosive|Blast Power 12|Light;;ely
+wmyz-grenade-hand;1;0;2;2;true;Artifact|Explosive|Blast Power 9|Light;;ely
+wmyz-gyrojetcarbine;2;3;3;3;true;Artifact|Clip|Fullauto|Gyrojet;;ely
+wmyz-gyrojetpistol;1;3;3;2;true;Artifact|Gyrojet;;ely
+wmyz-harpoonpistol;1;1;1;1;true;Light;;zc2
+wmyz-harpoonrifle;2;1;1;2;true;;;zc2
+wmyz-huntingrifle;2;2;2;3;true;Artifact|Clip;;myz
+wmyz-improvisedexplosive;1;0;1;2;true;Explosive|Blast Power 6;Gebastelt;myz
+wmyz-katana;1;3;2;0;;Artifact;;myz
+wmyz-lasercannon;-1;3;3;3;true;Energy|Mounted;;zc5
+wmyz-laserpistol;1;3;2;3;true;Artifact|Energy|Light;;gla
+wmyz-laserrifle;2;3;2;4;true;Artifact|Energy;;mek
+wmyz-laserwelder;1;2;2;0;;Artifact|Energy|Light;Reparieren +3, Produktion +3, Zusammenschustern +3;mek
+wmyz-machete;1;2;2;0;;;Gebastelt;myz
+wmyz-maserpistol;1;2;3;2;true;Artifact|Energy|Light;;myz
+wmyz-molotovcocktail;1;1;2;2;true;Fire;Gebastelt;myz
+wmyz-nailgun;1;2;2;1;true;Artifact;Zusammenschustern +2;gla
+wmyz-oldagespeargun;1;2;2;2;true;Artifact;;zc2
+wmyz-pickaxe;1;1;3;0;;;Kann in der Zone gefunden werden;myz
+wmyz-plasmarifle;2;2;3;3;true;Artifact|Energy;;mek
+wmyz-pulselaser;-1;2;3;3;true;Energy|Mounted;;gla
+wmyz-revolver;1;3;2;2;true;Artifact|Clip;;myz
+wmyz-rock-thrown;1;0;1;2;true;;;myz
+wmyz-rustychain;1;1;1;1;;;Kann in der Zone gefunden werden;myz
+wmyz-scrapaxe;2;1;3;0;;Heavy;Gebastelt;myz
+wmyz-scrapcannon;-1;1;4;3;true;Mounted;Gebastelt;myz
+wmyz-scrapcrossbow;2;1;2;3;true;Heavy;Gebastelt;myz
+wmyz-scrapderringer;1;1;1;1;true;Light;Gebastelt;myz
+wmyz-scrapflamethrower;2;1;2;1;true;Fire|Heavy;Gebastelt;myz
+wmyz-scrapknife;1;1;2;0;;Light;Gebastelt;myz
+wmyz-scrapmachete;1;2;2;0;;;Gebastelt;myz
+wmyz-scrappistol;1;1;2;2;true;;Gebastelt;myz
+wmyz-scraprifle;2;1;2;3;true;;Gebastelt;myz
+wmyz-scrapshiv;1;1;1;0;;Light;Gebastelt;myz
+wmyz-scrapshotgun;2;2;2;2;true;;Gebastelt;myz
+wmyz-scrapsledgehammer;2;1;3;0;;Heavy;Gebastelt;myz
+wmyz-scrapspear;1;1;2;1;;;Gebastelt, Kann geworfen werden;myz
+wmyz-semiautopistol;1;2;2;2;true;Artifact|Clip|Light;;myz
+wmyz-shotgun-doublebarrel;2;3;3;2;true;Artifact|Barrels 2;;myz
+wmyz-shotgun-pumpaction;2;3;2;2;true;Artifact|Clip;;myz
+wmyz-slingshot;2;1;1;2;true;;Gebastelt;myz
+wmyz-studdedwoodenclub;1;1;2;0;;;Gebastelt;myz
+wmyz-stunbaton;1;2;1;0;;Artifact|Energy;Fügt W6 Erschöpfung zu;gla
+wmyz-stungun;1;2;1;2;true;Artifact|Energy|Light;Fügt Erschöpfung statt Schaden zu;mek
+wmyz-tasergun;1;1;2;2;true;Artifact|Light;Fügt Erschöpfung statt Schaden zu;gla
+wmyz-ultrasoniccarbine;2;2;2;2;true;Artifact|Energy;Fügt zusätzlich Erschöpfung zu;ely
+wmyz-unarmed;1;0;1;0;;;;myz
+wmyz-vibroknife;1;2;2;0;;Artifact|Energy;Ignoriert jegliche Panzerung;mek
+wmyz-whaleharpoon;-1;1;3;2;true;Mounted;;zc2
+wmyz-wrench;1;2;1;0;;Artifact;;myz

@@ -1,5 +1,6 @@
 const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
+const { __ } = require('../utils/locales');
 const { alignText, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
 
@@ -66,10 +67,10 @@ module.exports = {
 		const intvlColLen = 7, nameColLen = 18, diceColLen = 6, dmgColLen = 8;
 		let attacksText = '```\n'
 			+ alignText(demon.attacksRoll, intvlColLen, 0)
-			+ alignText('Name', nameColLen, 0)
-			+ alignText('Base', diceColLen, 0)
-			+ alignText('Damage', dmgColLen, 0)
-			+ 'Range\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
+			+ alignText(__('name', lang), nameColLen, 0)
+			+ alignText(__('base', lang), diceColLen, 0)
+			+ alignText(__('damage', lang), dmgColLen, 0)
+			+ __('range', lang) + '\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
 
 		for (const attack of demon.attacks) {
 			attacksText += '\n'
@@ -84,7 +85,7 @@ module.exports = {
 
 		attacksText += '\n```';
 
-		embed.addField('Attacks', attacksText, false);
+		embed.addField(__('attacks', lang), attacksText, false);
 
 		// Demon's abilities & strengths.
 		let abilitiesText = '';
@@ -97,7 +98,7 @@ module.exports = {
 			abilitiesText += `\n**${strength[0]}:** ${substitute(strength[1])}`;
 		}
 
-		embed.addField('Abilities', abilitiesText, false);
+		embed.addField(__('abilities', lang), abilitiesText, false);
 
 		// Demon's weaknesses.
 		let wkText = '';
@@ -106,7 +107,7 @@ module.exports = {
 			wkText += `\n**${weakness[0]}:** ${weakness[1]}`;
 		}
 
-		embed.addField('Weaknesses', wkText, false);
+		embed.addField(__('weaknesses', lang), wkText, false);
 
 		return await ctx.send(embed);
 	},

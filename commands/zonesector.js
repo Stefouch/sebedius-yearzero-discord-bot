@@ -1,8 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const YZZoneSector = require('../yearzero/YZZoneSector');
 const { YZMonster } = require('../yearzero/YZObject');
-const { capitalize, trimString } = require('../utils/Util');
-const { SUPPORTED_LANGS } = require('../utils/constants');
+const { capitalize, trimString, getValidLanguageCode } = require('../utils/Util');
 
 module.exports = {
 	name: 'zonesector',
@@ -41,7 +40,7 @@ module.exports = {
 			},
 			default: {
 				hide: false,
-				lang: 'en',
+				lang: null,
 				night: false,
 				rot: undefined,
 				ruin: false,
@@ -51,7 +50,7 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 		const title = argv._.length ? trimString(argv._.join(' '), 100) : '';
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+		const lang = await getValidLanguageCode(argv.lang, ctx);
 		const fileName = `./gamedata/myz/myz-zonesectors.${lang}.yml`;
 		const h = () => argv.hide ? '||' : '';
 
