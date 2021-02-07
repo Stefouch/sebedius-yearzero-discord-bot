@@ -3,12 +3,13 @@ const { SUPPORTED_GAMES } = require('./constants');
 const LOCALES = {
 	en: {
 		none: 'none',
-		damage: 'damage',
+		damage: 'Damage',
 		name: 'Name',
 		aliases: 'Aliases',
 		usage: 'Usage',
 		description: 'Description',
 		table: 'Table',
+		possessives: '\'s',
 		ability: 'Ability',
 		abilities: 'Abilities',
 		attack: 'Attack',
@@ -16,7 +17,10 @@ const LOCALES = {
 		attribute: 'Attribute',
 		attributes: 'Attributes',
 		armor: 'Armor',
+		'armor-rating': 'Armor Rating',
 		artifact: 'Artifact',
+		body: 'Body',
+		demon: 'Demon',
 		'signature-attacks': 'Signature Attacks',
 		skill: 'Skill',
 		skills: 'Skills',
@@ -57,6 +61,10 @@ const LOCALES = {
 		'attribute-myz-agility': 'Agility',
 		'attribute-myz-wits': 'Wits',
 		'attribute-myz-empathy': 'Empathy',
+		'attribute-fbl-strength': 'Strength',
+		'attribute-fbl-agility': 'Agility',
+		'attribute-fbl-wits': 'Wits',
+		'attribute-fbl-empathy': 'Empathy',
 		'skill-myz-endure': 'Endure',
 		'skill-myz-force': 'Force',
 		'skill-myz-fight': 'Fight',
@@ -73,6 +81,22 @@ const LOCALES = {
 		'skill-myz-manipulate': 'Manipulate',
 		'skill-myz-heal': 'Heal',
 		'skill-myz-jury-rig': 'Zusammenschustern',
+		'skill-fbl-might': 'Might',
+		'skill-fbl-endurance': 'Endurance',
+		'skill-fbl-melee': 'Melee',
+		'skill-fbl-crafting': 'Crafting',
+		'skill-fbl-sneak': 'Stealth',
+		'skill-fbl-sleightofhand': 'Sleight of Hand',
+		'skill-fbl-move': 'Move',
+		'skill-fbl-marksmanship': 'Marksmanship',
+		'skill-fbl-scout': 'Scouting',
+		'skill-fbl-lore': 'Lore',
+		'skill-fbl-survival': 'Survival',
+		'skill-fbl-insight': 'Insight',
+		'skill-fbl-manipulation': 'Manipulation',
+		'skill-fbl-performance': 'Performance',
+		'skill-fbl-healing': 'Healing',
+		'skill-fbl-animalhandling': 'Animal Handling',
 		range: 'Range',
 		'range-myz-arm': 'Arm',
 		'range-myz-near': 'Near',
@@ -95,7 +119,7 @@ const LOCALES = {
 		'range-alien-extreme': 'Extreme',
 		'carkthreat-description': 'Draws a random threat against the Ark.',
 		'carkthreat-title': 'Threat Against the Ark',
-		'cartifact-description': 'Draws a random artifact from the MYZ core rulebook. Available sources are (combine one or more):'
+		'cartifact-description': 'Draws a random artifact from the MYZ core rulebook. Available additional sources are (combine one or more):'
 			+ '\n• `myz` – Mutant: Year Zero (default if none are specified)'
 			+ '\n• `gla` – Mutant: GenLab Alpha'
 			+ '\n• `mek` – Mutant: Mechatron'
@@ -103,26 +127,39 @@ const LOCALES = {
 			+ '\n• `astra` – Mutant: Ad Astra'
 			+ '\nMetaplot items are removed by default. Use `meta` to add them to the stack.'
 			+ '\nUse `all` to pick from all book sources (including metaplot items).',
+		'cartifact-not-found': 'I\'m sorry, no artifact was found within this unknown package!',
 		'cattack-description': 'Rolls a random attack from a monster.',
 		'cattack-moredescriptions': [
-				[
-					'Arguments',
-					`• \`game\` – Specifies the game you are using. Can be omitted.
-					• \`name\` – Specifies the monster you want to fetch.
-					• \`number\` – Specifies the desired attack instead of choosing a random one.
-					• \`-private|-p\` – Sends the message in a private DM.`,
-				],
-				[
-					'Reaction Menu',
-					`• Click ⚔️ to roll the dice of the attack.
-					• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
-					• Click ❌ to stop the reaction menu.`,
-				],
+			[
+				'Arguments',
+				`• \`game\` – Specifies the game you are using. Can be omitted.
+				• \`name\` – Specifies the monster you want to fetch.
+				• \`number\` – Specifies the desired attack instead of choosing a random one.
+				• \`-private|-p\` – Sends the message in a private DM.`,
 			],
+			[
+				'Reaction Menu',
+				`• Click ⚔️ to roll the dice of the attack.
+				• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
+				• Click ❌ to stop the reaction menu.`,
+			],
+		],
+		'cbr-description': 'Prints a scene break.',
 		'ccast-description': 'Cast a spell. Use the `-mishap` parameter if you want a specific mishap.',
 		'ccast-title': 'Spell Casting',
 		'ccast-invalid-mishap-reference': 'Invalid Magic Mishap\'s reference!',
 		'ccast-invalid-power-level': 'Invalid Power Level!',
+		'ccharacter-description': 'Manages your characters.',
+		'ccharacter-moredescriptions': [
+			[
+				'Subcommands',
+				'• `sheet` – Prints the embed sheet of your currently active character.'
+				+ '\n• `list` – Lists your characters.'
+				+ '\n• `update [-v]` – Updates your current character sheet. The `-v` argument displays an embed sheet.'
+				+ '\n• `delete` – Deletes a character.',
+			],
+		],
+		'ccolony-description': 'Generates a colonized planet for the Alien RPG.',
 		'ccrit-description': 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
 		'ccrit-moredescriptions': [
 			[
@@ -163,6 +200,12 @@ const LOCALES = {
 				+ '\n• `at` | `atypical` : Critical injury for atypical damage.'
 			],
 		],
+		'ccrit-too-many-arguments': 'You typed too many arguments! See `help crit` for the correct usage.',
+		'ccrit-no-table-for-game-start': 'There is no critical table for the',
+		'ccrit-no-table-for-game-end': 'roleplaying game in my database',
+		'ccrit-table-not-found-start': 'There is no',
+		'ccrit-table-not-found-end': 'critical table for',
+		'ccrit-not-found': 'The critical injury wasn\'t found',
 		'ccrit-lethality-start': 'This critical injury is **LETHAL** and must be HEALED',
 		'ccrit-lethality-healmalus': ' (modified by',
 		'ccrit-lethality-timelimit-multiple': ' within the next',
@@ -176,6 +219,10 @@ const LOCALES = {
 			+ '\nType `help crit` for more details.',
 		'ccritmyz-description': 'Rolls for a random critical injury.'
 			+ '\nType `help crit` for more details.',
+		'cdemon-description': 'Generates a random demon according to the tables found in'
+			+ ' the *Forbidden Lands - Gamemaster\'s Guide*.'
+			+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
+			+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
 		'malien-xeno-neomorph': 'Adult Neomorph',
@@ -323,6 +370,7 @@ const LOCALES = {
 		usage: 'Verwendung',
 		description: 'Beschreibung',
 		table: 'Tabelle',
+		possessives: 's',
 		ability: 'Fähigkeit',
 		abilities: 'Fähigkeiten',
 		attack: 'Angriff',
@@ -330,7 +378,10 @@ const LOCALES = {
 		attribute: 'Attribut',
 		attributes: 'Attribute',
 		armor: 'Rüstung',
+		'armor-rating': 'Rüstungswert',
 		artifact: 'Artefakt',
+		body: 'Körper',
+		demon: 'Dämon',
 		'signature-attacks': 'Angriffe',
 		skill: 'Fertigkeit',
 		skills: 'Fertigkeiten',
@@ -371,6 +422,10 @@ const LOCALES = {
 		'attribute-myz-agility': 'Geschicklichkeit',
 		'attribute-myz-wits': 'Verstand',
 		'attribute-myz-empathy': 'Empathie',
+		'attribute-fbl-strength': 'Stärke',
+		'attribute-fbl-agility': 'Geschicklichkeit',
+		'attribute-fbl-wits': 'Verstand',
+		'attribute-fbl-empathy': 'Empathie',
 		'skill-myz-endure': 'Erdulden',
 		'skill-myz-force': 'Kraftakt',
 		'skill-myz-fight': 'Prügeln',
@@ -387,6 +442,22 @@ const LOCALES = {
 		'skill-myz-manipulate': 'Manipulieren',
 		'skill-myz-heal': 'Heilen',
 		'skill-myz-jury-rig': 'Zusammenschustern',
+		'skill-fbl-might': 'Kraft',
+		'skill-fbl-endurance': 'Stärke',
+		'skill-fbl-melee': 'Nahkampf',
+		'skill-fbl-crafting': 'Handwerk',
+		'skill-fbl-sneak': 'Heimlichkeit',
+		'skill-fbl-sleightofhand': 'Fingerfertigkeit',
+		'skill-fbl-move': 'Bewegen',
+		'skill-fbl-marksmanship': 'Fernkampf',
+		'skill-fbl-scout': 'Auskundschaften',
+		'skill-fbl-lore': 'Wissen',
+		'skill-fbl-survival': 'Überleben',
+		'skill-fbl-insight': 'Menschenkenntnis',
+		'skill-fbl-manipulation': 'Manipulation',
+		'skill-fbl-performance': 'Darbietung',
+		'skill-fbl-healing': 'Heilen',
+		'skill-fbl-animalhandling': 'Tierkunde',
 		range: 'Reichweite',
 		'range-myz-arm': 'Arm',
 		'range-myz-near': 'Nah',
@@ -409,7 +480,7 @@ const LOCALES = {
 		'range-alien-extreme': 'Extrem',
 		'carkthreat-description': 'Zieht eine zufällige Bedrohung für die Arche.',
 		'carkthreat-title': 'Bedrohung für die Arche',
-		'cartifact-description': 'Zieht ein zufälliges Artefakt aus dem MYZ Grundregelwerk. Verfügbare Quellbücher sind (es können mehrere kombiniert werden):'
+		'cartifact-description': 'Zieht ein zufälliges Artefakt aus dem MYZ Grundregelwerk. Weitere verfügbare Quellbücher sind (es können mehrere kombiniert werden):'
 			+ '\n• `myz` – Mutant: Jahr Null (Standard falls nichts angegeben wurde)'
 			+ '\n• `gla` – Mutant: Genlabor Alpha'
 			+ '\n• `mek` – Mutant: Mechatron'
@@ -417,10 +488,39 @@ const LOCALES = {
 			+ '\n• `astra` – Mutant: Ad Astra'
 			+ '\nMetaplot-Gegenstände sind standardmäßig nicht enthalten. Nutze `meta` um sie dem Stapel hinzuzufügen.'
 			+ '\nMit `all` wird aus allen Quellenbüchern gezogen (inklusive Metaplot-Gegenständen).',
+		'cartifact-not-found': 'Entschuldigung, es wurde kein Artefakt in diesem unbekannten Quellenbuch gefunden!',
+		'cattack-description': 'Würfelt einen zufälligen Angriff eines Monsters.',
+		'cattack-moredescriptions': [
+			[
+				'Parameter',
+				`• \`game\` – Gibt das genutzte Spiel an. Kann ausgelassen werden.
+				• \`name\` – Gibt das Monster an, das abgerufen werden soll.
+				• \`number\` – Gibt den gewünschten Angriff an, anstatt eines zufälligen.
+				• \`-private|-p\` – Sendet das Ergebnis in einer Direktnachricht.`,
+			],
+			[
+				'Reaktionenmenü',
+				`• Klicke ⚔️ um die Angrifsswürfel zu werden.
+				• Klicke ☠️ um die kritische Verletzung zu werfen (manche Angriffe haben feste Werte, andere sind zufällig).
+				• Klicke ❌ um das Reaktionenmenü zu beenden.`,
+			],
+		],
+		'cbr-description': 'Zeigt einen Szenentrenner an (Leerzeile).',
 		'ccast-description': 'Einen Zauber wirken. Mit dem `-mishap`-Parameter kann ein spezifisches magisches Missgeschick ausgewählt werden.',
 		'ccast-title': 'Zauber wirken',
 		'ccast-invalid-mishap-reference': 'Ungültiger \'Magisches Missgeschickt\'-Verweis!',
 		'ccast-invalid-power-level': 'Ungültige Machtstufe!',
+		'ccharacter-description': 'Verwaltet deine Charaktere.',
+		'ccharacter-moredescriptions': [
+			[
+				'Unterbefehle',
+				'• `sheet` – Zeigt das Charakterblatt deines aktuell aktiven Charakters an.'
+				+ '\n• `list` – Listet deine Charaktere auf.'
+				+ '\n• `update [-v]` – Aktualisiert dein aktuelles Charakterblatt. Der `-v` Parameter zeigt das Charakterblatt an.'
+				+ '\n• `delete` – Löscht einen Charakter.',
+			],
+		],
+		'ccolony-description': 'Generiert einen kolonisierten Planeten für das Alien Rollenspiel.',
 		'ccrit-description': 'Würfelt eine zufällige kritische Verletzung. Nutze `-private` Argument um das Ergebnis in einer Direktnachricht zu erhalten.',
 		'ccrit-moredescriptions': [
 			[
@@ -461,6 +561,12 @@ const LOCALES = {
 				+ '\n• `at` | `atypical` : Kritische Verletzungen durch atypischen Schaden.'
 			],
 		],
+		'ccrit-too-many-arguments': 'Es wurden zu viele Parameter angegeben! Siehe `help crit` für die korrekte Verwendung.',
+		'ccrit-no-table-for-game-start': 'Es gibt keine Tabelle mit kritischen Verletzung für das',
+		'ccrit-no-table-for-game-end': 'Rollenspiel in meiner Datenbank',
+		'ccrit-table-not-found-start': 'Es gibt keine',
+		'ccrit-table-not-found-end': 'Tabelle mit Kritischen Verletzungen für',
+		'ccrit-not-found': 'Die kritische Verletzung wurde nicht gefunden',
 		'ccrit-lethality-start': 'Diese kritische Verletzung ist **TÖDLICH** und muss',
 		'ccrit-lethality-healmalus': ' (mit einem Malus von ',
 		'ccrit-lethality-timelimit-multiple': ' innerhalb der nächsten',
@@ -474,6 +580,10 @@ const LOCALES = {
 			+ '\nGib `help crit` für mehr Details ein.',
 		'ccritmyz-description': 'Würfelt eine zufällige kritische Verletzung.'
 			+ '\nGib `help crit` für mehr Details ein.',
+		'cdemon-description': 'Erzeugt einen zufälligen Dämon anhand der Tabellen aus dem'
+			+ ' *Verbotene Lande - Spielleiterhandbuch*.'
+			+ '\nHinweis: Alle Boni aus den Fähigkeiten des Dämons werden nicht in dessen Werte/Rüstung/Fähigkeiten einberechnet.'
+			+ '\nHinweis: Die Anzeige der Angriffe ist nicht optimiert für kleine Bildschirme (z.B. Smartphones).',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
 		'malien-xeno-neomorph': 'Adult Neomorph',

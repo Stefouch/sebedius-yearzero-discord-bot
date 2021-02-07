@@ -52,7 +52,7 @@ module.exports = {
 		const embed = new YZEmbed(__('artifact', lang), artifact);
 
 		if (!artifact) {
-			return await ctx.reply('I\'m sorry, no artifact where found with this unknown package!');
+			return await ctx.reply(__('cartifact-not-found', lang));
 		}
 		return await ctx.send(embed);
 	},

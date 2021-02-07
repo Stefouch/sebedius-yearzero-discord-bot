@@ -34,9 +34,6 @@ module.exports = {
 	args: false,
 	usage: '[game] [table] [numeric|-lucky [rank]] [-private|-p] [-lang language_code]',
 	async run(args, ctx) {
-		// Exits early if too many arguments
-		if (args.length > 7) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
-
 		// Parsing arguments.
 		const argv = require('yargs-parser')(args, {
 			boolean: ['private'],
@@ -57,6 +54,9 @@ module.exports = {
 
 		const lang = await getValidLanguageCode(argv.lang, ctx);
 		const privacy = argv.private;
+
+		// Exits early if too many arguments
+		if (args.length > 7) return await ctx.reply('⚠️ ' + __('ccrit-too-many-arguments', lang));
 
 		let game, type, fixedReference;
 		for (const arg of argv._) {
@@ -93,10 +93,10 @@ module.exports = {
 
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
-			return ctx.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
+			return ctx.reply(`ℹ️ ${__('ccrit-no-table-for-game-start', lang)} \`${game}\` ${__('ccrit-no-table-for-game-end', lang)}.`);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
-			return ctx.reply(`ℹ️ There is no \`${type}\` critical table for **${SOURCE_MAP[game]}**.`);
+			return ctx.reply(`ℹ️ ${__('ccrit-table-not-found-start', lang)} \`${type}\` ${__('ccrit-table-not-found-end', lang)} **${SOURCE_MAP[game]}**.`);
 		}
 
 		// Table swap.
@@ -118,7 +118,7 @@ module.exports = {
 		const crit = critsTable.get(critRoll);
 
 		// Exits early if no critical injury was found.
-		if (!crit) return ctx.reply(`❌ The critical injury wasn't found. *(Table: ${fileName})*`);
+		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found'), lang}. *(${__('table', lang)}: ${fileName})*`);
 
 		// Gets the values of each D66's dice.
 		let die1 = 0, die2 = 0;
