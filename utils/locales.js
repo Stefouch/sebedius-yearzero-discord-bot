@@ -1,4 +1,5 @@
 const { SUPPORTED_GAMES } = require('./constants');
+const Config = require('../config.json');
 
 const LOCALES = {
 	en: {
@@ -55,6 +56,21 @@ const LOCALES = {
 		'selection-description': 'Which one were you looking for?',
 		'selection-instructions': 'Type your response in the channel you called the command. '
 			+ 'This message was PMed to you to hide the choices (i.e. the monster name).',
+		success: 'Success',
+		successes: 'Successes',
+		trauma: 'Trauma',
+		traumas: 'Traumas',
+		'gear-damage': 'Gear Damage',
+		'extra-hit': 'Extra Hit',
+		'extra-hits': 'Extra Hits',
+		suppression: 'Suppression',
+		suppressions: 'Suppressions',
+		mishap: 'Mishap',
+		panic: 'Panic',
+		details: 'Details',
+		pushed: 'Pushed',
+		initiative: 'Initiative',
+		pride: 'Pride',
 		page: 'page',
 		instructions: 'Instructions',
 		'attribute-myz-strength': 'Strength',
@@ -223,6 +239,69 @@ const LOCALES = {
 			+ ' the *Forbidden Lands - Gamemaster\'s Guide*.'
 			+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
 			+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
+		'croll-description': 'Rolls dice for any Year Zero roleplaying game.',
+		'croll-moredescriptions': [
+			[
+				'Select [game]',
+				'This argument is used to specify the skin of the rolled dice.'
+				+ ' Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands'
+				+ `\n Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`,
+			],
+			[
+				'Rolling Simple Dice',
+				'`roll d6|d66|d666` – Rolls a D6, D66, or D666.'
+				+ '\n`roll XdY±Z` – Rolls X dice of range Y, modified by Z.'
+				+ '\n`roll init` – Rolls initiative (one D6).',
+			],
+			[
+				'Rolling Year Zero Dice',
+				'Use a number in any combinations with these letters:'
+				+ '\n• `b` – Base dice (attributes)'
+				+ '\n• `s` – Skill dice (or Stress dice for *Alien RPG*)'
+				+ '\n• `n` – Negative dice (*MYZ* and *FBL* only)'
+				+ '\n• `g` – Gear dice (*MYZ* and *FBL* only)'
+				+ '\n• `d` – Generic dice (or Ammo dice for *Twilight 2000*)'
+				+ '\n• `a` – Ammo dice (*Twilight 2000* only)'
+				+ '\n• `a8` – D8 Artifact die (see *FBL*)'
+				+ '\n• `a10` – D10 Artifact die (see *FBL*)'
+				+ '\n• `a12` – D12 Artifact die (see *FBL*)'
+				+ '\n\n*Example:* `roll 5b 3s 2g`',
+			],
+			[
+				'Additional Arguments',
+				'Additional options for the roll:'
+				+ '\n`-name|-n|-#|# <name>` : Defines a name for the roll.'
+				+ '\n`-push|-p <number>` : Changes the maximum number of allowed pushes.'
+				+ '\n`-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).'
+				+ '\n`-mod <±X>`: Applies a difficulty modifier of `+X` or `-X` to the roll.'
+				+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
+				+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).'
+				+ '\n`-minpanic <value>` : Adjusts a minimum treshold for multiple consecutive panic effects (Alien RPG).'
+				+ '\n`-lang <language_code>` : Changes the desired language.',
+			],
+			[
+				'More Info',
+				`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon under the message.`
+				+ ' The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.'
+				+ '\nTo clear the reaction menu, click the ❌ reaction icon.'
+				+ '\nCoriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).'
+				+ `\nMax ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
+			],
+			[
+				'See Also',
+				'The following commands are shortcuts if you don\'t want to specify the [game] parameter each time.'
+				+ '\n`rm` – Rolls *Mutant: Year Zero* dice.'
+				+ '\n`rf` – Rolls *Forbidden Lands* dice.'
+				+ '\n`rt` – Rolls *Tales From The Loop* dice.'
+				+ '\n`rc` – Rolls *Coriolis* dice.'
+				+ '\n`ra` – Rolls *Alien RPG* dice.'
+				+ '\n`rv` – Rolls *Vaesen* dice.'
+				+ '\n`rw` – Rolls *Twilight 2000 4E* dice.',
+			],
+		],
+		'croll-ammo-spent': 'Ammo Spent',
+		'croll-generic-roll': 'Generic Roll',
+		'croll-single-roll': 'Single D6 / D66 / D666 Roll',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
 		'malien-xeno-neomorph': 'Adult Neomorph',
@@ -416,6 +495,21 @@ const LOCALES = {
 		'selection-description': 'Nach welchem hast du gesucht?',
 		'selection-instructions': 'Schreibe deine Antwort in den Kanal, aus welchem du diesen Befehl aufgrufen hast. '
 			+ 'Diese Nachricht hast du als Direktnachricht erhalten um die Auswahlmöglichkeiten zu verstecken (z.B. die Monsternamen).',
+		success: 'Erfolg',
+		successes: 'Erfolge',
+		trauma: 'Trauma',
+		traumas: 'Traumas',
+		'gear-damage': 'Ausrüstungsschaden',
+		'extra-hit': 'Extra Treffer',
+		'extra-hits': 'Extra Treffer',
+		suppression: 'Suppression',
+		suppressions: 'Suppressions',
+		mishap: 'Missgeschick',
+		panic: 'Panik',
+		details: 'Details',
+		pushed: 'Strapaziert',
+		initiative: 'Initiative',
+		pride: 'Stolz',
 		page: 'Seite',
 		instructions: 'Anleitung',
 		'attribute-myz-strength': 'Stärke',
@@ -584,6 +678,69 @@ const LOCALES = {
 			+ ' *Verbotene Lande - Spielleiterhandbuch*.'
 			+ '\nHinweis: Alle Boni aus den Fähigkeiten des Dämons werden nicht in dessen Werte/Rüstung/Fähigkeiten einberechnet.'
 			+ '\nHinweis: Die Anzeige der Angriffe ist nicht optimiert für kleine Bildschirme (z.B. Smartphones).',
+		'croll-description': 'Wirft Würfel für ein beliebiges Year Zero Rollspiel.',
+		'croll-moredescriptions': [
+			[
+				'Wähle Spiel mit [game]',
+				'Dieser Parameter wird genutzt um das Aussehen der Würfel zu ändern.'
+				+ ' Kann ausgelassen werden, falls das Spiel mit `!setconf game [default game]` gesetzt wurde oder eines der spezifischen Kürzel genutzt wird.'
+				+ `\n Möglichkeiten: \`${SUPPORTED_GAMES.join('`, `')}\`.`,
+			],
+			[
+				'Einfache Würfel werfen',
+				'`roll d6|d66|d666` – Würfelt einen W6, W66, oder W666.'
+				+ '\n`roll XdY±Z` – Wirft X Würfel der Augenzahl Y, modifiziert durch Z.'
+				+ '\n`roll init` – Würfelt Initiative (einen W6).',
+			],
+			[
+				'Year Zero Würfel werfen',
+				'Benutze eine beliebige Kombination mit diesen Buchstaben:'
+				+ '\n• `b` – Basiswürfel (Attribute)'
+				+ '\n• `s` – Fertigkeitswürfel (oder Stresswürfel für das *Alien RPG*)'
+				+ '\n• `n` – Negativwürfel (nur *MYZ* und *FBL*)'
+				+ '\n• `g` – Ausrüstungs-/Waffenwürfel (nur *MYZ* und *FBL*)'
+				+ '\n• `d` – Generische Würfel (oder Munitionswürfel für *Twilight 2000*)'
+				+ '\n• `a` – Munitionswürfel (nur *Twilight 2000*)'
+				+ '\n• `a8` – W8 Artefaktwürfel (siehe *FBL*)'
+				+ '\n• `a10` – W10 Artefaktwürfel (siehe *FBL*)'
+				+ '\n• `a12` – W12 Artefaktwürfel (siehe *FBL*)'
+				+ '\n\n*Beispiel:* `roll 5b 3s 2g`',
+			],
+			[
+				'Zusätzliche Parameter',
+				'Zusätzliche Optionen für den Wurf:'
+				+ '\n`-name|-n|-#|# <name>` : Legt einen Namen für den Wurf fest.'
+				+ '\n`-push|-p <number>` : Ändert die maximale Anzahl an erlaubten Strapazierwürfen.'
+				+ '\n`-fullauto|-fa|-f` : "Full-auto", unbegrenzte Anzahl an Strapazierwürfen (max 10).'
+				+ '\n`-mod <±X>`: Verändert das Ergebnis mit einem Schwierigkeitsmodifizierer von `+X` oder `-X`.'
+				+ '\n`-pride` : Fügt einen W12-Artefaktwürfel zum Wurf hinzu.'
+				+ '\n`-nerves` : Nutzt das Talent *Nerven aus Stahl* (Alien RPG).'
+				+ '\n`-minpanic <value>` : Verändert den minimalen Schwellenwert für mehrere aufeinanderfolgende Panik-Effekte (Alien RPG).'
+				+ '\n`-lang <language_code>` : Ändert die gewünschte Sprache.',
+			],
+			[
+				'Mehr Info',
+				`Um einen Wurf zu strapazieren, klicke das ${Config.commands.roll.pushIcon} Reaktionssymbol unter der Nachricht.`
+				+ ' Die Strapazieroption für den Würfelwurf ist 2 Minuten lang verfügbar. Nur der Benutzer, der die Würfel geworfen hat kann den Wurf strapazieren.'
+				+ '\nUm das Reaktionsmenü zu entfernen, klicke das ❌ Reaktionssymbol.'
+				+ '\nCoriolis hat mehr Strapazieroptionen: 🙏 (Zu den Ikonen beten, +1W) und 🕌 (in einer Kapelle, +2W).'
+				+ `\nMaximal ${Config.commands.roll.max} Würfel können gleichzeitig geworfen werden. Versuchst du mehr, wird nichts passieren.`,
+			],
+			[
+				'Siehe auch',
+				'Die folgenden Befehle sind Kürzel, falls du nicht den Spiel-Parameter [game] jedes Mal angeben möchtest.'
+				+ '\n`rm` – Wirft *Mutant: Jahr Null* Würfel.'
+				+ '\n`rf` – Wirft *Verbotene Lande* Würfel.'
+				+ '\n`rt` – Wirft *Tales From The Loop* Würfel.'
+				+ '\n`rc` – Wirft *Coriolis* Würfel.'
+				+ '\n`ra` – Wirft *Alien RPG* Würfel.'
+				+ '\n`rv` – Wirft *Vaesen* Würfel.'
+				+ '\n`rw` – Wirft *Twilight 2000 4E* Würfel.',
+			],
+		],
+		'croll-ammo-spent': 'Ausgegebene Munition',
+		'croll-generic-roll': 'Generischer Wurf',
+		'croll-single-roll': 'Einzelner W6 / W66 / W666 Wurf',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
 		'malien-xeno-neomorph': 'Adult Neomorph',
