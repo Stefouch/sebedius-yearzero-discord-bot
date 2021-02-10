@@ -11,8 +11,8 @@ ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
 44-45;Gebrochener Arm;false;0;0;;Zweihändige Waffen können nicht benutzt werden.;2
 46-51;Gebrochenes Bein;false;0;0;;RENNEN wird zu einer langsamen Aktion.;2
 52-53;Zerquetschtes Auge;false;0;0;;-2 auf FERNKAMPF und AUSKUNDSCHAFTEN.;2
-54-55;Zertrümmerter Fuß;true;0;1;Tagen;RENNEN wird zu einer langsamen Aktion.;3
-56-61;Zertrümmerter Ellbogen;true;0;1;Tagen;Zweihändige Waffen können nicht benutzt werden.;-1
-62-63;Zertrümmertes Knie;true;0;1;Tagen;RENNEN wird zu einer langsamen Aktion.;-1
+54-55;Zertrümmerter Fuß;true;0;1;Tage;RENNEN wird zu einer langsamen Aktion.;3
+56-61;Zertrümmerter Ellbogen;true;0;1;Tage;Zweihändige Waffen können nicht benutzt werden.;-1
+62-63;Zertrümmertes Knie;true;0;1;Tage;RENNEN wird zu einer langsamen Aktion.;-1
 64;Gebrochenes Genick;false;0;0;;Vom Hals abwärts gelähmt. Falls nicht rechtzeitig geheilt, wird die Wirkung permanent.;3
 65-66;Zertrümmerter Schädel;true;0;0;;Dein Abenteuer und dein Leben enden hier.;0

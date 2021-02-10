@@ -5,7 +5,7 @@ const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const { __ } = require('../utils/locales');
 const { CatalogNotFoundError } = require('../utils/errors');
-const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES, WEAPON_FEATURES } = require('../utils/constants');
+const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES, WEAPON_FEATURES, SUPPORTED_LANGS } = require('../utils/constants');
 
 const CATEGORIES = {
 	WEAPONS: 'YZWeapon',
@@ -16,11 +16,11 @@ const CATEGORIES = {
 // because some are used by the monsters.
 const CATALOG_SOURCES = {
 	WEAPONS: {
-		myz: './gamedata/myz/myz-weapons-catalog.csv',
+		myz: './gamedata/myz/myz-weapons-catalog.en.csv',
 	},
 	MONSTERS: {
-		myz: './gamedata/myz/myz-monsters-catalog.csv',
-		alien: './gamedata/alien/alien-monsters-catalog.csv',
+		myz: './gamedata/myz/myz-monsters-catalog.en.csv',
+		alien: './gamedata/alien/alien-monsters-catalog.en.csv',
 	},
 };
 
@@ -78,7 +78,7 @@ class YZObject {
 	}
 
 	static get(cat, game, id) {
-		return CATALOGS[cat][game].get(id);
+		return CATALOGS[cat][game][this.lang].get(id);
 	}
 
 	/**
@@ -105,11 +105,12 @@ class YZObject {
 	 * @param {string} source Path of the source catalog file
 	 * @returns {Discord.Collection<string, YZObject>} Collection<K, V> with K: id, V: Year Zero object
 	 */
-	static all(cat, source) {
+	static all(cat, source, lang = 'en') {
 		const raws = YZObject.allRaw(source);
 		const objs = [];
 		const _class = CATEGORIES[cat] || 'YZObject';
 		for (const raw of raws) {
+			raw.lang = lang;
 			const obj = new (module.exports[_class])(raw);
 			objs.push(obj);
 		}
@@ -129,19 +130,22 @@ class YZObject {
 	 * @static
 	 * @async
 	 */
-	static async fetch(ctx, cat, game, str = null) {
-		if (!CATALOGS[cat] || !CATALOGS[cat][game]) {
+	static async fetch(ctx, cat, game, str = null, lang = 'en') {
+		if (!CATALOGS[cat] || !CATALOGS[cat][game] || !CATALOGS[cat][game][lang]) {
 			throw new CatalogNotFoundError(
 				`No **${Util.capitalize(cat.toLowerCase())}** Catalog `
 				+ `for "**${SOURCE_MAP[game]}**"`,
 			);
 		}
-		const catalog = CATALOGS[cat][game];
-
-		if (catalog.has(str)) return catalog.get(str);
+		const catalog = CATALOGS[cat][game][lang];
+		let catalogEntry = null;
+		if (catalog.has(str)) {
+			catalogEntry = catalog.get(str);
+			return catalogEntry;
+		}
 
 		str = str.toLowerCase();
-		let matching = catalog.filter(o => o.name.toLowerCase() === str);
+		let matching = catalog.filter(o => o.name.toLowerCase().startsWith(str));
 		if (matching.size === 0) {
 			matching = catalog.filter(o =>
 				o.id.includes(str) ||
@@ -152,7 +156,8 @@ class YZObject {
 			matching = catalog;
 		}
 		matching = matching.map(o => [o.name, o]);
-		return await Sebedius.getSelection(ctx, matching);
+		catalogEntry = await Sebedius.getSelection(ctx, matching, null, true, false, false, lang);
+		return catalogEntry;
 	}
 
 	/**
@@ -223,7 +228,7 @@ class YZMonster extends YZObject {
 	}
 
 	static getAvailableGames() { return super.getAvailableGames('MONSTERS'); }
-	static async fetch(ctx, game, str = null) { return super.fetch(ctx, 'MONSTERS', game, str); }
+	static async fetch(ctx, game, str = null, lang = 'en') { return super.fetch(ctx, 'MONSTERS', game, str, lang); }
 	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'MONSTERS', game); }
 
 	_createAttributes() {
@@ -311,10 +316,11 @@ class YZMonster extends YZObject {
 									ranged = +range > 0;
 								}
 								wpnData = {
-									id: id.toUpperCase(),
+									id: Util.capitalizeWords(id),
 									bonus, damage,
 									range, ranged, special,
 									source: this.source,
+									lang: this.lang,
 								};
 							},
 						);
@@ -324,7 +330,7 @@ class YZMonster extends YZObject {
 					// Format: {w[source]-[name]}
 					else if (/^{w\w{1,3}-.+}$/.test(atq)) {
 						const wid = atq.replace(/{(.*)}/, (match, $1) => $1);
-						const weapon = CATALOGS.WEAPONS[this.game].get(wid);
+						const weapon = CATALOGS.WEAPONS[this.game][this.lang].get(wid);
 						out.push(weapon);
 					}
 					// Simple named effect.
@@ -332,7 +338,7 @@ class YZMonster extends YZObject {
 					else if (/{.+:.+}/.test(atq)) {
 						let atkData;
 						atq.replace(/{(.+):(.+)}/, (match, $1, $2) => {
-							atkData = { name: $1.toUpperCase(), effect: $2 };
+							atkData = { name: Util.capitalizeWords($1), effect: $2 };
 						});
 						out.push(atkData);
 					}
@@ -342,6 +348,8 @@ class YZMonster extends YZObject {
 						const wid = atq.replace(/{(.*)}/, (match, $1) => $1);
 						const weapon = YZWeapon.getDefault(
 							Util.capitalize(__(wid, this.lang)),
+							this.game,
+							this.lang
 						);
 						out.push(weapon);
 					}
@@ -385,7 +393,7 @@ class YZMonster extends YZObject {
 		const out = [];
 		for (const key in this.attributes) {
 			if (this.attributes[key] > 0) {
-				out.push(`${Util.capitalize(__(key, this.lang))} **${this.attributes[key]}**`);
+				out.push(`${__(`attribute-${this.game}-` + key, this.lang)} **${this.attributes[key]}**`);
 			}
 		}
 		if (!out.length) return `*${Util.capitalize(__('none', this.lang))}*`;
@@ -400,7 +408,7 @@ class YZMonster extends YZObject {
 		const out = [];
 		for (const key in this.skills) {
 			if (this.skills[key] > 0) {
-				out.push(`${Util.capitalize(__(key, this.lang))} **${this.skills[key]}**`);
+				out.push(`${__(`skill-${this.game}-` + key, this.lang)} **${this.skills[key]}**`);
 			}
 		}
 		if (out.length === 0) return `*${Util.capitalize(__('none', this.lang))}*`;
@@ -446,17 +454,17 @@ class YZMonster extends YZObject {
 		const intvlColLen = 5, nameColLen = 20, diceColLen = 6, dmgColLen = 8;
 		let str = '```\n'
 			+ Util.alignText(this.attacks.d, intvlColLen, 0)
-			+ Util.alignText('Name', nameColLen, 0)
-			+ Util.alignText('Base', diceColLen, 0)
-			+ Util.alignText('Damage', dmgColLen, 0)
-			+ 'Range\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
+			+ Util.alignText(__('name', this.lang), nameColLen, 0)
+			+ Util.alignText(__('base', this.lang), diceColLen, 0)
+			+ Util.alignText(__('damage', this.lang), dmgColLen, 0)
+			+ __('range', this.lang) + '\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
 
 		for (const [ref, attack] of this.attacks) {
 			if (attack.name === '{REROLL}') continue;
 			const n = attack.name || 'Unnamed';
 			const d = attack.base ? Util.resolveNumber(attack.base) + 'D' : '-';
 			const dmg = attack.damage != null ? Util.resolveNumber(attack.damage) : '-';
-			const r = attack.range >= 0 ? Util.capitalize(RANGES[this.game][attack.range]) : '-';
+			const r = attack.range >= 0 ? __(`range-${this.game}-` + RANGES[this.game][attack.range], this.lang) : '-';
 			str += '\n'
 				+ Util.alignText(`${ref}`, intvlColLen, 0)
 				+ Util.alignText(n, nameColLen, 0)
@@ -553,7 +561,7 @@ class YZWeapon extends YZObject {
 		+ (this.bonus && this.damage ? ', ' : '')
 		+ (this.damage ? `${Util.capitalize(__('damage', this.lang))} **${Util.resolveNumber(this.damage)}**` : '')
 		+ '__.'
-		+ (this.range >= 0 ? ` \`${__(RANGES[this.game][this.range], this.lang).toUpperCase()}\` range.` : '')
+		+ (this.range >= 0 ? ` \`${__(`range-${this.game}-` + RANGES[this.game][this.range], this.lang)}\` ${__('range', this.lang)}.` : '')
 		+ (this.special ? ` ${this.special.split('|').join(', ')}` : '')
 		+ (Object.keys(this.features).length ? ` *(${this.featuresToString()}.)*` : '');
 	}
@@ -585,7 +593,7 @@ class YZWeapon extends YZObject {
 	featuresToString() {
 		const out = [];
 		for (const feat in this.features) {
-			const feature = Util.kebabToStrUcFirst(feat);
+			const feature = __(feat, this.lang);
 			if (Util.isNumber(this.features[feat])) {
 				out.push(`${feature} **${this.features[feat]}**`);
 			}
@@ -603,7 +611,7 @@ class YZWeapon extends YZObject {
 	static async fetch(ctx, game, str = null) { return super.fetch(ctx, 'WEAPONS', game, str); }
 	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'WEAPONS', game); }
 
-	static getDefault(name, source = 'myz') {
+	static getDefault(name, source = 'myz', language = 'en') {
 		return new YZWeapon({
 			id: name,
 			grip: 1,
@@ -612,6 +620,7 @@ class YZWeapon extends YZObject {
 			range: 0,
 			ranged: true,
 			source,
+			lang: language,
 		});
 	}
 }
@@ -621,11 +630,18 @@ module.exports = { YZObject, YZMonster, YZWeapon };
 // Prefetches all the catalogs.
 console.log('[+] - Catalogs');
 console.log('      > Indexation...');
+let catalogPath = '';
 for (const cat in CATALOG_SOURCES) {
 	CATALOGS[cat] = {};
 	for (const game in CATALOG_SOURCES[cat]) {
-		CATALOGS[cat][game] = YZObject.all(cat, CATALOG_SOURCES[cat][game]);
-		console.log(`        • ${cat}: ${game} (${CATALOGS[cat][game].size})`);
+		CATALOGS[cat][game] = {};
+		for (const lang in SUPPORTED_LANGS) {
+			catalogPath = CATALOG_SOURCES[cat][game];
+			if (fs.existsSync(catalogPath.replace('.en.', `.${lang}.`)))
+				catalogPath = catalogPath.replace('.en.', `.${lang}.`);
+			CATALOGS[cat][game][lang] = YZObject.all(cat, catalogPath, lang);
+			console.log(`        • ${cat}: ${game} - ${lang} (${CATALOGS[cat][game][lang].size})`);
+		}
 	}
 }
 console.log('      > Loaded & Ready!');

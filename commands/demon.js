@@ -1,5 +1,6 @@
 const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
+const { __ } = require('../utils/locales');
 const { alignText, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
 
@@ -7,10 +8,7 @@ module.exports = {
 	name: 'demon',
 	aliases: ['generate-demon'],
 	category: 'fbl',
-	description: 'Generates a random demon according to the tables found in'
-		+ ' the *Forbidden Lands - Gamemaster\'s Guide*.'
-		+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
-		+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
+	description: 'cdemon-description',
 	guildOnly: false,
 	args: false,
 	usage: '[-lang language_code]',
@@ -30,23 +28,23 @@ module.exports = {
 		const demon = new Demon(lang);
 
 		const embed = new YZEmbed(
-			`${demon.form.toUpperCase()} DEMON`,
+			`${demon.form.toUpperCase()} ${__('demon', lang).toUpperCase()}`,
 			`${demon.icon}`,
 		);
 
 		// Demon's attributes & Armor Rating.
 		embed.addField(
-			'Attributes',
-			`Strength **${demon.attributes.str}**`
-				+ `\nAgility **${demon.attributes.agi}**`
-				+ `\nWits **${demon.attributes.wit}**`
-				+ `\nEmpathy **${demon.attributes.emp}**`,
+			__('attributes', lang),
+			`${__('attribute-fbl-strength', lang)} **${demon.attributes.str}**`
+				+ `\n${__('attribute-fbl-agility', lang)} **${demon.attributes.agi}**`
+				+ `\n${__('attribute-fbl-wits', lang)} **${demon.attributes.wit}**`
+				+ `\n${__('attribute-fbl-empathy', lang)} **${demon.attributes.emp}**`,
 			true,
 		);
 
 		embed.addField(
-			'Body',
-			`Armor Rating **${demon.armor}**`
+			__('body', lang),
+			`${__('armor-rating', lang)} **${demon.armor}**`
 				+ ((demon.formEffect) ? `\n${demon.formEffect}` : ''),
 			true,
 		);
@@ -55,21 +53,21 @@ module.exports = {
 		let skillsText = '';
 
 		for (const key in demon.skills) {
-			if (demon.skills[key] > 0) skillsText += `\n${strCamelToNorm(key)} **${demon.skills[key]}**`;
+			if (demon.skills[key] > 0) skillsText += `\n${__('skill-fbl-' + key, lang)} **${demon.skills[key]}**`;
 		}
 
-		if (!skillsText.length) skillsText = '*None*';
+		if (!skillsText.length) skillsText = `*${__('none', lang)}*`;
 
-		embed.addField('Skills', skillsText, true);
+		embed.addField(__('skills', lang), skillsText, true);
 
 		// Demon's attack(s).
 		const intvlColLen = 7, nameColLen = 18, diceColLen = 6, dmgColLen = 8;
 		let attacksText = '```\n'
 			+ alignText(demon.attacksRoll, intvlColLen, 0)
-			+ alignText('Name', nameColLen, 0)
-			+ alignText('Base', diceColLen, 0)
-			+ alignText('Damage', dmgColLen, 0)
-			+ 'Range\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
+			+ alignText(__('name', lang), nameColLen, 0)
+			+ alignText(__('base', lang), diceColLen, 0)
+			+ alignText(__('damage', lang), dmgColLen, 0)
+			+ __('range', lang) + '\n' + '-'.repeat(intvlColLen + nameColLen + diceColLen + dmgColLen + 6);
 
 		for (const attack of demon.attacks) {
 			attacksText += '\n'
@@ -84,7 +82,7 @@ module.exports = {
 
 		attacksText += '\n```';
 
-		embed.addField('Attacks', attacksText, false);
+		embed.addField(__('attacks', lang), attacksText, false);
 
 		// Demon's abilities & strengths.
 		let abilitiesText = '';
@@ -97,7 +95,7 @@ module.exports = {
 			abilitiesText += `\n**${strength[0]}:** ${substitute(strength[1])}`;
 		}
 
-		embed.addField('Abilities', abilitiesText, false);
+		embed.addField(__('abilities', lang), abilitiesText, false);
 
 		// Demon's weaknesses.
 		let wkText = '';
@@ -106,7 +104,7 @@ module.exports = {
 			wkText += `\n**${weakness[0]}:** ${weakness[1]}`;
 		}
 
-		embed.addField('Weaknesses', wkText, false);
+		embed.addField(__('weaknesses', lang), wkText, false);
 
 		return await ctx.send(embed);
 	},

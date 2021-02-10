@@ -1,0 +1,44 @@
+id;strength;agility;wits;empathy;speed;hp;armor;skills;special;source;attacks
+mmyz-humanoid-amnesiac;2;2;4;2;1;1;0;Comprehend 2|Heal 1;;myz;{wmyz-unarmed}
+mmyz-humanoid-cannibal;5;4;3;2;1;5;0;Fight 2|Move 1;{mutation};myz;{wmyz-scrapspear}|{wmyz-slingshot}
+mmyz-humanoid-beastmutant-dog;4;5;3;2;1;4;0;Fight 1|Move 1;{feral};myz;{wmyz-scrapspear}|{wmyz-slingshot}|{reißzähne:0:2:0}
+mmyz-humanoid-beastmutant-bear;5;4;2;3;1;5;0;Fight 2;{feral};myz;{wmyz-scrapspear}|{wmyz-slingshot}|{reißzähne:0:2:0}
+mmyz-humanoid-beastmutant-rodent;2;5;5;2;1;2;0;Sneak 2;{feral};myz;{wmyz-scrapspear}|{wmyz-slingshot}|{reißzähne:0:2:0}
+mmyz-humanoid-beastmutant-monkey;3;5;4;2;1;3;0;Move 2;{feral};myz;{wmyz-scrapspear}|{wmyz-slingshot}|{reißzähne:0:2:0}
+mmyz-humanoid-doomcultist;3;2;3;4;1;3;0;Fight 1|Manipulate 2;{mutation};myz;{wmyz-scrapaxe}|{wmyz-scrapknife}|{wmyz-scrapmachete}|{wmyz-scrapspear}|{wmyz-bluntinstrument}|{wmyz-slingshot}
+mmyz-humanoid-exiledmutant;2;2;2;2;1;2;0;Move 1|Fight 1;Körperlicher Kontakt mit einem der Verstoßenen zählt als Fäulnisangriff. {mutation};myz;{wmyz-bluntinstrument}|{wmyz-slingshot}
+mmyz-humanoid-helldriver;4;5;2;3;1;4;3;Shoot 3|Fight 2|Jury-Rig 1;{mutation};myz;{wmyz-bicyclechain}|{wmyz-scraprifle}
+mmyz-humanoid-morlock;2;3;5;2;1;2;0;Move 2|Fight 1;{mutation};myz;{wmyz-scrapspear}
+mmyz-humanoid-novacultist;2;3;5;4;1;2;0;Move 2|Heal 1;{mutation:psy};myz;
+mmyz-humanoid-scraporacle;2;3;4;3;1;2;0;Manipulate 2;Telepathie, Pathokinese, Fäulnisesser;myz;
+mmyz-humanoid-wanderer;4;3;4;3;1;4;0;Shoot 3|Fight 2|Comprehend 1;Ein oder mehrere Artefakte;myz;{wmyz-scrapknife}|{wmyz-scrapaxe}
+mmyz-humanoid-watertrader;2;3;4;5;1;2;0;Manipulate 2|Shoot 1|Jury-Rig 1;{mutation}, Der Wasserhändler kann sauberes Wasser anbieten. Es könnte trotzdem von Bauchfischen infiziert sein (siehe Seite 191).;myz;{wmyz-scrappistol}
+mmyz-humanoid-wrecker;3;4;3;2;1;2;0;Fight 3|Shoot 2|Sneak 1;{mutation};myz;{wmyz-baseballbat-spiked}|{wmyz-slingshot}
+mmyz-humanoid-zoneghoul;3;4;3;2;1;3;0;Move 3|Shoot 2|Fight 1;;myz;{wmyz-bicyclechain}|{wmyz-slingshot}
+mmyz-monster-acidgrass;10;;;;1;10;1000|fire:0;;Siehe Seite 195.;myz;{verheddern:(6):(1):0:Bei einem Treffer wird das Opfer bewegungsunfähig gemacht und erleidet einen Schadenspunkt durch die Säure. Um sich zu befreien, muss das Opfer auf Kraftakt würfeln (andere können helfen, Seite 51) Bis dahin erleidet es jede Runde einen weiteren Schadenspunkt.}
+mmyz-monster-airjellies;6;;;;1;6;1000|fire:0|explosive:0;;Schwarm. Siehe Seite 194.;myz;{verheddern:(6):1:0:Jede ~success senkt den Ausrüstungsbonus eines Zielgegenstands um eine Stufe. Die Angriffe halten an, bis die ~ abgewehrt wurden oder das Opfer entkommen ist.}
+mmyz-monster-automaton;8;6;;;1;8;10;Fight 4|Shoot 4;Der Automat kann keine Erschöpfung erleiden. Sein Geschicklichkeitswert sinkt nicht.;myz;{kettensäge:0:2:0}|{laserwaffe:0:2:2}
+mmyz-monster-bitterbeast;5;4;;;1;5;2;Endure 3|Fight 2|Shoot 3;;myz;{biss:0:2:0}|{säurespucke:0:1:2}
+mmyz-monster-deathworm;8;3;;;1;8;0;Fight 3|Sneak underground 5|Move underground 5;;myz;{schlund:0:2:0:Bei einem Treffer heftet sich der ~ an das Opfer an und versucht, es unter die Erde zu ziehen. Das Opfer muss einen `KRAFTAKT`-Wurf machen (kostet keine Aktion), um sich zu befreien. In der Zwischenzeit kann der ~ das Opfer weiter mit seinen Ringen aus Zähnen angreifen und erhält einen Modifikator von +3.}
+mmyz-monster-devourer;6;4;;;1;6;2;Fight 3|Sneak 4;;myz;{klauen:0:1:0}|{kiefer:0:3:0:Kann nur in einem hinterhältigen Angriff (siehe Seite 88) verwendet werden. Bei Erfolg wird das Opfer in den Schlund gezogen und muss einen `KRAFTAKT`-Wurf ablegen, um sich zu befreien (Modifikator -2, Freunde können helfen).}
+mmyz-monster-grazer;4;2;;;1;4;0;;;myz;{hörner:0:1:0}|{zähne:0:1:0}|{hauer:0:1:0}
+mmyz-monster-gutfish;;;;;;;;;Siehe Seite 191/192.;myz;
+mmyz-monster-killertree;10;6;;;1;10;6;Fight 3;Gedankenkontrolle, Samenkapseln;myz;{tentakel:0:1:c1:Bei einem Treffer wird das Opfer umschlungen und muss einen `KRAFTAKT`-Wurf ablegen, um sich zu befreien.}|{schlund:0:3:0:Kann nur gegen ein umschlungenes Opfer verwendet werden.}
+mmyz-monster-killertree-seedpod;3;5;;;1;3;0;Fight 2;;myz;{wmyz-unarmed}
+mmyz-monster-mindmosquitoes;8;;;;1;8;1000|fire:0|explosive:0;;Schwarm. Um zu entkommen muss dem Opfer ein Wurf auf `BEWEGEN` gelingen.;myz;{angriff:0:1:0:Jede erzielte ~success führt zu einem Punkt Zweifel, statt Schaden.}
+mmyz-monster-nightmareflowers;10;;;;1;10;1000|fire:0;;Siehe Seite 190.;myz;Jeder der in den Bewuchs marschiert, muss auf `BEWEGEN` würfeln, um nicht von den Sporen ausgeschaltet zu werden.
+mmyz-monster-parasitefungus;;;;;;;;;Siehe Seite 195.;myz;
+mmyz-monster-razorback;10;6;;;1;10;8;Fight 4;;myz;{sturmangriff:0:2:c2}|{hauer:0:3:0}
+mmyz-monster-rotants;6;;;;1;6;1000|fire:0|explosive:0;;Schwarm;myz;{biss:0:1:0:Jeder Angrif durch ~, egal ob er erfolgreich ist oder nicht, fügt dem Opfer einen Punkt Fäulnis zu.}
+mmyz-monster-rotfish;7;5;;;1;7;5;Fight 3|Move underwater 4;;myz;{biss:0:2:0:In der Runde nach einem erfolgreichen Angriff kann der ~ seine Beute unter Wasser ziehen, um sie zu ertränken. Das Opfer erleidet einen Punkt Schaden pro Runde (sofern es nicht unter Wasser atmen kann) und muss auf `KRAFTAKT` würfeln, um sich zu befreien.}
+mmyz-monster-scrapcrows;7;6;;;1;7;1000|fire:0|explosive:0;;Schwarm;myz;{schnabel:0:1:0}|{klauen:0:1:0}
+mmyz-monster-trashhawk;6;8;;;1;6;1;Fight 3|Sneak 4|Move 4|Force 2;Sturzflug-Angriff, Abheben, Siehe Seite 194.;myz;{klauen:0:2:0}
+mmyz-monster-wormswarm;8;;;;1;8;1000|fire:0|explosive:0;;Schwarm;myz;{umschlingender angriff:0:1:0:In der ersten Runde verursacht der Angriff doppelten Schaden. Für jeden Punkt Schaden, den das Opfer erleidet, steigt die Stärke des ~ um einen Punkt (selbst über den Startwert hinaus).}
+mmyz-monster-zonedogs;4;6;;;1;4;0;Fight 2|Move 3;;myz;{biss:0:2:0}
+mmyz-monster-zonerats;8;5;;;1;8;0;;Schwarm;myz;{zähne:0:1:0}
+mmyz-monster-zonespider;5;;;;1;5;3;Fight 2|Move 2;;myz;{biss:0:1:0:*Gift* — Wenn der Biss der ~ Schaden verursacht, dringt das Gift in den Körper des Opfers ein und verursacht einen Punkt Erschöpfung pro Runde, bis das Opfer gebrochen ist. Ein erfolgreicher Wurf auf `HEILEN` (Modifikator -2, wenn der Versuch vom Opfer selbst unternommen wird) um das Gift herauszusaugen, kann den Prozess aufhalten.}
+mmyz-monster-zonewasps;5;;;;1;5;1000|fire:2|explosive:2;;**Pheromone:** Die Stärke des Schwarms steigt um eine Stufe pro Runde, bis die Opfer tot oder entkommen sind.;myz;{biss:0:1:0:*Halluzinogenes Gift* — Alle Angriffe, die dem Opfer einen oder mehr Schadenspunkte zufügen, verursachen auch einen Punkt Verwirrung.}
+mmyz-monster-zoneleeches;6;;;;1;6;1000|fire:0|explosive:0;;Schwarm;myz;{biss:0:1:0:Wenn der anfängliche Angriff erfolgreich ist, heften sich die ~ an ihr Opfer an. Anschließend erleidet dieses jede Runde einen Schadenspunkt, bis die ~ entfernt sind. Um die ~ abzuziehen oder abzuschneiden, ist ein erfolgreicher Wurf auf `PRÜGELN` notwendig. Das Opfer kann es auch selbst versuchen, doch ist dies mit einem Modifikator von -2 erschwert.}
+mgla-creeper;1;4;;;1;1;1;Fight 4|Sneak 3|Move 3|Scout 5;Reparaturen, Springer;gla;{biss:0:1:0}|{reparaturen:Kann Reparaturen durchführen.}|{springer:0:0:c1:Der ~ landet auf seinem Opfer und hält sich an ihm fest.}|{schneidbrenner:0:0:0:Verursacht eine zufällige kritische Verletzung bei einem Treffer. Nur falls das Opfer gepackt wird.}
+mgla-creeper-model-two;1;5;;;1;1;1;Fight 4|Shoot 2|Sneak 3|Move 3|Scout 5;Netzwerfer, Giftbiss;gla;{netzwerfer:0:0:c2:Der ~ verschießt klebrige Fäden, nutzbar um das Opfer heran zu ziehen oder auf es zu klettern. Jeder Treffer umschlingt das Opfer mehr, wird seine gegenwärtige Stärke übertroffen sitzt es fest. Davor kann es mit einem `KRAFTAKT` einen Faden entfernen oder die Fäden mit 1 Schadenspunkt zerschneiden.}|{giftbiss:Sondert lähmendes Gift ab (W6 Punkte Erschöpfung) wenn es gelingt auf das Opfer zu springen.}
+mgla-creeper-model-three;7;4;;;1;1;1;Fight 4|Sneak 3|Move 3|Scout 5;Schwarm, Reparaturen, Auseinandernehmen;gla;{biss:0:1:0}|{reparaturen:Kann Reparaturen durchführen.}|{auseinandernehmen:0:3:0:Der Schwarm kann ein Opfer umhüllen und auseinanderlegen. Übrig bleiben Ersatzteile oder organische Schlacke. Entkommen nur durch herumwälzen (`BEWEGEN` -2) oder wenn Freunde den Schwarm verletzen.}

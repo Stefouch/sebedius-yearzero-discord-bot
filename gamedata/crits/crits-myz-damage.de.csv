@@ -19,11 +19,11 @@ ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
 36;Gebrochenes Bein;false;0;0;;−2 auf Bewegen und Schleichen.;3
 41;Abgerissenes Ohr;false;0;0;;−1 auf Auskundschaften, Mutation Sonar nicht einsetzbar.;3
 42;Ausgestochenes Auge;false;0;0;;−2 auf Schießen und Auskundschaften.;3
-43;Perforierte Lunge;true;0;1;Tagen;−2 auf Erdulden und Bewegen.;2
-44;Verletzte Niere;true;0;1;Tagen;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;3
+43;Perforierte Lunge;true;0;1;Tage;−2 auf Erdulden und Bewegen.;2
+44;Verletzte Niere;true;0;1;Tage;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;3
 45;Zertrümmertes Knie;true;0;1;Tage;−2 auf Bewegen und Schleichen.;4
-46;Zertrümmerter Ellbogen;true;0;1;Tagen;−2 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden;4
-51;Zertrümmerter Fuß;true;0;1;Tagen;−2 auf Bewegen und Schleichen.;4
+46;Zertrümmerter Ellbogen;true;0;1;Tage;−2 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden;4
+51;Zertrümmerter Fuß;true;0;1;Tage;−2 auf Bewegen und Schleichen.;4
 52;Blutender Bauch;true;0;1;Stunden;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;1
 53;Zermatschtes Gesicht;true;0;1;Stunden;−2 auf Manipulieren.;4
 54;Geplatzter Darm;true;0;1;Stunden;Du erleidest pro Stunde einen Punkt Fäulnis bis du Geheilt wirst.;2
@@ -32,6 +32,6 @@ ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
 61;Innere Blutungen;true;-1;1;Minuten;Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.;2
 62;Durchtrennte Armschlagader;true;-1;1;Minuten;−1 auf Erdulden und Bewegen.;1
 63;Durchtrennte Beinschlagader;true;-1;1;Minuten;−1 auf Erdulden und Bewegen.;1
-64;Durchtrennte Halsschlagader;true;-1;1;Zügen;−1 auf Erdulden und Bewegen.;1
+64;Durchtrennte Halsschlagader;true;-1;1;Züge;−1 auf Erdulden und Bewegen.;1
 65;Durchbohrtes Herz;true;0;0;;Dein Herz schlägt ein letztes Mal und du bist tot. Zeit für einen neuen SC.;0
 66;Zermalmter Schädel;true;0;0;;Du stirbst sofort und wirst Eden niemals sehen.;0

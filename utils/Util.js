@@ -141,6 +141,15 @@ class Util {
 	}
 
 	/**
+	 * Capitalizes the first letter of every word in a string.
+	 * @param {string} str The string to process
+	 * @returns {string} The processed string
+	 */
+	static capitalizeWords(str) {
+		return str.replace(/(^|\s)\S/g, l => l.toUpperCase())
+	}
+
+	/**
 	 * Lowers the first character of a string.
 	 * @param {string} str The string to process
 	 * @returns {string} The processed string

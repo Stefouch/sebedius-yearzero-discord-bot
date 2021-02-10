@@ -16,10 +16,10 @@ ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
 33;Gebrochenes Bein;false;0;0;;Fällt zu Boden, dann Bewegungsrate halbiert und -2 auf Beweglichkeit und Infiltration;3
 34;Abgerissenes Ohr;false;0;0;;Für eine Runde betäubt, dann -2 auf Beobachtung. `Dauerhafte hässliche Narbe`.;3
 35;Ausgestochenes Auge;false;0;0;;Für eine Runde betäubt, dann -2 auf Fernkampf und Beobachtung.;3
-36;Punktierte Lunge;true;0;1;Tagen;Für eine Runde betäubt, dann -3 auf Beweglichkeit.;2
-41;Verletzte Niere;true;0;1;Tagen;Für zwei Runden betäubt, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.;3
-42;Zertrümmerter Fuß;true;0;1;Tagen;Fällt zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.;4
-43;Zertrümmerter Ellbogen;true;0;1;Tagen;Für eine Runde betäubt, dann -2 auf Kraftakt und Nahkampf. Verwendung von zweihändigen Waffen unmöglich.;4
+36;Punktierte Lunge;true;0;1;Tage;Für eine Runde betäubt, dann -3 auf Beweglichkeit.;2
+41;Verletzte Niere;true;0;1;Tage;Für zwei Runden betäubt, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.;3
+42;Zertrümmerter Fuß;true;0;1;Tage;Fällt zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.;4
+43;Zertrümmerter Ellbogen;true;0;1;Tage;Für eine Runde betäubt, dann -2 auf Kraftakt und Nahkampf. Verwendung von zweihändigen Waffen unmöglich.;4
 44;Zertrümmertes Knie;true;0;1;Stunden;Für eine Runde betäubt, geht zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.;4
 45;Zerschmettertes Gesicht;true;0;1;Stunden;W6 Stunden bewusstlos, dann -2 auf Manipulation.;4
 46;Durchbohrte Eingeweide;true;0;1;Stunden;Für eine Runde betäubt, dann 1 Punkt Schaden pro Stunde, bis erste Hilfe geleistet wird.;2
