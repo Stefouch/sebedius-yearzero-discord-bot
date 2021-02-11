@@ -2,7 +2,7 @@ const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 const { emojifyRoll } = require('../Sebedius');
 
-const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
+const ARTIFACT_DIE_REGEX = /^[dw](6|8|10|12)$/i;
 
 module.exports = {
 	name: 'resource',
