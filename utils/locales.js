@@ -4,6 +4,7 @@ const Config = require('../config.json');
 const LOCALES = {
 	en: {
 		none: 'none',
+		unknown: 'Unknown',
 		damage: 'Damage',
 		name: 'Name',
 		aliases: 'Aliases',
@@ -73,6 +74,7 @@ const LOCALES = {
 		pride: 'Pride',
 		page: 'page',
 		instructions: 'Instructions',
+		mutation: 'Mutation',
 		'attribute-myz-strength': 'Strength',
 		'attribute-myz-agility': 'Agility',
 		'attribute-myz-wits': 'Wits',
@@ -239,6 +241,43 @@ const LOCALES = {
 			+ ' the *Forbidden Lands - Gamemaster\'s Guide*.'
 			+ '\nNote: all bonuses from the demon\'s abilities are not computed into its stats/armor/skills.'
 			+ '\nNote: the attacks output is not optimal on a small screen (smartphone).',
+		'cdrawinit-description': 'Draws one or more initiative cards. The deck is specific to each Discord server.\n\n'
+			+ `__Parameter__
+			• \`[speed]\` – Number of initiative cards to draw. Default: 1.
+
+			__Arguments__
+			• \`[-haste <value>]\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
+			• \`[-shuffle]\` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`,
+		'cdrawinit-deck-too-small': 'The size of the *Initiative* deck is too small.',
+		'cdrawinit-shuffled': 'Shuffled a new deck of *Initiative* cards.',
+		'cdrawmutation-description': 'Draws a random mutation from the MYZ core rulebook. Available additional sources are:'
+			+ '\n• `gla` – Adds *Mutant: GenLab Alpha* mutations'
+			+ '\n• `zc2` – Adds *Zone Compendium 2: Dead Blue Sea* mutations'
+			+ '\n• `zc5` – Adds *Zone Compendium 5: Hotel Imperator* mutations'
+			+ '\n• `psi` – Draws only from Psionic/mental mutations'
+			+ '\nUse `all` to pick from all book sources.',
+		'cembed-description': 'Creates an embed message. Both the title and the description of the embed are mandatory and must be separated by an `|` horizontal bar character.',
+		'cembed-invalid-arguments': 'Invalid arguments. Try',
+		'cembed-empty-title': 'Embed\'s `title` is empty',
+		'cembed-empty-description': 'Embed\'s `description` is empty',
+		'cferal-description': 'Rolls dice for a GenLab Alpha Animal Power and checks for any Feral Effect.',
+		'chelp-description': 'Lists all available commands. If a command\'s name is specified, prints more info about that specific command instead.',
+		'chelp-command-list-title': 'List of Commands',
+		'chelp-command-list-start': 'Type',
+		'chelp-command-list-middle': 'to get the list of all commands.' + '\nType',
+		'chelp-command-list-end': 'to get info on a specific command',
+		'chelp-sent-dm': 'I\'ve sent you a DM with all my commands!',
+		'chelp-dm-error': 'It seems like I can\'t DM you! Do you have DMs disabled?',
+		'chelp-invalid-command': 'That\'s not a valid command!',
+		'cimportcharacter-description': 'Imports a character sheet. The `-v` argument displays an embed sheet.',
+		'cimportcharacter-invalid-url': 'Invalid URL',
+		'cimportcharacter-importing': 'Importing character...',
+		'cimportcharacter-could-not-retrieve': 'Could not retrieve character from',
+		'cimportcharacter-success': 'was successfully imported!',
+		'cinit': 'TODO',
+		'cinvite-description': 'Prints a link to invite Sebedius to your server.',
+		'cinvite-title': 'Sebedius Invite',
+		'cinvite-text': 'You can invite Sebedius to your server here',
 		'croll-description': 'Rolls dice for any Year Zero roleplaying game.',
 		'croll-moredescriptions': [
 			[
@@ -443,6 +482,7 @@ const LOCALES = {
 	},
 	de: {
 		none: 'Ohne',
+		unknown: 'Unbekannt',
 		damage: 'Schaden',
 		name: 'Name',
 		aliases: 'Aliase',
@@ -512,6 +552,7 @@ const LOCALES = {
 		pride: 'Stolz',
 		page: 'Seite',
 		instructions: 'Anleitung',
+		mutation: 'Mutation',
 		'attribute-myz-strength': 'Stärke',
 		'attribute-myz-agility': 'Geschicklichkeit',
 		'attribute-myz-wits': 'Verstand',
@@ -615,7 +656,7 @@ const LOCALES = {
 			],
 		],
 		'ccolony-description': 'Generiert einen kolonisierten Planeten für das Alien Rollenspiel.',
-		'ccrit-description': 'Würfelt eine zufällige kritische Verletzung. Nutze `-private` Argument um das Ergebnis in einer Direktnachricht zu erhalten.',
+		'ccrit-description': 'Würfelt eine zufällige kritische Verletzung. Nutze den `-private` Parameter um das Ergebnis in einer Direktnachricht zu erhalten.',
 		'ccrit-moredescriptions': [
 			[
 				'Parameter',
@@ -678,6 +719,43 @@ const LOCALES = {
 			+ ' *Verbotene Lande - Spielleiterhandbuch*.'
 			+ '\nHinweis: Alle Boni aus den Fähigkeiten des Dämons werden nicht in dessen Werte/Rüstung/Fähigkeiten einberechnet.'
 			+ '\nHinweis: Die Anzeige der Angriffe ist nicht optimiert für kleine Bildschirme (z.B. Smartphones).',
+		'cdrawinit-description': 'Zieht eine oder mehrere Initiativekarten. Der Stapel ist eindeutig für jeden Discord-Server.\n\n'
+			+ `__Parameter__
+			• \`[speed]\` – Zahl der zu ziehenden Initiativekarten. Standard: 1.
+
+			__Weitere Optionen__
+			• \`[-haste <value>]\` – Zieht mehr Initiativekarten und behält die beste. Die anderen werden zurück in den Stapel gemischt bevor weitere Spieler ihre Karten ziehen. Nutze dies für bestimmte Talente, wie *Blitzschnell*. Standard: 1.
+			• \`[-shuffle]\` – Setzt den Stapel zurück und mischt ihn. *(Dies wird wahrscheinlich am Anfang jeder neuen Begegnung benötigt.)*`,
+		'cdrawinit-deck-too-small': 'Die Größe des *Initiativestapels* ist zu klein.',
+		'cdrawinit-shuffled': 'Ein neuer Stapel *Initiativekarten* wurde gemischt.',
+		'cdrawmutation-description': 'Zieht eine zufällige Mutation aus dem MJN-Grundregelwerk. Zusätzlich sind folgende Quellenbücher verfügbar:'
+			+ '\n• `gla` – Fügt Mutationen aus *Mutant: Genlabor Alpha* hinzu'
+			+ '\n• `zc2` – Fügt Mutationen aus *Zonenkompendium 2: Das nasse Grab* hinzu'
+			+ '\n• `ACHTUNG`: Es wurde ein exklusiv für den deutschen Markt produziertes viertes Zonenkompendium eingefügt, daher stimmen die Nummern ab Band 4 nicht mehr mit den englischen überein'
+			+ '\n• `zc5` – Fügt Mutationen aus *Zonenkompendium 6: Hotel Imperator* hinzu.'
+			+ '\n• `psi` – Zieht nur aus den Psionischen/mentalen Mutationen.'
+			+ '\nNutze `all` um alle Quellenbücher zu nutzen.',
+		'cembed-description': 'Erzeugt eine neue eingebundene Nachricht. Der Titel und die Beschreibung der Nachricht sind beide Pflichtangaben und müssen mit einem horizontalen Strich `|` (AltGr + <) getrennt werden.',
+		'cembed-invalid-arguments': 'Unbekannte Parameter. Versuche',
+		'cembed-empty-title': 'Der `Titel` ist leer',
+		'cembed-empty-description': 'Die `Beschreibung` ist leer',
+		'cferal-description': 'Wirft Würfel für eine Genlabor Alpha Tierkraft und prüft auf Wildheitseffekte.',
+		'chelp-description': 'Listet alle verfügbaren Befehle auf. Wird ein Befehlsname angegeben, werden mehr Informationen zu diesem Befehl ausgegeben.',
+		'chelp-command-list-title': 'Liste der Befehle',
+		'chelp-command-list-start': 'Gib',
+		'chelp-command-list-middle': 'ein, um eine Liste aller verfügbaren Befehle zu erhalten.' + '\nGib',
+		'chelp-command-list-end': 'ein, um Informationen zu einem bestimmten Befehl zu erhalten',
+		'chelp-sent-dm': 'Ich habe dir eine Direknachricht mit allen meinen Befehlen geschickt!',
+		'chelp-dm-error': 'Scheinbar kann ich dir keine Direktnachrichten schicken! Hast du diese vielleicht deaktiviert?',
+		'chelp-invalid-command': 'Das ist kein gültiger Befehl!',
+		'cimportcharacter-description': 'Importiert einen Charakterbogen. Der `-v` Parameter zeigt den eingebundenen Bogen an.',
+		'cimportcharacter-invalid-url': 'Ungültige URL',
+		'cimportcharacter-importing': 'Importiere Charakter...',
+		'cimportcharacter-could-not-retrieve': 'Fehlschlag beim Abruf des Charakters von ',
+		'cimportcharacter-success': 'wurde erfolgreich importiert!',
+		'cinvite-description': 'Gibt einen Link zurück um Sebedius zum einem Server einzuladen.',
+		'cinvite-title': 'Sebedius-Einladung',
+		'cinvite-text': 'Du kannst Sebedius hiermit zu deinem Server einladen',
 		'croll-description': 'Wirft Würfel für ein beliebiges Year Zero Rollspiel.',
 		'croll-moredescriptions': [
 			[

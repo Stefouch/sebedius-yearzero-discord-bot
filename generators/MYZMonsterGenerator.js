@@ -1,12 +1,11 @@
 const YZGenerator = require('./YZGenerator');
 const MonsterData = require('../gamedata/myz/monster-generator.json');
-const Muts = require('../gamedata/myz/mutations.list.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 
 class MYZMonsterGenerator extends YZGenerator {
-	constructor() {
-		super(MonsterData);
+	constructor(language = 'en') {
+		super(MonsterData, language);
 		/**
 		 * The name of the creature.
 		 * @type {string}
@@ -57,6 +56,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		 */
 		this.qty = RollParser.parseAndRoll(numbersElem[1]);
 
+		const Muts = require(`../gamedata/myz/mutations.list.${this.lang}.json`);
 		/**
 		 * List of mutations the creature have.
 		 */
