@@ -1,0 +1,56 @@
+ref,injury,fatal,healmalus,timelimit,timelimitunit,effect,healtime
+11,Wind Knocked Out,FALSE,0,0,-,Stunned for one turn.,0
+12,Disorientated,FALSE,0,0,-,Stunned for one turn.,0
+13,Sprained Wrist,FALSE,0,0,-,"Drops held item, then -1 to RANGED COMBAT and MELEE COMBAT.",1
+14,Sprained Ankle,FALSE,0,0,-,"Falls down, then -1 to DEXTERITY and INFILTRATION.",1
+15,Concussion,FALSE,0,0,-,"Stunned for one turn, then -1 to all advanced skills.",1
+16,Bruised Lower Leg,FALSE,0,0,-,"Falls down, then -1 to DEXTERITY and INFILTRATION.",2
+21,Broken Nose,FALSE,0,0,-,"Stunned for one turn, then -2 to MANIPULATION.",1
+22,Broken Fingers,FALSE,0,0,-,"Drops held item, then -2 to RANGED COMBAT and MELEE COMBAT.",1
+23,Broken Toes,FALSE,0,0,-,"Stunned for one turn, then -2 to DEXTERITY and INFILTRATION.",2
+24,Teeth Knocked Out,FALSE,0,0,-,"Stunned for one turn, then -2 to MANIPULATION.",2
+25,Groin Hit,FALSE,0,0,-,"Stunned for two turns, then 1 point of damage per FORCE,
+DEXTERITY, and MELEE COMBAT test.",2
+26,Dislocated Shoulder,FALSE,0,0,-,"Stunned for one turn, then -3 to FORCE and MELEE COMBAT.",1
+31,Broken Ribs,FALSE,0,0,-,"Stunned for one turn, then -2 to DEXTERITY and MELEE COMBAT.",2
+32,Broken Arm,FALSE,0,0,-,"Stunned for one turn, then -3 to RANGED COMBAT and MELEE
+COMBAT.",3
+33,Broken Leg,FALSE,0,0,-,"Falls down, then Movement Rate halved, and -2 to DEXTERITY
+and INFILTRATION.",3
+34,Shredded Ear,FALSE,0,0,-,"Stunned for one turn, then -2 to OBSERVATION. Permanent ugly
+scar.",3
+35,Gouged Eye,FALSE,0,0,-,"Stunned for one turn, then -2 to RANGED COMBAT and
+OBSERVATION.",3
+36,Punctured Lung,TRUE,0,1,days,"Stunned for one turn, then -3 to DEXTERITY.",2
+41,Lacerated Kidney,TRUE,0,1,days,"Stunned for two turns, then 1 point of damage per FORCE,
+DEXTERITY, or MELEE COMBAT test.",3
+42,Crushed Foot,TRUE,0,1,days,"Falls over, then Movement Rate halved, and -3 to DEXTERITY and
+INFILTRATION.",4
+43,Crushed Elbow,TRUE,0,1,days,"Stunned for one turn, then -2 to FORCE and MELEE COMBAT. No
+use of two-handed weapons.",4
+44,Crushed Knee,TRUE,0,1,hours,"Stunned for one turn, falls over, then Movement Rate halved,
+and -3 to DEXTERITY and INFILTRATION.",4
+45,Crushed Face,TRUE,0,1,hours,"Unconscious D6 hours, then -2 to MANIPULATION.",4
+46,Pierced Intestines,TRUE,0,1,hours,"Stunned for one turn, then 1 point of damage per hour until first
+aid is administered.",2
+51,Broken Spine,TRUE,0,1,hours,"Unconscious D6 hours, then paralyzed from the waist down.
+Unless medical aid is given during the healing time, the paralysis
+becomes permanent.",4
+52,Broken Neck,TRUE,0,1,hours,"Unconscious D6 hours, then paralyzed from the neck down.
+Unless medical aid is given during the healing time, the paralysis
+becomes permanent.",4
+53,Bleeding Gut,TRUE,0,1,minutes,1 point of damage per turn until first aid is given.,1
+54,Internal Bleeding,TRUE,-1,1,minutes,"Unconscious D6 hours, then 1 point of damage per FORCE,
+DEXTERITY, or MELEE COMBAT test.",2
+55,Severed Artery (Arm),TRUE,-1,1,minutes,"Unconscious D6 hours, then -1 to DEXTERITY.",1
+56,Severed Artery (Leg),TRUE,-1,1,minutes,"Unconscious D6 hours, then -2 to DEXTERITY.",1
+61,Destroyed Arm,TRUE,-1,1,minutes,"Unconscious D6 hours, then -2 to DEXTERITY. The arm is permanently
+lost. No use of two-handed weapons.",3
+62,Destroyed Leg,TRUE,-1,1,minutes,"Unconscious D6 hours, then -2 to DEXTERITY. The leg is permanently
+lost. Movement Rate is halved.",3
+63,Severed Jugular,TRUE,-1,1,minutes,"Unconscious D6 hours, then -1 to DEXTERITY.",1
+64,Severed Aorta,TRUE,-1,1,-,"Unconscious D6 hours, then -2 to DEXTERITY.",2
+65,Pierced Heart,TRUE,0,0,-,Your heart beats one final time. Create a new PC.,0
+66,Crushed Skull,TRUE,0,0,-,"You are instantly killed. Your adventure ends here. Create a
+new PC.",0
+-,Atypical Damage,TRUE,0,Varies,-,"Unconscious until death, or until first aid is given.",0
