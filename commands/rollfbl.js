@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'rollfbl',
-	aliases: ['rollf', 'rf', 'lancef', 'lancerf', 'slåf', 'slaf'],
+	aliases: ['rollf', 'rf'],
 	category: 'fbl',
 	description: 'Rolls dice for the *Forbidden Lands* roleplaying game.'
 		+ '\nType `help roll` for more details.',

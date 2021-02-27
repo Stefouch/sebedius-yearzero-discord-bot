@@ -4,7 +4,7 @@ const { __ } = require('../utils/locales');
 
 module.exports = {
 	name: 'artifact',
-	aliases: ['arto', 'artefakt'],
+	aliases: ['arto'],
 	category: 'myz',
 	description: 'cartifact-description',
 	guildOnly: false,

@@ -1,6 +1,6 @@
 module.exports = {
 	name: 'rollvaesen',
-	aliases: ['rollv', 'rv', 'lancev', 'lancerv', 'slåv', 'slav'],
+	aliases: ['rollv', 'rv'],
 	category: 'vaesen',
 	description: 'Rolls dice for the *Vaesen* roleplaying game.'
 		+ '\nType `help roll` for more details.',

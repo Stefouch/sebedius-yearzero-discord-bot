@@ -8,7 +8,7 @@ const { __ } = require('../utils/locales');
 
 module.exports = {
 	name: 'attack',
-	aliases: ['atk', 'atq'],
+	aliases: ['atk'],
 	category: 'common',
 	description: 'cattack-description',
 	moreDescriptions: 'cattack-moredescriptions',

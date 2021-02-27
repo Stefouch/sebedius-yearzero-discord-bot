@@ -17,7 +17,7 @@ const DICE_RANGE_ICONS = {
 
 module.exports = {
 	name: 'roll',
-	aliases: ['r', 'lance', 'lancer', 'slå', 'sla', 'würfeln', 'wurf'],
+	aliases: ['r'],
 	category: 'common',
 	description: 'croll-description',
 	moreDescriptions: 'croll-moredescriptions',
