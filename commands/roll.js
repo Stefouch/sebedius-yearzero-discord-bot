@@ -67,13 +67,13 @@ module.exports = {
 		let roll = new YZRoll(game, ctx.author, name, lang);
 
 		// Year Zero Roll Regular Expression.
-		const yzRollRegex = /^((\d{1,2}[dbsfgnaw])|([bsfgna]\d{1,2})|([dw](6|8|10|12))|([abcd])+)+$/i;
+		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		const isD66 = rollargv._.length === 1 &&
 		(
-			(/^[dw]6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
-			(/^[dw]6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
+			(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
+			(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
 		);
 		if (isD66) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
@@ -97,15 +97,15 @@ module.exports = {
 			// Then, processes all uncategorized arguments.
 			for (const arg of rollargv._) {
 				// Checks if it's a classic YZ roll phrase.
-				if (/^((\d{1,2}[dbsfgnaw])|([bsfgna]\d{1,2}))+$/i.test(arg)) {
+				if (/^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i.test(arg)) {
 
 					// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
-					const diceCouples = arg.match(/(\d{1,2}[dbsfgnaw])|([bsfgna]\d{1,2})/gi);
+					const diceCouples = arg.match(/(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
 
 					for (const dieCouple of diceCouples) {
 
 						// Then, each couple is splitted in an array with the digit and the letter.
-						const couple = dieCouple.match(/\d{1,2}|[dbsfgnaw]/gi);
+						const couple = dieCouple.match(/\d{1,2}|[dbsgna]/gi);
 
 						// Sorts numbers (dice quantity) in first position.
 						couple.sort();
@@ -117,13 +117,11 @@ module.exports = {
 						let type;
 						switch (dieTypeChar) {
 							case 'b': type = 'base'; break;
-							case 'w':
 							case 'd':
 								if (game === 'alien') type = 'base';
 								else if (game === 't2k') type = 'ammo';
 								else type = 'skill';
 								break;
-							case 'f':
 							case 's': type = 'skill'; break;
 							case 'g': type = 'gear'; break;
 							case 'n': type = 'neg'; break;
@@ -146,33 +144,28 @@ module.exports = {
 					}
 				}
 				// Checks if it's a Twilight 2000 roll phrase.
-				else if (/^(([dw](6|8|10|12))|([abcd]+))+$/i.test(arg)) {
-					const diceCouples = arg.match(/([dw](?:6|8|10|12))|([abcd])/gi);
+				else if (/^((d(6|8|10|12))|([abcd]+))+$/i.test(arg)) {
+					const diceCouples = arg.match(/(d(?:6|8|10|12))|([abcd])/gi);
 
 					for (const dieCouple of diceCouples) {
 
 						switch (dieCouple.toLowerCase()) {
 							case 'd6':
-							case 'w6':
-							case 'w':
 							case 'd':
 								if (game === 't2k') roll.addBaseDice(1);
 								else roll.addBaseDice(1);
 								break;
 							case 'd8':
-							case 'w8':
 							case 'c':
 								if (game === 't2k') roll.addDice('base', 1, 8);
 								else roll.addDice('arto', 1, 8);
 								break;
 							case 'd10':
-							case 'w10':
 							case 'b':
 								if (game === 't2k') roll.addDice('base', 1, 10);
 								else roll.addDice('arto', 1, 10);
 								break;
 							case 'd12':
-							case 'w12':
 							case 'a':
 								if (game === 't2k') roll.addDice('base', 1, 12);
 								else roll.addDice('arto', 1, 12);
@@ -209,8 +202,8 @@ module.exports = {
 				.addDice('arto', 1, 12);
 		}
 		// Checks for generic rolls.
-		else if (/\d?[dDwW]\d?/.test(rollargv._[0])) {
-			const formula = rollargv._.join('').replace('w', 'd').replace('W', 'D');
+		else if (/\d?[dD]\d?/.test(rollargv._[0])) {
+			const formula = rollargv._.join('');
 			game = 'generic';
 			roll = YZRoll.parse(formula, game, ctx.author, `${name ? `${name}\n` : ''}${formula}`);
 			roll.maxPush = 0;

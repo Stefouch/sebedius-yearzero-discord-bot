@@ -774,10 +774,10 @@ const LOCALES = {
 				'Year Zero Würfel werfen',
 				'Benutze eine beliebige Kombination mit diesen Buchstaben:'
 				+ '\n• `b` – Basiswürfel (Attribute)'
-				+ '\n• `s|f` – Fertigkeitswürfel (oder Stresswürfel für das *Alien RPG*)'
+				+ '\n• `s` – Fertigkeitswürfel (oder Stresswürfel für das *Alien RPG*)'
 				+ '\n• `n` – Negativwürfel (nur *MYZ* und *FBL*)'
 				+ '\n• `g` – Ausrüstungs-/Waffenwürfel (nur *MYZ* und *FBL*)'
-				+ '\n• `d|w` – Generische Würfel (oder Munitionswürfel für *Twilight 2000*)'
+				+ '\n• `d` – Generische Würfel (oder Munitionswürfel für *Twilight 2000*)'
 				+ '\n• `a` – Munitionswürfel (nur *Twilight 2000*)'
 				+ '\n• `a8` – W8 Artefaktwürfel (siehe *FBL*)'
 				+ '\n• `a10` – W10 Artefaktwürfel (siehe *FBL*)'
