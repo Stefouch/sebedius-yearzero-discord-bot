@@ -766,9 +766,9 @@ const LOCALES = {
 			],
 			[
 				'Einfache Würfel werfen',
-				'`roll d6|d66|d666` – Würfelt einen W6, W66, oder W666.'
+				'`roll d6|d66|d666` – Würfelt einen D6, D66, oder D666.'
 				+ '\n`roll XdY±Z` – Wirft X Würfel der Augenzahl Y, modifiziert durch Z.'
-				+ '\n`roll init` – Würfelt Initiative (einen W6).',
+				+ '\n`roll init` – Würfelt Initiative (einen D6).',
 			],
 			[
 				'Year Zero Würfel werfen',
@@ -818,7 +818,7 @@ const LOCALES = {
 		],
 		'croll-ammo-spent': 'Ausgegebene Munition',
 		'croll-generic-roll': 'Generischer Wurf',
-		'croll-single-roll': 'Einzelner W6 / W66 / W666 Wurf',
+		'croll-single-roll': 'Einzelner D6 / D66 / D666 Wurf',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
 		'malien-xeno-neomorph': 'Adult Neomorph',

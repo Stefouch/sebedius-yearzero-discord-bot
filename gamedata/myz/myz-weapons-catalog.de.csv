@@ -59,7 +59,7 @@ wmyz-shotgun-doublebarrel;2;3;3;2;true;Artifact|Barrels 2;;myz
 wmyz-shotgun-pumpaction;2;3;2;2;true;Artifact|Clip;;myz
 wmyz-slingshot;2;1;1;2;true;;Gebastelt;myz
 wmyz-studdedwoodenclub;1;1;2;0;;;Gebastelt;myz
-wmyz-stunbaton;1;2;1;0;;Artifact|Energy;Fügt W6 Erschöpfung zu;gla
+wmyz-stunbaton;1;2;1;0;;Artifact|Energy;Fügt D6 Erschöpfung zu;gla
 wmyz-stungun;1;2;1;2;true;Artifact|Energy|Light;Fügt Erschöpfung statt Schaden zu;mek
 wmyz-tasergun;1;1;2;2;true;Artifact|Light;Fügt Erschöpfung statt Schaden zu;gla
 wmyz-ultrasoniccarbine;2;2;2;2;true;Artifact|Energy;Fügt zusätzlich Erschöpfung zu;ely

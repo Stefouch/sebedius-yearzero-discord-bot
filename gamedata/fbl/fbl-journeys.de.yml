@@ -355,7 +355,7 @@ seaTravelMishaps:
         Euer Boot leckt und Wasser läuft hinein. Das Leck muss repariert
         werden (`HANDWERK`-Wurf), was einen Zug (15 Minuten)
         dauert, aber ihr könnt währenddessen weiterreisen. Wird das
-        Leck nicht geflickt, sinkt das Boot nach W6 Stunden.
+        Leck nicht geflickt, sinkt das Boot nach D6 Stunden.
     '5':
       - Mann über Bord
       - >-
