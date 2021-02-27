@@ -77,8 +77,8 @@ class YZObject {
 		return Object.keys(CATALOGS[category]);
 	}
 
-	static get(cat, game, id) {
-		return CATALOGS[cat][game][this.lang].get(id);
+	static get(cat, game, id, lang = 'en') {
+		return CATALOGS[cat][game][lang].get(id);
 	}
 
 	/**
