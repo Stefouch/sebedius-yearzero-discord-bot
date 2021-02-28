@@ -1,6 +1,5 @@
 const { tryDelete } = require('../Sebedius');
 const { CharacterEmbed } = require('../utils/embeds');
-const { getValidLanguageCode } = require('../utils/Util');
 const { __ } = require('../utils/locales');
 
 const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
@@ -31,7 +30,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const url = argv._[0];
 
 		// Exits early is the argument is not a valid URL.

@@ -3,7 +3,7 @@ const { getSelection } = require('../Sebedius');
 const YZJourney = require('../yearzero/YZJourney');
 const YZTerrainTypesFlags = require('../yearzero/YZTerrainTypesFlags');
 const { YZEmbed } = require('../utils/embeds');
-const { capitalize, trimString, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
+const { capitalize, trimString, strCamelToNorm } = require('../utils/Util');
 const ReactionMenu = require('../utils/ReactionMenu');
 
 const T_OPTS = Object.keys(YZTerrainTypesFlags.FLAGS)
@@ -15,9 +15,9 @@ module.exports = {
 	aliases: ['jou'],
 	category: 'fbl',
 	description: 'Performs a *Forbidden Lands* Journey.'
-	+ '\nWith this command, you can **Create** a Journey with defined *Quarter Day*, *Season* and *Terrain* to display information about the roll modifiers and the available activities. Players can then use a reaction menu to choose their activity as a reminder for the GM.'
-	+ '\nYou can also draw a random **Mishap** for a failed activity.'
-	+ '\nWeather effects and Mishaps tables for *The Bitter Reach* are also available.',
+		+ '\nWith this command, you can **Create** a Journey with defined *Quarter Day*, *Season* and *Terrain* to display information about the roll modifiers and the available activities. Players can then use a reaction menu to choose their activity as a reminder for the GM.'
+		+ '\nYou can also draw a random **Mishap** for a failed activity.'
+		+ '\nWeather effects and Mishaps tables for *The Bitter Reach* are also available.',
 	moreDescriptions: [
 		[
 			'Subcommands',
@@ -114,7 +114,7 @@ module.exports = {
 		}
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const fileName = argv.fbr
 			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
 			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;

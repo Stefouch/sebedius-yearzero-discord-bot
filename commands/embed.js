@@ -1,5 +1,4 @@
 const { MessageEmbed } = require('discord.js');
-const { getValidLanguageCode } = require('../utils/Util');
 const { __ } = require('../utils/locales');
 
 module.exports = {
@@ -22,7 +21,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		const arg = argv._.join(' ').split('|');
 

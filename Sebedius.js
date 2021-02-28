@@ -8,7 +8,7 @@ const ContextMessage = require('./utils/ContextMessage');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const CharacterManager = require('./yearzero/models/CharacterManager');
-const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 const { __ } = require('./utils/locales');
 
 /**
@@ -337,6 +337,19 @@ class Sebedius extends Discord.Client {
 	 */
 	async getLanguage(message) {
 		return await Sebedius.getConf('langs', message, this, 'en');
+	}
+
+	/**
+	 * Takes the provided language code, checks it against the SUPPORTED_LANGS-table 
+	 * and if not found calls the getLanguage-method to read from DB or return default
+	 * @param {string} lang Language code (for example provided by arguments)
+	 * @param {ContextMessage} ctx The context (for bot and guild.id)
+	 * @returns {string} A valid language code
+	 */
+	async getValidLanguageCode(lang, ctx){
+		return Object.keys(SUPPORTED_LANGS).includes(lang) 
+				? lang 
+				: await this.getLanguage(ctx);
 	}
 
 	/**

@@ -1,5 +1,5 @@
 const { getTable } = require('../Sebedius');
-const { isNumber, rollD66, sumD6, getValidLanguageCode } = require('../utils/Util');
+const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 const { __ } = require('../utils/locales');
@@ -52,7 +52,7 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const privacy = argv.private;
 
 		// Exits early if too many arguments
@@ -208,7 +208,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
  * @param {number} rank The rank of the talent (1-3)
  * @returns {number} The final critical injury
  */
- function rollLucky(rank) {
+function rollLucky(rank) {
 	if (!isNumber(rank)) return;
 	if (rank < 1) rank = 1;
 
@@ -228,6 +228,6 @@ function getEmbedCrit(crit, name, ctx, lang) {
 	}
 
 	// TODO: Show rolls and manipulation in Embed
-	
+
 	return value;
 }

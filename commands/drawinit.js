@@ -1,5 +1,5 @@
 const { getMention } = require('../Sebedius');
-const { clamp, getValidLanguageCode } = require('../utils/Util');
+const { clamp } = require('../utils/Util');
 const { CARDS_ICONS } = require('../utils/constants');
 const YZInitDeck = require('../yearzero/YZInitDeck');
 const { __ } = require('../utils/locales');
@@ -30,7 +30,7 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const speed = clamp(+argv._[0], 1, 10) || 1;
 		const haste = clamp(+argv.haste, 1, 10) || 1;
 		const shuffle = argv.shuffle ? true : false;

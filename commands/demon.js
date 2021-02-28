@@ -1,7 +1,7 @@
 const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
 const { __ } = require('../utils/locales');
-const { alignText, strCamelToNorm, getValidLanguageCode } = require('../utils/Util');
+const { alignText } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		const demon = new Demon(lang);
 

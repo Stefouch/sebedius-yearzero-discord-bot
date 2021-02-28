@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('../utils/constants');
-const { getValidLanguageCode } = require('../utils/Util');
 const { __ } = require('../utils/locales');
 const CATEGORY_LIST = {
 	common: 'Common',
@@ -30,7 +29,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		// Sends a generic help message if no command name was provided.
 		if (!argv._.length) {

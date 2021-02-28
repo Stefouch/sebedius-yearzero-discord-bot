@@ -1,5 +1,5 @@
 const { YZEmbed } = require('../utils/embeds');
-const { getValidLanguageCode, random } = require('../utils/Util');
+const { random } = require('../utils/Util');
 const { __ } = require('../utils/locales');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		let usedBooks = argv._;
 
 		const Artos = require(`../gamedata/myz/artifacts.list.${lang}.json`);

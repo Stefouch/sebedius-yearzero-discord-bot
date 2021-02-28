@@ -1,5 +1,5 @@
 const { YZEmbed } = require('../utils/embeds');
-const { random, getValidLanguageCode } = require('../utils/Util');
+const { random } = require('../utils/Util');
 const { __ } = require('../utils/locales');
 
 module.exports = {
@@ -22,7 +22,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const ArkThreats = require(`../gamedata/myz/ark-threats.list.${lang}.json`);
 		const embed = new YZEmbed(__('carkthreat-title', lang), random(ArkThreats));
 		return ctx.send(embed);

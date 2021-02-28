@@ -1,6 +1,6 @@
 const { YZMonster } = require('../yearzero/YZObject');
 const Monster = require('../generators/MYZMonsterGenerator');
-const { isNumber, strCamelToNorm, alignText, getValidLanguageCode } = require('../utils/Util');
+const { isNumber, strCamelToNorm, alignText } = require('../utils/Util');
 const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
 
 module.exports = {
@@ -64,7 +64,7 @@ module.exports = {
 			alias: {
 				attack: ['a', 'atk'],
 				private: ['p'],
-				lang: ['lng', 'language', ],
+				lang: ['lng', 'language'],
 			},
 			default: {
 				private: false,
@@ -76,7 +76,7 @@ module.exports = {
 		if (!argv.attack && isNumber(argv._[argv._.length - 1])) {
 			argv.attack = argv._.pop();
 		}
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		// Parses any game.
 		let game;
@@ -88,7 +88,7 @@ module.exports = {
 			game = await ctx.bot.getGame(ctx, 'none');
 			if (game === 'none') {
 				game = await YZMonster.fetchGame(ctx);
-			} 
+			}
 		}
 		argv.game = game;
 
@@ -113,8 +113,8 @@ async function generateRandomMYZMonster(ctx) {
 	const embed = new YZEmbed(
 		`${monster.name.toUpperCase()}${monster.swarm ? 'S' : ` ⨯ ${monster.qty}`}`,
 		(monster.loner ? '' : `${monster.descriptions.number} of `)
-			+ `*${monster.descriptions.traits.join(' and ')}* `
-			+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`,
+		+ `*${monster.descriptions.traits.join(' and ')}* `
+		+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`,
 	);
 
 	// Creature's Strength, Agility, Armor Rating & Legs.

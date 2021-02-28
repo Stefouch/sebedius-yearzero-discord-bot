@@ -1,4 +1,4 @@
-const { random, getValidLanguageCode } = require('../utils/Util');
+const { random } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { __ } = require('../utils/locales');
 
@@ -22,7 +22,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		let usedBooks = argv._;
 
 		const Muts = require(`../gamedata/myz/mutations.list.${lang}.json`);

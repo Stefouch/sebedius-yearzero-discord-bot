@@ -1,5 +1,5 @@
 const { getTable, emojifyRoll } = require('../Sebedius');
-const { clamp, isNumber, rollD66, getValidLanguageCode } = require('../utils/Util');
+const { clamp, isNumber, rollD66 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 const { __ } = require('../utils/locales');
@@ -31,7 +31,7 @@ module.exports = {
 		});
 		// Validates the arguments.
 		const basePowerLevel = Math.ceil(clamp(argv._.shift(), 1, 20));
-		const lang = await getValidLanguageCode(argv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const name = argv._.join(' ') || argv.name.join(' ') || __('ccast-title', lang);
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {

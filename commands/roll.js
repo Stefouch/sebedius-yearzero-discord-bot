@@ -1,6 +1,6 @@
 const { emojifyRoll, checkPermissions } = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
-const { trimString, getValidLanguageCode } = require('../utils/Util');
+const { trimString } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { DICE_ICONS, SUPPORTED_GAMES } = require('../utils/constants');
@@ -53,7 +53,7 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
-		const lang = await getValidLanguageCode(rollargv.lang, ctx);
+		const lang = await ctx.bot.getValidLanguageCode(rollargv.lang, ctx);
 		const name = rollargv.name
 			? trimString(rollargv.name.join(' '), 100)
 			: undefined;
@@ -71,10 +71,10 @@ module.exports = {
 
 		// Checks for d6, d66 & d666.
 		const isD66 = rollargv._.length === 1 &&
-		(
-			(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
-			(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
-		);
+			(
+				(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
+				(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
+			);
 		if (isD66) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
 				roll.setGame('generic');
@@ -254,7 +254,7 @@ module.exports = {
 				getEmbedD66Results(roll, ctx),
 			);
 		}
-		else if(roll.initiative) {
+		else if (roll.initiative) {
 			await ctx.send(
 				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
 				getEmbedInitRollResults(roll, ctx),
@@ -409,7 +409,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 	if (roll.rof > 0) {
 		const n = roll.count('ammo', 6);
 		if (n > 0) {
-			desc += `\n${__(s > 0 ? (n > 1 ? 'extra-hits': 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang)}: **${n}**`;
+			desc += `\n${__(s > 0 ? (n > 1 ? 'extra-hits' : 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang)}: **${n}**`;
 		}
 		desc += `\n${__('croll-ammo-spent', roll.lang)}: **${roll.sum('ammo')}**`;
 	}
