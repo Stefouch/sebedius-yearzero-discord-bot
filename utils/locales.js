@@ -1,5 +1,6 @@
 const { SUPPORTED_GAMES } = require('./constants');
 const Config = require('../config.json');
+const YZJourney = require('../yearzero/YZJourney');
 
 const LOCALES = {
 	en: {
@@ -12,6 +13,7 @@ const LOCALES = {
 		description: 'Description',
 		table: 'Table',
 		possessives: '\'s',
+		game: 'Game',
 		ability: 'Ability',
 		abilities: 'Abilities',
 		attack: 'Attack',
@@ -75,6 +77,32 @@ const LOCALES = {
 		page: 'page',
 		instructions: 'Instructions',
 		mutation: 'Mutation',
+		journey: 'Journey',
+		terrain: 'Terrain',
+		terrains: 'Terrains',
+		activity: 'Activity',
+		activities: 'Activities',
+		characteristic: 'Characteristic',
+		characteristics: 'Characteristics',
+		modifier: 'Modifier',
+		modifiers: 'Modifiers',
+		weather: 'Weather',
+		'quarter-day': 'Quarter Day',
+		morning: 'Morning',
+		day: 'Day',
+		evening: 'Evening',
+		night: 'Night',
+		season: 'Season',
+		spring: 'Spring',
+		summer: 'Summer',
+		autumn: 'Autumn',
+		winter: 'Winter',
+		daylight: 'Daylight',
+		darkness: 'Darkness',
+		icy: 'Icy',
+		cold: 'Cold',
+		snowfall: 'Snowfall',
+		wind: 'Wind',
 		'attribute-myz-strength': 'Strength',
 		'attribute-myz-agility': 'Agility',
 		'attribute-myz-wits': 'Wits',
@@ -135,6 +163,29 @@ const LOCALES = {
 		'range-alien-medium': 'Medium',
 		'range-alien-long': 'Long',
 		'range-alien-extreme': 'Extreme',
+		'terrain-movement-open': 'Open',
+		'terrain-movement-difficult': 'Difficult',
+		'terrain-movement-requires-raft': 'Requires raft',
+		'terrain-movement-requires-boat-or-raft': 'Requires boat or raft',
+		'terrain-movement-requires-boat': 'Requires boat',
+		'terrain-movement-impassable': 'Impassable',
+		'terrain-plains': 'Plains',
+		'terrain-forest': 'Forest',
+		'terrain-dark-forest': 'Dark Forest',
+		'terrain-hills': 'Hills',
+		'terrain-mountains': 'Mountains',
+		'terrain-high-mountains': 'High Mountains',
+		'terrain-lake': 'Lake',
+		'terrain-river': 'River',
+		'terrain-marshlands': 'Marshlands',
+		'terrain-quagmire': 'Quagmire',
+		'terrain-ruins': 'Ruins',
+		'terrain-tundra': 'Tundra',
+		'terrain-ice-cap': 'Ice Cap',
+		'terrain-beneath-the-ice': 'Beneath The Ice',
+		'terrain-ice-forest': 'Ice Forest',
+		'terrain-ocean': 'Ocean',
+		'terrain-sea-ice': 'Sea Ice',
 		'carkthreat-description': 'Draws a random threat against the Ark.',
 		'carkthreat-title': 'Threat Against the Ark',
 		'cartifact-description': 'Draws a random artifact from the MYZ core rulebook. Available additional sources are (combine one or more):'
@@ -278,6 +329,56 @@ const LOCALES = {
 		'cinvite-description': 'Prints a link to invite Sebedius to your server.',
 		'cinvite-title': 'Sebedius Invite',
 		'cinvite-text': 'You can invite Sebedius to your server here',
+		'cjob': 'TODO',
+		'cjourney-description': 'Performs a *Forbidden Lands* Journey.'
+			+ '\nWith this command, you can **Create** a Journey with defined *Quarter Day*, *Season* and *Terrain* to display information about the roll modifiers and the available activities. Players can then use a reaction menu to choose their activity as a reminder for the GM.'
+			+ '\nYou can also draw a random **Mishap** for a failed activity.'
+			+ '\nWeather effects and Mishaps tables for *The Bitter Reach* are also available.',
+		'cjourney-moredescriptions': [
+			[
+				'Subcommands',
+				'• `create|c` or `-create|-c` – Creates a Journey.'
+				+ '\n• `mishap|m` or `-mishap|-m` – Draws a random Journey mishap.'
+				+ '\n• `help` – Displays this help.',
+			],
+			[
+				'Create: `!journey  create|c  [QUARTER_DAY] [SEASON] [TERRAIN] [arguments...]`',
+				'`[QUARTER_DAY]` – Defines the current **Quarter of Day**. Available options are: `morning`, `day` *(default)*, `evening` and `night`.'
+				+ '\n• `-quarter|-q|-d|-quarterday|-qd [search]` – Prompts a menu to choose a **Quarter of Day** option, filtered by what you provided in the `[search]` parameter.'
+				+ '\n• `[SEASON]` – Defines the current **Season**. Available options are: `spring` *(default)*, `summer`, `autumn` and `winter`.'
+				+ '\n• `-season|-s [search]` – Prompts a menu.'
+				+ '\n• `[TERRAIN]` – Defines the current **Terrain** type. Available options are: `plains` *(default)*, `forest`, `dark_forest`, `hills`, `mountains`, `high_mountains`, `lake`, `river`, `ocean`, `marshlands`, `quagmire`, `ruins`, *(Bitter Reach)* `tundra`, `ice_cap`, `beneath_the_ice`, `ice_forest` and `sea_ice`.'
+				+ '\n• `-terrain|-t [search]` – Prompts a menu.'
+				+ '\n• `...arguments` – See other common arguments below.',
+			],
+			[
+				'Mishap: `!journey  mishap|m  [activity] [...arguments]`',
+				'Possible activities that have Mishaps: '
+				+ '`' + YZJourney.Activities
+					.filter(a => a.mishap)
+					.array()
+					.map(a => a.tag)
+					.join('`, `')
+					.toLowerCase() + '`'
+				+ '\n*If no activity is specified, the bot prompts a menu to choose one (filtered by partial words you may have provided).*',
+			],
+			[
+				'Other Common Arguments',
+				'• `-fbr|-bitterreach|-snow|-ice` – Uses *Forbidden Lands: The Bitter Reach* Mishaps tables and draws random *Bitter Reach* weather effects.'
+				+ '\n • `-name|-title|-n <title>` – Defines a title.'
+				+ '\n • `-lang|-language|-lng <language_code>` – Uses a different language. See `setconf` command for available options.',
+			],
+		],
+		'cjourney-activity-mishap-mismatch': 'Choose an **Activity** with a **Mishap**',
+		'cjourney-choose-subcommand': 'Please choose a subcommand `create`, `mishap` or `help`.',
+		'cjourney-choose-quarterday': 'Choose a **Quarter Day**',
+		'cjourney-choose-season': 'Choose a **Season**',
+		'cjourney-choose-terrains': 'Choose a **Terrain**',
+		'cjourney-choose-activity': 'Choose an **Activity**',
+		'cjourney-generic-description': 'Choose an Activity and roll for `SURVIVAL`.',
+		'cjourney-movement-modifier-open': 'On foot: 2 Hexagons / Quarter\nOn Horse-back: 3 Hexagons / Quarter',
+		'cjourney-movement-modifier-difficult': 'On foot: 1 Hexagon / Quarter\nOn Horse-back: 1 Hexagon / Quarter',
+		'cjourney-movement-modifier-boat': 'On boat: 2 hexagons / Quarter',
 		'croll-description': 'Rolls dice for any Year Zero roleplaying game.',
 		'croll-moredescriptions': [
 			[
@@ -490,6 +591,7 @@ const LOCALES = {
 		description: 'Beschreibung',
 		table: 'Tabelle',
 		possessives: 's',
+		game: 'Spiel',
 		ability: 'Fähigkeit',
 		abilities: 'Fähigkeiten',
 		attack: 'Angriff',
@@ -553,6 +655,32 @@ const LOCALES = {
 		page: 'Seite',
 		instructions: 'Anleitung',
 		mutation: 'Mutation',
+		journey: 'Reise',
+		terrain: 'Gelände',
+		terrains: 'Gelände',
+		activity: 'Aktivität',
+		activities: 'Aktivitäten',
+		characteristic: 'Eigenschaft',
+		characteristics: 'Eigenschaften',
+		modifier: 'Modifikator',
+		modifiers: 'Modifikatoren',
+		weather: 'Wetter',
+		'quarter-day': 'Tagesabschnitt',
+		morning: 'Morgen',
+		day: 'Tag',
+		evening: 'Abend',
+		night: 'Nacht',
+		season: 'Jahreszeit',
+		spring: 'Frühling',
+		summer: 'Sommer',
+		autumn: 'Herbst',
+		winter: 'Winter',
+		daylight: 'Tageslicht',
+		darkness: 'Dunkelheit',
+		icy: 'Eiskalt',
+		cold: 'Kälte',
+		snowfall: 'Schneefall',
+		wind: 'Wind',
 		'attribute-myz-strength': 'Stärke',
 		'attribute-myz-agility': 'Geschicklichkeit',
 		'attribute-myz-wits': 'Verstand',
@@ -613,6 +741,29 @@ const LOCALES = {
 		'range-alien-medium': 'Mittel',
 		'range-alien-long': 'Weit',
 		'range-alien-extreme': 'Extrem',
+		'terrain-movement-open': 'Offen',
+		'terrain-movement-difficult': 'Schwierig',
+		'terrain-movement-requires-raft': 'Erfordert Floß',
+		'terrain-movement-requires-boat-or-raft': 'Erfordert Boot oder Floß',
+		'terrain-movement-requires-boat': 'Erfordert Boot',
+		'terrain-movement-impassable': 'Unpassierbar',
+		'terrain-plains': 'Ebenen',
+		'terrain-forest': 'Wald',
+		'terrain-dark-forest': 'Tiefer Wald',
+		'terrain-hills': 'Hügel',
+		'terrain-mountains': 'Gebirge',
+		'terrain-high-mountains': 'Hochgebirge',
+		'terrain-lake': 'See',
+		'terrain-river': 'Fluss',
+		'terrain-marshlands': 'Marschland',
+		'terrain-quagmire': 'Sumpf',
+		'terrain-ruins': 'Ruinen',
+		'terrain-tundra': 'Tundra',
+		'terrain-ice-cap': 'Eisdecke',
+		'terrain-beneath-the-ice': 'Unter dem Eis',
+		'terrain-ice-forest': 'Eiswald',
+		'terrain-ocean': 'Meer',
+		'terrain-sea-ice': 'Meeres-Eis',
 		'carkthreat-description': 'Zieht eine zufällige Bedrohung für die Arche.',
 		'carkthreat-title': 'Bedrohung für die Arche',
 		'cartifact-description': 'Zieht ein zufälliges Artefakt aus dem MYZ Grundregelwerk. Weitere verfügbare Quellbücher sind (es können mehrere kombiniert werden):'
@@ -756,6 +907,61 @@ const LOCALES = {
 		'cinvite-description': 'Gibt einen Link zurück um Sebedius zum einem Server einzuladen.',
 		'cinvite-title': 'Sebedius-Einladung',
 		'cinvite-text': 'Du kannst Sebedius hiermit zu deinem Server einladen',
+		'cjourney-description': 'Führt eine *Verbotene Lande* Reise aus.'
+			+ '\nMan eine Reise **erstellen** und dabei den *Tagesabschnitt*, die *Jahreszeit* und das *Gelände* angeben um Informationen über die Würfelmodifikatoren und die möglichen Aktivitäten anzuzeigen. Spieler können das Reaktionsmenü benutzen um ihre Aktivität anzuzeigen (als Erinnerung für die SL).'
+			+ '\nAußerdem kann man auch zufällige **Mißgeschicke** für fehlgeschlagene Aktivitäten ziehen.'
+			+ '\nWettereffekte und Mißgeschicke für *Die Frostweiten* sind ebenfalls verfügbar.',
+		'cjourney-moredescriptions': [
+			[
+				'Unterbefehle',
+				'• `create|c` or `-create|-c` – Erstellt eine Reise.'
+				+ '\n• `mishap|m` or `-mishap|-m` – Zieht ein zufälliges Reise-Mißgeschick.'
+				+ '\n• `help` – Zeigt diese Hilfe an.',
+			],
+			[
+				'Create: `!journey  create|c  [QUARTER_DAY] [SEASON] [TERRAIN] [arguments...]`',
+				'`[QUARTER_DAY]` – Legt den aktuellen **Tagesabschnitt** fest.'
+				+ '\n• `-quarter|-q|-d|-quarterday|-qd [search]` – Zeigt ein Menü an um eine Option für den **Tagesabschnitt** zu wählen, gefiltert nach den Angaben mit dem `[search]` Parameter.'
+				+ '\n• `[SEASON]` – Legt die aktuelle **Jahreszeit** fest.'
+				+ '\n• `-season|-s [search]` – Zeigt ein Menü an.'
+				+ '\n• `[TERRAIN]` – Legt die aktuelle **Geländeart** fest.'
+				+ '\n• `-terrain|-t [search]` – Zeigt ein Menü an.'
+				+ '\n• `...arguments` – Siehe die anderen Argumente unten.',
+			],
+			[
+				'Create-Optionen',
+				'• **Tagesabschnitte**: Morgen: `morning`, Tag: `day` *(Standard)*, Abend: `evening` und Nacht: `night`.'
+				+ '\n• **Jahreszeiten**: Frühling: `spring` *(Standard)*, Sommer: `summer`, Herbst: `autumn` und Winter: `winter`.'
+				+ '\n• **Geländearten**: Ebenen: `plains` *(Standard)*, Wald: `forest`, Tiefer Wald: `dark_forest`, Hügel: `hills`, Gebirge: `mountains`, Hochgebirge: `high_mountains`, See: `lake`, Fluß: `river`, Meer: `ocean`, Marschland: `marshlands`, Sumpf: `quagmire`, Ruinen: `ruins`, *(Frostweiten)* Tundra: `tundra`, Eisdecke: `ice_cap`, Unter dem Eis: `beneath_the_ice`, Eiswald: `ice_forest` und Meeres-Eis: `sea_ice`.'
+			],
+			[
+				'Mishap: `!journey  mishap|m  [activity] [...arguments]`',
+				'Mögliche Aktivitäten die ein Mißgeschick haben können: '
+				+ '`' + YZJourney.Activities
+					.filter(a => a.mishap)
+					.array()
+					.map(a => a.tag)
+					.join('`, `')
+					.toLowerCase() + '`'
+				+ '\n*Wurde keine Aktivität angegeben wird der Bot ein Menü anbieten um eine auszuwählen (gefiltert nach möglicherweise angegebenen Wortbestandteilen).*',
+			],
+			[
+				'Andere übliche Argumente',
+				'• `-fbr|-bitterreach|-snow|-ice` – Benutzt *Die Frostweiten* Mißgeschicke und Wettereffekte.'
+				+ '\n • `-name|-title|-n <title>` – Legt einen Titel fest.'
+				+ '\n • `-lang|-language|-lng <language_code>` – Gibt eine andere Sprache an. Siehe den `setconf` Befehl für mögliche Optionen.',
+			],
+		],
+		'cjourney-activity-mishap-mismatch': 'Wähle eine **Aktivität** mit einem **Mißgeschick**',
+		'cjourney-choose-subcommand': 'Bitte wähle einen der folgenden Unterbefehle `create`, `mishap` oder `help`.',
+		'cjourney-choose-quarterday': 'Wähle einen **Tagesabschnitt**',
+		'cjourney-choose-season': 'Wähle eine **Jahreszeit**',
+		'cjourney-choose-terrains': 'Wähle eine **Geländeart**',
+		'cjourney-choose-activity': 'Wähle eine **Aktivität**',
+		'cjourney-generic-description': 'Wähle eine Aktivität und würfle auf `ÜBERLEBEN`.',
+		'cjourney-movement-modifier-open': 'Zu Fuß: 2 Hexfelder / Tagesabschnitt\nZu Pferd: 3 Hexfelder / Tagesabschnitt',
+		'cjourney-movement-modifier-difficult': 'Zu Fuß: 1 Hexfelder / Tagesabschnitt\nZu Pferd: 1 Hexfelder / Tagesabschnitt',
+		'cjourney-movement-modifier-boat': 'Zu Boot: 2 Hexfelder / Tagesabschnitt',
 		'croll-description': 'Wirft Würfel für ein beliebiges Year Zero Rollspiel.',
 		'croll-moredescriptions': [
 			[
