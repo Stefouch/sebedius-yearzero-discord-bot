@@ -6,7 +6,7 @@ module.exports = {
 		// fr: 'Français',
 		// sw: 'Svenska',
 	},
-	LOWERCASE_LANGS: ['en'],
+	KEEP_CAPITALIZATION_LANGS: ['de'], // Languages where the capitalization should not be changed in text generators, like the fbl legends where otherwise everything is changed to lowercase.
 	DAMAGE_TYPES: ['damage', 'slash', 'blunt', 'stab'],
 	DAMAGE_TYPES_ABBREVIATIONS: ['dmg', 'sl', 'bl', 'st'],
 	ATTRIBUTES: [

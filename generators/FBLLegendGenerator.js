@@ -1,6 +1,6 @@
 const YZGenerator = require('./YZGenerator');
 const { RollParser } = require('../utils/RollParser');
-const { LOWERCASE_LANGS } = require('../utils/constants');
+const { KEEP_CAPITALIZATION_LANGS } = require('../utils/constants');
 
 class FBLLegendGenerator extends YZGenerator {
 	constructor(lang = 'en') {
@@ -15,11 +15,7 @@ class FBLLegendGenerator extends YZGenerator {
 
 		// Completes the story.
 		for (const key in this.data) {
-			if (LOWERCASE_LANGS.includes(lang)){
-				this.story += `${this.data[key].define}**${this.data[key].value.toLowerCase()}**`;
-			} else {
-				this.story += `${this.data[key].define}**${this.data[key].value}**`;
-			}
+			this.story += `${this.data[key].define}**${KEEP_CAPITALIZATION_LANGS.includes(lang) ? this.data[key].value : this.data[key].value.toLowerCase()}**`;
 		}
 		this.story = RollParser.supersede(this.story)
 
