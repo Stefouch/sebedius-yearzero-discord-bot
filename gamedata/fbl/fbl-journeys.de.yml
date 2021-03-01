@@ -124,7 +124,7 @@ foragingMishaps:
       - >-
         Du findest eine Einheit `GEMÜSE`, aber sie ist giftig – was euch aber
         erst bei eurer nächsten Mahlzeit auffällt. Das Gift in dem `GEMÜSE`
-        hat eine__ Wirksamkeit von **3**__.
+        hat eine __Wirksamkeit von **3**__.
     '2':
       - Egel
       - >-
