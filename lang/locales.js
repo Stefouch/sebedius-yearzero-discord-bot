@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 const { SUPPORTED_GAMES } = require('../utils/constants');
 const Config = require('../config.json');
 
