@@ -70,7 +70,7 @@ module.exports = {
 					const commandsListedByGroup = commands.filter(cmd => cmd.category === type);
 					let text = '';
 					for (const [, cmd] of commandsListedByGroup) {
-						text += `**${cmd.name}** – ${cmd.description.split('.')[0]}.\n`;
+						text += `**${cmd.name}** – ${__(cmd.description, lang).split('.')[0]}.\n`;
 					}
 					const title = SOURCE_MAP[type] || CATEGORY_LIST[type] || __('unknown', lang);
 					embed.addField(title, text, false);
