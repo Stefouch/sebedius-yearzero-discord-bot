@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;erschöpft;false;0;0;;Kein Effekt.;0
+12;benommen;false;0;0;;Kein Effekt.;0
+13;lähmender Schmerz;false;0;0;;STRESSLEVEL steigt um 1.;0
+14;verstauchter Knöchel;false;0;0;;kein Laufen und BEWEGLICHKEIT -2, bis Wurf auf MEDIZINISCHE HILFE erfolgt.;0
+15;Blut in den Augen;false;0;0;;WAHRNEHMUNG und FERNKAMPF -2, bis Wurf auf MEDIZINISCHE HILFE erfolgt.;0
+16;Gehirnerschütterung;false;0;0;;BEWEGLICHKEIT −2.;1
+21;abgetrenntes Ohr;false;0;0;;WAHRNEHMUNG −2.;1
+22;gebrochene Zehen;false;0;0;;Laufen wird langsame Aktion.;1
+23;gebrochene Hand;false;0;0;;Hand kann nicht benutzt werden.;1
+24;ausgeschlagene Zähne;false;0;0;;MANIPULATION −2.;1
+25;aufgespießter Oberschenkel;false;0;0;;Laufen wird langsame Aktion.;2
+26;aufgeschlitzte Schulter;false;0;0;;Arm kann nicht genutzt werden.;1
+31;gebrochene Nase;false;0;0;;MANIPULATION und WAHRNEHMUNG −2.;1
+32;Treffer in die Weichteile;false;0;0;;1 Punkt Schaden bei jedem Wurf auf BEWEGLICHKEIT und NAHKAMPF.;1
+33;gebrochene Rippen;false;0;0;;BEWEGLICHKEIT und NAHKAMPF −2.;2
+34;verletztes Auge;false;0;0;;FERNKAMPF und WAHRNEHMUNG −2.;2
+35;zerstörte Kniescheibe;false;0;0;;kein Laufen, nur Kriechen.;2
+36;gebrochener Arm;false;0;0;;Arm kann nicht benutzt werden.;2
+41;gebrochenes Bein;false;0;0;;kein Laufen, nur Kriechen.;2
+42;zertrümmerter Fuß;false;0;0;;kein Laufen, nur Kriechen.;3
+43;zertrümmerter Ellbogen;false;0;0;;Arm kann nicht benutzt werden.;3
+44;punktierte Lunge;true;0;1;Tages;AUSDAUER und BEWEGLICHKEIT −2.;1
+45;Darmblutungen;true;0;1;Schicht;1 Punkt Schaden bei jedem Wurf auf BEWEGLICHKEIT und NAHKAMPF.;1
+46;Innere Verletzungen;true;0;1;Schicht;Krankheit mit Virulenz 6.;2
+51;gequetschte Niere;true;0;1;Tages;kein Laufen, nur Kriechen, BEWEGLICHKEIT −2.;2
+52;aufgeschlitzte Armarterie;true;-1;1;Phase;Arm kann nicht benutzt werden.;1
+53;aufgeschlitzte Beinarterie;true;-1;1;Phase;Laufen wird langsame Aktion.;1
+54;Abgetrennter Arm;true;-1;1;Schicht;Arm kann nicht benutzt werden *(permanent)*.;-1
+55;Angetrenntes Bein;true;-1;1;Schicht;kein Laufen, nur Kriechen *(permanent)*.;-1
+56;gebrochene Wirbelsäule;false;0;0;;halsabwärts gelähmt (permanent, wenn nicht zeitnah  MEDIZINISCHE HILFE erfolgt).;3
+61;Halsschlagader gerissen;true;-1;1;Runde;AUSDAUER −1.;2
+62;Aorta gerissen;true;-2;1;Runde;AUSDAUER −2.;3
+63;herausgerissene Eingeweide;true;0;0;;sofortiger Tod.;0
+64;zerquetschter Schädel;true;0;0;;Deine Geschichte endet hier.;0
+65;durchbohrter Kopf;true;0;0;;Du stirbst sofort.;0
+66;aufgespießtes Herz;true;0;0;;Dein Herz schlägt zum letzten Mal.;0

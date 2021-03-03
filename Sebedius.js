@@ -8,7 +8,8 @@ const ContextMessage = require('./utils/ContextMessage');
 const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const CharacterManager = require('./yearzero/models/CharacterManager');
-const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const { __ } = require('./utils/locales');
 
 /**
  * Databases map.
@@ -339,6 +340,19 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
+	 * Takes the provided language code, checks it against the SUPPORTED_LANGS-table 
+	 * and if not found calls the getLanguage-method to read from DB or return default
+	 * @param {string} lang Language code (for example provided by arguments)
+	 * @param {ContextMessage} ctx The context (for bot and guild.id)
+	 * @returns {string} A valid language code
+	 */
+	async getValidLanguageCode(lang, ctx){
+		return Object.keys(SUPPORTED_LANGS).includes(lang) 
+				? lang 
+				: await this.getLanguage(ctx);
+	}
+
+	/**
 	 * Gets the a Combat instance.
 	 * @param {Discord.Message} message Discord message
 	 * @returns {string} two-letters code for the desired language
@@ -513,7 +527,7 @@ class Sebedius extends Discord.Client {
 	 * @static
 	 * @async
 	 */
-	static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false) {
+	static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false, lang = 'en') {
 		if (choices.length === 0) throw new Errors.NoSelectionElementsError();
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
@@ -529,24 +543,23 @@ class Sebedius extends Discord.Client {
 		paginatedChoices.forEach((_choices, page) => {
 			const names = _choices.map(o => o[0]);
 			const embed = new Discord.MessageEmbed()
-				.setTitle('Multiple Matches Found')
+				.setTitle(__('selection-title', lang))
 				.setDescription(
-					'Which one were you looking for?\n'
+					__('selection-description', lang) + '\n'
 					+ names
 						.map((n, i) => `**[${i + 1 + page * 10}]** – ${n}`)
 						.join('\n'),
 				);
 			if (paginatedChoices.length > 1) {
-				embed.setFooter(`page ${page + 1}/${paginatedChoices.length}`);
+				embed.setFooter(__('page', lang) + ` ${page + 1}/${paginatedChoices.length}`);
 			}
 			if (text) {
 				embed.addField('Info', text, false);
 			}
 			if (pm) {
 				embed.addField(
-					'Instructions',
-					'Type your response in the channel you called the command. '
-					+ 'This message was PMed to you to hide the monster name.',
+					__('instructions', lang),
+					__('selection-instructions', lang),
 					false,
 				);
 			}

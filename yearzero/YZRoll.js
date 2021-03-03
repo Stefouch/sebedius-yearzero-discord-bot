@@ -15,7 +15,7 @@ class YZRoll {
 	 * @param {?string} author The author of the roll
 	 * @param {?string} name The name of the roll
 	 */
-	constructor(game, author, name) {
+	constructor(game, author, name, language = 'en') {
 		/**
 		 * The author of the roll.
 		 * @name YZRoll#author
@@ -38,6 +38,12 @@ class YZRoll {
 		 * @type {string}
 		 */
 		this.game = game || 'generic';
+
+		/**
+		 * The language used.
+		 * @type {string}
+		 */
+		this.lang = language || 'en';
 
 		/**
 		 * The number of times the roll was pushed.

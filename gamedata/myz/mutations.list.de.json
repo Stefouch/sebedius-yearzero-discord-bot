@@ -1,0 +1,56 @@
+{
+	"myz": [
+		"Amphibisch",
+		"Biolumineszenz",
+		"Extreme Reflexe",
+		"Fäulnisesser",
+		"Flammenatem",
+		"Froschbeine",
+		"Vierarmig",
+		"Grauen",
+		"Insektenflügel",
+		"Insektoid",
+		"Lebender Magnet",
+		"Leichenfresser",
+		"Menschliche Pflanze",
+		"Parasit",
+		"Pathokinese",
+		"Puppenspieler",
+		"Pyrokinese",
+		"Reptilienartig",
+		"Säurespucke",
+		"Sonar",
+		"Sporen",
+		"Sprinter",
+		"Spurenleser",
+		"Telepathie",
+		"Tiermensch"
+	],
+	"gla": [
+		"Monstermeister *(Mutant: Genlabor Alpha)*",
+		"Kryokinese *(Mutant: Genlabor Alpha)*",
+		"Menschliche Kröte *(Mutant: Genlabor Alpha)*",
+		"Regeneration *(Mutant: Genlabor Alpha)*"
+	],
+	"zc2": [
+		"Kryokinese *(ZK2: Das Nasse Grab)*",
+		"Menschliche Kröte *(ZK2: Das Nasse Grab)*"
+	],
+	"zc5": [
+		"Monstermeister *(ZK6: Hotel Imperator)*",
+		"Hellsicht *(ZK6: Hotel Imperator)*",
+		"Elektrizität *(ZK6: Hotel Imperator)*",
+		"Telekinese *(ZK6: Hotel Imperator)*"
+	],
+	"psi": [
+		"Monstermeister *(Mutant: Genlabor Alpha)*",
+		"Hellsicht *(ZK6: Hotel Imperator)*",
+		"Kryokinese *(ZK2: Das Nasse Grab)*",
+		"Grauen",
+		"Pathokinese",
+		"Puppenspieler",
+		"Pyrokinese",
+		"Telekinese *(ZK6: Hotel Imperator)*",
+		"Telepathie"
+	]
+}

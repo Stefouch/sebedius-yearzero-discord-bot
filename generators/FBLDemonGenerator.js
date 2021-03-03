@@ -1,10 +1,10 @@
 const YZGenerator = require('./YZGenerator');
-const DemonData = require('../gamedata/fbl/demon-generator.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 
 class FBLDemonGenerator extends YZGenerator {
-	constructor() {
+	constructor(lang = 'en') {
+		const DemonData = require(`../gamedata/fbl/demon-generator.${lang}.json`);
 		super(DemonData);
 		/**
 		 * The name of the creature.

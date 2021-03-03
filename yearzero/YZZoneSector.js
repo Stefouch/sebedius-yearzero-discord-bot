@@ -213,7 +213,7 @@ class YZZoneSector {
 			// if equals a YZMonster ID.
 			if (YZGenerator3.VARIABLE_REGEX.test(threat.value)) {
 				const monsterID = threat.value.replace(YZGenerator3.VARIABLE_REGEX, '$1');
-				threat.value = YZMonster.get('MONSTERS', 'myz', monsterID.trim());
+				threat.value = YZMonster.get('MONSTERS', 'myz', monsterID.trim(), 'en');
 			}
 			this.threats.add(threat);
 		}

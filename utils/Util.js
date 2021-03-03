@@ -1,3 +1,6 @@
+const { SUPPORTED_LANGS } = require('../utils/constants');
+const ContextMessage = require('./ContextMessage');
+
 /**
  * A collection of useful functions.
  */
@@ -135,6 +138,15 @@ class Util {
 	 */
 	static capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	/**
+	 * Capitalizes the first letter of every word in a string.
+	 * @param {string} str The string to process
+	 * @returns {string} The processed string
+	 */
+	static capitalizeWords(str) {
+		return str.replace(/(^|\s)\S/g, l => l.toUpperCase())
 	}
 
 	/**

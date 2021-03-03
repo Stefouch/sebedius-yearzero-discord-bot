@@ -1,17 +1,30 @@
-const ArkThreats = require('../gamedata/myz/ark-threats.list.json');
 const { YZEmbed } = require('../utils/embeds');
 const { random } = require('../utils/Util');
+const { __ } = require('../utils/locales');
 
 module.exports = {
 	name: 'arkthreat',
 	aliases: ['akth'],
 	category: 'myz',
-	description: 'Draws a random threat against the Ark.',
+	description: 'carkthreat-description',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang language_code]',
 	async run(args, ctx) {
-		const embed = new YZEmbed('Threat Against the Ark', random(ArkThreats));
+		// Parses the arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const ArkThreats = require(`../gamedata/myz/ark-threats.list.${lang}.json`);
+		const embed = new YZEmbed(__('carkthreat-title', lang), random(ArkThreats));
 		return ctx.send(embed);
 	},
 };

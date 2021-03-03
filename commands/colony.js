@@ -5,7 +5,7 @@ module.exports = {
 	name: 'colony',
 	aliases: ['colo'],
 	category: 'alien',
-	description: 'Generates a colonized planet for the Alien RPG.',
+	description: 'ccolony-description',
 	guildOnly: false,
 	args: false,
 	usage: '',

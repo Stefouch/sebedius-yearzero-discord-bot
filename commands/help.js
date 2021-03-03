@@ -1,5 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('../utils/constants');
+const { __ } = require('../utils/locales');
 const CATEGORY_LIST = {
 	common: 'Common',
 	misc: 'Miscellaneous',
@@ -9,22 +10,26 @@ const CATEGORY_LIST = {
 module.exports = {
 	name: 'help',
 	category: 'misc',
-	description: 'Lists all available commands. If a command\'s name is specified, prints more info about that specific command instead.',
+	description: 'chelp-description',
 	guildOnly: false,
 	args: false,
-	usage: '[command name] [-list|-commands]',
+	usage: '[command name] [-list|-commands] [-lang language_code]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			boolean: ['list'],
+			string: ['lang'],
 			alias: {
 				list: ['commands'],
+				lang: ['lng', 'language'],
 			},
 			default: {
 				list: false,
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		// Sends a generic help message if no command name was provided.
 		if (!argv._.length) {
@@ -36,7 +41,7 @@ module.exports = {
 			// Generic help message.
 			if (!argv.list) {
 				embed.addField('🏁 Deployed Version', ctx.bot.version, true);
-				embed.addField('🛠 Developper', 'Stefouch#5202', true);
+				embed.addField('🛠 Developer', 'Stefouch#5202', true);
 				embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
 				embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
 				embed.addField('🔗 Invite Link', ctx.bot.inviteURL, false);
@@ -44,8 +49,7 @@ module.exports = {
 				embed.addField('🛠 Bug Report & Feature Request', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
 				embed.addField('🙏 Patreon', 'https://patreon.com/Stefouch', true);
 				embed.addField('🖥 Website', 'https://www.stefouch.be', true);
-				embed.addField('🗒 List of Commands', `Type \`${ctx.prefix}help -list\` to get the list of all commands.`
-					+ `\nType \`${ctx.prefix}help [command name]\` to get info on a specific command.`, false);
+				embed.addField('🗒 ' + __('chelp-command-list-title', lang), `${__('chelp-command-list-start', lang)} \`${ctx.prefix}help -list\` ${__('chelp-command-list-middle', lang)} \`${ctx.prefix}help [command name]\` ${__('chelp-command-list-end', lang)}.`, false);
 			}
 			// Generic help message "with all commands".
 			else {
@@ -68,7 +72,7 @@ module.exports = {
 					for (const [, cmd] of commandsListedByGroup) {
 						text += `**${cmd.name}** – ${cmd.description.split('.')[0]}.\n`;
 					}
-					const title = SOURCE_MAP[type] || CATEGORY_LIST[type] || 'Unknown';
+					const title = SOURCE_MAP[type] || CATEGORY_LIST[type] || __('unknown', lang);
 					embed.addField(title, text, false);
 				}
 			}
@@ -77,11 +81,11 @@ module.exports = {
 				return ctx.author.send(embed)
 					.then(() => {
 						if (ctx.channel.type === 'dm') return;
-						ctx.reply('💬 I\'ve sent you a DM with all my commands!');
+						ctx.reply('💬 ' + __('chelp-sent-dm', lang));
 					})
 					.catch(error => {
 						console.error(`Could not send help DM to ${ctx.author.tag}.\n`, error);
-						ctx.reply('❌ It seems like I can\'t DM you! Do you have DMs disabled?');
+						ctx.reply('❌ ' + __('chelp-dm-error', lang));
 					});
 			}
 			return ctx.send(embed);
@@ -92,7 +96,7 @@ module.exports = {
 		const command = commands.get(name) || commands.find(c => c.aliases && c.aliases.includes(name));
 
 		if (!command) {
-			return ctx.reply('⚠️ That\'s not a valid command!');
+			return ctx.reply('⚠️ ' + __('chelp_invalid-command', lang));
 		}
 
 		const embed = new MessageEmbed({
@@ -100,17 +104,17 @@ module.exports = {
 			title: `**${command.name.toUpperCase()}**`,
 		});
 		if (command.aliases) {
-			embed.addField('Aliases', command.aliases.join(', '), true);
+			embed.addField(__('aliases', lang), command.aliases.join(', '), true);
 		}
 		if (command.usage) {
-			embed.addField('Usage', `\`${ctx.prefix}${command.name} ${command.usage}\``, true);
+			embed.addField(__('usage', lang), `\`${ctx.prefix}${command.name} ${command.usage}\``, true);
 		}
 		if (command.description) {
-			embed.addField('Description', command.description, false);
+			embed.addField(__('description', lang), __(command.description, lang), false);
 		}
 
 		if (command.moreDescriptions) {
-			for (const desc of command.moreDescriptions) {
+			for (const desc of __(command.moreDescriptions, lang)) {
 				embed.addField(desc[0], desc[1], false);
 			}
 		}
