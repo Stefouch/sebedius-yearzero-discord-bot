@@ -6,7 +6,7 @@ const ReactionMenu = require('../utils/ReactionMenu');
 const { DICE_ICONS, SUPPORTED_GAMES } = require('../utils/constants');
 const { TooManyDiceError } = require('../utils/errors');
 const YargsParser = require('yargs-parser');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 const DICE_RANGE_ICONS = {
 	'6': DICE_ICONS.generic.d6,

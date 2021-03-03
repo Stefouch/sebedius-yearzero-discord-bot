@@ -4,7 +4,7 @@ const { isNumber, resolveNumber, capitalize } = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { YZEmbed } = require('../utils/embeds');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'attack',

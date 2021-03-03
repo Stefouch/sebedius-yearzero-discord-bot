@@ -2,7 +2,7 @@ const { getMention } = require('../Sebedius');
 const { clamp } = require('../utils/Util');
 const { CARDS_ICONS } = require('../utils/constants');
 const YZInitDeck = require('../yearzero/YZInitDeck');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'drawinit',

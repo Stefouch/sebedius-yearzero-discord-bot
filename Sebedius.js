@@ -9,7 +9,7 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const CharacterManager = require('./yearzero/models/CharacterManager');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
-const { __ } = require('./utils/locales');
+const { __ } = require('./lang/locales');
 
 /**
  * Databases map.
