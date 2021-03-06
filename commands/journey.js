@@ -3,7 +3,7 @@ const { getSelection } = require('../Sebedius');
 const YZJourney = require('../yearzero/YZJourney');
 const YZTerrainTypesFlags = require('../yearzero/YZTerrainTypesFlags');
 const { YZEmbed } = require('../utils/embeds');
-const { capitalize, trimString } = require('../utils/Util');
+const { trimString } = require('../utils/Util');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { __ } = require('../utils/locales');
 
@@ -51,6 +51,9 @@ module.exports = {
 		});
 
 		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const fileName = argv.fbr
+			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
+			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;
 
 		// Used for the Mishap subcommand.
 		let activityName;
@@ -67,22 +70,20 @@ module.exports = {
 			argv._.shift();
 			argv.mishap = true;
 		}
-		if (argv.mishap) {
+/*	Removed because similar code was down below. That code was modified to also understand translated activities.
+ 		if (argv.mishap) {
 			const activities = YZJourney.Activities
 				.filter(a => a.mishap)
 				.keyArray();
 			activityName = await select(ctx, argv._.length ? argv._.shift() : '', activities, __('cjourney-activity-mishap-mismatch', lang));
 		}
-
+ */
 		// Exits early if no subcommand was specified.
 		if (!argv.create && !argv.mishap) {
 			return ctx.reply('ℹ️ ' + __('cjourney-choose-subcommand', lang));
 		}
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
-		const fileName = argv.fbr
-			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
-			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;
 
 		// YZJourney options' placeholder.
 		const createOptions = {
@@ -97,17 +98,21 @@ module.exports = {
 		if (argv.create) {
 			for (const opt in createOptions) {
 				// Gets the keys list from the constant related to the option.
-				let stack = {};
+				let stack = {}, localPrefix = '';
 				if (opt === 'quarterDay') stack = YZJourney.QUARTER_DAYS;
 				else if (opt === 'season') stack = YZJourney.SEASONS;
-				else if (opt === 'terrains') stack = YZTerrainTypesFlags.FLAGS;
+				else if (opt === 'terrains') 
+				{
+					stack = YZTerrainTypesFlags.FLAGS;
+					localPrefix = 'terrain-'
+				}
 				else if (opt === 'fbr' || opt === 'lang') continue;
 				else throw new ReferenceError('Dumb Stefouch!');
 				const haystack = Object.keys(stack);
 
 				// Triggers a message selector if the argument was called.
 				if (argv[opt] != undefined) {
-					const selectedOpt = await select(ctx, argv[opt], haystack, __('cjourney-choose-' + opt.toLowerCase(), lang));
+					const selectedOpt = await select(ctx, argv[opt], haystack, __('cjourney-choose-' + opt.toLowerCase(), lang), lang, localPrefix);
 					if (selectedOpt) createOptions[opt] = selectedOpt.toUpperCase();
 				}
 				// Otherwise, checks each unused argument from `argv`
@@ -190,9 +195,9 @@ module.exports = {
 			if (!activityName) {
 				const mishaps = YZJourney.Activities
 					.filter(a => a.mishap)
-					.map(a => [capitalize(a.tag.toLowerCase()), a]);
+					.map(a => [jou.data[a.mishap].name, a]);
 
-				activity = await getSelection(ctx, mishaps, __('cjourney-choose-activity', lang));
+				activity = await select(ctx, argv._.length ? argv._.shift() : '', mishaps, __('cjourney-activity-mishap-mismatch', lang), lang);
 			}
 			else {
 				activity = YZJourney.Activities.get(activityName);
@@ -221,20 +226,28 @@ module.exports = {
  * Launches a message selector for user input.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
  * @param {string} [needle] Word that pre-filters the list of choices
- * @param {string[]} choices An array of arrays with [name, object]
+ * @param {string[]} choices An array of strings or arrays with [name, object]
  * @param {?string} text Additional text to attach to the selection message
+ * @param {string} lang The language code to use for translated selection embed entries
+ * @param {string} localePrefix The prefix (in locale.js) for the values that should be translated
  * @returns {string}
  */
-async function select(ctx, needle = '', choices, text) {
+async function select(ctx, needle = '', choices, text, lang = 'en', localePrefix = '') {
 	needle = needle.toLowerCase();
-	let matchings = choices.filter(x => x.toLowerCase() === needle);
+	let matchings = choices.filter(x => Array.isArray(x) ? x[0].toLowerCase() === needle || x[1].tag.toLowerCase() === needle : x.toLowerCase() === needle);	// exact match ("lead_the_way" === "lead_the_way")
 	if (!matchings.length) {
-		matchings = choices.filter(x => x.toLowerCase().includes(needle));
+		matchings = choices.filter(x => Array.isArray(x) ? x[0].toLowerCase().replace(/_/g, '') === needle.replace(/_/g, '') || x[1].tag.toLowerCase().replace(/_/g, '') === needle.replace(/_/g, '') : x.toLowerCase().replace(/_/g, '') === needle.replace(/_/g, ''));	// exact match without underscores ("leadtheway" === "leadtheway")
+	}
+	if (!matchings.length) {
+		matchings = choices.filter(x => Array.isArray(x) ? x[0].toLowerCase().includes(needle) || x[1].tag.toLowerCase().includes(needle) : x.toLowerCase().includes(needle));	// needle is uncluded in key ("lead_the_way" includes "way")
 	}
 	if (!matchings.length) {
 		matchings = choices;
 	}
-	matchings = matchings.map(x => [capitalize(x.toLowerCase().replace(/_/g, ' ')), x]);
+	if (!Array.isArray(matchings[0]))
+	{
+		matchings = matchings.map(x => [__(localePrefix + x.toLowerCase(), lang), x]);
+	}
 	return await getSelection(ctx, matchings, text);
 }
 
