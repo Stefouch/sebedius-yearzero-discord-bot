@@ -127,7 +127,8 @@ class Sebedius extends Discord.Client {
 	 * @readonly
 	 */
 	get inviteURL() {
-		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${this.config.perms.bitfield}`;
+		const perms = this.config.perms.bitfield;
+		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
 	}
 
 	/**
@@ -346,10 +347,10 @@ class Sebedius extends Discord.Client {
 	 * @param {ContextMessage} ctx The context (for bot and guild.id)
 	 * @returns {string} A valid language code
 	 */
-	async getValidLanguageCode(lang, ctx){
-		return Object.keys(SUPPORTED_LANGS).includes(lang) 
-				? lang 
-				: await this.getLanguage(ctx);
+	async getValidLanguageCode(lang, ctx) {
+		return Object.keys(SUPPORTED_LANGS).includes(lang)
+			? lang
+			: await this.getLanguage(ctx);
 	}
 
 	/**

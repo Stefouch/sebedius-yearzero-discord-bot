@@ -23,7 +23,8 @@ const bot = new Sebedius(require('./config.json'));
  */
 bot.on('ready', async () => {
 	bot.owner = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
-	bot.logChannel = bot.channels.cache.get(bot.config.botLogChannelID) || await bot.channels.fetch(bot.config.botLogChannelID);
+	bot.logChannel = bot.channels.cache.get(bot.config.botLogChannelID)
+		|| await bot.channels.fetch(bot.config.botLogChannelID);
 	bot.state = 'ready';
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
@@ -126,7 +127,8 @@ bot.on('message', async message => {
 			if (timeNow < cdExpire) {
 				const timeLeft = (cdExpire - timeNow) / 1000;
 				return ctx.reply(
-					`Please wait ${timeLeft.toFixed(0)} second(s) before reusing the command \`${prefix}${command.name}\``,
+					`Please wait ${timeLeft.toFixed(0)} second(s) before reusing the command `
+					+ `\`${prefix}${command.name}\``,
 				);
 			}
 		}
