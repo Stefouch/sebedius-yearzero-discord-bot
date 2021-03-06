@@ -182,9 +182,9 @@ async function unmute(ctx, userId) {
 async function listGuilds(ctx) {
 	const guilds = ['List of guilds:'];
 	ctx.bot.guilds.cache.forEach(g => {
-		guilds.push(`${g.name} (${g.id}): **${g.memberCount}** members`);
+		guilds.push(`${g.id}\t${g.name}\t${g.memberCount}`);
 	});
-	return await ctx.author.send(guilds.join('\n'), { split: true });
+	console.log(guilds.toString());
 }
 
 /**
