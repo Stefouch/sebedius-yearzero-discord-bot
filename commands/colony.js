@@ -1,5 +1,6 @@
 const { YZEmbed } = require('../utils/embeds');
 const Planet = require('../generators/ALIENWorldGenerator');
+const { __ } = require('../utils/locales');
 
 module.exports = {
 	name: 'colony',
@@ -34,7 +35,7 @@ module.exports = {
 		const colonyName = argv._.join(' ');
 		const type = ['rocky', 'icy', 'gasgiant', 'gasgiant-moon', 'asteroid-belt'].includes(argv.type) ? argv.type : 'rocky';
 
-		const planet = new Planet(type, !argv.uncolonized, location, colonyName);
+		const planet = new Planet(type, !argv.uncolonized, location, colonyName, lang);
 		const embed = new YZEmbed(planet.title, planet.description);
 
 		if (!argv.uncolonized) {
@@ -42,7 +43,7 @@ module.exports = {
 			// COLONY SIZE & POPULATION
 			const colo = planet.colony;
 			embed.addField(
-				'Population',
+				__('population', lang),
 				`:busts_in_silhouette: × ${colo.population}\n(${colo.size})`,
 				true,
 			);
@@ -50,27 +51,27 @@ module.exports = {
 			// COLONY MISSIONS
 			const missions = colo.missions;
 			embed.addField(
-				`Mission${(missions.size > 1) ? 's' : ''}`,
+				__(missions.size > 1 ? 'alien-missions' : 'alien-mission', lang),
 				[...missions].join('\n'),
 				true,
 			);
 
 			// COLONY ALLEGIANCE
-			embed.addField('Allegiance', colo.allegiance, true);
+			embed.addField(__('allegiance', lang), colo.allegiance, true);
 
 			// COLONY ORBIT
-			embed.addField('Orbit', planet.orbits.join('\n'), true);
+			embed.addField(__('orbit', lang), planet.orbits.join('\n'), true);
 
 			// COLONY FACTIONS
 			const factions = colo.factions;
 			embed.addField(
-				`Faction${(factions.qty > 1) ? 's' : ''}`,
+				__(factions.qty > 1 ? 'factions' : 'faction', lang),
 				`${factions.strengths}:\n- ${factions.types.join('\n- ')}`,
 				false,
 			);
 
 			// COLONY HOOK
-			embed.addField('Event', colo.hook, false);
+			embed.addField(__('alien-event', lang), colo.hook, false);
 		}
 
 		return ctx.send(embed);

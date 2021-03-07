@@ -1,6 +1,5 @@
 const fs = require('fs');
 const YZGenerator2 = require('../generators/YZGenerator2');
-const WorldData = require('../gamedata/alien/planet-generator.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 
@@ -31,8 +30,10 @@ class ALIENWorldGenerator extends YZGenerator2 {
 		colonized = false,
 		location = AMERICAN_OR_ANGLOJAPANESE_ARM,
 		colonyName = '',
+		language = 'en'
 	) {
-		super(WorldData);
+		const WorldData = require(`../gamedata/alien/planet-generator.${language}.json`);
+		super(WorldData, language);
 
 		this.name = !colonyName ? Util.random(nameList) : colonyName;
 		this.name = this.name.replace('\r', '');
