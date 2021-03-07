@@ -301,6 +301,7 @@ const LOCALES = {
 			• \`[-shuffle]\` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*`,
 		'cdrawinit-deck-too-small': 'The size of the *Initiative* deck is too small.',
 		'cdrawinit-shuffled': 'Shuffled a new deck of *Initiative* cards.',
+		'cdrawinit-hastepool': 'Shuffled back into the deck because of haste',
 		'cdrawmutation-description': 'Draws a random mutation from the MYZ core rulebook. Available additional sources are:'
 			+ '\n• `gla` – Adds *Mutant: GenLab Alpha* mutations'
 			+ '\n• `zc2` – Adds *Zone Compendium 2: Dead Blue Sea* mutations'
@@ -879,6 +880,7 @@ const LOCALES = {
 			• \`[-shuffle]\` – Setzt den Stapel zurück und mischt ihn. *(Dies wird wahrscheinlich am Anfang jeder neuen Begegnung benötigt.)*`,
 		'cdrawinit-deck-too-small': 'Die Größe des *Initiativestapels* ist zu klein.',
 		'cdrawinit-shuffled': 'Ein neuer Stapel *Initiativekarten* wurde gemischt.',
+		'cdrawinit-hastepool': 'Aufgrund von Blitzschnell in den Stapel zurückgemischt',
 		'cdrawmutation-description': 'Zieht eine zufällige Mutation aus dem MJN-Grundregelwerk. Zusätzlich sind folgende Quellenbücher verfügbar:'
 			+ '\n• `gla` – Fügt Mutationen aus *Mutant: Genlabor Alpha* hinzu'
 			+ '\n• `zc2` – Fügt Mutationen aus *Zonenkompendium 2: Das nasse Grab* hinzu'
