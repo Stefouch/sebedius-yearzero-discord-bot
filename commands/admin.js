@@ -182,9 +182,9 @@ async function unmute(ctx, userId) {
 async function listGuilds(ctx) {
 	const guilds = ['List of guilds:'];
 	ctx.bot.guilds.cache.forEach(g => {
-		guilds.push(`${g.name} (${g.id}): **${g.memberCount}** members`);
+		guilds.push(`${g.id}\t${g.name}\t${g.memberCount}`);
 	});
-	return await ctx.author.send(guilds.join('\n'), { split: true });
+	console.log(guilds.toString());
 }
 
 /**
@@ -201,7 +201,7 @@ async function botInfo(ctx) {
 			.addField('Swap Partition Size', `${(process.memoryUsage().rss / 1024 / 1024).toFixed(2)} MB`, true)
 			.addField('Uptime', ms(ctx.bot.uptime), true)
 			// .addField('Users', ctx.bot.users.cache.size, true)
-			.addField('Users', ctx.bot.guilds.cache.reduce((sum, g) => sum + g.memberCount), true)
+			.addField('Users', ctx.bot.guilds.cache.reduce((sum, g) => sum + g.memberCount, 0), true)
 			.addField('Servers', ctx.bot.guilds.cache.size, true)
 			.addField('Channels', ctx.bot.channels.cache.size, true)
 			.addField('Emojis', ctx.bot.emojis.cache.size, true)
