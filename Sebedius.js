@@ -132,6 +132,15 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
+	 * The number of guilds.
+	 * @type {number}
+	 * @readonly
+	 */
+	get guildCount() {
+		return this.guilds.cache.size;
+	}
+
+	/**
 	 * Creates the list of commands.
 	 */
 	addCommands() {

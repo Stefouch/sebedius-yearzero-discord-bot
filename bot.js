@@ -29,7 +29,7 @@ bot.on('ready', async () => {
 	console.log('|===========================================================');
 	console.log('| CONNECTED');
 	console.log(`| Logged in as: ${bot.user.tag} (${bot.user.id})`);
-	console.log(`| # Servers: ${bot.guilds.cache.size}`);
+	console.log(`| # Servers: ${bot.guildCount}`);
 	console.log('|===========================================================');
 
 	// Sets banned users and blacklisted guilds. (Promise)
@@ -41,8 +41,7 @@ bot.on('ready', async () => {
 
 	// Warns the admin that the bot is ready!
 	if (process.env.NODE_ENV === 'production') {
-		// bot.owner.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
-		bot.logChannel.send(`:man_scientist: **Sebedius** is __${bot.state}__!`);
+		bot.logChannel.send(`:man_scientist: **Sebedius** is __${bot.state}__! *(${bot.guildCount} guilds)*`);
 	}
 });
 
