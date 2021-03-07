@@ -229,6 +229,15 @@ const LOCALES = {
 			],
 		],
 		'ccolony-description': 'Generates a colonized planet for the Alien RPG.',
+		'ccolony-moredescriptions': [
+			[
+				'Arguments',
+				'• `name` - Specifies a custom colony name.'
+				+ '\n• `type` - Specifies the planet type (default is "rocky").'
+				+ '\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt'
+				+ '\n• `location` - Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`'
+			]
+		],
 		'ccrit-description': 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
 		'ccrit-moredescriptions': [
 			[
@@ -808,6 +817,15 @@ const LOCALES = {
 			],
 		],
 		'ccolony-description': 'Generiert einen kolonisierten Planeten für das Alien Rollenspiel.',
+		'ccolony-moredescriptions': [
+			[
+				'Argumente',
+				'• `name` - Gibt einen eigenen Namen für die Kolonie an.'
+				+ '\n• `type` - Gibt die Planetenart an (Standard ist "rocky").'
+				+ '\n> Optionen: felsig: rocky, Eisplanet: icy, Gasriese: gasgiant, Gasriesen-Mond: gasgiant-moon, Asteroidengürtel: asteroid-belt'
+				+ '\n• `location` - Gibt an, ob die Kolonie zu den unabhängigen Kernsystemkolonien `core` oder dem amerikanischen oder anglo-japanischen Arm `arm` gehört.'
+			]
+		],
 		'ccrit-description': 'Würfelt eine zufällige kritische Verletzung. Nutze den `-private` Parameter um das Ergebnis in einer Direktnachricht zu erhalten.',
 		'ccrit-moredescriptions': [
 			[

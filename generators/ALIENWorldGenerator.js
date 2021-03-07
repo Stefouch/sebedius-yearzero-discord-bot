@@ -30,10 +30,11 @@ class ALIENWorldGenerator extends YZGenerator2 {
 		type,
 		colonized = false,
 		location = AMERICAN_OR_ANGLOJAPANESE_ARM,
+		colonyName = '',
 	) {
 		super(WorldData);
 
-		this.name = Util.random(nameList);
+		this.name = !colonyName ? Util.random(nameList) : colonyName;
 		this.name = this.name.replace('\r', '');
 		this.code = Util.random(PREFIXES) + '-'
 			+ Util.zeroise(Util.rand(1, 999), 3);
