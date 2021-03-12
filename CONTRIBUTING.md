@@ -5,11 +5,9 @@
 You can help expanding Sebedius's knowledge on the following topics:
 
 * New commands *(Discord.JS API)*
-* Translations *(French, Svenska, German, etc.)*
+* Translations *(French, Svenska, etc.)*
 * Gamedata
-  * Critical Injuries tables
-  * [Catalogs](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/Catalogs-%28Gamedata%29) (Monsters)
-  * [Signature Attack](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/Signature-Attack-%28Gamedata%29)
+  * Critical Injuries tables (missing Vaesen)
 
 ## How to Run Sebedius Locally
 

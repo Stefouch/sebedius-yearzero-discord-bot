@@ -2,7 +2,7 @@ const { getTable, emojifyRoll } = require('../Sebedius');
 const { clamp, isNumber, rollD66 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'cast',

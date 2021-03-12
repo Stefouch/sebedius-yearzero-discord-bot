@@ -1,6 +1,6 @@
 const { tryDelete } = require('../Sebedius');
 const { CharacterEmbed } = require('../utils/embeds');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 const URL_REGEX = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/;
 

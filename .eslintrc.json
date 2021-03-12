@@ -23,6 +23,7 @@
 		"indent": ["error", "tab", { "SwitchCase": 1 }],
 		"max-nested-callbacks": ["error", { "max": 4 }],
 		"max-statements-per-line": ["error", { "max": 2 }],
+		"max-len": ["error", { "code": 120 }],
 		"no-console": "off",
 		"no-empty-function": "warn",
 		"no-floating-decimal": "error",
