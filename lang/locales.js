@@ -1,4 +1,5 @@
-const { SUPPORTED_GAMES } = require('./constants');
+/* eslint-disable max-len */
+const { SUPPORTED_GAMES } = require('../utils/constants');
 const Config = require('../config.json');
 const YZJourney = require('../yearzero/YZJourney');
 
@@ -286,7 +287,7 @@ const LOCALES = {
 			[
 				'🌟 Coriolis: The Third Horizon',
 				'• `dmg` | `damage` : Critical injuries from damage.'
-				+ '\n• `at` | `atypical` : Critical injury for atypical damage.'
+				+ '\n• `at` | `atypical` : Critical injury for atypical damage.',
 			],
 		],
 		'ccrit-too-many-arguments': 'You typed too many arguments! See `help crit` for the correct usage.',
@@ -885,7 +886,7 @@ const LOCALES = {
 			[
 				'🌟 Coriolis: Der Dritte Horizont',
 				'• `dmg` | `damage` : Kritische Verletzungen durch Schaden.'
-				+ '\n• `at` | `atypical` : Kritische Verletzungen durch atypischen Schaden.'
+				+ '\n• `at` | `atypical` : Kritische Verletzungen durch atypischen Schaden.',
 			],
 		],
 		'ccrit-too-many-arguments': 'Es wurden zu viele Parameter angegeben! Siehe `help crit` für die korrekte Verwendung.',

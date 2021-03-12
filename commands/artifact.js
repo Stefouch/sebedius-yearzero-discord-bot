@@ -1,6 +1,6 @@
 const { YZEmbed } = require('../utils/embeds');
 const { random } = require('../utils/Util');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'artifact',
