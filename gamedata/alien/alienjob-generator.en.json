@@ -3,112 +3,112 @@
 		"roll": "D66",
 		"data": {
 			"11": {
-				"type": "Routine",
+				"type": "Routine ",
 				"destination": "Within system",
 				"complication": 0,
 				"reward": "D6+20",
 				"extra": 0
 			},
 			"13": {
-				"type": "Routine",
+				"type": "Routine ",
 				"destination": "Within system",
 				"complication": 1,
 				"reward": "D6+20",
 				"extra": 0
 			},
 			"16": {
-				"type": "Routine",
+				"type": "Routine ",
 				"destination": "Within system",
 				"complication": 1,
 				"reward": "D6+30",
 				"extra": 0
 			},
 			"24": {
-				"type": "Easy",
+				"type": "Easy ",
 				"destination": "Within system",
 				"complication": 0,
 				"reward": "2D6+20",
 				"extra": 0
 			},
 			"26": {
-				"type": "Easy",
+				"type": "Easy ",
 				"destination": "Nearby system",
 				"complication": 1,
 				"reward": "2D6+20",
 				"extra": 1
 			},
 			"32": {
-				"type": "Easy",
+				"type": "Easy ",
 				"destination": "Nearby system",
 				"complication": 1,
 				"reward": "2D6+25",
 				"extra": 1
 			},
 			"34": {
-				"type": "Normal",
+				"type": "Normal ",
 				"destination": "Nearby system",
 				"complication": 1,
 				"reward": "3D6+30",
 				"extra": 0
 			},
 			"46": {
-				"type": "Normal",
+				"type": "Normal ",
 				"destination": "Nearby system",
 				"complication": 1,
 				"reward": "3D6+30",
 				"extra": 1
 			},
 			"52": {
-				"type": "Normal",
+				"type": "Normal ",
 				"destination": "Nearby system",
 				"complication": 1,
 				"reward": "3D6+40",
 				"extra": 1
 			},
 			"54": {
-				"type": "Normal",
+				"type": "Normal ",
 				"destination": "Faraway system",
 				"complication": 1,
 				"reward": "4D6+50",
 				"extra": 0
 			},
 			"55": {
-				"type": "Normal",
+				"type": "Normal ",
 				"destination": "Faraway system",
 				"complication": 1,
 				"reward": "4D6+50",
 				"extra": 1
 			},
 			"56": {
-				"type": "Difficult",
+				"type": "Difficult ",
 				"destination": "Within system",
 				"complication": 2,
 				"reward": "4D6+60",
 				"extra": 1
 			},
 			"62": {
-				"type": "Difficult",
+				"type": "Difficult ",
 				"destination": "Nearby system",
 				"complication": 2,
 				"reward": "4D6+50",
 				"extra": 0
 			},
 			"64": {
-				"type": "Difficult",
+				"type": "Difficult ",
 				"destination": "Nearby system",
 				"complication": 2,
 				"reward": "4D6+50",
 				"extra": 1
 			},
 			"65": {
-				"type": "Difficult",
+				"type": "Difficult ",
 				"destination": "Faraway system",
 				"complication": 2,
 				"reward": "5D6+50",
 				"extra": 1
 			},
 			"66": {
-				"type": "Difficult",
+				"type": "Difficult ",
 				"destination": "Faraway system",
 				"complication": 3,
 				"reward": "5D6+50",

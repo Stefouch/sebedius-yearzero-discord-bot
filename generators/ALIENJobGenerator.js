@@ -1,15 +1,8 @@
 const YZGenerator2 = require('./YZGenerator2');
-const JobData = require('../gamedata/alien/alienjob-generator.json');
-const CargoJobData = require('../gamedata/alien/alienjob-cargo-generator.json');
-const MilJobData = require('../gamedata/alien/alienjob-mil-generator.json');
-const ExpeJobData = require('../gamedata/alien/alienjob-expe-generator.json');
+const { __ } = require('../lang/locales');
+const { KEEP_CAPITALIZATION_LANGS } = require('../utils/constants');
 const { RollParser } = require('../utils/RollParser');
 
-const JOB_TYPES_DATA = {
-	cargo: CargoJobData,
-	mil: MilJobData,
-	expe: ExpeJobData,
-};
 const jobTitles = {
 	cargo: 'Cargo Run',
 	mil: 'Military Mission',
@@ -38,11 +31,27 @@ class ALIENJobGenerator extends YZGenerator2 {
 	/**
 	 * Defines a new Job for ALIEN RPG.
 	 */
-	constructor(jobType) {
-		super(JobData);
+	constructor(jobType, language = 'en') {
+		const JobData = require(`../gamedata/alien/alienjob-generator.${language}.json`);
+		super(JobData, language);
 
 		// Exits earlier if wrong jobType.
-		if (!JOB_TYPES_DATA.hasOwnProperty(jobType)) throw new Error('Not a valid job type: ' + jobType);
+		if (!jobTitles.hasOwnProperty(jobType)) throw new Error(`${__('galienjobgenerator-invalid-type', this.lang)}: ` + jobType);
+
+		let JobTypeData;
+		switch (jobType)
+		{
+			case 'cargo':
+				JobTypeData = require(`../gamedata/alien/alienjob-cargo-generator.${this.lang}.json`);
+				break;
+			case 'mil':
+				JobTypeData = require(`../gamedata/alien/alienjob-mil-generator.${this.lang}.json`);
+				break;
+			case 'expe':
+			default:
+				JobTypeData = require(`../gamedata/alien/alienjob-expe-generator.${this.lang}.json`);
+				break;
+			}
 
 		const data = super.get('job');
 		this.difficulty = data.type;
@@ -59,6 +68,7 @@ class ALIENJobGenerator extends YZGenerator2 {
 
 		this.job = new ALIENJobDescriptor(
 			jobType,
+			JobTypeData,
 			this.complication,
 			this.extra,
 		);
@@ -69,18 +79,18 @@ class ALIENJobGenerator extends YZGenerator2 {
 	}
 
 	get description() {
-		return `${this.difficulty} job, ${this.destination}`
+		return `${this.difficulty}${KEEP_CAPITALIZATION_LANGS.includes(this.lang) && this.difficulty.endsWith(' ') ? __('alien-job', this.lang) : __('alien-job', this.lang).toLowerCase()}, ${this.destination}`	// Lowercase "job" if all lowercase language or concatenated word
 			+	`\n${this.job.contractorTitle}: ${this.job.contractor}`;
 	}
 
-	static get jobTypes() { return Object.keys(JOB_TYPES_DATA); }
+	static get jobTypes() { return Object.keys(jobTitles); }
 }
 
 module.exports = ALIENJobGenerator;
 
 class ALIENJobDescriptor extends YZGenerator2 {
-	constructor(jobType, complication, extra) {
-		super(JOB_TYPES_DATA[jobType]);
+	constructor(jobType, jobTypeData, complication, extra, language = 'en') {
+		super(jobTypeData, language);
 
 		// TYPE
 		this.type = jobType;

@@ -1,0 +1,77 @@
+{
+	"contractor": {
+		"define": "Auftraggeber",
+		"roll": "D66",
+		"data": {
+			"11": "USMC"
+		}
+	},
+	"reward": {
+		"roll": "D66",
+		"data": {
+			"11": "Kontaktperson",
+			"14": "Schiffsmodul/-verbesserung/-bewaffnung",
+			"21": "Finanzieller Bonus",
+			"51": "Neue Ausrüstung",
+			"54": "Neue Waffe",
+			"61": "Orden (Bronze oder Silver Star)"
+		}
+	},
+	"destination": {
+		"define": "Zielgebiet",
+		"roll": "D66",
+		"data": {
+			"11": ["Kolonie", "Eine junge oder etablierte Kolonie."],
+			"24": ["Isoloerter Außenposten", "Eine Forschungsstation oder ein abgelegener militärischer Außenposten."],
+			"31": ["Raumschiff", "Ein feindliches oder verlassenes Schiff in der Umlaufbahn eines Planeten."],
+			"33": ["Orbitale Raumstation", "Eine Transferstation, Raumkolonie oder orbitale Vermessungsplattform."],
+			"35": ["Unberührte Region", "Ein entlegener Ort auf der Oberfläche eines Planeten, fernab der Zivilisation."],
+			"41": ["Planetares Kriegsgebiet", "Ein aktives Kriegsgebiet auf einem Planeten, das Schauplatz eines Kampfes zwischen Kolonien, Konzernen oder Nationen ist; voll von zerstörten Gebäuden, Fahrzeugwracks und Befestigungen."],
+			"44": ["Abgelegener Raumhafen", "Ein Landeplatz weit außerhalb, im Besitz eines Konzerns, einer vermögenden Person oder des Militärs."],
+			"51": ["Verstreute Gehöfte", "Landwirtschaftliche Anlagen einer Kolonie, fernab der Zivilisation und über die Planetenoberfläche verstreut."],
+			"53": ["Mine und Raffinerie", "Eine riesige Bergbau- und Raffinerieanlage, mit Hunderten von Arbeitern und Konzernpersonal."],
+			"56": ["Gefängniskomplex", "Abgelegene Strafkolonie voller abgehärteter und gewalttätiger Insassen."],
+			"62": ["Radar-/Sensoranlage", "ein kleine unbemannte Einrichtung, vielleicht mit automatisierten Schutzmaßnahmen."],
+			"64": ["Undurchdringliches Areal", "Harsche, lebensfeindliche Wildnis, wie dichter Dschungel, tiefe Kavernen oder aktive Vulkanfelder."]
+		}
+	},
+	"mission": {
+		"define": "Mission",
+		"roll": "D66",
+		"data": {
+			"11": ["Aufklärung", "Auskundschaften eines Ortes, Information sammeln und Bericht erstatten."],
+			"14": ["Angriff", "Angreifen und Halten des Zielgebiets."],
+			"16": ["Verteidigung", "Verteidigung eines Ortes/einer Person/einer Gruppierung und Abwehr von Angriffen, bis Verstärkung eintrifft oder eine gewisse Zeit verstrichen ist."],
+			"22": ["Kampfpatrouille", "Patrouillieren eines Gebiets und Suche nach Anzeichen des Feindes."],
+			"24": ["Sabotage", "Infiltrieren einer feindlichen Stellung und Zerstörung einer Schlüsselressource (Brücke, Satellitenturm, Radaranlage etc.)."],
+			"31": ["Überfall", "Einsatz hinter feindlichen Linien, um Chaos und Zerstörung zu säen."],
+			"33": ["Suchen und Retten", "Auffinden und Bergen eines abgestürzten Piloten, verlorenen Kolonisten etc."],
+			"36": ["Friedenswahrung", "Unterdrückung eines Aufstands und Wiederherstellung der Ordnung oder Schutz von Kommunikationswegen und zentralen Institutionen."],
+			"43": ["Ungezieferjagd", "Auslöschung lokaler außerirdischer Lebensformen zur Sicherung einer Kolonie auf einem fremden Planeten."],
+			"51": ["Zivile Evakuierung", "Rettung der Bevölkerung einer Kolonie oder Raumstation aus einer Krise oder Naturkatastrophe."],
+			"53": ["Raumangriff", "Einnehmen/Zurückerobern einer Raumstation, Orbitalplattform oder eines Raumschiffs, indem man es entert und die Kontrolle übernimmt."],
+			"55": ["Raumstraßensicherung", "Durchführen von Zoll- und Sicherheitsüberprüfungen auf zivilen Schiffen, dabei Suche nach illegalen Drogen, Waffen, Arbeitern etc."],
+			"56": ["Zielergreifung", "Finden und Sichern eines Gegenstands, einer Person oder einer Gruppe hinter feindlichen Linien (z. B. Geiseln, Kriegsgefangene, feindlicher Kommandant oder fortschrittliche Technologie)."],
+			"63": ["Nachforschung", "Untersuchung einer Station, Kolonie oder Einrichtung, die nicht auf Kommunikationsversuche reagiert; Lage ist völlig unklar."]
+		}
+	},
+	"complication": {
+		"roll": "D66",
+		"data": {
+			"11": ["Perspektivwechsel", "Die SC stellen fest, dass die Bösen eigentlich die Guten sind."],
+			"13": ["Passagier", "Während des Einsatzes müssen sich die SC mit einem feindlichen Gefangenen oder unschuldigen Zivilisten herumschlagen, den sie bewachen/beschützen müssen."],
+			"16": ["Beobachter", "Das Team wird von einem Reporter/Kameramann oder einem ranghohen Offizier begleitet, der die Mission behindert und unangenehme Fragen stellt."],
+			"21": ["Konzerneinmischung", "Ein Konzernvertreter schließt sich dem Team an, um dafür zu sorgen, dass die Ressourcen des Konzerns sinnvoll eingesetzt und seine Interessen gewahrt werden."],
+			"24": ["Missionsberater", "Ein ziviler Berater liefert zwar wichtiges technisches Wissen oder Informationen über das Zielgebiet, ist aber Militäreinsätze nicht gewohnt. Er könnte leicht Angst bekommen, in Panik geraten oder den Laderoboter falsch bedienen."],
+			"26": ["Gefangennahme", "Ein NSC oder sogar SC wird von feindlichen Truppen gefangengenommen."],
+			"33": ["Ausrüstungsprobleme", "Das Team muss mit fehlerhafter oder nicht funktionierender Ausrüstung zurechtkommen (z. B. Munition, Waffen, Sensoren oder Fahrzeuge)."],
+			"41": ["Harter Widerstand", "Die Feinde sind weitaus stärker, zahlreicher oder skrupelloser als erwartet."],
+			"45": ["In der Klemme", "Während des Einsatzes muss das Team feststellen, dass es vollständig in die Ecke gedrängt ist. Entweder sitzen die SC tatsächlich fest oder ihnen stehen keine taktischen Möglichkeiten mehr offen."],
+			"51": ["Unter Beschuss", "Das Zielgebiet wird von einem Luftschlag, Artilleriefeuer oder Orbitalwaffen getroffen, möglicherweise aufgrund eines Fehlers der eigenen Seite."],
+			"54": ["Geltungssüchtiger Offizier", "Der neue befehlshabende Offizier, ein Lieutenant, will sich unter allen Umständen eine Medaille oder Beförderung verdienen und bringt das Team in gefährliche und riskante Situationen. Jemand wird noch dabei draufgehen!"],
+			"56": ["Fallen", "Überall im Zielgebiet befinden sich verborgene Gefahren. Abhängig von der Art des Ortes kann es sich um Minen, unkonventionelle Sprengsätze, fleischfressende Pflanzen oder improvisierte Fallgruben handeln."],
+			"63": ["Beschränkung", "Der Auftrag unterliegt taktischen Einschränkungen. Der Trupp kann nicht frei entscheiden, wie er agiert, wohin er geht, welche Waffen er verwendet etc."],
+			"65": ["Unerfahrener Kommandant", "Der neue befehlshabende Offizier, ein Lieutenant, ist vollkommen unerfahren. Er hat die Lehrbücher gelesen, die Ausbildung überlebt und die Simulationen durchlaufen — aber er wird zusammenbrechen, wenn die Kugeln fliegen."]
+		}
+	}
+}

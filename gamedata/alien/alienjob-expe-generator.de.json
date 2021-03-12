@@ -51,7 +51,7 @@
 			"46": ["Data Collection", "Find a specific piece of information for the employer. Sometimes, the group does not know the intended use of the information."],
 			"53": ["Courier", "Make sure sensitive information, resources or goods are delivered safely from the employer to the receiver—without delay."],
 			"56": ["Anomaly Exploration", "A unique phenomenon requires speedy investigation—is it a threat, or something that can be exploited for profit? It may be a wormhole, gravity lens, powerful radiation emission or other anomaly."],
-			"63": ["Rescue Expedition", "Rescue a group, colony, survey expedition or correspondents from an attack or some other peril. Often, the PCs will be unaware of the fate of the missing victims."]
+			"63": ["Rescue", "Rescue a group, colony, survey expedition or correspondents from an attack or some other peril. Often, the PCs will be unaware of the fate of the missing victims."]
 		}
 	},
 	"complication": {

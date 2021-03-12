@@ -116,9 +116,12 @@ const LOCALES = {
 		gasgiant: 'Gas Giant',
 		world: 'World',
 		atmosphere: 'Atmosphere',
+		reward: 'Reward',
 		'alien-mission': 'Mission',
 		'alien-missions' : 'Missions',
 		'alien-event': 'Event',
+		'alien-dollars': 'UA dollars',
+		'alien-job': 'Job',
 		'attribute-myz-strength': 'Strength',
 		'attribute-myz-agility': 'Agility',
 		'attribute-myz-wits': 'Wits',
@@ -355,7 +358,9 @@ const LOCALES = {
 		'cinvite-description': 'Prints a link to invite Sebedius to your server.',
 		'cinvite-title': 'Sebedius Invite',
 		'cinvite-text': 'You can invite Sebedius to your server here',
-		'cjob': 'TODO',
+		'cjob-description': 'Generates a random job for the Alien RPG.',
+		'cjob-specify-type': 'Please specify job type',
+		'cjob-possible-complication': 'Possible Complication',
 		'cjourney-description': 'Performs a *Forbidden Lands* Journey.'
 			+ '\nWith this command, you can **Create** a Journey with defined *Quarter Day*, *Season* and *Terrain* to display information about the roll modifiers and the available activities. Players can then use a reaction menu to choose their activity as a reminder for the GM.'
 			+ '\nYou can also draw a random **Mishap** for a failed activity.'
@@ -468,6 +473,7 @@ const LOCALES = {
 		'croll-ammo-spent': 'Ammo Spent',
 		'croll-generic-roll': 'Generic Roll',
 		'croll-single-roll': 'Single D6 / D66 / D666 Roll',
+		'galienjobgenerator-invalid-type': 'Not a valid job type',
 		'galienworldgenerator-moons': 'Has {will_be_replaced} moons.',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
@@ -720,9 +726,12 @@ const LOCALES = {
 		gasgiant: 'Gasriese',
 		world: 'Welt',
 		atmosphere: 'Atmosphäre',
+		reward: 'Belohnung',
 		'alien-mission': 'Aufgabe',
 		'alien-missions' : 'Aufgaben',
 		'alien-event': 'Handlungsaufhänger',
+		'alien-dollars': 'UA-Dollar',
+		'alien-job': 'Auftrag',
 		'attribute-myz-strength': 'Stärke',
 		'attribute-myz-agility': 'Geschicklichkeit',
 		'attribute-myz-wits': 'Verstand',
@@ -959,6 +968,9 @@ const LOCALES = {
 		'cinvite-description': 'Gibt einen Link zurück um Sebedius zum einem Server einzuladen.',
 		'cinvite-title': 'Sebedius-Einladung',
 		'cinvite-text': 'Du kannst Sebedius hiermit zu deinem Server einladen',
+		'cjob-description': 'Erzeugt einen zufälligen Auftrag für das Alien RPG.',
+		'cjob-specify-type': 'Bitte gib einen Auftragstyp angeben.',
+		'cjob-possible-complication': 'Mögliche Komplikationen',
 		'cjourney-description': 'Führt eine *Verbotene Lande* Reise aus.'
 			+ '\nMan eine Reise **erstellen** und dabei den *Tagesabschnitt*, die *Jahreszeit* und das *Gelände* angeben um Informationen über die Würfelmodifikatoren und die möglichen Aktivitäten anzuzeigen. Spieler können das Reaktionsmenü benutzen um ihre Aktivität anzuzeigen (als Erinnerung für die SL).'
 			+ '\nAußerdem kann man auch zufällige **Mißgeschicke** für fehlgeschlagene Aktivitäten ziehen.'
@@ -1077,6 +1089,7 @@ const LOCALES = {
 		'croll-ammo-spent': 'Ausgegebene Munition',
 		'croll-generic-roll': 'Generischer Wurf',
 		'croll-single-roll': 'Einzelner D6 / D66 / D666 Wurf',
+		'galienjobgenerator-invalid-type': 'Kein gültiger Auftragstyp',
 		'galienworldgenerator-moons': 'Hat {will_be_replaced} Monde.',
 		'malien-xeno-bloodburster': 'Bloodburster',
 		'malien-xeno-neophyte': 'Juvenile Neomorph (Neophyte)',
