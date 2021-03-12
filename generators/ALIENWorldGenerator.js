@@ -1,7 +1,9 @@
 const fs = require('fs');
 const YZGenerator2 = require('../generators/YZGenerator2');
+const { KEEP_CAPITALIZATION_LANGS } = require('../utils/constants');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
+const { __ } = require('../lang/locales');
 
 // Loading the available scrap.
 let nameList;
@@ -193,26 +195,26 @@ class ALIENWorldGenerator extends YZGenerator2 {
 	}
 	get title() {
 		if (this.type === GASGIANT) {
-			return `${this.code} (Gas Giant)`;
+			return `${this.code} (${__('gasgiant', this.lang)})`;
 		}
 		else if (this.type === ASTEROID_BELT) {
-			return 'Asteroid Belt';
+			return __('asteroid-belt', this.lang);
 		}
 		else {
-			return `${this.code} "${this.name}" (${this.geosphere.name} World)`;
+			return `${this.code} "${this.name}" (${this.geosphere.name + (this.geosphere.name.endsWith(' ') ? __('world', this.lang) : __('world', this.lang).toLowerCase())})`; // If geosphere name doesn't end with a space it's supposed to be a concatenated word and World has to be lowercase.
 		}
 	}
 	get description() {
 		if (this.type === GASGIANT) {
 			return `${this.size} Km, ${this.gravity} G, ${this.temperature.name} (${this.temperature.description})`
-				+ `\nHas ${this.moons} moons.`;
+				+ `\n ${__('galienworldgenerator-moons', this.lang)}`.replace('{will_be_replaced}', this.moons);
 		}
 		else if (this.type === ASTEROID_BELT) {
 			return `${this.terrain}.`;
 		}
 		else {
 			const desc = `${this.size} Km, ${this.gravity} G,  ${this.temperature.name} (${this.temperature.description})`
-				+ `\n${this.atmosphere} atmosphere. ${this.terrain}.`
+				+ `\n${this.atmosphere} ${KEEP_CAPITALIZATION_LANGS.includes(this.lang) ? __('atmosphere', this.lang) : __('atmosphere', this.lang).toLowerCase()}. ${this.terrain}.`
 				+ `\n${this.geosphere.description}.`;
 			return desc;
 		}
