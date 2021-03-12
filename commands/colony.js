@@ -1,6 +1,6 @@
 const { YZEmbed } = require('../utils/embeds');
 const Planet = require('../generators/ALIENWorldGenerator');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'colony',

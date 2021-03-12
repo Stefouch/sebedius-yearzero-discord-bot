@@ -5,7 +5,7 @@ const YZTerrainTypesFlags = require('../yearzero/YZTerrainTypesFlags');
 const { YZEmbed } = require('../utils/embeds');
 const { trimString } = require('../utils/Util');
 const ReactionMenu = require('../utils/ReactionMenu');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 const T_OPTS = Object.keys(YZTerrainTypesFlags.FLAGS)
 	.join(', ')
