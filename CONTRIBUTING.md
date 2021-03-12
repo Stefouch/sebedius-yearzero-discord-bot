@@ -6,8 +6,15 @@ You can help expanding Sebedius's knowledge on the following topics:
 
 * New commands *(Discord.JS API)*
 * Translations *(French, Svenska, etc.)*
+  * Visit the `lang/` directory.
 * Gamedata
-  * Critical Injuries tables (missing Vaesen)
+  * Critical Injuries tables (missing Vaesen and T2K)
+
+## How to Contribute
+
+Fork this repo and create a new branch with your modifications. When you are finished, create a pull request by following this guide, "[A successful Git branching model](https://nvie.com/posts/a-successful-git-branching-model/)".
+
+Accepted changes are then merged into the `develop` branch by the bot owner, until this branch is also merged into `master` when a stable release is ready.
 
 ## How to Run Sebedius Locally
 
