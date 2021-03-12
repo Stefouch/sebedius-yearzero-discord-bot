@@ -52,7 +52,7 @@ Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebe
 
 * **Twitter:** [@stefouch](https://twitter.com/stefouch)
 * **Github:** [@Stefouch](https://github.com/Stefouch)
-* **Discord:** Stefouch#5202 on [Year Zero Worlds](https://discord.gg/ftxkYZn)
+* **Discord:** Stefouch#5202 on [Year Zero Worlds](https://discord.gg/RnaydHR)
 
 # 🤝 Contributing
 
@@ -103,4 +103,4 @@ This project JavaScript code is [MIT](https://github.com/Stefouch/sebedius-myz-d
 
 
 ***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+<small>_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_</small>
