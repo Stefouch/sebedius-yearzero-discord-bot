@@ -71,6 +71,13 @@
     "page": "Seite",
     "instructions": "Anleitung",
     "mutation": "Mutation",
+    "mutation-misfire": "Mutation-Fehlzündung",
+    "animal-power": "Tierkraft",
+    "animal-power-feral-effect": "Tierkraft-Wildheitseffekt",
+    "module": "Modul",
+    "module-overheating": "Modulüberhitzung",
+    "contact": "Kontakt",
+    "contact-backlash": "Kontakt-Gegenreaktion",
     "journey": "Reise",
     "legend": "Legende",
     "terrain": "Gelände",
@@ -245,6 +252,7 @@
             "• `name` - Gibt einen eigenen Namen für die Kolonie an.\n• `type` - Gibt die Planetenart an (Standard ist \"rocky\").\n> Optionen: felsig: rocky, Eisplanet: icy, Gasriese: gasgiant, Gasriesen-Mond: gasgiant-moon, Asteroidengürtel: asteroid-belt\n• `location` - Gibt an, ob die Kolonie zu den unabhängigen Kernsystemkolonien `core` oder dem amerikanischen oder anglo-japanischen Arm `arm` gehört."
         ]
     ],
+    "ccontact-description": "Wirft die Würfel für einen Elysium-Kontakt und prüft auf Gegenreaktionen.",
     "ccrit-description": "Würfelt eine zufällige kritische Verletzung. Nutze den `-private` Parameter um das Ergebnis in einer Direktnachricht zu erhalten.",
     "ccrit-moredescriptions": [
         [
@@ -349,6 +357,10 @@
     "clegend-description": "Erzeugt eine zufällige Legende anhand der Tabellen im *Verbotene Lande - Spielleiterhandbuch*.",
     "cmishap-description": "Zieht ein zufälliges Magisches Mißgeschick.",
     "cmishap-invalid-reference": "Ungültige Magisches Mißgeschickreferenz",
+    "cmodule-description": "Wirft die Würfel für ein Mechatron-Modul und prüft auf Überhitzung.",
+    "cmutation-description": "Wirft die Würfel für eine Mutation und prüft auf Fehlzündungen.",
+    "cmyzpower-description": "Wirft die Würfel für eine MYZ-Kraft (z.B. Mutation, Modul, usw.).",
+    "cmyzpower-invalid-arguments": "Ungültige Argumente",
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [

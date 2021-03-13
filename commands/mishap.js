@@ -9,7 +9,7 @@ module.exports = {
 	description: 'cmishap-description',
 	guildOnly: false,
 	args: false,
-	usage: '[reference]',
+	usage: '[reference] [-lang language_code]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

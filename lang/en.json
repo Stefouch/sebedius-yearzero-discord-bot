@@ -71,6 +71,13 @@
     "page": "page",
     "instructions": "Instructions",
     "mutation": "Mutation",
+    "mutation-misfire": "Mutation Misfire",
+    "animal-power": "Animal Power",
+    "animal-power-feral-effect": "Animal Power Feral Effect",
+    "module": "Module",
+    "module-overheating": "Module Overheating",
+    "contact": "Contact",
+    "contact-backlash": "Contact Backlash",
     "journey": "Journey",
     "legend": "Legend",
     "terrain": "Terrain",
@@ -245,6 +252,7 @@
             "• `name` - Specifies a custom colony name.\n• `type` - Specifies the planet type (default is \"rocky\").\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt\n• `location` - Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`"
         ]
     ],
+    "ccontact-description": "Rolls dice for an Elysium Contact and checks for any Backlash.",
     "ccrit-description": "Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.",
     "ccrit-moredescriptions": [
         [
@@ -346,6 +354,10 @@
     "clegend-description": "Generates a random legend according to the tables found in the *Forbidden Lands - Gamemaster's Guide*.",
     "cmishap-description": "Draws a random Magic Mishap.",
     "cmishap-invalid-reference": "Invalid Magic Mishap's reference",
+    "cmodule-description": "Rolls dice for a Mechatron Module and checks for any Overheating.",
+    "cmutation-description": "Rolls dice for a Mutation and checks for any Misfire.",
+    "cmyzpower-description": "Rolls the dice for a MYZ power.",
+    "cmyzpower-invalid-arguments": "Invalid arguments",
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [
