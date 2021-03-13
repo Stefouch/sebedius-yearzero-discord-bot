@@ -1,0 +1,2 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11-66;Atypical Damage;true;0;1;days;Unconscious until death, or until first aid is given.;0

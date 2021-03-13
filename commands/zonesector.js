@@ -2,7 +2,6 @@ const { MessageEmbed } = require('discord.js');
 const YZZoneSector = require('../yearzero/YZZoneSector');
 const { YZMonster } = require('../yearzero/YZObject');
 const { capitalize, trimString } = require('../utils/Util');
-const { SUPPORTED_LANGS } = require('../utils/constants');
 
 module.exports = {
 	name: 'zonesector',
@@ -41,7 +40,7 @@ module.exports = {
 			},
 			default: {
 				hide: false,
-				lang: 'en',
+				lang: null,
 				night: false,
 				rot: undefined,
 				ruin: false,
@@ -51,7 +50,7 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 		const title = argv._.length ? trimString(argv._.join(' '), 100) : '';
-		const lang = Object.keys(SUPPORTED_LANGS).includes(argv.lang) ? argv.lang : 'en';
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const fileName = `./gamedata/myz/myz-zonesectors.${lang}.yml`;
 		const h = () => argv.hide ? '||' : '';
 
@@ -69,7 +68,7 @@ module.exports = {
 			color: ctx.bot.config.color,
 			title: `${zs.environment.name.toUpperCase()} ${title ? ` — "${title}"` : '(Zone Sector)'}`,
 			description: `${zs.data.rotLevel.name}: ${h()}**${zs.rotLevel}** — *${zs.rotType}*${h()}`
-			+ `\nThreat Level: ${h()}**${zs.threatLevel}** — *${zs.threatRoll.toValues()}*${h()}`,
+				+ `\nThreat Level: ${h()}**${zs.threatLevel}** — *${zs.threatRoll.toValues()}*${h()}`,
 		});
 
 		if (zs.hasRuin) {

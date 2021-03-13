@@ -8,16 +8,8 @@ module.exports = new class CharacterCommand extends Command {
 			name: 'character',
 			aliases: ['char'],
 			category: 'common',
-			description: 'Manages your characters.',
-			moreDescriptions: [
-				[
-					'Subcommands',
-					'• `sheet` – Prints the embed sheet of your currently active character.'
-					+ '\n• `list` – Lists your characters.'
-					+ '\n• `update [-v]` – Updates your current character sheet. The `-v` argument displays an embed sheet.'
-					+ '\n• `delete` – Deletes a character.',
-				],
-			],
+			description: 'ccharacter-description',
+			moreDescriptions: 'ccharacter-moredescriptions',
 			guildOnly: true,
 			args: false,
 			usage: '[subcommand]',

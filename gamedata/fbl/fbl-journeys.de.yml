@@ -1,0 +1,423 @@
+hike:
+  name: Marschieren
+keepWatch:
+  name: Ausschau halten
+rest:
+  name: Ausruhen
+sleep:
+  name: Schlafen
+explore:
+  name: Erkunden
+
+leadingTheWayMishaps:
+  id: JOURNEY_MISHAP_LEAD_THE_WAY
+  name: Vorangehen
+  roll: D66
+  refs:
+    '11-12':
+      - Treibsand
+      - >-
+        Der Boden gibt unter euren Füßen nach. Ihr seid in ein
+        Gebiet mit Treibsand gelaufen. Ihr steckt vollständig
+        fest und müsst auf `KRAFT` würfeln, um zu entkommen.
+        Falls der Wurf scheitert, erleidet ihr **1** Punkt Schaden auf
+        Geschicklichkeit und müsst erneut würfeln. Wem es gelingt,
+        sich zu befreien, der kann anderen helfen, die noch
+        feststecken. Ihr müsst das Gebiet außerdem weitläufig
+        umgehen und kommt an diesem Tagesabschnitt auf der
+        Karte nicht voran.
+    '13-21':
+      - Versperrtes Gelände
+      - >-
+        Der Weg wird durch Felsen, umgestürzte Bäume, dichtes
+        Gestrüpp oder eine Überschwemmung versperrt (abhängig
+        vom Geländetyp des Hexfelds). Ihr müsst auf `KRAFT`
+        oder `BEWEGEN` würfeln, um voranzukommen. Bei einem
+        Fehlschlag erleidet ihr **1** Punkt Schaden auf Stärke und
+        müsst erneut würfeln. Jeder, der seinen Wurf schafft,
+        kann denjenigen helfen, die noch festhängen. An diesem
+        Tagesabschnitt kommt ihr nicht auf der Karte voran.
+    '22-26':
+      - Verirrt
+      - >-
+        Ihr stellt fest, dass ihr im Kreis gelaufen seid. Ihr habt
+        euch verirrt und kommt an diesem Tagesabschnitt nicht
+        voran. Euer Kundschafter muss außerdem auf `ÜBERLEBEN`
+        würfeln, um das Hexfeld zu verlassen. Pro Tagesabschnitt
+        darf er es einmal versuchen.
+    '31-32':
+      - Verstauchter Knöchel
+      - >-
+        Euer Kundschafter stürzt oder verdreht sich den Knöchel
+        und erleidet eine kritische Verletzung entsprechend dem
+        Ergebnis 25-26 für stumpfe Schläge auf S. 201.
+    '33-34':
+      - Zerrissene Kleidung
+      - >-
+        Eure Kleidung wird beschädigt. Eure Stiefel verlieren die
+        Sohlen oder eure Roben werden von Dornen oder scharfen
+        Felsen zerrissen. Ihr müsst gegen Auswirkungen durch
+        Unterkühlung würfeln. Die Kleidung kann mit einem erfolgreichen
+        `HANDWERK`-Wurf repariert werden.
+    '35-36':
+      - Erdrutsch
+      - >-
+        Ihr wandert gerade durch unebenes Gelände, als sich
+        plötzlich der Boden unter euren Füßen öffnet. Ihr müsst
+        auf `BEWEGEN` würfeln – falls ihr keinen Erfolg habt, erleidet
+        ihr einen Angriff mit __**vier** Basiswürfeln und Waffenschaden
+        **1**__ *(stumpfer Schlag)*.
+    '41-45':
+      - Wolkenbruch
+      - >-
+        Ein gewaltiger Sturzregen oder Schneesturm (abhängig
+        von der Jahreszeit) überrascht euch. Ihr müsst gegen Auswirkungen
+        durch Unterkühlung (S. 113) würfeln. Außerdem
+        müsst ihr vor dem Wetter Schutz suchen und kommt an
+        diesem Tagesabschnitt nicht voran auf der Karte.
+    '46-52':
+      - Nebel
+      - >-
+        Ihr werdet von dichtem Nebel überrascht. Für diesen
+        Tagesabschnitt wird die Reisestrecke um ein Hexfeld
+        reduziert. In schwierigem Gelände steckt ihr auf dem
+        Hexfeld fest, auf dem ihr euch befindet. Zusätzlich erleidet
+        jeder Abenteurer **1** Punkt Schaden auf Empathie
+        durch den bedrückenden Nebel.
+    '53-54':
+      - Wespennest
+      - >-
+        Ihr tretet direkt in ein Wespennest. Ein wütender
+        Schwarm greift die gesamte Gruppe an. Jeder Abenteurer
+        muss auf `BEWEGEN` würfeln oder einen Angriff mit
+        __**vier** Basiswürfeln erleiden, der Schaden auf **Geschicklichkeit**
+        anrichtet__.
+    '55-61':
+      - Mückenschwarm
+      - >-
+        Ein riesiger Schwarm Mücken oder Stechfliegen attackiert
+        euch und treibt euch mit Stichen und Summen
+        in den Wahnsinn. Er greift mit __**vier** Basiswürfeln an
+        und richtet Schaden auf **Empathie** an__.
+    '62-64':
+      - Wildes Tier
+      - >-
+        Ein Wolf, Bär oder anderes wildes Tier fühlt sich bedroht
+        und greift euch an. Die SL wählt ein Tier aus der Tabelle
+        auf S. 126 im Spielleiter-Handbuch.
+    '65-66':
+      - Hartnäckiges Tier
+      - >-
+        Ein Eichhörnchen, Vogel oder anderes kleines Tier folgt
+        euch und will einfach nicht verschwinden. Es sorgt für
+        Ärger, über den die SL entscheidet. Es könnte beispielsweise
+        zu einer unpassenden Zeit Lärm machen, Nahrung
+        fressen oder etwas stehlen.
+
+foragingMishaps:
+  id: JOURNEY_MISHAP_FORAGE
+  name: Sammeln
+  roll: D6
+  refs:
+    '1':
+      - Giftig
+      - >-
+        Du findest eine Einheit `GEMÜSE`, aber sie ist giftig – was euch aber
+        erst bei eurer nächsten Mahlzeit auffällt. Das Gift in dem `GEMÜSE`
+        hat eine __Wirksamkeit von **3**__.
+    '2':
+      - Egel
+      - >-
+        Blutsaugende Egel beißen sich in deinem Fleisch fest. Du erleidest
+        **1** Punkt Schaden auf Stärke. Die Egel können mit einem erfolgreichen
+        `HEILEN`-Wurf entfernt werden. Bei einem Fehlschlag erleidest
+        du einen weiteren Punkt Schaden, wirst sie aber trotzdem los.
+    '3':
+      - Verstauchter Knöchel
+      - >-
+        Du stürzt oder verdrehst dir den Knöchel und erleidest eine kritische
+        Verletzung entsprechend dem Ergebnis 25-26 für stumpfe
+        Schläge auf S. 201.
+    '4':
+      - Zerrissene Kleidung
+      - >-
+        Deine Kleidung wird beschädigt. Deine Stiefel verlieren die Sohlen oder
+        deine Robe wird von Dornen oder scharfen Felsen zerrissen. Du musst
+        gegen Auswirkungen durch Unterkühlung würfeln. Die Kleidung kann
+        mit einem erfolgreichen `HANDWERK`-Wurf repariert werden.
+    '5':
+      - Wildes Tier
+      - >-
+        Ein Wolf, Bär oder anderes wildes Tier fühlt sich bedroht und
+        greift dich an. Die SL wählt ein Tier aus der Tabelle auf S. 126 im
+        Spielleiter-Handbuch.
+    '6':
+      - Hartnäckiges Tier
+      - >-
+        Ein Eichhörnchen, Vogel oder anderes kleines Tier folgt dir und
+        will einfach nicht verschwinden. Es sorgt für Ärger, über den die
+        SL entscheidet. Es könnte beispielsweise zu einer unpassenden
+        Zeit Lärm machen, Nahrung fressen oder etwas stehlen.
+
+huntingMishaps:
+  id: JOURNEY_MISHAP_HUNT
+  name: Jagen
+  roll: D6
+  refs:
+    '1':
+      - Verstauchter Knöchel
+      - >-
+        Du stürzt oder verdrehst dir den Knöchel und erleidest eine
+        kritische Verletzung entsprechend dem Ergebnis 25-26 für
+        stumpfe Schläge auf S. 201.
+    '2':
+      - Waffe/Ausrüstung verloren
+      - Du verlierst deine Jagdausrüstung oder deine Waffe. Die SL entscheidet,
+        was davon.
+    '3':
+      - Zerrissene Kleidung
+      - >-
+        Deine Kleidung wird beschädigt. Deine Stiefel verlieren die
+        Sohlen oder deine Robe wird von Dornen oder scharfen Felsen
+        zerrissen. Du musst gegen Auswirkungen durch Unterkühlung
+        würfeln. Die Kleidung kann mit einem erfolgreichen `HANDWERK`-
+        Wurf repariert werden.
+    '4':
+      - Falle
+      - >-
+        Du trittst in die Falle eines anderen Jägers. Vielleicht ist es eine
+        Schlinge, ein Netz oder eine Fallgrube. Du erleidest einen Punkt
+        Schaden auf Stärke und musst auf `BEWEGEN` würfeln, um dich
+        aus der Falle zu befreien.
+    '5':
+      - Wildes Tier
+      - >-
+        Ein Wolf, Bär oder anderes wildes Tier fühlt sich bedroht und
+        greift dich an. Die SL wählt ein Tier aus der Tabelle auf S. 126 im
+        Spielleiter-Handbuch.
+    '6':
+      - Kranke Beute
+      - >-
+        Du erlegst ein zufälliges Tier, aber dieses ist krank. Wer auch immer
+        von seinem Fleisch isst, steckt sich mit einer Krankheit mit
+        __Ansteckungskraft **3** an__. Das stellt ihr während eurer nächsten
+        Mahlzeit fest.
+
+fishingMishaps:
+  id: JOURNEY_MISHAP_FISH
+  name: Fischen
+  roll: D6
+  refs:
+    '1':
+      - Haken/Netz verfangen
+      - >-
+        Dein Haken oder dein Netz verfängt sich am Grund. Du musst
+        auf `KRAFT` würfeln, um deine Ausrüstung zu befreien. Andernfalls
+        ist sie verloren.
+    '2':
+      - Haken im Finger
+      - >-
+        Du schaffst es, deinen eigenen Finger am Haken aufzuspießen
+        anstelle eines Fischs. Du erleidest einen Punkt Schaden auf Stärke.
+        Falls du ein Netz verwendest, würfle erneut.
+    '3':
+      - Beschädigte Angelausrüstung
+      - Deine Angelausrüstung wird beschädigt. Du musst sie reparieren
+        (ein Wurf auf `HANDWERK`) oder neue Ausrüstung beschaffen.
+    '4':
+      - Mückenschwarm
+      - >-
+        Ein riesiger Schwarm Mücken oder Stechfliegen attackiert dich
+        und treibt dich mit Stichen und Summen in den Wahnsinn. Sie
+        greifen alle Abenteurer mit vier Basiswürfeln an und richten
+        Schaden auf Empathie an.
+    '5':
+      - Platsch!
+      - >-
+        Du verlierst das Gleichgewicht und fällst ins Wasser. Regeln
+        zum Schwimmen und Ertrinken findest du auf S. 114.
+    '6':
+      - Angegriffen
+      - >-
+        Ein tückischer Fisch oder Aal greift dich an und fügt dir eine hässliche
+        blutende Wunde zu. Du erleidest **1** Punkt Schaden auf Stärke.
+
+makingCampMishaps:
+  id: JOURNEY_MISHAP_MAKE_CAMP
+  name: Lager aufschlagen
+  roll: D66
+  refs:
+    '11-13':
+      - Verdorbenes Wasser
+      - >-
+        Euer Wasser ist verdorben. Jeder in der Gruppe muss seinen
+        Ressourcenwürfel für Wasser um einen Schritt verringern.
+    '14-16':
+      - Verdorbenes Essen
+      - >-
+        Euer Essen ist verdorben oder von Insekten befallen. Jeder
+        in der Gruppe muss seinen Ressourcenwürfel für Nahrung
+        um einen Schritt verringern.
+    '21-25':
+      - Schlechter Lagerplatz
+      - >-
+        Es stellt sich heraus, dass euer Lagerplatz sehr unbequem
+        zum Schlafen ist. Niemand in der Gruppe findet `SCHLAF`, bis
+        ihr einen neuen Lagerplatz gefunden habt.
+    '26-32':
+      - Wolkenbruch
+      - >-
+        Mitten in der Nacht beginnt es stark zu regnen. Das Lager
+        wird überflutet und alles wird durchnässt. Alle Abenteurer
+        müssen gegen Auswirkungen durch Unterkühlung würfeln,
+        und diese Nacht findet niemand `SCHLAF`.
+    '33-36':
+      - Feuer geht aus
+      - >-
+        Das Feuerholz ist feucht, und euer Lagerfeuer geht aus. Jeder
+        in der Gruppe muss gegen Auswirkungen durch Unterkühlung
+        würfeln (siehe S. 113).
+    '41-42':
+      - FEUER!
+      - >-
+        Auf einmal lodern die Flammen eures Lagerfeuers auf und
+        geraten außer Kontrolle. Eure Zelte, Schlaffelle und andere
+        Ausrüstung fangen Feuer. Jeder Abenteurer erleidet einen
+        Angriff mit __**fünf** Basiswürfeln (Waffenschaden **1**)__. Jeder
+        Abenteurer muss außerdem auf `BEWEGEN` würfeln, um seine
+        Ausrüstung zu retten. Bei einem Fehlschlag wird ein Ausrüstungsstück
+        (nach Wahl der SL) durch das Feuer zerstört.
+    '43-45':
+      - Ameisen
+      - >-
+        Euer Lager befindet sich direkt auf einer Ameisenstraße. Jeder
+        erleidet **1** Punkt Schaden auf Geschicklichkeit. Niemand findet
+        in der Nacht `SCHLAF`.
+    '46-51':
+      - Läuse
+      - >-
+        Ein zufällig bestimmter Abenteurer wird von Läusen befallen.
+        Es juckt fürchterlich, und er kriegt einen Ausschlag
+        am ganzen Körper. Das Opfer erleidet **1** Punkt Schaden auf
+        Geschicklichkeit pro Tag und kann nicht `SCHLAFEN`. Ein erfolgreicher
+        Wurf auf `HEILEN` beendet die Qual.
+    '52-54':
+      - Mückenschwarm
+      - >-
+        Ein riesiger Schwarm Mücken oder Stechfliegen attackiert
+        euch und treibt euch mit Stichen und Summen in den
+        Wahnsinn. Sie greifen alle Abenteurer mit __**vier** Basiswürfeln
+        an und richten Schaden auf **Empathie** an__.
+    '55-56':
+      - Wildes Tier
+      - >-
+        Ein Wolf, Bär oder anderes wildes Tier fühlt sich bedroht
+        und greift euch an. Die SL wählt ein Tier aus der Tabelle auf
+        S. 126 im Spielleiter-Handbuch.
+    '61-63':
+      - Ausrüstung verloren
+      - >-
+        Ein zufällig bestimmter Abenteurer hat einen Ausrüstungsgegenstand
+        verloren. Die SL entscheidet, was verloren ging
+        und ob es gefunden werden kann.
+    '64-66':
+      - Ausrüstung zerstört
+      - >-
+        Ein Gegenstand eines zufällig bestimmten Abenteurers ist
+        zerstört. Die SL entscheidet, welcher Gegenstand das ist. Er
+        kann mit einem `HANDWERK`-Wurf repariert werden.
+
+seaTravelMishaps:
+  id: JOURNEY_MISHAP_SEA_TRAVEL
+  name: Seereisen
+  roll: D66
+  refs:
+    '1':
+      - Navigationsfehler
+      - >-
+        Ihr kommt vom Kurs ab und bewegt euch während dieses Tagesabschnitts
+        nicht auf der Karte fort.
+    '2':
+      - Plötzliche Böe
+      - >-
+        Eine plötzliche Böe neigt euer Boot unerwartet zur Seite. Ein
+        wichtiger Gegenstand fällt ins Wasser. Die SL entscheidet, welcher.
+    '3':
+      - Strudel
+      - >-
+        Euer Boot gerät in einen Strudel. Der Kapitän muss auf `ÜBERLEBEN`
+        würfeln (modifiziert durch das Talent `SEEMANN/SEEFRAU`).
+        Bei Fehlschlag läuft das Boot auf und muss repariert werden
+        (`HANDWERK`-Wurf), bevor die Reise weitergehen kann.
+    '4':
+      - Leck
+      - >-
+        Euer Boot leckt und Wasser läuft hinein. Das Leck muss repariert
+        werden (`HANDWERK`-Wurf), was einen Zug (15 Minuten)
+        dauert, aber ihr könnt währenddessen weiterreisen. Wird das
+        Leck nicht geflickt, sinkt das Boot nach D6 Stunden.
+    '5':
+      - Mann über Bord
+      - >-
+        Jemand aus eurer Gruppe (nach Wahl der SL) fällt über Bord, nachdem
+        eine große Welle das Boot getroffen hat. Regeln für Schwimmen
+        und Ertrinken findest du auf S. 114.
+    '6':
+      - Aufgelaufen
+      - >-
+        Euer Boot läuft auf und muss entweder zurückgelassen oder
+        durch einen `HANDWERK`-Wurf repariert werden. Das Boot muss am
+        Ufer sein, damit es repariert werden kann.
+
+# hikingDistance:
+#   name: Reisedistanz
+#   hexName: Hexagon
+#   hexesPerQuarterDay:
+#     open:
+#       foot: 2
+#       horse: 3
+#     difficult:
+#       foot: 1
+#       horse: 1
+
+# hunt:
+#   id: HUNT
+#   name: Jagen
+#   roll: D6
+#   refs:
+#     '1':
+#       animal: Maus
+#       difficulty: **+1**
+#       requirement: Waffe oder Falle
+#       meat: 1
+#       pelts: 0
+#     '2':
+#       animal: Krähe
+#       difficulty: 0
+#       requirement: Waffe
+#       meat: 1
+#       pelts: 0
+#     '3':
+#       animal: Hase
+#       difficulty: **+1**
+#       requirement: Waffe oder Falle
+#       meat: 2
+#       pelts: 1
+#     '4':
+#       animal: Fuchs
+#       difficulty: -1
+#       requirement: Waffe oder Falle
+#       meat: 3
+#       pelts: 1
+#     '5':
+#       animal: Wildschwein
+#       difficulty: -1
+#       requirement: Waffe
+#       meat: 4
+#       pelts: 2
+#     '6':
+#       animal: Reh
+#       difficulty: 0
+#       requirement: Waffe
+#       meat: 5
+#       pelts: 3

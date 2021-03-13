@@ -1,8 +1,10 @@
 const YZGenerator = require('./YZGenerator');
-const LegendData = require('../gamedata/fbl/legend-generator.json');
+const { RollParser } = require('../utils/RollParser');
+const { KEEP_CAPITALIZATION_LANGS } = require('../utils/constants');
 
 class FBLLegendGenerator extends YZGenerator {
-	constructor() {
+	constructor(lang = 'en') {
+		const LegendData = require(`../gamedata/fbl/legend-generator.${lang}.json`);
 		super(LegendData);
 
 		/**
@@ -13,8 +15,9 @@ class FBLLegendGenerator extends YZGenerator {
 
 		// Completes the story.
 		for (const key in this.data) {
-			this.story += `${this.data[key].define}**${this.data[key].value.toLowerCase()}**`;
+			this.story += `${this.data[key].define}**${KEEP_CAPITALIZATION_LANGS.includes(lang) ? this.data[key].value : this.data[key].value.toLowerCase()}**`;
 		}
+		this.story = RollParser.supersede(this.story)
 
 		// Ends the story.
 		this.story += '.';

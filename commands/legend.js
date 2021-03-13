@@ -9,9 +9,21 @@ module.exports = {
 		+ 'the *Forbidden Lands - Gamemaster\'s Guide*.',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang language_code]',
 	async run(args, ctx) {
-		const legend = new Legend();
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language']
+			},
+			default: {
+				lang: null
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+
+		const legend = new Legend(lang);
 		const embed = new YZEmbed('Legend', legend.story);
 		return await ctx.send(embed);
 	},

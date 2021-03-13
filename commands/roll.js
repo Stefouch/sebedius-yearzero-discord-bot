@@ -4,9 +4,9 @@ const { trimString } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { DICE_ICONS, SUPPORTED_GAMES } = require('../utils/constants');
-const Config = require('../config.json');
 const { TooManyDiceError } = require('../utils/errors');
 const YargsParser = require('yargs-parser');
+const { __ } = require('../lang/locales');
 
 const DICE_RANGE_ICONS = {
 	'6': DICE_ICONS.generic.d6,
@@ -17,66 +17,10 @@ const DICE_RANGE_ICONS = {
 
 module.exports = {
 	name: 'roll',
-	aliases: ['r', 'lance', 'lancer', 'slå', 'sla'],
+	aliases: ['r'],
 	category: 'common',
-	description: 'Rolls dice for any Year Zero roleplaying game.',
-	moreDescriptions: [
-		[
-			'Select [game]',
-			'This argument is used to specify the skin of the rolled dice.'
-			+ ' Can be omitted if you set it with `!setconf game [default game]` or if you use one of the shortcut commands'
-			+ `\n Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`,
-		],
-		[
-			'Rolling Simple Dice',
-			'`roll d6|d66|d666` – Rolls a D6, D66, or D666.'
-			+ '\n`roll XdY±Z` – Rolls X dice of range Y, modified by Z.'
-			+ '\n`roll init` – Rolls initiative (one D6).',
-		],
-		[
-			'Rolling Year Zero Dice',
-			'Use a number in any combinations with these letters:'
-			+ '\n• `b` – Base dice (attributes)'
-			+ '\n• `s` – Skill dice (or Stress dice for *Alien RPG*)'
-			+ '\n• `n` – Negative dice (*MYZ* and *FBL* only)'
-			+ '\n• `d` – Generic dice (or Ammo dice for *Twilight 2000*)'
-			+ '\n• `a` – Ammo dice (*Twilight 2000* only)'
-			+ '\n• `a8` – D8 Artifact die (see *FBL*)'
-			+ '\n• `a10` – D10 Artifact die (see *FBL*)'
-			+ '\n• `a12` – D12 Artifact die (see *FBL*)'
-			+ '\n\n*Example:* `roll 5b 3s 2g`',
-		],
-		[
-			'Additional Arguments',
-			'Additional options for the roll:'
-			+ '\n`-name|-n|-#|# <name>` : Defines a name for the roll.'
-			+ '\n`-push|-p <number>` : Changes the maximum number of allowed pushes.'
-			+ '\n`-fullauto|-fa|-f` : "Full-auto", unlimited number of pushes (max 10).'
-			+ '\n`-mod <±X>`: Applies a difficulty modifier of `+X` or `-X` to the roll.'
-			+ '\n`-pride` : Adds a D12 Artifact Die to the roll.'
-			+ '\n`-nerves` : Applies the talent *Nerves of Steel* (Alien RPG).'
-			+ '\n`-minpanic <value>` : Adjusts a minimum treshold for multiple consecutive panic effects (Alien RPG).',
-		],
-		[
-			'More Info',
-			`To push the roll, click the ${Config.commands.roll.pushIcon} reaction icon under the message.`
-			+ ' The push option for the dice pool roll is available for 2 minutes. Only the user who initially rolled the dice can push them.'
-			+ '\nTo clear the reaction menu, click the ❌ reaction icon.'
-			+ '\nCoriolis has more push options: 🙏 (Praying the Icons, +1D) and 🕌 (in a chapel, +2D).'
-			+ `\nMax ${Config.commands.roll.max} dice can be rolled at once. If you try to roll more, it won't happen.`,
-		],
-		[
-			'See Also',
-			'The following commands are shortcuts if you don\'t want to specify the [game] parameter each time.'
-			+ '\n`rm` – Rolls *Mutant: Year Zero* dice.'
-			+ '\n`rf` – Rolls *Forbidden Lands* dice.'
-			+ '\n`rt` – Rolls *Tales From The Loop* dice.'
-			+ '\n`rc` – Rolls *Coriolis* dice.'
-			+ '\n`ra` – Rolls *Alien RPG* dice.'
-			+ '\n`rv` – Rolls *Vaesen* dice.'
-			+ '\n`rw` – Rolls *Twilight 2000 4E* dice.',
-		],
-	],
+	description: 'croll-description',
+	moreDescriptions: 'croll-moredescriptions',
 	guildOnly: false,
 	args: true,
 	usage: '[game] <dice...> [arguments...]',
@@ -91,11 +35,13 @@ module.exports = {
 			boolean: ['fullauto', 'nerves', 'pride'],
 			number: ['push', 'minpanic', 'mod'],
 			array: ['name'],
+			string: ['lang'],
 			alias: {
 				push: ['p', 'pushes'],
 				name: ['n', '#'],
 				fullauto: ['f', 'fa', 'full-auto'],
 				nerves: ['nerve'],
+				lang: ['lng', 'language'],
 			},
 			default: {
 				fullauto: false,
@@ -103,9 +49,11 @@ module.exports = {
 				minpanic: 0,
 				mod: 0,
 				push: 1,
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		const lang = await ctx.bot.getValidLanguageCode(rollargv.lang, ctx);
 		const name = rollargv.name
 			? trimString(rollargv.name.join(' '), 100)
 			: undefined;
@@ -116,17 +64,17 @@ module.exports = {
 		else game = await ctx.bot.getGame(ctx, 'myz');
 
 		// Creates the roll.
-		let roll = new YZRoll(game, ctx.author, name);
+		let roll = new YZRoll(game, ctx.author, name, lang);
 
 		// Year Zero Roll Regular Expression.
 		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		const isD66 = rollargv._.length === 1 &&
-		(
-			(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
-			(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
-		);
+			(
+				(/^d6{1,3}$/i.test(rollargv._[0]) && game !== 't2k') ||
+				(/^d6{2,3}$/i.test(rollargv._[0]) && game === 't2k')
+			);
 		if (isD66) {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
 				roll.setGame('generic');
@@ -240,7 +188,7 @@ module.exports = {
 			if (ctx.bot.config.commands.roll.options[game].hasBlankDice) {
 				roll.setGame('generic');
 			}
-			roll.setName(`Initiative${name ? ` (${name})` : ''}`)
+			roll.setName(`${__('initiative', roll.lang)}${name ? ` (${name})` : ''}`)
 				.addSkillDice(1)
 				.maxPush = 0;
 
@@ -250,7 +198,7 @@ module.exports = {
 		// Checks if PRIDE roll alone.
 		else if (rollargv.pride || rollargv._.includes('pride')) {
 			roll.setGame('fbl')
-				.setName(`Pride${name ? ` (${name})` : ''}`)
+				.setName(`${__('pride', roll.lang)}${name ? ` (${name})` : ''}`)
 				.addDice('arto', 1, 12);
 		}
 		// Checks for generic rolls.
@@ -306,7 +254,7 @@ module.exports = {
 				getEmbedD66Results(roll, ctx),
 			);
 		}
-		else if(roll.initiative) {
+		else if (roll.initiative) {
 			await ctx.send(
 				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
 				getEmbedInitRollResults(roll, ctx),
@@ -449,27 +397,27 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
  */
 function getEmbedDiceResults(roll, ctx, opts) {
 	const s = roll.successCount;
-	let desc = `Success${s > 1 ? 'es' : ''}: **${s}**`;
+	let desc = `${__(s > 1 ? 'successes' : 'success', roll.lang)}: **${s}**`;
 
 	if (opts.trauma && roll.count('base')) {
 		const n = roll.attributeTrauma;
-		desc += `\nTrauma${n > 1 ? 's' : ''}: **${n}**`;
+		desc += `\n${__(n > 1 ? 'traumas' : 'trauma', roll.lang)}: **${n}**`;
 	}
 	if (opts.gearDamage && roll.count('gear')) {
-		desc += `\nGear Damage: **${roll.gearDamage}**`;
+		desc += `\n${__('gear-damage', roll.lang)}: **${roll.gearDamage}**`;
 	}
 	if (roll.rof > 0) {
 		const n = roll.count('ammo', 6);
 		if (n > 0) {
-			desc += `\n${s > 0 ? 'Extra Hit' : 'Suppression'}${n > 1 ? 's' : ''}: **${n}**`;
+			desc += `\n${__(s > 0 ? (n > 1 ? 'extra-hits' : 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang)}: **${n}**`;
 		}
-		desc += `\nAmmo Spent: **${roll.sum('ammo')}**`;
+		desc += `\n${__('croll-ammo-spent', roll.lang)}: **${roll.sum('ammo')}**`;
 	}
 	if (opts.mishap && roll.mishap) {
-		desc += '\n**MISHAP** 💢';
+		desc += `\n**${__('mishap', roll.lang).toUpperCase()}** 💢`;
 	}
 	if (opts.panic && roll.panic) {
-		desc += '\n**PANIC!!!**';
+		desc += `\n**${__('panic', roll.lang).toUpperCase()}!!!**`;
 	}
 
 	const embed = new YZEmbed(roll.name, desc, ctx, true);
@@ -496,10 +444,10 @@ function getEmbedDiceResults(roll, ctx, opts) {
 				}
 			}
 		}
-		if (results) embed.addField('Details', '```php\n' + results + '\n```', false);
+		if (results) embed.addField(__('details', roll.lang), '```php\n' + results + '\n```', false);
 	}
 
-	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}Pushed`);
+	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}`);
 
 	return embed;
 }
@@ -527,7 +475,7 @@ function getEmbedGenericDiceResults(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter('Generic Roll');
+	embed.setFooter(__('generic-roll', roll.lang));
 	return embed;
 }
 
@@ -544,7 +492,7 @@ function getEmbedD66Results(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter('Single D6 / D66 / D666 Roll');
+	embed.setFooter(__('croll-single-roll', roll.lang));
 	return embed;
 }
 

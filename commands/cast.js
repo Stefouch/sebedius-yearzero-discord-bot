@@ -2,41 +2,46 @@ const { getTable, emojifyRoll } = require('../Sebedius');
 const { clamp, isNumber, rollD66 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'cast',
 	aliases: ['magic'],
 	category: 'fbl',
-	description: 'Cast a spell. Use the `-mishap` parameter if you want a specific mishap.',
+	description: 'ccast-description',
 	guildOnly: false,
 	args: true,
-	usage: '<power> [name] [-mishap <value>]',
+	usage: '<power> [name] [-mishap <value>] [-lang language_code]',
 	async run(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {
 			array: ['name'],
 			number: ['mishap'],
+			string: ['lang'],
 			alias: {
 				name: ['n'],
+				lang: ['lng', 'language'],
 			},
 			default: {
-				name: ['Spell Casting'],
+				name: [''],
 				mishap: null,
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
 		// Validates the arguments.
 		const basePowerLevel = Math.ceil(clamp(argv._.shift(), 1, 20));
-		const name = argv._.join(' ') || argv.name.join(' ') || 'Spell Casting';
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const name = argv._.join(' ') || argv.name.join(' ') || __('ccast-title', lang);
 
 		if (argv.mishap && !/[123456]{2}/.test(argv.mishap)) {
-			return await ctx.reply('⚠️ Invalid Magic Mishap\'s reference!');
+			return await ctx.reply('⚠️ ' + __('ccast-invalid-mishap-reference', lang));
 		}
 		if (argv.mishap && !basePowerLevel) {
 			return await ctx.bot.commands.get('mishap').run([argv.mishap], ctx);
 		}
 		if (!basePowerLevel || !isNumber(basePowerLevel)) {
-			return await ctx.reply('⚠️ Invalid Power Level!');
+			return await ctx.reply('⚠️ ' + __('ccast-invalid-power-level', lang));
 		}
 
 		// Rolls the Spell's Power Level (base dice).
@@ -44,19 +49,19 @@ module.exports = {
 			.addBaseDice(basePowerLevel);
 
 		// Writes the description.
-		let desc = `Base Power Level: **${basePowerLevel}**`;
+		let desc = __('base-power-level', lang) + `: **${basePowerLevel}**`;
 		if (magicRoll.successCount > 0) {
-			desc += `\nOvercharging: **+${magicRoll.successCount}**`;
+			desc += '\n' + __('overcharging', lang) + `: **+${magicRoll.successCount}**`;
 		}
 		const embed = new YZEmbed(magicRoll.name, desc, ctx, true);
 
 		// Checks for Magic Mishaps.
 		let ref;
 		if (argv.mishap || magicRoll.baneCount) {
-			const mishapTable = getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', 'en', 'csv');
+			const mishapTable = getTable('MAGIC_MISHAP', './gamedata/fbl/', 'fbl-magic-mishaps', lang, 'csv');
 			ref = +argv.mishap || rollD66();
 			const mishap = mishapTable.get(ref);
-			embed.addField(`💥 Magic Mishap (${ref})`, mishap.effect.replace('{prefix}', ctx.prefix));
+			embed.addField(`💥 ` + __('magic-mishap', lang) + ` (${ref})`, mishap.effect.replace('{prefix}', ctx.prefix));
 		}
 
 		// Sends the message.

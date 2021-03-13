@@ -2,15 +2,17 @@ const { getTable } = require('../Sebedius');
 const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
+const { __ } = require('../lang/locales');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
 	fbl: { slash: true, blunt: true, stab: true, horror: true, pushed: 'myz', nontypical: 'myz' },
 	alien: { damage: true, mental: true, synthetic: true, xeno: true },
+	coriolis: { damage: true, nontypical: true },
 };
 
 const critTypeAliases = {
-	nontypical: ['nt'],
+	nontypical: ['nt', 'atypical', 'at'],
 	pushed: ['p'],
 	damage: ['dmg'],
 	slash: ['sl'],
@@ -25,57 +27,41 @@ const critTypeAliases = {
 module.exports = {
 	name: 'crit',
 	category: 'common',
-	description: 'Rolls for a random critical injury. Use the `-private` argument to send the result in a DM.',
-	moreDescriptions: [
-		[
-			'Arguments',
-			'There are three main arguments you can use with this command in any order:'
-			+ '\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.'
-			+ `\n> Choices: \`${SUPPORTED_GAMES.join('`, `')}\`.`
-			+ '\n• `table` – Specifies the table you want from this game. See below for possible options *(default is "damage")*.'
-			+ '\n• `numeric` – Specifies a fixed reference.',
-		],
-		[
-			'☢️ Mutant: Year Zero',
-			'• `dmg` | `damage` : Critical injuries from damage.'
-			+ '\n• `h` | `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.'
-			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
-			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
-		],
-		[
-			'⚔️ Forbidden Lands',
-			'• `sl` | `slash` : Critical injuries due to Slash wounds.'
-			+ '\n• `bl` | `blunt` : Critical injuries due to Blunt force.'
-			+ '\n• `st` | `stab` : Critical injuries due to Stab wounds.'
-			+ '\n• `h` | `horror` : Horror traumas.'
-			+ '\n• `nt` | `nontypical` : Critical injury for non-typical damage.'
-			+ '\n• `p` | `pushed` : Critical injury for pushed damage (none).',
-		],
-		[
-			'👾 ALIEN',
-			'• `dmg` | `damage` : Critical injuries from damage.'
-			+ '\n• `s`, `synth` | `synthetic` : Critical injuries on Synthetics and Androids.'
-			+ '\n• `x` | `xeno` : Critical injuries for Xenomorphs.'
-			+ '\n• `m` | `mental` : Permanent mental traumas.',
-		],
-	],
+	description: 'ccrit-description',
+	moreDescriptions: 'ccrit-moredescriptions',
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric] [-private|-p]',
+	usage: '[game] [table] [numeric|-lucky [rank]] [-private|-p] [-lang language_code]',
 	async run(args, ctx) {
-		// Exits early if too many arguments
-		if (args.length > 4) return await ctx.reply('⚠️ You typed too many arguments! See `help crit` for the correct usage.');
-
 		// Parsing arguments.
-		let game, type, fixedReference, privacy = false;
-		for (const arg of args) {
-			// Checks privacy.
-			if (!privacy && (arg === '-private' || arg === '-p')) {
-				privacy = true;
-			}
+		const argv = require('yargs-parser')(args, {
+			boolean: ['private'],
+			number: ['lucky'],
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+				lucky: ['ly'],
+				private: ['p'],
+			},
+			default: {
+				lang: null,
+				lucky: null,
+				private: false,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const privacy = argv.private;
+
+		// Exits early if too many arguments
+		if (args.length > 7) return await ctx.reply('⚠️ ' + __('ccrit-too-many-arguments', lang));
+
+		let game, type, fixedReference;
+		for (const arg of argv._) {
 			// Checks and sets any fixed reference.
-			else if (!fixedReference && isNumber(arg)) {
+			if (!fixedReference && isNumber(arg)) {
 				fixedReference = +arg;
 			}
 			// Checks and sets the game.
@@ -107,10 +93,10 @@ module.exports = {
 
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
-			return ctx.reply(`ℹ️ There is no critical table for the \`${game}\` roleplaying game in my database.`);
+			return ctx.reply(`ℹ️ ${__('ccrit-no-table-for-game-start', lang)} \`${game}\` ${__('ccrit-no-table-for-game-end', lang)}.`);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
-			return ctx.reply(`ℹ️ There is no \`${type}\` critical table for **${SOURCE_MAP[game]}**.`);
+			return ctx.reply(`ℹ️ ${__('ccrit-table-not-found-start', lang)} \`${type}\` ${__('ccrit-table-not-found-end', lang)} **${SOURCE_MAP[game]}**.`);
 		}
 
 		// Table swap.
@@ -120,7 +106,7 @@ module.exports = {
 
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
-		const critsTable = getTable('CRIT', './gamedata/crits/', fileName);
+		const critsTable = getTable('CRIT', './gamedata/crits/', fileName, lang);
 		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
@@ -128,11 +114,11 @@ module.exports = {
 		if (critsTable.size === 0) return ctx.reply('❌ An error occured: `critsTable size 0`.');
 
 		// Rolls the Critical Injuries table.
-		const critRoll = fixedReference || rollD66();
+		const critRoll = fixedReference || rollLucky(argv.lucky) || rollD66();
 		const crit = critsTable.get(critRoll);
 
 		// Exits early if no critical injury was found.
-		if (!crit) return ctx.reply(`❌ The critical injury wasn't found. *(Table: ${fileName})*`);
+		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found'), lang}. *(${__('table', lang)}: ${fileName})*`);
 
 		// Gets the values of each D66's dice.
 		let die1 = 0, die2 = 0;
@@ -147,9 +133,9 @@ module.exports = {
 
 		// Sends the message.
 		if (privacy) {
-			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx));
+			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang));
 		}
-		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx))
+		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang))
 			.then(() => {
 				if (crit.fatal) {
 					// Sends a coffin emoticon.
@@ -171,7 +157,7 @@ module.exports = {
  * @param {Discord.Message} ctx The triggering message with context
  * @returns {YZEmbed} A rich embed
  */
-function getEmbedCrit(crit, name, ctx) {
+function getEmbedCrit(crit, name, ctx, lang) {
 	const embed = new YZEmbed(`**${crit.injury}**`, crit.effect, ctx, true);
 
 	if (crit.healingTime) {
@@ -179,12 +165,12 @@ function getEmbedCrit(crit, name, ctx) {
 
 		// -1 means permanent effect.
 		if (crit.healingTime === -1) {
-			title = 'Permanent';
-			text = 'These effects are permanent.';
+			title = __('permanent', lang);
+			text = __('permanent-effects', lang);
 		}
 		else {
-			title = 'Healing Time';
-			text = `${sumD6(crit.healingTime)} days until end of effects.`;
+			title = __('healing-time', lang);
+			text = `${sumD6(crit.healingTime)} ` + __('healing-time-until-end-text', lang);
 		}
 		embed.addField(title, text, false);
 	}
@@ -193,26 +179,55 @@ function getEmbedCrit(crit, name, ctx) {
 		let text = '';
 
 		if (crit.timeLimit) {
-			text = '⚠ This critical injury is **LETHAL** and must be HEALED';
+			text = '⚠ ' + __('ccrit-lethality-start', lang);
 
 			if (crit.healMalus) {
-				text += ` (modified by **${crit.healMalus}**)`;
+				text += __('ccrit-lethality-healmalus', lang) + ` **${crit.healMalus}**)`;
 			}
 
-			if (/s$/.test(crit.timeLimitUnit)) {
-				text += ` within the next **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
+			if (/s$/.test(crit.timeLimitUnit) || /(ge|en)$/.test(crit.timeLimitUnit)) {
+				text += __('ccrit-lethality-timelimit-multiple', lang) + ` **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
 			}
 			else {
-				text += ` within **one ${crit.timeLimitUnit}**`;
+				text += __('ccrit-lethality-timelimit-single', lang) + ` ${crit.timeLimitUnit}**`;
 			}
-			text += ' or the character will die.';
+			text += __('ccrit-lethality-end', lang);
 		}
 		else {
 			text += '💀💀💀';
 		}
-		embed.addField('Lethality', text, false);
+		embed.addField(__('lethality', lang), text, false);
 	}
-	embed.setFooter(`Table: ${name}`);
+	embed.setFooter(__('table', lang) + `: ${name}`);
 
 	return embed;
+}
+
+/**
+ * Uses the 'Lucky'-talent with it's corresponding rank
+ * @param {number} rank The rank of the talent (1-3)
+ * @returns {number} The final critical injury
+ */
+function rollLucky(rank) {
+	if (!isNumber(rank)) return;
+	if (rank < 1) rank = 1;
+
+	// Rank 3: Choose whichever you want
+	// TODO: Display a list or message. Currently just returns lowest possible value
+	if (rank === 3) return 11;
+
+	let value = rollD66();
+	// Rank 1: roll twice, take the lower
+	if (rank >= 1) {
+		value = Math.min(value, rollD66());
+	}
+	//Rank 2: Roll twice, take the lowest, reverse that and take the lowest of those two
+	if (rank >= 2) {
+		const reversed = parseInt(value.toString().split('').reverse().join(''));
+		value = Math.min(value, reversed);
+	}
+
+	// TODO: Show rolls and manipulation in Embed
+
+	return value;
 }

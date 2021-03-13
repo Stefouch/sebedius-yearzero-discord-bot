@@ -1,18 +1,31 @@
 const { YZEmbed } = require('../utils/embeds');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'invite',
 	aliases: ['inv'],
 	category: 'misc',
-	description: 'Prints a link to invite Sebedius to your server.',
+	description: 'cinvite-description',
 	guildOnly: false,
 	args: false,
 	usage: '',
 	async run(args, ctx) {
+		// Parses arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+
 		const embed = new YZEmbed(
-			'🎲 Sebedius Invite',
-			'You can invite Sebedius to your server here: '
-			+ `${ctx.bot.inviteURL}`,
+			'🎲 ' + __('cinvite-title', lang),
+			__('cinvite-text', lang) + `: ${ctx.bot.inviteURL}`,
 			ctx,
 		);
 		return ctx.send(embed);

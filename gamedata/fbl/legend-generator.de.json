@@ -1,0 +1,299 @@
+{
+	"A": {
+		"define": "Vor langer Zeit, ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "vor der Verschiebung (vor mehr als 1100 Jahren)",
+				"13": "vor dem Blutnebel (vor 300–1100 Jahren)",
+				"31": "während der Erlenkriege (vor 305–360 Jahren)",
+				"44": "während der Zeit des Blutnebels (vor 5–280 Jahren)"
+			}
+		}
+	},
+	"B": {
+		"define": ", lebte ein\\*e ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "blutdurstige\\*r",
+				"12": "rachsüchtige\\*r",
+				"13": "gierige\\*r",
+				"14": "unglücklich verliebte\\*r",
+				"15": "erfinderische\\*r",
+				"16": "geschäftstüchtige\\*r",
+				"21": "freundliche\\*r",
+				"22": "beharrliche\\*r",
+				"23": "verräterische\\*r",
+				"25": "tugendhafte\\*r",
+				"31": "begabte\\*r",
+				"33": "geizige\\*r",
+				"35": "eitle\\*r",
+				"41": "weise\\*r",
+				"43": "wunderschöne\\*r",
+				"45": "ehrenhafte\\*r",
+				"51": "eifersüchtige\\*r",
+				"53": "grausame\\*r",
+				"55": "entschlossene\\*r",
+				"61": "gerissene\\*r",
+				"63": "ängstliche\\*r",
+				"65": "böse\\*r"
+			}
+		}
+	},
+	"C": {
+		"define": " ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Elf\\*e",
+				"12": "Zwerg\\*in",
+				"13": "Händler\\*in",
+				"14": "Schmied\\*in",
+				"15": "Bauer/Bäuerin",
+				"16": "Lehrling",
+				"21": "Druid\\*in",
+				"22": "Hirt\\*in",
+				"23": "Rabenschwester",
+				"25": "Rostbruder",
+				"31": "Reiter\\*in",
+				"33": "Schatzjäger\\*in",
+				"35": "Priester\\*in",
+				"41": "Zauber\\*in",
+				"43": "Räuberhauptmann/Räuberhauptfrau",
+				"45": "Krieger\\*in",
+				"51": "Herr\\*in",
+				"53": "Prinz",
+				"55": "Prinzessin",
+				"61": "Königin",
+				"63": "König",
+				"65": {
+					"roll": "D6",
+					"data": {
+						"1": "Soldatentruppe",
+						"2": "Dorf",
+						"3": "Kult",
+						"4": "Räuberbande",
+						"5": "Geheimloge",
+						"6": "Monster"
+					}
+				}
+			}
+		}
+	},
+	"D": {
+		"define": ". Der/die suchte ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "eine Waffe",
+				"15": "eine\\*n Geliebte\\*n",
+				"23": "einen Freund in Not",
+				"31": "einen Feind",
+				"35": "einen Schatz",
+				"43": "eine Karte",
+				"51": "ein Familienmitglied",
+				"55": "ein Artefakt",
+				"63": "ein Monster"
+			}
+		}
+	},
+	"E": {
+		"define": " wegen ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "der Liebe",
+				"15": "einer Freundschaft",
+				"21": "eines Versprechens",
+				"25": "einer Prophezeiung",
+				"34": "einer Wette",
+				"42": "der Pflicht",
+				"46": "eines Krieges",
+				"53": "der Ehre",
+				"56": "des Wahnsinns",
+				"62": "eines Traums",
+				"64": "der Gier"
+			}
+		}
+	},
+	"F": {
+		"define": " und reiste zu ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "einer Ruine",
+				"21": "einem Bauernhof",
+				"23": "einem Grab",
+				"31": "einem Turm",
+				"35": "einer Burg",
+				"41": "einem Dorf",
+				"44": "einer Höhle",
+				"54": "einem Hügel",
+				"61": "einem Baum",
+				"64": "einer Wasserquelle"
+			}
+		}
+	},
+	"G": {
+		"define": ", der/die/das sich ",
+		"value": {
+			"roll": "D6",
+			"data": {
+				"1": "genau hier",
+				"2": "in der Nähe",
+				"3": "einen Tagesmarsch entfernt",
+				"4": "ein paar Tage entfernt",
+				"5": "weit entfernt",
+				"6": "auf der anderen Seite der Verbotenen Lande"
+			}
+		}
+	},
+	"H": {
+		"define": " bei einem/einer ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Ruine",
+				"15": "Marschland",
+				"22": "Sumpf",
+				"25": "Ebene",
+				"35": "Wald",
+				"45": "Hügel",
+				"54": "Tiefen Wald",
+				"64": "See",
+				"65": "Gebirge"
+			}
+		}
+	},
+	"I": {
+		"define": " in Richtung ",
+		"value": {
+			"roll": "D8",
+			"data": {
+				"1": "Norden",
+				"2": "Nordosten",
+				"3": "Osten",
+				"4": "Südosten",
+				"5": "Süden",
+				"6": "Südwesten",
+				"7": "Westen",
+				"8": "Nordwesten"
+			}
+		}
+	},
+	"J": {
+		"define": " befand. Die Legende sagt, dass er/sie ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "verraten wurde",
+				"15": "ermordet wurde",
+				"23": "spurlos verschwand",
+				"31": "zu Tode hungerte",
+				"34": "sich das Leben nahm",
+				"41": "im Kampf starb",
+				"45": "verzaubert wurde",
+				"53": "besessen wurde",
+				"61": "verändert zurückkehrte",
+				"64": "noch immer sucht"
+			}
+		}
+	},
+	"K": {
+		"define": " und dass dort noch immer ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Gold wartet, viel Gold",
+				"15": "ein mächtiges Artefakt verborgen ist",
+				"23": "eine Rüstung liegt",
+				"31": "eine Waffe wartet",
+				"34": "ein unbezahlbares Buch aufbewahrt wird",
+				"41": "ein großer Schatz wartet",
+				"45": "eine verlorene Kriegstruhe liegt",
+				"53": "die Überreste einer bedeutenden Person ruhen",
+				"61": "ein zwergisches Artefakt liegt",
+				"64": "ein Elfenrubin aufbewahrt wird"
+			}
+		}
+	},
+	"L": {
+		"define": ", aber auch ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "aggressive",
+				"15": "blutrünstige",
+				"23": "grausame",
+				"26": "schreckliche",
+				"33": "hungrige",
+				"35": "wachsame",
+				"44": "ausgehungerte",
+				"51": "gierige",
+				"55": "wahnsinnige",
+				"62": "mordlüsterne",
+				"64": "wilde",
+				"66": "jagende"
+			}
+		}
+	},
+	"M": {
+		"define": " ",
+		"value": {
+			"roll": "D66",
+			"data": {
+				"11": "Wolfsmenschen",
+				"15": "Sklavenhändler",
+				"23": "Orks",
+				"26": "Geister",
+				"33": "Echsenmenschen",
+				"35": "Eisengardisten",
+				"44": "Untote",
+				"51": "Räuber",
+				"55": "Goblins",
+				"62": "Oger",
+				"64": {
+					"define": "Monster",
+					"roll": "D66",
+					"data": {
+						"11": "Monster (Würgeranke)",
+						"13": "Monster (Graubär)",
+						"16": "Monster (Nachtwarg)",
+						"23": "Monster (Geist)",
+						"25": "Monster (Ghul)",
+						"31": "Monster (Skelett)",
+						"33": "Monster (Ruheloser Toter)",
+						"35": "Monster (Wyvern)",
+						"41": "Monster (Harpyien)",
+						"43": "Monster (Minotaurus)",
+						"44": "Monster (Baumhirte)",
+						"45": "Monster (Höllenwurm)",
+						"46": "Monster (Riesenkrake)",
+						"51": "Monster (Seeschlange)",
+						"52": "Monster (Troll)",
+						"53": "Monster (Todesritter)",
+						"54": "Monster (Insektoide)",
+						"55": "Monster (Blutling)",
+						"56": "Monster (Mantikor)",
+						"61": "Monster (Greif)",
+						"62": "Monster (Riese)",
+						"63": "Monster (Hydra)",
+						"64": "Monster (Dämon)",
+						"65": "Monster (Drachenwyrm)",
+						"66": "Monster (Drache)"
+					}
+				},
+				"66": {
+					"define": "Dämonen",
+					"roll": "D6",
+					"data": {
+						"1": "Dämonen (1)",
+						"5": "Dämonen (2)",
+						"6": "Dämonen (D6)"
+					}
+				}
+			}
+		}
+	}
+}

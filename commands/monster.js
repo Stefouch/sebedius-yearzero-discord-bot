@@ -26,7 +26,7 @@ module.exports = {
 	],
 	guildOnly: false,
 	args: false,
-	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p]',
+	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p] [-lang language_code]',
 	async run(args, ctx) {
 		// Old MYZ monster generator.
 		if (!args.length) return await generateRandomMYZMonster(ctx);
@@ -60,12 +60,15 @@ module.exports = {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
 			boolean: ['private'],
+			string: ['lang'],
 			alias: {
 				attack: ['a', 'atk'],
 				private: ['p'],
+				lang: ['lng', 'language'],
 			},
 			default: {
 				private: false,
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
@@ -73,6 +76,7 @@ module.exports = {
 		if (!argv.attack && isNumber(argv._[argv._.length - 1])) {
 			argv.attack = argv._.pop();
 		}
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		// Parses any game.
 		let game;
@@ -81,13 +85,16 @@ module.exports = {
 			game = await YZMonster.fetchGame(ctx, game);
 		}
 		else {
-			game = await YZMonster.fetchGame(ctx);
+			game = await ctx.bot.getGame(ctx, 'none');
+			if (game === 'none') {
+				game = await YZMonster.fetchGame(ctx);
+			}
 		}
 		argv.game = game;
 
 		// Parses the monster.
 		const monsterName = argv._.join(' ');
-		const monster = await YZMonster.fetch(ctx, game, monsterName);
+		const monster = await YZMonster.fetch(ctx, game, monsterName, lang);
 
 		return { monster, argv };
 	},
@@ -106,8 +113,8 @@ async function generateRandomMYZMonster(ctx) {
 	const embed = new YZEmbed(
 		`${monster.name.toUpperCase()}${monster.swarm ? 'S' : ` ⨯ ${monster.qty}`}`,
 		(monster.loner ? '' : `${monster.descriptions.number} of `)
-			+ `*${monster.descriptions.traits.join(' and ')}* `
-			+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`,
+		+ `*${monster.descriptions.traits.join(' and ')}* `
+		+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`,
 	);
 
 	// Creature's Strength, Agility, Armor Rating & Legs.

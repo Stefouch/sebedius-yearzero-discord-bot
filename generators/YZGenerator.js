@@ -29,7 +29,7 @@ class YZGenerator {
 	 * Generates a Year Zero Object from random tables.
 	 * @param {Object} source Generator Data
 	 */
-	constructor(source) {
+	constructor(source, language = 'en') {
 		const dataToResolve = JSON.parse(JSON.stringify(source));
 
 		/**
@@ -37,6 +37,12 @@ class YZGenerator {
 		 * @type {Object}
 		 */
 		this.data = this.setup(dataToResolve);
+
+		/**
+		 * The language to be used
+		 * @type {String}
+		 */
+		this.lang = language;
 
 		// console.log(this);
 	}
