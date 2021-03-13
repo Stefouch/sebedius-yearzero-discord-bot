@@ -72,6 +72,7 @@
     "instructions": "Anleitung",
     "mutation": "Mutation",
     "journey": "Reise",
+    "legend": "Legende",
     "terrain": "Gelände",
     "terrains": "Gelände",
     "activity": "Aktivität",
@@ -345,6 +346,7 @@
     "cjourney-movement-modifier-open": "Zu Fuß: 2 Hexfelder / Tagesabschnitt\nZu Pferd: 3 Hexfelder / Tagesabschnitt",
     "cjourney-movement-modifier-difficult": "Zu Fuß: 1 Hexfelder / Tagesabschnitt\nZu Pferd: 1 Hexfelder / Tagesabschnitt",
     "cjourney-movement-modifier-boat": "Zu Boot: 2 Hexfelder / Tagesabschnitt",
+    "clegend-description": "Erzeugt eine zufällige Legende anhand der Tabellen im *Verbotene Lande - Spielleiterhandbuch*.",
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [

@@ -72,6 +72,7 @@
     "instructions": "Instructions",
     "mutation": "Mutation",
     "journey": "Journey",
+    "legend": "Legend",
     "terrain": "Terrain",
     "terrains": "Terrains",
     "activity": "Activity",
@@ -342,6 +343,7 @@
     "cjourney-movement-modifier-open": "On foot: 2 Hexagons / Quarter\nOn Horse-back: 3 Hexagons / Quarter",
     "cjourney-movement-modifier-difficult": "On foot: 1 Hexagon / Quarter\nOn Horse-back: 1 Hexagon / Quarter",
     "cjourney-movement-modifier-boat": "On boat: 2 hexagons / Quarter",
+    "clegend-description": "Generates a random legend according to the tables found in the *Forbidden Lands - Gamemaster's Guide*.",
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [
