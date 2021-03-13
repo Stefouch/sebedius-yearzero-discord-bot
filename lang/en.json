@@ -44,6 +44,7 @@
     "base-dice": "Base Dice",
     "base-power-level": "Base Power Level",
     "overcharging": "Overcharging",
+    "mishap": "Mishap",
     "magic-mishap": "Magic Mishap",
     "permanent": "Permanent",
     "permanent-effects": "These effects are permanent.",
@@ -62,7 +63,6 @@
     "extra-hits": "Extra Hits",
     "suppression": "Suppression",
     "suppressions": "Suppressions",
-    "mishap": "Mishap",
     "panic": "Panic",
     "details": "Details",
     "pushed": "Pushed",
@@ -344,6 +344,8 @@
     "cjourney-movement-modifier-difficult": "On foot: 1 Hexagon / Quarter\nOn Horse-back: 1 Hexagon / Quarter",
     "cjourney-movement-modifier-boat": "On boat: 2 hexagons / Quarter",
     "clegend-description": "Generates a random legend according to the tables found in the *Forbidden Lands - Gamemaster's Guide*.",
+    "cmishap-description": "Draws a random Magic Mishap.",
+    "cmishap-invalid-reference": "Invalid Magic Mishap's reference",
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [

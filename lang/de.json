@@ -44,6 +44,7 @@
     "base-dice": "Basiswürfel",
     "base-power-level": "Basis-Machtstufe",
     "overcharging": "Überladen",
+    "mishap": "Missgeschick",
     "magic-mishap": "Magisches Missgeschick",
     "permanent": "Permanent",
     "permanent-effects": "Diese Effekte sind permanent.",
@@ -62,7 +63,6 @@
     "extra-hits": "Extra Treffer",
     "suppression": "Suppression",
     "suppressions": "Suppressions",
-    "mishap": "Missgeschick",
     "panic": "Panik",
     "details": "Details",
     "pushed": "Strapaziert",
@@ -347,6 +347,8 @@
     "cjourney-movement-modifier-difficult": "Zu Fuß: 1 Hexfelder / Tagesabschnitt\nZu Pferd: 1 Hexfelder / Tagesabschnitt",
     "cjourney-movement-modifier-boat": "Zu Boot: 2 Hexfelder / Tagesabschnitt",
     "clegend-description": "Erzeugt eine zufällige Legende anhand der Tabellen im *Verbotene Lande - Spielleiterhandbuch*.",
+    "cmishap-description": "Zieht ein zufälliges Magisches Mißgeschick.",
+    "cmishap-invalid-reference": "Ungültige Magisches Mißgeschickreferenz",
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [
