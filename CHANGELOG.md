@@ -3,7 +3,9 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.0] - 2021-03-XX
+## [4.0.0] - 2021-03-15
+Major update with a large refactoring of the bot's javascript code to allow localisation.
+
 ### Added
 - Full support for localisation.
 - German language.
@@ -11,6 +13,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 - Issue [#77](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/77).
+
+---
 
 ## [3.8.2] - 2020-12-13
 ## Fixed
@@ -233,6 +237,8 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 - `!br` now properly deletes the invoke message.
 - A potential security breach with the roll parsing function.
 
+---
+
 ## [2.0.0] - 2020-06-22
 ### Added
 - Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.
@@ -273,6 +279,8 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 - A bug that was breaking the `!init` command.
 - A fatal error causing the bot to crash on a certain condition related to the roll command.
 - Permissions checks.
+
+---
 
 ## [1.7.0] - 2019-12-26
 ### Added

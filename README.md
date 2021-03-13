@@ -46,19 +46,35 @@ Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebe
 3. [Roll the dice](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/%21roll)<br/>
 *Example:* `!roll 7d` *or* `!roll 3b 3s 1g`
 
+# 🌐 Supported Languages
+
+With the command `!setconf lang [language_code]` you can turn Sebedius into another language. Supported localisations are:
+* `en` – English (default)
+* `de` – German *(Deutsche)*
+
+Your language isn't supported yet? See *Contributing* below!
+
 # Author
+
+<img src="https://stefouch.be/wp-content/uploads/2020/02/BSL-D6_bannerlogo.png"/>
 
 ### 👤 Stefouch
 
 * **Twitter:** [@stefouch](https://twitter.com/stefouch)
 * **Github:** [@Stefouch](https://github.com/Stefouch)
-* **Discord:** Stefouch#5202 on [Year Zero Worlds](https://discord.gg/ftxkYZn)
+* **Discord:** Stefouch#5202 on [Year Zero Worlds](https://discord.gg/RnaydHR)
+
+### Top Contributors
+
+* mprangenberg
+* Naith123
+* iarizex
 
 # 🤝 Contributing
 
-Contributions, issues and feature requests are welcome!<br/>Feel free to check [issues page](https://github.com/Stefouch/sebedius-myz-discord-bot/issues). You can also take a look at the [contributing guide](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CONTRIBUTING.md).
+Contributions, translations, issues and feature requests are welcome!<br/>Feel free to check [issues page](https://github.com/Stefouch/sebedius-myz-discord-bot/issues). You can also take a look at the [contributing guide](https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CONTRIBUTING.md).
 
-# 🙏 Show Your Support
+# ❤️ Sponsoring
 
 Give a ⭐️ if this project helped you!
 
@@ -66,7 +82,7 @@ Give a ⭐️ if this project helped you!
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-Let's thank **Jeremy Mettler, Joe Guilmette, Matt Kay, Dale Chenault, Narcomed and all my other patrons** and generous donators who are supporting this project and are making it possible! *May the bot be merciful with their rolls.*
+Let's thank **Jeremy Mettler, Joe Guilmette, Dale Chenault, Narcomed and all my other patrons** and generous donators who are supporting this project and are making it possible! *May the bot be merciful with their rolls.*
 
 [paypal.me/Stefouch](https://www.paypal.me/stefouch)
 
@@ -103,4 +119,4 @@ This project JavaScript code is [MIT](https://github.com/Stefouch/sebedius-myz-d
 
 
 ***
-_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_
+<small>_This README was generated with ❤️ by [readme-md-generator](https://github.com/kefranabg/readme-md-generator)_</small>
