@@ -1,5 +1,8 @@
 {
-    "none": "none",
+    "and": "and",
+    "attribute-articles-singular": "",
+    "attribute-articles-plural": "",
+    "none": "None",
     "unknown": "Unknown",
     "damage": "Damage",
     "name": "Name",
@@ -25,6 +28,8 @@
     "skills": "Skills",
     "source": "Source",
     "special": "Special",
+    "swarm": "Swarm",
+    "swarm-special": "Can only be damaged by flamethrowers and mutations",
     "weakness": "Weakness",
     "weaknesses": "Weaknesses",
     "clip": "Clip",
@@ -71,6 +76,7 @@
     "page": "page",
     "instructions": "Instructions",
     "mutation": "Mutation",
+    "mutations": "Mutations",
     "mutation-misfire": "Mutation Misfire",
     "animal-power": "Animal Power",
     "animal-power-feral-effect": "Animal Power Feral Effect",
@@ -355,6 +361,18 @@
     "cmishap-description": "Draws a random Magic Mishap.",
     "cmishap-invalid-reference": "Invalid Magic Mishap's reference",
     "cmodule-description": "Rolls dice for a Mechatron Module and checks for any Overheating.",
+    "cmonster-description": "Gets a monster from the catalogs or generates a random monster according to the tables found in the *Zone Compendium 1: The Lair of the Saurians* if no argument is provided.",
+    "cmonster-more-descriptions": [
+		[
+			"Arguments",
+			"• `game` – Specifies the game you are using. Can be omitted.\n• `name` – Specifies the monster you want to fetch.\n• `-attack|-atk|-a [number]` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type `<name> [number]` instead of the `-attack` argument).\n• `-private|-p` – Sends the message in a private DM."
+		],
+		[
+			"Reaction Menu (if an attack is called)",
+			"• Click ⚔️ to roll the dice of the attack.\n• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).\n• Click ❌ to stop the reaction menu."
+		]
+	],
+    "cmonster-number-of": "of",
     "cmutation-description": "Rolls dice for a Mutation and checks for any Misfire.",
     "cmyzpower-description": "Rolls the dice for a MYZ power.",
     "cmyzpower-invalid-arguments": "Invalid arguments",

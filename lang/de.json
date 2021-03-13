@@ -1,4 +1,7 @@
 {
+    "and": "und",
+    "attribute-articles-singular": "e/er/es",
+    "attribute-articles-plural": "en",
     "none": "Ohne",
     "unknown": "Unbekannt",
     "damage": "Schaden",
@@ -25,6 +28,8 @@
     "skills": "Fertigkeiten",
     "source": "Quelle",
     "special": "Spezial",
+    "swarm": "Schwarm",
+    "swarm-special": "Kann nur von Flammenwerfern und Mutationen Schaden nehmen",
     "weakness": "Schwäche",
     "weaknesses": "Schwächen",
     "clip": "Magazin",
@@ -71,6 +76,7 @@
     "page": "Seite",
     "instructions": "Anleitung",
     "mutation": "Mutation",
+    "mutations": "Mutationen",
     "mutation-misfire": "Mutation-Fehlzündung",
     "animal-power": "Tierkraft",
     "animal-power-feral-effect": "Tierkraft-Wildheitseffekt",
@@ -358,6 +364,18 @@
     "cmishap-description": "Zieht ein zufälliges Magisches Mißgeschick.",
     "cmishap-invalid-reference": "Ungültige Magisches Mißgeschickreferenz",
     "cmodule-description": "Wirft die Würfel für ein Mechatron-Modul und prüft auf Überhitzung.",
+    "cmonster-description": "Zeigt ein Monster aus den Katalogen an oder erzeugt ein zufälliges Monster anhand der Tabellen im *Zonenkompendium 1: Das Versteck der Reptiloiden* falls keine Argumente übergeben wurden.",
+    "cmonster-more-descriptions": [
+		[
+			"Argumente",
+			"• `game` – Gibt das zu nutzende Spiel an. Kann ausgelassen werden.\n• `name` – Gibt das Monster an, das angezeigt werden soll.\n• `-attack|-atk|-a [number]` – Gibt an, dass auch ein Angriff gewürfelt werden soll. Wird eine Zahl angegeben, nutzt der Bot diesen Wert anstatt einen zufälligen Angriff zu würfeln (man kann auch `<name> [number]` anstatt des `-attack` Arguments angeben).\n• `-private|-p` – Sendet die Informationen in einer privaten Direktnachricht."
+		],
+		[
+			"Reaktionsmenü (falls ein Angriff durchgeführt werden soll)",
+			"• Klicke ⚔️ um die Würfel für den Angriff zu werfen.\n• Klicke ☠️ um die Kritischen Effekte zu würfeln (manche Angriffe haben feste Effekte, andere sind zufällig).\n• Klicke ❌ um das Reaktionsmenü abzubrechen."
+		]
+	],
+    "cmonster-number-of": "von",
     "cmutation-description": "Wirft die Würfel für eine Mutation und prüft auf Fehlzündungen.",
     "cmyzpower-description": "Wirft die Würfel für eine MYZ-Kraft (z.B. Mutation, Modul, usw.).",
     "cmyzpower-invalid-arguments": "Ungültige Argumente",

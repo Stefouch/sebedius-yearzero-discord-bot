@@ -2,37 +2,23 @@ const { YZMonster } = require('../yearzero/YZObject');
 const Monster = require('../generators/MYZMonsterGenerator');
 const { isNumber, strCamelToNorm, alignText } = require('../utils/Util');
 const { YZEmbed, YZMonsterEmbed } = require('../utils/embeds');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'monster',
 	aliases: ['mon', 'creature', 'pokemon'],
 	category: 'common',
-	description: 'Gets a monster from the catalogs or generates a random monster according to the tables found in'
-		+ ' the *Zone Compendium 1: The Lair of the Saurians* if no argument is provided.',
-	moreDescriptions: [
-		[
-			'Arguments',
-			`• \`game\` – Specifies the game you are using. Can be omitted.
-			• \`name\` – Specifies the monster you want to fetch.
-			• \`-attack|-atk|-a [number]\` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type \`<name> [number]\` instead of the \`-attack\` argument).
-			• \`-private|-p\` – Sends the message in a private DM.`,
-		],
-		[
-			'Reaction Menu (if an attack is called)',
-			`• Click ⚔️ to roll the dice of the attack.
-			• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
-			• Click ❌ to stop the reaction menu.`,
-		],
-	],
+	description: 'cmonster-description',
+	moreDescriptions: 'cmonster-moredescriptions',
 	guildOnly: false,
 	args: false,
 	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p] [-lang language_code]',
 	async run(args, ctx) {
-		// Old MYZ monster generator.
-		if (!args.length) return await generateRandomMYZMonster(ctx);
-
 		// Parses arguments.
 		const { monster, argv } = await module.exports.parse(args, ctx);
+
+		// Old MYZ monster generator.
+		if (!monster) return await generateRandomMYZMonster(ctx, argv.lang);
 
 		// Creates the embed and sends the message.
 		const membed = new YZMonsterEmbed(monster);
@@ -72,11 +58,17 @@ module.exports = {
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		argv.lang = lang;
+
+		if (!argv._.length) {
+			return { undefined, argv };
+		}
+
 		// Parses any reference.
 		if (!argv.attack && isNumber(argv._[argv._.length - 1])) {
 			argv.attack = argv._.pop();
 		}
-		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		// Parses any game.
 		let game;
@@ -107,26 +99,27 @@ module.exports = {
  * @returns {Discord.Message} The message sent
  * @async
  */
-async function generateRandomMYZMonster(ctx) {
-	const monster = new Monster();
+async function generateRandomMYZMonster(ctx, language = 'en') {
+	const monster = new Monster(language);
+	const articles = __('attribute-articles-' + (monster.loner ? 'singular' : 'plural'), monster.lang);
 
 	const embed = new YZEmbed(
 		`${monster.name.toUpperCase()}${monster.swarm ? 'S' : ` ⨯ ${monster.qty}`}`,
-		(monster.loner ? '' : `${monster.descriptions.number} of `)
-		+ `*${monster.descriptions.traits.join(' and ')}* `
-		+ `${monster.descriptions.size} ${monster.descriptions.type}${monster.loner ? '' : 's'}`,
+		(monster.loner ? '' : `${monster.descriptions.number} ${__('cmonster-number-of', monster.lang)} `)
+		+ `*${monster.descriptions.traits.join(`${articles} ${__('and', monster.lang)} `)}${articles}* `
+		+ `${monster.descriptions.size}${articles} ${monster.descriptions.type}`,
 	);
 
 	// Creature's Strength, Agility, Armor Rating & Legs.
 	embed.addField(
-		'Attributes',
-		`Strength: **${monster.str + +monster.swarm * 3}**\nAgility: **${monster.agi}**`,
+		__('attributes', monster.lang),
+		`${__('attribute-myz-strength', monster.lang)}: **${monster.str + +monster.swarm * 3}**\n${__('attribute-myz-agility', monster.lang)}: **${monster.agi}**`,
 		true,
 	);
 
 	embed.addField(
-		'Body',
-		`Armor Rating: **${monster.armor}**\n${monster.descriptions.limbs}`,
+		__('body', monster.lang),
+		`${__('armor-rating', monster.lang)}: **${monster.armor}**\n${monster.descriptions.limbs}`,
 		true,
 	);
 
@@ -139,44 +132,44 @@ async function generateRandomMYZMonster(ctx) {
 			if (skName === 'fight') { if (!monster.melee) continue; }
 			if (skName === 'shoot') { if (!monster.ranged) continue; }
 
-			skillsText += `\n${strCamelToNorm(skName)}: **${monster.skills[skName]}**`;
+			skillsText += `\n${__('skill-myz-' + skName, monster.lang)}: **${monster.skills[skName]}**`;
 		}
 	}
 	else {
-		skillsText += '*None*';
+		skillsText += `*${__('none', monster.lang)}*`;
 	}
 
-	embed.addField('Skills', skillsText, true);
+	embed.addField(__('skills', monster.lang), skillsText, true);
 
 	// Creature's attack(s).
 	const nameColLen = 16, dmgColLen = 10, rangeColLen = 9;
 	let attacksText = '```'
-		+ alignText('\nName', nameColLen, 0)
-		+ alignText('Damage', dmgColLen, 0)
-		+ alignText('Range', rangeColLen, 0)
-		+ 'Special';
+		+ alignText(`\n${__('name', monster.lang)}`, nameColLen, 0)
+		+ alignText(__('damage', monster.lang), dmgColLen, 0)
+		+ alignText(__('range', monster.lang), rangeColLen, 0)
+		+ __('special', monster.lang);
 
 	for (const attack of monster.attacks) {
 		attacksText += alignText(`\n${attack.name}`, nameColLen, 0)
 			+ alignText(`${attack.damage}`, dmgColLen, 0)
-			+ alignText(`${attack.range}`, rangeColLen, 0)
+			+ alignText(`${__('range-myz-' + attack.range, monster.lang)}`, rangeColLen, 0)
 			+ (attack.special ? attack.special : '–');
 	}
 
 	attacksText += '\n```';
 
-	embed.addField('Attacks', attacksText, false);
+	embed.addField(__('attacks', monster.lang), attacksText, false);
 
 	// Creature's mutation(s).
 	embed.addField(
-		'Mutations',
-		(monster.mutations) ? monster.mutations.join(', ') : '*None*',
+		__('mutations', monster.lang),
+		(monster.mutations) ? monster.mutations.join(', ') : `*${__('none', monster.lang)}*`,
 		false,
 	);
 
 	// Swarm's special.
 	if (monster.swarm) {
-		embed.addField('Special', 'Swarm *(Can only be damaged by flamethrowers and mutations)*', false);
+		embed.addField(__('special', monster.lang), `${__('swarm', monster.lang)} *(${__('swarm-special', monster.lang)})*`, false);
 	}
 
 	// console.log(monster);
