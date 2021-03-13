@@ -59,7 +59,7 @@ class YZInitDeck extends Deck {
 			super.shuffle();
 		}
 		// Returns the kept cards.
-		return keptCards;
+		return [keptCards, cards];
 	}
 }
 

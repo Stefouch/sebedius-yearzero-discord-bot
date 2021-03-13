@@ -1,7 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
 const { strCamelToNorm } = require('./Util');
-const { __ } = require('./locales');
+const { __ } = require('../lang/locales');
 
 /**
  * A Discord.MessageEmbed with predefined properties.

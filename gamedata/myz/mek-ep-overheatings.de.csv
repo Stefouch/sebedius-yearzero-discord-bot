@@ -1,0 +1,7 @@
+ref;effect
+1;**Fataler Fehler!** Du stößt Rauch und Funken aus, während das Modul, das du aktivieren wolltest, zusammenbricht. Es muss repariert werden, ehe es erneut verwendet werden kann. Deine Aktion hat keinen Effekt.
+2;**Panne!** Das Modul hat den gewünschten Effekt, entzieht dir aber doppelt so viele ENP, wie es sollte. Wenn du auf 0 ENP fällst, wechselst du in den Ruhemodus.
+3;**Kurzschluss!** Wegen einer fehlerhaften Verbindung wird ein anderes Modul (zufällig ermittelt) anstelle des gewünschten aktiviert. Der genaue Effekt hängt von der Situation ab – die SL hat hier das letzte Wort. Wiederhole den Wurf, wenn du nur ein Modul hast.
+4;**Bluescreen!** Dein System wird übermäßig belastet und muss rebootet werden. Deine Aktion hat keinen Effekt, und du musst vollständig inaktiv bleiben, bis du in der nächsten Runde an der Reihe bist.
+5;**Speicherlöschung!** Eine plötzliche elektrische Entladung löscht unerwartet deine Speicherschaltkreise. Du behältst all deine Programme, kannst dich aber an nichts mehr aus deinem vorherigen Leben erinnern. Ein anderer Roboter (oder Schrauber) kann deine Erinnerung mit einem erfolgreichen Wurf auf Reparieren (oder Zusammenschustern) und einigen Stunden Arbeit wiederherstellen.
+6;**Energieschub!** Der Effekt des Moduls ist mächtiger als erwartet! Jeder ausgegebene ENP zählt als zwei. Dies hat keinen Effekt, wenn das Ausgeben von mehreren ENP bei diesem Modul keinen Effekt hat.

@@ -1,6 +1,6 @@
 const Demon = require('../generators/FBLDemonGenerator');
 const { YZEmbed } = require('../utils/embeds');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 const { alignText } = require('../utils/Util');
 const { substitute } = require('../yearzero/YZRoll');
 

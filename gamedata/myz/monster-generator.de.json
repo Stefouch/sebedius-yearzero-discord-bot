@@ -1,0 +1,291 @@
+{
+	"size": {
+		"roll": "D66",
+		"define": "Strength",
+		"data": {
+			"11": ["Winzig", 1],
+			"15": ["Klein", 2],
+			"22": ["Durchschnittlich", 3],
+			"34": ["Massig", 4],
+			"45": ["Enorm", 8],
+			"56": ["Riesig", 10],
+			"53": ["Gigantisch", 12]
+		}
+	},
+	"type": {
+		"roll": "D66",
+		"define": "Agility",
+		"data": {
+			"11": ["Behäbiger Pflanzenfresser", "Behäbigen Pflanzenfressern", 0],
+			"19": ["Pflanzenfresser", "Pflanzenfressern", 1],
+			"29": ["Sammler", "Sammlern", 2],
+			"37": ["Aasfresser", "Aasfressern", 4],
+			"45": ["Raubtier", "Raubtieren", 6],
+			"63": ["Aggressives Raubtier", "Aggressiven Raubtieren", 8]
+		}
+	},
+	"limbs": {
+		"roll": "2D6",
+		"define": "Number of action",
+		"data": {
+			"2": "Keine Gliedmaße",
+			"4": "Zwei Beine",
+			"6": "Vier Beine",
+			"8": "Flügel",
+			"10": "Sechs beine",
+			"11": "Zwei Beine, zwei Arme",
+			"12": "Jede Menge Gliedmasse!"
+		}
+	},
+	"body": {
+		"roll": "2D6",
+		"define": "Armor",
+		"data": {
+			"2": ["Nackte Haut", 0],
+			"4": ["Weiches Fell", 0],
+			"6": ["Dichtes Fell", 1],
+			"8": ["Schuppen", 2],
+			"10": ["Hornpanzer", 4],
+			"11": ["Knochenplatten", 6],
+			"12": ["Massives Exoskelett", 8]
+		}
+	},
+	"weapons": {
+		"roll": "D66",
+		"define": "Attacks",
+		"array": true,
+		"data": {
+			"11": {
+				"name": "Klauen",
+				"range": "Arm",
+				"damage": [1, 1, 1, 2, 2, 2, 2, 2, 3]
+			},
+			"21": {
+				"name": "Biss",
+				"range": "Arm",
+				"damage": [1, 1, 1, 2, 2, 3]
+			},
+			"31": {
+				"name": "Giftiger Biss",
+				"range": "Arm",
+				"damage": [1, 1, 1, 2, 2, 3],
+				"special": {
+					"roll": "1D6",
+					"data": {
+						"1": "Nervengift",
+						"4": "Halluzinogenes Gift, siehe Seite 183 in *Mutant: Jahr Null*)"
+					}
+				}
+			},
+			"35": {
+				"name": "Säurespucke",
+				"range": "Near",
+				"damage": 1
+			},
+			"41": {
+				"name": "Tritt",
+				"range": "Arm",
+				"damage": [1, 1, 1, 2, 2, 2, 2, 2, 3]
+			},
+			"51": {
+				"name": "Hörner",
+				"range": "Arm",
+				"damage": [1, 1, 1, 2, 2, 3, 3, 3, 4]
+			},
+			"61": { "REROLL": 2 },
+			"66": {
+				"name": "Einzigartig, noch einmal Würfeln (für Waffen)",
+				"range": "Long",
+				"damage": 5
+			}
+		}
+	},
+	"skills": {
+		"roll": "D66",
+		"define": "Skills",
+		"data": {
+			"11": [],
+			"31": ["move"],
+			"41": ["fight", "shoot"],
+			"61": ["fight", "shoot", "move"],
+			"65": ["fight", "shoot", "move", "endure"]
+		}
+	},
+	"skillLevels": {
+		"11": 1,
+		"31": 2,
+		"51": 3,
+		"61": 4,
+		"66": 5
+	},
+	"numbers": {
+		"roll": "2D6",
+		"define": "Quantity of monsters",
+		"data": {
+			"2": ["Herde", "4D6"],
+			"4": ["Rudel", "2D6"],
+			"6": ["Einzelgänger", 1],
+			"10": ["Familie", "1D6"],
+			"12": ["Schwarm", -1]
+		}
+	},
+	"location": {
+		"roll": "D66",
+		"define": "Lair",
+		"data": {
+			"11": "Bau",
+			"21": "Ruine",
+			"31": "Wasserloch",
+			"41": "Baum / hohes Gelände",
+			"51": "Wrack",
+			"61": "Krater"
+		}
+	},
+	"mutations": {
+		"roll": "1D6",
+		"define": "Number of mutations",
+		"data": {
+			"1": 0,
+			"4": 1,
+			"5": 2,
+			"6": 3
+		}
+	},
+	"gender": {
+		"roll": "1D6",
+		"define": "Gender",
+		"data": {
+			"1": "Männlich",
+			"3": "Weiblich",
+			"5": "Hermaphrodit",
+			"6": "Unbestimmt"
+		}
+	},
+	"traits": {
+		"roll": "D66",
+		"define": "Monster's personality",
+		"array": true,
+		"data": {
+			"11": "Liebevoll",
+			"12": "Ängstlich",
+			"13": "Übelriechend",
+			"14": "Hamsterer",
+			"15": "Angriffslustig",
+			"16": "Farbenfroh",
+			"21": "Verspielt",
+			"22": "Verhungernd",
+			"23": "Verwundet",
+			"24": "Brünstig",
+			"25": "Schleimig",
+			"26": "Blutrünstig",
+			"31": "Intelligent",
+			"32": "Grauenerregend",
+			"33": "Schläfrig",
+			"34": "Irritiert",
+			"35": "Einsam",
+			"36": "Neugierig",
+			"37": "Brüllend",
+			"38": "Von der Fäulnis gezeichnet",
+			"39": "Mager",
+			"40": "Fett",
+			"41": "Schnell",
+			"42": "Mütterlich",
+			"43": "Verwirrt",
+			"44": "Wahnsinnig",
+			"45": "Gestresst",
+			"46": "Niedergeschlagen",
+			"51": "Verschorft",
+			"52": "Wiederkäuer",
+			"53": "Niedlich",
+			"54": "Hässlich",
+			"55": "Dumm",
+			"56": "Faul",
+			"61": { "REROLL": 2 },
+			"66": "Mechanisch"
+		}
+	},
+	"namePrefix": {
+		"roll": "D66",
+		"define": "The prefix of the creature's name",
+		"data": {
+			"11": "Lauer",
+			"12": "Ruß",
+			"13": "Seng",
+			"14": "Brand",
+			"15": "Schnapper",
+			"16": "Messer",
+			"21": "Donner",
+			"22": "Blasen",
+			"23": "Spieß",
+			"24": "Erd",
+			"25": "Fels",
+			"26": "Wasser",
+			"31": "Dünen",
+			"32": "Moor",
+			"33": "Sturm",
+			"34": "Stink",
+			"35": "Blut",
+			"36": "Makel",
+			"41": "Kupfer",
+			"42": "Eisen",
+			"43": "Stahl",
+			"44": "Faul",
+			"45": "Schrott",
+			"46": "Heul",
+			"51": "Spreng",
+			"52": "Steppen",
+			"53": "Schiefer",
+			"54": "Salz",
+			"55": "Grinse",
+			"56": "Zucker",
+			"61": "Wisper",
+			"62": "Sichel",
+			"63": "Glüh",
+			"64": "Schnitter",
+			"65": "Unheils",
+			"66": "Grab-"
+		}
+	},
+	"nameSuffix": {
+		"roll": "D66",
+		"define": "The suffix of the creature's name",
+		"data": {
+			"11": "kröte",
+			"12": "schwein",
+			"13": "hund",
+			"14": "schwarm",
+			"15": "gleiter",
+			"16": "blob",
+			"21": "eule",
+			"22": "fledermaus",
+			"23": "roller",
+			"24": "ling",
+			"25": "reißer",
+			"26": "geist",
+			"31": "fisch",
+			"32": "wurm",
+			"33": "nager",
+			"34": "schwamm",
+			"35": "blume",
+			"36": "katze",
+			"41": "kriecher",
+			"42": "affe",
+			"43": "schnecke",
+			"44": "tänzer",
+			"45": "käfer",
+			"46": "ungeziefer",
+			"51": "ungetüm",
+			"52": "mücke",
+			"53": "fresser",
+			"54": "pirscher",
+			"55": "kugel",
+			"56": "flatterer",
+			"61": "natter",
+			"62": "monster",
+			"63": "falke",
+			"64": "vogel",
+			"65": "egel",
+			"66": "echse"
+		}
+	}
+}

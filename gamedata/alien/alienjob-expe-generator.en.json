@@ -58,7 +58,7 @@
 		"roll": "D66",
 		"data": {
 			"11": ["Natural Phenomenon", "Some severe natural event occurs during the mission: a rapid temperature change, forest fire, hurricane, tsunami, earthquake, mudslide, etc."],
-			"22": ["Survey Blues", "he target area is either difficult to locate, or difficult to survey safely or efficiently."],
+			"22": ["Survey Blues", "The target area is either difficult to locate, or difficult to survey safely or efficiently."],
 			"33": ["Presumed Missing", "If the PCs gained a permit to survey their target area, they may or may not realize it is inherited from a previous expedition that vanished without a trace."],
 			"36": ["Rival Expedition", "A competing party has the same goal as the expedition and tries to get there first or stop the PCs. They have roughly the same gear as the PCs."],
 			"45": ["Quarantine", "The target area is under quarantine or off-limits, possibly for reasons unknown. The expedition has no permit and will be breaking the law if they choose to proceed."],

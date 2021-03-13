@@ -9,7 +9,7 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const CharacterManager = require('./yearzero/models/CharacterManager');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
-const { __ } = require('./utils/locales');
+const { __ } = require('./lang/locales');
 
 /**
  * Databases map.
@@ -127,7 +127,17 @@ class Sebedius extends Discord.Client {
 	 * @readonly
 	 */
 	get inviteURL() {
-		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${this.config.perms.bitfield}`;
+		const perms = this.config.perms.bitfield;
+		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
+	}
+
+	/**
+	 * The number of guilds.
+	 * @type {number}
+	 * @readonly
+	 */
+	get guildCount() {
+		return this.guilds.cache.size;
 	}
 
 	/**
@@ -346,10 +356,10 @@ class Sebedius extends Discord.Client {
 	 * @param {ContextMessage} ctx The context (for bot and guild.id)
 	 * @returns {string} A valid language code
 	 */
-	async getValidLanguageCode(lang, ctx){
-		return Object.keys(SUPPORTED_LANGS).includes(lang) 
-				? lang 
-				: await this.getLanguage(ctx);
+	async getValidLanguageCode(lang, ctx) {
+		return Object.keys(SUPPORTED_LANGS).includes(lang)
+			? lang
+			: await this.getLanguage(ctx);
 	}
 
 	/**

@@ -1,12 +1,12 @@
 const { YZEmbed } = require('../utils/embeds');
 const Legend = require('../generators/FBLLegendGenerator');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'legend',
 	aliases: ['generate-legend'],
 	category: 'fbl',
-	description: 'Generates a random legend according to the tables found in'
-		+ 'the *Forbidden Lands - Gamemaster\'s Guide*.',
+	description: 'clegend-description',
 	guildOnly: false,
 	args: false,
 	usage: '[-lang language_code]',
@@ -24,7 +24,7 @@ module.exports = {
 		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		const legend = new Legend(lang);
-		const embed = new YZEmbed('Legend', legend.story);
+		const embed = new YZEmbed(__('legend', lang), legend.story);
 		return await ctx.send(embed);
 	},
 };

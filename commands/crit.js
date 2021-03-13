@@ -2,7 +2,7 @@ const { getTable } = require('../Sebedius');
 const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -214,7 +214,7 @@ function rollLucky(rank) {
 
 	// Rank 3: Choose whichever you want
 	// TODO: Display a list or message. Currently just returns lowest possible value
-	if (rank == 3) return 11;
+	if (rank === 3) return 11;
 
 	let value = rollD66();
 	// Rank 1: roll twice, take the lower

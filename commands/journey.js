@@ -3,8 +3,9 @@ const { getSelection } = require('../Sebedius');
 const YZJourney = require('../yearzero/YZJourney');
 const YZTerrainTypesFlags = require('../yearzero/YZTerrainTypesFlags');
 const { YZEmbed } = require('../utils/embeds');
-const { capitalize, trimString, strCamelToNorm } = require('../utils/Util');
+const { trimString } = require('../utils/Util');
 const ReactionMenu = require('../utils/ReactionMenu');
+const { __ } = require('../lang/locales');
 
 const T_OPTS = Object.keys(YZTerrainTypesFlags.FLAGS)
 	.join(', ')
@@ -14,49 +15,12 @@ module.exports = {
 	name: 'journey',
 	aliases: ['jou'],
 	category: 'fbl',
-	description: 'Performs a *Forbidden Lands* Journey.'
-		+ '\nWith this command, you can **Create** a Journey with defined *Quarter Day*, *Season* and *Terrain* to display information about the roll modifiers and the available activities. Players can then use a reaction menu to choose their activity as a reminder for the GM.'
-		+ '\nYou can also draw a random **Mishap** for a failed activity.'
-		+ '\nWeather effects and Mishaps tables for *The Bitter Reach* are also available.',
-	moreDescriptions: [
-		[
-			'Subcommands',
-			'• `create|c` or `-create|-c` – Creates a Journey.'
-			+ '\n• `mishap|m` or `-mishap|-m` – Draws a random Journey mishap.'
-			+ '\n• `help` – Displays this help.',
-		],
-		[
-			'Create: `!journey  create|c  [QUARTER_DAY] [SEASON] [TERRAIN] [arguments...]`',
-			'`[QUARTER_DAY]` – Defines the current **Quarter of Day**. Available options are: `morning`, `day` *(default)*, `evening` and `night`.'
-			+ '\n• `-quarter|-q|-d|-quarterday|-qd [search]` – Prompts a menu to choose a **Quarter of Day** option, filtered by what you provided in the `[search]` parameter.'
-			+ '\n• `[SEASON]` – Defines the current **Season**. Available options are: `spring` *(default)*, `summer`, `autumn` and `winter`.'
-			+ '\n• `-season|-s [search]` – Prompts a menu.'
-			+ '\n• `[TERRAIN]` – Defines the current **Terrain** type. Available options are: `plains` *(default)*, `forest`, `dark_forest`, `hills`, `mountains`, `high_mountains`, `lake`, `river`, `ocean`, `marshlands`, `quagmire`, `ruins`, *(Bitter Reach)* `tundra`, `ice_cap`, `beneath_the_ice`, `ice_forest` and `sea_ice`.'
-			+ '\n• `-terrain|-t [search]` – Prompts a menu.'
-			+ '\n• `...arguments` – See other common arguments below.',
-		],
-		[
-			'Mishap: `!journey  mishap|m  [activity] [...arguments]`',
-			'Possible activities that have Mishaps: '
-			+ '`' + YZJourney.Activities
-				.filter(a => a.mishap)
-				.array()
-				.map(a => a.tag)
-				.join('`, `')
-				.toLowerCase() + '`'
-			+ '\n*If no activity is specified, the bot prompts a menu to choose one (filtered by partial words you may have provided).*',
-		],
-		[
-			'Other Common Arguments',
-			'• `-fbr|-bitterreach|-snow|-ice` – Uses *Forbidden Lands: The Bitter Reach* Mishaps tables and draws random *Bitter Reach* weather effects.'
-			+ '\n • `-name|-title|-n <title>` – Defines a title.'
-			+ '\n • `-lang|-language|-lng <language_code>` – Uses a different language. See `setconf` command for available options.',
-		],
-	],
+	description: 'cjourney-description',
+	moreDescriptions: 'cjourney-moredescriptions',
 	cooldown: 60,
 	guildOnly: false,
 	args: true,
-	usage: '<create | mishap [activity]> [arguments...]',
+	usage: '<create | mishap [activity]> [arguments...] [-lang language_code]',
 	/**
 	 * @param {string[]} args Command's arguments
 	 * @param {import('../utils/ContextMessage')} ctx Discord message with context
@@ -86,6 +50,11 @@ module.exports = {
 			configuration: ctx.bot.config.yargs,
 		});
 
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const fileName = argv.fbr
+			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
+			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;
+
 		// Used for the Mishap subcommand.
 		let activityName;
 
@@ -101,23 +70,20 @@ module.exports = {
 			argv._.shift();
 			argv.mishap = true;
 		}
-		if (argv.mishap) {
+/*	Removed because similar code was down below. That code was modified to also understand translated activities.
+ 		if (argv.mishap) {
 			const activities = YZJourney.Activities
 				.filter(a => a.mishap)
 				.keyArray();
-			activityName = await select(ctx, argv._.length ? argv._.shift() : '', activities, 'Choose an **Activity** with a **Mishap**');
+			activityName = await select(ctx, argv._.length ? argv._.shift() : '', activities, __('cjourney-activity-mishap-mismatch', lang));
 		}
-
+ */
 		// Exits early if no subcommand was specified.
 		if (!argv.create && !argv.mishap) {
-			return ctx.reply('ℹ️ Please choose a subcommand `create`, `mishap` or `help`.');
+			return ctx.reply('ℹ️ ' + __('cjourney-choose-subcommand', lang));
 		}
 
 		const title = argv.name ? trimString(argv.name.join(' '), 100) : '';
-		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
-		const fileName = argv.fbr
-			? `./gamedata/fbl/fbr-journeys.${lang}.yml`
-			: `./gamedata/fbl/fbl-journeys.${lang}.yml`;
 
 		// YZJourney options' placeholder.
 		const createOptions = {
@@ -125,23 +91,28 @@ module.exports = {
 			season: null,
 			terrains: null,
 			fbr: argv.fbr,
+			lang: lang,
 		};
 
 		// Builds the options for the YZJourney.
 		if (argv.create) {
 			for (const opt in createOptions) {
 				// Gets the keys list from the constant related to the option.
-				let stack = {};
+				let stack = {}, localPrefix = '';
 				if (opt === 'quarterDay') stack = YZJourney.QUARTER_DAYS;
 				else if (opt === 'season') stack = YZJourney.SEASONS;
-				else if (opt === 'terrains') stack = YZTerrainTypesFlags.FLAGS;
-				else if (opt === 'fbr') continue;
+				else if (opt === 'terrains') 
+				{
+					stack = YZTerrainTypesFlags.FLAGS;
+					localPrefix = 'terrain-'
+				}
+				else if (opt === 'fbr' || opt === 'lang') continue;
 				else throw new ReferenceError('Dumb Stefouch!');
 				const haystack = Object.keys(stack);
 
 				// Triggers a message selector if the argument was called.
 				if (argv[opt] != undefined) {
-					const selectedOpt = await select(ctx, argv[opt], haystack, `Choose a **${strCamelToNorm(opt)}**`);
+					const selectedOpt = await select(ctx, argv[opt], haystack, __('cjourney-choose-' + opt.toLowerCase(), lang), lang, localPrefix);
 					if (selectedOpt) createOptions[opt] = selectedOpt.toUpperCase();
 				}
 				// Otherwise, checks each unused argument from `argv`
@@ -169,27 +140,27 @@ module.exports = {
 		if (argv.create) {
 			const embed = new MessageEmbed({
 				color: ctx.bot.config.color,
-				title: `JOURNEY${title ? ` — "${title}"` : ''}`,
-				description: getDescription(jou),
-				footer: { text: `Game: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}` },
+				title: `${__('journey', lang).toUpperCase()}${title ? ` — "${title}"` : ''}`,
+				description: getDescription(jou, lang),
+				footer: { text: `${__('game', lang)}: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}` },
 				fields: [
 					{
-						name: 'Terrain',
+						name: __('terrain', lang),
 						value: getTerrainDescription(jou),
 						inline: false,
 					},
 					{
-						name: 'Activities',
+						name: __('activities', lang),
 						value: getActivitiesDescription(jou),
 						inline: true,
 					},
 					{
-						name: 'Characteristics',
+						name: __('characteristics', lang),
 						value: getCharacteristicsDescription(jou),
 						inline: true,
 					},
 					{
-						name: 'Modifiers',
+						name: __('modifiers', lang),
 						value: getModifiersDescription(jou),
 						inline: true,
 					},
@@ -197,7 +168,7 @@ module.exports = {
 			});
 			// Adds weather details, if any.
 			if (jou.fbr) {
-				embed.addField('Weather', getWeatherDescription(jou), false);
+				embed.addField(__('weather', lang), getWeatherDescription(jou), false);
 			}
 
 			// Sends the Embed Message.
@@ -224,9 +195,9 @@ module.exports = {
 			if (!activityName) {
 				const mishaps = YZJourney.Activities
 					.filter(a => a.mishap)
-					.map(a => [capitalize(a.tag.toLowerCase()), a]);
+					.map(a => [jou.data[a.mishap].name, a]);
 
-				activity = await getSelection(ctx, mishaps, 'Choose an **Activity**');
+				activity = await select(ctx, argv._.length ? argv._.shift() : '', mishaps, __('cjourney-activity-mishap-mismatch', lang), lang);
 			}
 			else {
 				activity = YZJourney.Activities.get(activityName);
@@ -239,12 +210,12 @@ module.exports = {
 			const mishap = jou.data[activity.mishap].random();
 
 			const embed = new YZEmbed(
-				`${jou.data[activity.mishap].name} Mishap${title ? ` — "${title}"` : ''}`,
+				`${jou.data[activity.mishap].name} ${__('mishap', lang)}${title ? ` — "${title}"` : ''}`,
 				undefined,
 				ctx, true,
 			);
 			embed.addField(`**\`${mishap[0].toUpperCase()}\`**`, mishap[1]);
-			embed.setFooter(`Game: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`);
+			embed.setFooter(`${__('game', lang)}: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`);
 
 			return await ctx.send(embed);
 		}
@@ -255,20 +226,28 @@ module.exports = {
  * Launches a message selector for user input.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
  * @param {string} [needle] Word that pre-filters the list of choices
- * @param {string[]} choices An array of arrays with [name, object]
+ * @param {string[]} choices An array of strings or arrays with [name, object]
  * @param {?string} text Additional text to attach to the selection message
+ * @param {string} lang The language code to use for translated selection embed entries
+ * @param {string} localePrefix The prefix (in locale.js) for the values that should be translated
  * @returns {string}
  */
-async function select(ctx, needle = '', choices, text) {
+async function select(ctx, needle = '', choices, text, lang = 'en', localePrefix = '') {
 	needle = needle.toLowerCase();
-	let matchings = choices.filter(x => x.toLowerCase() === needle);
+	let matchings = choices.filter(x => Array.isArray(x) ? x[0].toLowerCase() === needle || x[1].tag.toLowerCase() === needle : x.toLowerCase() === needle);	// exact match ("lead_the_way" === "lead_the_way")
 	if (!matchings.length) {
-		matchings = choices.filter(x => x.toLowerCase().includes(needle));
+		matchings = choices.filter(x => Array.isArray(x) ? x[0].toLowerCase().replace(/_/g, '') === needle.replace(/_/g, '') || x[1].tag.toLowerCase().replace(/_/g, '') === needle.replace(/_/g, '') : x.toLowerCase().replace(/_/g, '') === needle.replace(/_/g, ''));	// exact match without underscores ("leadtheway" === "leadtheway")
+	}
+	if (!matchings.length) {
+		matchings = choices.filter(x => Array.isArray(x) ? x[0].toLowerCase().includes(needle) || x[1].tag.toLowerCase().includes(needle) : x.toLowerCase().includes(needle));	// needle is uncluded in key ("lead_the_way" includes "way")
 	}
 	if (!matchings.length) {
 		matchings = choices;
 	}
-	matchings = matchings.map(x => [capitalize(x.toLowerCase().replace(/_/g, ' ')), x]);
+	if (!Array.isArray(matchings[0]))
+	{
+		matchings = matchings.map(x => [__(localePrefix + x.toLowerCase(), lang), x]);
+	}
 	return await getSelection(ctx, matchings, text);
 }
 
@@ -294,10 +273,11 @@ async function addActivitiesReactions(message, jou) {
 
 /**
  * Journey's generic description.
+ * @param {YZJourney} journey
  * @returns {string}
  */
-function getDescription() {
-	return 'Choose an Activity and roll for `SURVIVAL`.';
+function getDescription(journey) {
+	return __('cjourney-generic-description', journey.lang);
 }
 
 /**
@@ -308,19 +288,19 @@ function getDescription() {
 function getTerrainDescription(jou) {
 	const lands = jou.terrain
 		.toArray()
-		.map(t => capitalize(t.toLowerCase().replace(/_/g, ' ')));
+		.map(t => __(`terrain-${t.toLowerCase().replace(/_/g, '-')}`, jou.lang));
 
 	let str = '`' + lands.join('`, `') + '` — '
-		+ capitalize(jou.terrain.modifiers.movement.toLowerCase().replace(/_/g, ' '));
+		+ __(`terrain-movement-${jou.terrain.modifiers.movement.toLowerCase().replace(/_/g, '-')}`, jou.lang);
 
 	if (jou.terrain.modifiers.movement === 'OPEN') {
-		str += '\n*On foot: 2 Hexagons / Quarter\nOn Horse-back: 3 Hexagons / Quarter*';
+		str += `\n*${__('cjourney-movement-modifier-open', jou.lang)}*`;
 	}
 	else if (jou.terrain.modifiers.movement === 'DIFFICULT') {
-		str += '\n*On foot: 1 Hexagon / Quarter\nOn Horse-back: 1 Hexagon / Quarter*';
+		str += `\n*${__('cjourney-movement-modifier-difficult', jou.lang)}*`;
 	}
 	else if (jou.terrain.modifiers.movement.includes('BOAT')) {
-		str += '\n*On boat: 2 hexagons / Quarter*';
+		str += `\n*${__('cjourney-movement-modifier-boat', jou.lang)}*`;
 	}
 
 	return str;
@@ -332,10 +312,10 @@ function getTerrainDescription(jou) {
  * @returns {string}
  */
 function getCharacteristicsDescription(jou) {
-	return `Quarter Day: **${capitalize(jou.quarterDay)}**`
-		+ `\nSeason: **${capitalize(jou.season)}**`
-		+ `\n${jou.dayIcon} ${jou.inDaylight ? 'Daylight' : 'Darkness'}`
-		+ (jou.isIcy ? '\n❄️ Icy' : '');
+	return `${__('quarter-day', jou.lang)}: **${__(jou.quarterDay.toLowerCase(), jou.lang)}**`
+		+ `\n${__('season', jou.lang)}: **${__(jou.season.toLowerCase(), jou.lang)}**`
+		+ `\n${jou.dayIcon} ${__(jou.inDaylight ? 'daylight' : 'darkness', jou.lang)}`
+		+ (jou.isIcy ? `\n❄️ ${__('icy', jou.lang)}` : '');	
 }
 
 /**
@@ -369,7 +349,7 @@ function getWeatherDescription(jou) {
 	if (!jou.fbr) return '—';
 	let str = '';
 	for (const [type, wd] of Object.entries(jou.weatherDetailed)) {
-		str += `> **${capitalize(type)}:** \`${wd.name}\`\n${wd.effect}\n\n`;
+		str += `> **${__(type.toLowerCase(), jou.lang)}:** \`${wd.name}\`\n${wd.effect}\n\n`;
 	}
 	return str;
 }

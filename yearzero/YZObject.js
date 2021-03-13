@@ -3,7 +3,7 @@ const { Collection } = require('discord.js');
 const Sebedius = require('../Sebedius');
 const Util = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
-const { __ } = require('../utils/locales');
+const { __ } = require('../lang/locales');
 const { CatalogNotFoundError } = require('../utils/errors');
 const { SOURCE_MAP, COMPENDIA, ATTRIBUTES, ATTRIBUTE_STR, ATTRIBUTE_AGI, RANGES, WEAPON_FEATURES, SUPPORTED_LANGS } = require('../utils/constants');
 
