@@ -3,67 +3,67 @@
 		"define": "Sponsor",
 		"roll": "D66",
 		"data": {
-			"11": "Colonial Administration",
-			"21": "Scientist",
-			"31": "Group of Investors",
-			"41": "Corporate Representative",
-			"51": "Company Mining Rep",
-			"61": "Government Rep"
+			"11": "Kolonialverwaltung",
+			"21": "Wissenschaftler",
+			"31": "Gruppe von Investoren",
+			"41": "Konzernvertreter",
+			"51": "Vertreter einer Bergbaufirma",
+			"61": "Regierungsvertreter"
 		}
 	},
 	"reward": {
 		"roll": "D66",
 		"data": {
-			"11": "Funds for an expedition of their own",
-			"14": "Ship module",
-			"21": "Monetary reward",
-			"51": "Contract with a mining company",
-			"54": "Gear",
-			"61": "Knowledge to use or sell"
+			"11": "Finanzierung einer eigenen Expedition",
+			"14": "Schiffsmodul/-verbesserung/-bewaffnung",
+			"21": "Finanzieller Bonus",
+			"51": "Vertrag mit einer Bergbaufirma",
+			"54": "Ausrüstung",
+			"61": "Wissen, das verwendet oder verkauft werden kann"
 		}
 	},
 	"destination": {
-		"define": "Target Area",
+		"define": "Zielgebiet",
 		"roll": "D66",
 		"data": {
-			"11": ["Abandoned Orbital Station", "Forgotten, abandoned, barely operational."],
-			"15": ["Rogue Asteroid", "A fast-moving interstellar asteroid or planet passing through a star system."],
-			"22": ["Abandoned Mine", "A failed mining project with tunnels and buildings, now abandoned and decaying."],
-			"25": ["Moon", "The rocky moon of a gas giant or planet."],
-			"32": ["Asteroid Belt", "An asteroid that sits deep within a dense asteroid belt."],
-			"36": ["Colonized World", "The target area sits in wilderness on a world that already contains colonists."],
-			"41": ["Terrestrial Planet", "The target area sits on an uninhabited terrestrial planet."],
-			"44": ["Abandoned Colony", "A failed colony with buildings and structures abandoned and decaying."],
-			"45": ["Ice Planet", "The target area sits on an uninhabited ice planet."],
-			"55": ["Wreckage", "The smashed wreckage of a spacecraft, roll again for its current location."],
-			"64": ["Comet", "A comet heading close to the system’s star, that contains valuable chemical compounds and raw materials."]
+			"11": ["Aufgegebene Orbitalstation", "Verlassen, vergessen und kaum einsatzfähig."],
+			"15": ["Interstellarer Asteroid", "Ein schnell fliegender Asteroid oder Planet, der das Sternensystem durchkreuzt."],
+			"22": ["Aufgegebene Mine", "Eine erfolglose Bergbauanlage mit Schächten und Gebäuden, die langsam verfallen."],
+			"25": ["Mond", "Der felsige Mond eines Gasriesen oder Planeten."],
+			"32": ["Asteroidengürtel", "Ein Felsbrocken tief in einem dichten Asteroidengürtel."],
+			"36": ["Kolonisierter Planet", "Abgelegene Region eines bereits kolonisierten Planeten."],
+			"41": ["Erdähnlicher Planet", "Ein unbewohnter terrestrischer Planet."],
+			"44": ["Aufgegebene Kolonie", "Eine gescheiterte Kolonie mit verlassenen Gebäuden und Anlagen."],
+			"45": ["Eisplanet", "Ein unbewohnter Eisplanet."],
+			"55": ["Wrackteil", "Das zerschmetterte Wrack eines Raumschiffs, würfle erneut für seine aktuelle Position."],
+			"64": ["Komet", "Ein Komet auf dem Weg zum Stern des Systems mit vielen wertvollen chemischen Verbindungen und Rohstoffen."]
 		}
 	},
 	"mission": {
 		"define": "Mission",
 		"roll": "D66",
 		"data": {
-			"11": ["Salvage", "Locate an abandoned or destroyed ship, station or planetary facility. Recover items of value and avoid the wreck’s fate…"],
-			"21": ["Survey", "Map a location or an area for the employer. Report back with sensor maps and other collected data."],
-			"25": ["Mining", "Begin test-mining to determine the viability for later investors. The substance being recovered may be cobalt, gold, tungsten, oil, natural gas, lead or something else."],
-			"33": ["Colony Assistance", "Assist a start-up colony with gear, information or expert knowledge about surface exploration, medicine, prospecting, construction or something else."],
-			"41": ["Prospecting", "Command a prospecting expedition or secure a claim somewhere. It could be mining, asteroid harvesting, logging or gas trawling."],
-			"46": ["Data Collection", "Find a specific piece of information for the employer. Sometimes, the group does not know the intended use of the information."],
-			"53": ["Courier", "Make sure sensitive information, resources or goods are delivered safely from the employer to the receiver—without delay."],
-			"56": ["Anomaly Exploration", "A unique phenomenon requires speedy investigation—is it a threat, or something that can be exploited for profit? It may be a wormhole, gravity lens, powerful radiation emission or other anomaly."],
-			"63": ["Rescue", "Rescue a group, colony, survey expedition or correspondents from an attack or some other peril. Often, the PCs will be unaware of the fate of the missing victims."]
+			"11": ["Bergung", "Finden eines verlassenen oder zerstörten Schiffs/einer Station/einer planetaren Einrichtung und Bergen wertvoller Gegenstände, ohne das gleiche Schicksal wie das Wrack zu erleiden…"],
+			"21": ["Vermessung", "Kartographierung eines Ortes oder Gebiets für den Arbeitgeber, Bericht erstatten mit Sensorkarten und anderen gesammelten Daten."],
+			"25": ["Bergbau", "Durchführen von Probebohrungen, um den Wert des Planeten/Mondes/Asteroiden für spätere Investoren zu ermitteln; dabei könnten reiche Mineral- oder Gasvorkommen entdeckt werden oder auch etwas völlig anderes."],
+			"33": ["Kolonieunterstützung", "Unterstützung einer neugegründeten Kolonie mit Ausrüstung, Informationen oder Fachwissen über Planetenerkundung, Medizin, Prospektion, Konstruktion oder anderem."],
+			"41": ["Prospektion", "Erkunden eines Planeten/Mondes/Asteroiden nach nutzbaren Rohstoffen (Mineralien, Holz, Gas etc.) oder Sicherung bereits gefundener Vorkommen."],
+			"46": ["Daten sammeln", "Finden einer bestimmten Information für den Arbeitgeber; manchmal ohne zu wissen, welchem Zweck sie dient."],
+			"53": ["Kurier", "Transport empfindlicher Informationen, Ressourcen oder Güter sicher vom Arbeitgeber zum Empfänger — und das ohne Verzögerung."],
+			"56": ["Erkundung einer Anomalie", "Untersuchung eines einzigartigen Phänomens (eines Wurmlochs, einer Gravitationslinse, mächtiger Strahlenemissionen etc.) auf die Frage hin, ob die Anomalie eine Bedrohung ist oder sich zu Geld machen lässt."],
+			"63": ["Rettungsexpedition", "Rettung einer Gruppe, Kolonie, Vermessungsexpedition oder Ähnlichem vor einem Angriff oder einer anderen Gefahr; oft ohne zu wissen, was den vermissten Opfern zugestoßen ist."]
 		}
 	},
 	"complication": {
 		"roll": "D66",
 		"data": {
-			"11": ["Natural Phenomenon", "Some severe natural event occurs during the mission: a rapid temperature change, forest fire, hurricane, tsunami, earthquake, mudslide, etc."],
-			"22": ["Survey Blues", "he target area is either difficult to locate, or difficult to survey safely or efficiently."],
-			"33": ["Presumed Missing", "If the PCs gained a permit to survey their target area, they may or may not realize it is inherited from a previous expedition that vanished without a trace."],
-			"36": ["Rival Expedition", "A competing party has the same goal as the expedition and tries to get there first or stop the PCs. They have roughly the same gear as the PCs."],
-			"45": ["Quarantine", "The target area is under quarantine or off-limits, possibly for reasons unknown. The expedition has no permit and will be breaking the law if they choose to proceed."],
-			"53": ["Deadly Treasure", "Some terrible object(s) exist in the target area, unbeknownst to the PCs. This deadly find may be nuclear waste, a dump of biological weapons, a nest of Xenomorph eggs or something equally horrific and life-threatening!"],
-			"63": ["Surveillance", "The expedition is under surveillance by the military, government or some other party. They will not intervene, although they may communicate their presence to the team. Why are they watching? What do they really want?"]
+			"11": ["Naturphänomen", "Es kommt während der Expedition zu einer schweren Naturkatastrophe: ein schneller Temperaturwechsel, ein Waldbrand, ein Hurrikan, ein Tsunami, ein Erdbeben, eine Schlammlawine oder Ähnliches."],
+			"22": ["Vermessungsprobleme", "Das Zielgebiet ist entweder schwer ausfindig zu machen oder lässt sich nicht sicher oder effizient vermessen."],
+			"33": ["Vermisste Expedition", "Wenn die SC den Auftrag erhalten, merken sie vielleicht, dass die Lizenz vorher schon einer anderen Expedition erteilt wurde – die jedoch spurlos verschwunden ist."],
+			"36": ["Konkurrenz", "Eine rivalisierende Gruppierung hat das gleiche Ziel wie die Expedition und versucht, dieses zuerst zu erreichen oder die SC aufzuhalten (vielleicht auch mit unlauteren Mitteln). Die Konkurrenz besitzt ungefähr die gleiche Ausrüstung wie die SC."],
+			"45": ["Quarantäne", "Das Zielgebiet steht unter Quarantäne oder ist zugangsbeschränkt, möglicherweise aus unbekannten Gründen. Die Expedition hat keine Berechtigung, es zu betreten, und wird gegen das Gesetz verstoßen, wenn sie ihren Auftrag weiterverfolgt."],
+			"53": ["Tödlicher Schatz", "Eine schreckliche Gefahr befindet sich im Zielgebiet, ohne dass die SC etwas davon ahnen. Es könnte sich um Atommüll handeln, ein Lager biologischer Waffen, ein Nest von Xenomorph-Eiern oder etwas anderes, das gleichermaßen grauenvoll und lebensbedrohlich ist."],
+			"63": ["Überwachung", "Die Expedition wird vom Militär, einer Regierung oder einer anderen Gruppierung überwacht. Sie mischen sich nicht ein, könnten sich den SC jedoch offenbaren. Wieso beobachten sie die Expedition? Was wollen sie wirklich?"]
 		}
 	}
 }

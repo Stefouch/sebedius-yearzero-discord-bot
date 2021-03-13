@@ -3,26 +3,7 @@ const { __ } = require('../lang/locales');
 const { KEEP_CAPITALIZATION_LANGS } = require('../utils/constants');
 const { RollParser } = require('../utils/RollParser');
 
-const jobTitles = {
-	cargo: 'Cargo Run',
-	mil: 'Military Mission',
-	expe: 'Expedition',
-};
-const contractorTitles = {
-	cargo: 'Employer',
-	mil: 'Patron',
-	expe: 'Sponsor',
-};
-const destinationTitles = {
-	cargo: 'Destination',
-	mil: 'Objective',
-	expe: 'Target Area',
-};
-const missionTitles = {
-	cargo: 'Goods',
-	mil: 'Mission',
-	expe: 'Mission',
-};
+const VALID_JOBS = ['cargo', 'mil', 'expe'];
 
 /**
  * An ALIEN Job.
@@ -36,7 +17,7 @@ class ALIENJobGenerator extends YZGenerator2 {
 		super(JobData, language);
 
 		// Exits earlier if wrong jobType.
-		if (!jobTitles.hasOwnProperty(jobType)) throw new Error(`${__('galienjobgenerator-invalid-type', this.lang)}: ` + jobType);
+		if (!VALID_JOBS.includes(jobType)) throw new Error(`${__('galienjobgenerator-invalid-type', this.lang)}: ` + jobType);
 
 		let JobTypeData;
 		switch (jobType)
@@ -71,11 +52,12 @@ class ALIENJobGenerator extends YZGenerator2 {
 			JobTypeData,
 			this.complication,
 			this.extra,
+			this.lang
 		);
 	}
 
 	get title() {
-		return `${this.job.mission.name} ${this.job.jobTitle}`;
+		return `${this.job.jobTitle}: ${this.job.mission.name}`;
 	}
 
 	get description() {
@@ -83,7 +65,7 @@ class ALIENJobGenerator extends YZGenerator2 {
 			+	`\n${this.job.contractorTitle}: ${this.job.contractor}`;
 	}
 
-	static get jobTypes() { return Object.keys(jobTitles); }
+	static get jobTypes() { return VALID_JOBS; }
 }
 
 module.exports = ALIENJobGenerator;
@@ -132,8 +114,8 @@ class ALIENJobDescriptor extends YZGenerator2 {
 			}
 		}
 	}
-	get jobTitle() { return jobTitles[this.type]; }
-	get contractorTitle() { return contractorTitles[this.type]; }
-	get destinationTitle() { return destinationTitles[this.type]; }
-	get missionTitle() { return missionTitles[this.type]; }
+	get jobTitle() { return __(`alien-job-${this.type}`, this.lang); }
+	get contractorTitle() { return __(`alien-job-contractor-${this.type}`, this.lang); }
+	get destinationTitle() { return __(`alien-job-destination-${this.type}`, this.lang); }
+	get missionTitle() { return __(`alien-job-mission-${this.type}`, this.lang); }
 }
