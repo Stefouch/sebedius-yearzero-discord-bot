@@ -11,7 +11,7 @@ const LOCALES = {
  * @param {string} locale The language code to use. Default is en (english)
  */
 module.exports.__ = (text, locale) => {
-	if (typeof text != 'string') return text;
+	if (typeof text !== 'string') return text;
 	text = text.replace(/_/g, '-').toLowerCase();
 	const loc = LOCALES[locale] ? locale : 'en';
 	if (LOCALES[loc][text]) return LOCALES[loc][text];

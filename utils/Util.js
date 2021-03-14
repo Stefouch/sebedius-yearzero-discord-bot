@@ -558,8 +558,8 @@ class Util {
 				// else if (this.isNumber(value)) value = Number(value);
 				
 				// remove quotation marks, if someone uses common csv-syntax for text columns	// TODO (maybe): don't split on a separator within quotation marked text
-				if (value.startsWith('"') || value.startsWith("'")) value = value.substring(1);
-				if (value.endsWith('"') || value.endsWith("'")) value = value.substring(0, value.length - 1);
+				if (value.startsWith('"') || value.startsWith("'")) value = value.slice(1);
+				if (value.endsWith('"') || value.endsWith("'")) value = value.slice(0, -1);
 				
 				obj[headers[j]] = value;
 			}
