@@ -266,8 +266,8 @@
     "ccrit-description": "Würfelt eine zufällige kritische Verletzung. Nutze den `-private` Parameter um das Ergebnis in einer Direktnachricht zu erhalten.",
     "ccrit-moredescriptions": [
         [
-            "Parameter",
-            "Es gibt drei Hauptparamter, welche mit diesem Befehl in beliebiger Rheinfolge genutzt werden können:\n• `game` – Gibt das genutzte Spiel an. Kann ausgelassen werden, wenn ein Standard mit `!setconf game [default game]` gesetzt wurde.\n> Möglichkeiten: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Gibt die gewünschte Tabelle des Spiels an. Siehe unten für die Optionen *(Standard ist 'damage')*.\n• `numeric` – Ruft einen bestimmten Eintrag aus der Tabelle ab."
+            "Argumente",
+            "Es gibt mehrere Argumente, welche mit diesem Befehl in beliebiger Rheinfolge genutzt werden können:\n• `game` – Gibt das genutzte Spiel an. Kann ausgelassen werden, wenn ein Standard mit `!setconf game [default game]` gesetzt wurde.\n> Möglichkeiten: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Gibt die gewünschte Tabelle des Spiels an. Siehe unten für die Optionen *(Standard ist 'damage')*.\n• `numeric` – Ruft einen bestimmten Eintrag aus der Tabelle ab.\n• `-private|-p` – Sendet das Ergebnis in einer Direktnachricht.\n• `-lucky|-ly <rank>` – *Glückspilz*-Talent: bei Rang `1` wird zweimal gewürfelt und der niedrigere Wurf genommen. Bei `2` wird zweimal gewürfelt, invertiert und davon der niedrigste Wert genommen. Bei `3` wird die erste kritische Verletzung genommen (#11)."
         ],
         [
             "☢️ Mutant: Jahr Null (myz)",
