@@ -69,6 +69,7 @@
     "suppression": "Suppression",
     "suppressions": "Suppressions",
     "panic": "Panic",
+    "panic-roll": "Panic Roll",
     "details": "Details",
     "pushed": "Pushed",
     "initiative": "Initiative",
@@ -181,6 +182,7 @@
     "skill-fbl-performance": "Performance",
     "skill-fbl-healing": "Healing",
     "skill-fbl-animalhandling": "Animal Handling",
+    "talent-alien-nerves-of-steel": "Nerves of Steel",
     "range": "Range",
     "range-myz-arm": "Arm",
     "range-myz-near": "Near",
@@ -376,6 +378,18 @@
     "cmutation-description": "Rolls dice for a Mutation and checks for any Misfire.",
     "cmyzpower-description": "Rolls the dice for a MYZ power.",
     "cmyzpower-invalid-arguments": "Invalid arguments",
+    "cpanic-description": "Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.",
+    "cpanic-moredescriptions": [
+		[
+			"Arguments",
+			"• `-fixed|-f` – Uses a fixed number instead (doesn't add a D6).\n• `-nerves|-n` – Applies the *Nerves of Steel* talent (−2 to the Panic roll).\n• `-min <value>` – Adjusts a minimum threshold for multiple consecutive panic effects."
+		]
+	],
+    "cpanic-effect-not-found": "The panic effect wasn't found",
+    "cpanic-interrupted-skill-roll-title": "Interrupted Skill Roll",
+    "cpanic-interrupted-skill-roll-text": "You will be forced to perform a specific action. If the Panic Roll was the result of a skill check for an action, the action is cancelled and immediately replaced by the forced panic action, even if you succeeded your roll.",
+    "cpanic-mental-trauma-reminder-title": "End of Game Session: Roll for Permanent Mental Trauma",
+    "cpanic-mental-trauma-reminder-text": "You must make an **EMPATHY** roll after the session. Roll for the attribute only, not using any skill. If the roll *succeeds*, you develop a permanent mental trauma of some kind. Roll a D6 and consult the table on page 161.",
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [

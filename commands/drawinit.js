@@ -83,6 +83,7 @@ function getDrawCardText(cards, ctx, lang) {
 	if (!Array.isArray(cards)) return getDrawCardText([cards], ctx, lang);
 	return `${getMention(ctx.member)} **${__('initiative', lang)}:** ${cards.map(c => CARDS_ICONS[c]).join(' ')}`;
 }
+
 /**
  * Gets the `Haste` pool's text.
  * @param {Array} cards An array of looted cards

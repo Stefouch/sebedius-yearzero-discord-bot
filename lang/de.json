@@ -69,6 +69,7 @@
     "suppression": "Suppression",
     "suppressions": "Suppressions",
     "panic": "Panik",
+    "panic-roll": "Panikwurf",
     "details": "Details",
     "pushed": "Strapaziert",
     "initiative": "Initiative",
@@ -181,6 +182,7 @@
     "skill-fbl-performance": "Darbietung",
     "skill-fbl-healing": "Heilen",
     "skill-fbl-animalhandling": "Tierkunde",
+    "talent-alien-nerves-of-steel": "Nerven aus Stahl",
     "range": "Reichweite",
     "range-myz-arm": "Arm",
     "range-myz-near": "Nah",
@@ -379,6 +381,18 @@
     "cmutation-description": "Wirft die Würfel für eine Mutation und prüft auf Fehlzündungen.",
     "cmyzpower-description": "Wirft die Würfel für eine MYZ-Kraft (z.B. Mutation, Modul, usw.).",
     "cmyzpower-invalid-arguments": "Ungültige Argumente",
+    "cpanic-description": "Würfelt zufällige Panikeffekte für das *ALIEN* Rollenspiel. Das aktuelle Stresslevel muss angegeben werden.",
+    "cpanic-moredescriptions": [
+		[
+			"Argumente",
+			"• `-fixed|-f` – Benutzt einen fresten Wert (anstatt einen D6 hinzuzufügen).\n• `-nerves|-n` – Nutzt das *Nerven aus Stahl*-Talent (−2 zum Panikwurf).\n• `-min <value>` – Legt eine Minimalschwelle für mehrere, aufeinanderfolgende Panikeffekte fest."
+		]
+	],
+    "cpanic-effect-not-found": "Der Panikeffekt wurde nicht gefunden",
+    "cpanic-interrupted-skill-roll-title": "Unterbrochener Fertigkeitswurf",
+    "cpanic-interrupted-skill-roll-text": "Du bist gezwungen, bestimmte Aktionen auszuführen. Musstest du den Panikwurf infolge eines Fertigkeitswurfs ablegen, verfällt deine gegenwärtige Aktion und wird sofort durch die erzwungene Panikaktion ersetzt, selbst wenn du einen Erfolg gewürfelt hast.",
+    "cpanic-mental-trauma-reminder-title": "Am Ende der Spielsitzung: Würfle für ein Dauerhaftes Mentales Trauma",
+    "cpanic-mental-trauma-reminder-text": "Du musst nach der Sitzung einen **EMPATHIE**-Wurf ablegen. Würfele nur auf das Attribut, ohne Verwendung einer Fertigkeit. Gelingt der Wurf, entwickelst du ein dauerhaftes mentales Trauma. Würfele mit einem D6 und schaue in der Tabelle auf Seite 101 nach.",
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [
