@@ -393,6 +393,13 @@
     "cpanic-interrupted-skill-roll-text": "Du bist gezwungen, bestimmte Aktionen auszuführen. Musstest du den Panikwurf infolge eines Fertigkeitswurfs ablegen, verfällt deine gegenwärtige Aktion und wird sofort durch die erzwungene Panikaktion ersetzt, selbst wenn du einen Erfolg gewürfelt hast.",
     "cpanic-mental-trauma-reminder-title": "Am Ende der Spielsitzung: Würfle für ein Dauerhaftes Mentales Trauma",
     "cpanic-mental-trauma-reminder-text": "Du musst nach der Sitzung einen **EMPATHIE**-Wurf ablegen. Würfele nur auf das Attribut, ohne Verwendung einer Fertigkeit. Gelingt der Wurf, entwickelst du ein dauerhaftes mentales Trauma. Würfele mit einem D6 und schaue in der Tabelle auf Seite 101 nach.",
+    "cplanet-description": "Erzeugt einen unkolonisierten Planeten für das Alien RPG.",
+    "cplanet-moredescriptions": [
+        [
+            "Argumente",
+            "• `name` - Gibt einen eigenen Namen für den Planeten an.\n• `type` - Gibt die Planetenart an (Standard ist \"rocky\").\n> Optionen: felsig: rocky, Eisplanet: icy, Gasriese: gasgiant, Gasriesen-Mond: gasgiant-moon, Asteroidengürtel: asteroid-belt"
+        ]
+    ],
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [

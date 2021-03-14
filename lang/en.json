@@ -390,6 +390,13 @@
     "cpanic-interrupted-skill-roll-text": "You will be forced to perform a specific action. If the Panic Roll was the result of a skill check for an action, the action is cancelled and immediately replaced by the forced panic action, even if you succeeded your roll.",
     "cpanic-mental-trauma-reminder-title": "End of Game Session: Roll for Permanent Mental Trauma",
     "cpanic-mental-trauma-reminder-text": "You must make an **EMPATHY** roll after the session. Roll for the attribute only, not using any skill. If the roll *succeeds*, you develop a permanent mental trauma of some kind. Roll a D6 and consult the table on page 161.",
+    "cplanet-description": "Generates an uncolonized planet for the Alien RPG.",
+    "cplanet-moredescriptions": [
+        [
+            "Arguments",
+            "• `name` - Specifies a custom planet name.\n• `type` - Specifies the planet type (default is \"rocky\").\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt"
+        ]
+    ],
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [
