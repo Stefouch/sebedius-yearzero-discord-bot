@@ -280,6 +280,10 @@
         [
             "🌟 Coriolis: The Third Horizon",
             "• `dmg` | `damage` : Critical injuries from damage.\n• `at` | `atypical` : Critical injury for atypical damage."
+        ],
+        [
+            "🦋 Vaesen",
+            "• `dmg` | `damage` : Physical critical injuries.\n• `m` | `mental` : Mental critical injuries."
         ]
     ],
     "ccrit-too-many-arguments": "You typed too many arguments! See `help crit` for the correct usage.",
@@ -297,6 +301,7 @@
     "ccritcoriolis-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
     "ccritfbl-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
     "ccritmyz-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
+    "ccritvaesen-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
     "cdemon-description": "Generates a random demon according to the tables found in the *Forbidden Lands - Gamemaster's Guide*.\nNote: all bonuses from the demon's abilities are not computed into its stats/armor/skills.\nNote: the attacks output is not optimal on a small screen (smartphone).",
     "cdrawinit-description": "Draws one or more initiative cards. The deck is specific to each Discord server.\n\n__Parameter__\n• `[speed]` – Number of initiative cards to draw. Default: 1.\n\n__Arguments__\n• `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.\n• `[-shuffle]` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*",
     "cdrawinit-deck-too-small": "The size of the *Initiative* deck is too small.",

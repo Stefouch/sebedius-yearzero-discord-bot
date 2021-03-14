@@ -9,6 +9,7 @@ const availableCritTables = {
 	fbl: { slash: true, blunt: true, stab: true, horror: true, pushed: 'myz', nontypical: 'myz' },
 	alien: { damage: true, mental: true, synthetic: true, xeno: true },
 	coriolis: { damage: true, nontypical: true },
+	vaesen: { damage: true, mental: true },
 };
 
 const critTypeAliases = {
@@ -93,10 +94,16 @@ module.exports = {
 
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
-			return ctx.reply(`ℹ️ ${__('ccrit-no-table-for-game-start', lang)} \`${game}\` ${__('ccrit-no-table-for-game-end', lang)}.`);
+			return ctx.reply(
+				`ℹ️ ${__('ccrit-no-table-for-game-start', lang)} `
+				+ `\`${game}\` ${__('ccrit-no-table-for-game-end', lang)}.`,
+			);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
-			return ctx.reply(`ℹ️ ${__('ccrit-table-not-found-start', lang)} \`${type}\` ${__('ccrit-table-not-found-end', lang)} **${SOURCE_MAP[game]}**.`);
+			return ctx.reply(
+				`ℹ️ ${__('ccrit-table-not-found-start', lang)} `
+				+ `\`${type}\` ${__('ccrit-table-not-found-end', lang)} **${SOURCE_MAP[game]}**.`,
+			);
 		}
 
 		// Table swap.
@@ -107,7 +114,6 @@ module.exports = {
 		// Gets the Critical Injuries table.
 		const fileName = `crits-${game}-${type}`;
 		const critsTable = getTable('CRIT', './gamedata/crits/', fileName, lang);
-		// console.log(critsTable);
 
 		// Aborts if the table couldn't be retrieved.
 		if (!critsTable) return ctx.reply('❌ An error occured: `null critsTable`.');
@@ -119,6 +125,9 @@ module.exports = {
 
 		// Exits early if no critical injury was found.
 		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found'), lang}. *(${__('table', lang)}: ${fileName})*`);
+
+		// Adds a "game" property to the crit.
+		crit.game = game;
 
 		// Gets the values of each D66's dice.
 		let die1 = 0, die2 = 0;
@@ -137,7 +146,7 @@ module.exports = {
 		}
 		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang))
 			.then(() => {
-				if (crit.fatal) {
+				if (crit.fatal && game !== 'vaesen') {
 					// Sends a coffin emoticon.
 					setTimeout(() => {
 						ctx.send('🪦');
@@ -178,7 +187,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
 	if (crit.lethal) {
 		let text = '';
 
-		if (crit.timeLimit) {
+		if (crit.timeLimit || crit.game === 'vaesen') {
 			text = '⚠ ' + __('ccrit-lethality-start', lang);
 
 			if (crit.healMalus) {
