@@ -1,6 +1,7 @@
 const { YZEmbed } = require('../utils/embeds');
 const YZRoll = require('../yearzero/YZRoll');
 const { emojifyRoll } = require('../Sebedius');
+const { __ } = require('../lang/locales');
 
 const ARTIFACT_DIE_REGEX = /^d(6|8|10|12)$/i;
 
@@ -8,31 +9,49 @@ module.exports = {
 	name: 'resource',
 	aliases: ['res', 'ressource', 'resources', 'ressources'],
 	category: 'fbl',
-	description: 'Rolls a Resource Die.',
+	description: 'cresource-description',
 	guildOnly: false,
 	args: true,
-	usage: '<d6|d8|d10|d12> [name]',
+	usage: '<d6|d8|d10|d12> [name] [-lang language_code]',
 	async run(args, ctx) {
-		const resourceDieArgument = args.shift();
+		// Parses arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+
+		const resourceDieArgument = argv._.shift();
 
 		if (ARTIFACT_DIE_REGEX.test(resourceDieArgument)) {
 			const [, size] = resourceDieArgument.match(ARTIFACT_DIE_REGEX);
-			const resTitle = args.length ? args.join(' ') : 'Resource';
-			const roll = new YZRoll('fbl', ctx.author, resTitle)
+			const resTitle = argv._.length ? argv._.join(' ') : __('resource', lang);
+			const roll = new YZRoll('fbl', ctx.author, resTitle, lang)
 				.addDice('arto', 1, size);
 			sendMessageForResourceDie(roll, ctx);
 		}
 		else {
-			ctx.reply('⚠️ I don\'t understand this resource die. Use `d6`, `d8`, `d10` or `d12`.');
+			ctx.reply(`⚠️ ${__('cresource-invalid-dice', lang)}.`);
 		}
 	},
 };
 
+/**
+ * Sends a Message for the corresponding Resource Die
+ * @param {YZRoll} roll The Resource Die roll
+ * @param {*} ctx The Message's context
+ */
 function sendMessageForResourceDie(roll, ctx) {
-	if (roll.size > ctx.bot.config.commands.roll.max) return ctx.reply('Can\'t roll that, too many dice!');
+	if (roll.size > ctx.bot.config.commands.roll.max) return ctx.reply(__('cresource-too-many-dice', roll.lang));
 
 	const die = roll.dice[0];
-	const desc = `**\`D${die.range}\`** Resource Die: **${die.result}**`;
+	const desc = `**\`D${die.range}\`** ${__('resource-die', roll.lang)}: **${die.result}**`;
 	const embed = new YZEmbed(roll.name, desc, ctx, true);
 	const text = emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]);
 
@@ -42,21 +61,21 @@ function sendMessageForResourceDie(roll, ctx) {
 
 		if (newSize > 0) {
 			embed.addField(
-				'⬇ Decreased',
-				`One unit is used. The Resource Die is decreased one step to a **\`D${newSize}\`**.`,
+				`⬇ ${__('cresource-decreased-title', roll.lang)}`,
+				`${__('cresource-decreased-text', roll.lang)} **\`D${newSize}\`**.`,
 			);
 		}
 		else {
 			embed.addField(
-				'🚫 Exhausted',
-				'The consumable is fully depleted.',
+				`🚫 ${__('cresource-exhausted-title', roll.lang)}`,
+				__('cresource-exhausted-text', roll.lang),
 			);
 		}
 	}
 	else {
 		embed.addField(
-			'✅ Unchanged',
-			'The Resource Die didn\'t decrease.',
+			`✅ ${__('cresource-unchanged-title', roll.lang)}`,
+			__('cresource-unchanged-text', roll.lang),
 		);
 	}
 	ctx.send(text, embed);
