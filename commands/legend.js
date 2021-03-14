@@ -9,7 +9,7 @@ module.exports = {
 	description: 'clegend-description',
 	guildOnly: false,
 	args: false,
-	usage: '[-lang language_code]',
+	usage: '[-lang <language_code>]',
 	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			string: ['lang'],

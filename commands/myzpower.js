@@ -24,7 +24,7 @@ module.exports = {
 	description: 'cmyzpower-description',
 	guildOnly: false,
 	args: true,
-	usage: '<myz|gla|mek|ely> <power> [-lang language_code]',
+	usage: '<myz|gla|mek|ely> <power> [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

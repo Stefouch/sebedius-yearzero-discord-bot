@@ -13,7 +13,7 @@ module.exports = {
 	description: 'chelp-description',
 	guildOnly: false,
 	args: false,
-	usage: '[command name] [-list|-commands] [-lang language_code]',
+	usage: '[command name] [-list|-commands] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

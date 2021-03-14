@@ -10,7 +10,7 @@ module.exports = {
 	description: 'cjob-description',
 	guildOnly: false,
 	args: true,
-	usage: `<${Job.jobTypes.join('|')}> [-lang language_code]`,
+	usage: `<${Job.jobTypes.join('|')}> [-lang <language_code>]`,
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

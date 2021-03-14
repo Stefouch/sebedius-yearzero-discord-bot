@@ -14,7 +14,7 @@ module.exports = {
 	moreDescriptions: 'cattack-moredescriptions',
 	guildOnly: false,
 	args: true,
-	usage: '[game] <monster name> [number] [-private|-p] [-lang language_code]',
+	usage: '[game] <monster name> [number] [-private|-p] [-lang <language_code>]',
 	async run(args, ctx) {
 		const { monster, argv } = await ctx.bot.commands.get('monster').parse(args, ctx);
 		const ref = isNumber(argv.attack) ? argv.attack : null;

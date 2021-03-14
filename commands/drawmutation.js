@@ -9,7 +9,7 @@ module.exports = {
 	description: 'cdrawmutation-description',
 	guildOnly: false,
 	args: false,
-	usage: '[all | myz gla zc2 zc5 psi] [-lang language_code]',
+	usage: '[all | myz gla zc2 zc5 psi] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

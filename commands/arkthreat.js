@@ -9,7 +9,7 @@ module.exports = {
 	description: 'carkthreat-description',
 	guildOnly: false,
 	args: false,
-	usage: '[-lang language_code]',
+	usage: '[-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {
@@ -25,6 +25,6 @@ module.exports = {
 		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const ArkThreats = require(`../gamedata/myz/ark-threats.list.${lang}.json`);
 		const embed = new YZEmbed(__('carkthreat-title', lang), random(ArkThreats));
-		return ctx.send(embed);
+		return await ctx.send(embed);
 	},
 };

@@ -12,7 +12,7 @@ module.exports = {
 	moreDescriptions: 'cmonster-moredescriptions',
 	guildOnly: false,
 	args: false,
-	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p] [-lang language_code]',
+	usage: '[game] <monster name> [-attack|-atk|-a <number>] [-private|-p] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const { monster, argv } = await module.exports.parse(args, ctx);

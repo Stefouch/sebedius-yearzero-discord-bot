@@ -11,7 +11,7 @@ module.exports = {
 	description: 'cdrawinit-description',
 	guildOnly: true,
 	args: false,
-	usage: '[speed] [-haste <value>] [-shuffle] [-lang language_code]',
+	usage: '[speed] [-haste <value>] [-shuffle] [-lang <language_code>]',
 	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['shuffle'],

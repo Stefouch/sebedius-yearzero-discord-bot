@@ -10,7 +10,7 @@ module.exports = {
 	moreDescriptions: 'ccolony-moredescriptions',
 	guildOnly: false,
 	args: false,
-	usage: '[name] [-type planet-type] [-location core|arm] [-lang language_code]',
+	usage: '[name] [-type planet-type] [-location core|arm] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
