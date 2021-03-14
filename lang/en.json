@@ -33,7 +33,7 @@
     "weakness": "Weakness",
     "weaknesses": "Weaknesses",
     "clip": "Clip",
-    "fullauto": "Fullauto",
+    "fullauto": "Full-Auto",
     "light": "Light",
     "heavy": "Heavy",
     "energy": "Energy",
@@ -440,6 +440,9 @@
             "The following commands are shortcuts if you don't want to specify the [game] parameter each time.\n`rm` – Rolls *Mutant: Year Zero* dice.\n`rf` – Rolls *Forbidden Lands* dice.\n`rt` – Rolls *Tales From The Loop* dice.\n`rc` – Rolls *Coriolis* dice.\n`ra` – Rolls *Alien RPG* dice.\n`rv` – Rolls *Vaesen* dice.\n`rw` – Rolls *Twilight 2000 4E* dice."
         ]
     ],
+    "croll-invalid-syntax": "I don't understand this syntax. Type `{will_be_replaced}help roll` for details on the proper usage.",
+    "croll-no-dice": "Can't roll a null number of dice!",
+    "croll-too-many-dice": "Cannot roll that many dice!",
     "croll-ammo-spent": "Ammo Spent",
     "croll-generic-roll": "Generic Roll",
     "croll-single-roll": "Single D6 / D66 / D666 Roll",

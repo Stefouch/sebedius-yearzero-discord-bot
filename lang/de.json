@@ -443,6 +443,9 @@
             "Die folgenden Befehle sind Kürzel, falls du nicht den Spiel-Parameter [game] jedes Mal angeben möchtest.\n`rm` – Wirft *Mutant: Jahr Null* Würfel.\n`rf` – Wirft *Verbotene Lande* Würfel.\n`rt` – Wirft *Tales From The Loop* Würfel.\n`rc` – Wirft *Coriolis* Würfel.\n`ra` – Wirft *Alien RPG* Würfel.\n`rv` – Wirft *Vaesen* Würfel.\n`rw` – Wirft *Twilight 2000 4E* Würfel."
         ]
     ],
+    "croll-invalid-syntax": "Ich verstehe diese Syntax nicht. Gib `{will_be_replaced}help roll` ein um mehr Details für die korrekte Verwendung zu erhalten.",
+    "croll-no-dice": "Kann nicht null Würfel werfen!",
+    "croll-too-many-dice": "Kann nicht so viele Würfel werfen!",
     "croll-ammo-spent": "Ausgegebene Munition",
     "croll-generic-roll": "Generischer Wurf",
     "croll-single-roll": "Einzelner D6 / D66 / D666 Wurf",
