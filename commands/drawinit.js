@@ -83,7 +83,12 @@ function getDrawCardText(cards, ctx, lang) {
 	if (!Array.isArray(cards)) return getDrawCardText([cards], ctx, lang);
 	return `${getMention(ctx.member)} **${__('initiative', lang)}:** ${cards.map(c => CARDS_ICONS[c]).join(' ')}`;
 }
-
+/**
+ * Gets the `Haste` pool's text.
+ * @param {Array} cards An array of looted cards
+ * @param {string} lang The language code for the localisation
+ * @returns {string}
+ */
 function getHastePoolText(cards, lang) {
 	if (!Array.isArray(cards) || cards.length == 0) return '';
 	return `${__('cdrawinit-hastepool', lang)}: ` + cards.map(c => `[${c}]`).join(', ');

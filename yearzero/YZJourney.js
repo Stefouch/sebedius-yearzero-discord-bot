@@ -21,7 +21,7 @@ class YZJourney {
 		this.filename = filename;
 		this.data = YZGenerator3.parse(filename);
 
-		this.lang = !options.lang ? 'en' : options.lang;
+		this.lang = options.lang || 'en';
 
 		/**
 		 * The current Season of Year.
