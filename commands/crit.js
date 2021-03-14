@@ -32,7 +32,7 @@ module.exports = {
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric|-lucky [rank]] [-private|-p] [-lang <language_code>]',
+	usage: '[game] [table] [numeric|-lucky <rank>] [-private|-p] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parsing arguments.
 		const argv = require('yargs-parser')(args, {
@@ -186,7 +186,8 @@ function getEmbedCrit(crit, name, ctx, lang) {
 			}
 
 			if (/s$/.test(crit.timeLimitUnit) || /(ge|en)$/.test(crit.timeLimitUnit)) {
-				text += __('ccrit-lethality-timelimit-multiple', lang) + ` **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
+				text += __('ccrit-lethality-timelimit-multiple', lang)
+					+ ` **${sumD6(crit.timeLimit)} ${crit.timeLimitUnit}**`;
 			}
 			else {
 				text += __('ccrit-lethality-timelimit-single', lang) + ` ${crit.timeLimitUnit}**`;
@@ -217,11 +218,11 @@ function rollLucky(rank) {
 	if (rank === 3) return 11;
 
 	let value = rollD66();
-	// Rank 1: roll twice, take the lower
+	// Rank 1: roll twice, take the lowest
 	if (rank >= 1) {
 		value = Math.min(value, rollD66());
 	}
-	//Rank 2: Roll twice, take the lowest, reverse that and take the lowest of those two
+	// Rank 2: Roll twice, take the lowest, reverse that and take the lowest of those two
 	if (rank >= 2) {
 		const reversed = parseInt(value.toString().split('').reverse().join(''));
 		value = Math.min(value, reversed);

@@ -25,6 +25,6 @@ module.exports = {
 		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const ArkThreats = require(`../gamedata/myz/ark-threats.list.${lang}.json`);
 		const embed = new YZEmbed(__('carkthreat-title', lang), random(ArkThreats));
-		return ctx.send(embed);
+		return await ctx.send(embed);
 	},
 };

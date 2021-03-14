@@ -7,9 +7,19 @@ All notable changes to this project will be documented in this file.
 Major update with a large refactoring of the bot's javascript code to allow localisation.
 
 ### Added
+- [Discussions](https://github.com/Stefouch/sebedius-myz-discord-bot/discussions)
 - Full support for localisation.
 - German language.
 - New command: `!critcoriolis` or `!critc` – Shortcut for *Coriolis* critical injuries.
+- New argument `-lang` for many commands to allow language change on the go.
+- `!crit` command:
+  - New argument `-lucky <rank>`: *Lucky* talent — On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11).
+- `!colony` & `!planet` commands:
+  - New argument `-type <planet_type>`: Specifies the planet type. Choices are `rocky`, `icy`, `gasgiant`, `gasgiant-moon` and `asteroid-belt`.
+  - New argument `-localisation <core|arm>`: Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`.
+
+### Changed
+- The `!drawinit` command now shows all drawn initiative cards, included discarded ones (e.g. with the `-haste` argument).
 
 ### Fixed
 - Issue [#77](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/77).

@@ -6,7 +6,7 @@ module.exports = {
 	moreDescriptions: 'cplanet-moredescriptions',
 	guildOnly: false,
 	args: false,
-	usage: '[name] [-type planet-type] [-lang <language_code>]',
+	usage: '[name] [-type <planet-type>] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Exits early and executes "!colony -uncolonized".
 		args.push('-uncolonized');

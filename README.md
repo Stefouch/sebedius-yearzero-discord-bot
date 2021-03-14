@@ -46,9 +46,9 @@ Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebe
 3. [Roll the dice](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki/%21roll)<br/>
 *Example:* `!roll 7d` *or* `!roll 3b 3s 1g`
 
-# 🌐 Supported Languages
+# Supported Languages
 
-With the command `!setconf lang [language_code]` you can turn Sebedius into another language. Supported localisations are:
+With the command `!setconf lang [language_code]` you can translate Sebedius into another language. Supported localisations are:
 * `en` – English (default)
 * `de` – German *(Deutsch)*
 
@@ -56,7 +56,11 @@ Your language isn't supported yet? See *Contributing* below!
 
 # Author
 
-<img src="https://stefouch.be/wp-content/uploads/2020/02/BSL-D6_bannerlogo.png"/>
+<center>
+  <a href="https://stefouch.be" target="_blank">
+    <img src="https://stefouch.be/wp-content/uploads/2021/03/BSL-D6_bannerlogo_H150.png"/>
+  </a>
+</center>
 
 ### 👤 Stefouch
 
