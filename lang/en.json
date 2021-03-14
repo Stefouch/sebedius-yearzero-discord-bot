@@ -397,6 +397,11 @@
             "• `name` - Specifies a custom planet name.\n• `type` - Specifies the planet type (default is \"rocky\").\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt"
         ]
     ],
+    "cprefix-description": "Gets the prefixes for this server. Sets a new one with the option `set`.",
+    "cprefix-invalid-arguments": "Invalid arguments",
+    "cprefix-proper-usage": "The proper usage would be",
+    "cprefix-embed-title": "Sebedius Prefixes",
+    "cprefix-embed-footer": "2 prefixes",
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [

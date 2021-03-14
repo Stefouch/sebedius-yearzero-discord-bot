@@ -400,6 +400,11 @@
             "• `name` - Gibt einen eigenen Namen für den Planeten an.\n• `type` - Gibt die Planetenart an (Standard ist \"rocky\").\n> Optionen: felsig: rocky, Eisplanet: icy, Gasriese: gasgiant, Gasriesen-Mond: gasgiant-moon, Asteroidengürtel: asteroid-belt"
         ]
     ],
+    "cprefix-description": "Ruft die Präfixe für diesen Server ab. Hinterlegt einen Neuen mit der Option `set`.",
+    "cprefix-invalid-arguments": "Ungültige Argumente",
+    "cprefix-proper-usage": "Die korrekte Verwendung wäre",
+    "cprefix-embed-title": "Sebedius Präfixe",
+    "cprefix-embed-footer": "2 Präfixe",
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [
