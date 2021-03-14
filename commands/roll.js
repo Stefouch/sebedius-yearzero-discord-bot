@@ -23,7 +23,7 @@ module.exports = {
 	moreDescriptions: 'croll-moredescriptions',
 	guildOnly: false,
 	args: true,
-	usage: '[game] <dice...> [arguments...]',
+	usage: '[game] <dice...> [arguments...] [-lang language_code]',
 	async run(args, ctx) {
 		// Changes '#' with '-name'.
 		const hashTagIndex = args.indexOf('#');

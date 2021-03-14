@@ -449,6 +449,31 @@
     "croll-ammo-spent": "Ausgegebene Munition",
     "croll-generic-roll": "Generischer Wurf",
     "croll-single-roll": "Einzelner D6 / D66 / D666 Wurf",
+    "crollalien-description": "Wirft Würfel für das *ALIEN* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollcoriolis-description": "Wirft Würfel für das *Coriolis* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollfbl-description": "Wirft Würfel für das *Verbotene Lande* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollmyz-description": "Wirft Würfel für das *Mutant: Jahr Null* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollt2k-description": "Wirft Würfel für das *Twilight 2000* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollt2k-moredescriptions": [
+		[
+			"Twilight 2000 Würfel werfen",
+			"Benutze eine beliebige Kombination der folgenden Würfel.\n__Attribut- or Fertigkeitswürfel__:\n• `d12 | a` – Wirft einen D12\n• `d10 | b` – Wirft einen D10\n• `d8 | c` – Wirft einen D8\n• `d6 | d` – Wirft einen D6\n__Andere__:\n• `Xg` – Wirft X Munitionswürfel\n• `Xd | Xb | Xs` – Wirft X Basiswürfel (D6)"
+		],
+		[
+			"Beispiele",
+			"!rw d12 d8\n!rw a c\n!rw b 5g"
+		],
+		[
+			"Argumente",
+			"Gib `help roll` für eine Liste der möglichen Argumente ein."
+		],
+		[
+			"⚠️ Haftungsausschluss!",
+			"Dies basiert auf Pre-Alpha Informationen die aus Fria Ligan Interviews im Internet zusammengestellt wurden."
+		]
+	],
+    "crolltales-description": "Wirft Würfel für das *Tales From the Loop* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollvaesen-description": "Wirft Würfel für das *Vaesen* Rollenspiel.\nGib `help roll` für mehr Details ein.",
     "galienjobgenerator-invalid-type": "Kein gültiger Auftragstyp",
     "galienworldgenerator-moons": "Hat {will_be_replaced} Monde.",
     "malien-xeno-bloodburster": "Bloodburster",
