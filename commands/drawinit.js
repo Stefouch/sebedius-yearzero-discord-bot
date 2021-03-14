@@ -57,7 +57,7 @@ module.exports = {
 				await reset();
 			}
 			if (haste > 1) {
-				let lootedCards = deck.loot(haste, 1, (a, b) => a - b, true);
+				const lootedCards = deck.loot(haste, 1, (a, b) => a - b, true);
 				drawnCards.push(lootedCards[0]);
 				drawnHasteCards.push(lootedCards[1]);
 			}
@@ -79,10 +79,18 @@ module.exports = {
 	},
 };
 
+/**
+ * Gets the drawn cards' text.
+ * @param {Array} cards An array of cards
+ * @param {Discord.Message} ctx Discord message with context
+ * @param {string} lang The language code for the localisation
+ * @returns {string}
+ */
 function getDrawCardText(cards, ctx, lang) {
 	if (!Array.isArray(cards)) return getDrawCardText([cards], ctx, lang);
 	return `${getMention(ctx.member)} **${__('initiative', lang)}:** ${cards.map(c => CARDS_ICONS[c]).join(' ')}`;
 }
+
 /**
  * Gets the `Haste` pool's text.
  * @param {Array} cards An array of looted cards

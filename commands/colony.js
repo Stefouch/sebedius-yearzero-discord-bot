@@ -10,11 +10,12 @@ module.exports = {
 	moreDescriptions: 'ccolony-moredescriptions',
 	guildOnly: false,
 	args: false,
-	usage: '[name] [-type planet-type] [-location core|arm] [-lang <language_code>]',
+	usage: '[name] [-type <planet_type>] [-location <core|arm>] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {
-			boolean: ['uncolonized'],	// Is only called by the "planet" command
+			// '-uncolonized' is only called by the "!planet" command.
+			boolean: ['uncolonized'],
 			string: ['lang', 'type', 'location'],
 			alias: {
 				type: ['t', 'planettype', 'planet-type'],
@@ -33,7 +34,9 @@ module.exports = {
 		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const location = argv.location && argv.location.includes('core') ? 0 : 1;
 		const colonyName = argv._.join(' ');
-		const type = ['rocky', 'icy', 'gasgiant', 'gasgiant-moon', 'asteroid-belt'].includes(argv.type) ? argv.type : 'rocky';
+		const type = ['rocky', 'icy', 'gasgiant', 'gasgiant-moon', 'asteroid-belt'].includes(argv.type)
+			? argv.type
+			: 'rocky';
 
 		const planet = new Planet(type, !argv.uncolonized, location, colonyName, lang);
 		const embed = new YZEmbed(planet.title, planet.description);
@@ -74,6 +77,6 @@ module.exports = {
 			embed.addField(__('alien-event', lang), colo.hook, false);
 		}
 
-		return ctx.send(embed);
+		return await ctx.send(embed);
 	},
 };

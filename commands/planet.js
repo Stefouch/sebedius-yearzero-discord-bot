@@ -5,7 +5,7 @@ module.exports = {
 	description: 'Generates an uncolonized planet for the Alien RPG.',
 	guildOnly: false,
 	args: false,
-	usage: '[-type planet-type] [-lang <language_code>]',
+	usage: '[-type <planet-type>] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Exits early and executes "!colony -uncolonized".
 		args.push('-uncolonized');
