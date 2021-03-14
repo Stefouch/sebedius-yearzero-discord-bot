@@ -255,7 +255,7 @@
     "ccolony-moredescriptions": [
         [
             "Arguments",
-            "• `name` - Specifies a custom colony name.\n• `type` - Specifies the planet type (default is \"rocky\").\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt\n• `location` - Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`"
+            "• `name` - Specifies a custom colony name.\n• `type` - Specifies the planet type (default is \"rocky\").\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt\n• `location` - Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`."
         ]
     ],
     "ccontact-description": "Rolls dice for an Elysium Contact and checks for any Backlash.",
@@ -263,7 +263,7 @@
     "ccrit-moredescriptions": [
         [
             "Arguments",
-            "There are three main arguments you can use with this command in any order:\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.\n> Choices: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Specifies the table you want from this game. See below for possible options *(default is \"damage\")*.\n• `numeric` – Specifies a fixed reference."
+            "There are three main arguments you can use with this command in any order:\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.\n> Choices: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Specifies the table you want from this game. See below for possible options *(default is \"damage\")*.\n• `numeric` – Specifies a fixed reference.\n• `-private|-p` – Sends the result in a DM.\n• `-lucky|-ly <rank>` – *Lucky* talent: On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11)."
         ],
         [
             "☢️ Mutant: Year Zero",
