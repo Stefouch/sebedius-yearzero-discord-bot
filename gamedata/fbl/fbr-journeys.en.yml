@@ -412,8 +412,8 @@ weatherCold:
         Every PC without adequate protection against the cold (see below)
         must make an `ENDURANCE` roll every Quarter Day to not become COLD.
     '4-5':
-      id: COLD_BITTING
-      name: Bitting
+      id: COLD_BITING
+      name: Biting
       effect: >-
         Every PC without adequate protection must make an `ENDURANCE` roll
         every Quarter Hour to not become COLD.

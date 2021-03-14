@@ -1,0 +1,69 @@
+{
+	"contractor": {
+		"define": "Sponsor",
+		"roll": "D66",
+		"data": {
+			"11": "Kolonialverwaltung",
+			"21": "Wissenschaftler",
+			"31": "Gruppe von Investoren",
+			"41": "Konzernvertreter",
+			"51": "Vertreter einer Bergbaufirma",
+			"61": "Regierungsvertreter"
+		}
+	},
+	"reward": {
+		"roll": "D66",
+		"data": {
+			"11": "Finanzierung einer eigenen Expedition",
+			"14": "Schiffsmodul/-verbesserung/-bewaffnung",
+			"21": "Finanzieller Bonus",
+			"51": "Vertrag mit einer Bergbaufirma",
+			"54": "Ausrüstung",
+			"61": "Wissen, das verwendet oder verkauft werden kann"
+		}
+	},
+	"destination": {
+		"define": "Zielgebiet",
+		"roll": "D66",
+		"data": {
+			"11": ["Aufgegebene Orbitalstation", "Verlassen, vergessen und kaum einsatzfähig."],
+			"15": ["Interstellarer Asteroid", "Ein schnell fliegender Asteroid oder Planet, der das Sternensystem durchkreuzt."],
+			"22": ["Aufgegebene Mine", "Eine erfolglose Bergbauanlage mit Schächten und Gebäuden, die langsam verfallen."],
+			"25": ["Mond", "Der felsige Mond eines Gasriesen oder Planeten."],
+			"32": ["Asteroidengürtel", "Ein Felsbrocken tief in einem dichten Asteroidengürtel."],
+			"36": ["Kolonisierter Planet", "Abgelegene Region eines bereits kolonisierten Planeten."],
+			"41": ["Erdähnlicher Planet", "Ein unbewohnter terrestrischer Planet."],
+			"44": ["Aufgegebene Kolonie", "Eine gescheiterte Kolonie mit verlassenen Gebäuden und Anlagen."],
+			"45": ["Eisplanet", "Ein unbewohnter Eisplanet."],
+			"55": ["Wrackteil", "Das zerschmetterte Wrack eines Raumschiffs, würfle erneut für seine aktuelle Position."],
+			"64": ["Komet", "Ein Komet auf dem Weg zum Stern des Systems mit vielen wertvollen chemischen Verbindungen und Rohstoffen."]
+		}
+	},
+	"mission": {
+		"define": "Mission",
+		"roll": "D66",
+		"data": {
+			"11": ["Bergung", "Finden eines verlassenen oder zerstörten Schiffs/einer Station/einer planetaren Einrichtung und Bergen wertvoller Gegenstände, ohne das gleiche Schicksal wie das Wrack zu erleiden…"],
+			"21": ["Vermessung", "Kartographierung eines Ortes oder Gebiets für den Arbeitgeber, Bericht erstatten mit Sensorkarten und anderen gesammelten Daten."],
+			"25": ["Bergbau", "Durchführen von Probebohrungen, um den Wert des Planeten/Mondes/Asteroiden für spätere Investoren zu ermitteln; dabei könnten reiche Mineral- oder Gasvorkommen entdeckt werden oder auch etwas völlig anderes."],
+			"33": ["Kolonieunterstützung", "Unterstützung einer neugegründeten Kolonie mit Ausrüstung, Informationen oder Fachwissen über Planetenerkundung, Medizin, Prospektion, Konstruktion oder anderem."],
+			"41": ["Prospektion", "Erkunden eines Planeten/Mondes/Asteroiden nach nutzbaren Rohstoffen (Mineralien, Holz, Gas etc.) oder Sicherung bereits gefundener Vorkommen."],
+			"46": ["Daten sammeln", "Finden einer bestimmten Information für den Arbeitgeber; manchmal ohne zu wissen, welchem Zweck sie dient."],
+			"53": ["Kurier", "Transport empfindlicher Informationen, Ressourcen oder Güter sicher vom Arbeitgeber zum Empfänger — und das ohne Verzögerung."],
+			"56": ["Erkundung einer Anomalie", "Untersuchung eines einzigartigen Phänomens (eines Wurmlochs, einer Gravitationslinse, mächtiger Strahlenemissionen etc.) auf die Frage hin, ob die Anomalie eine Bedrohung ist oder sich zu Geld machen lässt."],
+			"63": ["Rettungsexpedition", "Rettung einer Gruppe, Kolonie, Vermessungsexpedition oder Ähnlichem vor einem Angriff oder einer anderen Gefahr; oft ohne zu wissen, was den vermissten Opfern zugestoßen ist."]
+		}
+	},
+	"complication": {
+		"roll": "D66",
+		"data": {
+			"11": ["Naturphänomen", "Es kommt während der Expedition zu einer schweren Naturkatastrophe: ein schneller Temperaturwechsel, ein Waldbrand, ein Hurrikan, ein Tsunami, ein Erdbeben, eine Schlammlawine oder Ähnliches."],
+			"22": ["Vermessungsprobleme", "Das Zielgebiet ist entweder schwer ausfindig zu machen oder lässt sich nicht sicher oder effizient vermessen."],
+			"33": ["Vermisste Expedition", "Wenn die SC den Auftrag erhalten, merken sie vielleicht, dass die Lizenz vorher schon einer anderen Expedition erteilt wurde – die jedoch spurlos verschwunden ist."],
+			"36": ["Konkurrenz", "Eine rivalisierende Gruppierung hat das gleiche Ziel wie die Expedition und versucht, dieses zuerst zu erreichen oder die SC aufzuhalten (vielleicht auch mit unlauteren Mitteln). Die Konkurrenz besitzt ungefähr die gleiche Ausrüstung wie die SC."],
+			"45": ["Quarantäne", "Das Zielgebiet steht unter Quarantäne oder ist zugangsbeschränkt, möglicherweise aus unbekannten Gründen. Die Expedition hat keine Berechtigung, es zu betreten, und wird gegen das Gesetz verstoßen, wenn sie ihren Auftrag weiterverfolgt."],
+			"53": ["Tödlicher Schatz", "Eine schreckliche Gefahr befindet sich im Zielgebiet, ohne dass die SC etwas davon ahnen. Es könnte sich um Atommüll handeln, ein Lager biologischer Waffen, ein Nest von Xenomorph-Eiern oder etwas anderes, das gleichermaßen grauenvoll und lebensbedrohlich ist."],
+			"63": ["Überwachung", "Die Expedition wird vom Militär, einer Regierung oder einer anderen Gruppierung überwacht. Sie mischen sich nicht ein, könnten sich den SC jedoch offenbaren. Wieso beobachten sie die Expedition? Was wollen sie wirklich?"]
+		}
+	}
+}

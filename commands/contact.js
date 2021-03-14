@@ -2,11 +2,12 @@ module.exports = {
 	name: 'contact',
 	aliases: ['ip'],
 	category: 'myz',
-	description: 'Rolls dice for an Elysium Contact and checks for any Backlash.',
+	description: 'ccontact-description',
 	guildOnly: false,
 	args: true,
-	usage: '<ip>',
+	usage: '<ip> [-lang language_code]',
 	async run(args, ctx) {
-		await ctx.bot.commands.get('myzpower').run(['ely', args[0]], ctx);
+		args.unshift('ely');
+		await ctx.bot.commands.get('myzpower').run(args, ctx);
 	},
 };

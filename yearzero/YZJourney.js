@@ -15,10 +15,13 @@ class YZJourney {
 	 * @param {string} options.quarterDay The current Quarter of the Day (default is DAY), in UPPERCASE!
 	 * @param {string|string[]} options.terrains Terrain types, in UPPERCASE!
 	 * @param {boolean} options.fbr Whether to use Bitter Reach Mishaps
+	 * @param {string} options.lang The language code to use (default is 'en')
 	 */
 	constructor(filename, options = {}) {
 		this.filename = filename;
 		this.data = YZGenerator3.parse(filename);
+
+		this.lang = options.lang || 'en';
 
 		/**
 		 * The current Season of Year.
@@ -490,6 +493,6 @@ WeatherFlags.FLAGS = {
 	SNOWFALL_LIGHT_FLURRY: 1 << 5,
 	SNOWFALL_HEAVY_SNOWFALL: 1 << 6,
 	COLD_COLD: 1 << 7,
-	COLD_BITTING: 1 << 8,
+	COLD_BITING: 1 << 8,
 	COLD_TO_THE_BONE: 1 << 9,
 };

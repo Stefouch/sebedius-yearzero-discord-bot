@@ -1,0 +1,246 @@
+{
+	"size": {
+		"roll": "2D6",
+		"data": {
+			"2": [1000, 0.0],
+			"3": [2000, 0.1],
+			"5": [4000, 0.2],
+			"7": [7000, 0.5],
+			"8": [10000, 0.7],
+			"9": [12500, 1.0],
+			"11": [15000, 1.3],
+			"12": [20000, 2.0]
+		}
+	},
+	"atmosphere": {
+		"roll": "2D6",
+		"data": {
+			"2": "Dünne",
+			"4": "Atembare",
+			"7": "Toxische",
+			"9": "Dichte",
+			"10": "Ätzende",
+			"11": "Invasive",
+			"12": "Spezielle"
+		}
+	},
+	"temperature": {
+		"roll": "2D6",
+		"data": {
+			"2": [5, "Eisig", "−50 °C oder weniger"],
+			"4": [4, "Kalt", "−50 to 0 °C"],
+			"6": [3, "Gemäßigt", "0 to 30 °C"],
+			"8": [2, "Heiß", "30 to 80 °C"],
+			"11": [1, "Brennend", "80 °C oder mehr"]
+		}
+	},
+	"geosphere": {
+		"roll": "2D6",
+		"data": {
+			"2": ["Wüsten", "kein Oberflächenwasser"],
+			"5": ["trockene ", "globale Wüsten und trockene Steppen, mit einigen Seen und kleinen Meeren"],
+			"7": ["gemäßigt-trockene ", "Ozeane bedecken 30 bis 40 % der Planetenoberfläche"],
+			"9": ["gemäßigt-nasse ", "Ozeane bedecken 60 bis 70 % der Planetenoberfläche"],
+			"11": ["nasse ", "globale Ozeane mit einigen Inseln und Archipelen"],
+			"12": ["Wasser", "kein trockenes Land"]
+		}
+	},
+	"terrain-rocky": {
+		"roll": "D66",
+		"data": {
+			"11": "Riesiger Einschlagkrater",
+			"12": "Ebenen aus Siliziumglas",
+			"13": "Beunruhigende vom Wind geschnittene Felsformationen",
+			"14": "Dauerhafter globaler Staubsturm",
+			"15": "Unheimlich gefärbte Staubebenen",
+			"16": "Aktive Vulkanfelder",
+			"21": "Qusgedehnte Salzwüsten",
+			"22": "Staubgeschwängerter und dauerhaft blutroter Himmel",
+			"23": "Uralte, geschwärzte Lavaebenen",
+			"24": "Thermalquellen und geothermische Risse",
+			"25": "Große, kiesbedeckte Berge",
+			"26": "Stetig heulender Wind",
+			"31": "Täglich vorkommende Nebelbänke",
+			"32": "Tiefe und breite Grabenbrüche",
+			"33": "Von Wind und Wasser bizarr geformtes Ödland",
+			"34": "Steile Flussschluchten, die in den weichen Fels geschnitten sind",
+			"35": "Riesiger Mond beherrscht den Tag-/Nachthimmel",
+			"36": "Weltumspannender Supercanyon",
+			"41": "Eindrucksvoller, sehr langer Fluss",
+			"42": "Seltsam gefärbte Wälder einer fremdartigen Vegetation",
+			"43": "Berge, in denen sich himmelblaue Seen befinden",
+			"44": "Weite Ebenen bewachsen mit riesenhaftem Gras",
+			"45": "Hochgiftige, aber wunderschöne Pflanzen",
+			"46": "Kleine, unglaublich schnelle Monde in der Umlaufbahn",
+			"51": "Gewaltiges, weitverzweigtes Flussdelta",
+			"52": "Immense Wasserfälle mit unzähligen einzelnen Kaskaden",
+			"53": "Endlose Wattenmeere mit verschlungenen Wasserwegen",
+			"54": "Eindrucksvolle Küste aus Fjorden und Klippen",
+			"55": "Ausgedehnte Vulkanlandschaften mit Flüssen aus Lava",
+			"56": "Undurchdringlicher Dschungel",
+			"61": "Schnell wechselnde und stürmische Gezeiten",
+			"62": "Gewaltiger, dauerhafter Supersturm",
+			"63": "Giftige Meereskreaturen, die mit der Strömung treiben",
+			"64": "Vulkanische Inselketten",
+			"65": "Dauerhaft bewölkter Himmel mit monsunartigen Regenfällen",
+			"66": "Meere und Regen leicht säurehaltig"
+		}
+	},
+	"terrain-icy": {
+		"roll": "2D6",
+		"data": {
+			"2": "Riesiger Einschlagkrater",
+			"3": "Geysire, die Wasser aus langen Spalten in die niedrige Umlaufbahn speien",
+			"4": "Tiefe Spalten, die zu einem unterirdischen Ozean führen",
+			"5": "Auffällig gefärbte blaugrüne Eisspalten",
+			"6": "Riesiger und aktiver Kryovulkan",
+			"7": "Gewaltiges Eisgebirge",
+			"8": "Weltumspannender Supercanyon",
+			"9": "Beunruhigende vom Wind geschnittene Eisformationen",
+			"10": "Schwarze, staubbedeckte Eissteppen",
+			"11": "Eindrucksvoller sehr langer Steilabhang aus Eis",
+			"12": "Große Dünenfelder aus Methansandkörnern"
+		}
+	},
+	"orbit": {
+		"roll": "2D6",
+		"array": true,
+		"data": {
+			"2": "Einige Wracks oder gar nichts",
+			"5": "Ring",
+			"6": "Aufgegebener oder umfunktionierter Satellit bzw. Raumstation",
+			"7": "D3 Monde",
+			"9": "Vermessungsstation",
+			"10": "Mehrere Vermessungs- und Kommunikationssatelliten",
+			"11": "Transferstation",
+			"12": { "REROLL": "D6" }
+		}
+	},
+	"colony": {
+		"roll": "2D6",
+		"data": {
+			"2": ["neugegründet", "3D6", 10, 1],
+			"8": ["jung", "3D6", 100, "D3-1"],
+			"11": ["etabliert", "2D6", 1000, "D3"]
+		}
+	},
+	"colony-mission": {
+		"roll": "2D6",
+		"data": {
+			"2": "Terraforming",
+			"3": "Forschung",
+			"4": "Vermessung und Prospektion",
+			"5": "Gefängnis oder Exil (selbst gewählt oder erzwungen)",
+			"6": "Bergbau und Erzaufbereitung",
+			"7": "Mineralienförderung",
+			"8": "Kommunikationsstation",
+			"9": "Militäraußenposten",
+			"10": "Viehzucht/Forstwirtschaft",
+			"11": "Konzernniederlassung",
+			"12": "Regierungsniederlassung"
+		}
+	},
+	"colony-factions-qty": {
+		"roll": "2D6",
+		"data": {
+			"1": [1, "Eine dominante Fraktion"],
+			"2": [2, "Zwei Fraktionen im Machtgleichgewicht"],
+			"3": [2, "Zwei wetteifernde Fraktionen"],
+			"4": [2, "Eine dominante, eine schwache Fraktion"],
+			"5": [3, "Drei wetteifernde Fraktionen"],
+			"6": ["D6", "D6 Fraktionen, deren verhältnismäßige Stärke jeweils mit einem D6 ermittelt wird"]
+		}
+	},
+	"colony-factions": {
+		"roll": "D6",
+		"data": {
+			"1": "Neuankömmlinge",
+			"2": "Konzernvertreter",
+			"3": "Wissenschaftler",
+			"4": "Arbeiter",
+			"5": "Sicherheits-/Militärkräfte",
+			"6": "Kolonieführung"
+		}
+	},
+	"colony-allegiance": {
+		"define": ["Unabhängige Kernsystemkolonien", "Amerikanischer oder Anglo-Japanischer Arm"],
+		"roll": "3D6",
+		"data": {
+			"3": ["Kelland Mining","Kelland Mining"],
+			"5": ["GeoFund Investor","Gustafsson Enterprise"],
+			"6": ["Gustafsson Enterprise","GeoFund Investor"],
+			"7": ["Seegson","Lasalle Bionational"],
+			"8": ["keine Zugehörigkeit (unabhängig)","Weyland-Yutani"],
+			"9": ["Jĭngtì Lóng Corporation","Interstellare Regierung"],
+			"12": ["Chigusa Corporation","Weyland-Yutani"],
+			"13": ["Lasalle Bionational","Seegson"],
+			"14": ["Seegson","Jĭngtì Lóng Corporation"],
+			"15": ["Lorenz SysTech","Chigusa Corporation"],
+			"16": ["Gemini Exoplanet","Gemini Exoplanet"],
+			"17": ["Farside Mining","Farside Mining"]
+		}
+	},
+	"hook": {
+		"roll": "D66",
+		"data": {
+			"11": "Plünderungen und Diebstähle zwingen die Sicherheitskräfte, Zimmer und Fracht zu durchsuchen.",
+			"12": "Es kommt vermehrt zu Sabotageakten; die Sicherheitskräfte vermuten einen gemeinsamen Drahtzieher.",
+			"13": "Die Kolonialverwaltung ermittelt in der Siedlung wegen illegaler Handlungen.",
+			"14": "Kolonisten, die zur Basis zurückkehren, berichten von der Sichtung eines \"Monsters\" an der Oberfläche.",
+			"15": "Es gibt viele kleine Verbrechen, Diebstähle und Sabotageakte.",
+			"16": "Ein technisches Versagen hat dazu geführt, dass die Ressourcen rationiert werden. Die Stimmung ist kurz davor überzukochen.",
+			"21": "Vor Kurzem traf ein Schiff mit einer Art von Parasit ein, der sich bald über die ganze Kolonie verbreiten wird.",
+			"22": "Diebesgut wird offen angeboten — und zwar günstig!",
+			"23": "Ein alter Freund oder Geliebter eines SC befindet sich in der Kolonie, ohne dass dieser es weiß.",
+			"24": "Ein alter Feind oder Rivale eines SC befindet sich in der Kolonie, ohne dass dieser es weiß.",
+			"25": "Ein unbedeutender Würdenträger oder eine Berühmtheit besucht die Kolonie in Begleitung mehrerer Assistenten/Wachen.",
+			"26": "Ein Teil der Kolonie ist im Augenblick nicht zugänglich – ohne dass ein Grund genannt wird.",
+			"31": "Die Bewegungsfreiheit wird plötzlich eingeschränkt, es sei denn, man umgeht die Vorschriften.",
+			"32": "Ein Notfall führt dazu, dass Ersatzteile und wichtige Vorräte aus einer nahen Kolonie geliefert werden müssen.",
+			"33": "Es gibt eine lokale Krise, von der die Kolonie bald betroffen ist (Sturm, Erdbeben, Aufstände etc.).",
+			"34": "Sonneneruptionen unterbrechen die Kommunikation für eine Schicht (D6 Tage bei Sternentyp MV).",
+			"35": "Spione aus einer benachbarten Kolonie wurden entdeckt und verhaftet.",
+			"36": "Es gibt Konflikte zwischen dem Einsatzleiter und seinem Stellvertreter; jeder muss eine Seite wählen.",
+			"41": "Die SC werden zu einem formellen Abendessen, Meeting oder einer Party eingeladen.",
+			"42": "Die Kolonisten verbergen ein Geheimnis: Sie sind nicht, was sie scheinen.",
+			"43": "Ein Militärschiff befindet sich im Orbit und der Landungstrupp sucht jemanden/etwas.",
+			"44": "Eine rivalisierende Kolonie oder ein Konzern will einen Sabotageakt durchführen.",
+			"45": "Der Raumhafen steht im Augenblick unter Quarantäne.",
+			"46": "Ein Sicherheitsnotfall ereignet sich in der Kolonie.",
+			"51": "Asteroidenbergleute auf Landgang machen Ärger.",
+			"52": "Ein mysteriöses Schiff trifft im Raumhafen ein.",
+			"53": "Es wird bald zu einem Ausbruch ziviler Unruhen kommen.",
+			"54": "Fernab der eigentlichen Siedlung sitzen Kolonisten in der Falle und müssen gerettet werden.",
+			"55": "Die Obrigkeit hat die Kolonie nach einem kürzlichen Aufstand abgeriegelt.",
+			"56": "Ein religiöser Anführer wiegelt die unzufriedene Bevölkerung auf.",
+			"61": "Die SC werden von wütenden Einheimischen drangsaliert. Woher kommt die Wut? Und warum richtet sie sich gegen Leute von außerhalb?",
+			"62": "Eine Expedition für eine Reise über Land wird zusammengestellt. Die SC werden dazu eingeladen.",
+			"63": "Ein wichtiger Offizier der Kolonie wird ermordet, nur eine Stunde nach Ankunft der SC.",
+			"64": "Mehrere Kolonisten sind verschwunden; eine Suchmannschaft wird ausgeschickt.",
+			"65": "Eine Rettungskapsel ist auf dem Planeten abgestürzt, mit einer interessanten Person an Bord.",
+			"66": "Der machthabende Konzern oder die Regierung entsendet immer wieder Teams, um abgelegene Gebiete zu durchsuchen — aber niemand weiß, wonach."
+		}
+	},
+	"gasgiant": {
+		"roll": "D6",
+		"data": {
+			"1": "Stürme",
+			"2": "Einzelner Supersturm",
+			"3": "Ringe",
+			"4": "Starker Wind",
+			"5": "Starke Strahlungsfelder",
+			"6": "Kleiner Gasriese"
+		}
+	},
+	"asteroid-belt": {
+		"roll": "D6",
+		"data": {
+			"1": "Hell und deutlich sichtbar",
+			"2": "Starke Bahnneigung",
+			"3": "Staubgürtel",
+			"4": "Enthält mehrere große Zwergplaneten",
+			"5": "Sehr ausgedehnt, deckt mehrere Umlaufbahnen ab",
+			"6": "Große Mineralvorkommen in den Asteroiden"
+		}
+	}
+}

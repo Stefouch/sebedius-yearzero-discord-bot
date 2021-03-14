@@ -50,7 +50,7 @@ Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebe
 
 With the command `!setconf lang [language_code]` you can turn Sebedius into another language. Supported localisations are:
 * `en` – English (default)
-* `de` – German *(Deutsche)*
+* `de` – German *(Deutsch)*
 
 Your language isn't supported yet? See *Contributing* below!
 

@@ -50,21 +50,24 @@ module.exports = {
 		else {
 			deck = new YZInitDeck(cards);
 		}
-		const drawnCards = [];
+		const drawnCards = [], drawnHasteCards = [];
 		for (let i = 0; i < speed; i++) {
 			if (i > deck.size || haste > deck.size) {
 				out.push(':information_source: ' + __('cdrawinit-deck-too-small', lang));
 				await reset();
 			}
 			if (haste > 1) {
-				drawnCards.push(...deck.loot(haste, 1, (a, b) => a - b, true));
+				let lootedCards = deck.loot(haste, 1, (a, b) => a - b, true);
+				drawnCards.push(lootedCards[0]);
+				drawnHasteCards.push(lootedCards[1]);
 			}
 			else {
 				drawnCards.push(deck.draw());
 			}
 		}
-		console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}]`);
+		console.log(`[INITIATIVE DECK] - Cards drawn: [${drawnCards}] Haste-Pool: [${drawnHasteCards}]`);
 
+		out.push(getHastePoolText(drawnHasteCards, lang));
 		out.push(getDrawCardText(drawnCards, ctx, lang));
 		await ctx.bot.kdb.initiatives.set(gid, deck._stack, ttl);
 		return ctx.send(out.join('\n'));
@@ -79,4 +82,14 @@ module.exports = {
 function getDrawCardText(cards, ctx, lang) {
 	if (!Array.isArray(cards)) return getDrawCardText([cards], ctx, lang);
 	return `${getMention(ctx.member)} **${__('initiative', lang)}:** ${cards.map(c => CARDS_ICONS[c]).join(' ')}`;
+}
+/**
+ * Gets the `Haste` pool's text.
+ * @param {Array} cards An array of looted cards
+ * @param {string} lang The language code for the localisation
+ * @returns {string}
+ */
+function getHastePoolText(cards, lang) {
+	if (!Array.isArray(cards) || cards.length == 0) return '';
+	return `${__('cdrawinit-hastepool', lang)}: ` + cards.map(c => `[${c}]`).join(', ');
 }

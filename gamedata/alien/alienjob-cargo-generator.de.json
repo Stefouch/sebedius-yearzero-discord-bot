@@ -1,0 +1,85 @@
+{
+	"contractor": {
+		"define": "Auftraggeber",
+		"roll": "D66",
+		"data": {
+			"11": "Kolonievertreter",
+			"21": "Kolonialverwaltung",
+			"25": "Bergbaufirma",
+			"36": "Großer Konzern",
+			"51": "Militäroffizier",
+			"54": "Transportunternehmen",
+			"61": "Bank",
+			"64": "Vermögende Person"
+		}
+	},
+	"reward": {
+		"roll": "D66",
+		"data": {
+			"11": "Rabatt auf neue Fracht",
+			"14": "Neuer, garantierter Vertrag",
+			"21": "Finanzieller Bonus",
+			"51": "Schiffsmodul/-verbesserung/-bewaffnung",
+			"54": "Kontaktperson",
+			"61": "Schuldentilgung (oder günstiger Kredit)"
+		}
+	},
+	"destination": {
+		"define": "Zielgebiet",
+		"roll": "D66",
+		"data": {
+			"11": ["Nur Koordinaten", "Koordinaten eines Bereichs tief im Weltraum."],
+			"14": ["Lebensfeindliche Wildnis", "Wald/Dschungel/Wüste eines Planeten fernab menschlicher Siedlungen oder unbewohnte Welt."],
+			"21": ["Mine", "Bergbauanlage, weit von einer Kolonie oder einem Raumhafen entfernt."],
+			"31": ["Raumhafen", "Raumhafen auf einem Asteroiden/Mond oder Landeplatz nahe einer größeren Siedlung."],
+			"34": ["Asteroid/Mond", "Asteroid oder kleiner Mond; Gefahr durch Vakuum oder lebensfeindliche Atmosphäre."],
+			"41": ["Raumstation", "Raumstation in der Umlaufbahn eines Planeten."],
+			"44": ["Erde", "Der Knotenpunkt des gesamten interstellaren Verkehrs und Handels."],
+			"51": ["Junge Kolonie", "Kleine Kolonie mit nur wenigen Hundert Bewohnern."],
+			"54": ["Etablierte Kolonie", "Sehr aktive Kolonie mit mehreren Tausend Bewohnern und einer florierenden lokalen Industrie."],
+			"61": ["Raumschiff", "Im Orbit eines Planeten wartendes Raumschiff."],
+			"64": ["Außenposten", "Meist nur einzelner Komplex mit bestimmter Funktion (Konzernvertretung, Militär, Forschung), normalerweise auf einem Planeten."]
+		}
+	},
+	"mission": {
+		"define": "Frachtgüter",
+		"roll": "D66",
+		"data": {
+			"11": ["Industriegase", "Ammoniak, Chlorwasserstoff, Ethin, Ethylenoxid, Ethylformiat, Fluorchlorkohlenwasserstoff, Kohlenstoffmonoxid, Propan, Propen, Schwefeldioxid, Schwefelhexafluorid u. v. m."],
+			"13": ["Metall (Barren oder Pellets)", "Gold, Platin, Palladium, Silber, Wolfram, Kupfer, Eisen u. v. m."],
+			"15": ["Kolonisten", "Menschen in Kryokapseln, bereit für neue Kolonisierungsprojekte."],
+			"21": ["Nutzholz", "Exotische außerirdische Holzsorten, die für die Erde gedacht sind."],
+			"22": ["Eis/Wasser", "Flüssiges oder gefrorenes Wasser bzw. eine andere seltene Lösung."],
+			"23": ["Industriechemikalien", "Aluminiumchlorid, Aluminiumsulfat, Calciumacetat, Chlorwasserstoffsäure, Eisenchlorid, Eisensulfat, Kaliumacetat, Natriumaluminat, Natriumdihydrogenphosphat, Natriumhydroxid, Polyaluminiumchlorid u. v. m."],
+			"24": ["Dünger", "Düngermischungen mit mehreren Nährstoffen aus Stickstoff, Kalium und/oder Phosphaten."],
+			"25": ["Öl", "Rohöl oder flüssige Petroleumerzeugnisse."],
+			"31": ["Lebensmittel", "Lose Lebensmittel wie Kichererbsen, Sojabohnen und andere Hülsenfrüchte, Getreide (Mais, Gerste, Reis) oder verarbeitete Nahrung."],
+			"33": ["Erz", "Bauxit (Aluminium), Galenit (Blei), Goldquarz, Kassiterit (Zinn), Magnetit (Eisen),Malachit (Kupfer), Pentlandit (Nickel), platinhaltiger Sand, Trimonit (Wolfram) u. v. m."],
+			"41": ["Medizinische Waren", "Impfstoffe, Medikamente, Desinfektionsmittel, chirurgische Ausrüstung, Scanner, Krankenhausbetten u. v. m."],
+			"42": ["Technische Komponenten", "verschiedene Modelle und Bauteile von Anzügen, Raffinerien, Fahrzeugen, Kraftwerken, Bergbauausrüstung, Fabriken, Atmosphärenwandlern, Waffen, Lebenserhaltungssysteme u. v. m."],
+			"44": ["Raumschiffkomponenten", "Module, Bewaffnung, Bauteile für/von nicht intakten Schiffen."],
+			"46": ["Druckanzüge", "Raumanzüge, die an die Kolonien geliefert werden sollen."],
+			"51": ["Einzelner übergroßer Gegenstand", "Windturbine, Kraftwerk-Generator, Rumpf einer Raumstation, Maschine zum Aufbau von Solarpanelen, mobile Bohranlage, Erzverarbeitungsmaschine, Hochofen u. v. m."],
+			"52": ["Fahrzeuge", "Baumaschinen, Traktoren, Quads, Geländefahrzeuge, Laderoboter u. v. m."],
+			"53": ["Waffen und Schutzkleidung", "Schusswaffen, Munition und Körperpanzerung für die Kolonien oder abgelegene Stationen."],
+			"55": ["Radioaktive Stoffe", "Verarbeitete Uranverbindungen oder Urandioxidpulver bzw. andere Brennelemente für Fusionskraftwerke, etwa aus Deuterium, Tritium, Protium oder Helium-3."],
+			"61": ["Koloniebauteile", "Balken, Module, Luftschleusen, Außenhüllenteile, Dachmaterial u. v. m."],
+			"63": ["Tierfutter", "Futterkonzentrate aus Getreide, proteinreichem Ölschrot und Nebenprodukten der Zuckerrüben- und Zuckerrohrverarbeitung."],
+			"64": ["Vieh/Tiere", "Vieh in Kryokapseln, bereit für die Aufzucht in einer Kolonie."],
+			"66": ["Wrack/Bergungsgut", "Shuttle oder Flucht-/Frachtkapsel, die untersucht und analysiert werden muss."]
+		}
+	},
+	"complication": {
+		"roll": "D66",
+		"data": {
+			"11": ["Embargo/Quaräntine", "Das Zielgebiet steht unter Quarantäne oder einem Embargo."],
+			"14": ["Unterbrechung", "Der Bordcomputer bringt das Schiff vorzeitig aus dem Hyperraum und weckt dann die Mannschaft. Was ist los?"],
+			"21": ["Militärpatrouille", "Ein militärisches Raumschiff schickt einen kleinen Suchtrupp für eine Routineüberprüfung von ICC- oder Zollbestimmungen. Müssen sich die SC Sorgen machen?"],
+			"31": ["Verzögerung", "Es gibt eine Verzögerung beim Start oder Abkoppeln; vielleicht kann der Treibstoff nicht an Bord gepumpt werden oder eine Halteklammer löst sich nicht. Die Ursache könnte ein Streik sein, eine administrative Störung oder zerstörte Verladeausrüstung."],
+			"34": ["Wartung", "Ein wichtiges Bauteil des Raumschiffs (Antriebspumpe, Plasmaspule, Kühlmittelpumpe, Wasseraufbereiter, Kontrolleinheit der Schwerkraftkompensation, Sensoraufhängungsmotor) muss ersetzt werden, ehe es versagt. Die Reparatur erfordert einen Großteil der Crew."],
+			"44": ["Probleme am Ziel", "Der Empfänger der Fracht ist noch nicht bereit, die Ware anzunehmen. Kann die Mannschaft die Situation beschleunigen?"],
+			"54": ["Frachtunfall", "Es gibt ein schwerwiegendes Problem mit der Fracht. Sie ist nicht richtig gesichert, leckt, überhitzt, gerät in Brand etc."],
+			"61": ["Wrackteil", "Ein kleines Wrackteil ist auf dem Sensor zu erkennen, z. B. ein Frachtcontainer, eine Rettungskapsel, eine gefrorene Leiche oder ein Raumschiffteil, das abgeworfen oder abgerissen wurde."]
+		}
+	}
+}

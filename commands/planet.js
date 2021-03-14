@@ -5,9 +5,10 @@ module.exports = {
 	description: 'Generates an uncolonized planet for the Alien RPG.',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-type planet-type] [-lang language_code]',
 	async run(args, ctx) {
-		// Exits early and executes "!colony empty".
-		return ctx.bot.commands.get('colony').run(['empty'], ctx);
+		// Exits early and executes "!colony -uncolonized".
+		args.push('-uncolonized');
+		return ctx.bot.commands.get('colony').run(args, ctx);
 	},
 };

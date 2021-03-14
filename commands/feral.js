@@ -7,6 +7,7 @@ module.exports = {
 	args: true,
 	usage: '<fp> [-lang language_code]',
 	async run(args, ctx) {
-		await ctx.bot.commands.get('myzpower').run(['gla', args[0]], ctx);
+		args.unshift('gla');
+		await ctx.bot.commands.get('myzpower').run(args, ctx);
 	},
 };
