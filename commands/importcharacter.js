@@ -11,7 +11,7 @@ module.exports = {
 	description: 'cimportcharacter-description',
 	guildOnly: true,
 	args: true,
-	usage: '<url> [-v] [-lang language_code]',
+	usage: '<url> [-v] [-lang <language_code>]',
 	/**
 	 * @param {string[]} args Command's arguments
 	 * @param {import('../utils/ContextMessage')} ctx Discord message with context

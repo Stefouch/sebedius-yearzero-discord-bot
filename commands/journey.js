@@ -20,7 +20,7 @@ module.exports = {
 	cooldown: 60,
 	guildOnly: false,
 	args: true,
-	usage: '<create | mishap [activity]> [arguments...] [-lang language_code]',
+	usage: '<create | mishap [activity]> [arguments...] [-lang <language_code>]',
 	/**
 	 * @param {string[]} args Command's arguments
 	 * @param {import('../utils/ContextMessage')} ctx Discord message with context

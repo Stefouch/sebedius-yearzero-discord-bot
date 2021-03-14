@@ -12,7 +12,7 @@ module.exports = {
 	moreDescriptions: 'cpanic-moredescriptions',
 	guildOnly: false,
 	args: false,
-	usage: '<stress> [-fixed|-f] [-nerves|-n] [-min <value>] [-lang language_code]',
+	usage: '<stress> [-fixed|-f] [-nerves|-n] [-min <value>] [-lang <language_code>]',
 	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['fixed', 'nerves'],

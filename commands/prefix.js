@@ -7,7 +7,7 @@ module.exports = {
 	description: 'cprefix-description',
 	guildOnly: false,
 	args: false,
-	usage: '[set <new prefix>] [-lang language_code]',
+	usage: '[set <new prefix>] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

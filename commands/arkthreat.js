@@ -9,7 +9,7 @@ module.exports = {
 	description: 'carkthreat-description',
 	guildOnly: false,
 	args: false,
-	usage: '[-lang language_code]',
+	usage: '[-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {

@@ -12,7 +12,7 @@ module.exports = {
 	description: 'cresource-description',
 	guildOnly: false,
 	args: true,
-	usage: '<d6|d8|d10|d12> [name] [-lang language_code]',
+	usage: '<d6|d8|d10|d12> [name] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

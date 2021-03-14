@@ -5,7 +5,7 @@ module.exports = {
 	description: 'cmodule-description',
 	guildOnly: false,
 	args: true,
-	usage: '<ep> [-lang language_code]',
+	usage: '<ep> [-lang <language_code>]',
 	async run(args, ctx) {
 		args.unshift('mek');
 		await ctx.bot.commands.get('myzpower').run(args, ctx);

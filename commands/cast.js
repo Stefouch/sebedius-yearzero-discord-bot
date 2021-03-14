@@ -11,7 +11,7 @@ module.exports = {
 	description: 'ccast-description',
 	guildOnly: false,
 	args: true,
-	usage: '<power> [name] [-mishap <value>] [-lang language_code]',
+	usage: '<power> [name] [-mishap <value>] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses the arguments.
 		const argv = require('yargs-parser')(args, {

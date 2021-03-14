@@ -9,7 +9,7 @@ module.exports = {
 	description: 'cartifact-description',
 	guildOnly: false,
 	args: false,
-	usage: '[all | myz meta gla mek ely astra] [-lang language_code]',
+	usage: '[all | myz meta gla mek ely astra] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parses arguments.
 		const argv = require('yargs-parser')(args, {

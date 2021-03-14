@@ -32,7 +32,7 @@ module.exports = {
 	aliases: ['crits', 'critic', 'critical'],
 	guildOnly: false,
 	args: false,
-	usage: '[game] [table] [numeric|-lucky [rank]] [-private|-p] [-lang language_code]',
+	usage: '[game] [table] [numeric|-lucky [rank]] [-private|-p] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Parsing arguments.
 		const argv = require('yargs-parser')(args, {
