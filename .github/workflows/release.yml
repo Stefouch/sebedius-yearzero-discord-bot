@@ -1,11 +1,11 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: RELEASE (CI)
+name: Release
 
 on:
-  pull_request:
-    branches: master
+  release:
+    types: [published]
 
 jobs:
   build:
@@ -13,28 +13,28 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📡 Checkout
-      uses: actions/checkout@v2
+      - name: 📡 Checkout
+        uses: actions/checkout@v2
 
-    - name: ⚙ Use Node.js 12.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 12
+      - name: ⚙ Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
 
-    - name: ☕ Install Dependencies
-      run: npm install
+      - name: ☕ Install Dependencies
+        run: npm install
 
-    - name: 🛠 Build (if any)
-      run: npm run build --if-present
+      - name: 🛠 Build (if any)
+        run: npm run build --if-present
 
-    - name: 🔧 Tests
-      run: npm test
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
+      # - name: 🔧 Tests
+      #   run: npm test
+      #   env:
+      #     DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      #     TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
 
-#    - name: 🚀 Release
-#      run: npx semantic-release
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+  #    - name: 🚀 Release
+  #      run: npx semantic-release
+  #      env:
+  #        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
