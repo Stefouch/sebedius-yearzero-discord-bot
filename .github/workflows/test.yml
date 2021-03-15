@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Continuous Integration – Run Tests
+name: Run Tests
 
 on: [ push, pull_request ]
   # push:
@@ -11,12 +11,28 @@ on: [ push, pull_request ]
 
 jobs:
   test:
-
-    name: ${{ matrix.test-script }} (Node ${{ matrix.node-version }})
+    name: Node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
     # We want to run on external PRs, but not on our own internal PRs as they'll be run
     # by the push to the branch.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+
+    # Sets up a fake PostGreSQL database
+    services:
+      postgres:
+        image: postgres
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: sebedius
+          POSTGRES_PASSWORD: tomasharenstam1234
+          POSTGRES_DB: eden
+          # POSTGRES_PORT: 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     strategy:
       max-parallel: 2
@@ -24,7 +40,6 @@ jobs:
         # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
         node-version: [ 12.x, 13.x ]
-        test-script: [ roll, client ]
 
     steps:
       - name: 📡 Checkout
@@ -39,7 +54,7 @@ jobs:
         run: npm ci
 
       - name: 🔧 Tests
-        run: npm run test-${{ matrix.test-script }}
+        run: npm test
         env:
-          # DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          DATABASE_URL: postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory
           TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
