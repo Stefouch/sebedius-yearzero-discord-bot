@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;Confused;false;0;0;;Defect: Dazed, Investigation −1;0
+12;Overwhelmed;false;0;0;;Defect: Sensitive to stress, Stealth −1;0
+13;Pushed too far;false;0;0;;Defect: Fanatic, Manipulation −1;0
+14;Incapacitated;false;0;0;;Defect: Clumsy, Agility −1;0
+15;Exhausted;false;0;0;;Defect: Claustrophobic, Stealth −1;0
+16;Panic attack;false;0;0;;Defect: Skittish, Fear −1;0
+21;Sees her true self;false;0;0;;Defect: Compulsive liar, Inspiration −1;0
+22;Frozen facial muscles;false;0;0;;Defect: Mask of terror, Manipulation −1 ;0
+23;Whitened hair;false;0;0;;Defect: Aged, Observation −1;0
+24;Feelings of worthlessness;false;0;0;;Defect: Shattered confidence, Inspiration −1;0
+25;Paralyzed;false;0;0;;Defect: Lacks initiative, Investigation −1;0
+26;Trembling;false;0;0;;Defect: Tremor, Ranged Combat −1;0
+31;Confronted with mortality;false;0;0;;Defect: Fear of death, Close Combat −1;0
+32;Fighting and screaming;false;0;0;;Defect: Impaired impulse control, Stealth −1;0
+33;Divided attention;false;0;0;;Defect: Hears voices, Learning −1 ;0
+34;Disgusted;false;0;0;;Defect: Hates filth, Medicine −1;0
+35;Shaken;false;0;0;;Defect: Sentimental, Manipulation −1;0
+36;Stressed;false;0;0;;Defect: Weakened immune system, Force −1;0
+41;Extreme muscle tension;false;0;0;;Defect: High-strung, Agility −1;0
+42;Traumatized;true;0;1;days;Defect: PTSD, Fear −1;0
+43;Furious;true;0;1;days;Defect: Capricious, Manipulation −1;0
+44;Abandoned;true;0;1;days;Defect: Lack of trust, Manipulation −1 ;0
+45;Overwhelmed by vulnerability;true;0;1;days;Defect: Paranoid, Vigilance −1;0
+46;Crushed;true;0;1;hours;Defect: Impaired empathy, Inspiration −1;0
+51;Ashamed;true;0;1;hours;Defect: Self-loathing, Manipulation −1;0
+52;Detached;true;0;1;hours;Defect: Egocentric, Medicine −1 ;0
+53;Out-of-body experience;true;0;1;rounds;Defect: Dissociating, Ranged Combat −2 ;0
+54;Dream state;true;0;1;rounds;Defect: Nightmares, Fear −2;0
+55;Return to childhood;true;0;1;rounds;Defect: Regressing, Learning −2;0
+56;Horrifying realization;true;0;1;rounds;Defect: Mortified, Medicine −2;0
+61;Hypersensitive;true;0;1;days;Insight: Healer, Medicine +3;0
+62;Possessed;true;0;1;minutes;Insight: Haunted, Learning +3;0
+63;Obsessed with detail;true;0;1;minutes;Insight: All-seeing, Investigation +3;0
+64;Supernatural experience;true;0;1;minutes;Insight: Divine messenger, Inspiration +3;0
+65;Invaded by other people’s emotions;true;0;1;rounds;Insight: Absolute empathy, Observation +4;0
+66;Split consciousness;true;0;1;rounds;Insight: Enlightened, Learning +4;0

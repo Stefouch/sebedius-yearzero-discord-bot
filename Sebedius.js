@@ -438,7 +438,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a YZ table.
-	 * @param {string} type Type of table to return (`CRIT` or `null`)
+	 * @param {string} type Type of table to return (`"CRIT"` or `null`)
 	 * @param {string} path Folder path to the file with the ending `/`
 	 * @param {string} fileName Filename without path, ext or lang-ext
 	 * @param {string} [lang='en'] The language to use, default is `en` English

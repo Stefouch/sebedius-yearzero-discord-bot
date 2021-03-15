@@ -8,7 +8,7 @@ You can help expanding Sebedius's knowledge on the following topics:
 * Translations *(French, Svenska, etc.)*
   * Visit the `lang/` directory.
 * Gamedata
-  * Critical Injuries tables (missing Vaesen and T2K)
+  * Critical Injuries tables (missing T2K)
 
 ## How to Contribute
 
