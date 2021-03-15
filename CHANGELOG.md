@@ -24,6 +24,7 @@ Major update with a large refactoring of the bot's javascript code to allow loca
 - New repository name: `sebedius-myz-discord-bot` becomes `sebedius-yearzero-discord-bot`.
 - [Wiki](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki) updated.
 - The `!drawinit` command now shows all drawn initiative cards, included discarded ones (e.g. with the `-haste` argument).
+- (GitHub) Better CI & CD Workflows
 
 ### Fixed
 - Issue [#77](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/77).
