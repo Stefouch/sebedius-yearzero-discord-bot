@@ -4,10 +4,6 @@
 name: Run Tests
 
 on: [ push, pull_request ]
-  # push:
-  #   branches-ignore: [ master ]
-  # pull_request:
-  #   branches-ignore: [ master ]
 
 jobs:
   test:
@@ -16,6 +12,13 @@ jobs:
     # We want to run on external PRs, but not on our own internal PRs as they'll be run
     # by the push to the branch.
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
+
+    strategy:
+      # max-parallel: 1
+      matrix:
+        # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
+        # 14.x breaks Keyv !
+        node-version: [ 12, 13 ]
 
     # Sets up a fake PostGreSQL database
     services:
@@ -33,13 +36,6 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-
-    strategy:
-      max-parallel: 1
-      matrix:
-        # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
-        # 14.x breaks Keyv !
-        node-version: [ 12.x, 13.x ]
 
     steps:
       - name: 📡 Checkout
