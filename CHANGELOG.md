@@ -8,8 +8,8 @@ Major update with a large refactoring of the bot's javascript code to allow loca
 
 ### Added
 - [Discussions](https://github.com/Stefouch/sebedius-yearzero-discord-bot/discussions)
-- Full support for localisation.
-- German language.
+- Full support for localisation of the bot.
+- German localisation.
 - Coriolis & Vaesen critical injuries:
   - New command: `!critcoriolis` or `!critc` – Shortcut for *Coriolis* critical injuries.
   - New command: `!critvaesen` or `!critv` – Shortcut for *Vaesen* critical injuries.
