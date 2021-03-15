@@ -21,13 +21,13 @@ jobs:
     services:
       postgres:
         image: postgres
-        ports:
-          - 5432:5432
+        # ports:
+        #   - 5432:5432
         env:
           POSTGRES_USER: sebedius
           POSTGRES_PASSWORD: tomasharenstam1234
           POSTGRES_DB: eden
-          # POSTGRES_PORT: 5432
+          POSTGRES_PORT: 5432
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -35,7 +35,7 @@ jobs:
           --health-retries 5
 
     strategy:
-      max-parallel: 2
+      max-parallel: 1
       matrix:
         # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
@@ -56,5 +56,5 @@ jobs:
       - name: 🔧 Tests
         run: npm test
         env:
-          DATABASE_URL: postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory
+          DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
           TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
