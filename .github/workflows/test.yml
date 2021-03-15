@@ -14,23 +14,24 @@ jobs:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
 
     strategy:
-      # max-parallel: 1
+      max-parallel: 1
       matrix:
         # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
         node-version: [ 12.x, 13.x ]
 
-    # Sets up a fake PostgreSQL database
+    # Set PostgreSQL database
     services:
       postgres:
-        image: postgres
-        # ports:
-        #   - 5432:5432
+        image: postgres:latest
         env:
+          POSTGRES_DB: eden
           POSTGRES_USER: sebedius
           POSTGRES_PASSWORD: tomasharenstam1234
-          POSTGRES_DB: eden
-          POSTGRES_PORT: 5432
+          # POSTGRES_PORT: 5432
+        ports:
+          - 5432:5432
+        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
