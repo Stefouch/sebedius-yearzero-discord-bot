@@ -18,9 +18,9 @@ jobs:
       matrix:
         # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
-        node-version: [ 12, 13 ]
+        node-version: [ 12.x, 13.x ]
 
-    # Sets up a fake PostGreSQL database
+    # Sets up a fake PostgreSQL database
     services:
       postgres:
         image: postgres
@@ -49,8 +49,16 @@ jobs:
       - name: ☕ Install Dependencies
         run: npm ci
 
-      - name: 🔧 Tests
-        run: npm test
+      - name: 🎲 Test Rolls
+        run: npm run test-roll
+
+      - name: 🤖 Test Bot
+        run: npm run test-client
         env:
-          DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
           TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
+
+      - name: 🐘 Test PostgreSQL Database
+        run: npm run test-db
+        env:
+          # DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+          DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden"
