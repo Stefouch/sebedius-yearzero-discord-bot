@@ -33,7 +33,7 @@
     "weakness": "Weakness",
     "weaknesses": "Weaknesses",
     "clip": "Clip",
-    "fullauto": "Fullauto",
+    "fullauto": "Full-Auto",
     "light": "Light",
     "heavy": "Heavy",
     "energy": "Energy",
@@ -69,6 +69,7 @@
     "suppression": "Suppression",
     "suppressions": "Suppressions",
     "panic": "Panic",
+    "panic-roll": "Panic Roll",
     "details": "Details",
     "pushed": "Pushed",
     "initiative": "Initiative",
@@ -94,6 +95,8 @@
     "characteristics": "Characteristics",
     "modifier": "Modifier",
     "modifiers": "Modifiers",
+    "resource": "Resource",
+    "resource-die": "Resource Die",
     "weather": "Weather",
     "quarter-day": "Quarter Day",
     "morning": "Morning",
@@ -181,6 +184,7 @@
     "skill-fbl-performance": "Performance",
     "skill-fbl-healing": "Healing",
     "skill-fbl-animalhandling": "Animal Handling",
+    "talent-alien-nerves-of-steel": "Nerves of Steel",
     "range": "Range",
     "range-myz-arm": "Arm",
     "range-myz-near": "Near",
@@ -263,7 +267,7 @@
     "ccrit-moredescriptions": [
         [
             "Arguments",
-            "There are three main arguments you can use with this command in any order:\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.\n> Choices: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Specifies the table you want from this game. See below for possible options *(default is \"damage\")*.\n• `numeric` – Specifies a fixed reference.\n• `-private|-p` – Sends the result in a DM.\n• `-lucky|-ly <rank>` – *Lucky* talent: On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11)."
+            "There are several arguments you can use with this command in any order:\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.\n> Choices: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Specifies the table you want from this game. See below for possible options *(default is \"damage\")*.\n• `numeric` – Specifies a fixed reference.\n• `-private|-p` – Sends the result in a DM.\n• `-lucky|-ly <rank>` – *Lucky* talent: On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11)."
         ],
         [
             "☢️ Mutant: Year Zero",
@@ -381,6 +385,39 @@
     "cmutation-description": "Rolls dice for a Mutation and checks for any Misfire.",
     "cmyzpower-description": "Rolls the dice for a MYZ power.",
     "cmyzpower-invalid-arguments": "Invalid arguments",
+    "cpanic-description": "Rolls for a random panic effect for the *ALIEN* roleplaying game. You must indicate your starting stress level.",
+    "cpanic-moredescriptions": [
+		[
+			"Arguments",
+			"• `-fixed|-f` – Uses a fixed number instead (doesn't add a D6).\n• `-nerves|-n` – Applies the *Nerves of Steel* talent (−2 to the Panic roll).\n• `-min <value>` – Adjusts a minimum threshold for multiple consecutive panic effects."
+		]
+	],
+    "cpanic-effect-not-found": "The panic effect wasn't found",
+    "cpanic-interrupted-skill-roll-title": "Interrupted Skill Roll",
+    "cpanic-interrupted-skill-roll-text": "You will be forced to perform a specific action. If the Panic Roll was the result of a skill check for an action, the action is cancelled and immediately replaced by the forced panic action, even if you succeeded your roll.",
+    "cpanic-mental-trauma-reminder-title": "End of Game Session: Roll for Permanent Mental Trauma",
+    "cpanic-mental-trauma-reminder-text": "You must make an **EMPATHY** roll after the session. Roll for the attribute only, not using any skill. If the roll *succeeds*, you develop a permanent mental trauma of some kind. Roll a D6 and consult the table on page 161.",
+    "cplanet-description": "Generates an uncolonized planet for the Alien RPG.",
+    "cplanet-moredescriptions": [
+        [
+            "Arguments",
+            "• `name` - Specifies a custom planet name.\n• `type` - Specifies the planet type (default is \"rocky\").\n> Choices: rocky, icy, gasgiant, gasgiant-moon, asteroid-belt"
+        ]
+    ],
+    "cprefix-description": "Gets the prefixes for this server. Sets a new one with the option `set`.",
+    "cprefix-invalid-arguments": "Invalid arguments",
+    "cprefix-proper-usage": "The proper usage would be",
+    "cprefix-embed-title": "Sebedius Prefixes",
+    "cprefix-embed-footer": "2 prefixes",
+    "cresource-description": "Rolls a Resource Die",
+    "cresource-invalid-dice": "I don't understand this resource die. Use `d6`, `d8`, `d10` or `d12`",
+    "cresource-too-many-dice": "Can't roll that, too many dice!",
+    "cresource-decreased-title": "Decreased",
+    "cresource-decreased-text": "One unit is used. The Resource Die is decreased one step to a",
+    "cresource-exhausted-title": "Exhausted",
+    "cresource-exhausted-text": "The consumable is fully depleted.",
+    "cresource-unchanged-title": "Unchanged",
+    "cresource-unchanged-text": "The Resource Die didn't decrease.",
     "croll-description": "Rolls dice for any Year Zero roleplaying game.",
     "croll-moredescriptions": [
         [
@@ -408,9 +445,37 @@
             "The following commands are shortcuts if you don't want to specify the [game] parameter each time.\n`rm` – Rolls *Mutant: Year Zero* dice.\n`rf` – Rolls *Forbidden Lands* dice.\n`rt` – Rolls *Tales From The Loop* dice.\n`rc` – Rolls *Coriolis* dice.\n`ra` – Rolls *Alien RPG* dice.\n`rv` – Rolls *Vaesen* dice.\n`rw` – Rolls *Twilight 2000 4E* dice."
         ]
     ],
+    "croll-invalid-syntax": "I don't understand this syntax. Type `{will_be_replaced}help roll` for details on the proper usage.",
+    "croll-no-dice": "Can't roll a null number of dice!",
+    "croll-too-many-dice": "Cannot roll that many dice!",
     "croll-ammo-spent": "Ammo Spent",
     "croll-generic-roll": "Generic Roll",
     "croll-single-roll": "Single D6 / D66 / D666 Roll",
+    "crollalien-description": "Rolls dice for the *ALIEN* roleplaying game.\nType `help roll` for more details.",
+    "crollcoriolis-description": "Rolls dice for the *Coriolis* roleplaying game.\nType `help roll` for more details.",
+    "crollfbl-description": "Rolls dice for the *Forbidden Lands* roleplaying game.\nType `help roll` for more details.",
+    "crollmyz-description": "Rolls dice for the *Mutant: Year Zero* roleplaying game.\nType `help roll` for more details.",
+    "crollt2k-description": "Rolls dice for the *Twilight 2000* roleplaying game.\nType `help roll` for more details.",
+    "crollt2k-moredescriptions": [
+		[
+			"Rolling Twilight 2000 Dice",
+			"Use any combinations of the following.\n__Attribute or skill dice__:\n• `d12 | a` – Rolls a D12\n• `d10 | b` – Rolls a D10\n• `d8 | c` – Rolls a D8\n• `d6 | d` – Rolls a D6\n__Other__:\n• `Xg` – Rolls X ammo dice\n• `Xd | Xb | Xs` – Rolls X base (D6) dice"
+		],
+		[
+			"Examples",
+			"!rw d12 d8\n!rw a c\n!rw b 5g"
+		],
+		[
+			"Arguments",
+			"Type `help roll` for the list of available arguments."
+		],
+		[
+			"⚠️ Disclaimer!",
+			"This is based on the alpha version of the rules."
+		]
+	],
+    "crolltales-description": "Rolls dice for the *Tales From the Loop* roleplaying game.\nType `help roll` for more details.",
+    "crollvaesen-description": "Rolls dice for the *Vaesen* roleplaying game.\nType `help roll` for more details.",
     "galienjobgenerator-invalid-type": "Not a valid job type",
     "galienworldgenerator-moons": "Has {will_be_replaced} moons.",
     "malien-xeno-bloodburster": "Bloodburster",

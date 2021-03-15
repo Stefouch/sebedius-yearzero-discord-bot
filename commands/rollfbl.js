@@ -2,11 +2,10 @@ module.exports = {
 	name: 'rollfbl',
 	aliases: ['rollf', 'rf'],
 	category: 'fbl',
-	description: 'Rolls dice for the *Forbidden Lands* roleplaying game.'
-		+ '\nType `help roll` for more details.',
+	description: 'crollfbl-description',
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [arguments]',
+	usage: '<dice> [arguments] [-lang language-code]',
 	async run(args, ctx) {
 		args.unshift('fbl');
 		await ctx.bot.commands.get('roll').run(args, ctx);
