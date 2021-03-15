@@ -1,6 +1,6 @@
 # Contributing
 
-> Contributions, issues and feature requests are welcome!<br />Feel free to check the [issues page](https://github.com/Stefouch/sebedius-myz-discord-bot/issues).
+> Contributions, issues and feature requests are welcome!<br />Feel free to check the [issues page](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues).
 
 You can help expanding Sebedius's knowledge on the following topics:
 

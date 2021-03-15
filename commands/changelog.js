@@ -11,7 +11,7 @@ module.exports = {
 		const embed = new YZEmbed(
 			'📑 Sebedius Changelog',
 			'You can check out the latest patch notes at '
-			+ 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/CHANGELOG.md',
+			+ 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CHANGELOG.md',
 			ctx,
 		);
 		return ctx.send(embed);

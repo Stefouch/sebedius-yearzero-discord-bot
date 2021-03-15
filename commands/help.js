@@ -43,10 +43,10 @@ module.exports = {
 				embed.addField('🏁 Deployed Version', ctx.bot.version, true);
 				embed.addField('🛠 Developer', 'Stefouch#5202', true);
 				embed.addField('🐦 Twitter', 'https://twitter.com/stefouch', true);
-				embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md', false);
+				embed.addField('📖 Readme', 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md', false);
 				embed.addField('🔗 Invite Link', ctx.bot.inviteURL, false);
 				embed.addField('📚 Wiki', ctx.bot.config.wikiURL, true);
-				embed.addField('🛠 Bug Report & Feature Request', 'https://github.com/Stefouch/sebedius-myz-discord-bot/issues', true);
+				embed.addField('🛠 Bug Report & Feature Request', 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues', true);
 				embed.addField('🙏 Patreon', 'https://patreon.com/Stefouch', true);
 				embed.addField('🖥 Website', 'https://www.stefouch.be', true);
 				embed.addField('🗒 ' + __('chelp-command-list-title', lang), `${__('chelp-command-list-start', lang)} \`${ctx.prefix}help -list\` ${__('chelp-command-list-middle', lang)} \`${ctx.prefix}help [command name]\` ${__('chelp-command-list-end', lang)}.`, false);

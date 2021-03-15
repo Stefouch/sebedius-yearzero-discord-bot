@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 Major update with a large refactoring of the bot's javascript code to allow localisation.
 
 ### Added
-- [Discussions](https://github.com/Stefouch/sebedius-myz-discord-bot/discussions)
+- [Discussions](https://github.com/Stefouch/sebedius-yearzero-discord-bot/discussions)
 - Full support for localisation.
 - German language.
 - Coriolis & Vaesen critical injuries:
@@ -21,23 +21,24 @@ Major update with a large refactoring of the bot's javascript code to allow loca
   - New argument `-location <core|arm>`: Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`.
 
 ### Changed
-- [Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki) updated.
+- New repository name: `sebedius-myz-discord-bot` becomes `sebedius-yearzero-discord-bot`.
+- [Wiki](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki) updated.
 - The `!drawinit` command now shows all drawn initiative cards, included discarded ones (e.g. with the `-haste` argument).
 
 ### Fixed
-- Issue [#77](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/77).
+- Issue [#77](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/77).
 
 ---
 
 ## [3.8.2] - 2020-12-13
 ## Fixed
-- Issue [#78](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/78).
-- Issue [#76](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/76).
+- Issue [#78](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/78).
+- Issue [#76](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/76).
 
 ## [3.8.1] - 2020-12-06
 ### Fixed
 - A small error with displayed text in T2K embed roll messages.
-- Issue [#60](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/60).
+- Issue [#60](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/60).
 
 ## [3.8.0] - 2020-12-05
 ### Added
@@ -45,13 +46,13 @@ Major update with a large refactoring of the bot's javascript code to allow loca
 
 ### Changed
 - New dice emojis for Twilight 2000 4E.
-- New default D6 emoji [#53](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/53).
-- New default emoji for deadly critics [#66](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/66).
+- New default D6 emoji [#53](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/53).
+- New default emoji for deadly critics [#66](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/66).
 
 ### Fixed
 - Correct Twilight 2000 4E rolls (`!rw` command) based on the official alpha rules.
-- Issue [#59](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/59).
-- Issue [#65](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/65).
+- Issue [#59](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/59).
+- Issue [#65](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/65).
 
 ## [3.7.2] - 2020-10-10
 ### Fixed
@@ -99,7 +100,7 @@ Major update with a large refactoring of the bot's javascript code to allow loca
 
 ### Changed
 - New README.md file.
-- Migrated most of the help into the [Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki).
+- Migrated most of the help into the [Wiki](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki).
 - (API) Intents GUILD_PRESENCES & GUILD_MEMBERS enabled for the Admin tools.
 
 ### Fixed
