@@ -1,9 +1,9 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Run Tests
+name: Continuous Integration – Run Tests
 
-on: [push, pull_request]
+on: [ push, pull_request ]
   # push:
   #   branches-ignore: [ master ]
   # pull_request:
@@ -19,12 +19,12 @@ jobs:
     if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
 
     strategy:
-      max-parallel: 1
+      max-parallel: 2
       matrix:
         # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
         node-version: [ 12.x, 13.x ]
-        test-script: ["roll", "client"]
+        test-script: [ roll, client ]
 
     steps:
       - name: 📡 Checkout
