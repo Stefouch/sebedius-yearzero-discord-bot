@@ -2,11 +2,12 @@ module.exports = {
 	name: 'module',
 	aliases: ['ep'],
 	category: 'myz',
-	description: 'Rolls dice for a Mechatron Module and checks for any Overheating.',
+	description: 'cmodule-description',
 	guildOnly: false,
 	args: true,
-	usage: '<ep>',
+	usage: '<ep> [-lang <language_code>]',
 	async run(args, ctx) {
-		await ctx.bot.commands.get('myzpower').run(['mek', args[0]], ctx);
+		args.unshift('mek');
+		await ctx.bot.commands.get('myzpower').run(args, ctx);
 	},
 };

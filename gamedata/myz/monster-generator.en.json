@@ -16,12 +16,12 @@
 		"roll": "D66",
 		"define": "Agility",
 		"data": {
-			"11": ["Sluggish herbivore", 0],
-			"19": ["Herbivore", 1],
-			"29": ["Gatherer", 2],
-			"37": ["Scavenger", 4],
-			"45": ["Predator", 6],
-			"63": ["Aggressive predator", 8]
+			"11": ["Sluggish herbivore", "Sluggish herbivores", 0],
+			"19": ["Herbivore", "Herbivores", 1],
+			"29": ["Gatherer", "Gatherers", 2],
+			"37": ["Scavenger", "Scavengers", 4],
+			"45": ["Predator", "Predators", 6],
+			"63": ["Aggressive predator", "Aggressive predators", 8]
 		}
 	},
 	"limbs": {

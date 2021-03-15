@@ -1,12 +1,11 @@
 module.exports = {
 	name: 'rollcoriolis',
-	aliases: ['rollc', 'rc', 'lancec', 'lancerc', 'slåc', 'slac'],
+	aliases: ['rollc', 'rc'],
 	category: 'coriolis',
-	description: 'Rolls dice for the *Coriolis* roleplaying game.'
-		+ '\nType `help roll` for more details.',
+	description: 'crollcoriolis-description',
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [arguments]',
+	usage: '<dice> [arguments] [-lang <language_code>]',
 	async run(args, ctx) {
 		args.unshift('coriolis');
 		await ctx.bot.commands.get('roll').run(args, ctx);

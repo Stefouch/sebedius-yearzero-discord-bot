@@ -1,12 +1,11 @@
 const YZGenerator = require('./YZGenerator');
-const MonsterData = require('../gamedata/myz/monster-generator.json');
-const Muts = require('../gamedata/myz/mutations.list.json');
 const { RollParser } = require('../utils/RollParser');
 const Util = require('../utils/Util');
 
 class MYZMonsterGenerator extends YZGenerator {
-	constructor() {
-		super(MonsterData);
+	constructor(language = 'en') {
+		const MonsterData = require(`../gamedata/myz/monster-generator.${language}.json`);
+		super(MonsterData, language);
 		/**
 		 * The name of the creature.
 		 * @type {string}
@@ -58,6 +57,11 @@ class MYZMonsterGenerator extends YZGenerator {
 		this.qty = RollParser.parseAndRoll(numbersElem[1]);
 
 		/**
+		 * The Mutation catalog to use
+		 * @type {NodeRequire}
+		 */
+		this.muts = require(`../gamedata/myz/mutations.list.${this.lang}.json`);
+		/**
 		 * List of mutations the creature have.
 		 */
 		this.mutations = this.getMutations(super.get('mutations'));
@@ -83,12 +87,12 @@ class MYZMonsterGenerator extends YZGenerator {
 		 * The creature's type verbose description.
 		 * @type {string}
 		 */
-		this.descriptions.type = typeElem[0];
+		this.descriptions.type = this.qty > 1 ? typeElem[1] : typeElem[0];	// Return different Value for singular or plural monstertype, as some languages have different plural-endings.
 		/**
 		 * The creature's Agility.
 		 * @type {number}
 		 */
-		this.agi = +typeElem[1];
+		this.agi = +typeElem[2];
 
 		// =========================== BODY & SHAPE ===========================
 		const bodyElem = super.get('body');
@@ -210,7 +214,7 @@ class MYZMonsterGenerator extends YZGenerator {
 		// Loads the list of mutations.
 		// Uses a Set object to avoid duplicates.
 		const mutations = new Set();
-		for (const category in Muts) for (const m of Muts[category]) mutations.add(m);
+		for (const category in this.muts) for (const m of this.muts[category]) mutations.add(m);
 
 		const fetchedMutations = [];
 		for (let i = 0; i < qty; i++) fetchedMutations.push(Util.random(mutations));

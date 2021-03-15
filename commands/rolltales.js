@@ -1,12 +1,11 @@
 module.exports = {
 	name: 'rolltales',
-	aliases: ['rollt', 'rt', 'lancet', 'lancert', 'slåt', 'slat'],
+	aliases: ['rollt', 'rt'],
 	category: 'tales',
-	description: 'Rolls dice for the *Tales From the Loop* roleplaying game.'
-		+ '\nType `help roll` for more details.',
+	description: 'crolltales-description',
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [arguments]',
+	usage: '<dice> [arguments] [-lang <language_code>]',
 	async run(args, ctx) {
 		args.unshift('tales');
 		await ctx.bot.commands.get('roll').run(args, ctx);

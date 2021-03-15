@@ -1,44 +1,55 @@
-const Muts = require('../gamedata/myz/mutations.list.json');
 const { random } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'drawmutation',
 	aliases: ['drawmut'],
 	category: 'myz',
-	description: 'Draws a random mutation from the MYZ core rulebook. Available sources are:'
-		+ '\n• `gla` – Adds *Mutant: GenLab Alpha* mutations'
-		+ '\n• `zc2` – Adds *Zone Compendium 2: Dead Blue Sea* mutations'
-		+ '\n• `zc5` – Adds *Zone Compendium 5: Hotel Imperator* mutations'
-		+ '\n• `psi` – Draws only from Psionic/mental mutations'
-		+ '\nUse `all` to pick from all book sources.',
+	description: 'cdrawmutation-description',
 	guildOnly: false,
 	args: false,
-	usage: '[all | gla zc2 zc5 psi]',
+	usage: '[all | myz gla zc2 zc5 psi] [-lang <language_code>]',
 	async run(args, ctx) {
+		// Parses arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		let usedBooks = argv._;
+
+		const Muts = require(`../gamedata/myz/mutations.list.${lang}.json`);
+
 		// Lists all legal books
 		const legalBooks = new Array();
 		for (const book in Muts) legalBooks.push(book);
 
 		// If "all", adds all books.
-		if (args.includes('all')) args = args.concat(legalBooks);
+		if (usedBooks.includes('all')) usedBooks = usedBooks.concat(legalBooks);
 		// Default book should be MYZ.
-		if (!args.includes('myz') && !args.includes('psi')) args.push('myz');
+		if (!usedBooks.includes('myz') && !usedBooks.includes('psi')) usedBooks.push('myz');
 
 		// Using a "Set" object instead of a simple Array,
 		// because it avoids duplicates.
 		const mutations = new Set();
 
-		// Adds artifacts
-		args.forEach(arg => {
-			arg = arg.toLowerCase();
-			if (legalBooks.includes(arg)) {
-				Muts[arg].forEach(mut => mutations.add(mut));
+		// Adds mutations
+		usedBooks.forEach(book => {
+			book = book.toLowerCase();
+			if (legalBooks.includes(book)) {
+				Muts[book].forEach(mut => mutations.add(mut));
 			}
 		});
 
 		const mutation = random(mutations);
-		const embed = new YZEmbed('Mutation', mutation);
+		const embed = new YZEmbed(__('mutation', lang), mutation);
 
 		await ctx.send(embed);
 

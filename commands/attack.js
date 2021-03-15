@@ -1,33 +1,20 @@
 const { emojifyRoll } = require('../Sebedius');
 const YZRoll = require('../yearzero/YZRoll');
-const { isNumber, resolveNumber } = require('../utils/Util');
+const { isNumber, resolveNumber, capitalize } = require('../utils/Util');
 const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { YZEmbed } = require('../utils/embeds');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'attack',
-	aliases: ['atk', 'atq'],
+	aliases: ['atk'],
 	category: 'common',
-	description: 'Rolls a random attack from a monster.',
-	moreDescriptions: [
-		[
-			'Arguments',
-			`• \`game\` – Specifies the game you are using. Can be omitted.
-			• \`name\` – Specifies the monster you want to fetch.
-			• \`number\` – Specifies the desired attack instead of choosing a random one.
-			• \`-private|-p\` – Sends the message in a private DM.`,
-		],
-		[
-			'Reaction Menu',
-			`• Click ⚔️ to roll the dice of the attack.
-			• Click ☠️ to roll the critical (some attacks have fixed crits, others are random).
-			• Click ❌ to stop the reaction menu.`,
-		],
-	],
+	description: 'cattack-description',
+	moreDescriptions: 'cattack-moredescriptions',
 	guildOnly: false,
 	args: true,
-	usage: '[game] <monster name> [number] [-private|-p]',
+	usage: '[game] <monster name> [number] [-private|-p] [-lang <language_code>]',
 	async run(args, ctx) {
 		const { monster, argv } = await ctx.bot.commands.get('monster').parse(args, ctx);
 		const ref = isNumber(argv.attack) ? argv.attack : null;
@@ -54,7 +41,7 @@ module.exports = {
 				if (attack.base > 0) {
 					const w = Math.ceil(Math.log10(attack.base));
 					str = `__**${atkDice + attack.base}** `;
-					effect = str.concat(effect.slice(w + 12 + 1));
+					effect = str.concat(capitalize(effect.slice(w + 12 + 1)));
 				}
 				else {
 					str = `__**${atkDice}** Dice${attack.damage ? ', ' : ''}`;
@@ -65,7 +52,7 @@ module.exports = {
 
 		// Creates the Embed.
 		const embed = new YZEmbed(
-			`:crossed_swords: **${monster.name}**'s Attack`,
+			`:crossed_swords: **${monster.name}**${__('possessives', monster.lang)} ${__('attack', monster.lang)}` ,
 			`${attack.name ? `**${attack.name}:** ` : ''} ${effect}`,
 		);
 		// Sets the footer of the embed (roll reference).
@@ -176,7 +163,7 @@ async function rollAttack(attack, monster, message, bot) {
 	await message.channel.send(
 		emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
 		damage
-			? new YZEmbed(`Damage × ${damage}`, ':boom:'.repeat(damage))
+			? new YZEmbed(`${__('damage', monster.lang)} × ${damage}`, ':boom:'.repeat(damage))
 			: null,
 	);
 }

@@ -2,7 +2,7 @@ module.exports = {
 	name: 'br',
 	// aliases: [],
 	category: 'pbptool',
-	description: 'Prints a scene break.',
+	description: 'cbr-description',
 	guildOnly: false,
 	args: false,
 	usage: '',

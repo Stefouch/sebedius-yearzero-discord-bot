@@ -1,0 +1,133 @@
+{
+	"job": {
+		"roll": "D66",
+		"data": {
+			"11": {
+				"type": "Routine",
+				"destination": "Innerhalb des Systems",
+				"complication": 0,
+				"reward": "D6+20",
+				"extra": 0
+			},
+			"13": {
+				"type": "Routine",
+				"destination": "Innerhalb des Systems",
+				"complication": 1,
+				"reward": "D6+20",
+				"extra": 0
+			},
+			"16": {
+				"type": "Routine",
+				"destination": "Innerhalb des Systems",
+				"complication": 1,
+				"reward": "D6+30",
+				"extra": 0
+			},
+			"24": {
+				"type": "Einfacher ",
+				"destination": "Innerhalb des Systems",
+				"complication": 0,
+				"reward": "2D6+20",
+				"extra": 0
+			},
+			"26": {
+				"type": "Einfacher ",
+				"destination": "Nahes System",
+				"complication": 1,
+				"reward": "2D6+20",
+				"extra": 1
+			},
+			"32": {
+				"type": "Einfacher ",
+				"destination": "Nahes System",
+				"complication": 1,
+				"reward": "2D6+25",
+				"extra": 1
+			},
+			"34": {
+				"type": "Normaler ",
+				"destination": "Nahes System",
+				"complication": 1,
+				"reward": "3D6+30",
+				"extra": 0
+			},
+			"46": {
+				"type": "Normaler ",
+				"destination": "Nahes System",
+				"complication": 1,
+				"reward": "3D6+30",
+				"extra": 1
+			},
+			"52": {
+				"type": "Normaler ",
+				"destination": "Nahes System",
+				"complication": 1,
+				"reward": "3D6+40",
+				"extra": 1
+			},
+			"54": {
+				"type": "Normaler ",
+				"destination": "Weit entferntes System",
+				"complication": 1,
+				"reward": "4D6+50",
+				"extra": 0
+			},
+			"55": {
+				"type": "Normaler ",
+				"destination": "Weit entferntes System",
+				"complication": 1,
+				"reward": "4D6+50",
+				"extra": 1
+			},
+			"56": {
+				"type": "Schwieriger ",
+				"destination": "Innerhalb des Systems",
+				"complication": 2,
+				"reward": "4D6+60",
+				"extra": 1
+			},
+			"62": {
+				"type": "Schwieriger ",
+				"destination": "Nahes System",
+				"complication": 2,
+				"reward": "4D6+50",
+				"extra": 0
+			},
+			"64": {
+				"type": "Schwieriger ",
+				"destination": "Nahes System",
+				"complication": 2,
+				"reward": "4D6+50",
+				"extra": 1
+			},
+			"65": {
+				"type": "Schwieriger ",
+				"destination": "Weit entferntes System",
+				"complication": 2,
+				"reward": "5D6+50",
+				"extra": 1
+			},
+			"66": {
+				"type": "Schwieriger ",
+				"destination": "Weit entferntes System",
+				"complication": 3,
+				"reward": "5D6+50",
+				"extra": 2
+			}
+		}
+	},
+	"plot-twist": {
+		"roll": "D66",
+		"data": {
+			"11": ["Hilferuf", "Bevor (oder nachdem) das Raumschiff auf Überlichtgeschwindigkeit beschleunigt hat, empfängt die Mannschaft ein Notsignal und ist gesetzlich dazu verpflichtet, Unterstützung zu leisten. Alternativ kann der Hilferuf die SC erreichen, während sie sich auf einem Planeten aufhalten."],
+			"16": ["Schlechte Informationslage", "Eine zentrale Information über den Auftrag erweist sich als falsch oder irreführend."],
+			"23": ["Sabotage", "Es ereignet sich eine schwere Fehlfunktion oder Krise (beispielsweise ein Brand), die sich schnell als Sabotage herausstellt. Doch wer ist der Täter?"],
+			"26": ["Geheimes Komplott", "Mehrere SC oder NSC verfolgen ein anderes Ziel als die Gruppe und arbeiten fleißig darauf hin es zu verwirklichen. Motivation und Ziel der Verschwörer ändern sich."],
+			"36": ["Mord", "Ein NSC wird plötzlich ermordet. Wer hat es getan und warum?"],
+			"44": ["Sonneneruption", "Ausgehend von einem flackernden Roten Zwerg, einem entfernten Neutronenstern oder einem anderen Phänomen erreicht eine starke Entladung von Sonnenstrahlung die Position der Charaktere. Sie könnte zu einem völligen Energieausfall führen oder zumindest zu einem Zusammenbruch der Kommunikationssysteme."],
+			"51": ["Fehlfunktion", "Ein bestimmter Gegenstand, ein Hilfsmittel oder eine Komponente, die von entscheidender Bedeutung für den Auftrag ist, versagt in dem Moment, in dem sie am dringendsten gebraucht wird – eine Luftschleuse blockiert, der Antrieb springt nicht an, eine Sprengladung explodiert vorzeitig oder der Diamantbohrkopf bricht. Was nun?"],
+			"56": ["Zeitbegrenzung", "Der Auftrag hat eine Deadline, von deren Einhaltung Leben abhängen (vielleicht sogar die der SC)."],
+			"65": ["Alien-Befall", "Sobald die SC mitten in ihrem Auftrag sind, wird die Mission nebensächlich, denn auf irgendeine Weise gibt es im Zielgebiet eine Präsenz von Xenomorph XX121. Es könnte sich um ein einzelnes Ei oder um Dutzende handeln, um eine umherstreifende Drohne, der bereits einige unglückselige Menschen zum Opfer gefallen sind, oder um ein Konzernexperiment, das gerade außer Kontrolle gerät. Viel Glück ..."]
+		}
+	}
+}

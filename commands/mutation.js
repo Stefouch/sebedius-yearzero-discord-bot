@@ -2,11 +2,12 @@ module.exports = {
 	name: 'mutation',
 	aliases: ['mp', 'mut'],
 	category: 'myz',
-	description: 'Rolls dice for a Mutation and checks for any Misfire.',
+	description: 'cmutation-description',
 	guildOnly: false,
 	args: true,
-	usage: '<mp>',
+	usage: '<mp> [-lang <language_code>]',
 	async run(args, ctx) {
-		await ctx.bot.commands.get('myzpower').run(['myz', args[0]], ctx);
+		args.unshift('myz');
+		await ctx.bot.commands.get('myzpower').run(args, ctx);
 	},
 };

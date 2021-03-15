@@ -1,39 +1,56 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: TESTS (Node.js CI)
+name: Run Tests
 
-on:
-  push:
-    branches-ignore: [ master ]
-  pull_request:
-    branches-ignore: [ master ]
+on: [ push, pull_request ]
 
 jobs:
   test:
-
+    name: Node ${{ matrix.node-version }}
     runs-on: ubuntu-latest
+    # We want to run on external PRs, but not on our own internal PRs as they'll be run
+    # by the push to the branch.
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
 
     strategy:
+      # max-parallel: 1
       matrix:
         # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
         # 14.x breaks Keyv !
-        node-version: [ 11.x, 12.x, 13.x ]
+        node-version: [ 12, 13 ]
+
+    # Sets up a fake PostGreSQL database
+    services:
+      postgres:
+        image: postgres
+        # ports:
+        #   - 5432:5432
+        env:
+          POSTGRES_USER: sebedius
+          POSTGRES_PASSWORD: tomasharenstam1234
+          POSTGRES_DB: eden
+          POSTGRES_PORT: 5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
-    - name: 📡 Checkout
-      uses: actions/checkout@v2
+      - name: 📡 Checkout
+        uses: actions/checkout@v2
 
-    - name: ⚙ Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
+      - name: ⚙ Use Node ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
 
-    - name: ☕ Install Dependencies
-      run: npm ci
+      - name: ☕ Install Dependencies
+        run: npm ci
 
-    - name: 🔧 Tests
-      run: npm test
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
+      - name: 🔧 Tests
+        run: npm test
+        env:
+          DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
+          TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}

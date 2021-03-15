@@ -3,16 +3,42 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2021-03-15
+Major update with a large refactoring of the bot's javascript code to allow localisation.
+
+### Added
+- [Discussions](https://github.com/Stefouch/sebedius-yearzero-discord-bot/discussions)
+- Full support for localisation of the bot.
+- German localisation.
+- Coriolis & Vaesen critical injuries:
+  - New command: `!critcoriolis` or `!critc` – Shortcut for *Coriolis* critical injuries.
+  - New command: `!critvaesen` or `!critv` – Shortcut for *Vaesen* critical injuries.
+- New argument `-lang` for many commands to allow language change on the go.
+- `!crit` command:
+  - New argument `-lucky <rank>`: *Lucky* talent — On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11).
+- `!colony` & `!planet` commands:
+  - New argument `-type <planet_type>`: Specifies the planet type. Choices are `rocky`, `icy`, `gasgiant`, `gasgiant-moon` and `asteroid-belt`.
+  - New argument `-location <core|arm>`: Specifies if the colony belongs to the independent `core` system colonies or the american or anglo-japanese `arm`.
+
+### Changed
+- New repository name: `sebedius-myz-discord-bot` becomes `sebedius-yearzero-discord-bot`.
+- [Wiki](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki) updated.
+- The `!drawinit` command now shows all drawn initiative cards, included discarded ones (e.g. with the `-haste` argument).
+
+### Fixed
+- Issue [#77](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/77).
+
+---
+
 ## [3.8.2] - 2020-12-13
 ## Fixed
-- Issue [#78](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/78)
-- Issue [#77](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/77)
-- Issue [#76](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/76)
+- Issue [#78](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/78).
+- Issue [#76](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/76).
 
 ## [3.8.1] - 2020-12-06
 ### Fixed
 - A small error with displayed text in T2K embed roll messages.
-- Issue [#60](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/60).
+- Issue [#60](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/60).
 
 ## [3.8.0] - 2020-12-05
 ### Added
@@ -20,13 +46,13 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - New dice emojis for Twilight 2000 4E.
-- New default D6 emoji [#53](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/53).
-- New default emoji for deadly critics [#66](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/66).
+- New default D6 emoji [#53](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/53).
+- New default emoji for deadly critics [#66](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/66).
 
 ### Fixed
 - Correct Twilight 2000 4E rolls (`!rw` command) based on the official alpha rules.
-- Issue [#59](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/59).
-- Issue [#65](https://github.com/Stefouch/sebedius-myz-discord-bot/issues/65).
+- Issue [#59](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/59).
+- Issue [#65](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/65).
 
 ## [3.7.2] - 2020-10-10
 ### Fixed
@@ -74,7 +100,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - New README.md file.
-- Migrated most of the help into the [Wiki](https://github.com/Stefouch/sebedius-myz-discord-bot/wiki).
+- Migrated most of the help into the [Wiki](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki).
 - (API) Intents GUILD_PRESENCES & GUILD_MEMBERS enabled for the Admin tools.
 
 ### Fixed
@@ -225,6 +251,8 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 - `!br` now properly deletes the invoke message.
 - A potential security breach with the roll parsing function.
 
+---
+
 ## [2.0.0] - 2020-06-22
 ### Added
 - Support for **TALES FROM THE LOOP** rolls: `!rolltales` or `!rt`.
@@ -265,6 +293,8 @@ Therefore, this update is a **major** change from v2 to v3 in less than one mont
 - A bug that was breaking the `!init` command.
 - A fatal error causing the bot to crash on a certain condition related to the roll command.
 - Permissions checks.
+
+---
 
 ## [1.7.0] - 2019-12-26
 ### Added

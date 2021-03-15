@@ -1,0 +1,18 @@
+ref;effect
+11-13;Jemand beobachtet deine Magie und erzählt anderen davon. Deine Reputation steigt um einen Punkt.
+14-15;Deine Magie macht dich sehr `HUNGRIG`.
+16-21;Dein Zauber macht dich auf einmal sehr `DURSTIG`.
+22-23;Die Magie stört deinen Schlaf. Du kannst D6 Tage lang nicht schlafen, wodurch du `MÜDE` wirst.
+24-25;Der Zauber nimmt dir die Energie und fügt 1 Punkt Schaden auf Geschicklichkeit zu.
+26-31;Deine Magie schadet deinem Körper. Du erleidest 1 Punkt Schaden auf Stärke.
+32-33;Die Macht deiner eigenen Magie überwältigt dich und lässt die Menschen in deiner Umgebung neben dir wie Ameisen wirken. Du erleidest 1 Punkt Schaden auf Empathie.
+34-35;Der Zauber entfesselt dämonische Visionen, die dir 1 Punkt Schaden auf Verstand zufügen.
+36-41;Der Zauber löst eine magische Krankheit mit einer Ansteckungskraft von 2D6 aus. Du und alle auf `ARMESLÄNGE` sind für den nächsten Tagesabschnitt der Ansteckung ausgesetzt.
+42-45;Dein Zauber trifft zusätzlich einen Freund oder ein anderes ungeplantes Opfer. Ein heilender oder helfender Zauber wirkt auf einen Feind, zusätzlich zum eigentlichen Ziel.
+46;Der Zauber verändert permanent dein Aussehen. Die SL entscheidet, wie.
+51;Der Zauber blendet dich. Für den nächsten vollen Tag handelst du wie in kompletter Dunkelheit.
+52-55;Der Zauber verwüstet deinen Geist. Du erleidest sofort eine kritische Verletzung (geistiges Trauma). Gebe `{prefix}critf h` ein.
+56;Die Kraft des Zaubers bricht Knochen in deinem Körper. Du erleidest sofort eine kritische Verletzung (stumpfer Schlag). Gebe `{prefix}critf bl` ein.
+61;Deine Magie lockt einen Dämon aus einer anderen Dimension an. Die SL kann einen zufälligen Dämon auswählen (siehe Seite 81 im Spielleiter-Handbuch) oder ihn selbst erschaffen. Der Dämon wird innerhalb des nächsten Tagesabschnitts auftauchen und für jede Menge Ärger sorgen. Gebe `{prefix}demon` ein.
+62-65;Der Zauber geht nach hinten los. Ein Angriffszauber trifft dich statt deines geplanten Ziels. Ein schützender oder heilender Zauber verletzt, statt zu heilen. Eine Gestaltwandlung geht furchtbar daneben und du wirst zu einem intelligenzlosen Tier. Ein beschworener Untoter, Dämon oder eine Illusion wenden sich gegen dich. Die SL bestimmt die Details.
+66;Deine Magie reißt einen Spalt zu einer anderen Dimension auf und ein Dämon zieht dich auf die andere Seite. Zeit, einen neuen Charakter zu erschaffen. Dein alter Charakter wird nach D66 Tagen als NSC zurückkehren, nur… anders.

@@ -284,7 +284,15 @@
 						"66": "Dragon"
 					}
 				},
-				"66": "Demons"
+				"66": {
+					"define": "Demons",
+					"roll": "D6",
+					"data": {
+						"1": "Demons (1)",
+						"5": "Demons (2)",
+						"6": "Demons (D6)"
+					}
+				}
 			}
 		}
 	}

@@ -37,12 +37,12 @@
 	"geosphere": {
 		"roll": "2D6",
 		"data": {
-			"2": ["Desert", "No surface water"],
-			"5": ["Arid", "Global deserts and dry steppes, with some lakes and small seas"],
-			"7": ["Temperate-Dry", "Oceans cover 30–40% of the world’s surface"],
-			"9": ["Temperate-Wet", "Oceans cover 60–70% of the world’s surface"],
-			"11": ["Wet", "Global oceans with some islands and archipelagos"],
-			"12": ["Water", "No dry land"]
+			"2": ["Desert ", "No surface water"],
+			"5": ["Arid ", "Global deserts and dry steppes, with some lakes and small seas"],
+			"7": ["Temperate-Dry ", "Oceans cover 30–40% of the world’s surface"],
+			"9": ["Temperate-Wet ", "Oceans cover 60–70% of the world’s surface"],
+			"11": ["Wet ", "Global oceans with some islands and archipelagos"],
+			"12": ["Water ", "No dry land"]
 		}
 	},
 	"terrain-rocky": {
@@ -174,7 +174,7 @@
 			"9": ["Jĭngtì Lóng Corporation","Government representative"],
 			"12": ["Chigusa Corporation","Weyland-Yutani"],
 			"13": ["Lasalle Bionational","Seegson"],
-			"14": ["Seegson Jĭngtì","Lóng Corporation"],
+			"14": ["Seegson","Jĭngtì Lóng Corporation"],
 			"15": ["Lorenz SysTech","Chigusa Corporation"],
 			"16": ["Gemini Exoplanet","Gemini Exoplanet"],
 			"17": ["Farside Mining","Farside Mining"]
@@ -186,8 +186,8 @@
 			"11": "Pilfering and thefts force security to search rooms and lockers.",
 			"12": "Incidents of sabotage are increasing; security suspects an organized campaign.",
 			"13": "Colonial Administration is investigating the colony for illegal practices.",
-			"14": "Colonists returning to base report sighting a ‘monster’ on the surface.",
-			"15": "Petty crime, thefts and sabotage are rife. ",
+			"14": "Colonists returning to base report sighting a 'monster' on the surface.",
+			"15": "Petty crime, thefts and sabotage are rife.",
 			"16": "Equipment failure has resulted in rationing at the colony. Tempers are frayed.",
 			"21": "Ship recently arrived with some kind of parasite that will soon spread through the colony.",
 			"22": "Stolen goods are on offer—cheap!",
@@ -205,10 +205,10 @@
 			"42": "The local colonists are not what they seem.",
 			"43": "A military ship is in orbit and the landing party is searching for someone/something.",
 			"44": "A rival colony or corporation is about to carry out an act of sabotage.",
-			"45": "45 The spaceport is currently quarantined.",
+			"45": "The spaceport is currently quarantined.",
 			"46": "Security situation at the colony.",
 			"51": "A bunch of asteroid miners causing trouble while on leave.",
-			"52": "52 Mystery ship arrives at the spaceport.",
+			"52": "Mystery ship arrives at the spaceport.",
 			"53": "Civil unrest is about to break out.",
 			"54": "Colonists are trapped and need rescuing far from the settlement itself.",
 			"55": "Authorities have just locked down the colony after a riot.",

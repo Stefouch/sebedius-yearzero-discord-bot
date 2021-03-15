@@ -1,12 +1,11 @@
 module.exports = {
 	name: 'rollalien',
-	aliases: ['rolla', 'ra', 'lancea', 'lancera', 'slåa', 'slaa'],
+	aliases: ['rolla', 'ra'],
 	category: 'alien',
-	description: 'Rolls dice for the *ALIEN* roleplaying game.'
-		+ '\nType `help roll` for more details.',
+	description: 'crollalien-description',
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [arguments]',
+	usage: '<dice> [arguments] [-lang <language_code>]',
 	async run(args, ctx) {
 		args.unshift('alien');
 		await ctx.bot.commands.get('roll').run(args, ctx);

@@ -184,7 +184,7 @@ async function listGuilds(ctx) {
 	ctx.bot.guilds.cache.forEach(g => {
 		guilds.push(`${g.id}\t${g.name}\t${g.memberCount}`);
 	});
-	console.log(guilds.toString());
+	console.log(guilds);
 }
 
 /**

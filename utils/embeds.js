@@ -1,6 +1,7 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
 const { strCamelToNorm } = require('./Util');
+const { __ } = require('../lang/locales');
 
 /**
  * A Discord.MessageEmbed with predefined properties.
@@ -58,16 +59,16 @@ class YZMonsterEmbed extends MessageEmbed {
 		});
 
 		// Monster stats.
-		this.addField('Attributes', monster.attributesToString(), true);
-		this.addField('Armor', monster.armorToString(), true);
-		this.addField('Skills', monster.skillsToString(), true);
-		this.addField('Signature Attacks', monster.attacksToString(), false);
+		this.addField(__('attributes', monster.lang), monster.attributesToString(), true);
+		this.addField(__('armor', monster.lang), monster.armorToString(), true);
+		this.addField(__('skills', monster.lang), monster.skillsToString(), true);
+		this.addField(__('signature-attacks', monster.lang), monster.attacksToString(), false);
 		if (monster.special) {
-			const special = monster.special.replace(/{mutation}/g, 'Random mutation');
-			this.addField('Special', special, false);
+			const special = monster.special.replace(/{mutation}/g, 'Random mutation').replace(/{feral}/g, 'Random feral effect');
+			this.addField(__('special', monster.lang), special, false);
 		}
 
-		this.setFooter(`Source: ${SOURCE_MAP[monster.source]}`);
+		this.setFooter(__('source', monster.lang) + `: ${SOURCE_MAP[monster.source]}`);
 	}
 }
 

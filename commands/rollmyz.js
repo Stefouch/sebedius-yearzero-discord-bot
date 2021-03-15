@@ -1,12 +1,11 @@
 module.exports = {
 	name: 'rollmyz',
-	aliases: ['rollmutant', 'rollm', 'rm', 'lancem', 'lancerm', 'slåm', 'slam'],
+	aliases: ['rollmutant', 'rollm', 'rm'],
 	category: 'myz',
-	description: 'Rolls dice for the *Mutant: Year Zero* roleplaying game.'
-		+ '\nType `help roll` for more details.',
+	description: 'crollmyz-description',
 	guildOnly: false,
 	args: true,
-	usage: '<dice> [arguments]',
+	usage: '<dice> [arguments] [-lang <language_code>]',
 	async run(args, ctx) {
 		args.unshift('myz');
 		await ctx.bot.commands.get('roll').run(args, ctx);

@@ -1,3 +1,6 @@
+const { SUPPORTED_LANGS } = require('../utils/constants');
+const ContextMessage = require('./ContextMessage');
+
 /**
  * A collection of useful functions.
  */
@@ -135,6 +138,15 @@ class Util {
 	 */
 	static capitalize(str) {
 		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+	/**
+	 * Capitalizes the first letter of every word in a string.
+	 * @param {string} str The string to process
+	 * @returns {string} The processed string
+	 */
+	static capitalizeWords(str) {
+		return str.replace(/(^|\s)\S/g, l => l.toUpperCase())
 	}
 
 	/**
@@ -544,6 +556,11 @@ class Util {
 				// else if (value === 'true') value = true;
 				// else if (value === 'false') value = false;
 				// else if (this.isNumber(value)) value = Number(value);
+				
+				// remove quotation marks, if someone uses common csv-syntax for text columns	// TODO (maybe): don't split on a separator within quotation marked text
+				if (value.startsWith('"') || value.startsWith("'")) value = value.slice(1);
+				if (value.endsWith('"') || value.endsWith("'")) value = value.slice(0, -1);
+				
 				obj[headers[j]] = value;
 			}
 			result.push(obj);
