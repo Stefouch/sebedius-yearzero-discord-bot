@@ -23,7 +23,7 @@ module.exports = {
 	moreDescriptions: 'croll-moredescriptions',
 	guildOnly: false,
 	args: true,
-	usage: '[game] <dice...> [arguments...]',
+	usage: '[game] <dice...> [arguments...] [-lang <language_code>]',
 	async run(args, ctx) {
 		// Changes '#' with '-name'.
 		const hashTagIndex = args.indexOf('#');
@@ -91,7 +91,7 @@ module.exports = {
 		else if (yzRollRegex.test(rollargv._[0])) {
 			// Creates the roll's name.
 			if (name) {
-				roll.setName(`${name}${rollargv.fullauto ? ' *(Full-auto)*' : ''}`);
+				roll.setName(`${name}${rollargv.fullauto ? ` *(${__('fullauto', lang)})*` : ''}`);
 			}
 
 			// Then, processes all uncategorized arguments.
@@ -210,7 +210,7 @@ module.exports = {
 		}
 		// Exits if no dice pattern were found.
 		else {
-			return ctx.reply(`ℹ️ I don't understand this syntax. Type \`${ctx.prefix}help roll\` for details on the proper usage.`);
+			return ctx.reply(`ℹ️ ${__('croll-invalid-syntax', lang).replace('will_be_replaced', ctx.prefix)}`);
 		}
 
 		// Checks for number of pushes or Full-Auto (unlimited pushes).
@@ -244,7 +244,7 @@ module.exports = {
 		}
 		// Aborts if no dice.
 		if (roll.size < 1) {
-			return ctx.reply('❌ Can\'t roll a null number of dice!');
+			return ctx.reply(`❌ ${__('croll-no-dice', lang)}`);
 		}
 
 		// Sends the message.
@@ -365,7 +365,7 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 		// throw new TooManyDiceError(pushedRoll.size);
 		// Cannot use error throwing because this function will not be catched by bot.js's error management.
 		collector.stop();
-		return ctx.reply(`⚠️ Cannot roll that many dice! (${pushedRoll.size})`);
+		return ctx.reply(`⚠️ ${__('croll-too-many-dice', roll.lang)} (${pushedRoll.size})`);
 	}
 
 	// Stops the collector if it's the last push.

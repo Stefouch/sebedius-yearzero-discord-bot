@@ -1,26 +1,40 @@
 const { YZEmbed } = require('../utils/embeds');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'prefix',
 	category: 'misc',
-	description: 'Gets the prefixes for this server. Sets a new one with the option `set`.',
+	description: 'cprefix-description',
 	guildOnly: false,
 	args: false,
-	usage: '[set <new prefix>]',
+	usage: '[set <new prefix>] [-lang <language_code>]',
 	async run(args, ctx) {
-		if (args.length > 0) {
-			if (args[0].toLowerCase() === 'set' && args.length === 2) {
-				return await ctx.bot.commands.get('setconf').run(['prefix', args[1]], ctx);
+		// Parses arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+
+		if (argv._.length > 0) {
+			if (argv._[0].toLowerCase() === 'set' && argv._.length === 2) {
+				return await ctx.bot.commands.get('setconf').run(['prefix', argv._[1]], ctx);
 			}
 			else {
 				return await ctx.reply(
-					':information_source: Invalid arguments. '
-					+ `The proper usage would be \`${ctx.prefix}prefix ${module.exports.usage}\`.`,
+					`:information_source: ${__('cprefix-invalid-arguments', lang)}. `
+					+ `${__('cprefix-proper-usage', lang)} \`${ctx.prefix}prefix ${module.exports.usage}\`.`,
 				);
 			}
 		}
 		const msg = `1. ${ctx.bot.mention}\n2. ${ctx.prefix}`;
-		const embed = new YZEmbed('Sebedius Prefixes', msg).setFooter('2 prefixes');
+		const embed = new YZEmbed(__('cprefix-embed-title', lang), msg).setFooter(__('cprefix-embed-footer', lang));
 		return await ctx.send(embed);
 	},
 };

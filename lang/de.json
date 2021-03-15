@@ -69,6 +69,7 @@
     "suppression": "Suppression",
     "suppressions": "Suppressions",
     "panic": "Panik",
+    "panic-roll": "Panikwurf",
     "details": "Details",
     "pushed": "Strapaziert",
     "initiative": "Initiative",
@@ -94,6 +95,8 @@
     "characteristics": "Eigenschaften",
     "modifier": "Modifikator",
     "modifiers": "Modifikatoren",
+    "resource": "Ressource",
+    "resource-die": "Ressourcenwürfel",
     "weather": "Wetter",
     "quarter-day": "Tagesabschnitt",
     "morning": "Morgen",
@@ -181,6 +184,7 @@
     "skill-fbl-performance": "Darbietung",
     "skill-fbl-healing": "Heilen",
     "skill-fbl-animalhandling": "Tierkunde",
+    "talent-alien-nerves-of-steel": "Nerven aus Stahl",
     "range": "Reichweite",
     "range-myz-arm": "Arm",
     "range-myz-near": "Nah",
@@ -262,8 +266,8 @@
     "ccrit-description": "Würfelt eine zufällige kritische Verletzung. Nutze den `-private` Parameter um das Ergebnis in einer Direktnachricht zu erhalten.",
     "ccrit-moredescriptions": [
         [
-            "Parameter",
-            "Es gibt drei Hauptparamter, welche mit diesem Befehl in beliebiger Rheinfolge genutzt werden können:\n• `game` – Gibt das genutzte Spiel an. Kann ausgelassen werden, wenn ein Standard mit `!setconf game [default game]` gesetzt wurde.\n> Möglichkeiten: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Gibt die gewünschte Tabelle des Spiels an. Siehe unten für die Optionen *(Standard ist 'damage')*.\n• `numeric` – Ruft einen bestimmten Eintrag aus der Tabelle ab."
+            "Argumente",
+            "Es gibt mehrere Argumente, welche mit diesem Befehl in beliebiger Rheinfolge genutzt werden können:\n• `game` – Gibt das genutzte Spiel an. Kann ausgelassen werden, wenn ein Standard mit `!setconf game [default game]` gesetzt wurde.\n> Möglichkeiten: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Gibt die gewünschte Tabelle des Spiels an. Siehe unten für die Optionen *(Standard ist 'damage')*.\n• `numeric` – Ruft einen bestimmten Eintrag aus der Tabelle ab.\n• `-private|-p` – Sendet das Ergebnis in einer Direktnachricht.\n• `-lucky|-ly <rank>` – *Glückspilz*-Talent: bei Rang `1` wird zweimal gewürfelt und der niedrigere Wurf genommen. Bei `2` wird zweimal gewürfelt, invertiert und davon der niedrigste Wert genommen. Bei `3` wird die erste kritische Verletzung genommen (#11)."
         ],
         [
             "☢️ Mutant: Jahr Null (myz)",
@@ -379,6 +383,39 @@
     "cmutation-description": "Wirft die Würfel für eine Mutation und prüft auf Fehlzündungen.",
     "cmyzpower-description": "Wirft die Würfel für eine MYZ-Kraft (z.B. Mutation, Modul, usw.).",
     "cmyzpower-invalid-arguments": "Ungültige Argumente",
+    "cpanic-description": "Würfelt zufällige Panikeffekte für das *ALIEN* Rollenspiel. Das aktuelle Stresslevel muss angegeben werden.",
+    "cpanic-moredescriptions": [
+		[
+			"Argumente",
+			"• `-fixed|-f` – Benutzt einen fresten Wert (anstatt einen D6 hinzuzufügen).\n• `-nerves|-n` – Nutzt das *Nerven aus Stahl*-Talent (−2 zum Panikwurf).\n• `-min <value>` – Legt eine Minimalschwelle für mehrere, aufeinanderfolgende Panikeffekte fest."
+		]
+	],
+    "cpanic-effect-not-found": "Der Panikeffekt wurde nicht gefunden",
+    "cpanic-interrupted-skill-roll-title": "Unterbrochener Fertigkeitswurf",
+    "cpanic-interrupted-skill-roll-text": "Du bist gezwungen, bestimmte Aktionen auszuführen. Musstest du den Panikwurf infolge eines Fertigkeitswurfs ablegen, verfällt deine gegenwärtige Aktion und wird sofort durch die erzwungene Panikaktion ersetzt, selbst wenn du einen Erfolg gewürfelt hast.",
+    "cpanic-mental-trauma-reminder-title": "Am Ende der Spielsitzung: Würfle für ein Dauerhaftes Mentales Trauma",
+    "cpanic-mental-trauma-reminder-text": "Du musst nach der Sitzung einen **EMPATHIE**-Wurf ablegen. Würfele nur auf das Attribut, ohne Verwendung einer Fertigkeit. Gelingt der Wurf, entwickelst du ein dauerhaftes mentales Trauma. Würfele mit einem D6 und schaue in der Tabelle auf Seite 101 nach.",
+    "cplanet-description": "Erzeugt einen unkolonisierten Planeten für das Alien RPG.",
+    "cplanet-moredescriptions": [
+        [
+            "Argumente",
+            "• `name` - Gibt einen eigenen Namen für den Planeten an.\n• `type` - Gibt die Planetenart an (Standard ist \"rocky\").\n> Optionen: felsig: rocky, Eisplanet: icy, Gasriese: gasgiant, Gasriesen-Mond: gasgiant-moon, Asteroidengürtel: asteroid-belt"
+        ]
+    ],
+    "cprefix-description": "Ruft die Präfixe für diesen Server ab. Hinterlegt einen Neuen mit der Option `set`.",
+    "cprefix-invalid-arguments": "Ungültige Argumente",
+    "cprefix-proper-usage": "Die korrekte Verwendung wäre",
+    "cprefix-embed-title": "Sebedius Präfixe",
+    "cprefix-embed-footer": "2 Präfixe",
+    "cresource-description": "Wirft einen Ressourcenwürfel",
+    "cresource-invalid-dice": "Ich verstehe diesen Ressourcenwürfel nicht. Nutze `d6`, `d8`, `d10` oder `d12`",
+    "cresource-too-many-dice": "Das kann ich nicht werfen, zu viele Würfel!",
+    "cresource-decreased-title": "Reduziert",
+    "cresource-decreased-text": "Eine Einheit wird aufgebraucht. Der Ressourcenwürfel wird um eine Stufe reduziert auf",
+    "cresource-exhausted-title": "Aufgebraucht",
+    "cresource-exhausted-text": "Die Ressource ist völlig aufgebraucht.",
+    "cresource-unchanged-title": "Unverändert",
+    "cresource-unchanged-text": "Der Ressourcenwürfel wurde nicht verringert.",
     "croll-description": "Wirft Würfel für ein beliebiges Year Zero Rollspiel.",
     "croll-moredescriptions": [
         [
@@ -406,9 +443,37 @@
             "Die folgenden Befehle sind Kürzel, falls du nicht den Spiel-Parameter [game] jedes Mal angeben möchtest.\n`rm` – Wirft *Mutant: Jahr Null* Würfel.\n`rf` – Wirft *Verbotene Lande* Würfel.\n`rt` – Wirft *Tales From The Loop* Würfel.\n`rc` – Wirft *Coriolis* Würfel.\n`ra` – Wirft *Alien RPG* Würfel.\n`rv` – Wirft *Vaesen* Würfel.\n`rw` – Wirft *Twilight 2000 4E* Würfel."
         ]
     ],
+    "croll-invalid-syntax": "Ich verstehe diese Syntax nicht. Gib `{will_be_replaced}help roll` ein um mehr Details für die korrekte Verwendung zu erhalten.",
+    "croll-no-dice": "Kann nicht null Würfel werfen!",
+    "croll-too-many-dice": "Kann nicht so viele Würfel werfen!",
     "croll-ammo-spent": "Ausgegebene Munition",
     "croll-generic-roll": "Generischer Wurf",
     "croll-single-roll": "Einzelner D6 / D66 / D666 Wurf",
+    "crollalien-description": "Wirft Würfel für das *ALIEN* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollcoriolis-description": "Wirft Würfel für das *Coriolis* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollfbl-description": "Wirft Würfel für das *Verbotene Lande* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollmyz-description": "Wirft Würfel für das *Mutant: Jahr Null* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollt2k-description": "Wirft Würfel für das *Twilight 2000* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollt2k-moredescriptions": [
+		[
+			"Twilight 2000 Würfel werfen",
+			"Benutze eine beliebige Kombination der folgenden Würfel.\n__Attribut- or Fertigkeitswürfel__:\n• `d12 | a` – Wirft einen D12\n• `d10 | b` – Wirft einen D10\n• `d8 | c` – Wirft einen D8\n• `d6 | d` – Wirft einen D6\n__Andere__:\n• `Xg` – Wirft X Munitionswürfel\n• `Xd | Xb | Xs` – Wirft X Basiswürfel (D6)"
+		],
+		[
+			"Beispiele",
+			"!rw d12 d8\n!rw a c\n!rw b 5g"
+		],
+		[
+			"Argumente",
+			"Gib `help roll` für eine Liste der möglichen Argumente ein."
+		],
+		[
+			"⚠️ Haftungsausschluss!",
+			"Dies basiert auf der Alpha-Version der Regeln."
+		]
+	],
+    "crolltales-description": "Wirft Würfel für das *Tales From the Loop* Rollenspiel.\nGib `help roll` für mehr Details ein.",
+    "crollvaesen-description": "Wirft Würfel für das *Vaesen* Rollenspiel.\nGib `help roll` für mehr Details ein.",
     "galienjobgenerator-invalid-type": "Kein gültiger Auftragstyp",
     "galienworldgenerator-moons": "Hat {will_be_replaced} Monde.",
     "malien-xeno-bloodburster": "Bloodburster",
