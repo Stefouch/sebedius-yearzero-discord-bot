@@ -3,6 +3,10 @@ const LOCALES = {
 	en: require('./en.json'),
 	// German (Deutsch)
 	de: require('./de.json'),
+	// Svenska
+	// sv: require('./sv.json'),
+	// Français
+	// fr: require('./fr.json'),
 };
 
 /**
