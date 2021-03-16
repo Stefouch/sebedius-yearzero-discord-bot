@@ -42,10 +42,11 @@
   "main": "bot.js",
   "scripts": {
     "test": "mocha ./test/*.test.js --exit",
-    "test2": "mocha ./test/roll.test.js ./test/client.test.js --exit",
+    "test2": "mocha ./test/roll.test.js ./test/lang.test.js ./test/client.test.js --exit",
     "test-roll": "mocha ./test/roll.test.js --exit",
     "test-client": "mocha ./test/client.test.js --exit",
     "test-db": "mocha ./test/db.test.js --exit",
+    "test-lang": "mocha ./test/lang.test.js --exit",
     "start": "node .",
     "lint": "eslint ."
   },

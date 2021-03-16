@@ -53,6 +53,9 @@ jobs:
       - name: 🎲 Test Rolls
         run: npm run test-roll
 
+      - name: 🏷️ Test Translations
+        run: npm run test-lang
+
       - name: 🤖 Test Bot
         run: npm run test-client
         env:
