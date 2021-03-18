@@ -55,11 +55,11 @@ describe('Localisation', function() {
 				}
 			});
 
-			it('Should have the same length for array keys', function() {
+			it('Should have array keys with equal or greater length', function() {
 				const out = [];
 				for (const [key, translation] of Object.entries(locale)) {
 					if (!Array.isArray(translation)) continue;
-					if (translation.length !== en[key].length) out.push(key);
+					if (translation.length < en[key].length) out.push(key);
 				}
 				expect(out.join(), 'Array keys with inexact length').to.equal([].join());
 				expect(out).to.have.lengthOf(0);
