@@ -56,11 +56,11 @@ Your language isn't supported yet? See *Contributing* below!
 
 # Author
 
-<center>
+<p align="center">
   <a href="https://stefouch.be" target="_blank">
-    <img src="https://stefouch.be/wp-content/uploads/2021/03/BSL-D6_bannerlogo_H150.png"/>
+    <img src="https://stefouch.be/wp-content/uploads/2021/03/BSL-D6_bannerlogo_H150.png" alt="Stefouch"/>
   </a>
-</center>
+</p>
 
 ### 👤 Stefouch
 
@@ -68,15 +68,15 @@ Your language isn't supported yet? See *Contributing* below!
 * **Github:** [@Stefouch](https://github.com/Stefouch)
 * **Discord:** Stefouch#5202 on [Year Zero Worlds](https://discord.gg/RnaydHR)
 
+# 🤝 Contributing
+
+Contributions, translations, issues and feature requests are welcome!<br/>Feel free to check [issues page](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues). You can also take a look at the [contributing guide](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md).
+
 ### Top Contributors
 
 * mprangenberg
 * Naith123
 * iarizex
-
-# 🤝 Contributing
-
-Contributions, translations, issues and feature requests are welcome!<br/>Feel free to check [issues page](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues). You can also take a look at the [contributing guide](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md).
 
 # ❤️ Sponsoring
 

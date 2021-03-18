@@ -3,10 +3,11 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.1] - 2021-xx-xx
+## [4.0.1] - 2021-03-19
 
 ### Fixed
 - Issue [#98](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/98).
+- Missing keys in the german language file.
 
 ## [4.0.0] - 2021-03-15
 Major update with a large refactoring of the bot's javascript code to allow localisation.
