@@ -279,11 +279,15 @@
         ],
         [
             "👾 ALIEN",
-            "• `dmg` | `damage` : Krtisiche Verletzungen durch Schaden.\n• `s`, `synth` | `synthetic` : Kritische Verletzungen von Androiden.\n• `x` | `xeno` : Kritische Verletzungen bei Xenomorphen.\n• `m` | `mental` : Dauerhafte mentale Traumata."
+            "• `dmg` | `damage` : Kritische Verletzungen durch Schaden.\n• `s`, `synth` | `synthetic` : Kritische Verletzungen von Androiden.\n• `x` | `xeno` : Kritische Verletzungen bei Xenomorphen.\n• `m` | `mental` : Dauerhafte mentale Traumata."
         ],
         [
             "🌟 Coriolis: Der Dritte Horizont",
             "• `dmg` | `damage` : Kritische Verletzungen durch Schaden.\n• `at` | `atypical` : Kritische Verletzungen durch atypischen Schaden."
+        ],
+        [
+            "🦋 Vaesen",
+            "• `dmg` | `damage` : Physical critical injuries.\n• `m` | `mental` : Mental critical injuries."
         ]
     ],
     "ccrit-too-many-arguments": "Es wurden zu viele Parameter angegeben! Siehe `help crit` für die korrekte Verwendung.",
@@ -301,6 +305,7 @@
     "ccritcoriolis-description": "Würfelt eine zufällige kritische Verletzung.\nGib `help crit` für mehr Details ein.",
     "ccritfbl-description": "Würfelt eine zufällige kritische Verletzung.\nGib `help crit` für mehr Details ein.",
     "ccritmyz-description": "Würfelt eine zufällige kritische Verletzung.\nGib `help crit` für mehr Details ein.",
+    "ccritvaesen-description": "Würfelt eine zufällige kritische Verletzung.\nGib `help crit` für mehr Details ein.",
     "cdemon-description": "Erzeugt einen zufälligen Dämon anhand der Tabellen aus dem *Verbotene Lande - Spielleiterhandbuch*.\nHinweis: Alle Boni aus den Fähigkeiten des Dämons werden nicht in dessen Werte/Rüstung/Fähigkeiten einberechnet.\nHinweis: Die Anzeige der Angriffe ist nicht optimiert für kleine Bildschirme (z.B. Smartphones).",
     "cdrawinit-description": "Zieht eine oder mehrere Initiativekarten. Der Stapel ist eindeutig für jeden Discord-Server.\n\n__Parameter__\n• `[speed]` – Zahl der zu ziehenden Initiativekarten. Standard: 1.\n\n__Weitere Optionen__\n• `[-haste <value>]` – Zieht mehr Initiativekarten und behält die beste. Die anderen werden zurück in den Stapel gemischt bevor weitere Spieler ihre Karten ziehen. Nutze dies für bestimmte Talente, wie *Blitzschnell*. Standard: 1.\n• `[-shuffle]` – Setzt den Stapel zurück und mischt ihn. *(Dies wird wahrscheinlich am Anfang jeder neuen Begegnung benötigt.)*",
     "cdrawinit-deck-too-small": "Die Größe des *Initiativestapels* ist zu klein.",
@@ -325,6 +330,7 @@
     "cimportcharacter-importing": "Importiere Charakter...",
     "cimportcharacter-could-not-retrieve": "Fehlschlag beim Abruf des Charakters von ",
     "cimportcharacter-success": "wurde erfolgreich importiert!",
+    "cinit": "TODO",
     "cinvite-description": "Gibt einen Link zurück um Sebedius zum einem Server einzuladen.",
     "cinvite-title": "Sebedius-Einladung",
     "cinvite-text": "Du kannst Sebedius hiermit zu deinem Server einladen",

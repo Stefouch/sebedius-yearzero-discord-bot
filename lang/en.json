@@ -270,11 +270,11 @@
             "There are several arguments you can use with this command in any order:\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.\n> Choices: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Specifies the table you want from this game. See below for possible options *(default is \"damage\")*.\n• `numeric` – Specifies a fixed reference.\n• `-private|-p` – Sends the result in a DM.\n• `-lucky|-ly <rank>` – *Lucky* talent: On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11)."
         ],
         [
-            "☢️ Mutant: Year Zero",
+            "☢️ Mutant: Year Zero (myz)",
             "• `dmg` | `damage` : Critical injuries from damage.\n• `h` | `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.\n• `nt` | `nontypical` : Critical injury for non-typical damage.\n• `p` | `pushed` : Critical injury for pushed damage (none)."
         ],
         [
-            "⚔️ Forbidden Lands",
+            "⚔️ Forbidden Lands (fbl)",
             "• `sl` | `slash` : Critical injuries due to Slash wounds.\n• `bl` | `blunt` : Critical injuries due to Blunt force.\n• `st` | `stab` : Critical injuries due to Stab wounds.\n• `h` | `horror` : Horror traumas.\n• `nt` | `nontypical` : Critical injury for non-typical damage.\n• `p` | `pushed` : Critical injury for pushed damage (none).\n• Add `-lucky [rank]` instead of the fixed reference to use the talent (rank is optional, default is 1)."
         ],
         [
