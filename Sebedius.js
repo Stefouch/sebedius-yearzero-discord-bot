@@ -9,6 +9,7 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const CharacterManager = require('./yearzero/models/CharacterManager');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const { version } = require('./package.json');
 const { __ } = require('./lang/locales');
 
 /**
@@ -65,7 +66,7 @@ class Sebedius extends Discord.Client {
 		this.state = 'init';
 		this.muted = false;
 		this.config = config;
-		this.version = require('./utils/version');
+		this.version = version;
 
 		// Caching for the current session.
 		this.blacklistedGuilds = new Set();
