@@ -1,0 +1,37 @@
+ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
+11;Foot injury;false;0;0;;Defect: Limp, Agility −1;0
+12;Broken fingers;false;0;0;;Defect: Crooked fingers, Close Combat −1;0
+13;Ruptured tendon;false;0;0;;Defect: Reduced mobility, Agility −1;0
+14;Knee injury;false;0;0;;Defect: Skewed walk, Agility −1;0
+15;Fracture;false;0;0;;Defect: False joint, Force −1;0
+16;Splinters in the body;false;0;0;;Defect: Ulcer, Inspiration −1;0
+21;Skin lesion;false;0;0;;Defect: Disfigured, Manipulation −1;0
+22;Damaged throat;false;0;0;;Defect: Wheezing, Stealth −1;0
+23;Eye injury;false;0;0;;Defect: Impaired eyesight, Vigilance −1;0
+24;Injured arm;false;0;0;;Defect: Crooked arm, Ranged Combat −1;0
+25;Facial injury;false;0;0;;Defect: Deformed face, Manipulation −1 ;0
+26;Crush injury;false;0;0;;Defect: Tremor, Ranged Combat −1;0
+31;Dislodged teeth;false;0;0;;Defect: Toothless, Inspiration −1;0
+32;Ear injury;false;0;0;;Defect: Impaired balance, Close Combat −1;0
+33;Jaw injury;false;0;0;;Defect: Drooling, Inspiration −1;0
+34;Back injury;false;0;0;;Defect: Hunchback, Agility −1;0
+35;Severed fingers;false;0;0;;Defect: Finger stumps, Ranged Combat −1;0
+36;Nerve damage;false;0;0;;Defect: Pain, Force −1 ;0
+41;Torn ear;false;0;0;;Defect: Impaired hearing, Vigilance −1;0
+42;Abdominal injury;true;0;1;days;Defect: Stiff body, Close Combat −1;0
+43;Dirty wound;true;0;1;days;Defect: Sepsis, Force −1;0
+44;Bleeding wound;true;0;1;days;Defect: Gangrene, Agility −1;0
+45;Crushed genitals;true;0;1;days;Defect: Incontinence, Agility −1;0
+46;Punctured eye;true;0;1;hours;Defect: One-eyed, Vigilance −1;0
+51;Ruptured bowel;true;0;1;hours;Defect: Wears a colostomy bag, Agility −1;0
+52;Deep arm gash;true;0;1;hours;Defect:  One-armed, Force −1 (cannot use two-handed weapons);0
+53;Burst artery;true;0;1;rounds;Defect: Phobia of blood, Fear −2;0
+54;Internal bleeding;true;0;1;rounds;Defect: Anemia, Force −2;0
+55;Caved-in forehead;true;0;1;rounds;Defect: Altered personality, Observation −2;0
+56;Cracked skull;true;0;1;rounds;Defect: Brain damage, Learning −2;0
+61;Coma;true;0;1;days;Insight: Prophetic vision, Investigation +3;0
+62;Spinal injury;true;0;1;hours;Insight: Living dead, Stealth +3;0
+63;Torn abdomen;true;0;1;hours;Insight: Supernatural focus, Ranged Combat +3;0
+64;Torn body;true;0;1;minutes;Insight: Champion, Close Combat +3 ;0
+65;Punctured lungs;true;0;1;rounds;Insight: Guardian angel, Agility +4;0
+66;Crushed chest;true;0;1;rounds;Insight: Supernatural strength, Force +4;0

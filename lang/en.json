@@ -270,11 +270,11 @@
             "There are several arguments you can use with this command in any order:\n• `game` – Specifies the game you are using. Can be omitted if you set it with `!setconf game [default game]`.\n> Choices: `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n• `table` – Specifies the table you want from this game. See below for possible options *(default is \"damage\")*.\n• `numeric` – Specifies a fixed reference.\n• `-private|-p` – Sends the result in a DM.\n• `-lucky|-ly <rank>` – *Lucky* talent: On rank `1`, rolls twice and takes the lowest. On `2`, rolls twice and takes the lowest inverted. On `3`, takes the first critical injury (#11)."
         ],
         [
-            "☢️ Mutant: Year Zero",
+            "☢️ Mutant: Year Zero (myz)",
             "• `dmg` | `damage` : Critical injuries from damage.\n• `h` | `horror` : The *Forbidden Lands* Horror traumas, adapted for MYZ.\n• `nt` | `nontypical` : Critical injury for non-typical damage.\n• `p` | `pushed` : Critical injury for pushed damage (none)."
         ],
         [
-            "⚔️ Forbidden Lands",
+            "⚔️ Forbidden Lands (fbl)",
             "• `sl` | `slash` : Critical injuries due to Slash wounds.\n• `bl` | `blunt` : Critical injuries due to Blunt force.\n• `st` | `stab` : Critical injuries due to Stab wounds.\n• `h` | `horror` : Horror traumas.\n• `nt` | `nontypical` : Critical injury for non-typical damage.\n• `p` | `pushed` : Critical injury for pushed damage (none).\n• Add `-lucky [rank]` instead of the fixed reference to use the talent (rank is optional, default is 1)."
         ],
         [
@@ -284,6 +284,10 @@
         [
             "🌟 Coriolis: The Third Horizon",
             "• `dmg` | `damage` : Critical injuries from damage.\n• `at` | `atypical` : Critical injury for atypical damage."
+        ],
+        [
+            "🦋 Vaesen",
+            "• `dmg` | `damage` : Physical critical injuries.\n• `m` | `mental` : Mental critical injuries."
         ]
     ],
     "ccrit-too-many-arguments": "You typed too many arguments! See `help crit` for the correct usage.",
@@ -301,6 +305,7 @@
     "ccritcoriolis-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
     "ccritfbl-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
     "ccritmyz-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
+    "ccritvaesen-description": "Rolls for a random critical injury.\nType `help crit` for more details.",
     "cdemon-description": "Generates a random demon according to the tables found in the *Forbidden Lands - Gamemaster's Guide*.\nNote: all bonuses from the demon's abilities are not computed into its stats/armor/skills.\nNote: the attacks output is not optimal on a small screen (smartphone).",
     "cdrawinit-description": "Draws one or more initiative cards. The deck is specific to each Discord server.\n\n__Parameter__\n• `[speed]` – Number of initiative cards to draw. Default: 1.\n\n__Arguments__\n• `[-haste <value>]` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.\n• `[-shuffle]` – Resets the deck. *(Which is probably needed at the beginning of every new encounter.)*",
     "cdrawinit-deck-too-small": "The size of the *Initiative* deck is too small.",

@@ -1,6 +1,6 @@
 {
-  "name": "sebedius-yz-discord-bot",
-  "version": "4.0.0",
+  "name": "sebedius-yearzero-discord-bot",
+  "version": "4.0.1",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
   "license": "MIT",
@@ -11,6 +11,7 @@
     "yz",
     "yze",
     "mutant",
+    "mutant year zero",
     "myz",
     "forbidden lands",
     "fbl",
@@ -23,25 +24,31 @@
     "free league publishing",
     "fria ligan",
     "dice",
-    "roll"
+    "roll",
+    "discord bot"
   ],
-  "readme": "https://github.com/Stefouch/sebedius-myz-discord-bot/blob/master/README.md",
-  "wiki": "https://github.com/Stefouch/sebedius-myz-discord-bot/wiki",
+  "readme": "https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md",
+  "wiki": "https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Stefouch/sebedius-myz-discord-bot.git"
+    "url": "git+https://github.com/Stefouch/sebedius-yearzero-discord-bot.git"
   },
   "bugs": {
-    "url": "https://github.com/Stefouch/sebedius-myz-discord-bot/issues"
+    "url": "https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues"
   },
   "engines": {
     "node": "12.x"
   },
   "main": "bot.js",
   "scripts": {
-    "test": "mocha ./test/*.test.js --exit",
     "start": "node .",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "mocha ./test/*.test.js --exit",
+    "test2": "mocha ./test/roll.test.js ./test/lang.test.js ./test/client.test.js --exit",
+    "test-roll": "mocha ./test/roll.test.js --exit",
+    "test-lang": "mocha ./test/lang.test.js --exit",
+    "test-client": "mocha ./test/client.test.js --exit",
+    "test-db": "mocha ./test/db.test.js --exit"
   },
   "dependencies": {
     "@keyv/postgres": "^1.0.16",

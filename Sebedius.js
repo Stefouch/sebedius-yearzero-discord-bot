@@ -9,6 +9,7 @@ const RollTable = require('./utils/RollTable');
 const Errors = require('./utils/errors');
 const CharacterManager = require('./yearzero/models/CharacterManager');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
+const { version } = require('./package.json');
 const { __ } = require('./lang/locales');
 
 /**
@@ -65,7 +66,7 @@ class Sebedius extends Discord.Client {
 		this.state = 'init';
 		this.muted = false;
 		this.config = config;
-		this.version = require('./utils/version');
+		this.version = version;
 
 		// Caching for the current session.
 		this.blacklistedGuilds = new Set();
@@ -86,8 +87,9 @@ class Sebedius extends Discord.Client {
 
 		// Keyv Databases.
 		console.log('[+] - Keyv Databases');
-		this.dbUri = process.env.NODE_ENV === 'production' ? process.env.DATABASE_URL : null;
-		// this.dbUri = process.env.DATABASE_URL;
+		this.dbParams = '?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory';
+		this.dbUri = process.env.NODE_ENV === 'production' ? `${process.env.DATABASE_URL}${this.dbParams}` : null;
+		// this.dbUri = `${process.env.DATABASE_URL}${this.dbParams}`;
 		console.log('      > Creation...');
 		this.kdb = {};
 		for (const name in DB_MAP) {
@@ -200,6 +202,12 @@ class Sebedius extends Discord.Client {
 			const store = db.opts.store;
 			if (store instanceof Map) {
 				entries = [...store.entries()];
+			}
+			else if (!store) {
+				const msg = 'Sebedius | kdbEntries | undefined store';
+				console.warn(msg);
+				this.log(msg);
+				return entries;
 			}
 			else {
 				const nmspc = namespace ? namespace : DB_MAP[name] || name;
@@ -438,7 +446,7 @@ class Sebedius extends Discord.Client {
 
 	/**
 	 * Gets a YZ table.
-	 * @param {string} type Type of table to return (`CRIT` or `null`)
+	 * @param {string} type Type of table to return (`"CRIT"` or `null`)
 	 * @param {string} path Folder path to the file with the ending `/`
 	 * @param {string} fileName Filename without path, ext or lang-ext
 	 * @param {string} [lang='en'] The language to use, default is `en` English

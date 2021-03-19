@@ -1,14 +1,16 @@
 # Contributing
 
-> Contributions, issues and feature requests are welcome!<br />Feel free to check the [issues page](https://github.com/Stefouch/sebedius-myz-discord-bot/issues).
+> Contributions, issues and feature requests are welcome!<br />Feel free to check the [issues page](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues).
 
 You can help expanding Sebedius's knowledge on the following topics:
 
 * New commands *(Discord.JS API)*
-* Translations *(French, Svenska, etc.)*
-  * Visit the `lang/` directory.
+* Translations *(French, Swedish, etc.)*
+  * Strings that should be translated are in the `lang/` and `gamedata/` directories.
+  * Translate `.json` and `.yml` files at https://gitlocalize.com/repo/5925.
+  * Translate critical injuries' `.csv` files in the `gamedata/crits/` directory.
 * Gamedata
-  * Critical Injuries tables (missing Vaesen and T2K)
+  * Critical Injuries tables (missing T2K)
 
 ## How to Contribute
 
@@ -25,8 +27,8 @@ Install the required packages with the command:
 npm install
 ```
 
-Create a `.env` file with the following parameter:
-```
+Create a secret `.env` file at the root with the following parameter:
+```env
 TOKEN="YourBotTokenAlphanumericChain"
 ```
 
@@ -36,3 +38,13 @@ npm start
 ```
 
 And enjoy!
+
+
+### Notes
+
+The bot uses a PostgreSQL database. You can connect Sebedius to your own database by passing the authentification URI. To do so, add the following line to your `.env` file:
+```env
+DATABASE_URL="postgres://<user>:<password>@<server|localhost>:<port>/<name>"
+```
+
+PS: At the moment there is a known bug with the database integration not working with Node 14 ([#40](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/40)). If you want to use the PostgreSQL database, you must use Node 12 or 13 instead.
