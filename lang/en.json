@@ -371,7 +371,7 @@
     "cmishap-invalid-reference": "Invalid Magic Mishap's reference",
     "cmodule-description": "Rolls dice for a Mechatron Module and checks for any Overheating.",
     "cmonster-description": "Gets a monster from the catalogs or generates a random monster according to the tables found in the *Zone Compendium 1: The Lair of the Saurians* if no argument is provided.",
-    "cmonster-more-descriptions": [
+    "cmonster-moredescriptions": [
 		[
 			"Arguments",
 			"• `game` – Specifies the game you are using. Can be omitted.\n• `name` – Specifies the monster you want to fetch.\n• `-attack|-atk|-a [number]` – Specifies that you also want to roll an attack. If a number is added, the bot will use that value instead of rolling a random attack (you can also type `<name> [number]` instead of the `-attack` argument).\n• `-private|-p` – Sends the message in a private DM."
