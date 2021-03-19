@@ -287,7 +287,7 @@
         ],
         [
             "🦋 Vaesen",
-            "• `dmg` | `damage` : Physical critical injuries.\n• `m` | `mental` : Mental critical injuries."
+            "• `dmg` | `damage` : Kritische Verletzungen durch physischen Schaden.\n• `m` | `mental` : Kritische Verletzungen durch mentalen Schaden."
         ]
     ],
     "ccrit-too-many-arguments": "Es wurden zu viele Parameter angegeben! Siehe `help crit` für die korrekte Verwendung.",
