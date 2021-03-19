@@ -430,14 +430,14 @@ class YZMonster extends YZObject {
 					continue;
 				}
 				else if (type === 'belly') {
-					out.push(`${this.armor[type]} under the belly`);
+					out.push(`${this.armor[type]} ${__('under-the-belly', this.lang)}`);
 				}
 				else {
-					out.push(`${this.armor[type]} vs. ${__(type, this.lang)}`);
+					out.push(`${this.armor[type]} ${__('vs', this.lang)} ${__(type, this.lang)}`);
 				}
 			}
 			str += out.join(', ') + ')';
-			str = str.replace(/1000/g, Util.capitalize(__('impervious', this.lang)));
+			str = str.replace(/1000/g, __('impervious', this.lang));
 		}
 		return str;
 	}
@@ -461,7 +461,7 @@ class YZMonster extends YZObject {
 
 		for (const [ref, attack] of this.attacks) {
 			if (attack.name === '{REROLL}') continue;
-			const n = attack.name || 'Unnamed';
+			const n = attack.name || __('unnamed', this.lang);
 			const d = attack.base ? Util.resolveNumber(attack.base) + 'D' : '-';
 			const dmg = attack.damage != null ? Util.resolveNumber(attack.damage) : '-';
 			const r = attack.range >= 0 ? __(`range-${this.game}-` + RANGES[this.game][attack.range], this.lang) : '-';
