@@ -26,7 +26,7 @@ module.exports = {
 		else await ctx.send(membed);
 
 		if (argv.attack) {
-			const argk = [monster.game, monster.name];
+			const argk = [monster.game, monster.id, '-lang', monster.lang];
 			if (isNumber(argv.attack)) argk.push(argv.attack);
 			if (argv.private) argk.push('-p');
 			return await ctx.bot.commands.get('attack').run(argk, ctx);
