@@ -3,10 +3,18 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [4.0.1] - 2021-03-19
+## [4.0.1] - 2021-03-20
+### Added
+- German translation for monsters and attacks for the Alien RPG.
+
+### Changed
+- (JavaScript) Drop of `utils/version.js` in favor of the 'version' properties in `./package.json`.
 
 ### Fixed
+- Issue [#100](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/100).
 - Issue [#98](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/98).
+- Arguments for `!attack` command if it's called from the `!monster` command.
+- Incorrect key names in the language files.
 - Missing keys in the german language file.
 
 ## [4.0.0] - 2021-03-15
