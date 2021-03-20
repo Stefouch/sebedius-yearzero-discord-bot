@@ -1,5 +1,7 @@
 const { describe, it } = require('mocha');
 const expect = require('chai').expect;
+const fs = require('fs');
+const glob = require('glob').glob;
 const en = require('../lang/en.json');
 const { __ } = require('../lang/locales.js');
 const { SUPPORTED_LANGS } = require('../utils/constants.js');
@@ -63,6 +65,25 @@ describe('Localisation', function() {
 				}
 				expect(out.join(), 'Array keys with inexact length').to.equal([].join());
 				expect(out).to.have.lengthOf(0);
+			});
+
+			it('Every call for translation should return a translated value instead of the key name', function() {
+				const allJsFiles = glob.sync('{*.js,!(node_modules)/**/*.js}');
+				for (const jsFile of allJsFiles) {
+					fs.readFile(jsFile, 'utf8', (error, data) => {
+						expect(error, `Loading ${jsFile} failed`).to.be.null;
+						if (!error) {
+							const regex = /__\(['"](.*?)['"],.*?\)/gm;
+							let result;
+							while ((result = regex.exec(data)) !== null) {
+								expect(
+									__(result[1], lang),
+									`Translation call that returns it's key. (${result[0]} in ${jsFile})`,
+								).to.not.be.equal(result[1]);
+							}
+						}
+					});
+				}
 			});
 
 		});
