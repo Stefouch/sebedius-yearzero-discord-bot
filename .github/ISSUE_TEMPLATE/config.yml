@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Question
+    url: https://github.com/Stefouch/sebedius-yearzero-discord-bot/discussions/categories/q-a
+    about: Please ask and answer questions here.
+  - name: Commands Usage
+    url: https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki
+    about: Read the Wiki.
+  - name: Support Us
+    url: https://www.patreon.com/Stefouch
+    about: Please, if you love the bot consider supporting us on Patreon!
