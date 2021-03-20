@@ -68,23 +68,20 @@ describe('Localisation', function () {
 			});
 
 			it('Every call for translation should return a translated value instead of the key name', function () {
-				glob('./commands/*', function (err, res) {
-					expect(err, 'Loading commands').to.be.null;
-					if (!err) {
-						for (const commandfile of res) {
-							fs.readFile(commandfile, 'utf8', (error, data) => {
-								expect(error, `Loading ${commandfile}`).to.be.null;
-								if (!error) {
-									const regex = /__\(['"](.*?)['"],.*?\)/gm;
-									let result;
-									while ((result = regex.exec(data)) !== null) {
-										expect(__(result[1], lang), `Translation call that returns it's key. (${result[0]} in ${commandfile})`).to.not.be.equal(result[1]);
-									}
-								}
-							})
+				const allJsFiles = glob.sync('{*.js,!(node_modules)/**/*.js}');
+				for (const commandfile of allJsFiles) {
+					fs.readFile(commandfile, 'utf8', (error, data) => {
+						expect(error, `Loading ${commandfile} failed`).to.be.null;
+						if (!error) {
+							const regex = /__\(['"](.*?)['"],.*?\)/gm;
+							let result;
+							while ((result = regex.exec(data)) !== null) {
+								expect(__(result[1], lang), `Translation call that returns it's key. (${result[0]} in ${commandfile})`).to.not.be.equal(result[1]);
+							}
 						}
-					}
-				});
+					})
+				}
+
 			});
 
 		});
