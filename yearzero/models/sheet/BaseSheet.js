@@ -1,7 +1,7 @@
 const YZRoll = require('../../YZRoll');
 const { SnowflakeUtil } = require('discord.js');
 const { PRIMITIVE_ATTRIBUTE_MAP, SKILL_MAP } = require('../../../utils/constants');
-const SEBEDIUS_VERSION = require('../../../utils/version');
+const SEBEDIUS_VERSION = require('../../../package.json').version;
 
 /**
  * The base model for Year Zero sheets.

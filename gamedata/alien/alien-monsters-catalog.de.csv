@@ -1,0 +1,28 @@
+id;speed;hp;armor;skills;special;source;attacks
+malien-xeno-bloodburster;3;2;3|fire:0;Mobility 9|Observation 6;;alien;atk-xeno-bloodburster
+malien-xeno-neophyte;3;3;4|fire:2;Mobility 10|Observation 6;;alien;atk-xeno-neomorph
+malien-xeno-neomorph;2;6;6|fire:3;Mobility 9|Observation 8;Sprinten;alien;atk-xeno-neomorph
+malien-xeno-ovomorph;0;2;2|fire:0;;Säurespritzer 4;alien;
+malien-xeno-queenegg;0;3;3|fire:1;;Säurespritzer 5;alien;
+malien-xeno-facehugger;2;2;2|fire:0;Mobility 8|Observation 8;Säurespritzer 4;alien;atk-xeno-facehugger
+malien-xeno-praetofacehugger;2;2;2|fire:0;Mobility 6|Observation 8;Säurespritzer 4;alien;atk-xeno-facehugger
+malien-xeno-royalfacehugger;2;2;4|fire:2;Mobility 8|Observation 10;Säurespritzer 5;alien;atk-xeno-facehugger
+malien-xeno-chestburster;2;2;2|fire:0;Mobility 8|Observation 6;Säurespritzer 4;alien;atk-xeno-chestburster
+malien-xeno-bambiburster;2;2;2|fire:0;Mobility 10|Observation 6;Säurespritzer 4;alien;atk-xeno-chestburster
+malien-xeno-imp;2;2;0|fire:3;Mobility 8|Observation 8;Säurespritzer 4;alien;atk-xeno-chestburster
+malien-xeno-queenburster;2;3;4|fire:2;Mobility 8|Observation 6;Säurespritzer 5;alien;atk-xeno-chestburster
+malien-xeno-stalker;2;6;10|fire:5;Mobility 8|Observation 6;Säurespritzer 8;alien;atk-xeno-stage4
+malien-xeno-scout;3;5;8|fire:4;Mobility 8|Observation 10;Säurespritzer 8;alien;atk-xeno-stage4
+malien-xeno-drone;2;7;8|fire:4;Mobility 10|Observation 8;Säurespritzer 8;alien;atk-xeno-stage4
+malien-xeno-soldier;2;8;10|fire:5;Mobility 8|Observation 8;Säurespritzer 10;alien;atk-xeno-stage5
+malien-xeno-worker;1;4;5|fire:2;Mobility 4|Observation 4;Säurespritzer 6;alien;atk-xeno-stage5
+malien-xeno-sentry;3;8;12|fire:5;Mobility 12|Observation 10;Säurespritzer 10;alien;atk-xeno-stage5
+malien-xeno-praetorian;2;10;12|fire:5;Mobility 5|Observation 8;Säurespritzer 10;alien;atk-xeno-stage6
+malien-xeno-crusher;1;16;18|fire:6;Mobility 4|Observation 5;Säurespritzer 10;alien;atk-xeno-stage6-crusher
+malien-xeno-queen;2;14;14|fire:5;Mobility 8|Observation 12;Säurespritzer 10;alien;atk-xeno-stage6-queen
+malien-swarm;1;5;1000|fire:0|explosive:0|elec:0;;;alien;atk-swarm
+malien-adultharvester;1;15;15|belly:5;Mobility 4;2D6 Jungtiere;alien;atk-harvester
+malien-juvenileharvester;1;4;4;Mobility 4;;alien;{attack:4:1:0}
+malien-lionworm;2;8;4;Mobility 12|Observation 8;Lauerjäger;alien;atk-lionworm
+malien-scorpionid-onland;1;5;6|bullets:3;Mobility 6|Observation 6;;alien;atk-scorpionid
+malien-scorpionid-inwater;3;5;6|bullets:3;Mobility 10|Observation 10;Unterwasser-Sprint;alien;atk-scorpionid

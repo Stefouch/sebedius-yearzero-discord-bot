@@ -44,7 +44,7 @@ module.exports = {
 
 		// Validates arguments.
 		if (!tableNames.hasOwnProperty(book) || !power) {
-			return await ctx.reply(`⚠️ ${__('myzpower-invalid-arguments', lang)}!`);
+			return await ctx.reply(`⚠️ ${__('cmyzpower-invalid-arguments', lang)}!`);
 		}
 
 		// Rolls the dice.
