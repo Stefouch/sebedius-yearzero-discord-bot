@@ -475,7 +475,7 @@ function getEmbedGenericDiceResults(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('generic-roll', roll.lang));
+	embed.setFooter(__('croll-generic-roll', roll.lang));
 	return embed;
 }
 
