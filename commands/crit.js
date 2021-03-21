@@ -124,7 +124,7 @@ module.exports = {
 		const crit = critsTable.get(critRoll);
 
 		// Exits early if no critical injury was found.
-		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found'), lang}. *(${__('table', lang)}: ${fileName})*`);
+		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found', lang)}. *(${__('table', lang)}: ${fileName})*`);
 
 		// Adds a "game" property to the crit.
 		crit.game = game;
