@@ -1,5 +1,7 @@
 ## Summary
-Here goes a short summary about what the PR is about.
+<!-- Here goes a short summary about what the PR is about. -->
+
+(Your summary.)
 
 ## Checklist
 <!-- Put an "x" inside the braces to tick checkboxes, e.g. [X]. -->
@@ -12,4 +14,4 @@ Here goes a short summary about what the PR is about.
 ### Other
 - [ ] This PR is a breaking change (e.g. methods or parameters removed/renamed)
 - [ ] If code changes were made then they have been tested.
-- [ ] I have updated the documentation to reflect the changes.
+- [ ] I have updated the documentation to reflect the changes (wiki).
