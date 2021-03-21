@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ## [4.0.1] - 2021-03-20
 ### Added
 - German translation for monsters and attacks for the Alien RPG.
+- GitHub templates for pull requests, bug reports and feature requests.
 
 ### Changed
 - (JavaScript) Drop of `utils/version.js` in favor of the 'version' properties in `./package.json`.
