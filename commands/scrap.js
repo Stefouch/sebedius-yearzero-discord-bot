@@ -42,7 +42,7 @@ module.exports = {
 		// Dice replacements.
 		desc = substitute(desc);
 
-		const title = `${__((qty > 1) ? 'scrap-items' : 'scrap-item', lang)} ${__('found', lang).toLocaleLowerCase()}`;
+		const title = `${__((qty > 1) ? 'scrap-items' : 'scrap-item', lang)} ${__('found', lang).toLowerCase()}`;
 		const embed = new YZEmbed(title, desc, ctx, true);
 
 		return await ctx.send(embed);
