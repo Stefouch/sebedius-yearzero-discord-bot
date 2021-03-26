@@ -508,6 +508,7 @@
 	],
     "crolltales-description": "Rolls dice for the *Tales From the Loop* roleplaying game.\nType `help roll` for more details.",
     "crollvaesen-description": "Rolls dice for the *Vaesen* roleplaying game.\nType `help roll` for more details.",
+    "crumor-description": "Tells a random rumor.",
     "cscrap-description": "Gets random scrap. Max 20 items.",
     "csetconf-description": "Sets the bot's configuration for this server. If you omit the new value, it returns the current value. See possible parameters:\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.\n`game [new value]` – Gets or sets the default game used (for dice skins and critical injuries tables). Options are `myz`, `fbl`, `tales`, `coriolis`, `alien`, `vaesen`, `t2k`.\n`lang [new value]` – Gets or sets the default language. See Readme for details.",
     "csetconf-only-admin": "This command is only available for members with the ADMINISTRATOR role.",

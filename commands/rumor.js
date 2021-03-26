@@ -1,15 +1,28 @@
-const Rumors = require('../gamedata/myz/rumors.json');
 const { YZEmbed } = require('../utils/embeds');
 const { random, strLcFirst } = require('../utils/Util');
 
 module.exports = {
 	name: 'rumor',
 	category: 'myz',
-	description: 'Tells a random rumor.',
+	description: 'crumor-description',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang <language_code>]',
 	async run(args, ctx) {
+		// Parses arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const Rumors = require(`../gamedata/myz/rumors.${lang}.json`);
+
 		const rumorStory = random(Rumors.stories);
 
 		// RumorStory is an Object with:

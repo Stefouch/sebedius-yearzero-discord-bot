@@ -1,0 +1,124 @@
+{
+	"author": "Myrmidon",
+	"version": "1.0",
+	"title": "Ein Gerücht besagt,",
+	"stories": [
+		{
+			"head": "dass [ein Mutant angegriffen wurde / ein paar Mutanten angegriffen wurden] von",
+			"bodies": [
+				"Einem Schwarm [kleiner Spinnen / Käfer / Blutegeln / einer Art fliegender Insekten / Schrottkrähen / Zonenratten].",
+				"Einer großen 'seilartigen' Kreatur, welche über den Boden glitt. Sie war sehr schnell, hatte große Fangzähne, und raue Haut (Schuppen).",
+				"Einem 'Baumstamm-Monster', während einer Reise durch einen Sumpf. Die Mutanten gingen gerade über einen großen, umgefallenen Baumstamm im Wasser, als sich dieser plötzlich in einer Flut von riesigen Zähnen aufbäumte.",
+				"[irgendeiner großen Echse / einigen Echsen], mit einer Länge von locker 3,5 Metern oder mehr. [Diese war / Sie waren] schnell und wendige Kletterer. Mindestens ein Zeuge behauptet, man habe sie auch Säure spucken gesehen! Sind dies die [Bitterbiester / Gecks / Streuner] worüber die Pirscher sprechen?",
+				"Einer Gruppe von Zonenghulen. Ein Überlebender behauptet, dass manche der Ghule Halsketten oder Armbänder mit aufgeknüpften Fingern oder Ohren trugen und, dass mindestens ein Ghul einen Sack voll von blutigen, abgetrennten Körperteilen trug.",
+				"Einer enormen Zonenspinne – beinahe von der Größe eines Autos. Ihr Chitin-Exoskelett war so stark, dass es Treffer von Schrottmessern und Steinschleudern ablenkte.",
+				"Einem Rudel von wilden Zonenhunden. Glücklicherweise war ein großer Baum in der Nähe und [der Mutant konnte / die Mutanten konnten] ohne Verletzung entkommen. Die Hunde durchkämmten die Umgebung des Baums für mehrere Stunden bevor sie sich auf die Suche nach neuer Beute machten.",
+				"Einer Gruppe von kleinen, haarlosen, grauhäutigen Humanoiden. Der Erzählung nach waren die Kreaturen so groß wie Kinder (ungefähr 1m groß), dünn, trugen nur Lendenschurze und hatten zusätzliche Gelenke in ihren Armen und Beinen, was ihnen ein grauenerregendes und unmenschliches Erscheinungsbild gab sobald sie sich bewegten. Sie waren mit Schrottmessern, Speeren und Bögen ausgerüstet und griffen ohne Warnung oder Provokation aus der Dunkelheit heraus an. Ein Mutant behauptet, man habe eine angeschossen und aus den Kreaturen wäre 'schwarzes Blut' ausgetreten.",
+				"Einem, Zitat, 'Mechanitier'. Der Mutant schwört jedem der zuhört, dass die pelzige, humanoide Kreatur metallische Teile in ihren Körper eingepflanzt hatte und eines der Gliedmaße völlig mechanisch war. Angeblich hatte das Monster ebenfalls ein glühendes, rotes Auge welches einen brennenden Strahl Licht schoss. Der Mutant hat offenbar eine beträchtliche Brandwunde um die Geschichte zu untermauern. (Die Kreatur ist eine  'Abscheulichkeit' aus dem Genlabor Alpha Buch.)",
+				"Einer Pflanze. Die Pflanze hatte einige verlockend aussehende Beeren. Aber wenn man sich näherte peitschten eine Menge von dornbedeckten Ranken von der Pflanze und versuchten den Mutanten einzufangen. Wer weiß was passiert wäre, wenn sie Erfolg gehabt hätte…",
+				"Ein riesiges, fliegendes Monster. Irgendeine Art von [Vogel {z.B. ein Schrottfalke, auch 'Tödlicher Bolzen' genannt} / Eidechse mit ledrigen Flügeln und Krallen an den Füßen] stürzte aus dem Himmel und versuchte anzugreifen. Der Mutant konnte sich in letzter Sekunde retten, indem er [in ein zerstörtes Gebäude / unter ein altes Fahrzeug / in einen offenen Abwassertunnel] abtauchte und wartete bis die Kreatur wegflog.",
+				"Einem großen Stein. \"Nein, wirklich, ich schwöre beim Ältesten, es ist wahr! Ich setze mich neben einen Schutthaufen um mich auszuruhen und einem der Steine wuchsen plötzlich Beine. Das verdammte Ding rannte herüber und biss mir ein Stück aus'm Arm!\" (Der 'Stein' war tatsächlich ein großer, mutierter Käfer mit einem Panzer der die Farbe und Textur von Beton- und Ziegelschutt imitiert.)"
+			]
+		},
+		{
+			"head":"dass ein Mutant",
+			"bodies":[
+				"Eine Reihe von riesigen Spuren oder Fußabdrücken sah, jede/r größer als ein Gebäude. (Schrott-Zilla?)",
+				"Enorme Fahrzeugspuren sah, die durch die Zone führen. Das Fahrzeug muss gewaltig gewesen sein, da es scheinbar Gebäude in seinem Weg zerstört hat.",
+				"[Eine gigantische Metallspinne / Ein gigantisches Metallinsekt] in den Ruinen der Zone jagen sah.",
+				"Eine Gruppe von 'Metallmännern' sah, welche in der Zone unterwegs waren. Der Mutant kam ihnen nicht nah genug um zu sehen was sie taten, aber es sah so aus als hätten sie sowas wie Gewehre getragen.",
+				"Einige blau und grün glühende Kugeln sah, die über dem Boden schwebten. Sie verfolgten einen Zonenghul und schossen, als sie zu ihm aufschlossen, mit blauen und grünen Lichstrahlen die den Zonenghul verschwinden ließen. Alles was von dem Zonenghul übrig blieb war sein Schatten an der Wand.",
+				"Das einer (Kriegs-?) Maschine der Ahnen sah. Sie sah aber fast brandneu aus. Die Farbe war grösstenteils intakt und es gab keinen Rost.",
+				"Eine [kleine / mittelgroße / große] Metallflugmaschine sah. [Die Maschine sonderte ein merkwürdiges Brummen ab und flog nah am Boden, als ob sie nach etwas suchte. / Die Maschine war hoch im Himmel und machte ein dröhnendes Geräusch. Sie lies außerdem einen merkwürdigen Schweif von Wolken hinter sich während sie flog.]",
+				"Merkwürdige Stufen nahe eines uralten Gebäudes sah die nach unten in die Dunkelheit führten. Die Stufen führten nach unten in einen großen, künstlich hergestellten Tunnel, aber es war zu dunkel um etwas zu sehen oder zu weit auszukundschaften.",
+				"Einen befreundeten Mutant verschwinden sah, scheinbar gab der Boden in dem Gebäude nach, welches sie am erkunden waren. Es gab keine Geräusche von unten und kein Anzeichen des verschwundenen Mutanten.",
+				"[Einen gigantischen Vogel / Eine gigantische Eidechse / Ein gigantisches Insekt] über den Köpfen fliegen sah. Es war schwer die Größe genau zu bestimmen, aber sie erschien gewaltig.",
+				"Ein merkwürdiges, blitzendes Licht in der Ferne sah, wie von einem glänzenden Stück Metall reflektiertes Licht. Aber die Blitze waren nicht zufällig. Es war als würde jemand versuchen einer andere entfernte Person etwas zu signalisieren. Aber wer könnte es gewesen sein?",
+				"Ein imposantes und flinkes, mit Fell bedecktes Biest sah, welches einen großen Graser aus dem Hinterhalt angriff und binnen weniger Sekunden tötete. Es verschlang dann den kompletten Körper innerhalb weniger Minuten.",
+				"Einen 'Windkegel' sah, der Gebäude zerstörte und alles in seinem Weg aufsog. Laut dem Zeugen machte der Kegel ein ohrenbetäubendes, dröhnendes Geräusch und hob ganze Fahrzeuge und großen Schutt auf und warf sie über hunderte Meter in alle Richtungen! Zitat: \"Wenn du einen siehst - LAUF!\"",
+				"Eine Gruppe von drei stillen Blinklichtern sah, die sich im Nachthimmel über der Arche bewegten. Der Mutant behauptet, dass sie nicht 'natürlich' sein konnten, da sie sich in Formation bewegten und mehrmals die Richtung änderten bevor sie hinter den Wolken verschwanden.",
+				"Zwei Gruppen von Zonenghulen sah, welche miteinader kämpften. Der Mutant wusste nicht warum sie kämpften und traute sich auch nicht näher zu kommen. Es war aber offensichtlich, dass sie versuchten sich gegenseitig zu töten.",
+				"Eine Gruppe von Gestalten sah, die Waffen trugen und in Kapuzen und Rüstung gekleidet waren. Einige ritten Bitterbiester und führten eine Reihe von zerlumpt aussehenden Gestalten an. Es sah aus, als ob die Gestalten gefesselt oder als Gruppe aneinander gekettet waren und gezwungen wurden dem Befehl der anderen zu folgen. Einige der zerlumpten Gestalten könnten Mutanten gewesen sein.",
+				"Einen Sturm sah, der Trümmer aus den Wolken fallen ließ. Der Erzählung nach handelte es sich dabei hauptsächlich um kleine Steine und Schutt, aber manche Steine waren faustgroß. Und angeblich sah der Mutant ebenfalls einen kompletten Wandabschnitt und mehrere antike Fahrzeuge vom Himmel herabregnen.",
+				"Eine Gruppe Mutanten sah, aber keine der Mutanten aus der Arche. Wie kann das sein?",
+				"Eine Gruppe Tiere sah, allerdings gingen sie aufrecht, sprachen und trugen Kleidung. Einige hatten, dem Zeugen nach, auch Werkzeuge und Waffen bei sich, falls man solch haarsträubenden Behauptungen glauben möchte.",
+				"Eine Gruppe Gestalten sah, welche alle eine lange Robe mit Kapuze, die ihr Gesicht verdeckte, und einen Stab trugen. Scheinbar durchsuchten sie nahgelegene Ruinen. Wer waren sie und wonach haben sie gesucht?",
+				"Eine Gruppe von vierbeinigen Kreaturen sah, denen merkwürdige 'Hörner' aus dem Kopf wuchsen [mutierte Rehe / grasende Ziegen]. Die Kreaturen wurden dabei gesehen, wie sie mit Leichtigkeit über Schutthaufen und Ruinen kletterten und laut einer Sichtung wurden sogar ein paar dabei beobachtet wie sie hoch oben auf großen Ästen standen. Sind diese Kreaturen essbar? Sind sie eine Bedrohung für die Bewohner der Arche? Sind sie eine essbare Bedrohung? Antwortsuchende Mutanten wollen es wissen!",
+				"Ein komplettes Metallgebäude aufstehen und auf 4 mechanischen Beinen weggehen sah. Der Mutant schwört, dass er auf keinen Fall betrunken war als er das Gebäude weggehen sah.",
+				"Ein großes Rudel Zonenhunde sah, die winselten und mit ihren Schwänzen zwischen den Beinen direkt an ihnen vorbeiliefen. Der Mutant blieb nicht lange genug zurück um herauszufinden was die Panik der Hunde verursachte und rannte stattdessen schnell zurück in die Sicherheit der Arche.",
+				"Ein gewaltiges, vierbeiniges Biest sah, welches mit kurzem, borstigen Haar bedeckt war (ein Messerrücken, auch bekannt als 'Hauer'). Das Biest hatte eine große, haarlose Schauze, die mit wirklich üblen messerlangen Hauern ausgestattet war. Der Mutant behauptet die Kreatur hätte eine Schulterhöhe von 1.5 bis 1.8 Meter gehabt und wäre locker über 900 kg schwer gewesen. Der Zeuge behauptet, die Kreatur wäre problemlos durch das Unterholz geschmettert und hätte selbst mittelgroße Bäume umgeworfen während es zwischen den Wurzeln nach Futter suchte."
+			]
+		},
+		{
+			"head": "dass ein Mutant",
+			"bodies":[
+				"Die Geräusche lauter Maschinen hörte. Als der Mutant an dem Ort ankam, von welchem er die Geräusche vernahm, sah er Staubwolken in der Ferne und fand eine Reihe von 'Radspuren'. Die Radspuren machten aber keinen Sinn. Dem Mutanten nach konnten sie nicht von einem Wagen kommen, denn sie kreuzten und kreuzten sich immer wieder.",
+				"In der Zone ein unglaublich lautes 'Bumm!' in der Ferne hörte. Der Knall war laut genug um Schutt von nahegelegenen Ruinen auf den Boden zu werfen und jeden der ihn hörte zu Tode zu erschrecken. Als die Ohren aller aufhörten zu klingeln brachte die Untersuchung der Umgebung keine Hinweise auf die Ursache des Geräuschs.",
+				"Hörte wie die Geister der Ahnen 'Geisterglocken' läuteten. Der Mutant behauptet ein Gebäude mit einem großen Turm betreten zu haben, welcher Metallglocken enthält. Im Innern waren lange Reihen von Holzbänken und die Skelette vieler zusammengekauerter Ahnen. Währen der Erkundung konnte man Geklimper und Geläut hören das klar von oben aus dem Turm kam, aber das Seil und die Glücken bewegten sich kein Stück! Der Mutant floh und schwor niemals zurückzukehren! (Im Kirchturm hängt eine Reihe Windspiele welche der Mutant nicht sehen konnte.)",
+				"Hörte wie jemand oder etwas mehrfach ein großes Metallstück schlug. Das 'Gong'-Geräusch erklang 5 Mal und stoppte so plötzlich wie es begann.",
+				"Hörte wie sich etwas Großes jenseits der Arche durch die Dunkelheit der Nacht bewegte und gelegentlich ein hohes Kreischen von sich gab. Vielleicht war es eines der ‘Hootin-Bahrs’ von dem die Pirscher sprechen? ",
+				"Merkwürdiges Donnern und Erschütterungen unter dem Boden hörte. Die Geräusche und Vibrationen traten mehrmals auf und stoppten dann. Es war aber kein offensichtlicher Grund für das merkwürdige Ereignis auszumachen."
+			]
+		},
+		{
+			"head": "dass ein Mutant",
+			"bodies":[
+				"Ein Loch im Boden fand, welches 'angeblich' plötzlich große Mengen an reinem Wasser in zufälligen Intervallen hinausschoss und dann ohne Warnung wieder stoppte. (Dabei könnte es sich um einen Geysir handeln oder ein kaputtes Rohr von einer uralten Einrichtung die immer noch teilweise funktioniert.)",
+				"Einen Felsbrocken fand, von welchem [Blut / Teer / Harz / schwarzer Brei / grüner Brei / übelriechendes Wasser] aus zahlreichen Rissen in der Oberfläche austrat, ohne Hinweis auf die Quelle der Flüssigkeit.",
+				"Einen stillen, langsam drehenden, grauen Metallwürfel ohne besondere Merkmale fand, der anderthalb Meter über dem Boden schwebte. Anscheinend hatte das Wetter der Zone keinen Einfluss auf den Würfel, da er weder Rost noch Zerfall aufwies, und ihn nichts davon abhielt sich zu drehen. Selbst mit drei oder vier Mutanten, die gemeinsam mit aller Kraft drückten und zogen, konnten sie den Würfel nur wenige Zentimeter in eine Richtung bewegen.",
+				"Einen großen Metallpfosten mit einem einfachen Seil und einer Art Flaschenzug daran fand. Der Pfosten stand in einem schicken Betonsockel, scheinbar aus der Zeit der Ahnen. Oben am Pfosten flatterte eine große Hose! Wie komisch ist das denn?",
+				"Eine ‘Orakelkugel’ fand. Schüttelt man die Kugel während man eine Frage stellt erscheinen wohl blaue Buchstaben an der Oberfläche, welche die Frage 'beantworten' (siehe Antwortliste unten*). Es gibt bereits Hinweis darauf, dass jeder der Ark-Bosse eine Kugel für sich selbst haben möchte.",
+				"Einige [Bäume / Büsche] fand, die mit essbaren [Früchten / Beeren] besetzt sind. Vielleicht ein Überbleibsel eines uralten Gartens oder einer Plantage?",
+				"Einen essbaren Pilz fand, der [in einem großen Fleck zwischen toten Bäumen / im Keller eines zerstörten Gebäudes / in einer flachen Schlucht / im Schatten unter einem großen, zerstörten Oldtimer / in einem verlassenen (U-Bahn-)Tunnel] wächst. Vielleicht könnte er von den Bewohnern der Arche bewirtschaftet werden?",
+				"Ein enormes Lager von Fressalien, Wasser und Artefakten aus der Antike fand, welches in [einem großen Oldtimer / einem verlassenen Gebäude / einem Raum unter einer Reihe Ruinen / einem riesigen Gebäude hoch über dem Boden / einem Tunnel] versteckt ist, allerdings litt der Mutant unter Zonenfieber und kann sich nicht mehr an die genaue Position erinnern.",
+				"Einen glühenden Pilz [im Keller eines zerstörten Gebäudes / in einem alten Abwasserkanal / in einem verlassenen (U-Bahn-)Tunnel] fand. Warum glüht er und kann man ihn anbauen und nachts als Lichquelle nutzen?",
+				"Eine erstaunlich gut erhaltene Statue eines Ahnen fand. Die Statue zeigt einen unglaublich muskulösen Ahnen, welcher eine eng anliegende Uniform mit einem unbekannten Wappen oder Symbol auf der Brust und einem langen fließenden Tuch auf dem Rücken trägt. Der Ausdruck von stoischer Entschlossenheit im hübschen Gesicht der uralten Statue scheint zu sagen \"Ich habe großartige Taten vollbracht\" und dient allen Betrachtern als Inspiration. Vielleicht könnte man sie in der Arche aufstellen?",
+				"Einen [überirdischen / unterirdischen] Tank oder Zisterne fand, welcher [Treibstoff / Öl / unkontaminiertes Wasser] aus der Antike enthält.",
+				"Einen uralten Schauplatz eines Kampfes fand. Der Ort zeigte umfangreiche Zeichen von Beschädigung und der Zeuge behauptete, neben den vielen Skeletten von gefallenen Ahnen, auch tote 'Metallmänner' gesehen zu haben. Es war unmöglich zu sagen, wer den Kampf gewonnen hatte, da alles beschädigt oder zerstört war.",
+				"Einen ganzen Vorrat von Baumaterialien ([Trockenbauwand / Bretter / Sperrholz / Blech / Maxschendrahtzaun & Pfosten]) fand, welche ungenutzt und in brauchbarer Verfassung sind. Eine einfallsreiche Gruppe könnte mit solchen Materialien in der Arche viel Gutes tun… Oder eine Menge Profit machen.",
+				"Eine kleine bewegliche Figur von einem Kind der Ahnen (ein Puppe). Diese Art von Dingen sind in Ruinen nicht ungewöhnlich, jedoch ist dieses anders. Den gerüchten nach kann sie sprechen und ruft nach ihrer 'Mami' und ihrem 'Papa' und bettelt sogar nach Nahrung. Ist es ein echtes, lebendiges Wesen, wird sie von Geistern heimgesucht oder steht sie unter einer Art altem Fluch?",
+				"[Ein Gebäude / Eine Ruine] fand, ausgestattet mit Fallen, wie verdeckten Gruben mit Stacheln und scharfen, verrosteten Metallstücken am Boden oder einem großen Stück aus scharfem Metall das über dem Türrahmen befestigt ist und herunterschwingen und jeden zerschneiden soll, der durchgeht und einen niedrig gespannten Stolperdraht berührt. Wer hat Fallen, die Leute verletzen oder töten sollen, aufgestellt und warum?",
+				"Die noch frischen Leichen von mehreren großen Grasern fand. Alle waren zerrissen und mindestens teilweise von etwas mit sehr großen Krallen und Zähnen verschlungen.",
+				"Den blutigen und böse zugerichteten Körper eines Zonenghuls fand, welcher wortwörtlich in den Boden geschmettert wurde. (Der bedauerliche Ghul wurde von [einer Herde Graser auf der Flucht / einem, während eines 'Steinregens' vom Boden abprallenden, Felsbrocken oder Teil einer Wand, welcher den Ghul traf und durchbohrte, / einem unbekannten Fahrzeug mit großen Rädern oder Spuren] getötet.)"
+			]
+		},
+		{
+			"head": "dass in der Arche",
+			"bodies":[
+				"Der berühmte Chronist '[Hierher gehört der Name]' sehr bald [eine neue Geschichte / ein neues Theaterstück / ein neues Drama] herausgeben soll. Die Vorfreude der gelangweilten Bewohner der Arche steht kurz davor zu kippen. Wenn nicht bald etwas erscheint wird es zu Ausschreitungen kommen.",
+				"Ein nicht weiter benannter [Hehler / Boss / Vollstrecker] versucht einen Gladiatoren-ähnlichen Kampfring mit [Mutanten / Zonenhunden / Zonenghulen / Zonenmonstern] aufzubauen. Während Manche dagegen sind, sind Andere für alles, was die tägliche Monotonie in der Arche unterbricht.",
+				"Ein Mutant behauptet zu wissen, wo der Beweis zu finden ist, dass die Ahnen nicht alle tot sind. Dieser Mutant behauptet die Ahnen hätten 'die Welt' einfach für den nahegelegenen Planeten 'Mond' verlassen als es schlimmer wurde. Und selbst jetzt schauen sie noch herab (daher das große 'Gesicht' das im Nachthimmel gesehen werden kann) und beurteilen die Bewohner der Arche um deren Würdigkeit festzustellen zu ihnen zu stoßen. Die noch unglaublicheren Versionen dieses Gerüchts behaupten die Mitglieder des Dämmergewölbes seien in geheimer Kommunikation mit den Ahnen und der Grund für ihr Sammeln von Artefakten sei der Bau ihres eigenen 'Himmelsschiffs' um sich den Ahnen anzuschließen.",
+				"Einer oder mehr Hehler eine Art ['Fusel' / Pillen] verkaufen, welche bei Einnahme starke Halluzinationen auslösen und oftmals zu einer mehrstündigen Ohnmacht führen. Scheinbar können die Nutzer gewalttätig werden und mindestens ein Mutant ist unter dem Einfluss gefallen und hat sich ein Glied gebrochen. ",
+				"Mehrere [Hehler / Bosse] in einem 'Revierkampf' darüber sind, was im 'Schrottmarkt' der Arche verkauft werden darf; und von wem. Bewohner der Arche, die Schrott auf dem Markt verkaufen und nicht Teil der Crew eines Bosses sind, sind besorgt, dass sie anvisiert werden oder in den Kampf verwickelt werden.",
+				"Einer oder mehrere Bosse Regeln festlegen möchten, wer in der Arche Waffen tragen darf. Möglicherweise werden 'Waffenschränke' aufgestellt, wo Mutanten Waffen erhalten wenn sie außerhalb arbeiten und diese zurückbringen müssen wenn Sie zur Arche zurückkehren. ",
+				"[Ein Hehler / Ein Boss / Jemand] ein Bordell betreibt. Anscheinend bezahlen Mutanten für 'Begegnungen' mit anderen Mutanten. Wer weiß, ob die 'Arbeiter' freiwillig dort arbeiten oder nicht?",
+				"Jemand einen versteckten Glücksspielring betreibt. Das Problem ist, dass manche Spieler hohe Schulden ansammeln und auf Diebstahl in der Arche zurückgreifen um ihre Schulden zu bezahlen.",
+				"Eine spürbare Zahl von Mutanten krank werden. Geht nur aufgrund der beengten Wohnverhältnisse in der Arche die Grippe um oder handelt es sich um etwas ernsteres wie eine {Kontamination / Vergiftung} des {Fressalienvorrats / Wasservorrats} der Arche oder der Arche selbst mit [Zonenfäulnis / Bauchfischen / parasitären Pilzen / einer unbekannten Substanz] und wie schlimm kann es noch werden?",
+				"Jemand ein Versteck mit Comics und Spielen gefunden hat, aber nicht bereit ist sie mit dem Rest der Bewohner zu teilen. Offenbar schlagen manche Bewohner vor, dass alle Quartiere gründlich durchsucht werden um das habgierige Individuum ausfindig zu machen und die 'Kulturgüter' gerechterweise mit dem Rest der Arche zu teilen.",
+				"[Ein ernster Kampf / Eine ernste Schlägerei] über [Fressalien / Wasser / Kleidung / ein Artefakt / eine Waffe / Eigentum eines Baus / einen anderen Mutanten] ausgebrochen ist. Im Kampf wurden keine Waffen genutzt, jedoch wurden einer oder mehrere Mutanten öffentlich in blutigen Gehorsam geschlagen. Wer weiß, ob die angespannte Situation in mehr Gewalt endet…"
+			]
+		}
+	],
+	"oracleSphere": [
+		"Es ist sicher",
+		"So ist es entschieden",
+		"Ohne Zweifel",
+		"Ja, definitiv",
+		"Darauf kannst du dich verlassen",
+		"So wie ich es sehe, ja",
+		"Höchstwahrscheinlich",
+		"Sieht gut aus",
+		"Ja",
+		"Alle Zeichen deuten auf Ja",
+		"Antwort verschwommen, versuche es erneut",
+		"Frag später nochmal",
+		"Sag ich dir jetzt besser nicht",
+		"Jetzt nicht vorhersehbar",
+		"Konzentriere dich und frag erneut",
+		"Zähl nicht drauf",
+		"Meine Antwort ist Nein",
+		"Meine Quellen sagen Nein",
+		"Sieht nicht so gut aus",
+		"Sehr zweifelhaft"
+	]
+}
