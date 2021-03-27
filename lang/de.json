@@ -693,5 +693,15 @@
     "wmyz-unarmed": "Waffenlos",
     "wmyz-vibroknife": "Vibromesser",
     "wmyz-whaleharpoon": "Walharpune",
-    "wmyz-wrench": "Schraubenschlüssel"
+    "wmyz-wrench": "Schraubenschlüssel",
+    "bot-user-muted": "Du wurdest stumm geschaltet und kannst meine Befehle nicht nutzen.",
+    "bot-server-blacklisted": "Dieser Server befindet sich auf der schwarzen Liste und kann meine Befehle nicht nutzen.",
+    "bot-cant-execute-in-dm": "Ich kann diesen Befehl nicht in einer Direktnachricht ausführen!",
+    "bot-no-arguments": "Es wurden keine Argumente übergeben!",
+    "bot-proper-usage": "Die korrekte Verwendung wäre:",
+    "bot-cooldown": "Bitte warte {will_be_replaced} Sekunden vor der erneuten Nutzung des Befehls",
+    "bot-error-too-many-dice": "So viele Würfel können nicht geworfen werden!",
+    "bot-error-no-element-selected": "Es gibt kein auszuwählendes Element.",
+    "bot-error-selection-canceled": "Auswahl abgebrochen",
+    "bot-error-command-execution": "Es gab einen Fehler bei dem Versuch diesen Befehl auszuführen!"
 }

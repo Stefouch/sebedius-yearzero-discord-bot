@@ -689,5 +689,15 @@
     "wmyz-unarmed": "Unarmed",
     "wmyz-vibroknife": "Vibroknife",
     "wmyz-whaleharpoon": "Whale Harpoon",
-    "wmyz-wrench": "Wrench"
+    "wmyz-wrench": "Wrench",
+    "bot-user-muted": "You have been muted and cannot use my commands.",
+    "bot-server-blacklisted": "This server has been blacklisted and cannot use my commands.",
+    "bot-cant-execute-in-dm": "I can't execute that command inside DMs!",
+    "bot-no-arguments": "You didn't provide any arguments!",
+    "bot-proper-usage": "The proper usage would be:",
+    "bot-cooldown": "Please wait {will_be_replaced} second(s) before reusing the command",
+    "bot-error-too-many-dice": "Cannot roll that many dice!",
+    "bot-error-no-element-selected": "There is no element to select.",
+    "bot-error-selection-canceled": "Selection canceled",
+    "bot-error-command-execution": "There was an error trying to execute that command!"
 }
