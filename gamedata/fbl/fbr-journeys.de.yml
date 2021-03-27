@@ -9,152 +9,160 @@ sleep:
 explore:
   name: Erkunden
 
-# There is no official german translation yet, so this is file a placeholder until then
-
 leadingTheWayMishaps:
   id: FBR_JOURNEY_MISHAP_LEAD_THE_WAY
   name: Vorangehen
   roll: D66
   refs:
     '11-13':
-      - Sinksnow
+      - Schneesenke
       - >-
-        The snow collapses beneath your feet and you sink deep
-        into a crushing, white embrace. Everyone in the group
-        must make a `MIGHT` roll. Failure means one point of damage
-        to AGILITY and another `MIGHT` roll to break free. PCs who are
-        not stuck can help. You must also find a way around the
-        treacherous area and make no progress on the map this
-        Quarter Day.
+        Der Schnee bricht unter euren Füßen ein und ihr sinkt in eine
+        erdrückende, weiße Umklammerung. Alle in der Gruppe müssen
+        auf `KRAFT` würfeln. Bei einem Fehlschlag erleidet der Charakter
+        1 Punkt Schaden auf GESCHICKLICHKEIT. Mit einem weiteren Wurf
+        auf `KRAFT` kann sich der Charakter befreien. SC, die nicht feststecken,
+        können helfen. Außerdem müsst ihr die heimtückische
+        Stelle umrunden und kommt an diesem Tagesabschnitt auf der
+        Karte nicht voran.
     '14-16':
-      - Impassable Terrain
+      - Unpassierbares Gelände
       - >-
-        The way ahead is blocked by ice, snow or rocks. To pass
-        the obstruction everyone in the group must make a
-        `MIGHT` or `MOVE` roll. Failure means one point of damage to
-        STRENGTH and another roll to pass. PCs who make the roll
-        can help others. You make no progress on the map this
-        Quarter Day.
+        Der Weg wird von Eis, Schnee oder Felsen blockiert. Um das
+        Hindernis zu überwinden, müssen alle in der Gruppe auf
+        `KRAFT` oder `BEWEGEN` würfeln. Bei einem Fehlschlag erleidet
+        der Charakter 1 Punkt Schaden auf STÄRKE und muss einen
+        weiteren Wurf auf `KRAFT` ablegen, um das Hindernis zu
+        überwinden. SC, denen der Wurf gelingt, können anderen
+        helfen. An diesem Tagesabschnitt kommt ihr auf der Karte
+        nicht voran.
     '21-23':
-      - Lost
+      - Verirrt
       - >-
-        You have gotten lost and make no progress on the map
-        this Quarter Day. The pathfinder must succeed at a `SURVIVAL`
-        roll to find the way out of the hexagon. They may
-        make one try per Quarter Day.
+        Ihr habt euch verirrt und kommt an diesem Tagesabschnitt
+        auf der Karte nicht voran. Die Kundschafterin muss auf `ÜBERLEBEN`
+        würfeln, um einen Weg aus dem Hexfeld zu finden. Der
+        Wurf darf einmal pro Tagesabschnitt ausgeführt werden.
     '24-26':
-      - Broken Gear
+      - Kaputte Ausrüstung
       - >-
-        A PC’s ski or snowshoe breaks. They count as if traveling
-        on foot until the gear is repaired with a `CRAFTING` roll.
+        Der Ski oder Schneeschuh eines SC geht kaputt. Der Charakter
+        reist zu Fuß weiter, bis die Ausrüstung mit einem Wurf
+        auf `HANDWERK` repariert wurde.
     '31-33':
-      - Cold Front
+      - Kaltfront
       - >-
-        A cold front rolls in. Everyone in the group must make an
-        `ENDURANCE` roll. Those who fail become COLD. This can be
-        avoided by immediately `MAKING CAMP`, but that stops the
-        journey for this Quarter Day.
+        Ihr trefft auf eine Kaltfront. Alle in der Gruppe müssen auf
+        `AUSDAUER` würfeln. Bei einem Fehlschlag wird der Charakter
+        UNTERKÜHLT. Wenn ihr sofort ein `LAGER AUFSCHLAGT`, könnt ihr
+        dem entgehen. Allerdings kommt ihr dann an diesem Tagesabschnitt
+        nicht voran.
     '34-36':
-      - Avalanche
+      - Lawine
       - >-
-        An avalanche rushes down upon you. Every PC must
-        succeed at a `SURVIVAL`, `MOVE` or `MIGHT` roll to not be swept
-        away by the oncoming snow. Each player decides for
-        themselves which skill to use. A PC who fails is caught in
-        the avalanche and suffers an attack with __**six** Base Dice and
-        Weapon Damage **1**__ *(blunt trauma)* and becomes COLD. After
-        this, the PC must make a `MIGHT` roll to break free from the
-        snow. Anyone who gets stuck must make an `ENDURANCE`
-        roll against the COLD every hour but also gets a chance to
-        break free every hour.
+        Eine Lawine rollt auf euch zu. Alle SC müssen auf `ÜBERLEBEN`,
+        `BEWEGEN` oder `KRAFT` würfeln, um nicht vom heranrasenden
+        Schnee mitgerissen zu werden. Die Spielerinnen entscheiden
+        selbst, auf welche Fertigkeit sie jeweils würfeln wollen. Bei
+        einem Fehlschlag wird der SC von der Lawine erfasst. Führe
+        einen Angriff mit __**6** Basiswürfeln und Waffenschaden **1**__ *(Stumpfer
+        Schlag)* aus. Der SC wird außerdem UNTERKÜHLT. Anschließend
+        muss der SC auf `KRAFT` würfeln, um sich aus dem Schnee
+        zu befreien. Alle, die steckenbleiben, müssen stündlich auf
+        `AUSDAUER` würfeln, um nicht UNTERKÜHLT zu werden, haben aber
+        auch jede Stunde die Chance, sich zu befreien.
     '41-43':
-      - Blizzard
+      - Schneesturm
       - >-
-        You see a dark wall of snow hurtling towards you, and
-        you are soon caught in a violent blizzard. You are forced
-        to make camp and lose your progress for this Quarter Day.
+        Ihr seht eine dunkle Wand aus Schnee auf euch zurasen
+        und werdet schon bald von einem heftigen Schneesturm
+        erfasst. Euch bleibt nichts anderes übrig, als ein `LAGER AUFZUSCHLAGEN`,
+        und ihr kommt an diesem Tagesabschnitt nicht voran.
     '44-46':
-      - Heavy Snowfall
+      - Schwerer Schneefall
       - >-
-        You are surprised by dense snowfall. The distance you
-        can cover this Quarter Day is decreased by one hexagon.
-        If reduced to zero, you make no progress at all. All adventurers
-        also suffer one point of damage to Empathy due to
-        the despair of plodding through the heavy snowfall that
-        never seems to stop.
+        Ihr werdet von heftigem Schneefall überrascht. Die Entfernung,
+        die ihr an diesem Tagesabschnitt zurücklegen könnt,
+        ist um ein Hexfeld reduziert. Sinkt die Entfernung dabei auf
+        0, kommt ihr überhaupt nicht voran. Alle SC erleiden 1 Punkt
+        Schaden auf EMPATHIE, da sie der beschwerliche Weg durch den
+        scheinbar endlosen Schneefall verzweifeln lässt.
     '51-53':
-      - Snow blindness
+      - Schneeblindheit
       - >-
-        The white ocean of snow and ice overwhelms your sight.
-        Everything seems to disappear in a white haze. Every PC
-        must succeed at a `SURVIVAL` roll to not be afflicted by snow
-        blindness. Those who fail act as if in total darkness during
-        the next Quarter Day.
+        Das weiße Meer aus Schnee und Eis nimmt eure ganze
+        Sicht ein. Alles scheint hinter einem weißen Schleier zu
+        verschwimmen. Alle SC müssen auf `ÜBERLEBEN` würfeln, um
+        nicht von Schneeblindheit betroffen zu sein. Bei einem
+        Fehlschlag agiert der SC im nächsten Tagesabschnitt wie in
+        absoluter Dunkelheit.
     '54-56':
-      - Fall
+      - Sturz
       - >-
-        The pathfinder falls into a crevice in the ice or down a
-        steep slope. A failed `MOVE` roll causes a random critical
-        injury (blunt trauma). The crevice may lead to tunnels
-        that let you keep hiking beneath the ice (see page 39) if
-        the GM wishes.
+        Der Kundschafter stürzt in eine Kluft im Eis oder einen steilen
+        Abhang hinab. Schlägt ein Wurf auf `BEWEGEN` fehl, erleidet
+        der SC eine zufällige Kritische Wunde (Stumpfer Schlag). Die
+        Kluft könnte zu einem Tunnelsystem führen, durch das ihr
+        unter dem Eis weiterwandern könnt (siehe S. 39), wenn die SL
+        dies wünscht.
     '61-63':
-      - Ravenous wolves
+      - Ausgehungerte Wölfe
       - >-
-        You are attacked by D3 ravenous wolves (see page 126 in
-        the Gamemaster’s Guide).
+        Ihr werdet von D3 ausgehungerten Wölfen angegriffen
+        (siehe S. 126 im Spielleiter-Handbuch).
     '64-66':
-      - Ruins!
+      - Ruinen!
       - >-
-        You stumble across a previously undiscovered ruin!
-        Whether or not this turns out to be lucky will soon
-        become clear. The GM uses the tables in Chapter 12 to
-        create adventure sites and bring the ruin to life.
+        Ihr stoßt auf eine bislang unentdeckte Ruine! Ob das ein
+        Glücksfall ist oder nicht, stellt sich schon bald heraus. Die SL
+        erstellt mit der Tabelle in Kapitel 12 einen Abenteuerschauplatz
+        und erweckt die Ruine zum Leben.
 
 foragingMishaps:
   id: FBR_JOURNEY_MISHAP_FORAGE
-  name: Sammeln
+  name: Sammeln/Brennstoff suchen
   roll: D6
   refs:
     '1':
-      - Broken Gear
+      - Kaputte Ausrüstung
       - >-
-        Your ski or snowshoe breaks. It counts as if you are traveling
-        on foot until the gear is repaired with a `CRAFTING` roll.
+        Dein Ski oder Schneeschuh geht kaputt. Der SC reist zu Fuß
+        weiter, bis die Ausrüstung mit einem Wurf auf `HANDWERK` repariert
+        wurde.
     '2':
-      - Angry Birds
+      - Wütende Vögel
       - >-
-        A colony of waddlerbirds defends their nests from intruding
-        adventurers. No food is found, and the PC is soiled by
-        the attacks of the waddlerbirds.
+        Eine Brutkolonie Tölpelvögel verteidigt ihre Nester vor Eindringlingen.
+        Hier findet sich keine Nahrung, und die Angriffe der
+        Tölpelvögel lassen den SC völlig verdreckt zurück.
     '3':
-      - Poisonous Roots
+      - Giftige Wurzeln
       - >-
-        You find roots that correspond to one unit of `VEGETABLES`.
-        The roots are poisonous, however, which you discover when
-        you cook them. Anyone eating the roots must make an
-        `ENDURANCE` roll against the hallucinogenic poison (__Potency **3**__).
+        Ihr findet Wurzeln, die einer Einheit `GEMÜSE` entsprechen. Allerdings
+        sind die Wurzeln giftig, was ihr feststellt, wenn ihr sie
+        kocht. Alle, die von den Wurzeln essen, müssen auf `AUSDAUER`
+        gegen ein Halluzinogenes Gift (__Wirksamkeit **3**__) würfeln.
     '4':
-      - Wild Animal
+      - Wildes Tier
       - >-
-        You encounter a wolf, bear or other ferocious animal that feels
-        threatened and attacks you. The GM selects a suitable animal
-        from the table on page 126 in the Gamemaster’s Guide.
+        Ihr begegnet einem Wolf, Bären oder anderen wilden Tier, das sich
+        bedroht fühlt und angreift. Die SL wählt ein passendes Tier aus der
+        Tabelle auf S. 126 im Spielleiter-Handbuch aus.
     '5':
-      - Rotten Eggs
+      - Faule Eier
       - >-
-        You find abandoned bird nests and may gather D6 eggs
-        that would correspond to one unit of `VEGETABLES` if they
-        were fresh. They are rotten, however, and stink to high
-        heaven when cracked open. Creative players can surely
-        find a use for them even if they are inedible.
+        Ihr findet verlassene Vogelnester und könnt D6 Eier einsammeln,
+        die einer Einheit `GEMÜSE` entsprächen, wären sie frisch.
+        Sie sind allerdings faul und stinken zum Himmel, wenn man sie
+        aufbricht. Kreative Spielerinnen finden sicher einen Nutzen,
+        selbst wenn sie ungenießbar sind.
     '6':
-      - Ruins!
+      - Ruinen!
       - >-
-        Your search has brought you to a ruin. Deeply absorbed
-        in your own thoughts you fail to notice that the ruin is
-        inhabited! An animal has made the location into its lair and
-        intends to defend it against the intruder.
+        Eure Suche hat euch zu einer Ruine geführt. Tief in Gedanken
+        versunken bemerkt ihr nicht, dass die Ruine bewohnt ist. Ein
+        Tier hat sich hier eingenistet und wird seinen Unterschlupf
+        gegen Eindringlinge verteidigen.
 
 huntingMishaps:
   id: FBR_JOURNEY_MISHAP_HUNT
@@ -162,37 +170,44 @@ huntingMishaps:
   roll: D6
   refs:
     '1':
-      - Sprained ankle
+      - Verstauchter Knöchel
       - >-
-        You fall or twist your ankle and suffer a critical injury, equivalent
-        to result 25-26 in the table for blunt trauma on page 197.
+        Du stürzt oder verdrehst dir den Knöchel und erleidest eine
+        kritische Verletzung entsprechend dem Ergebnis 25-26 für
+        stumpfe Schläge auf S. 201 des Spieler-Handbuchs.
     '2':
-      - Lost gear/weapon
-      - You lose some of your hunting gear or a weapon. The GM decides which.
+      - Waffe/Ausrüstung verloren
+      - Du verlierst deine Jagdausrüstung oder deine Waffe. Die SL entscheidet,
+        was davon.
     '3':
-      - Torn Clothes
+      - Zerrissene Kleidung
       - >-
-        Your clothes are damaged. Your boots break or your robe rips
-        on thorny plants or sharp rocks. You must roll for for the effects of cold.
-        Your clothes can be mended by making a successful `CRAFTING` roll.
+        Deine Kleidung wird beschädigt. Deine Stiefel verlieren die
+        Sohlen oder deine Robe wird von Dornen oder scharfen Felsen
+        zerrissen. Du musst gegen Auswirkungen durch Unterkühlung
+        würfeln. Die Kleidung kann mit einem erfolgreichen `HANDWERK`-
+        Wurf repariert werden.
     '4':
-      - Trap
+      - Falle
       - >-
-        You step into another hunter’s trap. It could be a snare,
-        a net, or a covered pit. You suffer one point of damage to
-        Strength and must make a `MOVE` roll to get out of the trap.
+        Du trittst in die Falle eines anderen Jägers. Vielleicht ist es eine
+        Schlinge, ein Netz oder eine Fallgrube. Du erleidest einen Punkt
+        Schaden auf Stärke und musst auf `BEWEGEN` würfeln, um dich
+        aus der Falle zu befreien.
     '5':
-      - Savage Animal
+      - Wildes Tier
       - >-
-        A wolf, bear or other wild animal feels threatened, and attacks
-        you. The GM chooses an animal from the table on page 124 of
-        the Gamemaster’s Guide.
+        Ein Wolf, Bär oder anderes wildes Tier fühlt sich bedroht und
+        greift dich an. Die SL wählt ein Tier aus der Tabelle auf S. 126 im
+        Spielleiter-Handbuch.
     '6':
-      - Sick Prey
+      - Kranke Beute
       - >-
-        You bring down a random animal, but is sick and whoever eats
-        of its flesh is infected by a disease with a __Virulence rating of **3**__.
-        This is discovered during your next meal.
+        Du erlegst ein zufälliges Tier, aber dieses ist krank. Wer auch immer
+        von seinem Fleisch isst, steckt sich mit einer Krankheit mit
+        __Ansteckungskraft **3** an__. Das stellt ihr während eurer nächsten
+        Mahlzeit fest.
+
 
 fishingMishaps:
   id: FBR_JOURNEY_MISHAP_FISH
@@ -200,41 +215,42 @@ fishingMishaps:
   roll: D6
   refs:
     '1':
-      - Snagged Hook or Net
+      - Haken oder Netz verfangen
       - >-
-        Your hook or net snags on something. You must make a
-        MIGHT roll to be able to retrieve your fishing gear.
+        Dein Haken oder Netz bleibt irgendwo hängen. Du musst auf
+        `KRAFT` würfeln, um deine Angelausrüstung zu befreien.
     '2':
-      - Hook in Finger
+      - Haken im Finger
       - >-
-        You succeed at getting your own finger caught on the hook
-        instead of a fish. You suffer one point of damage to `STRENGTH`.
+        Es gelingt dir, deinen eigenen Finger mit dem Haken zu fangen
+        statt eines Fisches. Du erleidest 1 Punkt Schaden auf STÄRKE.
     '3':
-      - Broken Gear
+      - Kaputte Ausrüstung
       - >-
-        Your fishing equipment breaks. You must repair it with a
-        `CRAFTING` roll or acquire new equipment.
+        Deine Angelausrüstung geht kaputt. Du musst sie mit einem
+        Wurf auf `HANDWERK` reparieren oder dir eine neue besorgen.
     '4':
-      - Overboard
+      - Über Bord
       - >-
-        You lose balance and fall into the water. See the rules for
-        drowning on page 113 in the Player’s Handbook. If you survive
-        and get out of the water, you still become COLD as per
-        the rules on page 111 in the Player’s Handbook.
+        Du verlierst das Gleichgewicht und stürzt ins Wasser. Regeln
+        zum Ertrinken findest du auf S. 115 im Spieler-Handbuch. Auch
+        wenn du überlebst und aus dem Wasser kommst, wirst du
+        UNTERKÜHLT, wie in den Regeln auf S. 113 im Spieler-Handbuch
+        beschrieben.
     '5':
-      - Leak
+      - Leck
       - >-
-        If you are fishing from a boat, it springs a leak. The leak
-        must be repaired with a `CRAFTING` roll before you can
-        resume `FISHING`. If you are `FISHING` from the ice it cracks
-        beneath you and you must make a `MOVE` roll to not fall into
-        the water. See the rules for drowning and becoming COLD in
-        the Player’s Handbook.
+        Wenn du in einem Boot fischst, schlägt es leck. Das Loch
+        muss mit einem Wurf auf `HANDWERK` repariert werden, bevor
+        du weiter `FISCHEN` kannst. Wenn du auf dem Eis fischst, bricht
+        es unter dir und du musst auf `BEWEGEN` würfeln, um nicht ins
+        Wasser zu stürzen. Regeln zum Ertrinken und für UNTERKÜHLT
+        findest du im Spieler-Handbuch auf S. 115 bzw. S. 113.
     '6':
-      - Attack
+      - Angriff
       - >-
-        A crab attacks you and cuts open a bleeding wound in your
-        hand. You suffer one point of damage to Strength.
+        Eine Krabbe greift dich an und reißt eine blutende Wunde in
+        deine Hand. Du erleidest 1 Punkt Schaden auf STÄRKE.
 
 makingCampMishaps:
   id: FBR_JOURNEY_MISHAP_MAKE_CAMP
@@ -242,78 +258,84 @@ makingCampMishaps:
   roll: D66
   refs:
     '11-13':
-      - Lice
+      - Läuse
       - >-
-        A random adventurer has gotten lice in their sleeping furs or in
-        their clothes. They itch something fierce and the victim develops
-        a red rash all over her body. The victim suffers one point of
-        damage to Agility every day due to the scratching and is unable
-        to `SLEEP`. A successful `HEALING` roll staves off the effect.
+        Ein zufällig ausgewählter SC hat Läuse in den Schlaffellen oder in
+        der Kleidung. Sie jucken wie verrückt und ein roter Ausschlag zieht
+        sich über den ganzen Körper des Opfers. Der SC erleidet jeden Tag
+        1 Punkt Schaden auf GESCHICKLICHKEIT, weil er sich ständig kratzen
+        muss, und kann nicht `SCHLAFEN`. Ein Wurf auf `HEILEN` kann die Wirkung
+        abwenden.
     '14-16':
-      - Thieving Animals
+      - Diebische Tiere
       - >-
-        A greedy weasel or waddlerbird has run off with a piece of
-        gear. The GM decides what has been stolen. A successful
-        `SCOUTING` roll reveals the animal’s nest, where the equipment is
-        found together with two `SIMPLE CARRIED FINDS`.
+        Ein gieriges Wiesel oder ein Tölpelvogel ist mit einem Ausrüstungsgegenstand
+        abgehauen. Die SL entscheidet, was gestohlen wurde.
+        Mit einem Wurf auf `AUSKUNDSCHAFTEN` lässt sich das Nest des
+        Tieres aufspüren, wo sich neben dem Ausrüstungsgegenstand 2
+        `EINFACHE GETRAGENE FUNDE` befinden.
     '21-23':
-      - Bad Campsite
+      - Schlechte Lagerstätte
       - >-
-        The campsite is poorly chosen and very uncomfortable to
-        `SLEEP` in. No one gets any `SLEEP` until you find a new campsite.
+        Die Lagerstätte wurde schlecht ausgewählt und in ihr kann man
+        nicht gut `SCHLAFEN`. Niemand findet `SCHLAF`, bis eine neue Lagerstätte
+        aufgesucht wird.
     '24-26':
-      - Fire Goes Out
+      - Das Feuer erlischt
       - >-
-        You forget to feed the fire and it goes out. You lack adequate
-        protection against the COLD for the night (see page 31).
+        Ihr vergesst, das Feuer zu schüren, und es erlischt. Damit fehlt euch
+        der nötige Schutz vor UNTERKÜHLUNG in dieser Nacht (siehe S. 31).
     '31-33':
-      - Heavy Snowfall
+      - Schwerer Schneefall
       - >-
-        Heavy snowfall suddenly buries the camp. You must make a `MIGHT`
-        roll (one rolls and the others may help) to get out from under the
-        snow and your journey is delayed by a full Quarter Day.
+        Schwerer Schneefall begräbt plötzlich das Lager. Um euch aus dem
+        Schnee zu befreien, müsst ihr auf `KRAFT` würfeln (ein SC würfelt, die
+        anderen können helfen). Eure Weiterreise verzögert sich um einen
+        Tagesabschnitt.
     '34-36':
-      - Mice
+      - Mäuse
       - >-
-        Mice have gotten into the food. Everyone in the party must
-        lower their Resource Die for `FOOD` one step.
+        Mäuse haben sich ins Essen geschlichen. Alle in der Gruppe müssen
+        ihren Ressourcenwürfel für `NAHRUNG` um eine Stufe senken.
     '41-43':
-      - Fire!
+      - Feuer!
       - >-
-        Suddenly, the flames from your campfire spread out of control.
-        Your tents, sleeping furs and other gear all catch fire.
-        Each adventurer suffers an attack with __**five** Base Dice (Weapon
-        Damage **1**)__. Each adventurer must also make a `MOVE` roll to save
-        their gear. Failure means that one piece of equipment (the GM
-        decides which) is lost in the fire.
+        Plötzlich breiten sich die Flammen des Lagerfeuers unkontrolliert aus.
+        Die Zelte, Schlaffelle und andere Ausrüstungsgegenstände fangen
+        Feuer. Führe gegen alle SC einen Angriff mit __**5** Basiswürfeln (Waffenschaden
+        **1**)__ aus. Alle SC müssen zudem auf `BEWEGEN` würfeln, um ihre
+        Ausrüstung zu retten. Bei einem Fehlschlag verbrennt ein Ausrüstungsgegenstand
+        (nach SL-Entscheid).
     '44-46':
-      - Herd of Reindeer
+      - Rentierherde
       - >-
-        A herd of reindeer passes close to or through the camp and
-        chaos ensues! It is impossible to `REST` or `SLEEP` this Quarter Day.
+        Eine Herde Rentiere zieht am Lager vorbei oder mittendurch
+        und Chaos bricht aus. An diesem Tagesabschnitt findet niemand
+        `SCHLAF` oder `RUHE`.
     '51-53':
-      - Howling Wolves
+      - Wolfsgeheul
       - >-
-        Wolves howl throughout the night in the wastes surrounding your
-        camp. This Quarter Day doesn’t count towards your need to `SLEEP`.
+        Die ganze Nacht hindurch heulen Wölfe in der Ödnis, die euer Lager umgibt.
+        Dieser Tagesabschnitt verschafft euch nicht den nötigen `SCHLAF`.
     '54-56':
-      - Broken Gear
+      - Kaputte Ausrüstung
       - >-
-        An item belonging to a random PC breaks when you `MAKE CAMP`.
-        The GM decides what breaks. The piece of equipment may be
-        repaired by a successful `CRAFTING` roll.
+        Ein Gegenstand eines beliebigen SC geht während des `LAGERAUFSCHLAGENS`
+        kaputt. Die SL bestimmt, welchen Gegenstand das
+        betrifft. Der Ausrüstungsgegenstand kann mit einem Wurf auf
+        `HANDWERK` repariert werden.
     '61-63':
-      - Wild Animal
+      - Wildes Tier
       - >-
-        A bear, a couple of wolves or some other wild animal feels
-        threatened and attacks the camp. The GM selects a suitable
-        animal from the table on page 126 in the Gamemaster’s Guide.
+        Ein Bär, ein paar Wölfe oder ein anderes wildes Tier fühlt sich durch
+        das Lager bedroht und greift an. Die SL wählt ein passendes Tier aus
+        der Tabelle auf S. 126 im Spielleiter-Handbuch aus.        
     '64-66':
-      - Haunted Site
+      - Es spukt!
       - >-
-        The campsite is haunted by spirits from the age of the winter
-        elves. They chatter and scream at you in your dreams and this
-        Quarter Day doesn’t count towards your need for `SLEEP`.
+        Geister aus dem Zeitalter der Winterelfen gehen in der Lagerstätte
+        um. Sie plappern und schreien euch in euren Träumen an. Dieser
+        Tagesabschnitt verschafft euch nicht den nötigen `SCHLAF`.
 
 seaTravelMishaps:
   id: FBR_JOURNEY_MISHAP_SEA_TRAVEL
@@ -321,45 +343,48 @@ seaTravelMishaps:
   roll: D66
   refs:
     '1':
-      - Iceberg
+      - Eisberg
       - >-
-        An enormous iceberg blocks your path and you are unable to
-        advance on the map this Quarter Day.
+        Ein riesiger Eisberg versperrt euch den Weg. An diesem Tagesabschnitt
+        kommt ihr auf der Karte nicht voran.
     '2':
-      - Heavy Snowfall
+      - Schwerer Schneefall
       - >-
-        You are surprised by dense snowfall. The distance you can cover
-        this Quarter Day decreases by one hexagon. All adventurers also
-        suffer one point of damage to Agility due to physical exhaustion
-        as you struggle to navigate the boat through the rough weather.
+        Ihr werdet von dichtem Schneefall überrascht. Die Entfernung, die
+        ihr an diesem Tagesabschnitt zurücklegen könnt, ist um 1 Hexfeld
+        reduziert. Alle SC erleiden auch 1 Punkt Schaden auf GESCHICKLICHKEIT
+        aufgrund der Anstrengung, das Boot durch das harsche
+        Wetter zu navigieren.
     '3':
-      - Sea Monster
+      - Seeungeheuer
       - >-
-        The wake from a sea monster makes the boat lurch. Everyone
-        onboard must succeed at a `MOVE` roll to not lose their balance and
-        fall into the water. See the rules for drowning on page 113 in the
-        Player’s Handbook. Anyone who falls overboard also becomes COLD.
+        Das Kielwasser eines Seeungeheuers lässt das Boot taumeln. Alle
+        an Bord müssen auf `BEWEGEN` würfeln, um das Gleichgewicht zu halten
+        und nicht ins Wasser zu stürzen. Regeln zum Ertrinken findest
+        du auf S. 115 im Spieler-Handbuch. Alle, die über Bord gehen, werden
+        UNTERKÜHLT.
     '4':
-      - Leak
+      - Leck
       - >-
-        The boat is attacked by a Pikebeast and springs a leak. The leak
-        must be repaired with a `CRAFTING` roll before you may continue
-        your journey. If the damage is not repaired the ship will sink
-        after D6 Quarter Hours.
+        Das Boot wird von einer Hornbestie angegriffen und schlägt
+        leck. Das Leck muss mit einem Wurf auf `HANDWERK` repariert
+        werden, bevor ihr eure Reise fortsetzen könnt. Wird der Schaden
+        nicht behoben, sinkt das Schiff nach D6 Viertelstunden.
     '5':
-      - Submerged Obstacle
+      - Hindernis unter Wasser
       - >-
-        Your boat collides with an iceberg or some other object hidden
-        beneath the surface of the water, and must be abandoned or
-        repaired with a `CRAFTING` roll. The boat must be pulled up on the
-        sea ice or on land to be repaired.
+        Euer Boot stößt mit einem Eisberg oder etwas anderem zusammen,
+        das sich unter der Wasseroberfläche verbirgt. Es muss
+        entweder verlassen oder mit einem Wurf auf `HANDWERK` repariert
+        werden. Um es zu reparieren, muss das Boot auf das Eis oder an
+        Land gezogen werden.
     '6':
-      - Stuck in the Ice
+      - Im Eis steckengeblieben
       - >-
-        Your boat gets stuck in the heavy ice. Someone may hack the
-        boat free, with the help of others, by succeeding at a `MIGHT` roll.
-        Otherwise the boat must be abandoned and the journey back to
-        land goes over treacherous ice.
+        Euer Boot bleibt im Eis stecken. Mit einem Wurf auf `KRAFT` könnte
+        ein SC das Boot frei hacken, während andere helfen. Ansonsten
+        müsst ihr das Boot verlassen und eure Reise zurück an Land über
+        heimtückisches Eis antreten.
 
 weatherWind:
   id: FBR_WEATHER_WIND
@@ -369,17 +394,18 @@ weatherWind:
     '1-3':
       id: WIND_LIGHT_BREEZE
       name: Leichte Brise
-      effect: No effect.
+      effect: Keine Wirkung.
     '4-5':
       id: WIND_STRONG_WIND
       name: Starker Wind
-      effect: Modification **+1** to the roll on the Cold table and **–1** to all attempts to `MAKE CAMP`.
+      effect: >-
+        **+1** für Würfe auf der Kältetabelle und **-1** für alle Würfe auf `LAGER AUFSCHLAGEN`.
     '6':
       id: WIND_STORM
       name: Sturm
       effect: >-
-        Modification **+2** to the roll for Cold and **–2** to all attempts to `MAKE CAMP`.
-        All PCs must succeed at an `ENDURANCE` roll to be able to `HIKE` for a Quarter Day.
+        **+2** für Würfe auf der Kältetabelle und **-2** für alle Würfe auf `LAGER AUFSCHLAGEN`.
+        Alle SC müssen auf `AUSDAUER` würfeln, um einen Tagesabschnitt lang `MARSCHIEREN` zu können.
 
 weatherSnowfall:
   id: FBR_WEATHER_SNOWFALL
@@ -392,15 +418,16 @@ weatherSnowfall:
       effect: Kein Effekt.
     '4-5':
       id: SNOWFALL_LIGHT_FLURRY
-      name: Leichter Hagel
-      effect: Modification **–1** to `LEAD THE WAY`.
+      name: Leichtes Schneegestöber
+      effect: >-
+        **–1** auf `VORANGEHEN`.
     '6':
       id: SNOWFALL_HEAVY_SNOWFALL
       name: Schwerer Schneefall
       effect: >-
-        Modification **–2** to `LEAD THE WAY`. All PCs must succeed at an
-        `ENDURANCE` roll to be able to `HIKE` for a Quarter Day. When there is a storm and
-        heavy snowfall the `ENDURANCE` roll is made with a **–2** modifier.
+        **-2** auf `VORANGEHEN`. Alle SC müssen auf `AUSDAUER` würfeln,
+        um einen Tagesabschnitt lang `MARSCHIEREN` zu können. Wenn ein Sturm und
+        Schwerer Schneefall herrschen, dann ist der Wurf auf `AUSDAUER` um **-2** modifiziert.
 
 weatherCold:
   id: FBR_WEATHER_COLD
@@ -411,21 +438,21 @@ weatherCold:
       id: COLD_COLD
       name: Kalt
       effect: >-
-        Every PC without adequate protection against the cold (see below)
-        must make an `ENDURANCE` roll every Quarter Day to not become COLD.
+        Alle SC ohne geeigneten Schutz vor Kälte (siehe Seite 31) müssen einmal pro
+        Tagesabschnitt auf `AUSDAUER` würfeln, um nicht UNTERKÜHLT zu werden.
     '4-5':
       id: COLD_BITING
-      name: Beißend
+      name: Beißende Kälte
       effect: >-
-        Every PC without adequate protection must make an `ENDURANCE` roll
-        every Quarter Hour to not become COLD.
+        Alle SC ohne geeigneten Schutz vor Kälte (siehe Seite 31) müssen viertelstündlich
+        auf `AUSDAUER` würfeln, um nicht UNTERKÜHLT zu werden.
     '6':
       id: COLD_TO_THE_BONE
       name: Bis auf die Knochen
       effect: >-
-        Even PCs with adequate protection must make an `ENDURANCE` roll
-        every Quarter Day to not become COLD. PCs without adequate protection
-        must roll every Quarter Hour, with a **–2** modifier.
+        Selbst SC mit geeignetem Schutz müssen einmal pro Tagesabschnitt
+        auf `AUSDAUER` würfeln, um nicht UNTERKÜHLT zu werden. Der Wurf für SC
+        ohne geeigneten Schutz (siehe Seite 31) erfolgt viertelstündlich und ist um **-2** modifiziert.
 
 # hunt:
 #   id: HUNT

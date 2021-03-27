@@ -142,7 +142,7 @@ module.exports = {
 				color: ctx.bot.config.color,
 				title: `${__('journey', lang).toUpperCase()}${title ? ` — "${title}"` : ''}`,
 				description: getDescription(jou, lang),
-				footer: { text: `${__('game', lang)}: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}` },
+				footer: { text: `${__('game', lang)}: ${__(jou.fbr ? 'game-fbr' : 'game-fbl', lang)}` },
 				fields: [
 					{
 						name: __('terrain', lang),
@@ -215,7 +215,7 @@ module.exports = {
 				ctx, true,
 			);
 			embed.addField(`**\`${mishap[0].toUpperCase()}\`**`, mishap[1]);
-			embed.setFooter(`${__('game', lang)}: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`);
+			embed.setFooter(`${__('game', lang)}: ${__(jou.fbr ? 'game-fbr' : 'game-fbl', lang)}`);
 
 			return await ctx.send(embed);
 		}

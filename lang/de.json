@@ -121,7 +121,7 @@
     "winter": "Winter",
     "daylight": "Tageslicht",
     "darkness": "Dunkelheit",
-    "icy": "Eiskalt",
+    "icy": "Eisig",
     "cold": "Kälte",
     "snowfall": "Schneefall",
     "wind": "Wind",
@@ -175,6 +175,8 @@
     "myz-phenomenons": "Phänomene",
     "myz-random-mutation": "Zufällige Mutation",
     "myz-random-feral-effect": "Zufälliger Wildheitseffekt",
+    "game-fbl": "Die Verbotenen Lande",
+    "game-fbr": "Die Verbotenen Lande - Die Frostweiten",
     "attribute-myz-strength": "Stärke",
     "attribute-myz-agility": "Geschicklichkeit",
     "attribute-myz-wits": "Verstand",
@@ -272,11 +274,11 @@
     "terrain-quagmire": "Sumpf",
     "terrain-ruins": "Ruinen",
     "terrain-tundra": "Tundra",
-    "terrain-ice-cap": "Eisdecke",
+    "terrain-ice-cap": "Plateaugletscher",
     "terrain-beneath-the-ice": "Unter dem Eis",
-    "terrain-ice-forest": "Eiswald",
+    "terrain-ice-forest": "Vereister Wald",
     "terrain-ocean": "Meer",
-    "terrain-sea-ice": "Meeres-Eis",
+    "terrain-sea-ice": "Meereis",
     "carkthreat-description": "Zieht eine zufällige Bedrohung für die Arche.",
     "carkthreat-title": "Bedrohung für die Arche",
     "cartifact-description": "Zieht ein zufälliges Artefakt aus dem MYZ Grundregelwerk. Weitere verfügbare Quellbücher sind (es können mehrere kombiniert werden):\n• `myz` – Mutant: Jahr Null (Standard falls nichts angegeben wurde)\n• `gla` – Mutant: Genlabor Alpha\n• `mek` – Mutant: Mechatron\n• `ely` – Mutant: Elysium\n• `astra` – Mutant: Ad Astra\nMetaplot-Gegenstände sind standardmäßig nicht enthalten. Nutze `meta` um sie dem Stapel hinzuzufügen.\nMit `all` wird aus allen Quellenbüchern gezogen (inklusive Metaplot-Gegenständen).",
@@ -398,7 +400,7 @@
         ],
         [
             "Create-Optionen",
-            "• **Tagesabschnitte**: Morgen: `morning`, Tag: `day` *(Standard)*, Abend: `evening` und Nacht: `night`.\n• **Jahreszeiten**: Frühling: `spring` *(Standard)*, Sommer: `summer`, Herbst: `autumn` und Winter: `winter`.\n• **Geländearten**: Ebenen: `plains` *(Standard)*, Wald: `forest`, Tiefer Wald: `dark_forest`, Hügel: `hills`, Gebirge: `mountains`, Hochgebirge: `high_mountains`, See: `lake`, Fluß: `river`, Meer: `ocean`, Marschland: `marshlands`, Sumpf: `quagmire`, Ruinen: `ruins`, *(Frostweiten)* Tundra: `tundra`, Eisdecke: `ice_cap`, Unter dem Eis: `beneath_the_ice`, Eiswald: `ice_forest` und Meeres-Eis: `sea_ice`."
+            "• **Tagesabschnitte**: Morgen: `morning`, Tag: `day` *(Standard)*, Abend: `evening` und Nacht: `night`.\n• **Jahreszeiten**: Frühling: `spring` *(Standard)*, Sommer: `summer`, Herbst: `autumn` und Winter: `winter`.\n• **Geländearten**: Ebenen: `plains` *(Standard)*, Wald: `forest`, Tiefer Wald: `dark_forest`, Hügel: `hills`, Gebirge: `mountains`, Hochgebirge: `high_mountains`, See: `lake`, Fluß: `river`, Meer: `ocean`, Marschland: `marshlands`, Sumpf: `quagmire`, Ruinen: `ruins`, *(Frostweiten)* Tundra: `tundra`, Plateaugletscher: `ice_cap`, Unter dem Eis: `beneath_the_ice`, Vereister Wald: `ice_forest` und Meereis: `sea_ice`."
         ],
         [
             "Mishap: `!journey  mishap|m  [activity] [...arguments]`",
