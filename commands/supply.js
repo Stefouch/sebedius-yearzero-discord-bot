@@ -30,7 +30,7 @@ module.exports = {
 		let rating;
 		// Accepts "8" and "8d", but not "d8".
 		if (/^\d{1,2}d$/i.test(argv._[0])) rating = argv._.shift().match(/\d+/)[0];
-		else rating = +argv._.shift();
+		else rating = argv._.length > 0 ? +argv._.shift() : null;
 
 		if (isNumber(rating)) {
 			// A maximum of 6 dice are rolled. See ALIEN corebook pg. 34 for details.
