@@ -1,0 +1,24 @@
+{
+	"type": {
+		"roll": "1D6",
+		"data": {
+			"1": ["Riese", "III"],
+			"2": ["Unterriese", "IV"],
+			"3": ["Hauptreihenstern", "V"],
+			"4": ["Weißer Zwerg", "DA"],
+			"5": ["Roter Zwerg", "MV"],
+			"6": ["Weißer Hauptreihenstern", "AOV"]
+		}
+	},
+	"spectral": {
+		"roll": "1D6",
+		"data": {
+			"1": ["blau", "B"],
+			"2": ["weiß", "A"],
+			"3": ["weiß-gelb", "F"],
+			"4": ["gelb", "G"],
+			"5": ["orange", "K"],
+			"6": ["rot-orange", "M"]
+		}
+	}
+}
