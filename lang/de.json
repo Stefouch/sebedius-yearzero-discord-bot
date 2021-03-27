@@ -2,6 +2,10 @@
     "and": "und",
     "attribute-articles-singular": "e/er/es",
     "attribute-articles-plural": "en",
+    "info": "Info",
+    "infos": "Infos",
+    "information": "Information",
+    "informations": "Informationen",
     "none": "Ohne",
     "nothing": "Nichts",
     "unknown": "Unbekannt",
@@ -703,5 +707,8 @@
     "bot-error-too-many-dice": "So viele Würfel können nicht geworfen werden!",
     "bot-error-no-element-selected": "Es gibt kein auszuwählendes Element.",
     "bot-error-selection-canceled": "Auswahl abgebrochen",
-    "bot-error-command-execution": "Es gab einen Fehler bei dem Versuch diesen Befehl auszuführen!"
+    "bot-error-command-execution": "Es gab einen Fehler bei dem Versuch diesen Befehl auszuführen!",
+    "bot-missing-permissions": "**Fehlende Berechtigungen!**\nDer Bot verfügt nicht über ausreichende Berechtigungen in diesem Kanal und wird nicht richtig funktionieren. Schau in der Readme (`{prefix}help`) für eine Liste der benötigten Berechtigungen nach. Sieh in das Wiki für weitere Problemlösungen.",
+    "bot-missing-permissions-role": "Fehlende Berechtigung(en) der Rolle",
+    "bot-missing-permissions-channel": "Fehlende Berechtigung(en) des Kanals"
 }
