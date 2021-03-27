@@ -17,6 +17,7 @@ class BaseSheet {
 	 * @param {AttributesData} [data.attributes] Attributes
 	 * @param {SkillsData} [data.skills] Skills
 	 * @param {number} [data.armor] Armor Rating
+	 * @param {string} [data.lang='en'] Language code of the language to be used
 	 *
 	 * @typedef {Object[]|Object<string, number>} AttributesData
 	 * Attributes' Data. Either:
@@ -82,6 +83,12 @@ class BaseSheet {
 		 * @type {Skill[]}
 		 */
 		this.skills = [];
+
+		/**
+		 * The language to be used
+		 * @type {string}
+		 */
+		this.lang = data.lang || 'en';
 
 		if (data.attributes) this._setupAttributes(data.attributes);
 		if (data.skills) this._setupSkills(data.skills);

@@ -64,7 +64,7 @@ class YZMonsterEmbed extends MessageEmbed {
 		this.addField(__('skills', monster.lang), monster.skillsToString(), true);
 		this.addField(__('signature-attacks', monster.lang), monster.attacksToString(), false);
 		if (monster.special) {
-			const special = monster.special.replace(/{mutation}/g, 'Random mutation').replace(/{feral}/g, 'Random feral effect');
+			const special = monster.special.replace(/{mutation}/g, __('myz-random-mutation', monster.lang)).replace(/{feral}/g, __('myz-random-feral-effect', monster.lang));
 			this.addField(__('special', monster.lang), special, false);
 		}
 
@@ -96,7 +96,7 @@ class CharacterEmbed extends MessageEmbed {
 			footer: { text: `ID: ${character.id}` },
 			fields: [
 				{
-					name: 'Attributes',
+					name: __('attributes', character.lang),
 					value: character.attributes
 						.map(a => {
 							return `${strCamelToNorm(a.name)}: **${a.value}**`
@@ -114,7 +114,7 @@ class CharacterEmbed extends MessageEmbed {
 		const skills = character.skills.filter(s => s.value > 0);
 		if (skills.length) {
 			this.addField(
-				'Skills',
+				__('skills', character.lang),
 				skills.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`).join('\n'),
 				true,
 			);
@@ -124,7 +124,7 @@ class CharacterEmbed extends MessageEmbed {
 		// It uses this way because same reason as above.
 		if (character.weapons.length) {
 			this.addField(
-				'Weapons',
+				__('weapons', character.lang),
 				character.weapons.map(w => w.toString()).join('\n'),
 				false,
 			);
