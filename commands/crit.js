@@ -95,14 +95,12 @@ module.exports = {
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
 			return ctx.reply(
-				`ℹ️ ${__('ccrit-no-table-for-game-start', lang)} `
-				+ `\`${game}\` ${__('ccrit-no-table-for-game-end', lang)}.`,
+				`ℹ️ ${__('ccrit-no-table-for-game', lang).replace('{game}', game)}`,
 			);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
 			return ctx.reply(
-				`ℹ️ ${__('ccrit-table-not-found-start', lang)} `
-				+ `\`${type}\` ${__('ccrit-table-not-found-end', lang)} **${SOURCE_MAP[game]}**.`,
+				`ℹ️ ${__('ccrit-table-not-found', lang).replace('{type}', type)} **${SOURCE_MAP[game]}**.`,
 			);
 		}
 
