@@ -2,6 +2,7 @@
     "and": "und",
     "attribute-articles-singular": "e/er/es",
     "attribute-articles-plural": "en",
+    "changelog": "Änderungsprotokoll",
     "info": "Info",
     "infos": "Infos",
     "information": "Information",
@@ -313,6 +314,8 @@
     "ccast-title": "Zauber wirken",
     "ccast-invalid-mishap-reference": "Ungültiger 'Magisches Missgeschick'-Verweis!",
     "ccast-invalid-power-level": "Ungültige Machtstufe!",
+    "cchangelog-description": "Gibt einen Link zum offiziellen Änderungsprotokoll zurück.",
+    "cchangelog-text": "Die Hinweise zu den letzten Änderungen findest du unter",
     "ccharacter-description": "Verwaltet deine Charaktere.",
     "ccharacter-moredescriptions": [
         [
@@ -462,6 +465,9 @@
     "cpanic-interrupted-skill-roll-text": "Du bist gezwungen, bestimmte Aktionen auszuführen. Musstest du den Panikwurf infolge eines Fertigkeitswurfs ablegen, verfällt deine gegenwärtige Aktion und wird sofort durch die erzwungene Panikaktion ersetzt, selbst wenn du einen Erfolg gewürfelt hast.",
     "cpanic-mental-trauma-reminder-title": "Am Ende der Spielsitzung: Würfle für ein Dauerhaftes Mentales Trauma",
     "cpanic-mental-trauma-reminder-text": "Du musst nach der Sitzung einen **EMPATHIE**-Wurf ablegen. Würfele nur auf das Attribut, ohne Verwendung einer Fertigkeit. Gelingt der Wurf, entwickelst du ein dauerhaftes mentales Trauma. Würfele mit einem D6 und schaue in der Tabelle auf Seite 101 nach.",
+    "cping-description": "Prüft die Latenz des Bots.",
+    "cping-pinging": "Pingt...",
+    "cping-result": "Pong! Die Latenz beträgt",
     "cplanet-description": "Erzeugt einen unkolonisierten Planeten für das Alien RPG.",
     "cplanet-moredescriptions": [
         [
