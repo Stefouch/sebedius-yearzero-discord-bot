@@ -1,25 +1,15 @@
 const { MessageEmbed } = require('discord.js');
 const YZZoneSector = require('../yearzero/YZZoneSector');
 const { YZMonster } = require('../yearzero/YZObject');
-const { capitalize, trimString } = require('../utils/Util');
+const { trimString } = require('../utils/Util');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'zonesector',
-	aliases: ['sector'],
+	aliases: ['sector', 'zs'],
 	category: 'myz',
-	description: 'Creates a random Zone sector.',
-	moreDescriptions: [
-		[
-			'Arguments',
-			'• `-rot|-rotlevel <0-3>` – Sets the Rot Level between 0 and 3.'
-			+ '\n• `-threats|-t <0-5>` – Sets or modifies (if prefixing with ±) the number of Threats to draw between 0 (none) and 5.'
-			+ '\n• `-threatlevel|-lvl <0-10>` – Sets or modifies (if ±) the Threat Level between 0 (none) and 10.'
-			+ '\n• `-night|-dark` – Adds +3 to the Threat Level.'
-			+ '\n• `-ruin|-r` – Forces the placement of a large ruin.'
-			+ '\n• `-lang|-language|-lng <language_code>` – Uses a different language. See `setconf` command for available options.'
-			+ '\n• `-hide|-private|-h` – Hides most information behind several spoiler tags.',
-		],
-	],
+	description: 'czonesector-description',
+	moreDescriptions: 'czonesector-moredescriptions',
 	guildOnly: false,
 	args: false,
 	usage: '[arguments...]',
@@ -52,7 +42,7 @@ module.exports = {
 		const title = argv._.length ? trimString(argv._.join(' '), 100) : '';
 		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 		const fileName = `./gamedata/myz/myz-zonesectors.${lang}.yml`;
-		const h = () => argv.hide ? '||' : '';
+		const spoiler = argv.hide ? '||' : '';
 
 		// Creates the Zone Sector.
 		const zs = new YZZoneSector(fileName, {
@@ -61,14 +51,15 @@ module.exports = {
 			threatQty: argv.threats,
 			atNight: argv.night ? true : false,
 			withRuins: argv.ruin ? true : false,
+			lang: lang,
 		});
 
 		// Creates the Embed Message.
 		const embed = new MessageEmbed({
 			color: ctx.bot.config.color,
-			title: `${zs.environment.name.toUpperCase()} ${title ? ` — "${title}"` : '(Zone Sector)'}`,
-			description: `${zs.data.rotLevel.name}: ${h()}**${zs.rotLevel}** — *${zs.rotType}*${h()}`
-				+ `\nThreat Level: ${h()}**${zs.threatLevel}** — *${zs.threatRoll.toValues()}*${h()}`,
+			title: `${zs.environment.name.toUpperCase()} ${title ? ` — "${title}"` : `(${__('myz-zone-sector', lang)})`}`,
+			description: `${zs.data.rotLevel.name}: ${spoiler}**${zs.rotLevel}** — *${zs.rotType}*${spoiler}`
+				+ `\n${__('myz-threat-level', lang)}: ${spoiler}**${zs.threatLevel}** — *${zs.threatRoll.toValues()}*${spoiler}`,
 		});
 
 		if (zs.hasRuin) {
@@ -82,17 +73,17 @@ module.exports = {
 
 			// Adds the field to the embed.
 			embed.addField(
-				'Mood',
-				`${h()}\`${theme}\` **${poi}** — *${zs.mood.slice(theme.length + poi.length + 5)}*${h()}`,
+				__('myz-mood', lang),
+				`${spoiler}\`${theme}\` **${poi}** — *${zs.mood.slice(theme.length + poi.length + 5)}*${spoiler}`,
 			);
 		}
 
 		if (zs.hasFinds) {
 			embed.addField(
-				'Finds',
+				__('finds', lang),
 				'- ' + Object.entries(zs.finds)
 					.filter(f => f[1] > 0)
-					.map(f => `${h()}${capitalize(f[0])}: **${f[1]}**${h()}`)
+					.map(f => `${spoiler}${__(f[0], lang)}: **${f[1]}**${spoiler}`)
 					.join('\n- '),
 				true,
 			);
@@ -102,13 +93,13 @@ module.exports = {
 			const thrs = [];
 			for (const t of zs.threats) {
 				if (t.value instanceof YZMonster) {
-					thrs.push(`${h()}${t.icon} __${t.value.name}__${h()}`);
+					thrs.push(`${spoiler}${t.icon} __${t.value.name}__${spoiler}`);
 				}
 				else {
-					thrs.push(`${h()}${t.icon} __${t.value}__${h()}`);
+					thrs.push(`${spoiler}${t.icon} __${t.value}__${spoiler}`);
 				}
 			}
-			embed.addField('Threats', `${thrs.join('\n')}`, true);
+			embed.addField(__('threats', lang), `${thrs.join('\n')}`, true);
 		}
 
 		// Sends the message.

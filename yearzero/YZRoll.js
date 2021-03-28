@@ -14,6 +14,7 @@ class YZRoll {
 	 * @param {?string} game The game of the roll
 	 * @param {?string} author The author of the roll
 	 * @param {?string} name The name of the roll
+	 * @param {string} language The language code to be used
 	 */
 	constructor(game, author, name, language = 'en') {
 		/**

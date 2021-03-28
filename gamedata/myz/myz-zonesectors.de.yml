@@ -1,6 +1,6 @@
 rotLevel:
   id: ROT_LEVEL
-  name: Rot Level
+  name: Fäulnisstufe
   roll: D66
   refs:
     '11-12': 0
@@ -9,7 +9,7 @@ rotLevel:
 
 threat:
   id: THREAT_TABLE
-  name: Threat
+  name: Bedrohung
   roll: D6
   refs:
     '1-2':
@@ -18,15 +18,15 @@ threat:
       roll: D66
       refs:
         '11': ${{ mmyz-humanoid-amnesiac }}
-        '12-13': Beast Mutant
+        '12-13': Tiermutant
         '14-16': ${{ mmyz-humanoid-cannibal }}
         '21-22': ${{ mmyz-humanoid-doomcultist }}
         '23-25': ${{ mmyz-humanoid-exiledmutant }}
-        '26-32': Expedition from another Ark
+        '26-32': Expedition aus einer anderen Arche
         '33-35': ${{ mmyz-humanoid-helldriver }}
         '36-42': ${{ mmyz-humanoid-morlock }}
         '43-44': ${{ mmyz-humanoid-novacultist }}
-        '45-46': Patrol from the Ark
+        '45-46': Patrouille der Arche
         '51-52': ${{ mmyz-humanoid-scraporacle }}
         '53-54': ${{ mmyz-humanoid-wanderer }}
         '55-56': ${{ mmyz-humanoid-watertrader }}
@@ -62,7 +62,7 @@ threat:
         '65-66': ${{ mmyz-monster-zonewasps }}
     '6':
       id: PHENOMENON
-      name: Phenomenon
+      name: Phänomen
       roll: D66
       refs:
         '11-13': Säureregen
@@ -87,7 +87,7 @@ threat:
 
 environment:
   id: ENVIRONMENT
-  name: Environment
+  name: Umgebung
   roll: D66
   refs:
     '11-12':
@@ -132,475 +132,489 @@ environment:
 
 normalRuin:
   id: RUIN_NORMAL
-  name: Normal Ruin
+  name: Normale Ruine
   roll: D66
   refs:
     '11':
-      - Airplane Wreck
+      - Flugzeugwrack
       - >-
-        A huge metal tube lies broken and crushed on the ground. It is scorched
-        by fire and inside there are rows of ancient seats, all blackened by
-        flames. Stretching away from the tube, the ground is scorched and all
-        houses destroyed, as if the tube had come crashing from the sky at
-        incredible speed.
+        Ein riesiges Metallrohr liegt zerbrochen und eingedrückt auf dem Boden.
+        Es ist vom Feuer gezeichnet, und in seinem Inneren sind Reihen von Sitzen
+        befestigt. Hinter dem Gebilde ist der Boden versengt und eine ganze Reihe
+        von Häusern zerstört, als hätte es mit unglaublicher Geschwindigkeit eine
+        Schneise in die Stadt geschlagen.
     '12':
-      - Amusement Park
+      - Freizeitpark
       - >-
-        A bizarre huddle of rusting machines and decrepit large tents, in colors
-        that once were stark. The remains of the tent cloth flaps in the wind.
-        On a picture, a man with a white face and a large red nose smiles at
-        you. One machine is a large wooden disc with plastic horses mounted on
-        it. The disc is placed on a motor and seems to have been able to rotate.
+        Ein bizarrer Haufen von verrosteten Maschinen und zerfledderten Zelten in
+        Farben, die einst grell gewesen sein könnten, bevor Sonnenlicht und Ablagerungen
+        sie verblassen ließen. Die Überreste des Zelttuchs flattern trostlos im Wind.
+        Von einem Bild lächelt euch ein Mann mit weißem Gesicht und roter Nase an.
+        Eine Maschine besteht aus einer großen, hölzernen Scheibe, auf der unechte
+        Pferde festgeschraubt sind. In der Mitte ist eine Nabe mit einem elektrischen
+        Motor, der einst dafür gesorgt haben könnte, dass die Scheibe sich um die
+        eigene Achse dreht.
     '13':
-      - Battlefield
+      - Schlachtfeld
       - >-
-        This area is completely devastated. Rusty rebars protrude from broken
-        blocks of concrete that once were the walls of homes. The ruins are
-        scorched by explosions and riddled with bullet holes. Small craters
-        pockmark the ground.
+        Die Gegend ist vollständig verwüstet. Rostige Stahlstreben ragen aus
+        gebrochenen Zementblöcken, die einst die Wände von Häusern waren. Die
+        Ruinen sind von Explosionen zerrüttet und von Einschusslöchern durchsiebt.
+        Kleine und große Krater übersäen den geschwärzten Boden.
     '14':
-      - Bus Station
+      - Bushaltestelle
       - >-
-        Among flaking road signs with illegible numbers and letters, several big
-        old motor vehicles stand rusting away. Some have two decks, others have
-        an accordion-like contraption in the middle and can bend. The Ancients’
-        machines are truly mysterious.
+        Zwischen abblätternden Straßenschildern mit unleserlichen Zahlen und 
+        Buchstaben stehen mehrere große Motorfahrzeuge und rosten vor sich hin.
+        Manche haben zwei Etagen, andere haben ein biegsames, von einer löchrigen
+        Plane bedecktes Gerippe in der Mitte. Die Maschinen der Ahnen sind wahrlich
+        geheimnisvoll.
     '15':
-      - Car Park
+      - Parkhaus
       - >-
-        The concrete pillars have given in and the entire, circular building has
-        collapsed like an accordion pressed together. In the debris, lots of
-        motor vehicles from the Old Age are buried. Maybe some of them could be
-        repaired?
+        Die Betonsäulen haben nachgegeben und das ganze Gebäude ist in sich
+        zusammengestürzt wie ein Karton, auf den sich jemand gesetzt hat. Im Schutt
+        sind viele Motorfahrzeuge aus der Vorzeit begraben. Vielleicht können einige
+        von ihnen wieder flott gemacht werden.
     '16':
-      - Church
+      - Kirche
       - >-
-        The ancient spire on the stone building reaches far into the sky, its
-        sharp point lost in the Zone haze. Inside, there are rows of rotten
-        wooden benches, all turned toward the figure of a man hanging on a
-        cross. The Ancients used to come here to talk to their Boss in the sky.
-        Now, all is quiet. If there is a god, it has abandoned this place long
-        ago. Comment: This ruin can of course be replaced by a temple or a
-        mosque, if that fits better with your campaign environment.
+        Der uralte Turm des steinernen Bauwerks ragt weit in den Himmel und verliert
+        sich im Dunst der Zone. In seinem Inneren befinden sich Reihen von verfaulten
+        Holzbänken, die alle auf eine Figur eines ausgemergelten Mannes gerichtet sind,
+        der an einem Kreuz hängt. Die Ahnen kamen hierher, um mit ihrem großen Boss im
+        Himmel zu reden. Jetzt ist alles still. Wenn es einen Gott gibt, dann hat er
+        diesen Ort schon lange verlassen.
     '21':
-      - Cinema
+      - Kino
       - >-
-        Next to a large entrance leading into the dark interior of this
-        building, a number of yellowing posters hang in huge frames. Each of the
-        posters depict dramatic motifs from the Old Age. In this cavernous
-        building, the Ancients watched moving images on a screen.
+        Neben dem großen Eingang, der ins dunkle Innere dieses Bauwerks führt, hängen
+        vergilbte Poster in riesigen Rahmen. Alle Poster stellen dramatische Motive aus
+        der Vorzeit dar. In dieser Kaverne huldigten die Ahnen bewegten Bilder auf einer
+        Leinwand. Etwas an diesem Kult fasziniert dich.
     '22':
-      - Crater
+      - Krater
       - >-
-        A gigantic hole appears in the ground, at least 50 yards across. Some
-        ancient weapon of annihilation must have struck here, destroying
-        everything nearby. In the bottom of the crater, there is a small lake of
-        greenish rotwater.
+        Ein riesiges Loch im Boden tut sich vor euch auf. Es hat einen Durchmesser von
+        mindestens fünfzig Metern. Hier muss eine uralte Sprengwaffe eingeschlagen sein
+        und alles in der Umgebung vernichtet haben. Am Grund des Kraters ist ein See aus
+        grünlich schimmerndem Wasser zu sehen.
     '23':
-      - Dilapidated Mansion
+      - Verfallenes Landhaus
       - >-
-        This dark and decrepit house was old even before the Fall. It’s built of
-        wood and stone and has somehow managed to withstand the decades of
-        neglect. What could be hidden inside its dark halls?
+        Dieses baufällige Haus aus Steinen und Holz muss selbst vor dem Fall schon alt
+        gewesen sein. Trotzdem hat das Gebäude all diese Jahrzehnte der Vernachlässigung
+        überdauert. Was könnte in seinen von Flechten und Schimmel überzogenen Fluren
+        verborgen liegen?
     '24':
-      - Fast Food Joint
+      - Schnellrestaurant
       - >-
-        A large M in the shape of two dirty yellow arcs adorn the facade of this
-        ruined building. There are many facilities like this in the Zone. What
-        used to be in them no one knows any longer, but Stalkers tend to avoid
-        them because of the strong Rot inside.
+        Ein großes M in der Form von zwei schmutziggelben Bögen ziert die Fassade dieses
+        fast vollständig zerstörten Bauwerks. Es gibt in der Zone viele dieser Gebäude.
+        Niemand weiß mehr, wozu das Gebäude früher genutzt wurde, doch Pirscher meiden
+        es normalerweise, da die Fäulnis hier besonders stark ausgeprägt ist.
     '25':
-      - Gas Station
+      - Tankstelle
       - >-
-        Underneath an open roof next to a low house, a number of car wrecks are
-        left to rust. Next to them there are machines with hoses and faucets.
-        Anyone who knows his way around the Zone knows that this is a place
-        where the Ancients repaired their vehicles and filled them up with fuel.
+        Unter einem eingefallenen Dach neben einem niedrigen Haus wurden einige rostende
+        Autowracks zurückgelassen. Neben ihnen stehen Maschinen mit Schläuchen und defekten
+        Anzeigen. Jeder, der sich in der Zone auskennt weiß, dass dies der Ort ist, an
+        dem die Ahnen ihre Fahrzeuge reparierten und mit Treibstoff auffüllten.
     '26':
       - Highway
       - >-
-        The concrete is cracked and the markings on the road surface are all but
-        worn away. Before the Fall, the Ancients would whizz by here at
-        incredible speeds in their shiny motor carriages. Now, the old cars
-        stand by the roadside, burnt out and rusted beyond repair.
+        Der Asphalt ist aufgesprungen, die Markierungen auf der Oberfläche der Straße sind
+        kaum mehr zu erkennen. Vor dem Fall rasten die Ahnen mit undenkbarer Geschwindigkeit
+        in ihren glänzenden Motorkutschen von einem Ort zum Anderen. Jetzt stehen die alten
+        Autos verlassen am Wegesrand. Sie sind entweder ausgebrannt oder so von den Elementen
+        zerfressen worden, dass niemand sie jemals wieder reparieren könnte.
     '31':
-      - Hospital
+      - Krankenhaus
       - >-
-        When the Apocalypse came, the Ancients flooded this concrete hulk of a
-        building, desperately hoping to be saved. Now, this is a crumbling ruin.
-        Decayed corpses lie everywhere in rooms and hallways, on beds and on the
-        floors.
+        Als die Apokalypse kam, überfluteten die schutzsuchenden Ahnen diesen Betonkoloss
+        und hofften verzweifelt auf Rettung. Jetzt ist nur noch eine bröckelnde Ruine übrig.
+        Skelette und mumifizierte Leichen liegen überall in den Zimmern und den Fluren
+        herum und starren euch anklagend aus leeren Augenhöhlen an.
     '32':
-      - Hunting Store
+      - Jagdgeschäft
       - >-
-        Among the decrepit shelves in this place you can find fishing poles,
-        hooks and lines. A skilled Stalker can use these items to find edible
-        fish in the Zone waters (page 56). On the walls, yellowed pictures of
-        rifles hang. In one corner, there is a heavy metal locker tall as a
-        mutant – perhaps there is something valuable in there?
+        Auf den alten Regalen dieses Ortes findest du Angelruten, Haken und Leinen.
+        Ein geschickter Pirscher könnte diese Gegenstände verwenden, um essbare Fische
+        in den Gewässern der Zone zu fangen (siehe Seite 64). An den Wänden hängen
+        vergilbte Bilder von großen Tieren und Gewehren. In einer Ecke steht ein
+        schwerer Metallschrank, den man nicht bewegen kann, so hoch wie ein Mutant.
+        Befindet sich in seinem Inneren etwas Wertvolles?
     '33':
-      - Mall
+      - Einkaufszentrum
       - >-
-        A city within a city reveals itself, huge halls with ancient shops and
-        restaurants in several levels. Everything in here is scorched by fire
-        long ago and covered in soot, but perhaps something valuable is hidden
-        among the ashes? Here and there strange plastic figures stand in strange
-        poses, as if preaching to a crowd.
+        Vor euch erstreckt sich eine Stadt innerhalb der Stadt, gigantische Korridore
+        mit uralten Geschäften und Restaurants auf mehreren Stockwerken. Alles
+        wurde schon vor langer Zeit vom Feuer versengt und ist mit Staub und Ruß
+        bedeckt. Aber vielleicht lässt sich in der Asche noch etwas Wertvolles finden.
+        Hier und dort stehen seltsame Plastikfiguren in merkwürdigen Posen, als
+        würden sie vor einer Menge predigen.
     '34':
-      - Marina
+      - Jachthafen
       - >-
-        Just off the shore, a great number of boat wrecks lie half sunken in the
-        rotwater. Sailing boats, motor boats and canoes that the Ancients used
-        for recreation have turned into a dangerous reef of cracked plastic and
-        metal beams.
+        Nicht weit vor der Küste liegen Bootswracks halb versunken im schmutzigen
+        Wasser. Ruderboote, Segelboote und Motorboote, die einst von den Ahnen
+        zum Vergnügen genutzt wurden, haben sich in ein gefährliches Riff aus
+        geborstenem Plastik und herausragenden Metallstreben verwandelt.
     '35':
       - Museum
       - >-
-        Large steps in broken stone lead up to this grand building. Inside,
-        there are dark halls with strange items from the Old Age and even ages
-        before that, all showcased for the Ancients to see.
+        Große Stufen aus rissigem Stein führen zu diesem eindrucksvollen Gebäude
+        hinauf. Im Inneren findet man dunkle Korridore, in denen seltsame Gegenstände
+        ausgestellt sind. Das meiste ist Schrott, aber die Sachen sehen ganz anders
+        aus als jene, die man anderswo in der Zone findet. Möglicherweise sind
+        sie sogar noch älter als die Artefakte der Ahnen.
     '36':
-      - Office Building
+      - Bürogebäude
       - >-
-        In this dark ruin you can find large halls, all filled with identical
-        tables in small booths. On the floor, there are yellowed papers
-        everywhere. Before the Fall, important work was probably done here. Now,
-        the Zone dust blows in through the broken windows.
+        Diese verlassene Ruine wird von großen Hallen voller identischer Tische in
+        kleinen Kabinen dominiert. Auf dem Boden verteilt liegt vergilbtes Papier.
+        Vor dem Fall wurde hier vermutlich wichtige, wenn auch wahrscheinlich sehr
+        langweilige Arbeit verrichtet. Heute weht der Staub der Zone durch die
+        zerbrochenen Fenster.
     '41':
-      - Overgrown Park
+      - Überwucherter Park
       - >-
-        Tall trees and thick bushes grow wild here and have completely overgrown
-        the area. Benches, walking paths and fountains are hidden by thick weeds
-        and the lawns are turned into marshlands. There are many rumors about
-        the creatures that roam the old parks in the Zone.
+        Hohe Bäume und dichte Büsche wachsen hier wild und haben die Gegend komplett
+        überwuchert. Bänke, Wege und Brunnen sind vom dichten Bewuchs verborgen. 
+        Die Rasenflächen haben sich in Sumpfland verwandelt. Es gibt viele Gerüchte
+        über die Kreaturen, die alte Parks heimsuchen.
     '42':
-      - Playground
+      - Spielplatz
       - >-
-        Car tires hang in rusty chains from a metal frame. A wooden sandbox has
-        turned into a stinking pool of mud. Acid Rains have gnawed holes in the
-        metal slides long ago. Here, the Ancients played with their children. A
-        few cracked plastic toys have survived the decades of wear and still lie
-        abandoned in the sand.
+        Verwitterte Autoreifen hängen an rostigen Ketten von einem Metallgestell
+        herab. Ein hölzerner Sandkasten hat sich in einen stinkenden Schlammtümpel
+        verwandelt, in dem sich etwas bewegt. Der Säureregen hat scharfkantige
+        Löcher in die Metallrutschen gefressen. Hier haben die Ahnen vermutlich mit
+        ihren Kindern gespielt. Ein paar Plastikspielzeuge haben die Jahrzehnte
+        der Abnutzung überlebt und liegen gespenstisch auf dem Boden herum.
     '43':
-      - Police Station
+      - Polizeistation
       - >-
-        Outside of this large building, wrecks of identical blue and white cars
-        are rusting away. The tires and long since gone, but the blue plastic
-        lamps on their roofs are still there. In the basement of the building,
-        there are rooms that cannot be opened from the inside.
+        Vor diesem großen Gebäude verrosten zahlreiche Wracks von identischen,
+        blau-weißen Autos. Die Reifen haben sich schon lange aufgelöst, doch die
+        blauen Plastiklampen auf ihren Dächern sind noch intakt. Im Keller des
+        Gebäudes befinden sich vergitterte Räume, die nicht von innen geöffnet
+        werden können. Wurden dort vielleicht gefährliche Tiere gehalten?
     '44':
-      - Radio Station
+      - Radiosender
       - >-
-        A forest of rusty antennae and metal discs protrude from the roof of
-        this massive building. A sign on the facade shows an antenna with rings
-        around it.
+        Ein Wald aus rostigen Antennen und Metallscheiben ragt aus dem Dach
+        dieses gewaltigen Bauwerks. Ein Schild an der Fassade zeigt eine Antenne,
+        die von Ringen umgeben ist.
     '45':
-      - Residential Blocks
+      - Wohnblock
       - >-
-        Several identical tall buildings, made of concrete that is now cracked
-        and crumbling. On the ground between these monoliths, there are rotted
-        benches and tall weeds. Car wrecks are everywhere, most rusted beyond
-        repair. Each of the buildings has a large number of identical
-        apartments. Inside, you can find decrepit furniture, clothes and other
-        items.
+        Mehrere identische, große Bauwerke aus bröckelndem Beton. Auf dem Boden
+        zwischen diesen Monolithen befinden sich verfaulende Bänke und große
+        Sträucher. Autowracks liegen überall. Die meisten sind so stark
+        durchgerostet, dass sie nicht mehr in einem Stück bewegt werden können.
+        Alle Gebäude verfügen über eine große Anzahl identischer Wohnungen. In
+        ihnen findet ihr alte Möbel, Kleidung und andere mehr oder minder nutzlose
+        Gegenstände.
     '46':
-      - Road Tunnel
+      - Straßentunnel
       - >-
-        The entrance to this broad tunnel looks like the maw of an enormous
-        beast. Outside, an innumerable amount of cars, trucks and buses stand
-        tightly packed together, slowly rusting into nothing. Whatever horror
-        the occupants of these vehicles were fleeing from, it is obvious few
-        survived.
+        Der Eingang dieses breiten Tunnels sieht aus wie der Schlund einer
+        gewaltigen Bestie. Draußen stehen unzählbar viele Autos, Lastwagen und
+        Busse, die langsam vor sich hin rosten. Vor welchem Grauen die Fahrer
+        dieser Fahrzeuge auch fliehen wollten, sie haben es wohl nicht geschafft.
     '51':
-      - Ruined Bridge
+      - Zerstörte Brücke
       - >-
-        The remains of a majestic bridge rise tall in the Zone haze. It has
-        collapsed in both directions and only two thick pillars remain, but if
-        you can climb up onto the remaining roadway you’ll have a great lookout
-        position.
+        Die Überreste einer majestätischen Brücke erheben sich hoch in den Dunst
+        der Zone. Sie ist nicht mehr zu überqueren, aber wenn du zum noch stehenden
+        Stück hochklettern kannst, hast du einen guten Aussichtspunkt.
     '52':
-      - School
+      - Schule
       - >-
-        On the crumbling brick facade of this building hangs a clock that
-        stopped long ago. Below it someone has written text on the wall, no
-        longer legible. On the concrete ground in front of the building there
-        are two rusty metal rods, each a little taller than a mutant and with a
-        metal ring at the top.
+        An der löchrigen Ziegelfassade dieses Bauwerks hängt eine nicht mehr
+        funktionierende Uhr. Darunter hat jemand etwas an die Wand geschmiert,
+        das nicht mehr zu lesen ist. Auf dem Betonboden vor dem Gebäude stehen
+        zwei rostige Metallstangen, jeweils etwas größer als ein Mutant
+        und von einem abstehenden Metallring gekrönt.
     '53':
-      - Shelter
+      - Bunker
       - >-
-        A massive rusty metal door in the rockside leads deep underground. Down
-        there, the Ancients sought refuge from the horrors on the surface. Now,
-        it’s a perfect place to look for artifacts. But who knows what’s lurking
-        down here, who else might have found this dungeon full of treasure?
+        Eine gewaltige, rostige Tür in der Felswand führt tief unter die Erde.
+        Dort unten suchten die Ahnen Zuflucht vor der Zerstörung. Jetzt ist es
+        ein perfekter Ort, um nach Artefakten zu suchen. Aber wer weiß, was dort
+        unten lauert und wer sonst diesen Kerker voller Schätze gefunden hat?
     '54':
-      - Skyscraper
+      - Wolkenkratzer
       - >-
-        A tall building rises toward the yellow haze of the Zone sky. The
-        concrete is withered and broken, and all of the hundreds of windows have
-        fallen from their frames long ago. Now, the Zone wind blows right
-        through the many floors of this majestic building. Every floor is filled
-        by small and identical apartments or offices. Only the top floor looks
-        different, with bigger and more luxurious accommodations – if you can
-        get all the way up there…
+        Ein großes Bauwerk erhebt sich aus dem gelben Dunst. Der Beton ist
+        verwittert und aufgeplatzt. Durch die zerbrochenen Fenster weht jetzt der
+        Wind in die vielen Stockwerke dieses majestätischen Gebäudes. Jedes
+        Stockwerk ist voll von kleinen Wohnungen oder Büros. Nur das oberste
+        Stockwerk sieht anders aus, mit größeren und luxuriöseren
+        Unterbringungsmöglichkeiten - man sieht dies nur, wenn man irgendwie
+        hinein kommt.
     '55':
-      - Sports Center
+      - Sportzentrum
       - >-
-        A large, spacious hall made of rusty corrugated steel. Inside, there are
-        strange objects like thick mattresses covered in red plastic, large nets
-        on frames, clubs with holes in them and balls in all colors and sizes.
-        They say the Ancients went to places like this to exercise.
+        Eine geräumige Halle aus rostigem, gewelltem Stahl. Innen findet man
+        seltsame Gegenstände, wie dicke Matratzen mit rauer Oberfläche, große
+        Netze und Bälle in allen Farben und Größen. Man sagt, dass die Ahnen
+        solche Orte zum Trainieren benutzten.
     '56':
-      - Suburbia
+      - Vorort
       - >-
-        A street with identical small houses in even rows on each side. The
-        grass and bushes have withered away long ago, everything is covered in
-        ashes. Inside the houses, decomposing clothes and other personal items
-        remain. The inhabitants must have left in a hurry. Car wrecks, and other
-        remains from the Ancients who used to live here, abound. Much has
-        decayed over time and some of the houses have completely collapsed.
+        Eine Straße mit identischen Häusern in jeweils einer Reihe auf jeder
+        Seite. Das Gras und die Büsche sind vor langer Zeit verdorrt und
+        alles ist mit Asche bedeckt. In den Häusern sind noch verrottende
+        Kleider und andere persönliche Gegenstände zurückgeblieben. Die
+        Bewohner scheinen überstürzt aufgebrochen zu sein. Viel ist im Laufe
+        der Zeit verfallen, einige der Häuser sogar eingestürzt.
     '61':
-      - Subway Station
+      - U-Bahnstation
       - >-
-        By a stairway leading down into the underground a large sign with
-        flaking paint hangs. All Stalkers know what this sign means. This is an
-        entrance to the tunnels under the Zone. In the deeps, terrible dangers
-        await – but perhaps also many untouched artifacts.
+        Neben Treppen, die unter die Erde führen, hängt ein großes Schild mit
+        abblätternder Farbe. Alle Pirscher wissen, was dieses Zeichen bedeutet.
+        Dies ist ein Eingang zu den Tunneln unter der Zone. In der Tiefe lauern
+        viele schreckliche Gefahren – aber vielleicht auch unberührte Artefakte.
     '62':
-      - Supermarket
+      - Supermarkt
       - >-
-        A grand building rises among the ruins. Its large windows were broken
-        many decades ago, and the Zone dust drifts in unhindered. Before the
-        Fall, this building housed an unimaginable amount of food, drink,
-        kitchen utensils and other things that the Ancients consumed at a
-        dizzying rate. Now, most of it is looted, burnt or decayed.
+        Ein großes Gebäude mit nur wenigen Fenstern erhebt sich zwischen den
+        Ruinen. Vor dem Fall fand man in diesem Bauwerk unglaubliche Mengen an
+        Fraß, Wasser, und all den anderen Dingen, die von den Ahnen mit
+        unglaublicher Geschwindigkeit verbraucht wurden. Jetzt ist das meiste
+        geplündert, verbrannt oder verfault.
     '63':
-      - Swimming Hall
+      - Schwimmhalle
       - >-
-        Inside this large ruin, there are big pools filled with mud and slimy
-        algae. Noxious and toxic fumes meet anyone who enters. It’s hard to
-        imagine that the Ancients went here voluntarily to bathe in the pools.
+        In dieser großen Ruine gibt es große Becken, die mit giftigem Schlamm und
+        schleimigen Algen gefüllt sind. Ekelhafte Ausdünstungen begrüßen jeden,
+        der eintritt. Es ist schwer vorstellbar, dass die Ahnen freiwillig in
+        diesen Becken gebadet haben sollen.
     '64':
-      - Tank
+      - Panzer
       - >-
-        A massive and awe-inspiring metal vehicle blocks the path. Its enormous
-        tracks have rusted stuck long ago and no death or destruction has spewed
-        out from its cannon for many decades, but coming close to this metal
-        beast still strikes fear into the heart of almost any Zone wanderer.
+        Ein sehr großes und Ehrfurcht gebietendes Fahrzeug blockiert den Weg.
+        Seine gewaltigen Ketten sind vor langer Zeit festgerostet, und schon seit
+        vielen Jahrzehnten kann seine Kanone keinen Tod mehr spucken, und doch
+        erfüllt es die Herzen der Zonenwanderer nach wie vor mit Angst, der
+        regungslosen Metallbestie zu nahe zu kommen.
     '65':
       - Theater
       - >-
-        Inside of this dark ruin is a great hall, filled with rows of seats
-        facing a large stage with a grand red curtain. The Ancients came here to
-        see singing, dancing and stage plays.
+        In dieser dunklen Ruine befindet sich eine große Halle, gefüllt mit
+        Reihen von Sitzen vor einer großen Bühne hinter einem roten Vorhang. Die
+        Ahnen kamen hierher, um Gesang, Tanz und Bühnenstücke aufzuführen.
     '66':
-      - Train Station
+      - Bahnhof
       - >-
-        Ancient railway cars stand rusting on overgrown tracks. In these, the
-        Ancients used to travel quickly and effectively all across the Zone and
-        beyond. Now, the only passengers are decaying corpses.
+        Uralte Schienenwagen stehen hier verrostend auf überwucherten Schienen.
+        In ihnen reisten die Ahnen schnell und effektiv über die ganze Zone und
+        darüber hinaus. Heute sind die einzigen Passagiere von Spinnweben und
+        Stofffetzen überzogene Skelette.
 
 industrialRuin:
   id: RUIN_INDUSTRIAL
-  name: Industrial Ruin
+  name: Industrielle Ruine
   roll: D66
   refs:
     '11-13':
-      - Factory
+      - Fabrik
       - >-
-        The metal roof of this large, flat building has caved in long ago.
-        Inside, there are machines and strange vehicles with huge forks in the
-        front. Everything in here is ravaged by decades of rain and wind. Some
-        rusty old barrels have fallen over and a greenish sludge has leaked out
-        onto the floor.
+        Das Metalldach dieses flachen Bauwerks ist vor langer Zeit eingestürzt.
+        Im Inneren stehen Maschinen und seltsame Fahrzeuge, die mächtige
+        Metallhörner tragen. Alles hier ist von den Jahrzehnten des Säureregens
+        und des Windes verwüstet worden. Einige rostige Fässer sind umgefallen,
+        und grünlicher Schleim ist aus ihnen auf den Boden gesickert.
     '14-16':
-      - Military Base
+      - Militärstützpunkt
       - >-
-        A large square courtyard with brick buildings on each side. In the
-        buildings, there are a great number of identical rooms with metal bunk
-        beds. Beyond these buildings there is a large garage with several burnt
-        out vehicles inside.
+        Ein großer, rechteckiger Hof mit betonierten Gebäuden auf allen Seiten.
+        In den Gebäuden gibt es zahlreiche identische Räume mit Stockbetten aus
+        Metall. Neben diesen Gebäuden steht eine große Garage mit mehreren
+        ausgebrannten Fahrzeugen im Inneren.
     '21-23':
-      - Oil Cistern
+      - Öltank
       - >-
-        This large cylinder-shaped metal building has a narrow stairway winding
-        its way around the outside wall, all the way to the top. Up there, you
-        could spot any threats from a safe distance. The building contains a
-        huge tank filled by a sticky, black liquid. A Gearhead could use this as
-        fuel. The problem is just getting it out…
+        Dieses zylinderförmige Metallgebäude hat eine schmale Treppe, die sich
+        entlang der äußeren Wand bis ganz nach oben hinauf windet. Von dort oben
+        aus könnte man jede Bedrohung auf große Entfernung sehen. Das Innere des
+        Gebäudes ist mit einer klebrigen, schwarzen Flüssigkeit gefüllt. Ein
+        Schrauber könnte daraus vielleicht Treibstoff gewinnen.
     '24-26':
       - Pipeline
       - >-
-        A thick rusty metal pipe runs through this part of the Zone. It’s wide
-        enough for a mutant to crawl through. The gas and oil has stopped
-        flowing through these pipes long ago. Now, they can only serve as scrap.
+        Ein riesiges Metallrohr läuft durch diesen Teil der Zone. Es ist dick
+        genug, dass ein Mutant auf dem Bauch hindurch kriechen könnte. Das ist
+        sogar möglich, denn Gas und Öl haben schon vor langer Zeit aufgehört,
+        durch diese Rohre zu fließen.
     '31-33':
-      - Purification Plant
+      - Kläranlage
       - >-
-        The stench intensifies for each and every step closer to this building.
-        But Stalkers know that the smell of decay can hide an invaluable
-        treasure. These large pools, tanks and machines purified the Ancients’
-        drinking water. Could there still be clean water in any of the tanks?
+        Der Gestank wird mit jedem Schritt in Richtung des Gebäudes stärker.
+        Aber die Pirscher wissen, dass der Gestank des Verfalls das Vorhandensein
+        kostbarer Schätze verschleiern kann. Diese Becken, Tanks und Maschinen
+        reinigten einst das Trinkwasser der Ahnen. Könnte noch immer sauberes
+        Wasser in einem von ihnen zu finden sein?
     '34-36':
-      - Power Line
+      - Starkstromleitung
       - >-
-        A tall tower made of rusty metal beams rises into the Zone sky. It has
-        collapsed halfway up, and the sharp spire has folded down toward the
-        ground. Thick cables, that once supplied electricity to the entire Zone,
-        now lie draped across the ground.
+        Ein hoher Turm aus rostigen Metallstreben erhebt sich in den Himmel der
+        Zone. Er ist auf halbem Weg nach oben eingestürzt. Dicke Kabel, die einst
+        die ganze Zone mit Elektrizität versorgt haben, liegen jetzt nutzlos auf
+        dem Boden.
     '41-43':
-      - Radio Mast
+      - Funkmast
       - >-
-        A tall metal mast rises high above the zonescape. It is held up by thick
-        metal wires, and at the top big rusty antennae sprout. Once, wireless
-        transmissions were sent from here to the people of the Old Age, for
-        their amusement and education. Now, there is nothing to hear but the
-        Zone wind.
+        Ein großer Metallmast erhebt sich hoch in den Zonenhimmel. Er wird von
+        dicken Metallkabeln gestützt, und an seiner Spitze sind zahlreiche
+        Schüsseln und Antennen befestigt. Früher wurden von hier aus kabellose
+        Übertragungen an die Menschen der Vorzeit entsandt.
     '44-46':
-      - Refinery
+      - Raffinerie
       - >-
-        An entire landscape full of rusting and decaying machinery covers this
-        part of the Zone. Enormous tanks are connected by metal tubes, some wide
-        enough for a mutant to crawl through. If you dare, you can climb through
-        these metallic deadlands on ladders, girders and walkways.
+        Eine ganze Landschaft voller korrodierter Maschinen bedeckt diesen Teil
+        der Zone. Metallrohre führen in gewaltige Tanks oder auch von ihnen weg.
+        Wenn du es wagst, kannst du dich auf Leitern, Trägern und Fußwegen aus
+        Stahlgittern durch dieses metallische Ödland bewegen.
     '51-53':
-      - Rubbish Dump
+      - Müllhalde
       - >-
-        A mountain of trash blocks your path. Here, the Ancients dumped
-        everything they didn’t need. Most has been ground to dust by the passage
-        of time, but plastic items and large chunks of rusty metal protrude from
-        the heap.
+        Ein Berg aus Müll blockiert euren Pfad. Hier haben die Ahnen alles
+        abgeladen, was sie nicht mehr brauchten. Das meiste wurde vom Wind und
+        der Zeit zu Staub zermahlen, aber es ragen noch immer Gegenstände aus
+        Plastik und große Metallstücke aus dem Haufen.
     '54-56':
-      - Shipwreck
+      - Schiffswrack
       - >-
-        A big rusty ship lies wrecked just off the shore, half sunken beneath
-        the waves. The empty portholes make the ship look like a huge beached
-        whale. Could there still be useful scrap in the engine room?
+        Ein großes, rostrotes Schiff liegt abgewrackt und halb untergegangen
+        vor der Küste. Die leeren Bullaugen lassen das Schiff wie einen toten,
+        gestrandeten Wal wirken. Könnte noch nützlicher Schrott im Maschinenraum
+        zu finden sein?
     '61-63':
-      - Shooting Range
+      - Schießstand
       - >-
-        Empty shell casings litter this large open area. In one end, there is a
-        large earthwork with lots of pockmarks from bullets. In a shed close by
-        there are targets in the shape of humans and animals. In the Old Age,
-        they could afford to spend bullets on shooting at paper figures.
+        Leere Patronenhülsen übersäen diesen offenen Bereich. An einem Ende
+        findet sich ein hoher Erdwall, der mit Einschusslöchern bedeckt ist. In
+        einer Hütte in der Nähe befinden sich Ziele in der Form von Menschen und
+        Tieren. In der Vorzeit konnten sie es sich offenbar erlauben, wertvolle
+        Kugeln auf Pappfiguren abzufeuern.
     '64-66':
-      - Windmill
+      - Windmühle
       - >-
-        A thin, white tower rises tall over the zonelands. At the top, a huge
-        propeller is mounted. They say the Ancients started to build windmills
-        like this one to get energy when the oil in the ground started to run
-        out. It was much too late, of course.
+        Ein schlanker, schmutzig weißer Turm erhebt sich hoch über das Land der
+        Zone. An der Spitze ist ein großer Propeller montiert. Man sagt, die Ahnen
+        haben diese Windmühlen gebaut, als das Öl im Boden langsam zur Neige ging.
+        Natürlich war es bereits zu spät.
 
 mood:
   id: MOOD
-  name: Mood
+  name: Stimmungselement
   roll: D66
   refs:
     '11': >-
-      (People) Wanderers. Some silhouettes are seen in the distance. Who walks
-      in the Zone?
+      (Leute) Einige Umrisse sind in der Entfernung sichtbar. Wer wandert durch
+      die Zone?
     '12': >-
-      (People) Camp. The remains of a campsite, perhaps embers are still
-      smoldering in the fireplace.
+      (Leute) Die Überreste eines Lagers. Vielleicht ist sogar noch Glut in der
+      Feuerstelle.
     '13': >-
-      (People) Final Rest. D6 Shallow Graves, marked with pieces of scrap. Who
-      is buried here?
+      (Leute) D6 flache Gräber, die mit Schrott gekennzeichnet sind. Wer liegt
+      hier begraben?
     '14': >-
-      (People) Victim. A corpse, hanged or bound to a pole. Who did this, and
-      why?
+      (Leute) Eine Leiche, die aufgehängt oder an einen Pfahl gebunden worden ist.
     '15': >-
-      (People) Message. Someone has written something on a wall. What does it
-      say, and how recent is it?
+      (Leute) Jemand hat etwas an eine Wand geschrieben. Was steht da, und wie
+      alt ist es?
     '16': >-
-      (People) Tracks. They lead deeper into the Zone. Who walked here and where
-      did they go?
+      (Leute) Spuren führen tiefer in die Zone. Von wem stammen sie?
     '21': >-
-      (Nature) Boulder. A huge piece of rock. Protection from the Zone winds or
-      a good lookout point?
+      (Natur) Ein riesiger Felsen. Schutz vor den Winden der Zone oder ein
+      guter Aussichtspunkt?
     '22': >-
-      (Nature) Tree. A lonely tree still grows in the desolate wasteland. Does
-      it hide some secret?
+      (Natur) Ein einsamer Baum wächst noch immer im trostlosen Ödland. Birgt
+      er ein Geheimnis?
     '23': >-
-      (Nature) Creek. A narrow stream flows through the landscape. Is it a
-      source of life or of death by the Rot?
+      (Natur) Ein schmaler Bach fließt durch die Landschaft. Ist er Quelle des
+      Lebens oder des Todes?
     '24': >-
-      (Nature) Zone Flowers. Out of place in the pale zonelands, a field of
-      strange flowers with striking colors grow.
+      (Natur) Auch wenn es im grauen Land der Zone fehl am Platz erscheint,
+      wächst hier ein Feld Blumen in auffälligen Farben.
     '25': >-
-      (Nature) Thistles. A thick undergrowth covers the sector. Boots and gear
-      gets stuck in it. Do the bushes hide some secret?
+      (Natur) Dichter Unterwuchs bedeckt den Sektor. Stiefel und Ausrüstung
+      bleiben stecken. Bergen die dornigen Büsche ein Geheimnis?
     '26': >-
-      (Nature) Vines. Lots of thick vines cover the ruins here. Are they dead
-      and shriveled or still alive?
+      (Natur) Viele dicke Ranken bedecken hier die Ruinen. Sind sie tot und
+      verdorrt, oder doch lebendig?
     '31': >-
-      (Weather) Torrential Rain. A sudden downpour or heavy snowfall hits the
-      PCs. They’d better seek cover.
+      (Wetter) Ein plötzlicher Regenguss oder starker Schneefall trifft die SC.
+      Sie sollten besser Schutz suchen.
     '32': >-
-      (Weather) Fog. A thick haze blankets the area. Visibility is reduced to a
-      few yards, and sounds muffled. What lurks in the fog?
+      (Wetter) Ein dichter Nebel hat sich über die Gegend gelegt. Man kann nur
+      ein paar Meter weit sehen. Geräusche klingen dumpf. Was lauert im Nebel?
     '33': >-
-      (Weather) Blazing Sun. Scorching sunlight bakes the PCs. Their skin burns
-      and their clothes are soon wet from sweat.
+      (Wetter) Sengendes Sonnenlicht brennt auf die SC herab. Ihre Haut rötet
+      sich und ihre Kleider sind bald schweißgetränkt.
     '34': >-
-      (Weather) Blue Sky. The ever-present dirty Zone haze suddenly evaporates,
-      revealing a stark blue sky. It is both beautiful and frightening.
+      (Wetter) Der allgegenwärtige, dreckige Schleier der Zone löst sich plötzlich
+      auf und offenbart einen blauen Himmel. Er ist wunderschön und furchterregend
+      zugleich.
     '35': >-
-      (Weather) Dark Clouds. The sky darkens and the wind picks up. Dust whirls
-      around across the broken old pavement. A storm is brewing.
+      (Wetter) Der Himmel verfinstert sich, der Wind nimmt zu. Staub wirbelt über
+      das aufgeplatzte, alte Pflaster. Ein Sturm zieht auf.
     '36': >-
-      (Weather) Thunder. The deep sound distant thunder rolls over the Zone.
-      Sudden lightning flashes across the ruins.
+      (Wetter) Das tiefe Grollen von fernem Donner ertönt über der Zone. Plötzliche
+      Blitzschläge zucken vom Himmel.
     '41': >-
-      (Remains) Road Sign. A metal sign stands alone, left from the Old Age.
-      Does it show the way to something, or warn of some danger?
+      (Überreste) Ein Metallschild steht allein auf einer Ebene, ein Überrest aus
+      der Vorzeit. Zeigt es den Weg an einen anderen Ort oder warnt es vor einer
+      Gefahr?
     '42': >-
-      (Remains) Wreck. The remains of some old vehicle, rusted beyond repair.
-      Its metal husk is still intact. Has someone sought shelter there?
+      (Überreste) Die Überreste eines alten Fahrzeugs, das so verrostet ist, dass
+      man es nicht mehr reparieren kann. Hat jemand in diesem Wrack Schutz gesucht?
     '43': >-
-      (Remains) Movie Poster. A torn and worn old poster from the Old Age shows
-      a strange scene. What do the PCs make of it?
+      (Überreste) Ein zerrissenes und verblichenes Poster aus der Vorzeit zeigt eine
+      seltsame Szene. Was fangen die SC damit an?
     '44': >-
-      (Remains) The Dead. D6 withering skeletons from the Old Age. What story
-      could these old bones tell?
+      (Überreste) D6 verdorrte Skelette aus der Vorzeit. Welche Geschichte können
+      diese Knochen den SC erzählen?
     '45': >-
-      (Remains) Checkpoint. A roadblock from the final dying days of the Old
-      Age. Could there be useful scrap here?
+      (Überreste) Eine Straßensperre aus den letzten Tagen der Vorzeit. Könnte es
+      hier nützlichen Schrott geben?
     '46': >-
-      (Remains) Railroad Track. These rusty old tracks are completely overgrown.
-      Where does the track lead?
+      (Überreste) Diese rostigen alten Bahnschienen sind vollständig überwuchert.
+      Wohin führen sie?
     '51': >-
-      (Events) Hole. There’s a deep dark hole in the ground in front of the PCs.
-      Is it an old well, or a path into tunnels below?
+      (Ereignisse) Vor den SC ist ein tiefes, dunkles Loch im Boden. Ist es ein alter
+      Brunnen oder ein Weg in die Tunnel darunter?
     '52': >-
-      (Events) Howling. An inhuman, long howl echoes across the Zone. Is someone
-      in dire need of help - or is a Zone monster nearby?
+      (Ereignisse) Ein unmenschliches, langgezogenes Heulen hallt über die Zone. Braucht
+      jemand dringend Hilfe oder ist ein Zonenmonster in der Nähe?
     '53': >-
-      (Events) Collapse. A ruined building suddenly collapses in a deafening
-      roar. Perhaps something interesting is revealed?
+      (Ereignisse) Ein zerstörtes Gebäude bricht plötzlich mit einem ohrenbetäubenden
+      Getöse zusammen. Vielleicht wird dadurch etwas Nützliches freigelegt?
     '54': >-
-      (Events) Birds. A flock of small Zone birds suddenly take to the air. Did
-      something startle them?
+      (Ereignisse) Ein Schwarm kleiner Zonenvögel steigt plötzlich auf. Hat etwas
+      sie aufgescheucht?
     '55': >-
-      (Events) Noise. A deep bellowing sound echoes across the Zone. It’s
-      repeated a few times, then falls silent.
+      (Ereignisse) Ein tiefes Brüllen hallt über die Zone. Es wiederholt sich einige Male.
     '56': >-
-      (Events) Hut. Someone has built a nest or a hut made of scrap. Is someone
-      home?
+      (Ereignisse) Ein Nest oder eine Hütte aus Schrott gebaut. Ist jemand zu hause?
     '61': >-
-      (Terrain) Lake. A small black lake appears in the Zone haze. What is
-      hidden underneath the mirrorlike surface?
+      (Gelände) Ein kleiner, schwarzer See taucht aus dem Nebel der Zone auf. Was
+      verbirgt sich unter seiner spiegelglatten Oberfläche?
     '62': >-
-      (Terrain) Escarpment. A sudden steep slope in front of the PCs. How do the
-      PCs get down, and what awaits down below?
+      (Gelände) Ein plötzlicher Hang erhebt sich vor den SC. Wie kommen die SC
+      hinunter, und was erwartet sie dort unten?
     '63': >-
-      (Terrain) Crevice. A deep fissure, several yards wide, cuts across the
-      landscape. How do the PCs get across?
+      (Gelände) Ein tiefer Riss, mehrere Meter breit, durchschneidet die Landschaft.
+      Wie wollen die SC ihn überqueren?
     '64': >-
-      (Terrain) Swamp. Foul Zone-water has engulfed the area, submerging the old
-      crumbling streets. Dark, cold water leaks in to the PCs’ shoes.
+      (Gelände) Fauliges Zonenwasser hat den sumpfigen Bereich überflutet und die alten,
+      bröckeligen Straßen überschwemmt. Es sickert bereits in die Schuhe der SC.
     '65': >-
-      (Terrain) Copse. A dark copse of dark, dead trees cast their shadow over
-      the PCs. What could be hidden among them?
+      (Gelände) Ein Hain aus dunklen, toten Bäumen wirft seinen Schatten auf die SC.
+      Was könnte zwischen ihnen verborgen sein?
     '66': >-
-      (Terrain) Hill. A steep hill or mound appears in the middle of the Zone.
-      What is it, what’s on top of it?
+      (Gelände) Ein steiler Hügel oder Erdwall ragt vor euch auf. Was hat es damit auf sich?

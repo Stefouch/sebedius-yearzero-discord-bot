@@ -2,6 +2,7 @@ const YZGenerator3 = require('../generators/YZGenerator3');
 const YZRoll = require('./YZRoll');
 const { YZMonster } = require('./YZObject');
 const { rand, capitalize, clamp, modifOrSet, random } = require('../utils/Util');
+const { __ } = require('../lang/locales');
 
 /**
  * A Mutant: Year Zero Zone Sector.
@@ -15,10 +16,17 @@ class YZZoneSector {
 	 * @param {number} options.threatQty Quantity of threats to draw
 	 * @param {boolean} options.atNight +3 Threat Level
 	 * @param {boolean} options.withRuins With a ruins
+	 * @param {string} options.lang Language code to be used
 	 */
 	constructor(filename, options = {}) {
 		this.filename = filename;
 		this.data = YZGenerator3.parse(filename);
+
+		/**
+		 * The language code to be used
+		 * @type {string} i.e. 'en' for english or 'de' for german
+		 */
+		this.lang = options.lang || 'en';
 
 		/**
 		 * Rot Level of the sector.
@@ -50,7 +58,7 @@ class YZZoneSector {
 		 * The Threat Roll of the sector.
 		 * @type {YZRoll}
 		 */
-		this.threatRoll = new YZRoll('myz').addBaseDice(this.threatLevel);
+		this.threatRoll = new YZRoll('myz', null, null, this.lang).addBaseDice(this.threatLevel);
 
 		/**
 		 * List of finds in the sector.
@@ -134,11 +142,7 @@ class YZZoneSector {
 	 * @readonly
 	 */
 	get rotType() {
-		return Object.keys(this.constructor.ROT_LEVELS)[this.rotLevel]
-			.toLowerCase()
-			.split('_')
-			.map(s => capitalize(s))
-			.join(' ');
+		return __('myz-rotlevel-' + Object.keys(this.constructor.ROT_LEVELS)[this.rotLevel], this.lang);
 	}
 
 	/**
@@ -213,7 +217,7 @@ class YZZoneSector {
 			// if equals a YZMonster ID.
 			if (YZGenerator3.VARIABLE_REGEX.test(threat.value)) {
 				const monsterID = threat.value.replace(YZGenerator3.VARIABLE_REGEX, '$1');
-				threat.value = YZMonster.get('MONSTERS', 'myz', monsterID.trim(), 'en');
+				threat.value = YZMonster.get('MONSTERS', 'myz', monsterID.trim(), this.lang);
 			}
 			this.threats.add(threat);
 		}
