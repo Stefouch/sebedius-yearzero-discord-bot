@@ -323,6 +323,16 @@
             "• `sheet` – Zeigt das Charakterblatt deines aktuell aktiven Charakters an.\n• `list` – Listet deine Charaktere auf.\n• `update [-v]` – Aktualisiert dein aktuelles Charakterblatt. Der `-v` Parameter zeigt das Charakterblatt an.\n• `delete` – Löscht einen Charakter."
         ]
     ],
+    "ccharacter-no-character": "Du hast keinen Charakter.",
+    "ccharacter-no-active-character": "Du hast keinen aktiven Charakter.",
+    "ccharacter-active-character": "Dein aktuell aktiver Charakter ist",
+    "ccharacter-active-changed-to": "Dein aktiver Charakter wurde umgestellt auf",
+    "ccharacter-your-character": "Dein Charakter",
+    "ccharacter-your-characters": "Deine Charaktere",
+    "ccharacter-delete-confirmation": "Bist du sicher, dass du den Charakter **{character_name}** löschen möchtest? *(Antworte mit yes/no)*",
+    "ccharacter-deleted": "Der Charakter **{character_name}** wurde gelöscht.",
+    "ccharacter-deleted-none": "Es wurde kein Charakter gelöscht.",
+    "ccharacter-cannot-find-url": "Kann die URL des aktiven Charakters nicht finden.",
     "ccolony-description": "Generiert einen kolonisierten Planeten für das Alien Rollenspiel.",
     "ccolony-moredescriptions": [
         [

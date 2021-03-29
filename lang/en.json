@@ -323,6 +323,16 @@
             "• `sheet` – Prints the embed sheet of your currently active character.\n• `list` – Lists your characters.\n• `update [-v]` – Updates your current character sheet. The `-v` argument displays an embed sheet.\n• `delete` – Deletes a character."
         ]
     ],
+    "ccharacter-no-character": "You have no character.",
+    "ccharacter-no-active-character": "You have no active character.",
+    "ccharacter-active-character": "Your currently active character is",
+    "ccharacter-active-changed-to": "Your active character was changed to",
+    "ccharacter-your-character": "Your character",
+    "ccharacter-your-characters": "Your characters",
+    "ccharacter-delete-confirmation": "Are you sure you want to delete **{character_name}**? *(Reply with yes/no)*",
+    "ccharacter-deleted": "Character **{character_name}** has been deleted.",
+    "ccharacter-deleted-none": "No character was deleted.",
+    "ccharacter-cannot-find-url": "Cannot find the URL of the active character.",
     "ccolony-description": "Generates a colonized planet for the Alien RPG.",
     "ccolony-moredescriptions": [
         [
