@@ -9,6 +9,8 @@
     "informations": "Informationen",
     "none": "Ohne",
     "nothing": "Nichts",
+    "on": "an",
+    "off": "aus",
     "unknown": "Unbekannt",
     "unnamed": "Unbenannt",
     "found": "Gefunden",
@@ -404,7 +406,154 @@
     "cimportcharacter-importing": "Importiere Charakter...",
     "cimportcharacter-could-not-retrieve": "Fehlschlag beim Abruf des Charakters von ",
     "cimportcharacter-success": "wurde erfolgreich importiert!",
-    "cinit": "TODO",
+    "cinit-description": "Initiativetracker. Inspiriert durch den [D&D Avrae Discord bot](https://avrae.io/).",
+    "cinit-moredescriptions": [
+        [
+            "Unterbefehle",
+            "**add** – Fügt einen generischen Kämpfer der Initiativreihenfolge hinzu.\n**attack** – Fügt einem anderen Kämpfer Schaden zu.\n**begin** – Beginnt den Kampf in dem Kanal in welchem der Befehl aufgerufen wurde.\n**edit** – Bearbeitet die Eigenschaften eines Kämpfers.\n**end** – Beendet den Kampf in dem Kanal.\n**hp** – Ändert die Lebenspunkte (HP) eines Kämpfers.\n**join** – Fügt den aktuellen Spieler dem Kampf hinzu.\n**list** – Listet alle Teilnehmer des Kampfes auf.\n**madd** – Fügt ein Monster dem Kampf hinzu.\n**meta** – Ändert die Einstellungen des aktiven Kampfes.\n**move** – Springt zu einem bestimmten Zug der Initiative.\n**next** – Springt zum nächsten Zug in der Initiativreihenfolge.\n**note** – Fügt einem Kämpfer eine Notiz hinzu.\n**prev** – Springt zum vorherigen Zug in der Initiativreihenfolge.\n**remove** – Entfernt einen Kämpfer oder eine Gruppe aus dem Kampf.\n**skipround** – Überspringt eine oder mehrere Runden der Initiative.\n**status** – Gibt den Status eines Kämpfers oder einer Gruppe zurück."
+        ],
+        [
+            "Weitere Hilfe",
+            "Gib `init help <unterbefehl>` ein um weitere Informationen zum Unterbefehl zu erhalten."
+        ]
+    ],
+    "cinit-subdescriptions": [
+        [
+            "`begin [-name <name>] [-game <game>] [-turnnotif]`",
+            "Beginnt den Kampf in dem Kanal in welchem der Befehl aufgerufen wurde.\n\n__Parameter__\n• `-name <name>` – Legt einen Namen für den Kmapf fest.\n• `-game <game>` – Legt das Spiel fest. Falls nicht angegeben wird der in den Servereinstellungen festgelegte Wert genommen.\n• `-turnnotif` – Schaltet die Benachrichtigung des nächsten Spielers in der Initiativreihenfolge um."
+        ],
+        [
+            "`add <name> [options...]`",
+            "Fügt einen generischen Kämpfer der Initiativreihenfolge hinzu.\nGenerische Kämpfer haben 3 Lebenspunkte, keine Rüstung und eine Geschwindigkeit von 1.\nUm Monster dem Kampf hinzuzufügen kann stattdessen `init madd` genutzt werden.\n\n__Optionen__\n• `-p <value1 value2 ...>` – Platziert einen Kämpfer an der angegeben Stelle der Initiative, statt sie zu ziehen.\n• `-controller <mention>` – Benachrichtigt einen anderen Spieler bei Zugbeginn.\n• `-group|-g <name>` – Fügt den Kämpfer einer Gruppe hinzu.\n• `-hp <value>` – Legt die Startlebenspunkte fest. Standard: 3.\n• `-ar <value>` – Legt den Rüstungswert des Kämpfers fest. Standard: 0.\n• `-speed <value>` – Legt die Geschwindigkeit des Kämpfers fest (Anzahl der Initiativekarten). Standard: 1.\n• `-haste <value>` – Zieht mehr Initiativekarten und behält die beste. Die anderen werden zurücksortiert bevor andere Karten gezogen werden. Nutze dies für Talente wie *Blitzschnell*. Standard: 1.\n• `-h` – Versteckt die Lebenspunkte, Rüstung und alles andere."
+        ],
+        [
+            "`join [options...]`",
+            "genau wie `init add`, aber man muss keinen Namen angeben. Der Befehl nutzt den Anzeigenamen des Spielers auf dem Server. In zukünftige Updates wird der Befehl in Verbindung mit den Charakterbögen genutzt.\n\n__Optionen__\n• `-p <value1 value2 ...>` – Platziert einen Kämpfer an der angegeben Stelle der Initiative, statt sie zu ziehen.\n• `-controller <mention>` – Benachrichtigt einen anderen Spieler bei Zugbeginn.\n• `-group|-g <name>` – Fügt den Kämpfer einer Gruppe hinzu.\n• `-hp <value>` – Legt die Startlebenspunkte fest. Standard: 3.\n• `-ar <value>` – Legt den Rüstungswert des Kämpfers fest. Standard: 0.\n• `-speed <value>` – Legt die Geschwindigkeit des Kämpfers fest (Anzahl der Initiativekarten). Standard: 1.\n• `-haste <value>` – Zieht mehr Initiativekarten und behält die beste. Die anderen werden zurücksortiert bevor andere Karten gezogen werden. Nutze dies für Talente wie *Blitzschnell*. Standard: 1.\n• `-h` – Versteckt die Lebenspunkte, Rüstung und alles andere."
+        ],
+        [
+            "`madd <name> [-n <quantity>] [options...]`",
+            "Fügt Monster der Initiative hinzu. Entspricht `init add`, aber zusätzlich lässt sich die Anzahl der Kämpfer mit dem `-n <quantity>` Parameter festlegen.\n\n__Optionen__\n• `-p <value1 value2 ...>` – Platziert einen Kämpfer an der angegeben Stelle der Initiative, statt sie zu ziehen.\n• `-controller <mention>` – Benachrichtigt einen anderen Spieler bei Zugbeginn.\n• `-group|-g <name>` – Fügt den Kämpfer einer Gruppe hinzu.\n• `-hp <value>` – Legt die Startlebenspunkte fest. Standard: 3.\n• `-ar <value>` – Legt den Rüstungswert des Kämpfers fest. Standard: 0.\n• `-speed <value>` – Legt die Geschwindigkeit des Kämpfers fest (Anzahl der Initiativekarten). Standard: 1.\n• `-haste <value>` – Zieht mehr Initiativekarten und behält die beste. Die anderen werden zurücksortiert bevor andere Karten gezogen werden. Nutze dies für Talente wie *Blitzschnell*. Standard: 1.\n• `-h` – Versteckt die Lebenspunkte, Rüstung und alles andere"
+        ],
+        [
+            "`next|n`",
+            "Springt zum nächsten Zug in der Initiativreihenfolge. Es muss sich aktuell um deinen Zug handeln oder du musst die SL sein (die Person, die den Kampf gestartet hat) um diesen Befehl nutzen zu können."
+        ],
+        [
+            "`previous|p`",
+            "Springt zum vorherigen Zug in der Initiativreihenfolge."
+        ],
+        [
+            "`move|goto <target>`",
+            "Springt zu einem bestimmten Zug in der Initiativreihenfolge. `target` kann eine Zahl sein, um an diese Stelle zu springen, oder ein Name. Falls nichts angegeben wurde geht der Zug zum ersten Kämpfer unter der Kontrolle des Benutzers."
+        ],
+        [
+            "`skipround|skip`",
+            "Überspringt eine oder mehrere Runden in der Initiative."
+        ],
+        [
+            "`meta`",
+            "Ändert die Einstellungen des aktiven Kampfes.\n\n__Parameter__\n• `-name <name>` – Legt einen Namen für den Kmapf fest.\n• `-game <game>` – Legt das Spiel fest. Falls nicht angegeben wird der in den Servereinstellungen festgelegte Wert genommen.\n• `-turnnotif` – Schaltet die Benachrichtigung des nächsten Spielers in der Initiativreihenfolge um."
+        ],
+        [
+            "`list|summary [-private]",
+            "Listet alle Kämpfer auf. Mit dem Parameter `-private` wird die Liste in einer Direktnachricht gesendet."
+        ],
+        [
+            "`note <name> [note]`",
+            "Fügt einem Kämpfer eine Notiz hinzu."
+        ],
+        [
+            "`edit <name> [options...]`",
+            "Bearbeitet die Eigenschaften eines Kämpfers. Dieser Befehl nutzt die gleichen Optionen wie `init add` erweitzert um `-name` und `-max\n\n__Optionen__\n• `-name <name>` – Ändert den Namen des Kämpfers.\n• `-max <value>` – Ändert die maximalen lebenspunkte (HP) des Kämpfers. Falls mit +/- angegeben wird der Wert geändert, ihn andernfalls festgelegt.\n• `-p <value1 value2 ...>` – Platziert einen Kämpfer an der angegeben Stelle der Initiative, statt sie zu ziehen.\n• `-controller <mention>` – Benachrichtigt einen anderen Spieler bei Zugbeginn.\n• `-group|-g <name>` – Fügt den Kämpfer einer Gruppe hinzu.\n• `-hp <value>` – Legt die Startlebenspunkte fest. Standard: 3.\n• `-ar <value>` – Legt den Rüstungswert des Kämpfers fest. Standard: 0.\n• `-speed <value>` – Legt die Geschwindigkeit des Kämpfers fest (Anzahl der Initiativekarten). Standard: 1.\n• `-haste <value>` – Zieht mehr Initiativekarten und behält die beste. Die anderen werden zurücksortiert bevor andere Karten gezogen werden. Nutze dies für Talente wie *Blitzschnell*. Standard: 1.\n• `-h` – Versteckt die Lebenspunkte, Rüstung und alles andere."
+        ],
+        [
+            "`status <name> [-private]`",
+            "Gibt den Status eines Kämpfers oder einer Gruppe zurück. Der Parameter `-private` sendet einen detailierteren Status in einer Direktnachricht an den Benutzer, welcher den Kämpfer kontrolliert."
+        ],
+        [
+            "`hp <name> [value] [-max]`",
+            "Ändert die Lebenspunkte (HP) eines Kämpfers. Wurde kein Wert angegeben werden stattdessen die Details des Kämpfers ausgegeben. Benutze den Parameter `-max` um stattdessen die maximalen Lebenspunkte zu ändern."
+        ],
+        [
+            "`attack|atk <damage> <[-t|-target] names...> [options...]`",
+            "Fügt einem anderen Kämpfer Schaden zu und würfelt dessen Rüstungswurf.\n\n__Ziel__\n• `[-t|-target] <names...>` – Das Ziel dem Schaden zugefügt werden soll. Falls ausgelassen wird der aktuelle Kämpfer genutzt. Es können mehrere Ziele angegeben werden, indem man sie mit dem Zeichen `|` trennt. *Z.B.: `-t Justus|Peter|Bob`*\n\n__Optionen__\n• `-ap [value]` Panzerbrechend. Standard ist halbiert, aufgerundet. Wurde ein Wert angegeben wird stattdessen der Rüstungswert entsprechend veringert.\n• `-ad` – Doppelte Panzerung. *(Z.B..: für Shotguns im Alien RPG.)*\n• `-ab|-bonus` – Rüstungsbonus (wird nach allen anderen Modifikationen angewendet).\n• `-x|-degrade` – Gibt an, ob die Rüstung geschwächt werden soll. Falls ausgelassen wird der Standard des eingestellten Spiels genutzt.\n• `-noar|-noarmor` – Überspringt den Rüstungswurf.\n• `-h` – Versteckt den Rüstungswurf."
+        ],
+        [
+            "`remove <name>`",
+            "Entfernt einen Kämpfer oder eine Greuppe aus dem Kampf."
+        ],
+        [
+            "end [-force]",
+            "Beendet den Kampf in dem Kanal. Der Parameter `-force` erzwingt das Ende des init-Befehls, falls dieser Fehler bringt."
+        ]
+    ],
+    "cinit-incorrect-usage": "Falsche Verwendung. Nutze `{prefix}help init` für Hilfe.",
+    "cinit-combat-already-in-progress": "Kann keine neue Kampfinstanz starten, da bereits eine läuft.",
+    "cinit-no-combat-instance": "Keine Kampfinstanz vorhanden. Gib `{prefix}init begin` ein.",
+    "cinit-no-combatant-with-name": "Es wurde kein Kämpfer mit diesem Namen gefunden.",
+    "cinit-awaiting-combatants": "Warte auf Kämpfer",
+    "cinit-combat-scene-started": "**Kampfszene gestartet:** Zieht alle Initiative!",
+    "cinit-combatant-needs-name": "Dieser Kämpfer benötigt einen Namen.",
+    "cinit-hp-must-be-positive": "Mit dem `-hp` Parameter müssen positive Werte über Null als Lebenspunkte angegeben werden.",
+    "cinit-armor-must-be-positive": "Mit dem `-ar` Parameter müssen positive Rüstungswerte angegeben werden.",
+    "cinit-combatant-already-exists": "Kämpfer existiert bereits.",
+    "cinit-initiative-must-be-numbers": "Mit dem `-p` Parameter müssen Zahlen angeben werden.",
+    "cinit-initiative-must-be-positive": "Mit dem `-p` Parameter müssen positive Initiavwerte über Null angegeben werden.",
+    "cinit-added-to-initiative": "wurde dem Kampf hinzugefügt mit Initiative",
+    "cinit-added-as-part-of-group": "als Teil der Gruppe",
+    "cinit-indicate-monster-name": "Bitte einen Namen für das Monster angeben.",
+    "cinit-error-adding-combatant": "Fehler beim Hinzufügen des Kämpfers",
+    "cinit-no-combatants": "Es gibt keine Kämpfer.",
+    "cinit-not-your-turn": "Es ist nicht dein Zug.",
+    "cinit-removed": "wurde aus dem Kampf entfernt.",
+    "cinit-automatically-removed": "wurde automatisch aus dem Kampf entfernt.",
+    "cinit-start-combat-first": "Bitte starte zunächst den Kampf mit `{prefix}init next`.",
+    "cinit-no-previous-turn": "Es gibt keinen vorherigen Zug.",
+    "cinit-no-combatant-control": "Du kontrollierst keine Kämpfer.",
+    "cinit-skipped-round": "**{number_of_rounds}** Runde übersprungen",
+    "cinit-skipped-rounds": "**{number_of_rounds}** Runden übersprungen",
+    "cinit-name-set-to": "Der Name wurde auf **{name}** festgelegt.",
+    "cinit-turn-notification-changed": "Die Zugbenachrichtigung ist nun",
+    "cinit-game-set-to": "Das Spiel wurde festgelegt auf",
+    "cinit-combatant-hidden": "ist **versteckt**.",
+    "cinit-combatant-unhidden": "ist **nicht versteckt**.",
+    "cinit-new-controller-not-found": "Der neue steuernde Spieler wurde nicht gefunden.",
+    "cinit-combatant-controller-changed": "{combatant} wird nun von {controller} gesteuert.",
+    "cinit-combatant-armor-changed": "{combatant}s Rüstung wurde auf **{new_armor}** geändert (war {old_armor}).",
+    "cinit-combatant-speed-changed": "{combatant}s Geschwindigkeit wurde auf **{new_speed}* geändert* (war {old_speed}).",
+    "cinit-combatant-haste-changed": "{combatant}s Reaktionswert wurde auf **{new_haste}** geändert (war {old_haste}).",
+    "cinit-combatant-initiative-changed": "{combatant}s Initiative wurde auf **{new_init}** geändert (war {old_init}).",
+    "cinit-cant-change-initiative-on-turn": "Die Initiative eines Kämpfers kann nicht während des eigenen Zugs geändert werden.",
+    "cinit-duplicate-name": "Es gibt bereits einen anderen Kämpfer mit dem Namen",
+    "cinit-combatant-name-changed": "{old_name}s Name wurde auf **{new_name}** geändert.",
+    "cinit-missing-name": "Mit dem `-name` Parameter muss auch ein Name angegeben werden.",
+    "cinit-max-hp-minimum": "Die maximalen Lebenspunkte müssen mindestens 1 betragen.",
+    "cinit-combatant-max-hp-changed": "{combatant}s maximale Lebenspunkte wurden auf **{new_max}** geändert (war {old_max}).",
+    "cinit-combatant-hp-changed": "{combatant}s Lebenspunkte wurden auf **{new_hp}** geändert (war {old_hp}).",
+    "cinit-combatant-note-added": "Notiz hinzugefügt zu",
+    "cinit-combatant-note-removed": "Notiz entfernt von",
+    "cinit-combatant-removed-from-groups": "wurde aus allen Gruppen entfernt.",
+    "cinit-combatant-added-to-group": "**{combatant}** wurde der Gruppe __{group}__ hinzugefügt.",
+    "cinit-nothing-modified": "Es wurde nichts geändert.",
+    "cinit-combatant-or-group-not-found": "Der Kämpfer oder die Gruppe wurde nicht gefunden.",
+    "cinit-select-target": "Wähle ein Ziel.",
+    "cinit-target-not-found": "Ziel wurde nicht gefunden.",
+    "cinit-attacking": "Greife **{combatant}** mit **{damage}** Schaden an.",
+    "cinit-combatant-was-hit": "wurde getroffen.",
+    "cinit-combatant-blocked-all-damage": "Es wurde kein Schaden zugefügt. **{combatant}**s Rüstung hat ihn vollständig absorbiert.",
+    "cinit-damage-armor-roll": "Schaden & Rüstungswurf",
+    "cinit-damage-inflicted": "Zugefügter Schaden",
+    "cinit-damage-absorbed": "Absorbierter Schaden",
+    "cinit-armor-degraded": "Rüstung geschwächt",
+    "cinit-combatant-broken": "ist durch den Schaden `GEBROCHEN`.",
+    "cinit-cant-remove-in-own-turn": "Ein Kämpfer kann nicht während des eigenen Zugs entfernt werden.",
+    "cinit-cant-remove-last-combatant": "Ein Kämpfer kann nicht entfernt werden, wenn es sich um den einzig verbleibenden Kämpfer in diesem Zug handelt.",
+    "cinit-end-confirmation": "**Soll der Kampf wirklich beendet werden?** *(Antworte mit yes/no)*",
+    "cinit-timeout": "Zu lange auf eine Antwort gewartet oder ungültige Antwort erhalten.",
+    "cinit-cancelling": "OK, breche ab.",
+    "cinit-ending": "OK, beende...",
+    "cinit-summary": "Kampfbericht: {rounds} Runden",
+    "cinit-ended": "Der Kampf wurde beendet",
     "cinvite-description": "Gibt einen Link zurück um Sebedius zum einem Server einzuladen.",
     "cinvite-title": "Sebedius-Einladung",
     "cinvite-text": "Du kannst Sebedius hiermit zu deinem Server einladen",

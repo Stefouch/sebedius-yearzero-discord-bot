@@ -9,6 +9,8 @@
     "informations": "Informations",
     "none": "None",
     "nothing": "Nothing",
+    "on": "on",
+    "off": "off",
     "unknown": "Unknown",
     "unnamed": "Unnamed",
     "found": "Found",
@@ -404,7 +406,154 @@
     "cimportcharacter-importing": "Importing character...",
     "cimportcharacter-could-not-retrieve": "Could not retrieve character from",
     "cimportcharacter-success": "was successfully imported!",
-    "cinit": "TODO",
+    "cinit-description": "Initiative tracker. Inspired from the [D&D Avrae Discord bot](https://avrae.io/).",
+    "cinit-moredescriptions": [
+        [
+			"Subcommands",
+			"**add** – Adds a generic combatant to the initiative order.\n**attack** – Inflicts damage to another combatant.\n**begin** – Begins combat in the channel the command is invoked.\n**edit** – Edits the options of a combatant.\n**end** – Ends combat in the channel.\n**hp** – Modifies the HP of a combatant.\n**join** – Adds the current player to combat.\n**list** – Lists the combatants.\n**madd** – Adds a monster to combat.\n**meta** – Changes the settings of the active combat.\n**move** – Moves to a certain initiative.\n**next** – Moves to the next turn in initiative order.\n**note** – Attaches a note to a combatant.\n**prev** – Moves to the previous turn in initiative order.\n**remove** – Removes a combatant or group from the combat.\n**skipround** – Skips one or more rounds of initiative.\n**status** – Gets the status of a combatant or group."
+        ],
+        [
+			"More Help",
+			"Type `init help <subcommand>` for more info on a subcommand."
+        ]
+    ],
+    "cinit-subdescriptions": [
+        [
+			"`begin [-name <name>] [-game <game>] [-turnnotif]`",
+			"Begins combat in the channel the command is invoked.\n\n__Parameters__\n• `-name <name>` – Sets a name for the combat instance.\n• `-game <game>` – Sets the game. If omitted, use the default set in the server's configuration.\n• `-turnnotif` – Toggles the notification of the controller of the next combatant in initiative."
+        ],
+        [
+			"`add <name> [options...]`",
+			"Adds a generic combatant to the initiative order.\nGeneric combatants have 3 life, no armor, and speed 1.\nIf you are adding monsters to combat, you can use `init madd` instead.\n\n__Options__\n• `-p <value1 value2 ...>` – Places combatant at the given initiative, instead of drawing.\n• `-controller <mention>` – Pings a different person on turn.\n• `-group|-g <name>` – Adds the combatant to a group.\n• `-hp <value>` – Sets starting HP. Default: 3.\n• `-ar <value>` – Sets the combatant's armor. Default: 0.\n• `-speed <value>` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.\n• `-haste <value>` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.\n• `-h` – Hides life, AR and anything else."
+        ],
+        [
+			"`join [options...]`",
+			"Same as `init add`, but you don't need to specify a name. The command will use your displayed name on the server. The command will be used in future updates in combination with character sheets.\n\n__Options__\n• `-p <value1 value2 ...>` – Places combatant at the given initiative, instead of drawing.\n• `-controller <mention>` – Pings a different person on turn.\n• `-group|-g <name>` – Adds the combatant to a group.\n• `-hp <value>` – Sets starting HP. Default: 3.\n• `-ar <value>` – Sets the combatant's armor. Default: 0.\n• `-speed <value>` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.\n• `-haste <value>` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.\n• `-h` – Hides life, AR and anything else."
+        ],
+        [
+			"`madd <name> [-n <quantity>] [options...]`",
+			"Adds one or more monster combatant(s). Same as `init add`, but in addition you can specify a number of combatants with the `-n <quantity>` parameter.\n\n__Options__\n• `-p <value1 value2 ...>` – Places combatant at the given initiative, instead of drawing.\n• `-controller <mention>` – Pings a different person on turn.\n• `-group|-g <name>` – Adds the combatant to a group.\n• `-hp <value>` – Sets starting HP. Default: 3.\n• `-ar <value>` – Sets the combatant's armor. Default: 0.\n• `-speed <value>` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.\n• `-haste <value>` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.\n• `-h` – Hides life, AR and anything else."
+        ],
+        [
+			"`next|n`",
+			"Moves to the next turn in initiative order. It must be your turn or you must be the GM (the person who started combat) to use this command."
+        ],
+        [
+			"`previous|p`",
+			"Moves to the previous turn in initiative order."
+        ],
+        [
+			"`move|goto <target>`",
+			"Moves to a certain initiative. `target` can be either a number, to go to that initiative, or a name. If not supplied, goes to the first combatant that the user controls."
+        ],
+        [
+			"`skipround|skip`",
+			"Skips one or more rounds of initiative."
+        ],
+        [
+			"`meta`",
+			"Changes the settings of the active combat.\n\n__Parameters__\n• `-name <name>` – Sets a name for the combat instance.\n• `-game <game>` – Sets the game. If omitted, use the default set in the server's configuration.\n• `-turnnotif` – Toggles the notification of the controller of the next combatant in initiative."
+        ],
+        [
+			"`list|summary [-private]",
+			"Lists the combatants. The parameter `-private` sends the list in a private message."
+        ],
+        [
+			"`note <name> [note]`",
+			"Attaches a note to a combatant."
+        ],
+        [
+			"`edit <name> [options...]`",
+			"Edits the options of a combatant. This command uses the same options from `init add` with the addition of `-name` and `-max\n\n__Options__\n• `-name <name>` – Changes the combatant's name.\n• `-max <value>` – Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise.\n• `-p <value1 value2 ...>` – Places combatant at the given initiative, instead of drawing.\n• `-controller <mention>` – Pings a different person on turn.\n• `-group|-g <name>` – Adds the combatant to a group.\n• `-hp <value>` – Sets starting HP. Default: 3.\n• `-ar <value>` – Sets the combatant's armor. Default: 0.\n• `-speed <value>` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.\n• `-haste <value>` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.\n• `-h` – Hides life, AR and anything else."
+        ],
+        [
+			"`status <name> [-private]`",
+			"Gets the status of a combatant or group. The parameter `-private` sends a more detailed status in a private message to the controller of the combatant."
+        ],
+        [
+			"`hp <name> [value] [-max]`",
+			"Modifies the HP of a combatant. If the value is omitted, instead prints the details of the combatant. Use parameter `-max` if you want to set the Max HP value instead."
+        ],
+        [
+			"`attack|atk <damage> <[-t|-target] names...> [options...]`",
+			"Inflicts damage to another combatant and rolls their armor.\n\n__Target__\n• `[-t|-target] <names...>` – The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the `|` character. *E.g.: `-t Bob|Will|Smith`*\n\n__Options__\n• `-ap [value]` Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value.\n• `-ad` – Armor doubled. *(E.g.: for Shotguns in Alien RPG.)*\n• `-ab|-bonus` – Armor bonus (applied after all other modifications).\n• `-x|-degrade` – Whether the armor should be degraded. If omitted, uses the default from the game set.\n• `-noar|-noarmor` – Skips the armor roll.\n• `-h` – Hides the armor roll."
+        ],
+        [
+			"`remove <name>`",
+			"Removes a combatant or group from the combat."
+        ],
+        [
+			"end [-force]",
+			"Ends combat in the channel. The parameter `-force` forces an init to end, in case it's erroring."
+        ]
+    ],
+    "cinit-incorrect-usage": "Incorrect usage. Use `{prefix}help init` for help.",
+    "cinit-combat-already-in-progress": "Cannot start a new combat instance because there is already one in progress.",
+    "cinit-no-combat-instance": "No combat instance. Type `{prefix}init begin`.",
+    "cinit-no-combatant-with-name": "No combatant found with this name.",
+    "cinit-awaiting-combatants": "Awaiting combatants",
+    "cinit-combat-scene-started": "**Combat Scene Started:** Everyone draw the initiative!",
+    "cinit-combatant-needs-name": "This combatant needs a name.",
+    "cinit-hp-must-be-positive": "You must pass in a positive nonzero HP with the `-hp` tag.",
+    "cinit-armor-must-be-positive": "You must pass in a positive armor value with the `-ar` tag.",
+    "cinit-combatant-already-exists": "Combatant already exists.",
+    "cinit-initiative-must-be-numbers": "You must pass in numbers with the `-p` tag.",
+    "cinit-initiative-must-be-positive": "You must pass in a positive nonzero initiative value with the `-p` tag.",
+    "cinit-added-to-initiative": "was added to combat with initiative",
+    "cinit-added-as-part-of-group": "as part of group",
+    "cinit-indicate-monster-name": "Please indicate a name for the monster.",
+    "cinit-error-adding-combatant": "Error adding combatant",
+    "cinit-no-combatants": "There are no combatants.",
+    "cinit-not-your-turn": "It is not your turn.",
+    "cinit-removed": "was removed from combat.",
+    "cinit-automatically-removed": "was automatically removed from combat.",
+    "cinit-start-combat-first": "Please start combat with `{prefix}init next` first.",
+    "cinit-no-previous-turn": "There is no previous turn.",
+    "cinit-no-combatant-control": "You don't control any combatants.",
+    "cinit-skipped-round": "Skipped **{number_of_rounds}** round",
+    "cinit-skipped-rounds": "Skipped **{number_of_rounds}** rounds",
+    "cinit-name-set-to": "Name set to **{name}**.",
+    "cinit-turn-notification-changed": "Turn notification turned",
+    "cinit-game-set-to": "Game set to",
+    "cinit-combatant-hidden": "is **hidden**.",
+    "cinit-combatant-unhidden": "is **unhidden**.",
+    "cinit-new-controller-not-found": "New controller not found.",
+    "cinit-combatant-controller-changed": "{combatant}'s controller set to {controller}.",
+    "cinit-combatant-armor-changed": "{combatant}'s armor was set to **{new_armor}** (was {old_armor}).",
+    "cinit-combatant-speed-changed": "{combatant}'s speed was set to **{new_speed}** (was {old_speed}).",
+    "cinit-combatant-haste-changed": "{combatant}'s haste was set to **{new_haste}** (was {old_haste}).",
+    "cinit-combatant-initiative-changed": "{combatant}'s initiative was set to **{new_init}** (was {old_init}).",
+    "cinit-cant-change-initiative-on-turn": "You cannot change a combatant's initiative on their own turn.",
+    "cinit-duplicate-name": "There is already another combatant with the name",
+    "cinit-combatant-name-changed": "{old_name}'s name was set to **{new_name}**.",
+    "cinit-missing-name": "You must pass in a name with the `-name` tag.",
+    "cinit-max-hp-minimum": "Max HP must at least be 1.",
+    "cinit-combatant-max-hp-changed": "{combatant}'s Max HP was set to **{new_max}** (was {old_max}).",
+    "cinit-combatant-hp-changed": "{combatant}'s HP was set to **{new_hp}** (was {old_hp}).",
+    "cinit-combatant-note-added": "Added note for",
+    "cinit-combatant-note-removed": "Removed note for",
+    "cinit-combatant-removed-from-groups": "was removed from all groups.",
+    "cinit-combatant-added-to-group": "**{combatant}** was added to group __{group}__.",
+    "cinit-nothing-modified": "Nothing was modified.",
+    "cinit-combatant-or-group-not-found": "Combatant or group not found.",
+    "cinit-select-target": "Select the target.",
+    "cinit-target-not-found": "Target not found.",
+    "cinit-attacking": "Attacking **{combatant}** with **{damage}** damage.",
+    "cinit-combatant-was-hit": "was hit.",
+    "cinit-combatant-blocked-all-damage": "No damage were inflicted. **{combatant}**'s armor absorbed the totality.",
+    "cinit-damage-armor-roll": "Damage & Armor Roll",
+    "cinit-damage-inflicted": "Damage inflicted",
+    "cinit-damage-absorbed": "Damage absorbed",
+    "cinit-armor-degraded": "Armor degraded",
+    "cinit-combatant-broken": "is `BROKEN` by damage.",
+    "cinit-cant-remove-in-own-turn": "You cannot remove a combatant on their own turn.",
+    "cinit-cant-remove-last-combatant": "You cannot remove a combatant if they are the only remaining combatant in this turn.",
+    "cinit-end-confirmation": "**Are you sure you want to end combat?** *(reply with yes/no)*",
+    "cinit-timeout": "Timed out waiting for a response or invalid response.",
+    "cinit-cancelling": "OK, cancelling.",
+    "cinit-ending": "OK, ending...",
+    "cinit-summary": "End of combat report: {rounds} rounds",
+    "cinit-ended": "Combat ended",
     "cinvite-description": "Prints a link to invite Sebedius to your server.",
     "cinvite-title": "Sebedius Invite",
     "cinvite-text": "You can invite Sebedius to your server here",
