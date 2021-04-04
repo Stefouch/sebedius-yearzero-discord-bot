@@ -81,7 +81,7 @@ async function characterSheet(ctx, lang = 'en') {
 	const character = await ctx.bot.characters.fetch(ctx.author.id);
 	if (!character) return await ctx.reply(__('ccharacter-no-active-character', lang));
 
-	return await ctx.send(new CharacterEmbed(character, ctx));
+	return await ctx.send(new CharacterEmbed(character, ctx, lang));
 }
 
 /**

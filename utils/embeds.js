@@ -80,8 +80,9 @@ class CharacterEmbed extends MessageEmbed {
 	/**
 	 * @param {import('../yearzero/models/sheet/Character')} character Character
 	 * @param {import('./ContextMessage')} ctx Discord message with context
+	 * @param {string} language The language code to be used
 	 */
-	constructor(character, ctx) {
+	constructor(character, ctx, language = 'en') {
 		super({
 			color: ctx ? ctx.member.displayColor : undefined,
 			author: ctx
@@ -96,7 +97,7 @@ class CharacterEmbed extends MessageEmbed {
 			footer: { text: `ID: ${character.id}` },
 			fields: [
 				{
-					name: __('attributes', character.lang),
+					name: __('attributes', language),
 					value: character.attributes
 						.map(a => {
 							return `${strCamelToNorm(a.name)}: **${a.value}**`
@@ -114,7 +115,7 @@ class CharacterEmbed extends MessageEmbed {
 		const skills = character.skills.filter(s => s.value > 0);
 		if (skills.length) {
 			this.addField(
-				__('skills', character.lang),
+				__('skills', language),
 				skills.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`).join('\n'),
 				true,
 			);
@@ -124,7 +125,7 @@ class CharacterEmbed extends MessageEmbed {
 		// It uses this way because same reason as above.
 		if (character.weapons.length) {
 			this.addField(
-				__('weapons', character.lang),
+				__('weapons', language),
 				character.weapons.map(w => w.toString()).join('\n'),
 				false,
 			);

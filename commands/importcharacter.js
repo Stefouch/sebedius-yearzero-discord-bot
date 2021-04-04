@@ -54,7 +54,7 @@ module.exports = {
 
 		if (argv.v) {
 			console.log(character);
-			await ctx.send(new CharacterEmbed(character, ctx));
+			await ctx.send(new CharacterEmbed(character, ctx, lang));
 		}
 
 		await tryDelete(ctx);
