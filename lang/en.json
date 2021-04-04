@@ -514,7 +514,7 @@
     "cinit-skipped-rounds": "Skipped **{number_of_rounds}** rounds",
     "cinit-name-set-to": "Name set to **{name}**.",
     "cinit-turn-notification-changed": "Turn notification turned",
-    "cinit-game-set-to": "Game set to",
+    "cinit-game-set-to": "Game set to **{game}**.",
     "cinit-combatant-hidden": "is **hidden**.",
     "cinit-combatant-unhidden": "is **unhidden**.",
     "cinit-new-controller-not-found": "New controller not found.",

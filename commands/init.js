@@ -8,7 +8,6 @@ const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
 const { __ } = require('../lang/locales');
 
 const YargsParser = require('yargs-parser');
-const LasseForbiddenSheetParser = require('../yearzero/models/sheet/parsers/LasseFS');
 const YARGS_PARSE_COMBATANT = {
 	array: ['place', 'note', 'name', 'group', 'controller'],
 	boolean: ['private'],
@@ -531,7 +530,8 @@ async function skipround(args, ctx, lang) {
 		return ctx.reply(`⚠️ ${__('cinit-start-combat-first', lang).replace(/{prefix}/g, ctx.prefix)}`);
 	}
 
-	const numRounds = +args.shift();
+	// Number of rounds to skip are provided, otherwise skip 1 round
+	const numRounds = +args.shift() || 1;
 
 	const toRemove = [];
 	for (const co of combat.getCombatants()) {
@@ -585,7 +585,14 @@ async function meta(args, ctx, lang) {
 	}
 	if (argv.game) {
 		combat.game = argv.game;
-		outStr += `:game_die: ${__('cinit-game-set-to', lang)} **${SOURCE_MAP[combat.game]}**.\n`;
+		outStr += `:game_die: ${__('cinit-game-set-to', lang).replace(/{game}/g, SOURCE_MAP[combat.game])}\n`;
+	}
+
+	// If no parameters were given then print out the current values
+	if (!outStr) {
+		outStr += `:label: ${__('cinit-name-set-to', lang).replace(/{name}/g, options.name)}\n`;
+		outStr += `:bulb: ${__('cinit-turn-notification-changed', lang)} **${__(options.turnnotif ? 'on' : 'off', lang)}**.\n`;
+		outStr += `:game_die: ${__('cinit-game-set-to', lang).replace(/{game}/g, SOURCE_MAP[combat.game])}\n`;
 	}
 
 	combat.options = options;
