@@ -258,6 +258,7 @@ class Util {
 	 * @returns {string}
 	 */
 	static trimString(text, maxLength) {
+		if (text === undefined) return '';
 		if (text.length < maxLength) return text;
 		return `${text.slice(0, maxLength - 4)}...`;
 	}

@@ -39,7 +39,7 @@ module.exports = {
 		const infoMsg = await ctx.send('📥 ' + __('cimportcharacter-importing', lang));
 
 		// Imports the character.
-		const character = await ctx.bot.characters.import(ctx.author.id, url);
+		const character = await ctx.bot.characters.import(ctx.author.id, url, lang);
 
 		if (!character) {
 			await infoMsg.edit(`❌ ${__('cimportcharacter-could-not-retrieve', lang)} \`${url}\``)

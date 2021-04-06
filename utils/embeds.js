@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
-const { strCamelToNorm } = require('./Util');
 const { __ } = require('../lang/locales');
 
 /**
@@ -92,7 +91,9 @@ class CharacterEmbed extends MessageEmbed {
 				}
 				: undefined,
 			title: character.name,
-			description: character.description,
+			description: character.description
+									.replace(/{kin}/g, __('fbl-kin', language))
+									.replace(/{profession}/g, __('fbl-profession', language)),
 			thumbnail: character.portrait,
 			footer: { text: `ID: ${character.id}` },
 			fields: [
@@ -100,7 +101,7 @@ class CharacterEmbed extends MessageEmbed {
 					name: __('attributes', language),
 					value: character.attributes
 						.map(a => {
-							return `${strCamelToNorm(a.name)}: **${a.value}**`
+							return `${__('attribute-' + character.game + '-' + a.name, language)}: **${a.value}**`
 							+ (a.trauma ? ` (-${a.trauma})` : '');
 						})
 						.join('\n'),
@@ -116,7 +117,7 @@ class CharacterEmbed extends MessageEmbed {
 		if (skills.length) {
 			this.addField(
 				__('skills', language),
-				skills.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`).join('\n'),
+				skills.map(s => `${__('skill-' + character.game + '-' + s.name, language)}: **${s.value}**`).join('\n'),
 				true,
 			);
 		}
@@ -126,7 +127,7 @@ class CharacterEmbed extends MessageEmbed {
 		if (character.weapons.length) {
 			this.addField(
 				__('weapons', language),
-				character.weapons.map(w => w.toString()).join('\n'),
+				character.weapons.map(w => w.toString(language)).join('\n'),
 				false,
 			);
 		}

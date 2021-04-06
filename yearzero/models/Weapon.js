@@ -1,4 +1,5 @@
 const BaseGear = require('./BaseGear');
+const { __ } = require('../../lang/locales');
 
 class Weapon extends BaseGear {
 	constructor(data) {
@@ -53,9 +54,9 @@ class Weapon extends BaseGear {
 		});
 	}
 
-	toString() {
-		let str = `**${this.name}:** Gear Bonus **+${this.bonus}**, weapon damage **${this.damage}**`
-		+ `, \`${this.range.toUpperCase()}\` range${this.comment ? `, *${this.comment}*` : ''}`;
+	toString(lang = 'en') {
+		let str = `**${this.name}:** ${__('gear-bonus', lang)} **+${this.bonus}**, ${__('weapon-damage', lang)} **${this.damage}**`
+		+ `, ${__('range', lang)} \`${__('range-' + this.source + '-' + this.range, lang).toUpperCase()}\`${this.comment ? `, *${this.comment}*` : ''}`;
 
 		if (!str.endsWith('.')) str += '.';
 
