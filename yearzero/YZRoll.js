@@ -561,7 +561,7 @@ class YZRoll {
 		else {
 			out.push('=', this.sum());
 		}
-		if (this.pushed) out.unshift('(pushed)');
+		if (this.pushed) out.unshift(`(${__('pushed', this.lang)})`);
 		if (this.name) out.unshift(`"${this.name}"`);
 		out.unshift(`<${this.game}>`);
 		return out.join(' ');
