@@ -402,7 +402,7 @@ class YZCombat {
 				return [c.name, c];
 			});
 		}
-		return await Sebedius.getSelection(this.message, matching, choiceMessage);
+		return await Sebedius.getSelection(this.message, matching, choiceMessage, true, false, false, this.options.lang);
 	}
 
 	/**

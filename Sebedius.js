@@ -344,7 +344,8 @@ class Sebedius extends Discord.Client {
 	 */
 	static async getGameFromSelection(message) {
 		const gameChoices = SUPPORTED_GAMES.map(g => [SOURCE_MAP[g], g]);
-		return await Sebedius.getSelection(message, gameChoices);
+		const language = await Sebedius.getLanguage(message);
+		return await Sebedius.getSelection(message, gameChoices, null, true, false, false, language);
 	}
 
 	/**
@@ -539,6 +540,7 @@ class Sebedius extends Discord.Client {
 	 * @param {boolean} del Whether to delete the selection message
 	 * @param {boolean} pm Whether the selection message is sent in a PM (Discord DM)
 	 * @param {boolean} forceSelect Whether to force selection even if only one choice possible
+	 * @param {string} lang The language code to be used
 	 * @returns {*} The selected choice
 	 * @throws {NoSelectionElementsError} If len(choices) is 0.
 	 * @throws {SelectionCancelledError} If selection is cancelled.

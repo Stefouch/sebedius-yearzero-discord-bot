@@ -248,7 +248,7 @@ async function select(ctx, needle = '', choices, text, lang = 'en', localePrefix
 	{
 		matchings = matchings.map(x => [__(localePrefix + x.toLowerCase(), lang), x]);
 	}
-	return await getSelection(ctx, matchings, text);
+	return await getSelection(ctx, matchings, text, true, false, false, lang);
 }
 
 /**
