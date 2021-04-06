@@ -154,6 +154,7 @@ async function begin(args, ctx, lang) {
 	const options = {};
 	if (argv.name) options.name = argv.name.join(' ');
 	if (argv.turnnotif) options.turnnotif = argv.turnnotif;
+	options.lang = lang || 'en';
 
 	// Builds the summary message and the combat instance.
 	const tempSummaryMsg = await ctx.send(`\`\`\`${__('cinit-awaiting-combatants', lang)}...\`\`\``);
@@ -225,7 +226,7 @@ async function add(args, ctx, lang) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes, lang });
 
 	if (places) {
 		places.forEach(p => {
@@ -291,7 +292,7 @@ async function join(args, ctx, lang) {
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes, lang });
 
 	if (places) {
 		places.forEach(p => {
@@ -368,7 +369,7 @@ async function madd(args, ctx, lang) {
 		}
 		try {
 			const controller = ctx.author.id;
-			const me = new YZMonsterCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+			const me = new YZMonsterCombatant({ name, controller, hidden, hp, armor, speed, haste, notes, lang });
 
 			if (places) {
 				places.forEach(p => {
