@@ -21,6 +21,7 @@ const CATALOG_SOURCES = {
 	MONSTERS: {
 		myz: './gamedata/myz/myz-monsters-catalog.en.csv',
 		alien: './gamedata/alien/alien-monsters-catalog.en.csv',
+		fbl: './gamedata/fbl/fbl-monsters-catalog.en.csv',
 	},
 };
 
@@ -532,9 +533,15 @@ class YZMonster extends YZObject {
 		}
 		// Unfixed roll.
 		else {
-			const b = attack.ranged ? this.agi : this.str;
-			const s = attack.ranged ? this.skills.shoot : this.skills.fight;
-			const g = attack.base;
+			let b, s, g;
+			if (this.game === 'fbl') {
+				b = attack.base;
+			}
+			else {
+				b = attack.ranged ? this.agi : this.str;
+				s = attack.ranged ? this.skills.shoot : this.skills.fight;
+				g = attack.base;
+			}
 			if (b) out.push(`${b}d[base]`);
 			if (s) out.push(`${s}d[skill]`);
 			if (g) out.push(`${g}d[gear]`);

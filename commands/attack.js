@@ -5,6 +5,7 @@ const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { YZEmbed } = require('../utils/embeds');
 const { __ } = require('../lang/locales');
+const { YZWeapon } = require('../yearzero/YZObject');
 
 module.exports = {
 	name: 'attack',
@@ -36,7 +37,7 @@ module.exports = {
 				? monster.agi + (monster.skills.shoot || 0)
 				: monster.str + (monster.skills.fight || 0);
 
-			if (atkDice > 0) {
+			if (attack instanceof YZWeapon && atkDice > 0) {
 				let str;
 				if (attack.base > 0) {
 					const w = Math.ceil(Math.log10(attack.base));

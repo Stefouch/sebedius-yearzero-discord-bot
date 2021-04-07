@@ -1,0 +1,5 @@
+id;strength;agility;wits;empathy;speed;hp;armor;skills;special;source;attacks
+mfbl-abyss-worm-young;14;2;;;1;14;4;;;fbl;atk-abyss-worm
+mfbl-abyss-worm-old;18;2;;;2;18;10;;Schwachpunkt Maul: Angriff gg. Mund hat -2, ignoriert dafür Rüstung.;fbl;atk-abyss-worm
+mfbl-bloodling;8;4;;;1;8;6;;**Körperlose Form** Als Nebel immun gegen physichen Schaden, andernfalls Schaden halbiert (aufgerundet), außer Kupferwaffen.\n**Anfällig für Licht** Hass auf helles Licht, Fackel oder Laterne (stumpfe Waffe) verursachen D3 Stärkeschaden/Runde.;fbl;atk-bloodling
+mfbl-death-knight;12;3;3;2;;12;0;Scout 2;**Rüstungsschutz** Keiner, außer evtl. Rüstung. Erhält nur halben Schaden auf physische Angriffe (aufgerundet).\n**Ausrüstung** Langschwert, Kettenhemd.;fbl;atk-death-knight

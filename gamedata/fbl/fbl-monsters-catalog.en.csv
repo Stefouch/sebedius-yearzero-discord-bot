@@ -1,0 +1,5 @@
+id;strength;agility;wits;empathy;speed;hp;armor;skills;special;source;attacks
+mfbl-abyss-worm-young;14;2;;;1;14;4;;;fbl;atk-abyss-worm
+mfbl-abyss-worm-old;18;2;;;2;18;10;;**Weak Mouth Cavity** Attack vs. mouth is -2 but ignores armor.;fbl;atk-abyss-worm
+mfbl-bloodling;8;4;;;1;8;6;;**Incorporial Form** As mist immune to physical damage, otherwise damage halfed (rounded up) except copper weapons.\n**Sensitive to light** They loathe light, a torch or lantern (blunt instrument) inflicts +D3 damage.;fbl;atk-bloodling
+mfbl-death-knight;12;3;3;2;;12;0;Scout 2;**Armor Rating** none, except worn armor. Takes half damage from physical attacks (rounded up).\n**Typical Gear** Longsword, chainmal.;fbl;atk-death-knight
