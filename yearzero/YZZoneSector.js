@@ -1,7 +1,7 @@
 const YZGenerator3 = require('../generators/YZGenerator3');
 const YZRoll = require('./YZRoll');
 const { YZMonster } = require('./YZObject');
-const { rand, capitalize, clamp, modifOrSet, random } = require('../utils/Util');
+const { rand, clamp, modifOrSet, random } = require('../utils/Util');
 const { __ } = require('../lang/locales');
 
 /**
