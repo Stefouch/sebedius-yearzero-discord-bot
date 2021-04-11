@@ -2,4 +2,9 @@ id;strength;agility;wits;empathy;speed;hp;armor;skills;special;source;attacks
 mfbl-abyss-worm-young;14;2;;;1;14;4;;;fbl;atk-abyss-worm
 mfbl-abyss-worm-old;18;2;;;2;18;10;;**Weak Mouth Cavity** Attack vs. mouth is -2 but ignores armor.;fbl;atk-abyss-worm
 mfbl-bloodling;8;4;;;1;8;6;;**Incorporial Form** As mist immune to physical damage, otherwise damage halfed (rounded up) except copper weapons.\n**Sensitive to light** They loathe light, a torch or lantern (blunt instrument) inflicts +D3 damage.;fbl;atk-bloodling
-mfbl-death-knight;12;3;3;2;;12;0;Scout 2;**Armor Rating** none, except worn armor. Takes half damage from physical attacks (rounded up).\n**Typical Gear** Longsword, chainmal.;fbl;atk-death-knight
+mfbl-death-knight;12;3;3;2;;12;0;Scout 2;**Armor Rating** none, except worn armor. Takes half damage from physical attacks (rounded up).\n**Typical Gear** Longsword, chainmail.;fbl;atk-death-knight
+mfbl-dragon-small;32;4;4;2;3;32;8;Scout 3|Lore 2|Insight 2|Manipulation 2;;fbl;atk-dragon
+mfbl-dragon-large;48;4;6;3;3;48;12;Scout 3|Lore 3|Insight 4|Manipulation 3;Adventurers `SCOUT` success can spot a gap in scales, an attack has -3 but ignores half the AR on a hit.;fbl;atk-dragon
+mfbl-drakewyrm;25;3;5;2;2;25;8;Scout 3;**Drawn to glitter** If the Drakewyrm spots anyone wearing or holding anything that glitters, it will immediately attack that person. If this person leaves combat, the Drakewyrm will pursue.;fbl;atk-drakewyrm
+mfbl-ent;16;3;5;3;1;16;6;;**Sensitive to fire** All attacks using fire cause double damage.;fbl;atk-ent
+mfbl-ghost;8;3;3;2;1;8;0;;**Armor Rating** Ghosts are immaterial and can only be hurt by fire or magic. Even if a ghost is defeated, it will only be banished for a Quarter Day and will then return. The only way to truly destroy a ghost is to use the `PURGE UNDEAD` spell on it.;fbl;atk-ghost

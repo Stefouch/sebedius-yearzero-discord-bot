@@ -1,5 +1,10 @@
 id;strength;agility;wits;empathy;speed;hp;armor;skills;special;source;attacks
 mfbl-abyss-worm-young;14;2;;;1;14;4;;;fbl;atk-abyss-worm
-mfbl-abyss-worm-old;18;2;;;2;18;10;;Schwachpunkt Maul: Angriff gg. Mund hat -2, ignoriert dafür Rüstung.;fbl;atk-abyss-worm
+mfbl-abyss-worm-old;18;2;;;2;18;10;;**Schwachpunkt Maul** Angriff gg. Maul hat -2, ignoriert dafür Rüstung.;fbl;atk-abyss-worm
 mfbl-bloodling;8;4;;;1;8;6;;**Körperlose Form** Als Nebel immun gegen physichen Schaden, andernfalls Schaden halbiert (aufgerundet), außer Kupferwaffen.\n**Anfällig für Licht** Hass auf helles Licht, Fackel oder Laterne (stumpfe Waffe) verursachen D3 Stärkeschaden/Runde.;fbl;atk-bloodling
 mfbl-death-knight;12;3;3;2;;12;0;Scout 2;**Rüstungsschutz** Keiner, außer evtl. Rüstung. Erhält nur halben Schaden auf physische Angriffe (aufgerundet).\n**Ausrüstung** Langschwert, Kettenhemd.;fbl;atk-death-knight
+mfbl-dragon-small;32;4;4;2;3;32;8;Scout 3|Lore 2|Insight 2|Manipulation 2;;fbl;atk-dragon
+mfbl-dragon-large;48;4;6;3;3;48;12;Scout 3|Lore 3|Insight 4|Manipulation 3;Erfolgreiches `AUSKUNDSCHAFTEN` findet Lücke im Panzer, ein Angriff dagegen hat einen Malus von -3, ignoriert bei einem Treffer aber den halben RW.;fbl;atk-dragon
+mfbl-drakewyrm;25;3;5;2;2;25;8;Scout 3;**Vom Glitzern angezogen** Falls ein Drachenwyrm jemanden sieht, der etwas Glitzerndes trägt oder anhat, wird er diese Person sofort angreifen. Verlässt diese Person den Kampf, wird der Drachenwyrm sie verfolgen.;fbl;atk-drakewyrm
+mfbl-ent;16;3;5;3;1;16;6;;**Feuerempfindlich** Alle Angriffe mit Feuer verursachen doppelten Schaden.;fbl;atk-ent
+mfbl-ghost;8;3;3;2;1;8;0;;**Rüstungsschutz** Geister sind körperlos und können nur von Feuer oder Magie verwundet werden. Aber auch wenn ein Geist besiegt wird, ist er nur für einen Tagesabschnitt verbannt und wird danach wiederkehren. Das einzige Mittel, einen Geist wirklich zu zerstören, ist der Zauber `UNTOTE BANNEN`.;fbl;atk-ghost
