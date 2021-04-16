@@ -1,5 +1,4 @@
 const { rand, clamp, isNumber, resolveString } = require('../utils/Util');
-const { __ } = require('../lang/locales');
 const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
 const DIE_RANGES = [6, 8, 10, 12];
 //const DIE_RANGES_T2K = ['d', 'c', 'b', 'a'];
@@ -562,7 +561,7 @@ class YZRoll {
 		else {
 			out.push('=', this.sum());
 		}
-		if (this.pushed) out.unshift(`(${__('pushed', this.lang)})`);
+		if (this.pushed) out.unshift('(pushed)');
 		if (this.name) out.unshift(`"${this.name}"`);
 		out.unshift(`<${this.game}>`);
 		return out.join(' ');

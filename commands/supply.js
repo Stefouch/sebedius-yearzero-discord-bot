@@ -47,7 +47,7 @@ module.exports = {
 };
 
 /**
- * Sends a message for the passed roll
+ * Sends a message for the passed roll.
  * @param {number} resRating 
  * @param {YZRoll} roll 
  * @param {*} ctx 

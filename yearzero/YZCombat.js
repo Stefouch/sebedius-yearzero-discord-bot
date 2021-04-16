@@ -8,7 +8,7 @@ const { __ } = require('../lang/locales');
 /**
  * @typedef CombatOptions
  * @type {Object} options of the combat
- * @property {boolean} dynamic Is the combat initiative dynamic? //TODO: correct description
+ * @property {boolean} dynamic Is the combat initiative dynamic? //TODO: correct description, what does this do???
  * @property {string} lang The language code of the current combat instance
  * @property {string} name The name for the this combat instance
  * @property {boolean} turnnotif Turn notifications enabled status
@@ -16,13 +16,13 @@ const { __ } = require('../lang/locales');
 
 class YZCombat {
 	/**
-	 * A combat instance
+	 * A combat instance.
 	 * @param {string} channelId The Discord TextChannel ID of the channel were the combat instance is ongoing.
 	 * @param {string} summaryMessageId The Discord Message ID of the summary message.
 	 * @param {string} dmId The GM's Discord User ID.
-	 * @param {CombatOptions} options The initial options of the combat
-	 * @param {Discord.Message} ctx The Discord Message
-	 * @param {YZCombatant[]} combatants Combatants
+	 * @param {CombatOptions} options The initial options of the combat.
+	 * @param {Discord.Message} ctx The Discord Message.
+	 * @param {YZCombatant[]} combatants The combatants participating in this combat instance.
 	 * @param {?Iterable} initiatives Array of Key-Value pairs, K: {number} initiative value, V: {string} Combatant's ID.
 	 * @param {number} roundNum The current round.
 	 * @param {number} currentIndex The current initiative index (float value).
@@ -52,7 +52,7 @@ class YZCombat {
 		this.dm = dmId;
 
 		/**
-		 * Options for this combat instance
+		 * Options for this combat instance.
 		 * @type {CombatOptions}
 		 */
 		this.options = options || new CombatOptions();
@@ -635,19 +635,19 @@ class YZCombat {
 class YZCombatant {
 	/**
 	 * A combatant
-	 * @param {Object} data The initial data for this combatant
+	 * @param {Object} data The initial data for this combatant.
 	 * @param {string} data.id The unique ID of this combatant.
 	 * @param {string} data.controller The controller's Discord User ID of this combatant.
-	 * @param {string} data.name The name of the combatant
-	 * @param {number} data.hp The health points of the combatant
-	 * @param {number} data.armor The armor value of the combatant
-	 * @param {number} data.speed The speed of the combatant
-	 * @param {number} data.haste The haste value of the combatant
-	 * @param {boolean} data.hidden Should this combatant be hidden?
-	 * @param {string} data.notes The notes for the combatant
-	 * @param {number[]} data.inits Initiative values. Stored as integers.
+	 * @param {string} data.name The name of the combatant.
+	 * @param {number} data.hp The health points of the combatant.
+	 * @param {number} data.armor The armor value of the combatant.
+	 * @param {number} data.speed The speed of the combatant.
+	 * @param {number} data.haste The haste value of the combatant.
+	 * @param {boolean} data.hidden Whether this combatant should be hidden.
+	 * @param {string} data.notes The notes for the combatant.
+	 * @param {number[]} data.inits Initiative values, stored as integers.
 	 * @param {string} data.group The name of the group this combatant is part of.
-	 * @param {string} data.lang The language code to be used
+	 * @param {string} data.lang The language code to be used.
 	 */
 	constructor(data) {
 		/**
@@ -670,7 +670,7 @@ class YZCombatant {
 		this.controller = data.controller;
 
 		/**
-		 * The Language code to be used
+		 * The Language code to be used.
 		 * @type {string}
 		 */
 		this.lang = data.lang || 'en';

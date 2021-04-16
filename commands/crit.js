@@ -224,7 +224,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
 }
 
 /**
- * A lucky roll
+ * A lucky roll.
  * @typedef LuckyRoll
  * @type {Object}
  * @property {number} result The end result of the lucky roll
@@ -233,7 +233,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
 
 
 /**
- * Uses the 'Lucky'-talent with it's corresponding rank
+ * Uses the 'Lucky'-talent with it's corresponding rank.
  * @param {number} rank The rank of the talent (1-3)
  * @param {RollTable} critsTable The crits table to use for rank 3
  * @param {Discord.Message} ctx The context message
