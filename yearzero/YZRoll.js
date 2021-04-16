@@ -1,5 +1,4 @@
 const { rand, clamp, isNumber, resolveString } = require('../utils/Util');
-const { __ } = require('../lang/locales');
 const DIE_TYPES = ['base', 'skill', 'gear', 'neg', 'arto', 'stress', 'ammo', 'modifier'];
 const DIE_RANGES = [6, 8, 10, 12];
 //const DIE_RANGES_T2K = ['d', 'c', 'b', 'a'];
