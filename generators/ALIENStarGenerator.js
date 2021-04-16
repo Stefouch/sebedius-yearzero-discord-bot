@@ -9,7 +9,7 @@ const Util = require('../utils/Util');
 class ALIENStarGenerator extends YZGenerator2 {
 	/**
 	 * Defines a star.
-	 * @param {string} language Language code of the language to be used
+	 * @param {string} language Language code to be used
 	 */
 	constructor(language = 'en') {
 		const StarData = require(`../gamedata/alien/star-generator.${language}.json`);

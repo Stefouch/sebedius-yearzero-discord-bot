@@ -50,8 +50,8 @@ module.exports = {
 };
 
 /**
- * Returns a list of all available scrap items
- * @param {string} language The language to use
+ * Returns a list of all available scrap items.
+ * @param {string} language The language code to be used
  * @returns {string[]} A string array of scrap items
  */
 function getScrapList(language = 'en') {

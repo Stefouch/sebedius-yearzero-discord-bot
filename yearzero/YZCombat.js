@@ -52,7 +52,7 @@ class YZCombat {
 		this.dm = dmId;
 
 		/**
-		 * Options for this combat instance
+		 * Options for this combat instance.
 		 * @type {CombatOptions}
 		 */
 		this.options = options || new CombatOptions();
@@ -670,7 +670,7 @@ class YZCombatant {
 		this.controller = data.controller;
 
 		/**
-		 * The Language code to be used
+		 * The Language code to be used.
 		 * @type {string}
 		 */
 		this.lang = data.lang || 'en';
