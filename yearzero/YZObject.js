@@ -260,6 +260,19 @@ class YZMonster extends YZObject {
 				this.armor[ars[0]] = +ars[1];
 			}
 		}
+		else if (typeof this.armor === 'string' && this.armor.includes('-')) {
+			const armorRange = this.armor.split('-');
+			if (Util.isNumber(armorRange[0]) && Util.isNumber(armorRange[1])) {
+				this.armor = {
+					default: +armorRange[0],
+					max: +armorRange[1],
+					info: armorRange[2] || '',
+				};
+			}
+			else {
+				this.armor = { default: 0 };
+			}
+		}
 		else {
 			this.armor = { default: 0 };
 		}
@@ -423,12 +436,13 @@ class YZMonster extends YZObject {
 	 */
 	armorToString() {
 		const armorTypes = Object.keys(this.armor);
-		let str = '' + this.armor.default;
+		let str = '' + this.armor.default
+		if (this.armor.max > 0) str += `-${this.armor.max}`;
+		if (this.armor.info) str = `${this.armor.info}\n` + str;
 		if (armorTypes.length > 1) {
-			str += ' (';
 			const out = [];
 			for (const type of armorTypes) {
-				if (type === 'default') {
+				if (type === 'default' || type === 'max' || type === 'info') {
 					continue;
 				}
 				else if (type === 'belly') {
@@ -438,7 +452,8 @@ class YZMonster extends YZObject {
 					out.push(`${this.armor[type]} ${__('vs', this.lang)} ${__(type, this.lang)}`);
 				}
 			}
-			str += out.join(', ') + ')';
+			str += out.length > 0 ? '\n' : '';
+			str += out.join('\n');
 			str = str.replace(/1000/g, __('impervious', this.lang));
 		}
 		return str;
