@@ -7,7 +7,7 @@ const { __ } = require('../lang/locales');
 
 /**
  * @typedef CombatOptions
- * @type {Object} options of the combat
+ * @type {Object} Options of the combat.
  * @property {boolean} dynamic Is the combat initiative dynamic? //TODO: correct description
  * @property {string} lang The language code of the current combat instance
  * @property {string} name The name for the this combat instance
@@ -52,7 +52,7 @@ class YZCombat {
 		this.dm = dmId;
 
 		/**
-		 * Options for this combat instance
+		 * Options for this combat instance.
 		 * @type {CombatOptions}
 		 */
 		this.options = options || new CombatOptions();
@@ -670,7 +670,7 @@ class YZCombatant {
 		this.controller = data.controller;
 
 		/**
-		 * The Language code to be used
+		 * The Language code to be used.
 		 * @type {string}
 		 */
 		this.lang = data.lang || 'en';
