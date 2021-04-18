@@ -239,9 +239,18 @@ class YZMonster extends YZObject {
 			this.attributes.speed = +this.speed || 1;
 			this.attributes.health = +this.hp || +this.health || +this.life || 0;
 		}
+		let attributeValue, maxValue, splitValues;
 		for (const validAttribute of ATTRIBUTES) {
 			if (this.hasOwnProperty(validAttribute)) {
-				this.attributes[validAttribute] = +this[validAttribute];
+				attributeValue = this[validAttribute];
+				maxValue = null;
+				if (typeof attributeValue === 'string' && attributeValue.includes('-')) {
+					splitValues = attributeValue.split('-');
+					attributeValue = +splitValues[0];
+					maxValue = +splitValues[1];
+				}
+				this.attributes[validAttribute] = +attributeValue;
+				if (maxValue) this.attributes[validAttribute + '-max'] = +splitValues[1];
 				delete this[validAttribute];
 			}
 		}
@@ -320,8 +329,8 @@ class YZMonster extends YZObject {
 					if (/{.+:.*:.*:[cr]?\d?(:.*)?}/.test(atq)) {
 						let wpnData;
 						atq.replace(
-							/{(.+):(.*):(.*):([cr]?\d?)(?::(.*))?}/,
-							(match, id, bonus, damage, range, special) => {
+							/{(.+):(.*):(.*):([cr]?\d?):(.*?)(?::(.*))?}/,
+							(match, id, bonus, damage, range, special, attackAsFighter) => {
 								let ranged = false;
 								if (range.startsWith('c') || range.startsWith('r')) {
 									ranged = range.charAt(0) === 'r';
@@ -336,6 +345,7 @@ class YZMonster extends YZObject {
 									range, ranged, special,
 									source: this.source,
 									lang: this.lang,
+									attackAsFighter: attackAsFighter || 0,
 								};
 							},
 						);
@@ -406,9 +416,12 @@ class YZMonster extends YZObject {
 	 */
 	attributesToString() {
 		const out = [];
+		let maxValue;
 		for (const key in this.attributes) {
+			if (key.endsWith('-max')) continue;
 			if (this.attributes[key] > 0) {
-				out.push(`${__(`attribute-${this.game}-` + key, this.lang)} **${this.attributes[key]}**`);
+				maxValue = this.attributes[key + '-max'] || null;
+				out.push(`${__(`attribute-${this.game}-` + key, this.lang)} **${this.attributes[key]}${maxValue ? '-' + maxValue : ''}**`);
 			}
 		}
 		if (!out.length) return `*${Util.capitalize(__('none', this.lang))}*`;
@@ -549,7 +562,7 @@ class YZMonster extends YZObject {
 		// Unfixed roll.
 		else {
 			let b, s, g;
-			if (this.game === 'fbl') {
+			if (this.game === 'fbl' && (attack.attackAsFighter || 0) === 0) {
 				b = attack.base;
 			}
 			else {
