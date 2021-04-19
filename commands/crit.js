@@ -243,7 +243,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
  * @returns {LuckyRoll} The final critical injury
  */
 async function rollLucky(rank, critsTable, ctx, lang) {
-	if (!isNumber(rank)) return;
+	if (!isNumber(rank)) return {};
 	if (rank < 1) rank = 1;
 
 	/**
