@@ -3,7 +3,6 @@ const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 const { __ } = require('../lang/locales');
-const RollTable = require('../utils/RollTable');
 const { getSelection } = require('../Sebedius');
 
 const availableCritTables = {
@@ -215,7 +214,10 @@ function getEmbedCrit(crit, name, ctx, lang) {
 	}
 
 	if (crit.manipulation) {
-		embed.addField(__('talent-fbl-lucky', lang), `${__('ccrit-lucky-text', lang)} \`${crit.manipulation.join(", ")}\``);
+		embed.addField(
+			__('talent-fbl-lucky', lang),
+			`${__('ccrit-lucky-text', lang)} \`${crit.manipulation.join(', ')}\``,
+		);
 	}
 
 	embed.setFooter(__('table', lang) + `: ${name}`);
@@ -255,7 +257,7 @@ async function rollLucky(rank, critsTable, ctx, lang) {
 		critsTable.forEach(crit => {
 			choices.push([crit.injury, crit.ref.substr(0, 2)]);
 		});
-		luckyRoll.result = await getSelection(ctx, choices, __('ccrit-lucky-choose', lang), true, false, false, lang);
+		luckyRoll.result = await getSelection(ctx, choices, { text: __('ccrit-lucky-choose', lang), lang });
 		return luckyRoll;
 	}
 
@@ -267,7 +269,7 @@ async function rollLucky(rank, critsTable, ctx, lang) {
 	// Rank 2: Roll twice, reverse the values, then take the lowest
 	if (rank >= 2) {
 		let reversed;
-		for (i = 0; i < 2; i++){
+		for (let i = 0; i < 2; i++) {
 			reversed = parseInt(values[i].toString().split('').reverse().join(''));
 			values.push(reversed);
 		}
