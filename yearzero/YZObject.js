@@ -316,7 +316,7 @@ class YZMonster extends YZObject {
 				);
 			}
 			// Attack Parser
-			// Form: "{<name>:<bonus>:<damage>:[c|r]<range>[:<special>]}|{...}"
+			// Form: "{<name>:<bonus>:<damage>:[c|r]<range>[:<special>][:<(for fbl) attack as normal fighter (0/1)>]}|{...}"
 			// Range: the letter 'c' forces close combat, and 'r' forces ranged combat.
 			else if (this.attacks.includes('{') || this.attacks.includes('|')) {
 				// Multiple attacks are separated with the '|' character.
@@ -326,10 +326,10 @@ class YZMonster extends YZObject {
 				const out = [];
 				for (const atq of atqs) {
 					// Creates a weapon from the parsing.
-					if (/{.+:.*:.*:[cr]?\d?(:.*)?}/.test(atq)) {
+					if (/{[^:]+:[^:]*:[^:]*:[cr]?\d?(:[^:]*)?(:\d?)?}/.test(atq)) {
 						let wpnData;
 						atq.replace(
-							/{(.+):(.*):(.*):([cr]?\d?):(.*?)(?::(.*))?}/,
+							/{([^:]+):([^:]*):([^:]*):([cr]?\d?)(?::([^:]*))?(?::(\d?))?}/,
 							(match, id, bonus, damage, range, special, attackAsFighter) => {
 								let ranged = false;
 								if (range.startsWith('c') || range.startsWith('r')) {
