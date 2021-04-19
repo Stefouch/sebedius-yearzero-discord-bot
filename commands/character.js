@@ -1,6 +1,7 @@
 const Command = require('../utils/Command');
 const { confirm, getSelection, tryDelete } = require('../Sebedius');
 const { CharacterEmbed } = require('../utils/embeds');
+const { __ } = require('../lang/locales');
 
 module.exports = new class CharacterCommand extends Command {
 	constructor() {
@@ -23,19 +24,25 @@ module.exports = new class CharacterCommand extends Command {
 	async run(args, ctx) {
 		const argv = require('yargs-parser')(args, {
 			boolean: ['v'],
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
 			default: {
 				v: false,
+				lang: null,
 			},
 			configuration: ctx.bot.config.yargs,
 		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
 
 		const arg = (argv._[0] || '').toLowerCase();
 		switch (arg) {
-			case 'sheet': await characterSheet(ctx); break;
-			case 'list': await characterList(ctx); break;
-			case 'update': await characterUpdate(ctx, argv.v); break;
-			case 'delete': case 'del': case 'remove': await characterDelete(ctx); break;
-			default: await characterSwitch(ctx, arg);
+			case 'sheet': await characterSheet(ctx, lang); break;
+			case 'list': await characterList(ctx, lang); break;
+			case 'update': await characterUpdate(ctx, argv.v, lang); break;
+			case 'delete': case 'del': case 'remove': await characterDelete(ctx, lang); break;
+			default: await characterSwitch(ctx, arg, lang);
 		}
 		await tryDelete(ctx);
 	}
@@ -45,20 +52,21 @@ module.exports = new class CharacterCommand extends Command {
  * Switches the active character.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
  * @param {string} name The name of the character to switch
+ * @param {string} lang The language code to be used
  * @async
  */
-async function characterSwitch(ctx, name) {
+async function characterSwitch(ctx, name, lang = 'en') {
 	const characters = await ctx.bot.characters.store.get(ctx.author.id);
-	if (!characters) return await ctx.reply('You have no character.');
+	if (!characters) return await ctx.reply(__('ccharacter-no-character', lang));
 
 	if (!name) {
 		const activeCharacter = await ctx.bot.characters.fetch(ctx.author.id);
-		return await ctx.reply(`Your currently active character is: **${activeCharacter.name}**`, { deleteAfter: 20 });
+		return await ctx.reply(`${__('ccharacter-active-character', lang)}: **${activeCharacter.name}**`, { deleteAfter: 20 });
 	}
 
-	const selectedCharacter = await getSelection(ctx, characters.map(c => [c.name, c]));
+	const selectedCharacter = await getSelection(ctx, characters.map(c => [c.name, c]), null, true, false, false, lang);
 	await ctx.bot.characters.setActive(selectedCharacter);
-	await ctx.reply(`Your active character was changed to: **${selectedCharacter.name}**`, { deleteAfter: 20 });
+	await ctx.reply(`${__('ccharacter-active-changed-to', lang)}: **${selectedCharacter.name}**`, { deleteAfter: 20 });
 
 	return selectedCharacter;
 }
@@ -66,26 +74,28 @@ async function characterSwitch(ctx, name) {
 /**
  * Prints the embed sheet of the currently active character.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
+ * @param {string} lang The language code to be used
  * @async
  */
-async function characterSheet(ctx) {
+async function characterSheet(ctx, lang = 'en') {
 	const character = await ctx.bot.characters.fetch(ctx.author.id);
-	if (!character) return await ctx.reply('You have no active character.');
+	if (!character) return await ctx.reply(__('ccharacter-no-active-character', lang));
 
-	return await ctx.send(new CharacterEmbed(character, ctx));
+	return await ctx.send(new CharacterEmbed(character, ctx, lang));
 }
 
 /**
  * Lists the player's characters.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
+ * @param {string} lang The language code to be used
  * @async
  */
-async function characterList(ctx) {
+async function characterList(ctx, lang = 'en') {
 	const characters = await ctx.bot.characters.store.get(ctx.author.id);
-	if (!characters) return await ctx.reply('You have no character.');
+	if (!characters) return await ctx.reply(__('ccharacter-no-character', lang));
 
 	return await ctx.reply(
-		`Your character${characters.length > 1 ? 's' : ''}:\n`
+		`${__('ccharacter-your-character' + (characters.length > 1 ? 's' : ''), lang)}:\n`
 		+ characters.map(c => c.name).sort().join(', ')
 		+ '.',
 	);
@@ -94,34 +104,36 @@ async function characterList(ctx) {
 /**
  * Deletes a character.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
+ * @param {string} lang The language code to be used
  * @async
  */
-async function characterDelete(ctx) {
+async function characterDelete(ctx, lang = 'en') {
 	// TODO
 	const characters = await ctx.bot.characters.store.get(ctx.author.id);
-	if (!characters) return await ctx.reply('You have no character.');
+	if (!characters) return await ctx.reply(__('ccharacter-no-character', lang));
 
-	const selectedCharacter = await getSelection(ctx, characters.map(c => [`${c.name} (${c.id})`, c]));
+	const selectedCharacter = await getSelection(ctx, characters.map(c => [`${c.name} (${c.id})`, c]), null, true, false, false, lang);
 
-	const confirmation = await confirm(ctx, `⚠️ Are you sure you want to delete **${selectedCharacter.name}**? *(Reply with yes/no)*`, true);
+	const confirmation = await confirm(ctx, `⚠️ ${__('ccharacter-delete-confirmation', lang).replace('{character_name}', selectedCharacter.name)}`, true);
 
 	if (confirmation) {
 		const deleted = await ctx.bot.characters.delete(ctx.author.id, selectedCharacter.id);
-		if (deleted) return await ctx.send(`🧼 Character **${selectedCharacter.name}** has been deleted.`);
+		if (deleted) return await ctx.send(`🧼 ${__('ccharacter-delete-confirmation', lang).replace('{character_name}', selectedCharacter.name)}`);
 	}
-	return await ctx.send('❌ No character was deleted.', { deleteAfter: 20 });
+	return await ctx.send(`❌ ${__('ccharacter-deleted-none', lang)}`, { deleteAfter: 20 });
 }
 
 /**
  * Updates the current character sheet.
  * @param {import('../utils/ContextMessage')} ctx Discord message with context
  * @param {boolean} [show=false] Whether to show the character sheet after update
+ * @param {string} lang The language code to be used
  * @async
  */
-async function characterUpdate(ctx, show = false) {
+async function characterUpdate(ctx, show = false, lang = 'en') {
 	const oldCharacter = await ctx.bot.characters.fetch(ctx.author.id);
-	if (!oldCharacter) return await ctx.reply('You have no character.');
-	if (!oldCharacter.url) return await ctx.reply('Cannot find the URL of the active character.');
+	if (!oldCharacter) return await ctx.reply(__('ccharacter-no-character', lang));
+	if (!oldCharacter.url) return await ctx.reply(__('ccharacter-cannot-find-url', lang));
 
 	// TODO
 	const args = [oldCharacter.url];

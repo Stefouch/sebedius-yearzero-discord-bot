@@ -17,9 +17,9 @@ const LOCALES = {
  */
 module.exports.__ = (text, locale) => {
 	if (typeof text !== 'string') return text;
-	text = text.replace(/_/g, '-').toLowerCase();
+	const key = text.replace(/_/g, '-').toLowerCase();
 	const loc = locale in LOCALES ? locale : 'en';
-	if (LOCALES[loc][text] != undefined) return LOCALES[loc][text];
-	if (LOCALES.en[text] != undefined) return LOCALES.en[text];
+	if (LOCALES[loc][key] != undefined) return LOCALES[loc][key];
+	if (LOCALES.en[key] != undefined) return LOCALES.en[key];
 	return text;
 };

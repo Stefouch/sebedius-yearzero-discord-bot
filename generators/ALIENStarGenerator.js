@@ -1,6 +1,5 @@
 const YZGenerator2 = require('./YZGenerator2');
 const AlienWorld = require('./ALIENWorldGenerator');
-const StarData = require('../gamedata/alien/star-generator.json');
 const Util = require('../utils/Util');
 
 /**
@@ -10,9 +9,11 @@ const Util = require('../utils/Util');
 class ALIENStarGenerator extends YZGenerator2 {
 	/**
 	 * Defines a star.
+	 * @param {string} language Language code to be used
 	 */
-	constructor() {
-		super(StarData);
+	constructor(language = 'en') {
+		const StarData = require(`../gamedata/alien/star-generator.${language}.json`);
+		super(StarData, language);
 
 		// STAR PARAMETERS
 		const type = super.get('type');
@@ -51,16 +52,16 @@ class ALIENStarGenerator extends YZGenerator2 {
 		const planets = [];
 
 		for (let i = 0; i < gasGiantQty; i++) {
-			planets.push(new AlienWorld('gasgiant'));
+			planets.push(new AlienWorld('gasgiant', false, AlienWorld.AMERICAN_OR_ANGLOJAPANESE_ARM, '', language));
 		}
 		for (let i = 0; i < rockyPlanetQty; i++) {
-			planets.push(new AlienWorld('rocky', true));
+			planets.push(new AlienWorld('rocky', true, AlienWorld.AMERICAN_OR_ANGLOJAPANESE_ARM, '', language));
 		}
 		for (let i = 0; i < icyPlanetQty; i++) {
-			planets.push(new AlienWorld('icy'));
+			planets.push(new AlienWorld('icy', false, AlienWorld.AMERICAN_OR_ANGLOJAPANESE_ARM, '', language));
 		}
 		for (let i = 0; i < beltQty; i++) {
-			planets.push(new AlienWorld('asteroid-belt'));
+			planets.push(new AlienWorld('asteroid-belt', false, AlienWorld.AMERICAN_OR_ANGLOJAPANESE_ARM, '', language));
 		}
 
 		// SORTING CELESTIAL OBJECTS
@@ -81,7 +82,7 @@ class ALIENStarGenerator extends YZGenerator2 {
 	}
 
 	get code() { return this.spectral.code + this.type.code; }
-	get name() { return `${this.spectral.name} ${this.type.name}`; }
+	get name() { return `${this.type.name} (${this.spectral.name})`; }
 	get orbitInnerSize() { return this.orbit.inner.size; }
 	get orbitOuterSize() { return this.orbit.outer.size; }
 	get orbitHabSize() { return this.orbit.habitable.size; }

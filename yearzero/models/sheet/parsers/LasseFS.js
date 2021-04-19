@@ -38,7 +38,7 @@ class LasseForbiddenSheetParser extends SheetParser {
 			cold: data.cold,
 		});
 
-		char.description = `Kin: *${char.kin}*\nProfession: *${char.profession}*`;
+		char.description = `{kin}: *${char.kin}*\n{profession}: *${char.profession}*`;
 
 		return char;
 	}
@@ -151,7 +151,7 @@ class LasseForbiddenSheetParser extends SheetParser {
 }
 
 LasseForbiddenSheetParser.URL = 'https://www.forbidden-sheets.com/?id=';
-LasseForbiddenSheetParser.URL_REGEX = /^https:\/\/www\.forbidden-sheets\.com\/\?(?:sheet|id)=([a-zA-Z0-9]+)$/;
+LasseForbiddenSheetParser.URL_REGEX = /^https:\/\/www\.forbidden-sheets\.com\/\?.*(?:sheet|id)=([a-zA-Z0-9]+).*$/;
 LasseForbiddenSheetParser.URI = 'https://europe-west1-forbidden-sheets.cloudfunctions.net/sheets?id=';
 //LasseForbiddenSheetParser.URI_REGEX = /^https:\/\/europe-west1-forbidden-sheets\.cloudfunctions\.net\/sheets\?id=([a-zA-Z0-9]+)$/;
 

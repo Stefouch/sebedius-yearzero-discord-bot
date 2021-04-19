@@ -142,7 +142,7 @@ module.exports = {
 				color: ctx.bot.config.color,
 				title: `${__('journey', lang).toUpperCase()}${title ? ` — "${title}"` : ''}`,
 				description: getDescription(jou, lang),
-				footer: { text: `${__('game', lang)}: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}` },
+				footer: { text: `${__('game', lang)}: ${__(jou.fbr ? 'game-fbr' : 'game-fbl', lang)}` },
 				fields: [
 					{
 						name: __('terrain', lang),
@@ -215,7 +215,7 @@ module.exports = {
 				ctx, true,
 			);
 			embed.addField(`**\`${mishap[0].toUpperCase()}\`**`, mishap[1]);
-			embed.setFooter(`${__('game', lang)}: ${jou.fbr ? 'Bitter Reach' : 'Forbidden Lands'}`);
+			embed.setFooter(`${__('game', lang)}: ${__(jou.fbr ? 'game-fbr' : 'game-fbl', lang)}`);
 
 			return await ctx.send(embed);
 		}
@@ -248,7 +248,7 @@ async function select(ctx, needle = '', choices, text, lang = 'en', localePrefix
 	{
 		matchings = matchings.map(x => [__(localePrefix + x.toLowerCase(), lang), x]);
 	}
-	return await getSelection(ctx, matchings, text);
+	return await getSelection(ctx, matchings, text, true, false, false, lang);
 }
 
 /**

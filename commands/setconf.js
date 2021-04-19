@@ -1,14 +1,10 @@
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, SOURCE_MAP } = require('../utils/constants');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'setconf',
 	category: 'misc',
-	description: 'Sets the bot\'s configuration for this server. If you omit the new value, it returns the current value.'
-		+ ' See possible parameters:'
-		+ '\n`prefix [new value]` – Gets or sets the prefix for triggering the commands of this bot.'
-		+ '\n`game [new value]` – Gets or sets the default game used (for dice skins and critical injuries tables).'
-		+ ` Options are \`${SUPPORTED_GAMES.join('`, `')}\`.`
-		+ '\n`lang [new value]` – Gets or sets the default language. See Readme for details.',
+	description: 'csetconf-description',
 	guildOnly: true,
 	args: true,
 	usage: '<parameter> [new value]',
@@ -19,7 +15,7 @@ module.exports = {
 			!ctx.member.hasPermission('ADMINISTRATOR')
 			&& ctx.author.id !== ctx.bot.owner.id
 		) {
-			return ctx.reply('⛔ This command is only available for member with the ADMINISTRATOR role.');
+			return ctx.reply(`⛔ ${__('csetconf-only-admin', ctx.bot.getLanguage(ctx))}`);
 		}
 
 		// The property command.args = true,
@@ -42,20 +38,20 @@ module.exports = {
 				if (key === 'prefix') {
 					ctx.bot.prefixes.set(guildID, newVal);
 					await ctx.bot.kdb.prefixes.set(guildID, newVal);
-					ctx.send(`✅ My prefix has been set to "**${newVal}**"`);
+					ctx.send(`✅ ${__('csetconf-prefix', await ctx.bot.getLanguage(ctx))} "**${newVal}**"`);
 				}
 				else if (key === 'game' && SUPPORTED_GAMES.includes(newVal)) {
 					ctx.bot.games.set(guildID, newVal);
 					await ctx.bot.kdb.games.set(guildID, newVal);
-					ctx.send(`✅ The default game has been set to **${SOURCE_MAP[newVal]}**`);
+					ctx.send(`✅ ${__('csetconf-game', await ctx.bot.getLanguage(ctx))} **${SOURCE_MAP[newVal]}**`);
 				}
 				else if (key === 'lang' && Object.keys(SUPPORTED_LANGS).includes(newVal)) {
 					ctx.bot.langs.set(guildID, newVal);
 					await ctx.bot.kdb.langs.set(guildID, newVal);
-					ctx.send(`✅ The default language has been set to **${SUPPORTED_LANGS[newVal]}**`);
+					ctx.send(`✅ ${__('csetconf-language', await ctx.bot.getLanguage(ctx))} **${SUPPORTED_LANGS[newVal]}**`);
 				}
 				else {
-					ctx.reply(`❌ The value you typed for **${key}** is unsupported.`);
+					ctx.reply(`❌ ${__('csetconf-invalid-value', await ctx.bot.getLanguage(ctx)).replace('{will_be_replaced}', key)}`);
 				}
 			}
 			// GET
@@ -63,11 +59,11 @@ module.exports = {
 				const namespace = dbNamespaces[key];
 				const value = await ctx.bot.kdb[namespace].get(guildID);
 				if (value) ctx.send(`🏷️ Parameter: "${key}" = "${value}"`);
-				else ctx.reply(`❌ Impossible to get the value from **${key}** parameter.`);
+				else ctx.reply(`❌ ${__('csetconf-cannot-get-value', await ctx.bot.getLanguage(ctx)).replace('{will_be_replaced}', key)}`);
 			}
 		}
 		else {
-			ctx.reply(`❌ **${key}** is not a valid parameter.`);
+			ctx.reply(`❌ **${key}** ${__('csetconf-invalid-parameter', await ctx.bot.getLanguage(ctx))}`);
 		}
 	},
 };

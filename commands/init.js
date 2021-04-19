@@ -5,22 +5,24 @@ const Util = require('../utils/Util');
 const { SOURCE_MAP } = require('../utils/constants');
 const { NoSelectionElementsError } = require('../utils/errors');
 const { ChannelInCombat, CombatNotFound } = require('../yearzero/YZCombat');
+const { __ } = require('../lang/locales');
 
 const YargsParser = require('yargs-parser');
 const YARGS_PARSE_COMBATANT = {
-	array: ['p', 'note', 'name', 'group', 'controller'],
-	boolean: ['h'],
-	number: ['n'],
-	string: ['p', 'hp', 'max', 'ar', 'speed', 'haste'],
+	array: ['place', 'note', 'name', 'group', 'controller'],
+	boolean: ['private'],
+	number: ['monsters'],
+	string: ['place', 'hp', 'max', 'armor', 'speed', 'haste'],
 	alias: {
-		ar: ['armor'],
-		h: ['hidden', 'hide', 'private'],
-		p: ['place', 'init', 'i'],
+		armor: ['ar'],
+		private: ['hidden', 'hide', 'h'],
+		monsters: ['number', 'n'],
+		place: ['p', 'init', 'i'],
 		group: ['g'],
 		note: ['notes'],
 	},
 	default: {
-		h: null,
+		private: null,
 	},
 	configuration: {
 		'short-option-groups': false,
@@ -33,208 +35,62 @@ module.exports = {
 	name: 'init',
 	aliases: ['i', 'initiative'],
 	category: 'common',
-	description: 'Initiative tracker. Inspired from the [D&D Avrae Discord bot](https://avrae.io/).',
-	moreDescriptions: [
-		[
-			'Subcommands',
-			`**add** – Adds a generic combatant to the initiative order.
-			**attack** – Inflicts damage to another combatant.
-			**begin** – Begins combat in the channel the command is invoked.
-			**edit** – Edits the options of a combatant.
-			**end** – Ends combat in the channel.
-			**hp** – Modifies the HP of a combatant.
-			**join** – Adds the current player to combat.
-			**list** – Lists the combatants.
-			**madd** – Adds a monster to combat.
-			**meta** – Changes the settings of the active combat.
-			**move** – Moves to a certain initiative.
-			**next** – Moves to the next turn in initiative order.
-			**note** – Attaches a note to a combatant.
-			**prev** – Moves to the previous turn in initiative order.
-			**remove** – Removes a combatant or group from the combat.
-			**skipround** – Skips one or more rounds of initiative.
-			**status** – Gets the status of a combatant or group.`,
-		],
-		[
-			'More Help',
-			'Type `init help <subcommand>` for more info on a subcommand.',
-		],
-	],
-	subDescriptions: [
-		[
-			'`begin [-name <name>] [-game <game>] [-turnnotif]`',
-			`Begins combat in the channel the command is invoked.
-
-			__Parameters__
-			• \`-name <name>\` – Sets a name for the combat instance.
-			• \`-game <game>\` – Sets the game. If omitted, use the default set in the server's configuration.
-			• \`-turnnotif\` – Toggles the notification of the controller of the next combatant in initiative.`,
-		],
-		[
-			'`add <name> [options...]`',
-			`Adds a generic combatant to the initiative order.
-			Generic combatants have 3 life, no armor, and speed 1.
-			If you are adding monsters to combat, you can use \`init madd\` instead.
-			
-			__Options__
-			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			• \`-controller <mention>\` – Pings a different person on turn.
-			• \`-group|-g <name>\` – Adds the combatant to a group.
-			• \`-hp <value>\` – Sets starting HP. Default: 3.
-			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
-			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
-			• \`-h\` – Hides life, AR and anything else.`,
-		],
-		[
-			'`join [options...]`',
-			`Same as \`init add\`, but you don't need to specify a name. The command will use your displayed name on the server. The command will be used in future updates in combination with character sheets.
-			
-			__Options__
-			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			• \`-controller <mention>\` – Pings a different person on turn.
-			• \`-group|-g <name>\` – Adds the combatant to a group.
-			• \`-hp <value>\` – Sets starting HP. Default: 3.
-			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
-			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
-			• \`-h\` – Hides life, AR and anything else.`,
-		],
-		[
-			'`madd <name> [-n <quantity>] [options...]`',
-			`Adds one or more monster combatant(s). Same as \`init add\`, but in addition you can specify a number of combatants with the \`-n <quantity>\` parameter.
-			
-			__Options__
-			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			• \`-controller <mention>\` – Pings a different person on turn.
-			• \`-group|-g <name>\` – Adds the combatant to a group.
-			• \`-hp <value>\` – Sets starting HP. Default: 3.
-			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
-			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
-			• \`-h\` – Hides life, AR and anything else.`,
-		],
-		[
-			'`next|n`',
-			'Moves to the next turn in initiative order. It must be your turn or you must be the GM (the person who started combat) to use this command.',
-		],
-		[
-			'`previous|p`',
-			'Moves to the previous turn in initiative order.',
-		],
-		[
-			'`move|goto <target>`',
-			'Moves to a certain initiative. `target` can be either a number, to go to that initiative, or a name. If not supplied, goes to the first combatant that the user controls.',
-		],
-		[
-			'`skipround|skip`',
-			'Skips one or more rounds of initiative.',
-		],
-		[
-			'`meta`',
-			`Changes the settings of the active combat.
-
-			__Parameters__
-			• \`-name <name>\` – Sets a name for the combat instance.
-			• \`-game <game>\` – Sets the game. If omitted, use the default set in the server's configuration.
-			• \`-turnnotif\` – Toggles the notification of the controller of the next combatant in initiative.`,
-		],
-		[
-			'`list|summary [-private]',
-			'Lists the combatants. The parameter `-private` sends the list in a private message.',
-		],
-		[
-			'`note <name> [note]`',
-			'Attaches a note to a combatant.',
-		],
-		[
-			'`edit <name> [options...]`',
-			`Edits the options of a combatant. This command uses the same options from \`init add\` with the addition of \`-name\` and \`-max\`
-			
-			__Options__
-			• \`-name <name>\` – Chances the combatant's name.
-			• \`-max <value>\` – Modifies the combatants' Max HP. Adds if starts with +/- or sets otherwise.
-			• \`-p <value1 value2 ...>\` – Places combatant at the given initiative, instead of drawing.
-			• \`-controller <mention>\` – Pings a different person on turn.
-			• \`-group|-g <name>\` – Adds the combatant to a group.
-			• \`-hp <value>\` – Sets starting HP. Default: 3.
-			• \`-ar <value>\` – Sets the combatant's armor. Default: 0.
-			• \`-speed <value>\` – Sets the combatant's speed (number of initiative cards to draw). Default: 1.
-			• \`-haste <value>\` – Draws more initiative cards and keeps the best one. The other are shuffled back into the deck before others draw their cards. Use this for special talents like *Lightning Fast*. Default: 1.
-			• \`-h\` – Hides life, AR and anything else.`,
-		],
-		[
-			'`status <name> [-private]`',
-			'Gets the status of a combatant or group. The parameter `-private` sends a more detailed status in a private message to the controller of the combatant.',
-		],
-		[
-			'`hp <name> [value] [-max]`',
-			'Modifies the HP of a combatant. If the value is omitted, instead prints the details of the combatant. Use parameter `-max` if you want to set the Max HP value instead.',
-		],
-		[
-			'`attack|atk <damage> <[-t|-target] names...> [options...]`',
-			`Inflicts damage to another combatant and rolls their armor.
-
-			__Target__
-			• \`[-t|-target] <names...>\` – The target to inflict damage. If omitted, uses the current combattant. You can specify multiple targets by separating them with the \`|\` character. *E.g.: \`-t Bob|Will|Smith\`*
-
-			__Options__
-			• \`-ap [value]\` Armor piercing. Default is halved, rounded up. If a value is specified, instead decrease the Armor Rating by this value.
-			• \`-ad\` – Armor doubled. *(E.g.: for Shotguns in Alien RPG.)*
-			• \`-ab|-bonus\` – Armor bonus (applied after all other modifications).
-			• \`-x|-degrade\` – Whether the armor should be degraded. If omitted, uses the default from the game set.
-			• \`-noar|-noarmor\` – Skips the armor roll.
-			• \`-h\` – Hides the armor roll.`,
-		],
-		[
-			'`remove <name>`',
-			'Removes a combatant or group from the combat.',
-		],
-		[
-			'end [-force]',
-			'Ends combat in the channel. The parameter `-force` forces an init to end, in case it\'s erroring.',
-		],
-	],
+	description: 'cinit-description',
+	moreDescriptions: 'cinit-moredescriptions',
+	subDescriptions: 'cinit-subdescriptions',
 	guildOnly: true,
 	args: true,
 	usage: '<subcommand>',
 	async run(args, ctx) {
+		// Parses arguments for the language.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+
 		// Gets the subcommand.
-		const subcmd = args.shift().toLowerCase();
+		const subcmd = argv._.shift().toLowerCase();
 		try {
 			// Chooses the function for the subcommand.
 			switch (subcmd) {
-				case 'help': case 'h': await help(args, ctx); break;
-				case 'begin': await begin(args, ctx); break;
-				case 'add': await add(args, ctx); break;
-				case 'join': await join(args, ctx); break;
-				case 'madd': await madd(args, ctx); break;
-				case 'next': case 'n': await next(args, ctx); break;
-				case 'prev': case 'p': case 'previous': await prev(args, ctx); break;
-				case 'move': case 'goto': await move(args, ctx); break;
-				case 'skipround': case 'skip': await skipround(args, ctx); break;
-				case 'meta': await meta(args, ctx); break;
-				case 'list': case 'summary': await list(args, ctx); break;
-				case 'note': await note(args, ctx); break;
-				case 'edit': await edit(args, ctx); break;
-				case 'status': await status(args, ctx); break;
-				case 'hp': case 'health': case 'life': await setHp(args, ctx); break;
-				case 'attack': case 'atk': await attack(args, ctx); break;
-				case 'remove': await remove(args, ctx); break;
-				case 'end': await end(args, ctx); break;
+				case 'help': case 'h': await help(argv._, ctx, lang); break;
+				case 'begin': await begin(argv._, ctx, lang); break;
+				case 'add': await add(argv._, ctx, lang); break;
+				case 'join': await join(argv._, ctx, lang); break;
+				case 'madd': await madd(argv._, ctx, lang); break;
+				case 'next': case 'n': await next(argv._, ctx, lang); break;
+				case 'prev': case 'p': case 'previous': await prev(argv._, ctx, lang); break;
+				case 'move': case 'goto': await move(argv._, ctx, lang); break;
+				case 'skipround': case 'skip': await skipround(argv._, ctx, lang); break;
+				case 'meta': await meta(argv._, ctx, lang); break;
+				case 'list': case 'summary': await list(argv._, ctx, lang); break;
+				case 'note': await note(argv._, ctx, lang); break;
+				case 'edit': await edit(argv._, ctx, lang); break;
+				case 'status': await status(argv._, ctx, lang); break;
+				case 'hp': case 'health': case 'life': await setHp(argv._, ctx, lang); break;
+				case 'attack': case 'atk': await attack(argv._, ctx, lang); break;
+				case 'remove': await remove(argv._, ctx, lang); break;
+				case 'end': await end(argv._, ctx, lang); break;
 				default:
-					return ctx.reply(`:information_source: Incorrect usage. Use \`${ctx.prefix}help init\` for help.`);
+					return ctx.reply(`:information_source: ${__('cinit-incorrect-usage', lang).replace(/{prefix}/g, ctx.prefix)}`);
 			}
 		}
 		catch (error) {
 			if (error instanceof ChannelInCombat) {
-				return ctx.reply('⚠️ Cannot start a new combat instance because there is already one in progress.');
+				return ctx.reply(`⚠️ ${__('cinit-combat-already-in-progress', lang)}`);
 			}
 			else if (error instanceof CombatNotFound) {
-				return ctx.reply(`:information_source: No combat instance. Type \`${ctx.prefix}init begin\`.`);
+				return ctx.reply(`:information_source: ${__('cinit-no-combat-instance', lang).replace(/{prefix}/g, ctx.prefix)}`);
 			}
 			else if (error instanceof NoSelectionElementsError) {
-				return ctx.reply(':information_source: No combatant found with this name.');
+				return ctx.reply(`:information_source: ${__('cinit-no-combatant-with-name', lang)}`);
 			}
 			else {
 				// Otherwise, throws the error at the upper scale.
@@ -254,17 +110,18 @@ module.exports = {
  * HELP.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function help(args, ctx) {
+async function help(args, ctx, lang) {
 	let subcmd;
 	if (args.length) subcmd = args.shift().toLowerCase();
 	if (!subcmd) {
-		return ctx.bot.commands.get('help').run(['init'], ctx);
+		return ctx.bot.commands.get('help').run(['init', '-lang', lang], ctx);
 	}
-	const subcmdDesc = module.exports.subDescriptions.find(d => d[0].toLowerCase().includes(subcmd));
+	const subcmdDesc = __(module.exports.subDescriptions, lang).find(d => d[0].toLowerCase().includes(subcmd));
 	if (!subcmdDesc) {
-		return ctx.bot.commands.get('help').run(['init'], ctx);
+		return ctx.bot.commands.get('help').run(['init', '-lang', lang], ctx);
 	}
 	const title = subcmdDesc[0].toLowerCase();
 	const description = subcmdDesc[1];
@@ -280,9 +137,10 @@ async function help(args, ctx) {
  * BEGIN.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function begin(args, ctx) {
+async function begin(args, ctx, lang) {
 	await YZCombat.ensureUniqueChan(ctx);
 	const argv = YargsParser(args, {
 		array: ['name'],
@@ -296,9 +154,10 @@ async function begin(args, ctx) {
 	const options = {};
 	if (argv.name) options.name = argv.name.join(' ');
 	if (argv.turnnotif) options.turnnotif = argv.turnnotif;
+	options.lang = lang || 'en';
 
 	// Builds the summary message and the combat instance.
-	const tempSummaryMsg = await ctx.send('```Awaiting combatants...```');
+	const tempSummaryMsg = await ctx.send(`\`\`\`${__('cinit-awaiting-combatants', lang)}...\`\`\``);
 	const combat = new YZCombat(
 		ctx.channel.id,
 		tempSummaryMsg.id,
@@ -316,7 +175,7 @@ async function begin(args, ctx) {
 	}
 	catch (err) { console.error(err); }
 
-	const desc = ':doughnut: **Combat Scene Started:** Everyone draw the initiative!\n'
+	const desc = `:doughnut: ${__('cinit-combat-scene-started', lang)}\n`
 		+ '```\n'
 		+ `${ctx.prefix}init join [options...]\n`
 		+ `${ctx.prefix}init add <name> [options...]\n`
@@ -329,32 +188,33 @@ async function begin(args, ctx) {
  * ADD.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function add(args, ctx) {
+async function add(args, ctx, lang) {
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name = argv._.join(' ');
-	const hidden = argv.h || false;
-	const places = argv.p;
+	const hidden = argv.private || false;
+	const places = argv.place;
 	const group = argv.group ? argv.group.join(' ') : null;
 	const hp = +argv.hp || 3;
-	const armor = +argv.ar || 0;
+	const armor = +argv.armor || 0;
 	const speed = +argv.speed || 1;
 	const haste = +argv.haste || 1;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
 	let controller = ctx.author.id;
 
-	if (!name) return ctx.reply('⚠️ This combatant needs a name.');
+	if (!name) return ctx.reply(`⚠️ ${__('cinit-combatant-needs-name', lang)}`);
 
 	if (argv.controller) {
 		const member = await Sebedius.fetchMember(argv.controller.join(' '), ctx);
 		if (member) controller = member.id;
 	}
 	if (hp < 1) {
-		return ctx.reply('⚠️ You must pass in a positive nonzero HP with the `-hp` tag.');
+		return ctx.reply(`⚠️ ${__('cinit-hp-must-be-positive', lang)}`);
 	}
 	if (armor < 0) {
-		return ctx.reply('⚠️ You must pass in a positive AR with the `-ar` tag.');
+		return ctx.reply(`⚠️ ${__('cinit-armor-must-be-positive', lang)}`);
 	}
 
 	// Gets the Combat instance for this channel.
@@ -362,29 +222,29 @@ async function add(args, ctx) {
 
 	// Exits if the combatant already exists.
 	if (combat.getCombatant(name)) {
-		return ctx.reply('⚠️ Combatant already exists.');
+		return ctx.reply(`⚠️ ${__('cinit-combatant-already-exists', lang)}`);
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes, lang });
 
 	if (places) {
 		places.forEach(p => {
-			if (!Util.isNumber(p)) return ctx.reply('⚠️ You must pass in numbers with the `-p` tag.');
-			else if (p < 1) return ctx.reply('⚠️ You must pass in a positive nonzero initiative value with the `-p` tag.');
+			if (!Util.isNumber(p)) return ctx.reply(`⚠️ ${__('cinit-initiative-must-be-numbers', lang)}`);
+			else if (p < 1) return ctx.reply(`⚠️ ${__('cinit-initiative-must-be-positive', lang)}`);
 		});
 		me.inits = places.map(init => +init);
 	}
 
 	if (!group) {
 		combat.addCombatant(me);
-		await ctx.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		await ctx.send(`:white_check_mark: **${name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\`.`);
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 		grp.addCombatant(me);
 		await ctx.send(
-			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
+			`:white_check_mark: **${name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\` ${__('cinit-added-as-part-of-group', lang)} __${grp.name}__.`,
 		);
 	}
 	await combat.final();
@@ -394,16 +254,17 @@ async function add(args, ctx) {
  * JOIN.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function join(args, ctx) {
+async function join(args, ctx, lang) {
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name = ctx.member.displayName;
-	const hidden = argv.h || false;
-	const places = argv.p;
+	const hidden = argv.private || false;
+	const places = argv.place;
 	const group = argv.group ? argv.group.join(' ') : null;
 	const hp = +argv.hp || 3;
-	const armor = +argv.ar || 0;
+	const armor = +argv.armor || 0;
 	const speed = +argv.speed || 1;
 	const haste = +argv.haste || 1;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
@@ -416,10 +277,10 @@ async function join(args, ctx) {
 		.setColor(ctx.member.displayColor);//*/
 
 	if (hp < 1) {
-		return ctx.reply('⚠️ You must pass in a positive nonzero HP with the `-hp` tag.');
+		return ctx.reply(`⚠️ ${__('cinit-hp-must-be-positive', lang)}`);
 	}
 	if (armor < 0) {
-		return ctx.reply('⚠️ You must pass in a positive AR with the `-ar` tag.');
+		return ctx.reply(`⚠️ ${__('cinit-armor-must-be-positive', lang)}`);
 	}
 
 	// Gets the Combat instance for this channel.
@@ -427,30 +288,30 @@ async function join(args, ctx) {
 
 	// Exits if the combatant already exists.
 	if (combat.getCombatant(name)) {
-		return ctx.reply('⚠️ Combatant already exists.');
+		return ctx.reply(`⚠️ ${__('cinit-combatant-already-exists', lang)}`);
 	}
 
 	// Creates the combatant.
-	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+	const me = new YZCombatant({ name, controller, hidden, hp, armor, speed, haste, notes, lang });
 
 	if (places) {
 		places.forEach(p => {
-			if (!Util.isNumber(p)) return ctx.reply('⚠️ You must pass in numbers with the `-p` tag.');
-			else if (p < 1) return ctx.reply('⚠️ You must pass in a positive nonzero initiative value with the `-p` tag.');
+			if (!Util.isNumber(p)) return ctx.reply(`⚠️ ${__('cinit-initiative-must-be-numbers', lang)}`);
+			else if (p < 1) return ctx.reply(`⚠️ ${__('cinit-initiative-must-be-positive', lang)}`);
 		});
 		me.inits = places.map(init => +init);
 	}
 
 	if (!group) {
 		combat.addCombatant(me);
-		await ctx.send(`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.`);
+		await ctx.send(`:white_check_mark: **${name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\`.`);
 		// embed.setFooter('Added to combat!');
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 		grp.addCombatant(me);
 		await ctx.send(
-			`:white_check_mark: **${name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.`,
+			`:white_check_mark: **${name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\` ${__('cinit-added-as-part-of-group', lang)} __${grp.name}__.`,
 		);
 	}
 	await combat.final();
@@ -461,25 +322,26 @@ async function join(args, ctx) {
  * MONSTER-ADD.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function madd(args, ctx) {
+async function madd(args, ctx, lang) {
 	const monsterFaces = [':smiling_imp:', ':imp:', ':supervillain:', ':boar:',
 		':squid:', ':dragon_face:', ':snake:'];
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
 	const name_template = argv._.join(' ') + ' $X';
-	const hidden = argv.h || false;
-	const places = argv.p;
+	const hidden = argv.private || false;
+	const places = argv.place;
 	const group = argv.group ? argv.group.join(' ') : null;
 	const hp = +argv.hp || 3;
-	const armor = +argv.ar || 0;
+	const armor = +argv.armor || 0;
 	const speed = +argv.speed || 1;
 	const haste = +argv.haste || 1;
 	const notes = argv.notes ? argv.notes.join(' ') : null;
-	const qty = argv.n ? Util.clamp(+argv.n, 1, 25) : 1;
+	const qty = argv.monsters ? Util.clamp(+argv.monsters, 1, 25) : 1;
 
 	if (name_template.length <= 3) {
-		return await ctx.send('⚠️ Please indicate a name for the monster.');
+		return await ctx.send(`⚠️ ${__('cinit-indicate-monster-name', lang)}`);
 	}
 
 	let out = '';
@@ -497,7 +359,7 @@ async function madd(args, ctx) {
 				name = rawName.replace('$X', nameNum);
 			}
 			else {
-				out += '❌ Combatant already exists.\n';
+				out += `❌ ${__('cinit-combatant-already-exists', lang)}\n`;
 				toContinue = true;
 				break;
 			}
@@ -507,28 +369,28 @@ async function madd(args, ctx) {
 		}
 		try {
 			const controller = ctx.author.id;
-			const me = new YZMonsterCombatant({ name, controller, hidden, hp, armor, speed, haste, notes });
+			const me = new YZMonsterCombatant({ name, controller, hidden, hp, armor, speed, haste, notes, lang });
 
 			if (places) {
 				places.forEach(p => {
-					if (!Util.isNumber(p)) return ctx.reply('⚠️ You must pass in numbers with the `-p` tag.');
-					else if (p < 1) return ctx.reply('⚠️ You must pass in a positive nonzero initiative value with the `-p` tag.');
+					if (!Util.isNumber(p)) return ctx.reply(`⚠️ ${__('cinit-initiative-must-be-numbers', lang)}`);
+					else if (p < 1) return ctx.reply(`⚠️ ${__('cinit-initiative-must-be-positive', lang)}`);
 				});
 				me.inits = places;
 			}
 			if (!group) {
 				combat.addCombatant(me);
-				out += `${Util.random(monsterFaces)} **${me.name}** was added to combat with initiative \`${me.inits.join('`, `')}\`.\n`;
+				out += `${Util.random(monsterFaces)} **${me.name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\`.\n`;
 			}
 			else {
 				const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
 				grp.addCombatant(me);
-				out += `${Util.random(monsterFaces)} **${me.name}** was added to combat with initiative \`${me.inits.join('`, `')}\` as part of group __${grp.name}__.\n`;
+				out += `${Util.random(monsterFaces)} **${me.name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\` ${__('cinit-added-as-part-of-group', lang)} __${grp.name}__.\n`;
 			}
 		}
 		catch (error) {
 			console.warn(error);
-			out += `❌ Error adding combatant: ${error.name}`;
+			out += `❌ ${__('cinit-error-adding-combatant', lang)}: ${error.name}`;
 		}
 	}
 	await combat.final();
@@ -539,13 +401,14 @@ async function madd(args, ctx) {
  * NEXT.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function next(args, ctx) {
+async function next(args, ctx, lang) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply('❌ There are no combatants.');
+		return ctx.reply(`❌ ${__('cinit-no-combatants', lang)}`);
 	}
 
 	const isAllowedToPass =
@@ -554,7 +417,7 @@ async function next(args, ctx) {
 		combat.dm === ctx.author.id;
 
 	if (!isAllowedToPass) {
-		return ctx.reply(':information_source: It is not your turn.');
+		return ctx.reply(`:information_source: ${__('cinit-not-your-turn', lang)}`);
 	}
 
 	let thisTurn;
@@ -576,7 +439,7 @@ async function next(args, ctx) {
 	// Important: Remove before advancing turn (incompatilibilites with multiple inits values).
 	for (const co of toRemove) {
 		combat.removeCombatant(co);
-		out.push(`:soap: **${co.name}** automatically removed from combat.`);
+		out.push(`:soap: **${co.name}** ${__('cinit-automatically-removed', lang)}`);
 	}
 
 	combat.advanceTurn();
@@ -590,19 +453,20 @@ async function next(args, ctx) {
  * PREV.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function prev(args, ctx) {
+async function prev(args, ctx, lang) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply('❌ There are no combatants.');
+		return ctx.reply(`❌ ${__('cinit-no-combatants', lang)}`);
 	}
 	if (!combat.index) {
-		return ctx.reply(`⚠️ Please start combat with \`${ctx.prefix}init next\` first.`);
+		return ctx.reply(`⚠️ ${__('cinit-start-combat-first', lang).replace(/{prefix}/g, ctx.prefix)}`);
 	}
 	if (combat.round <= 1 && combat.index <= combat.initiatives.min) {
-		return ctx.reply(':information_source: There is no previous turn.');
+		return ctx.reply(`:information_source: ${__('cinit-no-previous-turn', lang)}`);
 	}
 	combat.rewindTurn();
 	await combat.final();
@@ -613,13 +477,14 @@ async function prev(args, ctx) {
  * MOVE.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function move(args, ctx) {
+async function move(args, ctx, lang) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply('❌ There are no combatants.');
+		return ctx.reply(`❌ ${__('cinit-no-combatants', lang)}`);
 	}
 
 	let combatant;
@@ -627,7 +492,7 @@ async function move(args, ctx) {
 	if (!target) {
 		combatant = combat.getCombatants().find(c => c.controller === ctx.author.id);
 		if (!combatant) {
-			return ctx.reply(':information_source: You don\'t control any combatants.');
+			return ctx.reply(`:information_source: ${__('cinit-no-combatant-control', lang)}`);
 		}
 		combat.gotoTurn(combatant, true);
 	}
@@ -653,19 +518,21 @@ async function move(args, ctx) {
  * SKIPROUND.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function skipround(args, ctx) {
+async function skipround(args, ctx, lang) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply('❌ There are no combatants.');
+		return ctx.reply(`❌ ${__('cinit-no-combatants', lang)}`);
 	}
 	if (!combat.index) {
-		return ctx.reply(`⚠️ Please start combat with \`${ctx.prefix}init next\` first.`);
+		return ctx.reply(`⚠️ ${__('cinit-start-combat-first', lang).replace(/{prefix}/g, ctx.prefix)}`);
 	}
 
-	const numRounds = +args.shift();
+	// Number of rounds to skip are provided, otherwise skip 1 round
+	const numRounds = +args.shift() || 1;
 
 	const toRemove = [];
 	for (const co of combat.getCombatants()) {
@@ -675,11 +542,11 @@ async function skipround(args, ctx) {
 	}
 	const out = combat.skipRounds(numRounds);
 
-	out.push(`:fast_forward: Skipped **${numRounds}** round${numRounds > 1 ? 's' : ''}.`);
+	out.push(`:fast_forward: ${__(numRounds > 1 ? 'cinit-skipped-rounds' : 'cinit-skipped-round', lang).replace(/{number_of_rounds}/g, numRounds)}.`);
 
 	for (const co of toRemove) {
 		combat.removeCombatant(co);
-		out.push(`:soap: **${co.name}** automatically removed from combat.`);
+		out.push(`:soap: **${co.name}** ${__('cinit-automatically-removed', lang)}`);
 	}
 
 	out.push(combat.getTurnString());
@@ -692,9 +559,10 @@ async function skipround(args, ctx) {
  * META.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function meta(args, ctx) {
+async function meta(args, ctx, lang) {
 	const argv = YargsParser(args, {
 		array: ['name'],
 		boolean: ['turnnotif'],
@@ -710,15 +578,22 @@ async function meta(args, ctx) {
 
 	if (argv.name) {
 		options.name = argv.name.join(' ');
-		outStr += `:label: Name set to **${options.name}**.\n`;
+		outStr += `:label: ${__('cinit-name-set-to', lang).replace(/{name}/g, options.name)}\n`;
 	}
 	if (argv.turnnotif != null) {
 		options.turnnotif = !options.turnnotif;
-		outStr += `:bulb: Turn notification turned **${options.turnnotif ? 'on' : 'off'}**.\n`;
+		outStr += `:bulb: ${__('cinit-turn-notification-changed', lang)} **${__(options.turnnotif ? 'on' : 'off', lang)}**.\n`;
 	}
 	if (argv.game) {
 		combat.game = argv.game;
-		outStr += `:game_die: Game set to **${SOURCE_MAP[combat.game]}**.\n`;
+		outStr += `:game_die: ${__('cinit-game-set-to', lang).replace(/{game}/g, SOURCE_MAP[combat.game])}\n`;
+	}
+
+	// If no parameters were given then print out the current values
+	if (!outStr) {
+		outStr += `:label: ${__('cinit-name-set-to', lang).replace(/{name}/g, options.name)}\n`;
+		outStr += `:bulb: ${__('cinit-turn-notification-changed', lang)} **${__(options.turnnotif ? 'on' : 'off', lang)}**.\n`;
+		outStr += `:game_die: ${__('cinit-game-set-to', lang).replace(/{game}/g, SOURCE_MAP[combat.game])}\n`;
 	}
 
 	combat.options = options;
@@ -730,11 +605,15 @@ async function meta(args, ctx) {
  * LIST.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function list(args, ctx) {
+async function list(args, ctx, lang) {
 	const argv = YargsParser(args, {
 		boolean: ['private'],
+		alias: {
+			private: ['hidden', 'hide', 'h'],
+		},
 		default: {
 			private: false,
 		},
@@ -757,25 +636,26 @@ async function list(args, ctx) {
  * NOTE.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function note(args, ctx) {
+async function note(args, ctx, lang) {
 	const name = args.shift();
-	await edit([name, '-note', ...args], ctx);
+	await edit([name, '-note', ...args], ctx, lang);
 }
 
 /**
  * EDIT.
  * @param {string[]} args
- * @param {Discord.Message} message
- * @param {Discord.Client} client
+ * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function edit(args, ctx) {
+async function edit(args, ctx, lang) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
 	if (combat.getCombatants().length === 0) {
-		return ctx.reply('❌ There are no combatants.');
+		return ctx.reply(`❌ ${__('cinit-no-combatants', lang)}`);
 	}
 
 	const argv = YargsParser(args, YARGS_PARSE_COMBATANT);
@@ -784,7 +664,7 @@ async function edit(args, ctx) {
 
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return ctx.reply('❌ Combatant not found.');
+		return ctx.reply(`❌ ${__('cinit-no-combatant-with-name', lang)}`);
 	}
 
 	// const options = {};
@@ -793,51 +673,51 @@ async function edit(args, ctx) {
 
 	const out = [];
 
-	if (argv.h != null && argv.h != undefined) {
+	if (argv.private != null && argv.private != undefined) {
 		combatant.hidden = !combatant.hidden;
-		out.push(`:spy: ${combatant.name} is **${combatant.isPrivate() ? 'hidden' : 'unhidden'}**.`);
+		out.push(`:spy: ${combatant.name} ${__(combatant.isPrivate() ? 'cinit-combatant-hidden' : 'cinit-combatant-unhidden', lang)}`);
 		modifCount++;
 	}
 	if (argv.controller) {
 		const member = await Sebedius.fetchMember(argv.controller.join(' '), ctx);
 		if (!member) {
-			out.push('❌ New controller not found.');
+			out.push(`❌ ${__('cinit-new-controller-not-found', lang)}`);
 		}
 		else {
 			combatant.controller = member.id;
-			out.push(`:bust_in_silhouette: ${combatant.name}'s controller set to ${combatant.controllerMention()}.`);
+			out.push(`:bust_in_silhouette: ${__('cinit-combatant-controller-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{controller}/g, combatant.controllerMention())}`);
 		}
 		modifCount++;
 	}
-	if (argv.ar) {
+	if (argv.armor) {
 		const oldArmor = combatant.armor;
-		const newArmor = Util.modifOrSet(argv.ar, oldArmor);
+		const newArmor = Util.modifOrSet(argv.armor, oldArmor);
 		combatant.armor = newArmor;
-		out.push(`:shield: ${combatant.name}'s armor set to **${combatant.armor}** (was ${oldArmor}).`);
+		out.push(`:shield: ${__('cinit-combatant-armor-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{new_armor}/g, combatant.armor).replace(/{old_armor}/g, oldArmor)}`);
 		modifCount++;
 	}
 	if (argv.speed) {
 		const oldSpeed = combatant.speed;
 		const newSpeed = Util.modifOrSet(argv.speed, oldSpeed);
 		combatant.speed = newSpeed;
-		out.push(`:snail: ${combatant.name}'s speed set to **${combatant.speed}** (was ${oldSpeed}).`);
+		out.push(`:snail: ${__('cinit-combatant-speed-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{new_speed}/g, combatant.speed).replace(/{old_speed}/g, oldSpeed)}`);
 		modifCount++;
 	}
 	if (argv.haste) {
 		const oldHaste = combatant.haste;
 		const newHaste = Util.modifOrSet(argv.haste, oldHaste);
 		combatant.haste = newHaste;
-		out.push(`:athletic_shoe: ${combatant.name}'s haste set to **${combatant.haste}** (was ${oldHaste}).`);
+		out.push(`:athletic_shoe: ${__('cinit-combatant-haste-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{new_haste}/g, combatant.haste).replace(/{old_haste}/g, oldHaste)}`);
 		modifCount++;
 	}
-	if (argv.p) {
+	if (argv.place) {
 		if (combatant === combat.currentCombatant) {
-			out.push('❌ You cannot change a combatant\'s initiative on their own turn.');
+			out.push(`❌ ${__('cinit-cant-change-initiative-on-turn', lang)}`);
 		}
-		else if (argv.p.length) {
+		else if (argv.place.length) {
 			const oldInits = combatant.inits;
 			const newInits = [];
-			argv.p.forEach((init, i) => {
+			argv.place.forEach((init, i) => {
 				if (i < oldInits.length) {
 					newInits.push(Util.modifOrSet(init, oldInits[i]));
 				}
@@ -847,10 +727,10 @@ async function edit(args, ctx) {
 			});
 			combatant.inits = newInits;
 			combat.sortCombatants();
-			out.push(`:zap: ${combatant.name}'s initiative set to \`${combatant.inits.join('`, `')}\` (was ${oldInits}).`);
+			out.push(`:zap: ${__('cinit-combatant-initiative-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{new_init}/g, combatant.inits.join('`, `')).replace(/{old_init}/g, oldInits)}`);
 		}
 		else {
-			out.push(`⚠️ Invalid argument: ${argv.p}.`);
+			out.push(`⚠️ Invalid argument: ${argv.place}.`);
 		}
 		modifCount++;
 	}
@@ -858,14 +738,14 @@ async function edit(args, ctx) {
 		const oldName = combatant.name;
 		const newName = argv.name.join(' ');
 		if (combat.getCombatant(newName, true)) {
-			out.push(`❌ There is already another combatant with the name ${newName}`);
+			out.push(`❌ ${__('cinit-duplicate-name', lang)} ${newName}`);
 		}
 		else if (newName) {
 			combatant.name = newName;
-			out.push(`:ticket: ${oldName}'s name set to **${newName}**.`);
+			out.push(`:ticket: ${__('cinit-combatant-name-changed', lang).replace(/{old_name}/g, oldName).replace(/{new_name}/g, newName)}`);
 		}
 		else {
-			out.push('⚠️ You must pass in a name with the `-name` tag.');
+			out.push(`⚠️ ${__('cinit-missing-name', lang)}`);
 		}
 		modifCount++;
 	}
@@ -873,11 +753,11 @@ async function edit(args, ctx) {
 		const oldMax = combatant.maxhp;
 		const newMax = Util.modifOrSet(argv.max, oldMax);
 		if (newMax < 1) {
-			out.push('⚠️ Max HP must at least be 1.');
+			out.push(`⚠️ ${__('cinit-max-hp-minimum', lang)}`);
 		}
 		else {
 			combatant.maxhp = newMax;
-			out.push(`:drop_of_blood: ${combatant.name}'s Max HP set to **${combatant.maxhp}** (was ${oldMax}).`);
+			out.push(`:drop_of_blood: ${__('cinit-combatant-max-hp-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{new_max}/g, combatant.maxhp).replace(/{old_max}/g, oldMax)}`);
 		}
 		modifCount++;
 	}
@@ -885,18 +765,18 @@ async function edit(args, ctx) {
 		const oldLife = combatant.hp;
 		const newLife = Util.modifOrSet(argv.hp, oldLife);
 		combatant.hp = newLife;
-		out.push(`:drop_of_blood: ${combatant.name}'s HP set to **${combatant.hp}** (was ${oldLife}).`);
+		out.push(`:drop_of_blood: ${__('cinit-combatant-hp-changed', lang).replace(/{combatant}/g, combatant.name).replace(/{new_hp}/g, combatant.hp).replace(/{old_hp}/g, oldLife)}`);
 		modifCount++;
 	}
 	if (argv.notes) {
 		const notes = argv.notes.join(' ');
 		if (notes.length > 0) {
 			combatant.notes = notes;
-			out.push(`:notepad_spiral: Added note for **${combatant.name}**.`);
+			out.push(`:notepad_spiral: ${__('cinit-combatant-note-added', lang)} **${combatant.name}**.`);
 		}
 		else {
 			combatant.notes = null;
-			out.push(`:notepad_spiral: Removed note for **${combatant.name}**.`);
+			out.push(`:notepad_spiral: ${__('cinit-combatant-note-removed', lang)} **${combatant.name}**.`);
 		}
 		modifCount++;
 	}
@@ -918,7 +798,7 @@ async function edit(args, ctx) {
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
 			}
-			out.push(`:outbox_tray: **${combatant.name}** removed from all groups.`);
+			out.push(`:outbox_tray: **${combatant.name}** ${__('cinit-combatant-removed-from-groups', lang)}`);
 		}
 		else {
 			const grp = combat.getGroup(groupName, true,
@@ -930,7 +810,7 @@ async function edit(args, ctx) {
 			if (wasCurrent) {
 				combat.gotoTurn(combatant, true);
 			}
-			out.push(`:inbox_tray: **${combatant.name}** added to group __${grp.name}__.`);
+			out.push(`:inbox_tray: ${__('cinit-combatant-added-to-group', lang).replace(/{combatant}/g, combatant.name).replace(/{group}/g, grp.name)}`);
 		}
 		modifCount++;
 	}
@@ -939,7 +819,7 @@ async function edit(args, ctx) {
 		await ctx.send(out.join('\n'));
 	}
 	else {
-		await ctx.reply(':information_source: Nothing was modified.');
+		await ctx.reply(`:information_source: ${__('cinit-nothing-modified', lang)}`);
 	}
 }
 
@@ -947,11 +827,15 @@ async function edit(args, ctx) {
  * STATUS.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function status(args, ctx) {
+async function status(args, ctx, lang) {
 	const argv = YargsParser(args, {
 		boolean: ['private'],
+		alias: {
+			private: ['hidden', 'hide', 'h'],
+		},
 		default: {
 			private: false,
 		},
@@ -962,7 +846,7 @@ async function status(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return ctx.reply('❌ Combatant or group not found.');
+		return ctx.reply(`❌ ${__('cinit-combatant-or-group-not-found', lang)}`);
 	}
 
 	let privacy = argv.private;
@@ -1008,9 +892,10 @@ async function status(args, ctx) {
  * HP.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function setHp(args, ctx) {
+async function setHp(args, ctx, lang) {
 	const name = args.shift();
 	const hp = args.shift();
 	const max = args.includes('-max');
@@ -1018,7 +903,7 @@ async function setHp(args, ctx) {
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name);
 	if (!combatant) {
-		return ctx.reply('❌ Combatant not found.');
+		return ctx.reply(`❌ ${__('cinit-no-combatant-with-name', lang)}`);
 	}
 
 	if (!Util.isNumber(hp)) {
@@ -1031,10 +916,10 @@ async function setHp(args, ctx) {
 		}
 	}
 	else if (max) {
-		await edit([combatant.name, '-max', hp], ctx);
+		await edit([combatant.name, '-max', hp], ctx, lang);
 	}
 	else {
-		await edit([combatant.name, '-hp', hp], ctx);
+		await edit([combatant.name, '-hp', hp], ctx, lang);
 	}
 }
 
@@ -1042,41 +927,44 @@ async function setHp(args, ctx) {
  * ATTACK.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function attack(args, ctx) {
+async function attack(args, ctx, lang) {
 	const argv = YargsParser(args, {
-		array: ['t'],
-		boolean: ['ad', 'h', 'degrade', 'noar'],
-		number: ['ab'],
+		array: ['target'],
+		boolean: ['armordoubled', 'armorpierced', 'private', 'degrade', 'noarmor'],
+		number: ['armorbonus', 'armorpierced'],
 		alias: {
-			h: ['hidden', 'private'],
-			t: ['target'],
-			ad: ['bonus'],
+			private: ['hidden', 'hide', 'h'],
+			target: ['t'],
+			armordoubled: ['ad', 'doubled'],
+			armorpierced: ['ap', 'pierced'],
+			armorbonus: ['bonus', 'ab'],
 			degrade: ['x'],
-			noar: ['noarmor'],
+			noarmor: ['noar'],
 		},
 		configuration: ctx.bot.config.yargs,
 	});
 	const damage = +argv._.shift() || 0;
-	const combatantName = argv.t ? argv.t.join(' ') : argv._.join(' ');
+	const combatantName = argv.target ? argv.target.join(' ') : argv._.join(' ');
 
 	if (combatantName.includes('|')) {
 		const names = combatantName.split('|');
 		for (const name of names) {
 			if (name.length) {
-				await attack([damage, '-t', name], ctx);
+				await attack([damage, '-t', name], ctx, lang);
 			}
 		}
 		return;
 	}
 
-	const noArmor = argv.noar ? true : false;
-	const isArmorPierced = argv.ap === true ? true : false;
-	const isArmorDoubled = argv.ad ? true : false;
+	const noArmor = argv.noarmor ? true : false;
+	const isArmorPierced = argv.armorpierced === true ? true : false;
+	const isArmorDoubled = argv.armordoubled ? true : false;
 	const armorFactor = (isArmorDoubled ? 2 : 1) * (isArmorPierced ? 0.5 : 1) * (noArmor ? 0 : 1);
-	const armorMod = (argv.ab ? +argv.ab : 0) + (Util.isNumber(argv.ap) ? -Math.abs(argv.ap) : 0);
-	const hidden = argv.h ? true : false;
+	const armorMod = (argv.armorbonus ? +argv.armorbonus : 0) + (Util.isNumber(argv.armorpierced) ? -Math.abs(argv.armorpierced) : 0);
+	const hidden = argv.private ? true : false;
 
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 
@@ -1088,50 +976,50 @@ async function attack(args, ctx) {
 	if (!combatantName) {
 		combatant = combat.currentCombatant;
 		if (!combatant) {
-			return ctx.send(`⚠️ You must start combat with \`${ctx.prefix}init next\` first.`);
+			return ctx.send(`⚠️ ${__('cinit-start-combat-first', lang).replace(/{prefix}/g, ctx.prefix)}`);
 		}
 	}
 	else {
 		try {
-			combatant = await combat.selectCombatant(combatantName, ':speech_balloon: Select the target.');
+			combatant = await combat.selectCombatant(combatantName, `:speech_balloon: ${__('cinit-select-target', lang)}`);
 		}
 		catch (error) {
 			console.error(error);
-			return ctx.send('❌ Target not found.');
+			return ctx.send(`❌ ${__('cinit-target-not-found', lang)}`);
 		}
 	}
 	// Warns.
-	await ctx.send(`:crossed_swords: Attacking **${combatant.name}** with **${damage}** damage.`);
+	await ctx.send(`:crossed_swords: ${__('cinit-attacking', lang).replace(/{combatant}/g, combatant.name).replace(/{damage}/g, damage)}`);
 
 	// Rolls the armor.
 	const armorRoll = combat.damageCombatant(combatant, damage, game, degradeArmor, armorMod, armorFactor);
-	const finalDamage = Math.max(damage - armorRoll.sixes, 0);
+	const finalDamage = Math.max(damage - armorRoll.successCount, 0);
 	const armorDamage = (degradeArmor && finalDamage > 0) ? armorRoll.banes : 0;
 
 	// Sends the report
 	const out = [];
 	if (hidden || combatant.isPrivate()) {
 		if (finalDamage > 0) {
-			out.push(`:boom: **${combatant.name}** was hit.`);
+			out.push(`:boom: **${combatant.name}** ${__('cinit-combatant-was-hit', lang)}`);
 		}
 		else {
-			out.push(`:mechanical_arm: No damage were inflicted. **${combatant.name}**'s armor absorbed the totality.`);
+			out.push(`:mechanical_arm: ${__('cinit-combatant-blocked-all-damage', lang).replace(/{combatant}/g, combatant.name)}`);
 		}
 	}
 	else {
 		const dice = Sebedius.emojifyRoll(armorRoll, ctx.bot.config.commands.roll.options[game]);
 		const embed = new MessageEmbed()
-			.setTitle('Damage & Armor Roll')
+			.setTitle(__('cinit-damage-armor-roll', lang))
 			.setDescription(
-				`:boom: Damage inflicted: **${finalDamage}**
-				:shield: Damage absorbed: **${damage - finalDamage}**
-				${armorDamage > 0 ? `:anger: Armor degraded: **-${armorDamage}**` : ''}`,
+				`:boom: ${__('cinit-damage-inflicted', lang)}: **${finalDamage}**
+				:shield: ${__('cinit-damage-absorbed', lang)}: **${damage - finalDamage}**
+				${armorDamage > 0 ? `:anger: ${__('cinit-armor-degraded', lang)}: **-${armorDamage}**` : ''}`,
 			);
 		await ctx.send(dice, embed);
 	}
 
 	if (combatant.hp <= 0) {
-		out.push(`:skull: **${combatant.name}** is \`BROKEN\` by damage.`);
+		out.push(`:skull: **${combatant.name}** ${__('cinit-combatant-broken', lang)}`);
 		// await ctx.bot.commands.get('crit').run([], ctx);
 	}
 
@@ -1143,28 +1031,29 @@ async function attack(args, ctx) {
  * REMOVE.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function remove(args, ctx) {
+async function remove(args, ctx, lang) {
 	const name = args.join(' ');
 	const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 	const combatant = await combat.selectCombatant(name, null, true);
 	if (!combatant) {
-		return ctx.reply('❌ Combatant not found.');
+		return ctx.reply(`❌ ${__('cinit-no-combatant-with-name', lang)}`);
 	}
 	if (combatant === combat.currentCombatant) {
-		return ctx.reply(':information_source: You cannot remove a combatant on their own turn.');
+		return ctx.reply(`:information_source: ${__('cinit-cant-remove-in-own-turn', lang)}`);
 	}
 	if (combatant.group) {
 		const group = combat.getGroup(combatant.group);
 		if (group.getCombatants().length <= 1 && group === combat.currentCombatant) {
 			return ctx.reply(
-				':information_source: You cannot remove a combatant if they are the only remaining combatant in this turn.',
+				`:information_source: ${__('cinit-cant-remove-last-combatant', lang)}`,
 			);
 		}
 	}
 	combat.removeCombatant(combatant);
-	await ctx.send(`:soap: **${combatant.name}** removed from combat.`);
+	await ctx.send(`:soap: **${combatant.name}** ${__('cinit-removed', lang)}`);
 	await combat.final();
 }
 
@@ -1172,35 +1061,36 @@ async function remove(args, ctx) {
  * END.
  * @param {string[]} args
  * @param {Discord.Message} ctx
+ * @param {string} lang The language code to be used
  * @async
  */
-async function end(args, ctx) {
+async function end(args, ctx, lang) {
 	const toEnd = await Sebedius.confirm(
 		ctx,
-		':speech_balloon: **Are you sure you want to end combat?** *(reply with yes/no)*',
+		`:speech_balloon: ${__('cinit-end-confirmation', lang)}`,
 		true,
 	);
 	if (toEnd === null || toEnd === undefined) {
-		return ctx.send('❌ Timed out waiting for a response or invalid response.')
+		return ctx.send(`❌ ${__('cinit-timeout', lang)}`)
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 	else if (!toEnd) {
-		return ctx.send('❌ OK, cancelling.')
+		return ctx.send(`❌ ${__('cinit-cancelling', lang)}`)
 			.then(m => m.delete(10000))
 			.catch(console.error);
 	}
 
-	const msg = await ctx.send('⏹️ OK, ending...');
+	const msg = await ctx.send(`⏹️ ${__('cinit-ending', lang)}`);
 	if (!args.includes('-force')) {
 		const combat = await YZCombat.fromId(ctx.channel.id, ctx);
 		try {
 			await ctx.author.send(
-				`End of combat report: ${combat.round} rounds`
+				`${__('cinit-summary', lang).replace(/{rounds}/g, combat.round)}`
 				+ `${combat.getSummary(true)}`);
 
 			const summary = await combat.getSummaryMsg();
-			await summary.edit(combat.getSummary() + ' ```-----COMBAT ENDED-----```');
+			await summary.edit(combat.getSummary() + ` \`\`\`-----${__('cinit-ended', lang).toUpperCase()}-----\`\`\``);
 			await summary.unpin();
 		}
 		catch (err) { console.error(err); }
@@ -1210,5 +1100,5 @@ async function end(args, ctx) {
 	else {
 		await ctx.bot.kdb.combats.delete(ctx.channel.id);
 	}
-	await msg.edit(':ballot_box_with_check: Combat ended.');
+	await msg.edit(`:ballot_box_with_check: ${__('cinit-ended', lang)}.`);
 }
