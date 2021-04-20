@@ -39,8 +39,8 @@ mfbl-animal-canide-war-hound;5;3;;;2;5;;Move 2|Melee 3|Scout 3;;fbl;{biss:0:1:0:
 mfbl-animal-crocodile;4;2;;;1;4;;Melee 3|Scout 3;;fbl;{biss:0:2:0:Schnittwunde:1}
 mfbl-animal-dog;3;3;;;2;3;;Melee 1|Scout 5;;fbl;{biss:0:1:0:Schnittwunde:1}
 mfbl-animal-cat;1;5;;;1;1;;Move 4|Scout 5;;fbl;{klauen:0:1:0:Schnittwunde:1}
-mfbl-animal-rats;4;3;;;1;4;;Move 3|Scout 4;**Swarm** A swarm of animals is handled as a single creature with a Strength rating that represents the swarm as a whole. A single attack on a swarm can never inflict more than one point of damage.;fbl;{biss:0:1:0:Schnittwunde:1}
-mfbl-animal-bats;5;3;;;2;5;;Move 3|Scout 5;**Swarm** A swarm of animals is handled as a single creature with a Strength rating that represents the swarm as a whole. A single attack on a swarm can never inflict more than one point of damage.;fbl;{biss:0:1:0:Schnittwunde:1}
+mfbl-animal-rats;4;3;;;1;4;;Move 3|Scout 4;**Schwarm** Ein Schwarm von Tieren wird als eine einzige Kreatur behandelt, wobei der Stärke-Wert den Schwarm als Ganzes repräsentiert. Ein einzelner Angriff auf einen Schwarm kann nie mehr als 1 Punkt Schaden verursachen.;fbl;{biss:0:1:0:Schnittwunde:1}
+mfbl-animal-bats;5;3;;;2;5;;Move 3|Scout 5;**Schwarm** Ein Schwarm von Tieren wird als eine einzige Kreatur behandelt, wobei der Stärke-Wert den Schwarm als Ganzes repräsentiert. Ein einzelner Angriff auf einen Schwarm kann nie mehr als 1 Punkt Schaden verursachen.;fbl;{biss:0:1:0:Schnittwunde:1}
 mfbl-animal-raven;1;3;;;2;1;;Move 3|Scout 4;;fbl;{schnabel:0:1:0:Schnittwunde:1}
 mfbl-animal-eagle;3;5;;;3;3;;Move 3|Melee 3|Scout 5;;fbl;{klauen:0:1:0:Schnittwunde:1}
 mfbl-animal-snake;1;3;;;1;1;;Melee 3|Scout 4;;fbl;{biss:0:0:0:Tödliches Gift, **Wirksamkeit 4**:1}
