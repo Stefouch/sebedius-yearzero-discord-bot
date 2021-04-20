@@ -71,7 +71,7 @@ module.exports = {
 			argv.mishap = true;
 		}
 /*	Removed because similar code was down below. That code was modified to also understand translated activities.
- 		if (argv.mishap) {
+		if (argv.mishap) {
 			const activities = YZJourney.Activities
 				.filter(a => a.mishap)
 				.keyArray();
@@ -101,10 +101,10 @@ module.exports = {
 				let stack = {}, localPrefix = '';
 				if (opt === 'quarterDay') stack = YZJourney.QUARTER_DAYS;
 				else if (opt === 'season') stack = YZJourney.SEASONS;
-				else if (opt === 'terrains') 
+				else if (opt === 'terrains')
 				{
 					stack = YZTerrainTypesFlags.FLAGS;
-					localPrefix = 'terrain-'
+					localPrefix = 'terrain-';
 				}
 				else if (opt === 'fbr' || opt === 'lang') continue;
 				else throw new ReferenceError('Dumb Stefouch!');
@@ -248,7 +248,7 @@ async function select(ctx, needle = '', choices, text, lang = 'en', localePrefix
 	{
 		matchings = matchings.map(x => [__(localePrefix + x.toLowerCase(), lang), x]);
 	}
-	return await getSelection(ctx, matchings, text, true, false, false, lang);
+	return await getSelection(ctx, matchings, { text, lang });
 }
 
 /**
@@ -315,7 +315,7 @@ function getCharacteristicsDescription(jou) {
 	return `${__('quarter-day', jou.lang)}: **${__(jou.quarterDay.toLowerCase(), jou.lang)}**`
 		+ `\n${__('season', jou.lang)}: **${__(jou.season.toLowerCase(), jou.lang)}**`
 		+ `\n${jou.dayIcon} ${__(jou.inDaylight ? 'daylight' : 'darkness', jou.lang)}`
-		+ (jou.isIcy ? `\n❄️ ${__('icy', jou.lang)}` : '');	
+		+ (jou.isIcy ? `\n❄️ ${__('icy', jou.lang)}` : '');
 }
 
 /**

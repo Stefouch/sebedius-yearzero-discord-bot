@@ -17,16 +17,16 @@ const { __ } = require('../lang/locales');
 class YZCombat {
 	/**
 	 * A combat instance.
-	 * @param {string} channelId The Discord TextChannel ID of the channel were the combat instance is ongoing.
-	 * @param {string} summaryMessageId The Discord Message ID of the summary message.
-	 * @param {string} dmId The GM's Discord User ID.
-	 * @param {CombatOptions} options The initial options of the combat.
-	 * @param {Discord.Message} ctx The Discord Message.
-	 * @param {YZCombatant[]} combatants The combatants participating in this combat instance.
-	 * @param {?Iterable} initiatives Array of Key-Value pairs, K: {number} initiative value, V: {string} Combatant's ID.
-	 * @param {number} roundNum The current round.
-	 * @param {number} currentIndex The current initiative index (float value).
-	 * @param {string} game The game set for this combat instance.
+	 * @param {string} channelId The Discord TextChannel ID of the channel were the combat instance is ongoing
+	 * @param {string} summaryMessageId The Discord Message ID of the summary message
+	 * @param {string} dmId The GM's Discord User ID
+	 * @param {CombatOptions} options The initial options of the combat
+	 * @param {Discord.Message} ctx The Discord Message
+	 * @param {YZCombatant[]} combatants The combatants participating in this combat instance
+	 * @param {?Iterable} initiatives Array of Key-Value pairs, K: {number} initiative value, V: {string} Combatant's ID
+	 * @param {number} roundNum The current round
+	 * @param {number} currentIndex The current initiative index (float value)
+	 * @param {string} game The game set for this combat instance
 	 */
 	constructor(channelId, summaryMessageId, dmId,
 		options, ctx, combatants, initiatives = null,
@@ -55,7 +55,7 @@ class YZCombat {
 		 * Options for this combat instance.
 		 * @type {CombatOptions}
 		 */
-		this.options = options || new CombatOptions();
+		this.options = options || {};
 		this.options.lang = options.lang || 'en';
 
 		/**
@@ -402,7 +402,7 @@ class YZCombat {
 				return [c.name, c];
 			});
 		}
-		return await Sebedius.getSelection(this.message, matching, choiceMessage, true, false, false, this.options.lang);
+		return await Sebedius.getSelection(this.message, matching, { text: choiceMessage, lang: this.options.lang });
 	}
 
 	/**
@@ -494,7 +494,8 @@ class YZCombat {
 
 		if (nextCombatant instanceof YZCombatantGroup) {
 			const thisTurn = nextCombatant.getCombatants();
-			outStr = `:arrow_forward: **${__('initiative', this.options.lang)} ${this.turn} (${__('round', this.options.lang)} ${this.round})**: `
+			outStr = `:arrow_forward: **${__('initiative', this.options.lang)} ${this.turn} `
+				+ `(${__('round', this.options.lang)} ${this.round})**: `
 				+ `(${nextCombatant.name})\n`
 				+ thisTurn.map(c => c.controllerMention()).join(', ')
 				+ '```markdown\n'
@@ -502,7 +503,8 @@ class YZCombat {
 				+ '```';
 		}
 		else {
-			outStr = `:arrow_forward: **${__('initiative', this.options.lang)} ${this.turn} (${__('round', this.options.lang)} ${this.round}):** `
+			outStr = `:arrow_forward: **${__('initiative', this.options.lang)} ${this.turn} `
+				+ `(${__('round', this.options.lang)} ${this.round}):** `
 				+ `${nextCombatant.name} (${nextCombatant.controllerMention()})`
 				+ '```markdown\n'
 				+ nextCombatant.getStatus()
@@ -510,7 +512,8 @@ class YZCombat {
 		}
 		if (this.options.turnnotif) {
 			const nextTurn = this.nextCombatant;
-			outStr += `**${__('yzcombat-next-up', this.options.lang)}** ${nextTurn.name} (${nextTurn.controllerMention()})\n`;
+			outStr += `**${__('yzcombat-next-up', this.options.lang)}** ${nextTurn.name} `
+				+ `(${nextTurn.controllerMention()})\n`;
 		}
 		return outStr;
 	}
@@ -585,10 +588,6 @@ class YZCombat {
 			return this.message.channel;
 		}
 		else {
-			//const chans = this.
-			//const chan = bot.channels.cache.get(this.channel);
-			//if (chan) return chan;
-			//else throw new CombatChannelNotFound();
 			throw new CombatChannelNotFound();
 		}
 	}
@@ -1027,7 +1026,8 @@ class YZCombatantGroup extends YZCombatant {
 		let status = '';
 		const clen = this.combatants.length;
 		if (clen > 7 && !hidden) {
-			status = `${Util.zeroise(init, 2)}: ${this.name} (${clen} ${__(clen > 1 ? 'combatants' : 'combatant', this.lang)})`;
+			status = `${Util.zeroise(init, 2)}: ${this.name} `
+				+ `(${clen} ${__(clen > 1 ? 'combatants' : 'combatant', this.lang)})`;
 		}
 		else {
 			status = `${Util.zeroise(init, 2)}: ${this.name}`;
