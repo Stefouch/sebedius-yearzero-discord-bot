@@ -79,9 +79,9 @@ module.exports = {
 		else message = await ctx.send(embed);
 
 		// Adds a Reaction Menu to roll the dice of the attack.
-		if (attack.base || attack.damage || attack.crit) {
+		if (attack.base || attack.damage || attack.crit || attack.attackAsFighter) {
 			const reactions = [];
-			if (attack.base || attack.damage) {
+			if (attack.base || attack.damage || attack.attackAsFighter) {
 				reactions.push({
 					icon: '⚔️',
 					owner: ctx.author.id,
