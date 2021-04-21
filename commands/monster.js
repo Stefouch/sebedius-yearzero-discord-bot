@@ -74,12 +74,12 @@ module.exports = {
 		let game;
 		if (YZMonster.getAvailableGames().includes(argv._[0])) {
 			game = argv._.shift();
-			game = await YZMonster.fetchGame(ctx, game);
+			game = await YZMonster.fetchGame(ctx, game, lang);
 		}
 		else {
 			game = await ctx.bot.getGame(ctx, 'none');
 			if (game === 'none') {
-				game = await YZMonster.fetchGame(ctx);
+				game = await YZMonster.fetchGame(ctx, null, lang);
 			}
 		}
 		argv.game = game;

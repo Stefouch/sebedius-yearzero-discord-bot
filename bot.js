@@ -8,6 +8,7 @@
 const { HTTPError, DiscordAPIError, Collection } = require('discord.js');
 const { GuildEmbed } = require('./utils/embeds');
 const SebediusErrors = require('./utils/errors');
+const { __ } = require('./lang/locales');
 
 // First, loads the ENV variables (e.g. bot's token).
 // If not in production mode.
@@ -84,14 +85,17 @@ bot.on('message', async message => {
 	// Exits early if there is no command with this name.
 	if (!command) return;
 
+	// Gets the language
+	const lang = await bot.getLanguage(ctx);
+
 	// Aborts if the user or the guild are banned.
 	if (bot.mutedUsers.has(ctx.author.id) && ctx.author.id !== bot.owner.id) {
 		console.log(`[Banlist] User ${ctx.author.id} is MUTED.`);
-		return await ctx.reply('⛔ You have been muted and cannot use my commands.');
+		return await ctx.reply(`⛔ ${__('bot-user-muted', lang)}`);
 	}
 	if (ctx.channel.type === 'text' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
 		console.log(`[Banlist] Guild ${ctx.guild.id} is BLACKLISTED.`);
-		return await ctx.reply('⛔ This server has been blacklisted and cannot use my commands.');
+		return await ctx.reply(`⛔ ${__('bot-server-blacklisted', lang)}`);
 		// return await ctx.channel.guild.leave();
 	}
 
@@ -100,14 +104,14 @@ bot.on('message', async message => {
 
 	// Notifies if can't DM (= PM).
 	if (command.guildOnly && ctx.channel.type !== 'text') {
-		return ctx.reply('⚠️ I can\'t execute that command inside DMs!');
+		return ctx.reply(`⚠️ ${__('bot-cant-execute-in-dm', lang)}`);
 	}
 
 	// Notifies if arguments are missing.
 	if (command.args && !args.length) {
-		let reply = `ℹ️ ${ctx.author} You didn't provide any arguments!`;
+		let reply = `ℹ️ ${ctx.author} ${__('bot-no-arguments', lang)}`;
 		if (command.usage) {
-			reply += `\nThe proper usage would be: \`${prefix}${command.name} ${command.usage}\``;
+			reply += `\n${__('bot-proper-usage', lang)} \`${prefix}${command.name} ${command.usage}\``;
 		}
 		return ctx.send(reply);
 	}
@@ -126,7 +130,7 @@ bot.on('message', async message => {
 			if (timeNow < cdExpire) {
 				const timeLeft = (cdExpire - timeNow) / 1000;
 				return ctx.reply(
-					`Please wait ${timeLeft.toFixed(0)} second(s) before reusing the command `
+					`${__('bot-cooldown', lang).replace('{will_be_replaced}', timeLeft.toFixed(0))} `
 					+ `\`${prefix}${command.name}\``,
 				);
 			}
@@ -220,6 +224,9 @@ process.on('unhandledRejection', error => {
  * @async
  */
 async function onError(error, ctx) {
+	// Gets the language
+	const lang = await ctx.bot.getLanguage(ctx);
+
 	if (error instanceof HTTPError) {
 		console.error(error.name, error.code);
 	}
@@ -227,13 +234,13 @@ async function onError(error, ctx) {
 		console.error(error.name, error.code);
 	}
 	else if (error instanceof SebediusErrors.TooManyDiceError) {
-		if (ctx) ctx.reply(`⚠️ Cannot roll that many dice! (${error.message})`);
+		if (ctx) ctx.reply(`⚠️ ${__('bot-error-too-many-dice', lang)} (${error.message})`);
 	}
 	else if (error instanceof SebediusErrors.NoSelectionElementsError) {
-		if (ctx) ctx.reply('⚠️ There is no element to select.');
+		if (ctx) ctx.reply(`⚠️ ${__('bot-error-no-element-selected', lang)}`);
 	}
 	else if (error instanceof SebediusErrors.SelectionCancelledError) {
-		if (ctx) ctx.reply('⏹️ Selection cancelled.');
+		if (ctx) ctx.reply(`⏹️ ${__('bot-error-selection-canceled', lang)}`);
 	}
 	else if (error instanceof SebediusErrors.NotFoundError) {
 		if (ctx) ctx.reply(`⚠️ [${error.name}] ${error.message}.`);
@@ -241,8 +248,13 @@ async function onError(error, ctx) {
 	else {
 		// Sends me a message if the error is Unknown.
 		if (process.env.NODE_ENV === 'production') {
-			const msg = `**Error:** ${error.toString()}`
-				+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
+			let msg = `❌ __${error.toString()}__`;
+			if (ctx) {
+				msg += `\n**Command:** \`${ctx.content}\``
+					+ (ctx.author ? `\n**Author:** ${ctx.author.tag} (${ctx.author.id})` : '')
+					+ (ctx.guild ? `\n**Guild:** ${ctx.guild.name} (${ctx.guild.id})` : '');
+			}
+			msg += `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
 				+ `\n**Stack:** ${error.stack}`;
 			// bot.owner.send(msg, { split: true })
@@ -250,7 +262,7 @@ async function onError(error, ctx) {
 			bot.log(msg, { split: true });
 		}
 		if (ctx) {
-			ctx.reply(`❌ There was an error trying to execute that command! (${error.toString()})`)
+			ctx.reply(`❌ ${__('bot-error-command-execution', lang)}`)
 				.catch(console.error);
 		}
 	}

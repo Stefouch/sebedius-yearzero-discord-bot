@@ -344,7 +344,8 @@ class Sebedius extends Discord.Client {
 	 */
 	static async getGameFromSelection(message) {
 		const gameChoices = SUPPORTED_GAMES.map(g => [SOURCE_MAP[g], g]);
-		return await Sebedius.getSelection(message, gameChoices);
+		const lang = await Sebedius.getLanguage(message);
+		return await Sebedius.getSelection(message, gameChoices, { lang });
 	}
 
 	/**
@@ -358,7 +359,7 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
-	 * Takes the provided language code, checks it against the SUPPORTED_LANGS-table 
+	 * Takes the provided language code, checks it against the SUPPORTED_LANGS-table
 	 * and if not found calls the getLanguage-method to read from DB or return default
 	 * @param {string} lang Language code (for example provided by arguments)
 	 * @param {ContextMessage} ctx The context (for bot and guild.id)
@@ -533,19 +534,31 @@ class Sebedius extends Discord.Client {
 	 * Returns the selected choice, or None. Choices should be a list of two-tuples of (name, choice).
 	 * If delete is True, will delete the selection message and the response.
 	 * If length of choices is 1, will return the only choice unless force_select is True.
-	 * @param {Discord.Message} ctx Discord message with context
-	 * @param {Array<string, Object>[]} choices An array of arrays with [name, object]
-	 * @param {string} text Additional text to attach to the selection message
-	 * @param {boolean} del Whether to delete the selection message
-	 * @param {boolean} pm Whether the selection message is sent in a PM (Discord DM)
-	 * @param {boolean} forceSelect Whether to force selection even if only one choice possible
+	 * @param {Discord.Message}          ctx      Discord message with context
+	 * @param {Array<string, Object>[]}  choices  An array of arrays with [name, object]
+	 * @param {Object}   options              Options for the selection message
+	 * @param {string}   options.text         Additional text to attach to the selection message
+	 * @param {boolean}  options.del          Whether to delete the selection message
+	 * @param {boolean}  options.pm           Whether the selection message is sent in a PM (Discord DM)
+	 * @param {boolean}  options.forceSelect  Whether to force selection even if only one choice possible
+	 * @param {string}   options.lang         The language code to be used
 	 * @returns {*} The selected choice
 	 * @throws {NoSelectionElementsError} If len(choices) is 0.
 	 * @throws {SelectionCancelledError} If selection is cancelled.
 	 * @static
 	 * @async
 	 */
-	static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false, lang = 'en') {
+	// static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false, lang = 'en') {
+	static async getSelection(ctx, choices, options = {}) {
+		// Prepares options.
+		const { text, del, pm, forceSelect, lang } = Object.assign({
+			text: null,
+			del: true,
+			pm: false,
+			forceSelect: false,
+			lang: 'en',
+		}, options);
+
 		if (choices.length === 0) throw new Errors.NoSelectionElementsError();
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
@@ -572,7 +585,7 @@ class Sebedius extends Discord.Client {
 				embed.setFooter(__('page', lang) + ` ${page + 1}/${paginatedChoices.length}`);
 			}
 			if (text) {
-				embed.addField('Info', text, false);
+				embed.addField(__('info', lang), text, false);
 			}
 			if (pm) {
 				embed.addField(
@@ -651,11 +664,13 @@ class Sebedius extends Discord.Client {
 	 * Checks if the bot has all the required permissions.
 	 * @param {Discord.Message} ctx Discord message with context
 	 * @param {number} checkPerms Bitfield / Use this argument if you want to check just a few specific Permissions.
+	 * @param {string} language The language code to be used
 	 * @returns {boolean} `true` if the bot has all the required Permissions.
 	 * @static
 	 */
-	static checkPermissions(ctx, checkPerms = null) {
+	static async checkPermissions(ctx, checkPerms = null, language = null) {
 		const channel = ctx.channel;
+		const lang = await ctx.bot.getValidLanguageCode(language, ctx);
 
 		// Exits early if we are in a DM.
 		if (channel.type === 'dm') return true;
@@ -669,15 +684,12 @@ class Sebedius extends Discord.Client {
 		// filled with the flag of the missing Permissions, if any.
 		// If not, the arrays are empty (length = 0).
 		if (serverMissingPerms.length || channelMissingPerms.length) {
-			let msg = '🛑 **Missing Permissions!**'
-				+ '\nThe bot does not have sufficient permission in this channel and will not work properly.'
-				+ ` Check the Readme (\`${ctx.prefix}help\`) for the list of required permissions.`
-				+ ' Check the wiki for more troubleshooting.';
+			let msg = `🛑 ${__('bot-missing-permissions', lang).replace('{prefix}', ctx.prefix)}`;
 			if (serverMissingPerms.length) {
-				msg += `\n**Role Missing Permission(s):** \`${serverMissingPerms.join('`, `')}\``;
+				msg += `\n**${__('bot-missing-permissions-role', lang)}:** \`${serverMissingPerms.join('`, `')}\``;
 			}
 			if (channelMissingPerms.length) {
-				msg += `\n**Channel Missing Permission(s):** \`${channelMissingPerms.join('`, `')}\``;
+				msg += `\n**${__('bot-missing-permissions-channel', lang)}:** \`${channelMissingPerms.join('`, `')}\``;
 			}
 			ctx.reply(msg);
 			return false;

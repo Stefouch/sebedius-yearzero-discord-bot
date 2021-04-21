@@ -280,7 +280,7 @@ module.exports = {
  */
 async function messageRollResult(roll, ctx) {
 	// Aborts if the bot doesn't have the needed permissions.
-	if (!checkPermissions(ctx)) return;
+	if (!await checkPermissions(ctx, null, roll.lang)) return;
 
 	// OPTIONS
 	// Important for all below.

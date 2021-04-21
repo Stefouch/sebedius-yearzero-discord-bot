@@ -3,6 +3,7 @@ const { isNumber, rollD66, sumD6 } = require('../utils/Util');
 const { YZEmbed } = require('../utils/embeds');
 const { SUPPORTED_GAMES, DICE_ICONS, SOURCE_MAP } = require('../utils/constants');
 const { __ } = require('../lang/locales');
+const { getSelection } = require('../Sebedius');
 
 const availableCritTables = {
 	myz: { damage: true, horror: 'fbl', pushed: true, nontypical: true },
@@ -95,14 +96,12 @@ module.exports = {
 		// Aborts if the table doesn't exist.
 		if (!availableCritTables.hasOwnProperty(game)) {
 			return ctx.reply(
-				`ℹ️ ${__('ccrit-no-table-for-game-start', lang)} `
-				+ `\`${game}\` ${__('ccrit-no-table-for-game-end', lang)}.`,
+				`ℹ️ ${__('ccrit-no-table-for-game', lang).replace('{game}', game)}`,
 			);
 		}
 		if (!availableCritTables[game].hasOwnProperty(type)) {
 			return ctx.reply(
-				`ℹ️ ${__('ccrit-table-not-found-start', lang)} `
-				+ `\`${type}\` ${__('ccrit-table-not-found-end', lang)} **${SOURCE_MAP[game]}**.`,
+				`ℹ️ ${__('ccrit-table-not-found', lang).replace('{type}', type)} **${SOURCE_MAP[game]}**.`,
 			);
 		}
 
@@ -120,14 +119,18 @@ module.exports = {
 		if (critsTable.size === 0) return ctx.reply('❌ An error occured: `critsTable size 0`.');
 
 		// Rolls the Critical Injuries table.
-		const critRoll = fixedReference || rollLucky(argv.lucky) || rollD66();
+		const luckyRoll = !fixedReference ? await rollLucky(argv.lucky, critsTable, ctx, lang) : {};
+		const critRoll = fixedReference || luckyRoll.result || rollD66();
 		const crit = critsTable.get(critRoll);
 
 		// Exits early if no critical injury was found.
-		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found'), lang}. *(${__('table', lang)}: ${fileName})*`);
+		if (!crit) return ctx.reply(`❌ ${__('ccrit-not-found', lang)}. *(${__('table', lang)}: ${fileName})*`);
 
 		// Adds a "game" property to the crit.
 		crit.game = game;
+
+		// Add the manipulation of the lucky roll to the crit-object for later consumption
+		crit.manipulation = luckyRoll.manipulation;
 
 		// Gets the values of each D66's dice.
 		let die1 = 0, die2 = 0;
@@ -164,6 +167,7 @@ module.exports = {
  * @param {Object} crit Object containing all infos for the critical injury
  * @param {string} name The name of the critical table
  * @param {Discord.Message} ctx The triggering message with context
+ * @param {string} lang The language code to be used
  * @returns {YZEmbed} A rich embed
  */
 function getEmbedCrit(crit, name, ctx, lang) {
@@ -208,36 +212,71 @@ function getEmbedCrit(crit, name, ctx, lang) {
 		}
 		embed.addField(__('lethality', lang), text, false);
 	}
+
+	if (crit.manipulation) {
+		embed.addField(
+			__('talent-fbl-lucky', lang),
+			`${__('ccrit-lucky-text', lang)} \`${crit.manipulation.join(', ')}\``,
+		);
+	}
+
 	embed.setFooter(__('table', lang) + `: ${name}`);
 
 	return embed;
 }
 
 /**
- * Uses the 'Lucky'-talent with it's corresponding rank
- * @param {number} rank The rank of the talent (1-3)
- * @returns {number} The final critical injury
+ * A lucky roll.
+ * @typedef LuckyRoll
+ * @type {Object}
+ * @property {number} result The end result of the lucky roll
+ * @property {number[]} manipulation The manipulation to get to the end result
  */
-function rollLucky(rank) {
-	if (!isNumber(rank)) return;
+
+
+/**
+ * Uses the 'Lucky'-talent with it's corresponding rank.
+ * @param {number} rank The rank of the talent (1-3)
+ * @param {RollTable} critsTable The crits table to use for rank 3
+ * @param {Discord.Message} ctx The context message
+ * @param {string} lang The language code to be used
+ * @returns {LuckyRoll} The final critical injury
+ */
+async function rollLucky(rank, critsTable, ctx, lang) {
+	if (!isNumber(rank)) return {};
 	if (rank < 1) rank = 1;
 
-	// Rank 3: Choose whichever you want
-	// TODO: Display a list or message. Currently just returns lowest possible value
-	if (rank === 3) return 11;
+	/**
+	 * @type {LuckyRoll}
+	 */
+	const luckyRoll = {};
 
-	let value = rollD66();
+	// Rank 3: Choose whichever you want
+	if (rank === 3) {
+		const choices = [];
+		critsTable.forEach(crit => {
+			choices.push([crit.injury, crit.ref.substr(0, 2)]);
+		});
+		luckyRoll.result = await getSelection(ctx, choices, { text: __('ccrit-lucky-choose', lang), lang });
+		return luckyRoll;
+	}
+
+	const values = [rollD66()];
 	// Rank 1: roll twice, take the lowest
 	if (rank >= 1) {
-		value = Math.min(value, rollD66());
+		values.push(rollD66());
 	}
-	// Rank 2: Roll twice, take the lowest, reverse that and take the lowest of those two
+	// Rank 2: Roll twice, reverse the values, then take the lowest
 	if (rank >= 2) {
-		const reversed = parseInt(value.toString().split('').reverse().join(''));
-		value = Math.min(value, reversed);
+		let reversed;
+		for (let i = 0; i < 2; i++) {
+			reversed = parseInt(values[i].toString().split('').reverse().join(''));
+			values.push(reversed);
+		}
 	}
 
-	// TODO: Show rolls and manipulation in Embed
-
-	return value;
+	// Return result and manipulation
+	luckyRoll.result = Math.min(...values);
+	luckyRoll.manipulation = values;
+	return luckyRoll;
 }

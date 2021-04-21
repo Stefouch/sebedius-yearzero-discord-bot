@@ -1,6 +1,5 @@
 const { MessageEmbed } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
-const { strCamelToNorm } = require('./Util');
 const { __ } = require('../lang/locales');
 
 /**
@@ -64,7 +63,7 @@ class YZMonsterEmbed extends MessageEmbed {
 		this.addField(__('skills', monster.lang), monster.skillsToString(), true);
 		this.addField(__('signature-attacks', monster.lang), monster.attacksToString(), false);
 		if (monster.special) {
-			const special = monster.special.replace(/{mutation}/g, 'Random mutation').replace(/{feral}/g, 'Random feral effect');
+			const special = monster.special.replace(/{mutation}/g, __('myz-random-mutation', monster.lang)).replace(/{feral}/g, __('myz-random-feral-effect', monster.lang));
 			this.addField(__('special', monster.lang), special, false);
 		}
 
@@ -80,8 +79,9 @@ class CharacterEmbed extends MessageEmbed {
 	/**
 	 * @param {import('../yearzero/models/sheet/Character')} character Character
 	 * @param {import('./ContextMessage')} ctx Discord message with context
+	 * @param {string} language The language code to be used
 	 */
-	constructor(character, ctx) {
+	constructor(character, ctx, language = 'en') {
 		super({
 			color: ctx ? ctx.member.displayColor : undefined,
 			author: ctx
@@ -91,15 +91,17 @@ class CharacterEmbed extends MessageEmbed {
 				}
 				: undefined,
 			title: character.name,
-			description: character.description,
+			description: character.description
+									.replace(/{kin}/g, __('fbl-kin', language))
+									.replace(/{profession}/g, __('fbl-profession', language)),
 			thumbnail: character.portrait,
 			footer: { text: `ID: ${character.id}` },
 			fields: [
 				{
-					name: 'Attributes',
+					name: __('attributes', language),
 					value: character.attributes
 						.map(a => {
-							return `${strCamelToNorm(a.name)}: **${a.value}**`
+							return `${__('attribute-' + character.game + '-' + a.name, language)}: **${a.value}**`
 							+ (a.trauma ? ` (-${a.trauma})` : '');
 						})
 						.join('\n'),
@@ -114,8 +116,8 @@ class CharacterEmbed extends MessageEmbed {
 		const skills = character.skills.filter(s => s.value > 0);
 		if (skills.length) {
 			this.addField(
-				'Skills',
-				skills.map(s => `${strCamelToNorm(s.name)}: **${s.value}**`).join('\n'),
+				__('skills', language),
+				skills.map(s => `${__('skill-' + character.game + '-' + s.name, language)}: **${s.value}**`).join('\n'),
 				true,
 			);
 		}
@@ -124,8 +126,8 @@ class CharacterEmbed extends MessageEmbed {
 		// It uses this way because same reason as above.
 		if (character.weapons.length) {
 			this.addField(
-				'Weapons',
-				character.weapons.map(w => w.toString()).join('\n'),
+				__('weapons', language),
+				character.weapons.map(w => w.toString(language)).join('\n'),
 				false,
 			);
 		}

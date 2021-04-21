@@ -3,9 +3,31 @@ const Util = require('../utils/Util');
 const YZInitiative = require('./YZInitiative');
 const Sebedius = require('../Sebedius');
 const { SUPPORTED_GAMES } = require('../utils/constants');
+const { __ } = require('../lang/locales');
+
+/**
+ * @typedef CombatOptions
+ * @type {Object} options of the combat
+ * @property {boolean} dynamic Is the combat initiative dynamic? //TODO: correct description, what does this do???
+ * @property {string} lang The language code of the current combat instance
+ * @property {string} name The name for the this combat instance
+ * @property {boolean} turnnotif Turn notifications enabled status
+ */
 
 class YZCombat {
-
+	/**
+	 * A combat instance.
+	 * @param {string} channelId The Discord TextChannel ID of the channel were the combat instance is ongoing
+	 * @param {string} summaryMessageId The Discord Message ID of the summary message
+	 * @param {string} dmId The GM's Discord User ID
+	 * @param {CombatOptions} options The initial options of the combat
+	 * @param {Discord.Message} ctx The Discord Message
+	 * @param {YZCombatant[]} combatants The combatants participating in this combat instance
+	 * @param {?Iterable} initiatives Array of Key-Value pairs, K: {number} initiative value, V: {string} Combatant's ID
+	 * @param {number} roundNum The current round
+	 * @param {number} currentIndex The current initiative index (float value)
+	 * @param {string} game The game set for this combat instance
+	 */
 	constructor(channelId, summaryMessageId, dmId,
 		options, ctx, combatants, initiatives = null,
 		roundNum = 0, currentIndex = null,
@@ -30,9 +52,11 @@ class YZCombat {
 		this.dm = dmId;
 
 		/**
-		 * Options.
+		 * Options for this combat instance.
+		 * @type {CombatOptions}
 		 */
 		this.options = options || {};
+		this.options.lang = options.lang || 'en';
 
 		/**
 		 * The current round.
@@ -291,7 +315,7 @@ class YZCombat {
 		}
 
 		// Rolls the dice.
-		const armorRoll = new YZRoll(game, controller, `${combatant.name}: Armor Roll`)
+		const armorRoll = new YZRoll(game, controller, `${combatant.name}: ${__('armor-roll', this.options.lang)}`)
 			.addDice(type, armor);
 
 		// Damaging the combatant.
@@ -374,11 +398,11 @@ class YZCombat {
 		}
 		else {
 			matching = matching.map(c => {
-				if (c instanceof YZCombatantGroup) return [`__${c.name}__ (group)`, c];
+				if (c instanceof YZCombatantGroup) return [`__${c.name}__ (${__('group', this.options.lang)})`, c];
 				return [c.name, c];
 			});
 		}
-		return await Sebedius.getSelection(this.message, matching, choiceMessage);
+		return await Sebedius.getSelection(this.message, matching, { text: choiceMessage, lang: this.options.lang });
 	}
 
 	/**
@@ -459,7 +483,7 @@ class YZCombat {
 			combatant.onTurnEnd(numRounds);
 		}
 		if (this.options.dynamic) {
-			messages.push('New initiatives!');
+			messages.push(__('yzcombat-new-initiatives', this.options.lang));
 		}
 		return messages;
 	}
@@ -470,7 +494,8 @@ class YZCombat {
 
 		if (nextCombatant instanceof YZCombatantGroup) {
 			const thisTurn = nextCombatant.getCombatants();
-			outStr = `:arrow_forward: **Initiative ${this.turn} (round ${this.round})**: `
+			outStr = `:arrow_forward: **${__('initiative', this.options.lang)} ${this.turn} `
+				+ `(${__('round', this.options.lang)} ${this.round})**: `
 				+ `(${nextCombatant.name})\n`
 				+ thisTurn.map(c => c.controllerMention()).join(', ')
 				+ '```markdown\n'
@@ -478,7 +503,8 @@ class YZCombat {
 				+ '```';
 		}
 		else {
-			outStr = `:arrow_forward: **Initiative ${this.turn} (round ${this.round}):** `
+			outStr = `:arrow_forward: **${__('initiative', this.options.lang)} ${this.turn} `
+				+ `(${__('round', this.options.lang)} ${this.round}):** `
 				+ `${nextCombatant.name} (${nextCombatant.controllerMention()})`
 				+ '```markdown\n'
 				+ nextCombatant.getStatus()
@@ -486,7 +512,8 @@ class YZCombat {
 		}
 		if (this.options.turnnotif) {
 			const nextTurn = this.nextCombatant;
-			outStr += `**Next up:** ${nextTurn.name} (${nextTurn.controllerMention()})\n`;
+			outStr += `**${__('yzcombat-next-up', this.options.lang)}** ${nextTurn.name} `
+				+ `(${nextTurn.controllerMention()})\n`;
 		}
 		return outStr;
 	}
@@ -518,8 +545,8 @@ class YZCombat {
 	 */
 	getSummary(hidden = false) {
 		let outStr = '```markdown\n'
-			+ `${this.options.name ? this.options.name : 'Current initiative'}: `
-			+ `${this.turn} (round ${this.round})\n`;
+			+ `${this.options.name ? this.options.name : __('yzcombat-current-initiative', this.options.lang)}: `
+			+ `${this.turn} (${__('round', this.options.lang)} ${this.round})\n`;
 		outStr += '='.repeat(outStr.length - 13) + '\n';
 
 		let combatantStr = '';
@@ -561,10 +588,6 @@ class YZCombat {
 			return this.message.channel;
 		}
 		else {
-			//const chans = this.
-			//const chan = bot.channels.cache.get(this.channel);
-			//if (chan) return chan;
-			//else throw new CombatChannelNotFound();
 			throw new CombatChannelNotFound();
 		}
 	}
@@ -604,12 +627,27 @@ class YZCombat {
 	}
 
 	toString() {
-		return `Initiative in <#${this.channel}>`;
+		return `${__('yzcombat-initiative-in-channel', this.options.lang)} <#${this.channel}>`;
 	}
 }
 
 class YZCombatant {
-
+	/**
+	 * A combatant
+	 * @param {Object} data The initial data for this combatant.
+	 * @param {string} data.id The unique ID of this combatant.
+	 * @param {string} data.controller The controller's Discord User ID of this combatant.
+	 * @param {string} data.name The name of the combatant.
+	 * @param {number} data.hp The health points of the combatant.
+	 * @param {number} data.armor The armor value of the combatant.
+	 * @param {number} data.speed The speed of the combatant.
+	 * @param {number} data.haste The haste value of the combatant.
+	 * @param {boolean} data.hidden Whether this combatant should be hidden.
+	 * @param {string} data.notes The notes for the combatant.
+	 * @param {number[]} data.inits Initiative values, stored as integers.
+	 * @param {string} data.group The name of the group this combatant is part of.
+	 * @param {string} data.lang The language code to be used.
+	 */
 	constructor(data) {
 		/**
 		 * The unique ID of this combatant.
@@ -631,9 +669,15 @@ class YZCombatant {
 		this.controller = data.controller;
 
 		/**
+		 * The Language code to be used.
+		 * @type {string}
+		 */
+		this.lang = data.lang || 'en';
+
+		/**
 		 * Cached name, because how it's used in YZCombatantGroup.
 		 */
-		this._name = data.name || 'Unnamed';
+		this._name = data.name || __('unnamed', this.lang);
 
 		// this.hp = +data.hp || 3;
 		this.maxhp = +data.hp || 3;
@@ -760,11 +804,11 @@ class YZCombatant {
 	hpString(hidden = false) {
 		let hpStr = '';
 		if (!(this.isPrivate() || hidden)) {
-			hpStr = `<${this.hp}${this.maxhp ? `/${this.maxhp}` : ''} HP>`;
+			hpStr = `<${this.hp}${this.maxhp ? `/${this.maxhp}` : ''} ${__('health-points-abbreviation', this.lang)}>`;
 		}
 		else if (this.maxhp > 0) {
 			const ratio = this.hp / this.maxhp;
-			if (ratio <= 0) hpStr += '<Broken>';
+			if (ratio <= 0) hpStr += `<${__('broken', this.lang)}>`;
 		}
 		return hpStr;
 	}
@@ -798,8 +842,8 @@ class YZCombatant {
 
 		let vitesse = '';
 		if (this.speed > 1 || this.haste > 1) {
-			vitesse += ` Speed ${this.speed}`;
-			if (this.haste > 1) vitesse += `, Haste ${this.haste}`;
+			vitesse += ` ${__('speed', this.lang)} ${this.speed}`;
+			if (this.haste > 1) vitesse += `, ${__('haste', this.lang)} ${this.haste}`;
 		}
 
 		const notes = this.notes ? `\n# ${this.notes}` : '';
@@ -809,7 +853,7 @@ class YZCombatant {
 
 	getEffectsAndNotes() {
 		const out = [];
-		if (this.armor && !this.isPrivate()) out.push(`AR ${this.armor}`);
+		if (this.armor && !this.isPrivate()) out.push(`${__('armor-rating-abbreviation', this.lang)} ${this.armor}`);
 		if (this.notes) out.push(this.notes);
 		if (out.length) return out.join(', ');
 		return '';
@@ -818,7 +862,7 @@ class YZCombatant {
 	getHpAndAr(hidden = false) {
 		const out = [this.hpString(hidden)];
 		if (this.armor && !(this.isPrivate() || hidden)) {
-			out.push(`AR ${this.armor}`);
+			out.push(`${__('armor-rating-abbreviation', this.lang)} ${this.armor}`);
 		}
 		return out.join(' ');
 	}
@@ -982,7 +1026,8 @@ class YZCombatantGroup extends YZCombatant {
 		let status = '';
 		const clen = this.combatants.length;
 		if (clen > 7 && !hidden) {
-			status = `${Util.zeroise(init, 2)}: ${this.name} (${clen} combatant${clen > 1 ? 's' : ''})`;
+			status = `${Util.zeroise(init, 2)}: ${this.name} `
+				+ `(${clen} ${__(clen > 1 ? 'combatants' : 'combatant', this.lang)})`;
 		}
 		else {
 			status = `${Util.zeroise(init, 2)}: ${this.name}`;
@@ -1006,7 +1051,7 @@ class YZCombatantGroup extends YZCombatant {
 
 	toString() {
 		const clen = this.combatants.length;
-		return `${this.name} (${clen} combatant${clen > 1 ? 's' : ''})`;
+		return `${this.name} (${clen} ${__(clen > 1 ? 'combatants' : 'combatant', this.lang)})`;
 	}
 
 }

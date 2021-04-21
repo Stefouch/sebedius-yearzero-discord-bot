@@ -52,7 +52,7 @@ module.exports = {
 
 		// Creates the Embed.
 		const embed = new YZEmbed(
-			`:crossed_swords: **${monster.name}**${__('possessives', monster.lang)} ${__('attack', monster.lang)}` ,
+			`:crossed_swords: **${monster.name}**${__('possessives', monster.lang)} ${__('attack', monster.lang)}`,
 			`${attack.name ? `**${attack.name}:** ` : ''} ${effect}`,
 		);
 		// Sets the footer of the embed (roll reference).

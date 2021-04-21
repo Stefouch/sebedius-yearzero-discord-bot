@@ -1,16 +1,30 @@
-const Threats = require('../gamedata/myz/threats.list.json');
 const { YZEmbed } = require('../utils/embeds');
 const { rand, rollD66, capitalize } = require('../utils/Util');
+const { __ } = require('../lang/locales');
 
 module.exports = {
 	name: 'threat',
 	aliases: ['thr'],
 	category: 'myz',
-	description: 'Draws a random Zone threat.',
+	description: 'cthreat-description',
 	guildOnly: false,
 	args: false,
-	usage: '',
+	usage: '[-lang <language_code>]',
 	async run(args, ctx) {
+		// Parses arguments.
+		const argv = require('yargs-parser')(args, {
+			string: ['lang'],
+			alias: {
+				lang: ['lng', 'language'],
+			},
+			default: {
+				lang: null,
+			},
+			configuration: ctx.bot.config.yargs,
+		});
+		const lang = await ctx.bot.getValidLanguageCode(argv.lang, ctx);
+		const Threats = require(`../gamedata/myz/threats.list.${lang}.json`);
+
 		// Rolls for the threat type.
 		const nb = rand(1, 6);
 		let type;
@@ -33,8 +47,8 @@ module.exports = {
 			}
 		}
 
-		const typeStr = capitalize(type).slice(0, -1);
-		const embed = new YZEmbed('Zone Threat', `${typeStr} – ${threat}`);
+		const typeStr = __(`myz-${type.slice(0, -1)}`, lang);
+		const embed = new YZEmbed(__('cthreat-myz-title', lang), `${typeStr} – ${threat}`);
 
 		return ctx.send(embed);
 	},

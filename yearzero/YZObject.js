@@ -156,7 +156,7 @@ class YZObject {
 			matching = catalog;
 		}
 		matching = matching.map(o => [o.name, o]);
-		catalogEntry = await Sebedius.getSelection(ctx, matching, null, true, false, false, lang);
+		catalogEntry = await Sebedius.getSelection(ctx, matching, { lang });
 		return catalogEntry;
 	}
 
@@ -165,12 +165,13 @@ class YZObject {
 	 * @param {Discord.Message} ctx Discord message with context
 	 * @param {string} cat Category of the objects to fetch
 	 * @param {?string} game Code for the source game
+	 * @param {?string} lang The language code to be used
 	 * @returns {string}
 	 * @throws {TypeError} If unknown category
 	 * @static
 	 * @async
 	 */
-	static async fetchGame(ctx, cat, game = null) {
+	static async fetchGame(ctx, cat, game = null, lang = 'en') {
 		if (!CATEGORIES[cat]) throw new TypeError(`Unknown Catalog's Category "**${cat}**"`);
 		if (game && CATALOGS[cat][game]) return game;
 
@@ -178,7 +179,7 @@ class YZObject {
 			.keys(CATALOGS[cat])
 			.map(g => [SOURCE_MAP[g], g]);
 
-		return await Sebedius.getSelection(ctx, choices);
+		return await Sebedius.getSelection(ctx, choices, { lang });
 	}
 
 	toString() {
@@ -229,7 +230,7 @@ class YZMonster extends YZObject {
 
 	static getAvailableGames() { return super.getAvailableGames('MONSTERS'); }
 	static async fetch(ctx, game, str = null, lang = 'en') { return super.fetch(ctx, 'MONSTERS', game, str, lang); }
-	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'MONSTERS', game); }
+	static async fetchGame(ctx, game = null, lang = 'en') { return super.fetchGame(ctx, 'MONSTERS', game, lang); }
 
 	_createAttributes() {
 		this.attributes = {};
@@ -349,7 +350,7 @@ class YZMonster extends YZObject {
 						const weapon = YZWeapon.getDefault(
 							Util.capitalize(__(wid, this.lang)),
 							this.game,
-							this.lang
+							this.lang,
 						);
 						out.push(weapon);
 					}
@@ -561,7 +562,9 @@ class YZWeapon extends YZObject {
 		+ (this.bonus && this.damage ? ', ' : '')
 		+ (this.damage ? `${Util.capitalize(__('damage', this.lang))} **${Util.resolveNumber(this.damage)}**` : '')
 		+ '__.'
-		+ (this.range >= 0 ? ` \`${__(`range-${this.game}-` + RANGES[this.game][this.range], this.lang)}\` ${__('range', this.lang)}.` : '')
+		+ (this.range >= 0
+			? ` \`${__(`range-${this.game}-` + RANGES[this.game][this.range], this.lang)}\` ${__('range', this.lang)}.`
+			: '')
 		+ (this.special ? ` ${this.special.split('|').join(', ')}` : '')
 		+ (Object.keys(this.features).length ? ` *(${this.featuresToString()}.)*` : '');
 	}
@@ -608,8 +611,8 @@ class YZWeapon extends YZObject {
 	}
 
 	static getAvailableGames() { return super.getAvailableGames('WEAPONS'); }
-	static async fetch(ctx, game, str = null) { return super.fetch(ctx, 'WEAPONS', game, str); }
-	static async fetchGame(ctx, game = null) { return super.fetchGame(ctx, 'WEAPONS', game); }
+	static async fetch(ctx, game, str = null, lang = 'en') { return super.fetch(ctx, 'WEAPONS', game, str, lang); }
+	static async fetchGame(ctx, game = null, lang = 'en') { return super.fetchGame(ctx, 'WEAPONS', game, lang); }
 
 	static getDefault(name, source = 'myz', language = 'en') {
 		return new YZWeapon({
@@ -637,8 +640,9 @@ for (const cat in CATALOG_SOURCES) {
 		CATALOGS[cat][game] = {};
 		for (const lang in SUPPORTED_LANGS) {
 			catalogPath = CATALOG_SOURCES[cat][game];
-			if (fs.existsSync(catalogPath.replace('.en.', `.${lang}.`)))
+			if (fs.existsSync(catalogPath.replace('.en.', `.${lang}.`))) {
 				catalogPath = catalogPath.replace('.en.', `.${lang}.`);
+			}
 			CATALOGS[cat][game][lang] = YZObject.all(cat, catalogPath, lang);
 			console.log(`        • ${cat}: ${game} - ${lang} (${CATALOGS[cat][game][lang].size})`);
 		}

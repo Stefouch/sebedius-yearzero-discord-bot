@@ -201,12 +201,12 @@ fishingMishaps:
       - Snagged Hook or Net
       - >-
         Your hook or net snags on something. You must make a
-        MIGHT roll to be able to retrieve your fishing gear.
+        `MIGHT` roll to be able to retrieve your fishing gear.
     '2':
       - Hook in Finger
       - >-
         You succeed at getting your own finger caught on the hook
-        instead of a fish. You suffer one point of damage to `STRENGTH`.
+        instead of a fish. You suffer one point of damage to STRENGTH.
     '3':
       - Broken Gear
       - >-
@@ -409,20 +409,20 @@ weatherCold:
       id: COLD_COLD
       name: Cold
       effect: >-
-        Every PC without adequate protection against the cold (see below)
+        Every PC without adequate protection against the cold (see page 31)
         must make an `ENDURANCE` roll every Quarter Day to not become COLD.
     '4-5':
       id: COLD_BITING
       name: Biting
       effect: >-
-        Every PC without adequate protection must make an `ENDURANCE` roll
+        Every PC without adequate protection (see page 31) must make an `ENDURANCE` roll
         every Quarter Hour to not become COLD.
     '6':
       id: COLD_TO_THE_BONE
       name: To The Bone
       effect: >-
         Even PCs with adequate protection must make an `ENDURANCE` roll
-        every Quarter Day to not become COLD. PCs without adequate protection
+        every Quarter Day to not become COLD. PCs without adequate protection (see page 31)
         must roll every Quarter Hour, with a **–2** modifier.
 
 # hunt:

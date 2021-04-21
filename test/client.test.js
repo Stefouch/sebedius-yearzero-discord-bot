@@ -88,6 +88,7 @@ describe('Discord Bot Client', function() {
 				else if (cmdName.startsWith('roll')) args = ['5b2g', 'd10', '-p', '0', '#', 'Uber Roll!'];
 				else if (cmdName === 'setconf') args = ['lang'];
 				else if (cmdName === 'setpresence') args = ['idle'];
+				else if (cmdName === 'supply') args = ['8'];
 
 				const matahari = sandbox.spy(ctx, 'send');
 

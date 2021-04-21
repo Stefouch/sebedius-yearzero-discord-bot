@@ -1,5 +1,6 @@
 const BaseSheet = require('./BaseSheet');
 const Weapon = require('../Weapon');
+const { __ } = require('../../../lang/locales');
 
 /**
  * A Year Zero Character Sheet.
@@ -32,7 +33,7 @@ class Character extends BaseSheet {
 		 * The kin or race of the character.
 		 * @type {string}
 		 */
-		this.kin = data.kin || data.race || 'human';
+		this.kin = data.kin || data.race || __('human', this.lang);
 
 		/**
 		 * The weapons of the character.
