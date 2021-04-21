@@ -248,8 +248,13 @@ async function onError(error, ctx) {
 	else {
 		// Sends me a message if the error is Unknown.
 		if (process.env.NODE_ENV === 'production') {
-			const msg = `**Error:** ${error.toString()}`
-				+ `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
+			let msg = `❌ __${error.toString()}__`;
+			if (ctx) {
+				msg += `\n**Command:** \`${ctx.content}\``
+					+ (ctx.author ? `\n**Author:** ${ctx.author.tag} (${ctx.author.id})` : '')
+					+ (ctx.guild ? `\n**Guild:** ${ctx.guild.name} (${ctx.guild.id})` : '');
+			}
+			msg += `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
 				+ `\n**Stack:** ${error.stack}`;
 			// bot.owner.send(msg, { split: true })
@@ -257,7 +262,7 @@ async function onError(error, ctx) {
 			bot.log(msg, { split: true });
 		}
 		if (ctx) {
-			ctx.reply(`❌ ${__('bot-error-command-execution', lang)} (${error.toString()})`)
+			ctx.reply(`❌ ${__('bot-error-command-execution', lang)}`)
 				.catch(console.error);
 		}
 	}

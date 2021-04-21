@@ -53,7 +53,7 @@ module.exports = {
 
 		// Creates the Embed.
 		const embed = new YZEmbed(
-			`:crossed_swords: **${monster.name}**${__('possessives', monster.lang)} ${__('attack', monster.lang)}` ,
+			`:crossed_swords: **${monster.name}**${__('possessives', monster.lang)} ${__('attack', monster.lang)}`,
 			`${attack.name ? `**${attack.name}:** ` : ''} ${effect}`,
 		);
 		// Sets the footer of the embed (roll reference).
@@ -104,8 +104,8 @@ module.exports = {
 			const cooldown = ctx.bot.config.commands.roll.pushCooldown;
 			const rm = new ReactionMenu(message, cooldown, reactions);
 		}
-		console.log(monster);
-		console.log(attack);
+		// console.log(monster);
+		// console.log(attack);
 	},
 };
 
