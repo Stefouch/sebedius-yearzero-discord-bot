@@ -549,7 +549,7 @@ class Sebedius extends Discord.Client {
 	 * @async
 	 */
 	// static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false, lang = 'en') {
-	static async getSelection(ctx, choices, options) {
+	static async getSelection(ctx, choices, options = {}) {
 		// Prepares options.
 		const { text, del, pm, forceSelect, lang } = Object.assign({
 			text: null,
