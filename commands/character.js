@@ -61,10 +61,13 @@ async function characterSwitch(ctx, name, lang = 'en') {
 
 	if (!name) {
 		const activeCharacter = await ctx.bot.characters.fetch(ctx.author.id);
-		return await ctx.reply(`${__('ccharacter-active-character', lang)}: **${activeCharacter.name}**`, { deleteAfter: 20 });
+		return await ctx.reply(
+			`${__('ccharacter-active-character', lang)}: **${activeCharacter.name}**`,
+			{ deleteAfter: 20 },
+		);
 	}
 
-	const selectedCharacter = await getSelection(ctx, characters.map(c => [c.name, c]), null, true, false, false, lang);
+	const selectedCharacter = await getSelection(ctx, characters.map(c => [c.name, c]), { lang });
 	await ctx.bot.characters.setActive(selectedCharacter);
 	await ctx.reply(`${__('ccharacter-active-changed-to', lang)}: **${selectedCharacter.name}**`, { deleteAfter: 20 });
 
@@ -112,13 +115,21 @@ async function characterDelete(ctx, lang = 'en') {
 	const characters = await ctx.bot.characters.store.get(ctx.author.id);
 	if (!characters) return await ctx.reply(__('ccharacter-no-character', lang));
 
-	const selectedCharacter = await getSelection(ctx, characters.map(c => [`${c.name} (${c.id})`, c]), null, true, false, false, lang);
+	const selectedCharacter = await getSelection(ctx, characters.map(c => [`${c.name} (${c.id})`, c]), { lang });
 
-	const confirmation = await confirm(ctx, `⚠️ ${__('ccharacter-delete-confirmation', lang).replace('{character_name}', selectedCharacter.name)}`, true);
+	const confirmation = await confirm(
+		ctx,
+		`⚠️ ${__('ccharacter-delete-confirmation', lang).replace('{character_name}', selectedCharacter.name)}`,
+		true,
+	);
 
 	if (confirmation) {
 		const deleted = await ctx.bot.characters.delete(ctx.author.id, selectedCharacter.id);
-		if (deleted) return await ctx.send(`🧼 ${__('ccharacter-delete-confirmation', lang).replace('{character_name}', selectedCharacter.name)}`);
+		if (deleted) {
+			return await ctx.send(
+				`🧼 ${__('ccharacter-delete-confirmation', lang).replace('{character_name}', selectedCharacter.name)}`,
+			);
+		}
 	}
 	return await ctx.send(`❌ ${__('ccharacter-deleted-none', lang)}`, { deleteAfter: 20 });
 }
