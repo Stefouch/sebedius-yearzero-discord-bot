@@ -103,8 +103,8 @@ module.exports = {
 			const cooldown = ctx.bot.config.commands.roll.pushCooldown;
 			const rm = new ReactionMenu(message, cooldown, reactions);
 		}
-		console.log(monster);
-		console.log(attack);
+		// console.log(monster);
+		// console.log(attack);
 	},
 };
 
