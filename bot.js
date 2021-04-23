@@ -220,13 +220,15 @@ process.on('unhandledRejection', error => {
 /**
  * Errors Handler.
  * @param {Error} error The catched error
- * @param {Discord.Message} ctx Discord message with context
+ * @param {Discord.Message} [ctx] Discord message with context
  * @async
  */
 async function onError(error, ctx) {
-	// Gets the language
-	const lang = await ctx.bot.getLanguage(ctx);
+	// Gets the language.
+	let lang = 'en';
+	if (ctx && ctx.bot) lang = await ctx.bot.getLanguage(ctx);
 
+	// Processes the errors.
 	if (error instanceof HTTPError) {
 		console.error(error.name, error.code);
 	}
