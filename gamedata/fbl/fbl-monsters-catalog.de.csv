@@ -23,29 +23,29 @@ mfbl-nightwarg;8;4;;;2;8;3;Scout 5|Sneak 4;**Ätherische Form** Opfer der Nachtw
 mfbl-sea-serpent;18;3;;;2;18;5;;**Schwanz** Verursacht ein Angriff gegen den Schwanz einer Seeschlange (−2 Malus) eine blutende Wunde (ein oder mehr Punkte Schaden durch eine Blank- oder Stichwaffe), würfelst du jedes Mal, wenn die Seeschlange angreift, mit einem D6. Bei einer 4-6 greift das Monster sich selbst anstelle der Abenteurer an.;fbl;atk-sea-serpent
 mfbl-strangeling-vine;8;3;;;;8;;;;fbl;atk-strangeling-vine
 mfbl-troll;12-16;2;;;1;12;4;Scout 4;**Regeneration** Ein Troll regeneriert pro Runde einen verlorenen Punkt Stärke.\n**Gestank** Alle Gegner in `ARMESLÄNGE` erleiden aufgrund des schrecklichen Gestanks des Trolls pro Kampfrunde einen Punkt Schaden auf ihre Geschicklichkeit.\n**Sonnenlicht** Ein Troll erleidet einen Punkt Schaden pro Runde in direktem Sonnenlicht.;fbl;atk-troll
-mfbl-undead-restless-dead;3;2;;;;3;;Melee 2|Scout 2;**Monsterangriffe** Die Regeln für Monster im Kampf gelten nicht für Untote. Stattdessen kämpfen sie ganz normal. Da ihnen allerdings der Verstand und die Empathie fehlen, sind sie immun gegen Zauber, die auf diese Attribute abzielen, ebenso wie gegen die Fertigkeit `MANIPULATION`.;fbl;{biss:0:2:0::1}
-mfbl-undead-skeleton;3;2;;;;3;;Melee 3|Scout 3;**Monsterangriffe** Die Regeln für Monster im Kampf gelten nicht für Untote. Stattdessen kämpfen sie ganz normal. Da ihnen allerdings der Verstand und die Empathie fehlen, sind sie immun gegen Zauber, die auf diese Attribute abzielen, ebenso wie gegen die Fertigkeit `MANIPULATION`.\n**Typische Ausrüstung** Rostiges Breitschwert, Beschlagene Lederrüstung oder Kettenhemd, Geschlossener Helm.\n**Knochig** Pfeile und `STICHWAFFEN` können niemals mehr als einen Schadenspunkt bei einem Skelett verursachen. Andere Waffen richten normalen Schaden an.;fbl;{rostiges breitschwert:1:2:0::1}
-mfbl-undead-ghoul;4;2;;;;4;;Melee 3|Scout 3;**Monsterangriffe** Die Regeln für Monster im Kampf gelten nicht für Untote. Stattdessen kämpfen sie ganz normal. Da ihnen allerdings der Verstand und die Empathie fehlen, sind sie immun gegen Zauber, die auf diese Attribute abzielen, ebenso wie gegen die Fertigkeit `MANIPULATION`.;fbl;{biss:0:2:0:**Ansteckungsgefahr 4**:1}
+mfbl-undead-restless-dead;3;2;;;;3;;Fight 2|Scout 2;**Monsterangriffe** Die Regeln für Monster im Kampf gelten nicht für Untote. Stattdessen kämpfen sie ganz normal. Da ihnen allerdings der Verstand und die Empathie fehlen, sind sie immun gegen Zauber, die auf diese Attribute abzielen, ebenso wie gegen die Fertigkeit `MANIPULATION`.;fbl;{biss:0:2:0::1}
+mfbl-undead-skeleton;3;2;;;;3;;Fight 3|Scout 3;**Monsterangriffe** Die Regeln für Monster im Kampf gelten nicht für Untote. Stattdessen kämpfen sie ganz normal. Da ihnen allerdings der Verstand und die Empathie fehlen, sind sie immun gegen Zauber, die auf diese Attribute abzielen, ebenso wie gegen die Fertigkeit `MANIPULATION`.\n**Typische Ausrüstung** Rostiges Breitschwert, Beschlagene Lederrüstung oder Kettenhemd, Geschlossener Helm.\n**Knochig** Pfeile und `STICHWAFFEN` können niemals mehr als einen Schadenspunkt bei einem Skelett verursachen. Andere Waffen richten normalen Schaden an.;fbl;{rostiges breitschwert:1:2:0::1}
+mfbl-undead-ghoul;4;2;;;;4;;Fight 3|Scout 3;**Monsterangriffe** Die Regeln für Monster im Kampf gelten nicht für Untote. Stattdessen kämpfen sie ganz normal. Da ihnen allerdings der Verstand und die Empathie fehlen, sind sie immun gegen Zauber, die auf diese Attribute abzielen, ebenso wie gegen die Fertigkeit `MANIPULATION`.;fbl;{biss:0:2:0:**Ansteckungsgefahr 4**:1}
 mfbl-wyvern;14;3;5;2;3;14;5;;Wird eine Wyvern auf den Boden gezwungen, erhalten alle Angriffe gegen sie einen Bonus von +2.;fbl;atk-wyvern
-mfbl-animal-bear;6;2;;;1;6;;Melee 3|Scout 3;;fbl;{pranke:0:2:0:Schnittwunde:1}
-mfbl-animal-wolf;4;4;;;2;4;;Move 3|Melee 3|Scout 5;;fbl;{biss:0:1:0:Schnittwunde:1}
-mfbl-animal-fox;2;4;;;1;2;;Move 2|Melee 2|Scout 4;;fbl;{biss:0:1:0:Schnittwunde:1}
+mfbl-animal-bear;6;2;;;1;6;;Fight 3|Scout 3;;fbl;{pranke:0:2:0:Schnittwunde:1}
+mfbl-animal-wolf;4;4;;;2;4;;Move 3|Fight 3|Scout 5;;fbl;{biss:0:1:0:Schnittwunde:1}
+mfbl-animal-fox;2;4;;;1;2;;Move 2|Fight 2|Scout 4;;fbl;{biss:0:1:0:Schnittwunde:1}
 mfbl-animal-deer;3;4;;;2;3;;Move 4|Scout 4;;fbl;{hörner:0:1:0:Stumpfer Schlag:1}
-mfbl-animal-boar;4;2;;;1;4;;Melee 3|Scout 3;;fbl;{hauer:0:1:0:Stumpfer Schlag:1}
+mfbl-animal-boar;4;2;;;1;4;;Fight 3|Scout 3;;fbl;{hauer:0:1:0:Stumpfer Schlag:1}
 mfbl-animal-riding-horse;5;4;;;2;5;;Move 2|Scout 3;;fbl;{tritt:0:1:0:Stumpfer Schlag:1}
-mfbl-animal-war-horse;6;5;;;2;6;;Move 3|Melee 2|Scout 3;;fbl;{tritt:0:1:0:Stumpfer Schlag:1}
+mfbl-animal-war-horse;6;5;;;2;6;;Move 3|Fight 2|Scout 3;;fbl;{tritt:0:1:0:Stumpfer Schlag:1}
 mfbl-animal-donkey;3;3;;;2;3;;Move 2|Endurance 2|Scout 3;;fbl;{tritt:0:1:0:Stumpfer Schlag:1}
-mfbl-animal-canide-war-hound;5;3;;;2;5;;Move 2|Melee 3|Scout 3;;fbl;{biss:0:1:0:Schnittwunde:1}
-mfbl-animal-crocodile;4;2;;;1;4;;Melee 3|Scout 3;;fbl;{biss:0:2:0:Schnittwunde:1}
-mfbl-animal-dog;3;3;;;2;3;;Melee 1|Scout 5;;fbl;{biss:0:1:0:Schnittwunde:1}
+mfbl-animal-canide-war-hound;5;3;;;2;5;;Move 2|Fight 3|Scout 3;;fbl;{biss:0:1:0:Schnittwunde:1}
+mfbl-animal-crocodile;4;2;;;1;4;;Fight 3|Scout 3;;fbl;{biss:0:2:0:Schnittwunde:1}
+mfbl-animal-dog;3;3;;;2;3;;Fight 1|Scout 5;;fbl;{biss:0:1:0:Schnittwunde:1}
 mfbl-animal-cat;1;5;;;1;1;;Move 4|Scout 5;;fbl;{klauen:0:1:0:Schnittwunde:1}
 mfbl-animal-rats;4;3;;;1;4;;Move 3|Scout 4;**Schwarm** Ein Schwarm von Tieren wird als eine einzige Kreatur behandelt, wobei der Stärke-Wert den Schwarm als Ganzes repräsentiert. Ein einzelner Angriff auf einen Schwarm kann nie mehr als 1 Punkt Schaden verursachen.;fbl;{biss:0:1:0:Schnittwunde:1}
 mfbl-animal-bats;5;3;;;2;5;;Move 3|Scout 5;**Schwarm** Ein Schwarm von Tieren wird als eine einzige Kreatur behandelt, wobei der Stärke-Wert den Schwarm als Ganzes repräsentiert. Ein einzelner Angriff auf einen Schwarm kann nie mehr als 1 Punkt Schaden verursachen.;fbl;{biss:0:1:0:Schnittwunde:1}
 mfbl-animal-raven;1;3;;;2;1;;Move 3|Scout 4;;fbl;{schnabel:0:1:0:Schnittwunde:1}
-mfbl-animal-eagle;3;5;;;3;3;;Move 3|Melee 3|Scout 5;;fbl;{klauen:0:1:0:Schnittwunde:1}
-mfbl-animal-snake;1;3;;;1;1;;Melee 3|Scout 4;;fbl;{biss:0:0:0:Tödliches Gift, **Wirksamkeit 4**:1}
-mfbl-animal-scorpion;1;3;;;1;1;;Move 3|Melee 2|Scout 3;;fbl;{schwanz:0:0:0:Lähmendes Gift, **Wirksamkeit 6**:1}
-mfbl-animal-spider;1;3;;;1;1;;Move 3|Melee 2|Scout 3;;fbl;{biss:0:0:0:Lähmendes Gift, **Wirksamkeit 6**:1}
+mfbl-animal-eagle;3;5;;;3;3;;Move 3|Fight 3|Scout 5;;fbl;{klauen:0:1:0:Schnittwunde:1}
+mfbl-animal-snake;1;3;;;1;1;;Fight 3|Scout 4;;fbl;{biss:0:0:0:Tödliches Gift, **Wirksamkeit 4**:1}
+mfbl-animal-scorpion;1;3;;;1;1;;Move 3|Fight 2|Scout 3;;fbl;{schwanz:0:0:0:Lähmendes Gift, **Wirksamkeit 6**:1}
+mfbl-animal-spider;1;3;;;1;1;;Move 3|Fight 2|Scout 3;;fbl;{biss:0:0:0:Lähmendes Gift, **Wirksamkeit 6**:1}
 mfbr-dire-wolf;10;6;;;2;10;4;Move 3|Stealth 4|Scouting 3;;fbr;atk-dire-wolf
 mfbr-frost-dragon;36;5;5;2;3;36;10;Lore 3|Insight 3|Manipulation 2|Scouting 4|Might 4;**Kälteaura** Ein Frostdrache erleidet keinen Schaden durch Kälte. Alle Gegnerinnen auf `ARMESLÄNGE` müssen jede Runde auf `AUSDAUER` würfeln (keine Aktion), sonst werden sie `UNTERKÜHLT`.\n**Schwachstelle** Ein erfolgreicher Wurf auf `AUSKUNDSCHAFTEN` enthüllt eine Schwachstelle in der Haut des Drachen. Jeder Angriff auf die Schwachstelle ist um -3 modifiziert, aber bei einem Treffer zählt der Rüstungsschutz des Drachen nicht.\n**Kaltes Herz** Feuer fügt dem Drachen doppelten Schaden zu.;fbr;atk-frost-dragon
 mfbr-ice-giant;26;2;3;2;2;26;3;Lore 5|Insight 5|Scouting 5|Might 5;**Ausrüstung** Riesiger Knüppel. Wenn ein Eisriese seine Waffe verliert, reduziert sich bei Monsterangriffen, die mit dem Knüppel durchgeführt werden sollten, der Waffenschaden um 1. Eisriesen `PARIEREN` keine Angriffe.;fbr;atk-ice-giant
@@ -53,4 +53,4 @@ mfbr-nanuik;12;4;;;2;12;5;Scouting 4|Survival 5;;fbr;atk-nanuik
 mfbr-pikebeast;16;8;;;2;16;5;;**Bewegung** 2 im Wasser, 1 an Land.\n**Bootsangriffe** Die Monsterangriffe der Hornbestie richten sich direkt gegen die Gegnerinnen im Kampf. Allerdings befinden sich die SC vermutlich zunächst an Bord eines Bootes, wenn die Hornbestie angreift. In dem Fall können die Angriffe der Hornbestie gegen das Boot geführt werden statt gegen die SC. Das kann genauso tödlich enden, da der Schaden einer Hornbestie das Boot versenken kann.;fbr;atk-pikebeast
 mfbr-stone-guardian;10;2;;;1;10;6;;;fbr;atk-stone-guardian
 mfbr-stone-ravens;6;8;;;2;6;4;;**Schwarm** Steinraben kämpfen immer im Schwarm, und ein Schwarm gilt als 1 Monster. Ein einzelner Angriff gegen einen Schwarm Steinraben kann nie mehr als 1 Schadenspunkt verursachen.;fbr;atk-stone-ravens
-mfbr-wendigo;20;3;;;1;20;3;Melee 3|Might 3;;fbr;atk-wendigo
+mfbr-wendigo;20;3;;;1;20;3;Fight 3|Might 3;;fbr;atk-wendigo
