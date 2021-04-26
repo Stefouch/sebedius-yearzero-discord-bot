@@ -12,6 +12,7 @@ module.exports = {
 	guildOnly: true,
 	args: true,
 	usage: '<url> [-v] [-lang <language_code>]',
+	ownerOnly: true,
 	/**
 	 * @param {string[]} args Command's arguments
 	 * @param {import('../utils/ContextMessage')} ctx Discord message with context
