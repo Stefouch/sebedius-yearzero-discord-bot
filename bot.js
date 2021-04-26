@@ -226,7 +226,12 @@ process.on('unhandledRejection', error => {
 async function onError(error, ctx) {
 	// Gets the language.
 	let lang = 'en';
-	if (ctx && ctx.bot) lang = await ctx.bot.getLanguage(ctx);
+	try {
+		if (ctx && ctx.bot) lang = await ctx.bot.getLanguage(ctx);
+	}
+	catch (err) {
+		console.error('Cannot get the lang', ctx, err);
+	}
 
 	// Processes the errors.
 	if (error instanceof HTTPError) {
