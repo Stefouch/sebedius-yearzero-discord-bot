@@ -120,30 +120,6 @@ class YZRoll {
 	}
 
 	/**
-	 * The quantity of ones(banes) on base dice.
-	 * @type {number}
-	 * @readonly
-	 */
-	get baseBaneCount() {
-		const banableTypes = ['base'];
-		return this.dice
-			.filter(d => banableTypes.includes(d.type) && d.result === 1)
-			.length;
-	}
-
-	/**
-	 * The quantity of ones(banes) on base dice.
-	 * @type {number}
-	 * @readonly
-	 */
-	get ammoBaneCount() {
-		const banableTypes = ['ammo'];
-		return this.dice
-			.filter(d => banableTypes.includes(d.type) && d.result === 1)
-			.length;
-	}
-
-	/**
 	 * The quantity of traumas ("1" on base dice).
 	 * @type {number}
 	 * @readonly
@@ -215,8 +191,8 @@ class YZRoll {
 	get pushable() {
 		return (
 			this.pushCount < this.maxPush &&
-			this.dice.some(d => d.pushable) /*&&
-			!this.mishap */
+			this.dice.some(d => d.pushable) &&
+			!this.mishap
 		);
 	}
 

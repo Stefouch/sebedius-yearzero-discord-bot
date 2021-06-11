@@ -413,18 +413,8 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		}
 		desc += `\n${__('croll-ammo-spent', roll.lang)}: **${roll.sum('ammo')}**`;
 	}
-	if (roll.baneCount > 0 && roll.pushed) {
-		const b = roll.baseBaneCount;
-		if (b > 0) {
-			desc += `\n**${__('damage-stress', roll.lang)}:** **${b}** 💢`;
-		}
-		const rel = roll.ammoBaneCount;
-		if (rel > 0) {
-			desc += `\n**${__('reliability', roll.lang)}:** **${-rel}** 💥`;
-		}
-		if (roll.baneCount >= 2) {
-			desc += `\n**${__('weapon-jam', roll.lang).toUpperCase()}** :bangbang:`;
-		}
+	if (opts.mishap && roll.mishap) {
+		desc += `\n**${__('mishap', roll.lang).toUpperCase()}** 💢`;
 	}
 	if (opts.panic && roll.panic) {
 		desc += `\n**${__('panic', roll.lang).toUpperCase()}!!!**`;
