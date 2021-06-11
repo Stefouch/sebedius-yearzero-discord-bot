@@ -1,9 +1,9 @@
 {
-	"botID": "543445246143365130",
+	"botID": "852662391027269683",
 	"betaBotID": "549319447240769542",
-	"ownerID": "405389936783523840",
-	"botGuildID": "585361465641271296",
-	"botLogChannelID": "752170706522865664",
+	"ownerID": "229606530322792448",
+	"botGuildID": "781876435890864139",
+	"botLogChannelID": "852680654004158514",
 	"defaultPrefix": "!",
 	"perms": { "bitfield": 355392 },
 	"activityLoopDelay": 600,
@@ -104,7 +104,7 @@
 					},
 					"hasBlankDice": true,
 					"detailed": true,
-					"mishap": true
+					"mishap":true
 				}
 			}
 		},
