@@ -137,10 +137,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get ammoBaneCount() {
-		const banableTypes = ['ammo'];
-		return this.dice
-			.filter(d => banableTypes.includes(d.type) && d.result === 1)
-			.length;
+		return this.count('ammo', 1);
 	}
 
 	/**
