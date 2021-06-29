@@ -125,10 +125,7 @@ class YZRoll {
 	 * @readonly
 	 */
 	get baseBaneCount() {
-		const banableTypes = ['base'];
-		return this.dice
-			.filter(d => banableTypes.includes(d.type) && d.result === 1)
-			.length;
+		return this.count('base', 1);
 	}
 
 	/**
