@@ -423,7 +423,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 			desc += `\n**${__('reliability', roll.lang)}:** **${-rel}** 💥`;
 		}
 		if (roll.baneCount >= 2) {
-			desc += `\n**${__('weapon-jam', roll.lang).toUpperCase()}** :bangbang:`;
+			desc += `\n**${__('weapon-jam', roll.lang).toUpperCase()}** ‼️`;
 		}
 	}
 	if (opts.panic && roll.panic) {
