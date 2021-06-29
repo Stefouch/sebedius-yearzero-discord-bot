@@ -690,7 +690,7 @@ class YZDie {
 				if (this.result !== 1 && this.result < 6) return true;
 				return false;
 			case 'ammo':
-				if (this.result !== 1) return true;
+				if (this.result !== 1 && this.result < 6) return true;
 				return false;
 			case 'skill':
 			case 'neg':
