@@ -120,24 +120,6 @@ class YZRoll {
 	}
 
 	/**
-	 * The quantity of ones(banes) on base dice.
-	 * @type {number}
-	 * @readonly
-	 */
-	get baseBaneCount() {
-		return this.count('base', 1);
-	}
-
-	/**
-	 * The quantity of ones(banes) on base dice.
-	 * @type {number}
-	 * @readonly
-	 */
-	get ammoBaneCount() {
-		return this.count('ammo', 1);
-	}
-
-	/**
 	 * The quantity of traumas ("1" on base dice).
 	 * @type {number}
 	 * @readonly
@@ -183,6 +165,25 @@ class YZRoll {
 	}
 
 	/**
+	 * The quantity of ones (banes) on base dice and ammo dice.
+	 * @type {number}
+	 * @readonly
+	 */
+	get jamCount() {
+		return this.attributeTrauma + this.count('ammo', 1);
+	}
+
+	/**
+	 * Tell if the roll caused a weapon jam.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get jammed() {
+		if (!this.pushed) return false;
+		return this.jamCount >= 2;
+	}
+
+	/**
 	 * Tells if the roll is a mishap (double 1's).
 	 * @type {boolean}
 	 * @readonly
@@ -208,9 +209,9 @@ class YZRoll {
 	 */
 	get pushable() {
 		return (
-			this.pushCount < this.maxPush &&
-			this.dice.some(d => d.pushable) /*&&
-			!this.mishap */
+			this.pushCount < this.maxPush
+			&& this.dice.some(d => d.pushable)
+			// && !this.mishap
 		);
 	}
 

@@ -225,7 +225,7 @@ module.exports = {
 		if (rollargv.mod) {
 			roll.modify(+rollargv.mod);
 		}
-		//Temporary Yargs Parser issue fix.
+		//TODO This is a temporary Yargs Parser issue fix.
 		Object.keys(rollargv).forEach(k => {
 			if (/\d+/.test(k)) roll.modify(-k);
 		});
@@ -409,20 +409,22 @@ function getEmbedDiceResults(roll, ctx, opts) {
 	if (roll.rof > 0) {
 		const n = roll.count('ammo', 6);
 		if (n > 0) {
-			desc += `\n${__(s > 0 ? (n > 1 ? 'extra-hits' : 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang)}: **${n}**`;
+			desc += `\n${__(
+				s > 0 ? (n > 1 ? 'extra-hits' : 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang,
+			)}: **${n}**`;
 		}
 		desc += `\n${__('croll-ammo-spent', roll.lang)}: **${roll.sum('ammo')}**`;
 	}
-	if (roll.baneCount > 0 && roll.pushed) {
-		const b = roll.baseBaneCount;
+	if (roll.pushed && roll.baneCount > 0) {
+		const b = roll.attributeTrauma;
 		if (b > 0) {
 			desc += `\n**${__('damage-stress', roll.lang)}:** **${b}** 💢`;
 		}
-		const rel = roll.ammoBaneCount;
+		const rel = roll.jamCount;
 		if (rel > 0) {
-			desc += `\n**${__('reliability', roll.lang)}:** **${-rel}** 💥`;
+			desc += `\n**${__('reliability', roll.lang)}:** **−${rel}** 💥`;
 		}
-		if (roll.baneCount >= 2) {
+		if (roll.jammed) {
 			desc += `\n**${__('weapon-jam', roll.lang).toUpperCase()}** ‼️`;
 		}
 	}
