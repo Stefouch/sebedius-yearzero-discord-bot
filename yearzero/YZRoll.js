@@ -434,15 +434,17 @@ class YZRoll {
 	 * @returns {YZRoll} This roll, modified
 	 */
 	modify(mod) {
+		if (!mod) return this;
+
 		if (this.game === 't2k') {
 			const die = this.dice
 				.filter(d => d.type === 'base')
 				.reduce((a, b) => {
 					if (mod > 0) {
 						if (b.range >= 12) return a;
-						return a.range > b.range ? a : b;
+						return a.range < b.range ? a : b;
 					}
-					return a.range < b.range ? a : b;
+					return a.range > b.range ? a : b;
 				}, {});
 
 			let excess = mod;
