@@ -686,10 +686,8 @@ class YZDie {
 		switch (this.type) {
 			case 'base':
 			case 'gear':
-			case 'stress':
-				if (this.result !== 1 && this.result < 6) return true;
-				return false;
 			case 'ammo':
+			case 'stress':
 				if (this.result !== 1 && this.result < 6) return true;
 				return false;
 			case 'skill':
