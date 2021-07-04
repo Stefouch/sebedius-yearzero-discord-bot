@@ -14,6 +14,7 @@ module.exports = new class CharacterCommand extends Command {
 			guildOnly: true,
 			args: false,
 			usage: '[subcommand]',
+			ownerOnly: true,
 		});
 	}
 
