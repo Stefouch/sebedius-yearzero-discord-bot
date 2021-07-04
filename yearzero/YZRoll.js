@@ -120,6 +120,24 @@ class YZRoll {
 	}
 
 	/**
+	 * The quantity of ones(banes) on base dice.
+	 * @type {number}
+	 * @readonly
+	 */
+	get baseBaneCount() {
+		return this.count('base', 1);
+	}
+
+	/**
+	 * The quantity of ones(banes) on base dice.
+	 * @type {number}
+	 * @readonly
+	 */
+	get ammoBaneCount() {
+		return this.count('ammo', 1);
+	}
+
+	/**
 	 * The quantity of traumas ("1" on base dice).
 	 * @type {number}
 	 * @readonly
@@ -191,8 +209,8 @@ class YZRoll {
 	get pushable() {
 		return (
 			this.pushCount < this.maxPush &&
-			this.dice.some(d => d.pushable) &&
-			!this.mishap
+			this.dice.some(d => d.pushable) /*&&
+			!this.mishap */
 		);
 	}
 
@@ -668,11 +686,9 @@ class YZDie {
 		switch (this.type) {
 			case 'base':
 			case 'gear':
+			case 'ammo':
 			case 'stress':
 				if (this.result !== 1 && this.result < 6) return true;
-				return false;
-			case 'ammo':
-				if (this.result !== 1) return true;
 				return false;
 			case 'skill':
 			case 'neg':
