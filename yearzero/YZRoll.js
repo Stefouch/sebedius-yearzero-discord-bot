@@ -165,6 +165,25 @@ class YZRoll {
 	}
 
 	/**
+	 * The quantity of ones (banes) on base dice and ammo dice.
+	 * @type {number}
+	 * @readonly
+	 */
+	get jamCount() {
+		return this.attributeTrauma + this.count('ammo', 1);
+	}
+
+	/**
+	 * Tell if the roll caused a weapon jam.
+	 * @type {boolean}
+	 * @readonly
+	 */
+	get jammed() {
+		if (!this.pushed) return false;
+		return this.jamCount >= 2;
+	}
+
+	/**
 	 * Tells if the roll is a mishap (double 1's).
 	 * @type {boolean}
 	 * @readonly
@@ -190,9 +209,9 @@ class YZRoll {
 	 */
 	get pushable() {
 		return (
-			this.pushCount < this.maxPush &&
-			this.dice.some(d => d.pushable) &&
-			!this.mishap
+			this.pushCount < this.maxPush
+			&& this.dice.some(d => d.pushable)
+			// && !this.mishap
 		);
 	}
 
@@ -416,15 +435,17 @@ class YZRoll {
 	 * @returns {YZRoll} This roll, modified
 	 */
 	modify(mod) {
+		if (!mod) return this;
+
 		if (this.game === 't2k') {
 			const die = this.dice
 				.filter(d => d.type === 'base')
 				.reduce((a, b) => {
 					if (mod > 0) {
 						if (b.range >= 12) return a;
-						return a.range > b.range ? a : b;
+						return a.range < b.range ? a : b;
 					}
-					return a.range < b.range ? a : b;
+					return a.range > b.range ? a : b;
 				}, {});
 
 			let excess = mod;
@@ -668,11 +689,9 @@ class YZDie {
 		switch (this.type) {
 			case 'base':
 			case 'gear':
+			case 'ammo':
 			case 'stress':
 				if (this.result !== 1 && this.result < 6) return true;
-				return false;
-			case 'ammo':
-				if (this.result !== 1) return true;
 				return false;
 			case 'skill':
 			case 'neg':

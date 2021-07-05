@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 <br />The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br />and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.1.0] - 2021-07-05
+## Changed
+- Use of the final version of the dice rules for Twilight 2000.
+
 ## [4.0.3] - 2021-04-23
 ### Fixed
 - A critical bug causing a crash of the bot with the error log.
