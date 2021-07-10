@@ -415,7 +415,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		}
 		desc += `\n${__('croll-ammo-spent', roll.lang)}: **${roll.sum('ammo')}**`;
 	}
-	if (roll.pushed && roll.baneCount > 0) {
+	if (roll.game === 't2k' && roll.pushed && roll.baneCount > 0) {
 		const b = roll.attributeTrauma;
 		if (b > 0) {
 			desc += `\n**${__('damage-stress', roll.lang)}:** **${b}** 💢`;
