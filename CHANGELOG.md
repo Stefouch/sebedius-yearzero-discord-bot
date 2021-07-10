@@ -4,14 +4,14 @@ All notable changes to this project will be documented in this file.
 <br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [4.1.1] - 2021-07-10
-## Fixed
+### Fixed
 - Issue [#119](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/119).
 - Issue [#116](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/116).
 - Bug: wrong version of the bot was displayed in the help message.
 - (JavaScript) Updated all packages.
 
 ## [4.1.0] - 2021-07-05
-## Changed
+### Changed
 - Use of the final version of the dice rules for Twilight 2000.
 
 ## [4.0.3] - 2021-04-23
