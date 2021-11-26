@@ -67,7 +67,7 @@ module.exports = {
 		let roll = new YZRoll(game, ctx.author, name, lang);
 
 		// Year Zero Roll Regular Expression.
-		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
+		const yzRollRegex = /^((\d{1,2}a\d{1,2})|(\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		const isD66 = rollargv._.length === 1 &&
@@ -97,21 +97,33 @@ module.exports = {
 			// Then, processes all uncategorized arguments.
 			for (const arg of rollargv._) {
 				// Checks if it's a classic YZ roll phrase.
-				if (/^((\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i.test(arg)) {
+				if (/^((\d{1,2}a\d{1,2})|(\d{1,2}[dbsgna])|([bsgna]\d{1,2}))+$/i.test(arg)) {
 
 					// If true, the roll phrase is then splitted in digit-letter or letter-digit couples.
-					const diceCouples = arg.match(/(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
+					const diceCouples = arg.match(/(\d{1,2}a\d{1,2})|(\d{1,2}[dbsgna])|([bsgna]\d{1,2})/gi);
 
 					for (const dieCouple of diceCouples) {
 
 						// Then, each couple is splitted in an array with the digit and the letter.
 						const couple = dieCouple.match(/\d{1,2}|[dbsgna]/gi);
 
-						// Sorts numbers (dice quantity) in first position.
-						couple.sort();
-
-						const diceQty = Number(couple[0]) || 1;
-						const dieTypeChar = couple[1].toLowerCase();
+						// Split into the right parts
+						let diceQty = 0;
+						let dieTypeChar = '';
+						let dieSides = 0;
+						for (let dicePart = 0; dicePart < couple.length; dicePart++){
+							// If it's a character, it's the type
+							if (/[a-z]/i.test(couple[dicePart])) {
+								dieTypeChar = couple[dicePart];
+							} else {
+								// The first part is always the number of dice. If not it is handled further down.
+								if (dicePart == 0) {
+									diceQty = Number(couple[dicePart]) || 0;
+								} else {
+									dieSides = Number(couple[dicePart]) || 0;
+								}
+							}
+						}
 
 						// For the chosen letter, we assign a die type.
 						let type;
@@ -127,11 +139,21 @@ module.exports = {
 							case 'n': type = 'neg'; break;
 							case 'a':
 								if (game === 't2k') type = 'ammo';
-								else roll.addDice('arto', 1, diceQty);
+								else {
+									// Add at least 1, if the quantity wasn't given
+									diceQty = Math.max(diceQty, 1);
+									// Add the given number of artifact dice
+									for (let artoDice = 0; artoDice < diceQty; artoDice++) {
+										roll.addDice('arto', 1, dieSides);
+									}
+								}
 								break;
 						}
 
 						if (type) {
+							// If no quantity was specified in front, then use the number after the character. Or at least 1.
+							diceQty = Math.max(diceQty, dieSides, 1);
+							
 							// First, checks if there are some type swap (see config roll aliases).
 							const diceOptions = ctx.bot.config.commands.roll.options[game].alias;
 							if (diceOptions) {
