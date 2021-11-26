@@ -156,7 +156,7 @@ class YZObject {
 			matching = catalog;
 		}
 		matching = matching.map(o => [o.name, o]);
-		catalogEntry = await Sebedius.getSelection(ctx, matching, null, true, false, false, lang);
+		catalogEntry = await Sebedius.getSelection(ctx, matching, { lang });
 		return catalogEntry;
 	}
 
@@ -179,7 +179,7 @@ class YZObject {
 			.keys(CATALOGS[cat])
 			.map(g => [SOURCE_MAP[g], g]);
 
-		return await Sebedius.getSelection(ctx, choices, null, true, false, false, lang);
+		return await Sebedius.getSelection(ctx, choices, { lang });
 	}
 
 	toString() {
@@ -350,7 +350,7 @@ class YZMonster extends YZObject {
 						const weapon = YZWeapon.getDefault(
 							Util.capitalize(__(wid, this.lang)),
 							this.game,
-							this.lang
+							this.lang,
 						);
 						out.push(weapon);
 					}
@@ -562,7 +562,9 @@ class YZWeapon extends YZObject {
 		+ (this.bonus && this.damage ? ', ' : '')
 		+ (this.damage ? `${Util.capitalize(__('damage', this.lang))} **${Util.resolveNumber(this.damage)}**` : '')
 		+ '__.'
-		+ (this.range >= 0 ? ` \`${__(`range-${this.game}-` + RANGES[this.game][this.range], this.lang)}\` ${__('range', this.lang)}.` : '')
+		+ (this.range >= 0
+			? ` \`${__(`range-${this.game}-` + RANGES[this.game][this.range], this.lang)}\` ${__('range', this.lang)}.`
+			: '')
 		+ (this.special ? ` ${this.special.split('|').join(', ')}` : '')
 		+ (Object.keys(this.features).length ? ` *(${this.featuresToString()}.)*` : '');
 	}
@@ -638,8 +640,9 @@ for (const cat in CATALOG_SOURCES) {
 		CATALOGS[cat][game] = {};
 		for (const lang in SUPPORTED_LANGS) {
 			catalogPath = CATALOG_SOURCES[cat][game];
-			if (fs.existsSync(catalogPath.replace('.en.', `.${lang}.`)))
+			if (fs.existsSync(catalogPath.replace('.en.', `.${lang}.`))) {
 				catalogPath = catalogPath.replace('.en.', `.${lang}.`);
+			}
 			CATALOGS[cat][game][lang] = YZObject.all(cat, catalogPath, lang);
 			console.log(`        • ${cat}: ${game} - ${lang} (${CATALOGS[cat][game][lang].size})`);
 		}

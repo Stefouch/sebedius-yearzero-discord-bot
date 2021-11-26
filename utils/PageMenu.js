@@ -131,6 +131,10 @@ class PageMenu {
 	 * Stops the collector and deletes the message.
 	 */
 	stop() {
+		if (!this.reactionMenu) {
+			console.warn('PageMenu | .stop() | Nothing to stop!?');
+			return;
+		}
 		this.reactionMenu.stop(this.menu);
 	}
 }

@@ -33,7 +33,7 @@ The supported games are:
 * [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 * [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 * [Vaesen](https://frialigan.se/en/games/vaesen/)
-* [Twilight 2000 4E](https://frialigan.se/en/games/twilight-2000/) *(alpha rules)*
+* [Twilight 2000 4E](https://frialigan.se/en/games/twilight-2000/)
 
 # How to Use
 
