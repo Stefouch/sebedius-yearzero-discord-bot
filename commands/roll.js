@@ -67,7 +67,7 @@ module.exports = {
 		let roll = new YZRoll(game, ctx.author, name, lang);
 
 		// Year Zero Roll Regular Expression.
-		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
+		const yzRollRegex = /^(([1-9]\d?[dbsgna])|([bsgna][1-9]\d?)|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		const isD66 = rollargv._.length === 1 &&
