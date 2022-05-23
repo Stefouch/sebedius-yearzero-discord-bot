@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const { isObject } = require('./Util');
 
 /**
  * Represents a Discord message with context.
@@ -14,6 +15,8 @@ class ContextMessage extends Discord.Message {
 	 */
 	constructor(prefix, client, data, channel) {
 		super(client, data, channel);
+
+		if (channel && channel.id) this.channelId = channel.id;
 
 		/**
 		 * The prefix used to trigger the command.
@@ -37,10 +40,10 @@ class ContextMessage extends Discord.Message {
 	 * @returns {Promise<Discord.Message|Discord.Message[]>}
 	 * @async
 	 */
-	async send(content, options) {
+	async send(content = '', options = {}) {
 		// if (this.client.muted) return;
 		// if (this.channel.type === 'dm') return await this.author.send(content, options);
-		const msg = await this.channel.send(content, options);
+		const msg = await this.channel.send(this.constructor.createMessageOptions(content, options));
 		if (options && options.deleteAfter) this.constructor.deleteAfter(msg, options.deleteAfter * 1000);
 		return msg;
 	}
@@ -51,8 +54,8 @@ class ContextMessage extends Discord.Message {
 	 * @param {number} options.deleteAfter Time before deleting the message, in seconds
 	 * @returns {Promise<Message|Message[]>}
 	 */
-	async reply(content, options) {
-		const msg = await super.reply(content, options);
+	async reply(content = '', options = {}) {
+		const msg = await super.reply(this.constructor.createMessageOptions(content, options));
 		if (options && options.deleteAfter) this.constructor.deleteAfter(msg, options.deleteAfter * 1000);
 		return msg;
 	}
@@ -69,6 +72,31 @@ class ContextMessage extends Discord.Message {
 			try { msg.delete(); }
 			catch (error) { console.error(error); }
 		}, delay);
+	}
+
+	/**
+	 * Creates a `MessageOptions` that is used by Discord V13 `.send()` & `.reply()`.
+	 * @param {StringResolvable|APIMessage|Discord.MessageEmbed|Discord.MessageOptions|Object} content 
+	 * @param {Discord.MessageEmbed|Discord.MessageOptions|Object} options
+	 * @returns {Discord.MessageOptions}
+	 * @static
+	 */
+	static createMessageOptions(content = '', options = {}) {
+		if (typeof content === 'string') {
+			options.content = content;
+		}
+		else if (content instanceof Discord.MessageEmbed) {
+			if (Array.isArray(options.embeds)) options.embeds.push(content);
+			else options.embeds = [content];
+		}
+		else if (isObject(content) && Object.keys()) {
+			//! TODO
+		}
+		if (options.embed) {
+			if (Array.isArray(options.embeds)) options.embeds.push(options.embed);
+			else options.embeds = [options.embed];
+		}
+		return options;
 	}
 }
 

@@ -23,7 +23,7 @@ class PageMenu {
 		this.page = 0;
 		this.reactionMenu = null;
 
-		channel.send(this.currentPage)
+		channel.send({ embeds: [this.currentPage] })
 			.then(menu => {
 				this.menu = menu;
 				this.react(reactionData);
