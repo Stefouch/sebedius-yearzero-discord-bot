@@ -45,9 +45,19 @@ class Sebedius extends Discord.Client {
 	constructor(config) {
 		// ClientOptions: https://discord.js.org/#/docs/main/master/typedef/ClientOptions
 		super({
-			messageCacheMaxSize: 100,
-			messageCacheLifetime: 60 * 10,
-			messageSweepInterval: 90,
+			// messageCacheMaxSize: 100, // DEPRECATED
+			// messageCacheLifetime: 60 * 10, // DEPRECATED
+			// messageSweepInterval: 90, // DEPRECATED
+			// ? https://discordjs.guide/additional-info/changes-in-v13.html#customizable-manager-caches
+			makeCache: Discord.Options.cacheWithLimits({
+				MessageManager: 1000,
+			}),
+			sweepers: {
+				messages: {
+					lifetime: 60 * 60 * 3,
+					interval: 60 * 5,
+				},
+			},
 			// partials: ['MESSAGE', 'REACTION'],
 			ws: {
 				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
