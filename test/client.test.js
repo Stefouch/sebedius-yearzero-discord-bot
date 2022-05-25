@@ -77,6 +77,7 @@ describe('Discord Bot Client', function() {
 				else if (cmdName === 'feral') args = ['99'];
 				else if (cmdName === 'help') args = ['help'];
 				else if (cmdName === 'init') args = ['help'];
+				else if (cmdName === 'invite') this.skip();
 				else if (cmdName === 'importcharacter') this.skip();
 				else if (cmdName === 'job') args = ['mil'];
 				else if (cmdName === 'journey') args = ['create', 'night', 'summer', 'hills', '-fbr'];
