@@ -132,7 +132,10 @@ async function characterDelete(ctx, lang = 'en') {
 			);
 		}
 	}
-	return await ctx.send(`❌ ${__('ccharacter-deleted-none', lang)}`, { deleteAfter: 20 });
+	return await ctx.send({
+		content: `❌ ${__('ccharacter-deleted-none', lang)}`, 
+		deleteAfter: 20,
+	});
 }
 
 /**

@@ -1015,7 +1015,10 @@ async function attack(args, ctx, lang) {
 				:shield: ${__('cinit-damage-absorbed', lang)}: **${damage - finalDamage}**
 				${armorDamage > 0 ? `:anger: ${__('cinit-armor-degraded', lang)}: **-${armorDamage}**` : ''}`,
 			);
-		await ctx.send(dice, embed);
+		await ctx.send({
+			content: dice,
+			embeds: [embed],
+		});
 	}
 
 	if (combatant.hp <= 0) {

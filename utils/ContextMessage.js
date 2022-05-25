@@ -89,8 +89,8 @@ class ContextMessage extends Discord.Message {
 			if (Array.isArray(options.embeds)) options.embeds.push(content);
 			else options.embeds = [content];
 		}
-		else if (isObject(content) && Object.keys()) {
-			//! TODO
+		else if (isObject(content) && isObject(options) && Object.keys(options).length === 0) {
+			options = content;
 		}
 		if (options.embed) {
 			if (Array.isArray(options.embeds)) options.embeds.push(options.embed);
