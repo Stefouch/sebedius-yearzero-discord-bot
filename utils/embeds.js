@@ -147,7 +147,6 @@ class UserEmbed extends MessageEmbed {
 		super({
 			color,
 			title: `${user.username} (${user.tag})`,
-			description: `Language: **${user.locale}**`,
 			thumbnail: { url: user.displayAvatarURL() },
 			timestamp: new Date(),
 			footer: { text: `ID: ${user.id}` },
