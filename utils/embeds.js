@@ -205,7 +205,7 @@ class GuildEmbed extends MessageEmbed {
 				},
 				{
 					name: 'Owner',
-					value: `${guild.owner.user.tag} (${guild.ownerID})`,
+					value: `${guild.owner.user.tag} (${guild.ownerId})`,
 					inline: true,
 				},
 				{
