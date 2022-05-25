@@ -468,7 +468,7 @@ class Sebedius extends Discord.Client {
 	 */
 	async getStats() {
 		const out = new Discord.Collection();
-		for (const cmdName of this.commands.keyArray()) {
+		for (const cmdName of [...this.commands.keys()]) {
 			const count = await this.kdb.stats.get(cmdName) || 0;
 			out.set(cmdName, count);
 		}

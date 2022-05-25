@@ -70,14 +70,6 @@ module.exports = {
 			argv._.shift();
 			argv.mishap = true;
 		}
-/*	Removed because similar code was down below. That code was modified to also understand translated activities.
-		if (argv.mishap) {
-			const activities = YZJourney.Activities
-				.filter(a => a.mishap)
-				.keyArray();
-			activityName = await select(ctx, argv._.length ? argv._.shift() : '', activities, __('cjourney-activity-mishap-mismatch', lang));
-		}
- */
 		// Exits early if no subcommand was specified.
 		if (!argv.create && !argv.mishap) {
 			return ctx.reply('ℹ️ ' + __('cjourney-choose-subcommand', lang));
@@ -257,7 +249,7 @@ async function select(ctx, needle = '', choices, text, lang = 'en', localePrefix
  * @param {YZJourney} jou
  */
 async function addActivitiesReactions(message, jou) {
-	for (const acti of YZJourney.Activities.array()) {
+	for (const acti of [...YZJourney.Activities.values()]) {
 		if (acti.icon) {
 			// Skips some reactions according to the settings.
 			if (acti.tag === 'hike') continue;

@@ -465,7 +465,7 @@ class YZCombat {
 			this.index = this.initiatives.findKey(ref => ref === initNum.id);
 		}
 		else {
-			const target = Util.closest(initNum, this.initiatives.keyArray().sort());
+			const target = Util.closest(initNum, [...this.initiatives.keys()].sort());
 			if (target) {
 				this.index = target;
 			}
