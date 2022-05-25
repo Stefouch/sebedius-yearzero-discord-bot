@@ -50,7 +50,7 @@ bot.on('ready', async () => {
 /* !
  * MESSAGE HANDLER
  */
-bot.on('message', async message => {
+bot.on('messageCreate', async message => {
 	// Exits early is the message was send by a bot
 	// and prevents bot from responding to its own messages.
 	if (message.author.bot) return;
