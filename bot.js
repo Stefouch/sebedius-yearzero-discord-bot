@@ -5,7 +5,7 @@
  * @author	Stefouch
  * ===========================================================
  */
-const { HTTPError, DiscordAPIError, Collection } = require('discord.js');
+const { HTTPError, DiscordAPIError, Collection, Util } = require('discord.js');
 const { GuildEmbed } = require('./utils/embeds');
 const SebediusErrors = require('./utils/errors');
 const { __ } = require('./lang/locales');
@@ -264,9 +264,9 @@ async function onError(error, ctx) {
 			msg += `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
 				+ `\n**Stack:** ${error.stack}`;
-			// bot.owner.send(msg, { split: true })
+			// bot.owner.send(msg, { split: true }) // split is deprecated
 			// 	.catch(console.error);
-			bot.log(msg, { split: true });
+			bot.log(msg);
 		}
 		if (ctx) {
 			ctx.reply(`❌ ${__('bot-error-command-execution', lang)}`)
