@@ -78,5 +78,5 @@ function sendMessageForResourceDie(roll, ctx) {
 			__('cresource-unchanged-text', roll.lang),
 		);
 	}
-	ctx.send(text, embed);
+	ctx.send({ content: text, embeds: [embed] });
 }

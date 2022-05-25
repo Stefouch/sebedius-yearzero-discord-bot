@@ -249,16 +249,16 @@ module.exports = {
 
 		// Sends the message.
 		if (roll.d66) {
-			await ctx.send(
-				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getEmbedD66Results(roll, ctx),
-			);
+			await ctx.send({
+				content: emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				embeds: [getEmbedD66Results(roll, ctx)],
+			});
 		}
 		else if (roll.initiative) {
-			await ctx.send(
-				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getEmbedInitRollResults(roll, ctx),
-			);
+			await ctx.send({
+				content: emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				embeds: [getEmbedInitRollResults(roll, ctx)],
+			});
 		}
 		else if (roll.game === 'generic') {
 			await ctx.send(getEmbedGenericDiceResults(roll, ctx));
@@ -289,10 +289,10 @@ async function messageRollResult(roll, ctx) {
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	// Sends the message.
-	await ctx.send(
-		emojifyRoll(roll, gameOptions),
-		getEmbedDiceResults(roll, ctx, gameOptions),
-	)
+	await ctx.send({
+		content: emojifyRoll(roll, gameOptions),
+		embeds: [getEmbedDiceResults(roll, ctx, gameOptions)],
+	})
 		.then(rollMessage => {
 			// Detects PANIC.
 			if (gameOptions.panic && roll.panic) {

@@ -65,9 +65,9 @@ module.exports = {
 		}
 
 		// Sends the message.
-		await ctx.send(
-			emojifyRoll(magicRoll, ctx.bot.config.commands.roll.options.fbl),
-			embed,
-		);
+		await ctx.send({
+			content: emojifyRoll(magicRoll, ctx.bot.config.commands.roll.options.fbl),
+			embeds: [embed],
+		});
 	},
 };

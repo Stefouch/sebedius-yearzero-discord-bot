@@ -28,7 +28,7 @@ module.exports = {
 		const star = new Star(lang);
 		const embed = new YZStarEmbed(star);
 
-		return ctx.send(__('cstar-prolog', lang), embed);
+		return ctx.send({ content: __('cstar-prolog', lang), embeds: [embed] });
 	},
 };
 
