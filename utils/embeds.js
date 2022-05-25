@@ -154,7 +154,7 @@ class UserEmbed extends MessageEmbed {
 			fields: [
 				{
 					name: 'Status',
-					value: user.presence.status.toUpperCase(),
+					value: user.presence?.status.toUpperCase(),
 				},
 				{
 					name: 'Created At',
@@ -166,7 +166,7 @@ class UserEmbed extends MessageEmbed {
 		this.user = user;
 		if (user.bot) this.addField('Bot', '⚠️ This user is a bot!', true);
 		// if (user.flags.bitfield) this.addField('Flags', user.flags.bitfield, true);
-		if (user.lastMessage) this.addField('Last Message', user.lastMessage.content, false);
+		// if (user.lastMessage) this.addField('Last Message', user.lastMessage.content, false);
 	}
 }
 
@@ -180,6 +180,9 @@ class GuildEmbed extends MessageEmbed {
 	 * @param {string} [color=0x1AA29B] Embed.color
 	 */
 	constructor(guild, color = 0x1AA29B) {
+		let guildOwner;
+		guild.fetchOwner().then(gm => guildOwner = gm);
+
 		super({
 			color,
 			title: guild.name,
@@ -205,7 +208,7 @@ class GuildEmbed extends MessageEmbed {
 				},
 				{
 					name: 'Owner',
-					value: `${guild.owner.user.tag} (${guild.ownerId})`,
+					value: `${guildOwner?.user?.tag ?? '???'} (${guild.ownerId})`,
 					inline: true,
 				},
 				{
@@ -220,17 +223,6 @@ class GuildEmbed extends MessageEmbed {
 
 	async addInviteField(inline = false) {
 		let invite = null;
-		/* try {
-			const chans = (await this.guild.fetch()).channels.cache;
-			for (const [, c] of chans) {
-				if (!(c instanceof TextChannel)) continue;
-				// invite = (await c.createInvite()).url;
-				if (invite) break;
-			}
-		}
-		catch (error) {
-			console.error(error);
-		} //*/
 		const invites = await this.guild.invites.fetch();
 		if (invites.size) invite = invites.first().url;
 		if (invite) this.addField('Invite', invite, inline);
