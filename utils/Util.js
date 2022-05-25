@@ -1,6 +1,3 @@
-const { SUPPORTED_LANGS } = require('../utils/constants');
-const ContextMessage = require('./ContextMessage');
-
 /**
  * A collection of useful functions.
  */
