@@ -137,7 +137,7 @@ class Sebedius extends Discord.Client {
 	 * @readonly
 	 */
 	get inviteURL() {
-		const perms = this.config.perms.bitfield;
+		const perms = BigInt(this.config.perms.bitfield);
 		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
 	}
 
@@ -682,10 +682,10 @@ class Sebedius extends Discord.Client {
 		const lang = await ctx.bot.getValidLanguageCode(language, ctx);
 
 		// Exits early if we are in a DM.
-		if (channel.type === 'dm') return true;
+		if (channel.type === 'DM') return true;
 
 		const botMember = channel.guild.me;
-		const perms = checkPerms || ctx.bot.config.perms.bitfield;
+		const perms = checkPerms || BigInt(ctx.bot.config.perms.bitfield);
 		const serverMissingPerms = botMember.permissions.missing(perms);
 		const channelMissingPerms = channel.permissionsFor(botMember).missing(perms);
 
