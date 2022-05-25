@@ -3,22 +3,16 @@
 
 name: Run Tests
 
-on: [ push, pull_request ]
+on: [pull_request]
 
 jobs:
   test:
-    name: Node ${{ matrix.node-version }}
+    name: Node 16
     runs-on: ubuntu-latest
-    # We want to run on external PRs, but not on our own internal PRs as they'll be run
-    # by the push to the branch.
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != github.repository
 
     strategy:
       # max-parallel: 1
-      matrix:
-        # 10.x breaks Discord.MessageEmbed.fields: Array.prototype.flat() >= 11.0 only
-        # 14.x breaks Keyv !
-        node-version: [ 12.x, 13.x ]
+      node-version: 16.x
 
     # Set PostgreSQL database
     services:
@@ -65,4 +59,4 @@ jobs:
         run: npm run test-db
         env:
           # DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
-          DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden"
+          DATABASE_URL: 'postgres://sebedius:tomasharenstam1234@localhost:5432/eden'
