@@ -59,19 +59,17 @@ class Sebedius extends Discord.Client {
 				},
 			},
 			// partials: ['MESSAGE', 'REACTION'],
-			ws: {
-				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
-				// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
-				intents: [
-					'GUILDS',
-					// 'GUILD_PRESENCES',
-					// 'GUILD_MEMBERS',
-					'GUILD_MESSAGES',
-					'GUILD_MESSAGE_REACTIONS',
-					'DIRECT_MESSAGES',
-					'DIRECT_MESSAGE_REACTIONS',
-				],
-			},
+			// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
+			// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
+			intents: [
+				Discord.Intents.FLAGS.GUILDS,
+				// Discord.Intents.FLAGS.GUILD_PRESENCES,
+				// Discord.Intents.FLAGS.GUILD_MEMBERS,
+				Discord.Intents.FLAGS.GUILD_MESSAGES,
+				Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+				Discord.Intents.FLAGS.DIRECT_MESSAGES,
+				Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+			],
 		});
 		this.state = 'init';
 		this.muted = false;
