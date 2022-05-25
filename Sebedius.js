@@ -618,7 +618,7 @@ class Sebedius extends Discord.Client {
 		});
 		// Awaits for the answer.
 		let msg = null;
-		msgCollector = ctx.channel.createMessageCollector(msgFilter, { max: 1, time });
+		msgCollector = ctx.channel.createMessageCollector({ msgFilter, max: 1, time });
 		msgCollector.on('end', () => pageMenu.stop());
 
 		// Catches the answer or any rejection.
@@ -657,7 +657,7 @@ class Sebedius extends Discord.Client {
 		const filter = m =>
 			m.author.id === message.author.id
 			&& m.channel.id === message.channel.id;
-		const reply = (await message.channel.awaitMessages(filter, { max: 1, time: 30000 })).first();
+		const reply = (await message.channel.awaitMessages({ filter, max: 1, time: 30000 })).first();
 		const replyBool = Util.getBoolean(reply.content) || null;
 		if (deleteMessages) {
 			try {

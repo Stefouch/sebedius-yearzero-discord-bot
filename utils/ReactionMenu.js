@@ -91,7 +91,7 @@ class ReactionMenu {
 		// Adds a ReactionCollector to the push icons.
 		// The filter is for reacting only to the push icon and the user who rolled the dice.
 		const filter = (reac, user) => this.emojis.includes(reac.emoji.name) && user.id !== this.bot.id;
-		this.collector = this.message.createReactionCollector(filter, { time: this.time });
+		this.collector = this.message.createReactionCollector({ filter, time: this.time });
 
 		// ========== Listener: On Collect ==========
 		this.collector.on('collect', (reac, user) => {
