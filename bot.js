@@ -17,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 // Second, creates the (custom) bot client.
 const Sebedius = require('./Sebedius');
+const { splitMessage } = require('./utils/Util');
 const bot = new Sebedius(require('./config.json'));
 
 /* !
@@ -266,7 +267,13 @@ async function onError(error, ctx) {
 				+ `\n**Stack:** ${error.stack}`;
 			// bot.owner.send(msg, { split: true }) // split is deprecated
 			// 	.catch(console.error);
-			bot.log(msg);
+			if (msg.length > 2000) {
+				msgs = splitMessage(msg);
+				for (const m of msgs) await bot.log(m);
+			}
+			else {
+				bot.log(msg);
+			}
 		}
 		if (ctx) {
 			ctx.reply(`❌ ${__('bot-error-command-execution', lang)}`)
