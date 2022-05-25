@@ -10,10 +10,10 @@ class ContextMessage extends Discord.Message {
 	/**
 	 * @param {string} prefix The prefix used to trigger the command
 	 * @param {Discord.Client} client The instantiating client
-	 * @param {Object} data The data for the message
+	 * @param {Object} [data={}] The data for the message
 	 * @param {Discord.TextChannel|Discord.DMChannel|Discord.NewsChannel} channel The channel the message was sent in
 	 */
-	constructor(prefix, client, data, channel) {
+	constructor(prefix, client, data = {}, channel) {
 		super(client, data, channel);
 
 		if (channel && channel.id) this.channelId = channel.id;

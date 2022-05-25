@@ -70,7 +70,7 @@ module.exports = {
 		else if (ref) {
 			footer = `Ref: [${ref}]`;
 		}
-		if (footer) embed.setFooter(footer);
+		if (footer) embed.setFooter({ text: footer });
 
 		// Sends the message.
 		let message;

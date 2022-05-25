@@ -207,7 +207,7 @@ module.exports = {
 				ctx, true,
 			);
 			embed.addField(`**\`${mishap[0].toUpperCase()}\`**`, mishap[1]);
-			embed.setFooter(`${__('game', lang)}: ${__(jou.fbr ? 'game-fbr' : 'game-fbl', lang)}`);
+			embed.setFooter({ text: `${__('game', lang)}: ${__(jou.fbr ? 'game-fbr' : 'game-fbl', lang)}` });
 
 			return await ctx.send(embed);
 		}

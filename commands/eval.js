@@ -36,7 +36,7 @@ module.exports = {
 				.addField('Input:', `\`\`\`JavaScript\n${code}\`\`\``, true)
 				.addField('Output:', `\`\`\`JavaScript\n${evaled}\`\`\``, true)
 				.setColor(ctx.author.displayColor)
-				.setFooter('Sebedius Eval')
+				.setFooter({ text: 'Sebedius Eval' })
 				.setTimestamp();
 
 			ctx.send({ embeds: [successfulEval] });
@@ -49,7 +49,7 @@ module.exports = {
 				.addField('Input:', `\`\`\`JavaScript\n${code}\`\`\``)
 				.addField('Error:', `\`\`\`JavaScript\n${err}\`\`\``)
 				.setColor(0xff0000)
-				.setFooter('Evaluation Error')
+				.setFooter({ text: 'Evaluation Error' })
 				.setTimestamp();
 
 			ctx.send({ embeds: [failedEval] });

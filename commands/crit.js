@@ -220,7 +220,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
 		);
 	}
 
-	embed.setFooter(__('table', lang) + `: ${name}`);
+	embed.setFooter({ text: __('table', lang) + `: ${name}` });
 
 	return embed;
 }

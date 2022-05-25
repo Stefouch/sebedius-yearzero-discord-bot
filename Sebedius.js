@@ -612,7 +612,7 @@ class Sebedius extends Discord.Client {
 						.join('\n'),
 				);
 			if (paginatedChoices.length > 1) {
-				embed.setFooter(__('page', lang) + ` ${page + 1}/${paginatedChoices.length}`);
+				embed.setFooter({ text: __('page', lang) + ` ${page + 1}/${paginatedChoices.length}` });
 			}
 			if (text) {
 				embed.addField(__('info', lang), text, false);
@@ -794,7 +794,7 @@ class Sebedius extends Discord.Client {
 	 */
 	static processMessage(message, prefix) {
 		// Creates a message with context.
-		const ctx = new ContextMessage(prefix, message.client);
+		const ctx = new ContextMessage(prefix, message.client, { id: message.id });
 		// Returns a shallow copy of the Discord message merged with the context.
 		return Object.assign(ctx, message);
 	}

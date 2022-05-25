@@ -32,10 +32,10 @@ class YZEmbed extends MessageEmbed {
 
 			if (hasAuthor) {
 				const name = isTextChannel ? triggeringMessage.member.displayName : triggeringMessage.author.username;
-				this.setAuthor(
+				this.setAuthor({
 					name,
-					triggeringMessage.author.avatarURL(),
-				);
+					iconURL: triggeringMessage.author.avatarURL(),
+			});
 			}
 		}
 	}
@@ -67,7 +67,7 @@ class YZMonsterEmbed extends MessageEmbed {
 			this.addField(__('special', monster.lang), special, false);
 		}
 
-		this.setFooter(__('source', monster.lang) + `: ${SOURCE_MAP[monster.source]}`);
+		this.setFooter({ text: __('source', monster.lang) + `: ${SOURCE_MAP[monster.source]}` });
 	}
 }
 

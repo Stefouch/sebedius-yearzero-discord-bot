@@ -459,7 +459,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		if (results) embed.addField(__('details', roll.lang), '```php\n' + results + '\n```', false);
 	}
 
-	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}`);
+	if (roll.pushed) embed.setFooter({ text: `${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}` });
 
 	return embed;
 }
@@ -487,7 +487,7 @@ function getEmbedGenericDiceResults(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('croll-generic-roll', roll.lang));
+	embed.setFooter({ text: __('croll-generic-roll', roll.lang) });
 	return embed;
 }
 
@@ -504,7 +504,7 @@ function getEmbedD66Results(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('croll-single-roll', roll.lang));
+	embed.setFooter({ text: __('croll-single-roll', roll.lang) });
 	return embed;
 }
 
