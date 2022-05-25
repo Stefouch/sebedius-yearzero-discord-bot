@@ -231,7 +231,7 @@ class GuildEmbed extends MessageEmbed {
 		catch (error) {
 			console.error(error);
 		} //*/
-		const invites = await this.guild.fetchInvites();
+		const invites = await this.guild.invites.fetch();
 		if (invites.size) invite = invites.first().url;
 		if (invite) this.addField('Invite', invite, inline);
 	}
