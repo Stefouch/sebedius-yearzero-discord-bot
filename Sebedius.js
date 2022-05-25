@@ -137,8 +137,29 @@ class Sebedius extends Discord.Client {
 	 * @readonly
 	 */
 	get inviteURL() {
-		const perms = BigInt(this.config.perms.bitfield);
-		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
+		const scopes = ['bot'];
+		// const permissions = BigInt(this.config.perms.bitfield);
+		const permissions = this.neededPermissions;
+		return this.generateInvite({ scopes, permissions });
+		// const perms = BigInt(this.config.perms.bitfield);
+		// return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
+	}
+
+	/**
+	 * The bot needed permissions to function properly.
+	 * @type {BigInt[]}
+	 * @readonly
+	 */
+	get neededPermissions() {
+		return [
+			Discord.Permissions.FLAGS.READ_MESSAGE_HISTORY,
+			Discord.Permissions.FLAGS.SEND_MESSAGES,
+			Discord.Permissions.FLAGS.MANAGE_MESSAGES,
+			Discord.Permissions.FLAGS.EMBED_LINKS,
+			Discord.Permissions.FLAGS.READ_MESSAGE_HISTORY,
+			Discord.Permissions.FLAGS.USE_EXTERNAL_EMOJIS,
+			Discord.Permissions.FLAGS.ADD_REACTIONS,
+		];
 	}
 
 	/**
