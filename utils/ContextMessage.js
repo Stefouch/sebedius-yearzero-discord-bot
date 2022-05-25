@@ -42,7 +42,7 @@ class ContextMessage extends Discord.Message {
 	 */
 	async send(content = '', options = {}) {
 		// if (this.client.muted) return;
-		// if (this.channel.type === 'dm') return await this.author.send(content, options);
+		// if (this.channel.type === 'DM') return await this.author.send(content, options);
 		const msg = await this.channel.send(this.constructor.createMessageOptions(content, options));
 		if (options && options.deleteAfter) this.constructor.deleteAfter(msg, options.deleteAfter * 1000);
 		return msg;

@@ -76,7 +76,7 @@ class ReactionMenu {
 	 * @type {boolean}
 	 */
 	get isDM() {
-		return this.channel.type === 'dm';
+		return this.channel.type === 'DM';
 	}
 
 	/**

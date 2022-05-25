@@ -34,7 +34,7 @@ module.exports = {
 		const firstDay = ctx.bot.config.commands.stats.start;
 		const dateDiff = Math.abs(Date.now() - new Date(firstDay));
 		const embed = new MessageEmbed({
-			color: msg.channel.type === 'dm' ? 0x0 : msg.member.displayColor,
+			color: msg.channel.type === 'DM' ? 0x0 : msg.member.displayColor,
 			title: ':1234: Commands Statistics',
 			description: 'This is the usage statistics for the bot\'s commands.'
 				+ `\nNumber of servers the bot can see: **${ctx.bot.guilds.cache.size}**`,

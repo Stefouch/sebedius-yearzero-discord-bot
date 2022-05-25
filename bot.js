@@ -94,7 +94,7 @@ bot.on('messageCreate', async message => {
 		console.log(`[Banlist] User ${ctx.author.id} is MUTED.`);
 		return await ctx.reply(`⛔ ${__('bot-user-muted', lang)}`);
 	}
-	if (ctx.channel.type === 'text' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
+	if (ctx.channel.type === 'GUILD_TEXT' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
 		console.log(`[Banlist] Guild ${ctx.guild.id} is BLACKLISTED.`);
 		return await ctx.reply(`⛔ ${__('bot-server-blacklisted', lang)}`);
 		// return await ctx.channel.guild.leave();
@@ -104,7 +104,7 @@ bot.on('messageCreate', async message => {
 	if (command.ownerOnly && ctx.author.id !== bot.owner.id) return;
 
 	// Notifies if can't DM (= PM).
-	if (command.guildOnly && ctx.channel.type !== 'text') {
+	if (command.guildOnly && ctx.channel.type !== 'GUILD_TEXT') {
 		return ctx.reply(`⚠️ ${__('bot-cant-execute-in-dm', lang)}`);
 	}
 

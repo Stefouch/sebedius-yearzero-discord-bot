@@ -21,7 +21,7 @@ class YZEmbed extends MessageEmbed {
 		});
 
 		if (triggeringMessage) {
-			const isTextChannel = triggeringMessage.channel.type === 'text';
+			const isTextChannel = triggeringMessage.channel.type === 'GUILD_TEXT';
 
 			if (isTextChannel) {
 
@@ -195,7 +195,7 @@ class GuildEmbed extends MessageEmbed {
 				},
 				{
 					name: 'Text Channels',
-					value: guild.channels.cache.filter(ch => ch.type === 'text').size,
+					value: guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT').size,
 					inline: true,
 				},
 				{
