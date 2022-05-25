@@ -97,7 +97,6 @@ class Sebedius extends Discord.Client {
 		console.log('[+] - Keyv Databases');
 		this.dbParams = '?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory';
 		this.dbUri = process.env.NODE_ENV === 'production' ? `${process.env.DATABASE_URL}${this.dbParams}` : null;
-		// this.dbUri = `${process.env.DATABASE_URL}${this.dbParams}`;
 		console.log('      > Creation...');
 		this.kdb = {};
 		for (const name in DB_MAP) {
@@ -159,6 +158,7 @@ class Sebedius extends Discord.Client {
 			Discord.Permissions.FLAGS.READ_MESSAGE_HISTORY,
 			Discord.Permissions.FLAGS.USE_EXTERNAL_EMOJIS,
 			Discord.Permissions.FLAGS.ADD_REACTIONS,
+			Discord.Permissions.FLAGS.VIEW_CHANNEL,
 		];
 	}
 
