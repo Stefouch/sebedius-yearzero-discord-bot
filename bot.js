@@ -177,7 +177,8 @@ bot.on('guildCreate', async guild => {
 	if (ratio >= 0.6 && members >= 20) {
 		await bot.log(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
 		try {
-			await guild.owner.send(
+			const owner = await guild.fetchOwner();
+			await owner.send(
 				'Please do not add me to bot collection servers. '
 				+ 'Your server was flagged for having over 60% bots.'
 				+ 'If you believe this is an error, please PM the bot author.',
