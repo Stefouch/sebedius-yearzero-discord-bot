@@ -78,7 +78,7 @@ class ContextMessage extends Discord.Message {
 	 * @static
 	 */
 	static createMessageOptions(options) {
-		const opts = { content: '', embeds: [] };
+		const opts = { content: null, embeds: [] };
 
 		if (typeof options === 'string') {
 			opts.content = options;
