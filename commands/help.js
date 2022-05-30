@@ -80,7 +80,7 @@ module.exports = {
 			if (argv.list && ctx.author.id !== ctx.bot.owner.id) {
 				return ctx.author.send(embed)
 					.then(() => {
-						if (ctx.channel.type === 'dm') return;
+						if (ctx.channel.type === 'DM') return;
 						ctx.reply('💬 ' + __('chelp-sent-dm', lang));
 					})
 					.catch(error => {

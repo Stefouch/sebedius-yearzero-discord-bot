@@ -249,16 +249,16 @@ module.exports = {
 
 		// Sends the message.
 		if (roll.d66) {
-			await ctx.send(
-				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getEmbedD66Results(roll, ctx),
-			);
+			await ctx.send({
+				content: emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				embeds: [getEmbedD66Results(roll, ctx)],
+			});
 		}
 		else if (roll.initiative) {
-			await ctx.send(
-				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getEmbedInitRollResults(roll, ctx),
-			);
+			await ctx.send({
+				content: emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				embeds: [getEmbedInitRollResults(roll, ctx)],
+			});
 		}
 		else if (roll.game === 'generic') {
 			await ctx.send(getEmbedGenericDiceResults(roll, ctx));
@@ -289,10 +289,10 @@ async function messageRollResult(roll, ctx) {
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	// Sends the message.
-	await ctx.send(
-		emojifyRoll(roll, gameOptions),
-		getEmbedDiceResults(roll, ctx, gameOptions),
-	)
+	await ctx.send({
+		content: emojifyRoll(roll, gameOptions),
+		embeds: [getEmbedDiceResults(roll, ctx, gameOptions)],
+	})
 		.then(rollMessage => {
 			// Detects PANIC.
 			if (gameOptions.panic && roll.panic) {
@@ -373,10 +373,10 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
-		rollMessage.edit(
-			emojifyRoll(pushedRoll, gameOptions),
-			getEmbedDiceResults(pushedRoll, ctx, gameOptions),
-		)
+		rollMessage.edit({
+			content: emojifyRoll(pushedRoll, gameOptions),
+			embeds: [getEmbedDiceResults(pushedRoll, ctx, gameOptions)],
+		})
 			.catch(console.error);
 	}
 	// Detects PANIC.
@@ -459,7 +459,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		if (results) embed.addField(__('details', roll.lang), '```php\n' + results + '\n```', false);
 	}
 
-	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}`);
+	if (roll.pushed) embed.setFooter({ text: `${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}` });
 
 	return embed;
 }
@@ -487,7 +487,7 @@ function getEmbedGenericDiceResults(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('croll-generic-roll', roll.lang));
+	embed.setFooter({ text: __('croll-generic-roll', roll.lang) });
 	return embed;
 }
 
@@ -504,7 +504,7 @@ function getEmbedD66Results(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('croll-single-roll', roll.lang));
+	embed.setFooter({ text: __('croll-single-roll', roll.lang) });
 	return embed;
 }
 
