@@ -373,10 +373,10 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
-		rollMessage.edit(
-			emojifyRoll(pushedRoll, gameOptions),
-			getEmbedDiceResults(pushedRoll, ctx, gameOptions),
-		)
+		rollMessage.edit({
+			content: emojifyRoll(pushedRoll, gameOptions),
+			embeds: [getEmbedDiceResults(pushedRoll, ctx, gameOptions)],
+		})
 			.catch(console.error);
 	}
 	// Detects PANIC.

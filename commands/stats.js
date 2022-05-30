@@ -46,7 +46,7 @@ module.exports = {
 		}
 
 		try {
-			await msg.edit({ content: '', embed });
+			await msg.edit({ content: '', embeds: [embed] });
 		}
 		catch (err) { console.error(err); }
 

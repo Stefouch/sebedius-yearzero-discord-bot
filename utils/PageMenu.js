@@ -45,7 +45,7 @@ class PageMenu {
 	setPage(page = 0) {
 		this.page = page;
 		this.currentPage = this.pages[this.page];
-		this.menu.edit(this.currentPage);
+		this.menu.edit({ embeds: [this.currentPage] });
 	}
 
 	/**
