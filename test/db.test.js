@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const expect = require('chai').expect;
 const Keyv = require('keyv');
 const Util = require('../utils/Util');
-const dbParams = '?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory';
+const dbParams = '?ssl=true';
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
