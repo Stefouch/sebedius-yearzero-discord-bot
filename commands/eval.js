@@ -15,8 +15,8 @@ module.exports = {
 		// Exits early if not the bot's owner.
 		if (ctx.author.id !== ctx.bot.config.ownerID) return;
 
-		const code = args.join(' ');
-		code.replace(ctx.bot.token, '[TOKEN]');
+		let code = args.join(' ');
+		code = code.replace('token', 'state');
 		try {
 			let evaled = eval(code);
 
@@ -31,6 +31,7 @@ module.exports = {
 				console.log(evaled);
 				return;
 			}
+			evaled = evaled.replace(ctx.bot.token, '[TOKEN]');
 			const successfulEval = new Discord.MessageEmbed()
 				.setTitle('Evaluated successfully')
 				.addField('Input:', `\`\`\`JavaScript\n${code}\`\`\``, true)
