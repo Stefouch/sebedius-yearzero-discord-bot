@@ -2,7 +2,7 @@ const { describe, it } = require('mocha');
 const expect = require('chai').expect;
 const Keyv = require('keyv');
 const Util = require('../utils/Util');
-const dbParams = '?ssl=true';
+const dbParams = '';
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
