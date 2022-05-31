@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Issue with commands `!monster` and `!attack` not waiting for an input choice.
 - Issue with command `!help -list` not sending DM.
 - Issue with command `!stats` not working.
+- Other small fixes.
 
 ## [5.0.0] - 2022-05-30
 
