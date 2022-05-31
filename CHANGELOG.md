@@ -8,8 +8,10 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-- Issue with commands `!monster` and `!attack` introduced with the V5 update.
-- Issue with command `!stats` introduced with the V5 update.
+- Issue with commands `!monster` and `!attack` not waiting for an input choice.
+- Issue with command `!help -list` not sending DM.
+- Issue with command `!stats` not working.
+- Other small fixes.
 
 ## [5.0.0] - 2022-05-30
 
