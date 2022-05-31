@@ -42,11 +42,11 @@ module.exports = {
 		});
 
 		for (const pg of pages) {
-			embed.addField('==========', pg, true);
+			embed.addField('==========', pg.join('\n'), true);
 		}
 
 		try {
-			await msg.edit({ content: '', embeds: [embed] });
+			await msg.edit({ content: null, embeds: [embed] });
 		}
 		catch (err) { console.error(err); }
 
