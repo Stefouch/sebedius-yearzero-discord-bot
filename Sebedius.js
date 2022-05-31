@@ -578,7 +578,6 @@ class Sebedius extends Discord.Client {
 	 * @static
 	 * @async
 	 */
-	// static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false, lang = 'en') {
 	static async getSelection(ctx, choices, options = {}) {
 		// Prepares options.
 		const { text, del, pm, forceSelect, lang } = Object.assign({
@@ -593,7 +592,7 @@ class Sebedius extends Discord.Client {
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
 		const paginatedChoices = Util.paginate(choices, 10);
-		const msgFilter = m =>
+		const filter = m =>
 			m.author.id === ctx.author.id &&
 			m.channel.id === ctx.channel.id &&
 			Number(m.content) >= 1 &&
@@ -639,7 +638,7 @@ class Sebedius extends Discord.Client {
 		});
 		// Awaits for the answer.
 		let msg = null;
-		msgCollector = ctx.channel.createMessageCollector({ msgFilter, max: 1, time });
+		msgCollector = ctx.channel.createMessageCollector({ filter, max: 1, time });
 		msgCollector.on('end', () => pageMenu.stop());
 
 		// Catches the answer or any rejection.
