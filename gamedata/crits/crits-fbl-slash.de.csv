@@ -15,6 +15,6 @@ ref;injury;lethal;healMalus;timeLimit;timeLimitUnit;effect;healingTime
 53-54;Gerissene Eingeweide;true;0;1;Stunden;Krankheit mit Ansteckungskraft 6.;2
 55-56;Abgetrennter Arm;true;-1;1;Stunden;Zweihändige Waffen können nicht benutzt werden.;-1
 61-62;Abgetrenntes Bein;true;-1;1;Stunden;RENNEN wird zu einer langsamen Aktion.;-1
-63-64;Durchschnittene Kehle;true;-1;1;Züge;-2 auf AUSDAUER.;1
+63-64;Durchschnittene Kehle;true;-1;1;Runden;-2 auf AUSDAUER.;1
 65;Gespaltener Schädel;true;0;0;;Du stirbst sofort.;0
 66;Enthauptung;true;0;0;;Dein Kopf trennt sich von deinem Körper.;0
