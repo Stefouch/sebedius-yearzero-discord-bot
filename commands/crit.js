@@ -145,9 +145,15 @@ module.exports = {
 
 		// Sends the message.
 		if (privacy) {
-			return await ctx.author.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang));
+			return await ctx.author.send({
+				content: icon1 + icon2,
+				embeds: [getEmbedCrit(crit, fileName, ctx, lang)],
+			});
 		}
-		return await ctx.send(icon1 + icon2, getEmbedCrit(crit, fileName, ctx, lang))
+		return await ctx.send({
+			content: icon1 + icon2,
+			embeds: [getEmbedCrit(crit, fileName, ctx, lang)],
+		})
 			.then(() => {
 				if (crit.fatal && game !== 'vaesen') {
 					// Sends a coffin emoticon.
@@ -220,7 +226,7 @@ function getEmbedCrit(crit, name, ctx, lang) {
 		);
 	}
 
-	embed.setFooter(__('table', lang) + `: ${name}`);
+	embed.setFooter({ text: __('table', lang) + `: ${name}` });
 
 	return embed;
 }

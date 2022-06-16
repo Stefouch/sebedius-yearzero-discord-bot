@@ -82,5 +82,8 @@ function sendMessageForResourceRoll(resRating, roll, ctx) {
 			`${__('csupply-exhausted-text', roll.lang)} **0**`,
 		);
 	}
-	ctx.send(text, embed);
+	ctx.send({
+		content: text,
+		embeds: [embed]
+	});
 }

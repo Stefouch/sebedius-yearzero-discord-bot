@@ -78,9 +78,9 @@ module.exports = {
 			}
 			// Sends the embed.
 			if (argv.list && ctx.author.id !== ctx.bot.owner.id) {
-				return ctx.author.send(embed)
+				return ctx.author.send({ embeds: [embed] })
 					.then(() => {
-						if (ctx.channel.type === 'dm') return;
+						if (ctx.channel.type === 'DM') return;
 						ctx.reply('💬 ' + __('chelp-sent-dm', lang));
 					})
 					.catch(error => {
@@ -88,7 +88,7 @@ module.exports = {
 						ctx.reply('❌ ' + __('chelp-dm-error', lang));
 					});
 			}
-			return ctx.send(embed);
+			return ctx.send({ embeds: [embed] });
 		}
 		// Otherwise, sends a specific help message if a command name is provided.
 		const { commands } = ctx.bot;
@@ -123,6 +123,6 @@ module.exports = {
 		embed.addField('Wiki', `${ctx.bot.config.wikiURL}/%21${command.name}`);
 
 		// Sends the specific help message.
-		return ctx.send(embed);
+		return ctx.send({ embeds: [embed] });
 	},
 };

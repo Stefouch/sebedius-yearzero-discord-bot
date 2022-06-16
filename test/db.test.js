@@ -2,9 +2,11 @@ const { describe, it } = require('mocha');
 const expect = require('chai').expect;
 const Keyv = require('keyv');
 const Util = require('../utils/Util');
+const dbParams = '';
 
 if (process.env.NODE_ENV !== 'production') {
 	require('dotenv').config();
+	process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
 describe('Keyv & PostGreSQL Database', function() {
@@ -21,10 +23,10 @@ describe('Keyv & PostGreSQL Database', function() {
 		}
 	});
 
-	it('Should have NodeJS version within (10.x-13.x)', function() {
+	it('Should have NodeJS version 16.x', function() {
 		const nodeVersion = +process.version.split('.')[0].slice(1);
-		expect(nodeVersion).to.not.be.greaterThan(13);
-		expect(nodeVersion).to.be.greaterThan(10);
+		expect(nodeVersion).to.not.be.greaterThan(16);
+		expect(nodeVersion).to.be.greaterThan(15);
 	});
 
 	it('Should have a DATABASE_URL environment variable', function() {
@@ -37,7 +39,7 @@ describe('Keyv & PostGreSQL Database', function() {
 	});
 
 	it(`Should be able to create a Keyv DB (${name})`, async function() {
-		kdb = new Keyv(process.env.DATABASE_URL, { namespace: name });
+		kdb = new Keyv(process.env.DATABASE_URL + dbParams, { namespace: name });
 		kdb.on('error', err => console.error(`Keyv Connection Error: ${name.toUpperCase()}S\n`, err));
 		expect(kdb.opts.store.namespace, `The DB's namespace should be "${name}"`).to.equal(name);
 

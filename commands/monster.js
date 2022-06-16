@@ -22,7 +22,7 @@ module.exports = {
 
 		// Creates the embed and sends the message.
 		const membed = new YZMonsterEmbed(monster);
-		if (argv.private) await ctx.author.send(membed);
+		if (argv.private) await ctx.author.send({ embeds: [membed] });
 		else await ctx.send(membed);
 
 		if (argv.attack) {

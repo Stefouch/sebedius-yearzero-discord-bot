@@ -45,23 +45,31 @@ class Sebedius extends Discord.Client {
 	constructor(config) {
 		// ClientOptions: https://discord.js.org/#/docs/main/master/typedef/ClientOptions
 		super({
-			messageCacheMaxSize: 100,
-			messageCacheLifetime: 60 * 10,
-			messageSweepInterval: 90,
-			// partials: ['MESSAGE', 'REACTION'],
-			ws: {
-				// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
-				// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
-				intents: [
-					'GUILDS',
-					// 'GUILD_PRESENCES',
-					// 'GUILD_MEMBERS',
-					'GUILD_MESSAGES',
-					'GUILD_MESSAGE_REACTIONS',
-					'DIRECT_MESSAGES',
-					'DIRECT_MESSAGE_REACTIONS',
-				],
+			// messageCacheMaxSize: 100, // DEPRECATED
+			// messageCacheLifetime: 60 * 10, // DEPRECATED
+			// messageSweepInterval: 90, // DEPRECATED
+			// ? https://discordjs.guide/additional-info/changes-in-v13.html#customizable-manager-caches
+			makeCache: Discord.Options.cacheWithLimits({
+				MessageManager: 1000,
+			}),
+			sweepers: {
+				messages: {
+					lifetime: 60 * 60 * 3,
+					interval: 60 * 5,
+				},
 			},
+			// partials: ['MESSAGE', 'REACTION'],
+			// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
+			// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
+			intents: [
+				Discord.Intents.FLAGS.GUILDS,
+				// Discord.Intents.FLAGS.GUILD_PRESENCES,
+				// Discord.Intents.FLAGS.GUILD_MEMBERS,
+				Discord.Intents.FLAGS.GUILD_MESSAGES,
+				Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+				Discord.Intents.FLAGS.DIRECT_MESSAGES,
+				Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+			],
 		});
 		this.state = 'init';
 		this.muted = false;
@@ -89,7 +97,6 @@ class Sebedius extends Discord.Client {
 		console.log('[+] - Keyv Databases');
 		this.dbParams = '?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory';
 		this.dbUri = process.env.NODE_ENV === 'production' ? `${process.env.DATABASE_URL}${this.dbParams}` : null;
-		// this.dbUri = `${process.env.DATABASE_URL}${this.dbParams}`;
 		console.log('      > Creation...');
 		this.kdb = {};
 		for (const name in DB_MAP) {
@@ -100,7 +107,7 @@ class Sebedius extends Discord.Client {
 
 		// Managers.
 		/** @type {CharacterManager} */
-		this.characters = new CharacterManager(this.kdb.characters);
+		// this.characters = new CharacterManager(this.kdb.characters);
 
 		// Ready.
 		console.log('      > Loaded & Ready!');
@@ -129,8 +136,30 @@ class Sebedius extends Discord.Client {
 	 * @readonly
 	 */
 	get inviteURL() {
-		const perms = this.config.perms.bitfield;
-		return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
+		const scopes = ['bot'];
+		// const permissions = BigInt(this.config.perms.bitfield);
+		const permissions = this.neededPermissions;
+		return this.generateInvite({ scopes, permissions });
+		// const perms = BigInt(this.config.perms.bitfield);
+		// return `https://discord.com/oauth2/authorize?client_id=${this.id}&scope=bot&permissions=${perms}`;
+	}
+
+	/**
+	 * The bot needed permissions to function properly.
+	 * @type {BigInt[]}
+	 * @readonly
+	 */
+	get neededPermissions() {
+		return [
+			Discord.Permissions.FLAGS.READ_MESSAGE_HISTORY,
+			Discord.Permissions.FLAGS.SEND_MESSAGES,
+			Discord.Permissions.FLAGS.MANAGE_MESSAGES,
+			Discord.Permissions.FLAGS.EMBED_LINKS,
+			Discord.Permissions.FLAGS.READ_MESSAGE_HISTORY,
+			Discord.Permissions.FLAGS.USE_EXTERNAL_EMOJIS,
+			Discord.Permissions.FLAGS.ADD_REACTIONS,
+			Discord.Permissions.FLAGS.VIEW_CHANNEL,
+		];
 	}
 
 	/**
@@ -185,7 +214,8 @@ class Sebedius extends Discord.Client {
 			|| this.channels.cache.get(this.config.botLogChannelID)
 			|| await this.channels.fetch(this.config.botLogChannelID);
 
-		if (channel) return await channel.send(message, options).catch(console.error);
+		options.content = message;
+		if (channel) return await channel.send(options).catch(console.error);
 	}
 
 	/**
@@ -438,7 +468,7 @@ class Sebedius extends Discord.Client {
 	 */
 	async getStats() {
 		const out = new Discord.Collection();
-		for (const cmdName of this.commands.keyArray()) {
+		for (const cmdName of [...this.commands.keys()]) {
 			const count = await this.kdb.stats.get(cmdName) || 0;
 			out.set(cmdName, count);
 		}
@@ -557,7 +587,6 @@ class Sebedius extends Discord.Client {
 	 * @static
 	 * @async
 	 */
-	// static async getSelection(ctx, choices, text = null, del = true, pm = false, forceSelect = false, lang = 'en') {
 	static async getSelection(ctx, choices, options = {}) {
 		// Prepares options.
 		const { text, del, pm, forceSelect, lang } = Object.assign({
@@ -572,7 +601,7 @@ class Sebedius extends Discord.Client {
 		else if (choices.length === 1 && !forceSelect) return choices[0][1];
 
 		const paginatedChoices = Util.paginate(choices, 10);
-		const msgFilter = m =>
+		const filter = m =>
 			m.author.id === ctx.author.id &&
 			m.channel.id === ctx.channel.id &&
 			Number(m.content) >= 1 &&
@@ -591,7 +620,7 @@ class Sebedius extends Discord.Client {
 						.join('\n'),
 				);
 			if (paginatedChoices.length > 1) {
-				embed.setFooter(__('page', lang) + ` ${page + 1}/${paginatedChoices.length}`);
+				embed.setFooter({ text: __('page', lang) + ` ${page + 1}/${paginatedChoices.length}` });
 			}
 			if (text) {
 				embed.addField(__('info', lang), text, false);
@@ -618,7 +647,7 @@ class Sebedius extends Discord.Client {
 		});
 		// Awaits for the answer.
 		let msg = null;
-		msgCollector = ctx.channel.createMessageCollector(msgFilter, { max: 1, time });
+		msgCollector = ctx.channel.createMessageCollector({ filter, max: 1, time });
 		msgCollector.on('end', () => pageMenu.stop());
 
 		// Catches the answer or any rejection.
@@ -657,7 +686,7 @@ class Sebedius extends Discord.Client {
 		const filter = m =>
 			m.author.id === message.author.id
 			&& m.channel.id === message.channel.id;
-		const reply = (await message.channel.awaitMessages(filter, { max: 1, time: 30000 })).first();
+		const reply = (await message.channel.awaitMessages({ filter, max: 1, time: 30000 })).first();
 		const replyBool = Util.getBoolean(reply.content) || null;
 		if (deleteMessages) {
 			try {
@@ -682,10 +711,10 @@ class Sebedius extends Discord.Client {
 		const lang = await ctx.bot.getValidLanguageCode(language, ctx);
 
 		// Exits early if we are in a DM.
-		if (channel.type === 'dm') return true;
+		if (channel.type === 'DM') return true;
 
 		const botMember = channel.guild.me;
-		const perms = checkPerms || ctx.bot.config.perms.bitfield;
+		const perms = checkPerms || BigInt(ctx.bot.config.perms.bitfield);
 		const serverMissingPerms = botMember.permissions.missing(perms);
 		const channelMissingPerms = channel.permissionsFor(botMember).missing(perms);
 
@@ -773,7 +802,7 @@ class Sebedius extends Discord.Client {
 	 */
 	static processMessage(message, prefix) {
 		// Creates a message with context.
-		const ctx = new ContextMessage(prefix, message.client);
+		const ctx = new ContextMessage(prefix, message.client, { id: message.id });
 		// Returns a shallow copy of the Discord message merged with the context.
 		return Object.assign(ctx, message);
 	}

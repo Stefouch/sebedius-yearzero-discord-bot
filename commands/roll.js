@@ -67,7 +67,7 @@ module.exports = {
 		let roll = new YZRoll(game, ctx.author, name, lang);
 
 		// Year Zero Roll Regular Expression.
-		const yzRollRegex = /^((\d{1,2}[dbsgna])|([bsgna]\d{1,2})|(d(6|8|10|12))|([abcd])+)+$/i;
+		const yzRollRegex = /^(([1-9]\d?[dbsgna])|([bsgna][1-9]\d?)|(d(6|8|10|12))|([abcd])+)+$/i;
 
 		// Checks for d6, d66 & d666.
 		const isD66 = rollargv._.length === 1 &&
@@ -227,7 +227,7 @@ module.exports = {
 		if (rollargv.mod) {
 			roll.modify(+rollargv.mod);
 		}
-		//Temporary Yargs Parser issue fix.
+		//TODO This is a temporary Yargs Parser issue fix.
 		Object.keys(rollargv).forEach(k => {
 			if (/\d+/.test(k)) roll.modify(-k);
 		});
@@ -251,16 +251,16 @@ module.exports = {
 
 		// Sends the message.
 		if (roll.d66) {
-			await ctx.send(
-				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getEmbedD66Results(roll, ctx),
-			);
+			await ctx.send({
+				content: emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				embeds: [getEmbedD66Results(roll, ctx)],
+			});
 		}
 		else if (roll.initiative) {
-			await ctx.send(
-				emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
-				getEmbedInitRollResults(roll, ctx),
-			);
+			await ctx.send({
+				content: emojifyRoll(roll, ctx.bot.config.commands.roll.options[roll.game]),
+				embeds: [getEmbedInitRollResults(roll, ctx)],
+			});
 		}
 		else if (roll.game === 'generic') {
 			await ctx.send(getEmbedGenericDiceResults(roll, ctx));
@@ -291,10 +291,10 @@ async function messageRollResult(roll, ctx) {
 	const gameOptions = ctx.bot.config.commands.roll.options[roll.game];
 
 	// Sends the message.
-	await ctx.send(
-		emojifyRoll(roll, gameOptions),
-		getEmbedDiceResults(roll, ctx, gameOptions),
-	)
+	await ctx.send({
+		content: emojifyRoll(roll, gameOptions),
+		embeds: [getEmbedDiceResults(roll, ctx, gameOptions)],
+	})
 		.then(rollMessage => {
 			// Detects PANIC.
 			if (gameOptions.panic && roll.panic) {
@@ -375,10 +375,10 @@ function messagePushEdit(collector, ctx, rollMessage, roll, gameOptions) {
 
 	// Edits the roll result embed message.
 	if (!rollMessage.deleted) {
-		rollMessage.edit(
-			emojifyRoll(pushedRoll, gameOptions),
-			getEmbedDiceResults(pushedRoll, ctx, gameOptions),
-		)
+		rollMessage.edit({
+			content: emojifyRoll(pushedRoll, gameOptions),
+			embeds: [getEmbedDiceResults(pushedRoll, ctx, gameOptions)],
+		})
 			.catch(console.error);
 	}
 	// Detects PANIC.
@@ -411,12 +411,24 @@ function getEmbedDiceResults(roll, ctx, opts) {
 	if (roll.rof > 0) {
 		const n = roll.count('ammo', 6);
 		if (n > 0) {
-			desc += `\n${__(s > 0 ? (n > 1 ? 'extra-hits' : 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang)}: **${n}**`;
+			desc += `\n${__(
+				s > 0 ? (n > 1 ? 'extra-hits' : 'extra-hit') : (n > 1 ? 'suppressions' : 'suppression'), roll.lang,
+			)}: **${n}**`;
 		}
 		desc += `\n${__('croll-ammo-spent', roll.lang)}: **${roll.sum('ammo')}**`;
 	}
-	if (opts.mishap && roll.mishap) {
-		desc += `\n**${__('mishap', roll.lang).toUpperCase()}** 💢`;
+	if (roll.game === 't2k' && roll.pushed && roll.baneCount > 0) {
+		const b = roll.attributeTrauma;
+		if (b > 0) {
+			desc += `\n**${__('damage-stress', roll.lang)}:** **${b}** 💢`;
+		}
+		const rel = roll.jamCount;
+		if (rel > 0) {
+			desc += `\n**${__('reliability', roll.lang)}:** **−${rel}** 💥`;
+		}
+		if (roll.jammed) {
+			desc += `\n**${__('weapon-jam', roll.lang).toUpperCase()}** ‼️`;
+		}
 	}
 	if (opts.panic && roll.panic) {
 		desc += `\n**${__('panic', roll.lang).toUpperCase()}!!!**`;
@@ -449,7 +461,7 @@ function getEmbedDiceResults(roll, ctx, opts) {
 		if (results) embed.addField(__('details', roll.lang), '```php\n' + results + '\n```', false);
 	}
 
-	if (roll.pushed) embed.setFooter(`${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}`);
+	if (roll.pushed) embed.setFooter({ text: `${(roll.pushCount > 1) ? `${roll.pushCount}× ` : ''}${__('pushed', roll.lang)}` });
 
 	return embed;
 }
@@ -477,7 +489,7 @@ function getEmbedGenericDiceResults(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('croll-generic-roll', roll.lang));
+	embed.setFooter({ text: __('croll-generic-roll', roll.lang) });
 	return embed;
 }
 
@@ -494,7 +506,7 @@ function getEmbedD66Results(roll, ctx) {
 		ctx,
 		true,
 	);
-	embed.setFooter(__('croll-single-roll', roll.lang));
+	embed.setFooter({ text: __('croll-single-roll', roll.lang) });
 	return embed;
 }
 

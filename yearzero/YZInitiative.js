@@ -18,15 +18,15 @@ module.exports = class YZInitiative extends Collection {
 		this.initiativeDeck = new YZInitDeck(initiativeCards);
 	}
 
-	get min() { return this.size ? Math.min(...this.keyArray()) : null; }
-	get max() { return this.size ? Math.max(...this.keyArray()) : null; }
+	get min() { return this.size ? Math.min(...this.keys()) : null; }
+	get max() { return this.size ? Math.max(...this.keys()) : null; }
 
 	/**
 	 * The values in the initiative list.
 	 * @type {string[]}
 	 */
 	get slots() {
-		return this.keyArray().sort((a, b) => a - b);
+		return [...this.keys()].sort((a, b) => a - b);
 	}
 
 	// ---------- INITIATIVES -------------------------------------

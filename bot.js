@@ -5,7 +5,7 @@
  * @author	Stefouch
  * ===========================================================
  */
-const { HTTPError, DiscordAPIError, Collection } = require('discord.js');
+const { HTTPError, DiscordAPIError, Collection, Util } = require('discord.js');
 const { GuildEmbed } = require('./utils/embeds');
 const SebediusErrors = require('./utils/errors');
 const { __ } = require('./lang/locales');
@@ -17,6 +17,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 // Second, creates the (custom) bot client.
 const Sebedius = require('./Sebedius');
+const { splitMessage } = require('./utils/Util');
 const bot = new Sebedius(require('./config.json'));
 
 /* !
@@ -49,7 +50,7 @@ bot.on('ready', async () => {
 /* !
  * MESSAGE HANDLER
  */
-bot.on('message', async message => {
+bot.on('messageCreate', async message => {
 	// Exits early is the message was send by a bot
 	// and prevents bot from responding to its own messages.
 	if (message.author.bot) return;
@@ -93,7 +94,7 @@ bot.on('message', async message => {
 		console.log(`[Banlist] User ${ctx.author.id} is MUTED.`);
 		return await ctx.reply(`⛔ ${__('bot-user-muted', lang)}`);
 	}
-	if (ctx.channel.type === 'text' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
+	if (ctx.channel.type === 'GUILD_TEXT' && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
 		console.log(`[Banlist] Guild ${ctx.guild.id} is BLACKLISTED.`);
 		return await ctx.reply(`⛔ ${__('bot-server-blacklisted', lang)}`);
 		// return await ctx.channel.guild.leave();
@@ -103,7 +104,7 @@ bot.on('message', async message => {
 	if (command.ownerOnly && ctx.author.id !== bot.owner.id) return;
 
 	// Notifies if can't DM (= PM).
-	if (command.guildOnly && ctx.channel.type !== 'text') {
+	if (command.guildOnly && ctx.channel.type !== 'GUILD_TEXT') {
 		return ctx.reply(`⚠️ ${__('bot-cant-execute-in-dm', lang)}`);
 	}
 
@@ -176,7 +177,8 @@ bot.on('guildCreate', async guild => {
 	if (ratio >= 0.6 && members >= 20) {
 		await bot.log(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
 		try {
-			await guild.owner.send(
+			const owner = await guild.fetchOwner();
+			await owner.send(
 				'Please do not add me to bot collection servers. '
 				+ 'Your server was flagged for having over 60% bots.'
 				+ 'If you believe this is an error, please PM the bot author.',
@@ -220,13 +222,20 @@ process.on('unhandledRejection', error => {
 /**
  * Errors Handler.
  * @param {Error} error The catched error
- * @param {Discord.Message} ctx Discord message with context
+ * @param {Discord.Message} [ctx] Discord message with context
  * @async
  */
 async function onError(error, ctx) {
-	// Gets the language
-	const lang = await ctx.bot.getLanguage(ctx);
+	// Gets the language.
+	let lang = 'en';
+	try {
+		if (ctx && ctx.bot) lang = await ctx.bot.getLanguage(ctx);
+	}
+	catch (err) {
+		console.error('Cannot get the lang', ctx, err);
+	}
 
+	// Processes the errors.
 	if (error instanceof HTTPError) {
 		console.error(error.name, error.code);
 	}
@@ -257,9 +266,15 @@ async function onError(error, ctx) {
 			msg += `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
 				+ `\n**Path:** ${error.path}`
 				+ `\n**Stack:** ${error.stack}`;
-			// bot.owner.send(msg, { split: true })
+			// bot.owner.send(msg, { split: true }) // split is deprecated
 			// 	.catch(console.error);
-			bot.log(msg, { split: true });
+			if (msg.length > 2000) {
+				msgs = splitMessage(msg);
+				for (const m of msgs) await bot.log(m);
+			}
+			else {
+				bot.log(msg);
+			}
 		}
 		if (ctx) {
 			ctx.reply(`❌ ${__('bot-error-command-execution', lang)}`)

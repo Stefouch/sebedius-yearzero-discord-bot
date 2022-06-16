@@ -71,11 +71,11 @@ module.exports = {
 		else if (ref) {
 			footer = `Ref: [${ref}]`;
 		}
-		if (footer) embed.setFooter(footer);
+		if (footer) embed.setFooter({ text: footer });
 
 		// Sends the message.
 		let message;
-		if (argv.private) message = await ctx.author.send(embed);
+		if (argv.private) message = await ctx.author.send({ embeds: [embed] });
 		else message = await ctx.send(embed);
 
 		// Adds a Reaction Menu to roll the dice of the attack.
@@ -161,12 +161,10 @@ async function rollAttack(attack, monster, message, bot) {
 	}
 
 	// Sends the message.
-	await message.channel.send(
-		emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
-		damage
-			? new YZEmbed(`${__('damage', monster.lang)} × ${damage}`, ':boom:'.repeat(damage))
-			: null,
-	);
+	await message.channel.send({
+		content: emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
+		embeds: damage ? [new YZEmbed(`${__('damage', monster.lang)} × ${damage}`, ':boom:'.repeat(damage))] : null,
+	});
 }
 
 /**

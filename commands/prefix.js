@@ -34,7 +34,8 @@ module.exports = {
 			}
 		}
 		const msg = `1. ${ctx.bot.mention}\n2. ${ctx.prefix}`;
-		const embed = new YZEmbed(__('cprefix-embed-title', lang), msg).setFooter(__('cprefix-embed-footer', lang));
+		const embed = new YZEmbed(__('cprefix-embed-title', lang), msg)
+			.setFooter({ text: __('cprefix-embed-footer', lang) });
 		return await ctx.send(embed);
 	},
 };

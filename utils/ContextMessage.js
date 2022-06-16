@@ -9,11 +9,13 @@ class ContextMessage extends Discord.Message {
 	/**
 	 * @param {string} prefix The prefix used to trigger the command
 	 * @param {Discord.Client} client The instantiating client
-	 * @param {Object} data The data for the message
+	 * @param {Object} [data={}] The data for the message
 	 * @param {Discord.TextChannel|Discord.DMChannel|Discord.NewsChannel} channel The channel the message was sent in
 	 */
-	constructor(prefix, client, data, channel) {
+	constructor(prefix, client, data = {}, channel) {
 		super(client, data, channel);
+
+		if (channel && channel.id) this.channelId = channel.id;
 
 		/**
 		 * The prefix used to trigger the command.
@@ -31,28 +33,26 @@ class ContextMessage extends Discord.Message {
 
 	/**
 	 * Sends a message to the channel.
-	 * @param {StringResolvable|Discord.APIMessage} [content=''] The content to send
-	 * @param {Discord.MessageOptions|Discord.MessageAdditions} [options={}] The options to provide
+	 * @param {string|MessagePayload|MessageOptions} options The options to provide
 	 * @param {number} options.deleteAfter Time before deleting the message, in seconds
 	 * @returns {Promise<Discord.Message|Discord.Message[]>}
 	 * @async
 	 */
-	async send(content, options) {
+	async send(options) {
 		// if (this.client.muted) return;
-		// if (this.channel.type === 'dm') return await this.author.send(content, options);
-		const msg = await this.channel.send(content, options);
+		// if (this.channel.type === 'DM') return await this.author.send(content, options);
+		const msg = await this.channel.send(this.constructor.createMessageOptions(options));
 		if (options && options.deleteAfter) this.constructor.deleteAfter(msg, options.deleteAfter * 1000);
 		return msg;
 	}
 	/**
 	 * Replies to the message.
-	 * @param {StringResolvable|APIMessage} [content=''] The content for the message
-	 * @param {MessageOptions|MessageAdditions} [options={}] The options to provide
+	 * @param {string|MessagePayload|ReplyMessageOptions} options The options to provide
 	 * @param {number} options.deleteAfter Time before deleting the message, in seconds
 	 * @returns {Promise<Message|Message[]>}
 	 */
-	async reply(content, options) {
-		const msg = await super.reply(content, options);
+	async reply(options) {
+		const msg = await super.reply(this.constructor.createMessageOptions(options));
 		if (options && options.deleteAfter) this.constructor.deleteAfter(msg, options.deleteAfter * 1000);
 		return msg;
 	}
@@ -69,6 +69,27 @@ class ContextMessage extends Discord.Message {
 			try { msg.delete(); }
 			catch (error) { console.error(error); }
 		}, delay);
+	}
+
+	/**
+	 * Creates a `MessageOptions` that is used by Discord V13 `.send()` & `.reply()`.
+	 * @param {string|MessagePayload|MessageOptions|ReplyMessageOptions} options The options to provide
+	 * @returns {Discord.MessageOptions}
+	 * @static
+	 */
+	static createMessageOptions(options) {
+		const opts = { content: null, embeds: [] };
+
+		if (typeof options === 'string') {
+			opts.content = options;
+		}
+		else if (options instanceof Discord.MessageEmbed) {
+			opts.embeds.push(options);
+		}
+		else if (typeof options === 'object') {
+			return options;
+		}
+		return opts;
 	}
 }
 
