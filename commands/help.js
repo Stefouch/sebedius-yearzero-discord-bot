@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, ChannelType } = require('discord.js');
 const { SOURCE_MAP } = require('../utils/constants');
 const { __ } = require('../lang/locales');
 const CATEGORY_LIST = {
@@ -80,7 +80,7 @@ module.exports = {
 			if (argv.list && ctx.author.id !== ctx.bot.owner.id) {
 				return ctx.author.send({ embeds: [embed] })
 					.then(() => {
-						if (ctx.channel.type === 'DM') return;
+						if (ctx.channel.type === ChannelType.DM) return;
 						ctx.reply('💬 ' + __('chelp-sent-dm', lang));
 					})
 					.catch(error => {

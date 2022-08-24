@@ -1,4 +1,4 @@
-const { Message, Permissions } = require('discord.js');
+const { Message, Permissions, ChannelType } = require('discord.js');
 const Util = require('./Util');
 
 /**
@@ -76,7 +76,7 @@ class ReactionMenu {
 	 * @type {boolean}
 	 */
 	get isDM() {
-		return this.channel.type === 'DM';
+		return this.channel.type === ChannelType.DM;
 	}
 
 	/**

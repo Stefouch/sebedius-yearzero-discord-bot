@@ -11,6 +11,7 @@ const CharacterManager = require('./yearzero/models/CharacterManager');
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, DICE_ICONS, SOURCE_MAP } = require('./utils/constants');
 const { version } = require('./package.json');
 const { __ } = require('./lang/locales');
+const { ChannelType } = require('discord.js');
 
 /**
  * Databases map.
@@ -62,13 +63,13 @@ class Sebedius extends Discord.Client {
 			// Intents: https://discordjs.guide/popular-topics/intents.html#the-intents-bit-field-wrapper
 			// GUILD_PRESENCES & GUILD_MEMBERS are restricted by here are needed for !admin command.
 			intents: [
-				Discord.Intents.FLAGS.GUILDS,
+				Discord.GatewayIntentBits.Guilds,
 				// Discord.Intents.FLAGS.GUILD_PRESENCES,
 				// Discord.Intents.FLAGS.GUILD_MEMBERS,
-				Discord.Intents.FLAGS.GUILD_MESSAGES,
-				Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-				Discord.Intents.FLAGS.DIRECT_MESSAGES,
-				Discord.Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
+				Discord.GatewayIntentBits.GuildMessages,
+				Discord.GatewayIntentBits.GuildMessageReactions,
+				Discord.GatewayIntentBits.DirectMessages,
+				Discord.GatewayIntentBits.DirectMessageReactions,
 			],
 		});
 		this.state = 'init';
@@ -145,7 +146,7 @@ class Sebedius extends Discord.Client {
 	}
 
 	/**
-	 * The bot needed permissions to function properly.
+	 * The bot's needed permissions to function properly.
 	 * @type {BigInt[]}
 	 * @readonly
 	 */
@@ -702,7 +703,7 @@ class Sebedius extends Discord.Client {
 		const lang = await ctx.bot.getValidLanguageCode(language, ctx);
 
 		// Exits early if we are in a DM.
-		if (channel.type === 'DM') return true;
+		if (channel.type === ChannelType.DM) return true;
 
 		const botMember = channel.guild.me;
 		const perms = checkPerms || BigInt(ctx.bot.config.perms.bitfield);

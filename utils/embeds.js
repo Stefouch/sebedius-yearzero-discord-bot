@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, ChannelType } = require('discord.js');
 const { SOURCE_MAP } = require('./constants');
 const { __ } = require('../lang/locales');
 
@@ -21,7 +21,7 @@ class YZEmbed extends MessageEmbed {
 		});
 
 		if (triggeringMessage) {
-			const isTextChannel = triggeringMessage.channel.type === 'GUILD_TEXT';
+			const isTextChannel = triggeringMessage.channel.type === ChannelType.GuildText;
 
 			if (isTextChannel) {
 
@@ -197,12 +197,12 @@ class GuildEmbed extends MessageEmbed {
 				},
 				{
 					name: 'Text Channels',
-					value: guild.channels.cache.filter(ch => ch.type === 'GUILD_TEXT').size,
+					value: guild.channels.cache.filter(ch => ch.type === ChannelType.GuildText).size,
 					inline: true,
 				},
 				{
 					name: 'Voice Channels',
-					value: guild.channels.cache.filter(ch => ch.type === 'voice').size,
+					value: guild.channels.cache.filter(ch => ch.type === ChannelType.GuildVoice).size,
 					inline: true,
 				},
 				{
