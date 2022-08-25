@@ -1,13 +1,13 @@
+// @ts-nocheck
 const MersenneTwister = require('mersenne-twister');
-const { YearZeroDieTypes, DefaultSuccessTable, D6LockedValues } = require('./dice-constants');
+const { SuccessTableMap, LockedValuesMap } = require('./dice-constants');
 const { randomID } = require('../../../utils/number-utils');
 
 /**
- * Builder data for constructing a Year Zero die.
- * @typedef {Object} YearZeroDieData
- * @property {number} faces
- * @property {number} maxPush
- * @property {number} type
+ * @typedef {Object} YearZeroDieOptions
+ * @property {number} [faces]    The number of faces of the roll
+ * @property {number} [maxPush]  Maximum number of times the die can be pushed
+ * @property {string} [operator] Arithmetic operator applied by the die
  */
 
 /**
@@ -15,13 +15,9 @@ const { randomID } = require('../../../utils/number-utils');
  */
 class YearZeroDie {
 
-  /**
-   * Table of successes.
-   * @type {number[]}
-   * @memberof YearZeroDie
-   * @abstract
-   */
-  static SuccessTable = DefaultSuccessTable;
+  /* ------------------------------------------ */
+  /*  Abstract Properties                       */
+  /* ------------------------------------------ */
 
   /**
    * List of values that can't be pushed.
@@ -29,36 +25,60 @@ class YearZeroDie {
    * @memberof YearZeroDie
    * @abstract
    */
-  static LockedValues = D6LockedValues;
+  static LockedValues = LockedValuesMap.Default;
 
   /**
-   * @param {YearZeroDieData} data
+   * Table of successes.
+   * @type {number[]}
+   * @memberof YearZeroDie
+   * @abstract
    */
-  constructor(data) {
+  static SuccessTable = SuccessTableMap.Default;
+
+  /**
+   * The type of this die.
+   * @type {YearZeroDieTypes}
+   * @memberof YearZeroDie
+   * @abstract
+   */
+  static Type = 0;
+
+  /* ------------------------------------------ */
+  /*  Constructor                               */
+  /* ------------------------------------------ */
+
+  /**
+   * @param {YearZeroDieOptions} [options] Options for constructing a Year Zero die
+   */
+  constructor(options) {
+
     /**
      * ID of the die.
      * @type {string}
+     * @readonly
      */
-    this.id = randomID();
+    Object.defineProperty(this, 'id', {
+      value: randomID(),
+      enumerable: true,
+    });
 
     /**
      * Number of faces.
      * @type {number}
      */
-    this.faces = data.faces || 6;
+    this.faces = options.faces || 6;
 
     /**
      * Maximum number of times the die can be pushed.
      * @type {number}
      */
-    this.maxPush = data.maxPush || 0;
+    this.maxPush = options.maxPush ?? 1;
 
     /**
-     * Type of the die.
-     * @type {number}
-     * @memberof YearZeroDieTypes
+     * Arithmetic operator applied by the die.
+     * @type {string}
      */
-    this.type = data.type ?? YearZeroDieTypes.NONE;
+    this.operator = options.operator ?? '+';
 
     /**
      * List of results rolled with this die.
@@ -84,12 +104,32 @@ class YearZeroDie {
   /* ------------------------------------------ */
 
   /**
+   * The type of the die.
+   * @type {YearZeroDieTypes}
+   * @readonly
+   */
+  get type() {
+    return this.constructor.Type;
+  }
+
+  /**
    * The current result of the die.
    * @type {number}
    * @readonly
    */
   get result() {
     return this.results.at(-1);
+  }
+
+  /**
+   * The quantity of successes of the die.
+   * @type {number}
+   * @readonly
+   */
+  get value() {
+    const n = this.constructor.SuccessTable[this.result];
+    if (typeof n === 'undefined') return this.constructor.SuccessTable.at(-1);
+    return n;
   }
 
   /**
@@ -107,6 +147,11 @@ class YearZeroDie {
   /*  Methods                                   */
   /* ------------------------------------------ */
 
+  /**
+   * Checks if the die has the corresponding type.
+   * @param {YearZeroDieTypes} type 
+   * @returns {boolean}
+   */
   hasType(type) {
     if (!type) return false;
     return (this.type & type) === type;
@@ -147,8 +192,8 @@ class YearZeroDie {
   /* ------------------------------------------ */
 
   /**
-   * Generates a random number between two values (inclusive).
-   * @see {@link MersenneTwister}
+   * Generates a random number between two values (inclusive)
+   * with {@link MersenneTwister} algorithm.
    * @param {number} min Minimum value (inclusive)
    * @param {number} max Maximum value (inclusive)
    * @returns {number}

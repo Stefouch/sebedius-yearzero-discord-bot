@@ -1,20 +1,38 @@
 /** @enum {number} */
-exports.YearZeroDieTypes = {
+const YearZeroDieTypes = {
   NONE: 0,
   BASE: 1 << 0,
   SKILL: 1 << 1,
   GEAR: 1 << 2,
-  STRESS: 1 << 3,
-  AMMO: 1 << 4,
-  HIT: 1 << 5,
+  NEG: 1 << 3,
+  ARTO: 1 << 4,
+  STRESS: 1 << 5,
+  AMMO: 1 << 6,
+  HIT: 1 << 7,
 };
 
-exports.DefaultSuccessTable = [0, 0, 0, 0, 0, 0, 1];
-exports.D8ArtifactDieSuccessTable = this.DefaultSuccessTable.concat(1, 2);
-exports.D10ArtifactDieSuccessTable = this.D8ArtifactDieSuccessTable.concat(2, 3);
-exports.D12ArtifactDieSuccessTable = this.D10ArtifactDieSuccessTable.concat(3, 4);
+const BanableTypesBitField = YearZeroDieTypes.BASE
+  + YearZeroDieTypes.GEAR
+  + YearZeroDieTypes.STRESS
+  + YearZeroDieTypes.AMMO;
 
-exports.D6LockedValues = [1, 6];
-exports.D8LockedValues = [1, 6, 7, 8];
-exports.D10LockedValues = [1, 6, 7, 8, 9, 10];
-exports.D12LockedValues = [1, 6, 7, 8, 9, 10, 11, 12];
+/** @enum {number[]} */
+const SuccessTableMap = {};
+SuccessTableMap.Default = [0, 0, 0, 0, 0, 0, 1];
+SuccessTableMap.Negative = [0, 0, 0, 0, 0, 0, -1];
+SuccessTableMap.FBLArtifact = SuccessTableMap.Default.concat(1, 2, 2, 3, 3, 4);
+SuccessTableMap.TwilightRunner = SuccessTableMap.Default.concat(1, 1, 1, 2, 2, 2);
+
+/** @enum {number[]} */
+const LockedValuesMap = {
+  Default: [1, 6, 7, 8, 9, 10, 11, 12],
+  Skill: [6, 7, 8, 9, 10, 11, 12],
+  Artifact: [6, 7, 8, 9, 10, 11, 12],
+};
+
+module.exports = {
+  BanableTypesBitField,
+  LockedValuesMap,
+  SuccessTableMap,
+  YearZeroDieTypes,
+};

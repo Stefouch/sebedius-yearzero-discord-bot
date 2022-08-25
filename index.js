@@ -35,14 +35,14 @@ handleCommands(client);
 /* ------------------------------------------ */
 
 // Connects to the database.
-// mongoose.connect(process.env.DATABASE_URI, {
-//   autoIndex: false,
-//   maxPoolSize: 10,
-//   serverSelectionTimeoutMS: 5000,
-//   socketTimeoutMS: 45000,
-//   family: 4,
-// }).then(() => console.log('✔ Sebedius is connected to the DB!'))
-//   .catch(err => console.error(err));
+mongoose.connect(process.env.DATABASE_URI, {
+  autoIndex: false,
+  maxPoolSize: 10,
+  serverSelectionTimeoutMS: 5000,
+  socketTimeoutMS: 45000,
+  family: 4,
+}).then(() => console.log('✔ Sebedius is connected to the DB!'))
+  .catch(err => console.error(err));
 
 /* ------------------------------------------ */
 /*  ERRORS                                    */
