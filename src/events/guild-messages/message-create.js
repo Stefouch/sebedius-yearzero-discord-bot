@@ -3,8 +3,8 @@ const SebediusEvent = require('../../discord/event');
 module.exports = new SebediusEvent({
   name: 'messageCreate',
   /**
-   * @param {import('@discord/client')} client 
-   * @param {import('discord.js').Message} message 
+   * @param {import('@discord/client')} client
+   * @param {import('discord.js').Message} message
    */
   execute(client, message) {
     // Exits early is the message was send by a bot

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "target": "ESNext",
+    "moduleResolution": "node",
+    "checkJs": true,
+    "traceResolution": true,
+    "baseUrl": ".",
+    "paths": {
+      "@discord/*": ["src/discord/*"],
+      "@commands/*": ["src/commands/*"],
+      "@events/*": ["src/events/*"]
+    }
+  },
+  "include": ["src/**/*.js"],
+  "exclude": ["node_modules/*"]
+}
