@@ -4,14 +4,15 @@
     "target": "ESNext",
     "moduleResolution": "node",
     "checkJs": true,
-    "traceResolution": true,
-    "baseUrl": ".",
-    "paths": {
-      "@discord/*": ["src/discord/*"],
-      "@commands/*": ["src/commands/*"],
-      "@events/*": ["src/events/*"]
-    }
+    // "traceResolution": true,
+    // "baseUrl": ".",
+    // "paths": {
+    //   "$discord/*": ["./src/discord/*"],
+    //   "$commands/*": ["./src/commands/*"],
+    //   "$events/*": ["./src/events/*"],
+    //   "$utils/*": ["./src/utils/*"]
+    // }
   },
-  "include": ["src/**/*.js"],
-  "exclude": ["node_modules/*"]
+  "include": ["src/**/*.js", "*.js", "*.json"],
+  "exclude": ["node_modules", "**/node_modules/*"]
 }

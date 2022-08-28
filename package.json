@@ -66,6 +66,8 @@
     "discord.js": "14.3.0",
     "dotenv": "16.0.1",
     "glob": "^8.0.3",
+    "i18next": "^21.9.1",
+    "i18next-fs-backend": "^1.1.5",
     "keyv": "4.4.1",
     "mersenne-twister": "^1.1.0",
     "mongoose": "^6.5.2",
