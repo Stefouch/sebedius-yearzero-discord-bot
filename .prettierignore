@@ -1,4 +1,6 @@
-secret/env
 .env
+.env.example
 .eslintrc
 package-lock.json
+/archives
+/node_modules
