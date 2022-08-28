@@ -1,19 +1,17 @@
 const path = require('node:path');
-const { glob } = require('glob');
+const { sync: globSync } = require('glob');
 
-const evGlobPattern = './src/events/*/*.js';
-const allowedEvents = ['ready', 'messageCreate', 'interactionCreate'];
-
-module.exports = async client => {
-  glob.sync(evGlobPattern).map(async eventFile => {
+module.exports = async (client, pathPattern) => {
+  globSync(pathPattern).map(async eventFile => {
 
     /** @type {import('../event.js')} */
     const event = require(path.resolve(eventFile));
 
-    if (!allowedEvents.includes(event.name) || !event.name) {
-      console.error(`❌ Event Loading Error | Wrong Name!\nFile → "${eventFile}"`);
+    if (!event.name) {
+      console.error(`❌ Event Loading Error: Wrong Name!\nFile -> "${eventFile}"`);
     }
 
+    // Registers all imported events.
     if (event.once) {
       client.once(event.name, (...args) => event.execute(client, ...args));
     }

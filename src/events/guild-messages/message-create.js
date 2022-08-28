@@ -3,7 +3,7 @@ const SebediusEvent = require('../../discord/event');
 module.exports = new SebediusEvent({
   name: 'messageCreate',
   /**
-   * @param {import('@discord/client')} client
+   * @param {import('src/discord/client')} client
    * @param {import('discord.js').Message} message
    */
   execute(client, message) {
