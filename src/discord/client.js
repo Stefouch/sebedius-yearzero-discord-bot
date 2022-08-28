@@ -1,22 +1,78 @@
-const Discord = require('discord.js');
-const SebediusIntents = require('./sebedius-intents.js');
+const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('discord.js');
+const SebediusPermissions = require('./sebedius-permissions');
+const Database = require('../database/database');
 
-/** @typedef {import('./command.js')} SebediusCommand */
+/** @typedef {import('./command')} SebediusCommand */
 
-class Sebedius extends Discord.Client {
-  /** @inheritdoc */
+class Sebedius extends Client {
   constructor(options) {
-    const cfg = {
-      intents: SebediusIntents,
-      ...options,
-    };
-    super(cfg);
+    super(options);
+
+    this.version = require('../../package.json').version;
 
     /**
      * Collection containing all the bot commands.
-     * @type {Discord.Collection<string, SebediusCommand>}
+     * @type {Collection<string, SebediusCommand>}
      */
-    this.commands = new Discord.Collection();
+    this.commands = new Collection();
+
+    this.database = new Database(this, process.env.DATABASE_URI);
+  }
+
+  /* ------------------------------------------ */
+  /*  Properties                                */
+  /* ------------------------------------------ */
+
+  get id() {
+    return this.user.id;
+  }
+
+  get ownerId() {
+    const id = process.env.OWNER;
+    if (!id) throw new Error('❌ Owner ID Not Found in Environment!');
+    return id;
+  }
+
+  get permissions() {
+    return new PermissionsBitField(SebediusPermissions);
+  }
+
+  get mention() {
+    return this.user.toString();
+  }
+
+  get inviteURL() {
+    return this.generateInvite({
+      scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
+      permissions: this.permissions,
+    });
+  }
+
+  /* ------------------------------------------ */
+  /*  Discord Methods                           */
+  /* ------------------------------------------ */
+
+  async getUser(userId) {
+    let user = this.users.cache.get(userId);
+    if (!user) user = await this.users.fetch(userId);
+    return user;
+  }
+
+  async getChannel(chanId) {
+    let chan = this.channels.cache.get(chanId);
+    if (!chan) chan = await this.channels.fetch(chanId);
+    return chan;
+  }
+
+  async getGuild(guildId) {
+    let guild = this.guilds.cache.get(guildId);
+    if (!guild) guild = await this.guilds.fetch(guildId);
+    if (!guild) {
+      const chan = await this.getChannel(guildId);
+      // @ts-ignore
+      if (chan) guild = chan.guild;
+    }
+    return guild;
   }
 }
 
