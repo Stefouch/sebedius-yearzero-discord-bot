@@ -203,11 +203,11 @@ function resolveNumber(n) {
 
 /**
  * Adds leading zeros when necessary.
- * @param {number} value The number being formatted
- * @param {number} min The minimum required length of the formatted number
+ * @param {number}  value  The number being formatted
+ * @param {number} [min=2] The minimum required length of the formatted number
  * @returns {string}
  */
-function zeroise(value, min) {
+function zeroise(value, min = 2) {
   return `${value}`.padStart(min, '0');
 }
 
