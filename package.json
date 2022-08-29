@@ -41,7 +41,7 @@
   "engines": {
     "node": "16.x"
   },
-  "main": "index.js",
+  "main": "bot.js",
   "scripts": {
     "start": "node .",
     "lint": "eslint .",

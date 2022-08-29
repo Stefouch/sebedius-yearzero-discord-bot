@@ -10,6 +10,7 @@ const Sebedius = require('./src/structures/sebedius-client');
 const intents = require('./src/structures/sebedius-intents');
 const handleEvents = require('./src/structures/handlers/event-handler');
 const handleCommands = require('./src/structures/handlers/command-handler');
+const loadLocales = require('./src/locales/i18n');
 
 // First, loads the ENV variables (e.g. bot's token).
 // if not in production mode.
@@ -21,6 +22,12 @@ if (process.env.NODE_ENV !== 'production') {
 
 // Builds the client.
 const client = new Sebedius({ intents });
+
+/* ------------------------------------------ */
+/*  LOCALES                                   */
+/* ------------------------------------------ */
+
+loadLocales();
 
 /* ------------------------------------------ */
 /*  HANDLERS                                  */

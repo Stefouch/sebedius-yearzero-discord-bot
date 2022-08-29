@@ -29,7 +29,7 @@
 				"<node_internals>/**",
 				"**/q.js"
 			],
-			"program": "${workspaceFolder}\\index.js"
+			"program": "${workspaceFolder}\\bot.js"
 		}
 	]
 }
