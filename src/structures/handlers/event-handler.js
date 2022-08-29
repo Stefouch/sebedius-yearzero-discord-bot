@@ -4,8 +4,9 @@ const { sync: globSync } = require('glob');
 module.exports = async (client, pathPattern) => {
   globSync(pathPattern).map(async eventFile => {
 
-    /** @type {import('../event.js')} */
-    const event = require(path.resolve(eventFile));
+    /** @type {typeof import('../event')} */
+    const cls = require(path.resolve(eventFile));
+    const event = new cls();
 
     if (!event.name) {
       console.error(`❌ Event Loading Error: Wrong Name!\nFile -> "${eventFile}"`);

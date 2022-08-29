@@ -2,8 +2,10 @@ const i18next = require('i18next');
 const { codeBlock } = require('discord.js');
 const SebediusEvent = require('../../structures/event');
 
-module.exports = new SebediusEvent({
-  name: 'interactionCreate',
+module.exports = class InteractionCreateEvent extends SebediusEvent {
+  name = 'interactionCreate';
+
+  /** @type {SebediusEvent.SebediusEventInteractionCreateCallback} */
   async execute(client, interaction) {
     const t = global.t = i18next.getFixedT(interaction.guildLocale);
 
@@ -35,8 +37,8 @@ module.exports = new SebediusEvent({
         }
       }
     }
-  },
-});
+  }
+};
 
 function logErrorOnError(e, verb) {
   return console.error(`💥 An error occurred ${verb} on an error`, e);
