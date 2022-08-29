@@ -11,6 +11,7 @@ const intents = require('./src/structures/sebedius-intents');
 const handleEvents = require('./src/structures/handlers/event-handler');
 const handleCommands = require('./src/structures/handlers/command-handler');
 const loadLocales = require('./src/locales/i18n');
+const Logger = require('./src/utils/logger');
 
 // First, loads the ENV variables (e.g. bot's token).
 // if not in production mode.
@@ -42,15 +43,16 @@ handleCommands(client, './src/commands/*/*.js');
 /* ------------------------------------------ */
 
 process.on('exit', code => {
-  console.error(`ℹ Process exited with code ${code}`);
+  Logger.client(`ℹ Process exited with code ${code}`);
 });
 
 process.on('uncaughtException', (err, origin) => {
-  console.error(`⛔ UNCAUGHT_EXCEPTION: ${err}`, `Origin: ${origin}`);
+  Logger.error(`⛔ UNCAUGHT_EXCEPTION: ${err}\nOrigin: ${origin}`);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
-  console.error(`⛔ UNHANDLED_REJECTION: ${reason}`, promise);
+  Logger.warn(`⛔ UNHANDLED_REJECTION: ${reason}`);
+  console.warn(promise);
 });
 
 process.on('warning', (...args) => {

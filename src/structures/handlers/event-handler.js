@@ -1,5 +1,6 @@
 const path = require('node:path');
 const { sync: globSync } = require('glob');
+const Logger = require('../../utils/logger');
 
 module.exports = async (client, pathPattern) => {
   globSync(pathPattern).map(async eventFile => {
@@ -9,7 +10,7 @@ module.exports = async (client, pathPattern) => {
     const event = new cls(client);
 
     if (!event.name) {
-      console.error(`❌ Event Loading Error: Wrong Name!\nFile -> "${eventFile}"`);
+      Logger.warn(`❌ Event Loading Error: Wrong Name!\nFile -> "${eventFile}"`);
     }
 
     // Registers all imported events.
@@ -20,6 +21,6 @@ module.exports = async (client, pathPattern) => {
       client.on(event.name, (...args) => event.execute(...args));
     }
 
-    console.log(`Event loaded: ${event.name}`);
+    Logger.event(`Event loaded: ${event.name}`);
   });
 };

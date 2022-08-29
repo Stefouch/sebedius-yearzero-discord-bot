@@ -1,6 +1,7 @@
 const i18next = require('i18next');
 const { codeBlock } = require('discord.js');
 const SebediusEvent = require('../../structures/event');
+const Logger = require('../../utils/logger');
 
 module.exports = class InteractionCreateEvent extends SebediusEvent {
   name = 'interactionCreate';
@@ -19,7 +20,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         await command.run(interaction, t);
       }
       catch (err) {
-        console.error(err);
+        Logger.error(err);
         const content = `❌ An error occured with this command${err.code ? `: ${err.code}` : ''}`
           + `\n${codeBlock('js', err.message)}`;
 
@@ -41,5 +42,5 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 };
 
 function logErrorOnError(e, verb) {
-  return console.error(`💥 An error occurred ${verb} on an error`, e);
+  return Logger.error(`💥 An error occurred ${verb} on an error`, e);
 }

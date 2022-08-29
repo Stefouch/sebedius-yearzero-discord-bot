@@ -1,6 +1,7 @@
 const i18next = require('i18next');
 const i18nextBackend = require('i18next-fs-backend');
 const { stringify, parse } = require('yaml');
+const Logger = require('../utils/logger');
 
 module.exports = async () => {
   await i18next
@@ -23,6 +24,6 @@ module.exports = async () => {
         parse: data => parse(data),
       },
     })
-    .then(() => console.log('✔ Sebedius is translated!'))
-    .catch(err => console.error(err));
+    .then(() => Logger.client('✔ Sebedius is translated!'))
+    .catch(err => Logger.error(err));
 };

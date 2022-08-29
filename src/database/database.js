@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Logger = require('../utils/logger');
 
 class Database {
   constructor(client, uri) {
@@ -8,8 +9,8 @@ class Database {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       family: 4,
-    }).then(() => console.log('✔ Sebedius is connected to the database!'))
-      .catch(err => console.error(err));
+    }).then(() => Logger.client('✔ Sebedius is connected to the database!'))
+      .catch(err => Logger.error(err));
 
     this.client = client;
   }
