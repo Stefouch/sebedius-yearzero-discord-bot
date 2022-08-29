@@ -1,7 +1,7 @@
 /**
  * @callback SebediusEventExecuteCallback
  * @param {import('./client.js')} client
- * @param {*} [...args]
+ * @param {import('discord.js').BaseInteraction} [interaction]
  * @returns {*|Promise}
  */
 

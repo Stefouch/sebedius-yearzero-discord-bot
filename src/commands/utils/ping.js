@@ -1,22 +1,45 @@
-const { EmbedBuilder, SlashCommandBuilder } = require('discord.js');
-const SebediusCommand = require('../../discord/command.js');
+const { EmbedBuilder, codeBlock, SlashCommandBuilder } = require('discord.js');
+const SebediusCommand = require('../../discord/command');
+const { relativeTimestamp, absoluteTimestamp } = require('../../utils/discord-utils');
 
-module.exports = new SebediusCommand()
-  .setName('ping')
-  .setDescription('Pings the bot')
-  .setAction(interaction => runPing(interaction));
+module.exports = class PingCommand extends SebediusCommand {
+  constructor(client) {
+    super(client, {
+      category: SebediusCommand.CategoryFlagsBits.UTILS,
+      data: new SlashCommandBuilder()
+        .setName('ping')
+        .setDescription('Display the Sebedius\' latency'),
+    });
+  }
+  /** @type {SebediusCommand.SebediusCommandRunFunction} */
+  async run(interaction) {
+    const client = interaction.client;
+    const msg = await interaction.reply({
+      content: 'Pinging...',
+      fetchReply: true,
+    });
+    const embed = new EmbedBuilder()
+      .setTitle('🏓 Pong!')
+      .setThumbnail(client.user.displayAvatarURL())
+      .addFields({
+        name: 'Latency API',
+        value: codeBlock(`${client.ws.ping}ms`),
+        inline: true,
+      }, {
+        name: 'Latency BOT',
+        value: codeBlock(`${msg.createdTimestamp - interaction.createdTimestamp}ms`),
+        inline: true,
+      }, {
+        name: 'Uptime',
+        value: `${absoluteTimestamp(client.readyTimestamp)}\n(${relativeTimestamp(client.readyTimestamp)})`,
+        inline: true,
+      })
+      .setTimestamp()
+      .setFooter({
+        text: interaction.user.username,
+        iconURL: interaction.user.displayAvatarURL(),
+      });
 
-async function runPing(interaction) {
-  const client = interaction.client;
-  const embed = new EmbedBuilder()
-    .setTitle('🏓 Pong!')
-    .setThumbnail(client.user.displayAvatarURL())
-    .addFields(
-      { name: 'Latency', value: `\`${client.ws.ping}ms\``, inline: true },
-      { name: 'Uptime', value: `<t:${parseInt(client.readyTimestamp / 1000)}:R>`, inline: true },
-    )
-    .setTimestamp()
-    .setFooter({ text: interaction.user.username, iconURL: interaction.user.displayAvatarURL() });
-
-  interaction.reply({ embeds: [embed] });
-}
+    interaction.editReply({ content: null, embeds: [embed] });
+  }
+};
