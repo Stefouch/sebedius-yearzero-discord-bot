@@ -8,6 +8,7 @@ const { randomID } = require('../../../utils/number-utils');
  * @property {number} [faces]    The number of faces of the roll
  * @property {number} [maxPush]  Maximum number of times the die can be pushed
  * @property {string} [operator] Arithmetic operator applied by the die
+ * @property {number} [result]   Custom result for the die (marks it as evaluated)
  */
 
 /**
@@ -36,7 +37,7 @@ class YearZeroDie {
   static SuccessTable = SuccessTableMap.Default;
 
   /**
-   * The type of this die.
+   * Die type (used for filtering).
    * @type {YearZeroDieTypes}
    * @memberof YearZeroDie
    * @abstract
@@ -48,15 +49,17 @@ class YearZeroDie {
   /* ------------------------------------------ */
 
   /**
+   * ID of the die.
+   * @type {string}
+   * @readonly
+   */
+  id;
+
+  /**
    * @param {YearZeroDieOptions} [options] Options for constructing a Year Zero die
    */
   constructor(options) {
 
-    /**
-     * ID of the die.
-     * @type {string}
-     * @readonly
-     */
     Object.defineProperty(this, 'id', {
       value: randomID(),
       enumerable: true,
@@ -97,6 +100,11 @@ class YearZeroDie {
      * @type {number}
      */
     this.pushCount = 0;
+
+    if (typeof options.result !== 'undefined') {
+      this.results.push(options.result);
+      this.evaluated = true;
+    }
   }
 
   /* ------------------------------------------ */
