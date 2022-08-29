@@ -13,17 +13,16 @@ module.exports = class PingCommand extends SebediusCommand {
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction) {
-    const bot = interaction.client;
     const msg = await interaction.reply({
       content: 'Pinging...',
       fetchReply: true,
     });
     const embed = new EmbedBuilder()
       .setTitle('🏓 Pong!')
-      .setThumbnail(bot.user.displayAvatarURL())
+      .setThumbnail(this.bot.user.displayAvatarURL())
       .addFields({
         name: 'Latency API',
-        value: codeBlock(`${bot.ws.ping}ms`),
+        value: codeBlock(`${this.bot.ws.ping}ms`),
         inline: true,
       }, {
         name: 'Latency BOT',
@@ -31,7 +30,7 @@ module.exports = class PingCommand extends SebediusCommand {
         inline: true,
       }, {
         name: 'Uptime',
-        value: `${absoluteTimestamp(bot.readyTimestamp)}\n(${relativeTimestamp(bot.readyTimestamp)})`,
+        value: `${absoluteTimestamp(this.bot.readyTimestamp)}\n(${relativeTimestamp(this.bot.readyTimestamp)})`,
         inline: true,
       })
       .setTimestamp()
@@ -40,6 +39,6 @@ module.exports = class PingCommand extends SebediusCommand {
         iconURL: interaction.user.displayAvatarURL(),
       });
 
-    interaction.editReply({ content: null, embeds: [embed] });
+    await interaction.editReply({ content: null, embeds: [embed] });
   }
 };

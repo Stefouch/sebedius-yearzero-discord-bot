@@ -1,14 +1,12 @@
 /**
- * @callback SebediusEventMessageCreateCallback
- * @param {import('./sebedius-client')} client
+ * @callback SebediusEventMessageCreateFunction
  * @param {import('discord.js').Message} message
  * @returns {Promise.<any>}
  * @async
  */
 
 /**
- * @callback SebediusEventInteractionCreateCallback
- * @param {import('./sebedius-client')} client
+ * @callback SebediusEventInteractionCreateFunction
  * @param {import('discord.js').BaseInteraction} interaction
  * @returns {Promise.<any>}
  * @async
@@ -24,11 +22,16 @@
  * Sebedius Event.
  */
 class SebediusEvent {
-
   /**
-   * @param {SebediusEventOptions} [options]
+   * @param {import('./sebedius-client')} client
+   * @param {SebediusEventOptions}       [options]
    */
-  constructor(options) {
+  constructor(client, options) {
+    /**
+     * The bot client.
+     * @type {import('./sebedius-client')}
+     */
+    this.client = client;
 
     /**
      * The name of the event.
@@ -44,16 +47,22 @@ class SebediusEvent {
   }
 
   /**
+   * @readonly
+   */
+  get bot() {
+    return this.client;
+  }
+
+  /**
    * The method executed by the event.
-   * @param {import('./sebedius-client')} client
    * @param {*} args
    * @returns {Promise.<any>}
    * @abstract
    * @async
    */
   // eslint-disable-next-line no-unused-vars
-  async execute(client, ...args) {
-    throw new SyntaxError('Run Function Must Be Implemented!');
+  async execute(...args) {
+    throw new SyntaxError('Execute Function Must Be Implemented!');
   }
 };
 

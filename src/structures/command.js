@@ -23,7 +23,7 @@
 
 /**
  * @callback SebediusCommandTranslationCallback t(key: string, { ...args }): string
- * @param {string}  key
+ * @param {string} key
  * @param {Object.<string, string>} [args]
  * @returns {string}
  */
@@ -31,7 +31,7 @@
 class SebediusCommand {
   /**
    * @param {import('./sebedius-client')} client
-   * @param {SebediusCommandOptions} [options]
+   * @param {SebediusCommandOptions}     [options]
    */
   constructor(client, options) {
     /**
@@ -51,6 +51,14 @@ class SebediusCommand {
      * @type {import('discord.js').SlashCommandBuilder}
      */
     this.data = options.data;
+  }
+
+  /**
+   * @readonly
+   * @alias this.client
+   */
+  get bot() {
+    return this.client;
   }
 
   get name() {

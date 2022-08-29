@@ -5,12 +5,12 @@ const SebediusEvent = require('../../structures/event');
 module.exports = class InteractionCreateEvent extends SebediusEvent {
   name = 'interactionCreate';
 
-  /** @type {SebediusEvent.SebediusEventInteractionCreateCallback} */
-  async execute(client, interaction) {
+  /** @type {SebediusEvent.SebediusEventInteractionCreateFunction} */
+  async execute(interaction) {
     const t = global.t = i18next.getFixedT(interaction.guildLocale);
 
     if (interaction.isChatInputCommand()) {
-      const command = client.commands.get(interaction.commandName);
+      const command = this.bot.commands.get(interaction.commandName);
 
       if (!command) return interaction.reply('❌ Command does not exist!');
 
