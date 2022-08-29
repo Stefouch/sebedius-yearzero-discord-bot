@@ -7,6 +7,7 @@ class Sebedius extends Client {
     super(options);
 
     this.version = require('../../package.json').version;
+    this.config = require('../config');
 
     /**
      * Collection containing all the bot commands.

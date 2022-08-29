@@ -5,15 +5,15 @@ const SebediusConfig = {};
 
 SebediusConfig.botId = '543445246143365130';
 SebediusConfig.betaBotId = '549319447240769542';
-SebediusConfig.ownerId = '405389936783523840';
 SebediusConfig.botGuildId = '585361465641271296',
 SebediusConfig.botLogChannelId = '752170706522865664',
 
 SebediusConfig.favoriteColor = '0x1AA29B';
-
-SebediusConfig.wikiURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki';
-
 SebediusConfig.activityLoopDelay = 600;
+
+SebediusConfig.readmeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md';
+SebediusConfig.wikiURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki';
+SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues';
 
 /* ------------------------------------------ */
 /*  Commands Config                           */
