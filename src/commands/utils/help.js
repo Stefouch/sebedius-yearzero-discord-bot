@@ -18,14 +18,15 @@ module.exports = class HelpCommand extends SebediusCommand {
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {
-    const embed = new EmbedBuilder();
-    const commandName = interaction.options.getString('command');
+    const embed = new EmbedBuilder()
+      .setColor(this.bot.config.favoriteColor)
+      .setTimestamp();
 
+    const commandName = interaction.options.getString('command');
     if (!commandName) {
       embed
         .setTitle('**Sebedius – Year Zero Discord Bot**')
         .setDescription(t('commands:help.fullDescription') + ' https://github.com/Stefouch/sebedius-myz-discord-bot')
-        .setTimestamp()
         .addFields({
           name: `🏁 ${t('commands:help.deployedVersion')}`,
           value: this.bot.version,
@@ -60,8 +61,28 @@ module.exports = class HelpCommand extends SebediusCommand {
         });
     }
     // Help message with the list of all commands.
-    else if (commandName === 'all') {}
-    // Help message for a specific command.
+    else if (commandName === 'all') {
+      embed
+        .setTitle('**Sebedius – Year Zero Discord Bot**')
+        .setDescription(`${this.bot.config.wikiURL}#list-of-commands`);
+
+      // Hides ownerOnly commands.
+      const commands = this.bot.commands.filter(c => !c.ownerOnly);
+
+      for (const [cat, code] of Object.entries(SebediusCommand.CategoryFlagsBits)) {
+        const category = `commands:categories.${cat.toLowerCase()}`;
+        const cmds = commands.filter(c => c.category === code);
+
+        if (cmds.size) {
+          embed.addFields({
+            name: `• ${t(category)}`,
+            value: [...cmds.mapValues(c => inlineCode(c.name)).values()].join(', '),
+            inline: true,
+          });
+        }
+      }
+    }
+    // Help message for one specific command.
     else {
       const command = this.bot.commands.get(commandName);
 
@@ -73,7 +94,22 @@ module.exports = class HelpCommand extends SebediusCommand {
           ephemeral: true,
         });
       }
-      await interaction.reply({ embeds: [embed] });
+
+      // Gets the localized description.
+      // @ts-ignore
+      const lng = t.lng;
+      // if (lng === 'en-US' || lng === 'en-GB') lng = 'en';
+      let commandDescription = command.data.description_localizations?.[lng];
+      if (!commandDescription) commandDescription = command.description;
+
+      embed
+        .setTitle(inlineCode(commandName))
+        .setDescription(commandDescription)
+        .addFields({
+          name: 'Wiki',
+          value: `${this.bot.config.wikiURL}/%21${commandName}`,
+        });
     }
+    await interaction.reply({ embeds: [embed] });
   }
 };

@@ -1,3 +1,6 @@
+categories:
+  admin: Administrative
+  utils: Utility
 help:
   deployedVersion: Deployed Version
   developer: Developer

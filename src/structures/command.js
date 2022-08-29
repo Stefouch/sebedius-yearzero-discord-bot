@@ -5,7 +5,8 @@
 
 /**
  * @typedef {Object} SebediusCommandOptions
- * @property {SebediusCommand.CategoryFlagsBits} category
+ * @property {boolean}                                 [ownerOnly=false]
+ * @property {SebediusCommand.CategoryFlagsBits}        category
  * @property {import('discord.js').SlashCommandBuilder} data
  */
 
@@ -14,18 +15,19 @@
  */
 
 /**
- * @callback SebediusCommandRunFunction
- * @param {SebediusCommandInteraction & import('discord.js').ChatInputCommandInteraction} interaction
- * @param {SebediusCommandTranslationCallback} [t]
- * @returns {Promise.<any>}
- * @async
+ * @callback SebediusTranslationCallback t(key: string, { ...args }): string
+ * @param {string|string[]}          keys     Key(s) to translate
+ * @param {Object.<string, string>} [options] 
+ * @returns {string}
+ * @property {string} lng Secret property that stores the language code
  */
 
 /**
- * @callback SebediusCommandTranslationCallback t(key: string, { ...args }): string
- * @param {string} key
- * @param {Object.<string, string>} [args]
- * @returns {string}
+ * @callback SebediusCommandRunFunction
+ * @param {SebediusCommandInteraction & import('discord.js').ChatInputCommandInteraction} interaction
+ * @param {SebediusTranslationCallback} [t]
+ * @returns {Promise.<any>}
+ * @async
  */
 
 class SebediusCommand {
@@ -41,7 +43,13 @@ class SebediusCommand {
     this.client = client;
 
     /**
-     * The category of the command
+     * Whether the command is only available for the bot owner.
+     * @type {boolean}
+     */
+    this.ownerOnly = !!options.ownerOnly;
+
+    /**
+     * The category of the command.
      * @type {SebediusCommand.CategoryFlagsBits}
      */
     this.category = options.category || SebediusCommand.CategoryFlagsBits.UTILS;
