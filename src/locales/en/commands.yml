@@ -1,0 +1,19 @@
+help:
+  deployedVersion: Deployed Version
+  developer: Developer
+  fullDescription: >-
+    Sebedius is a Discord bot with command utilities for the Year Zero
+    roleplaying games by Free League Publishing (Fria Ligan).
+  usefulLinks: Useful Links
+  website: Website
+  supportOnPatreon: Support the dev on his {{url}}!
+  patreonPage: Patreon page
+  githubIssues: Send a bug report or a feature request
+  addToServer: Add to Server
+  readTheWiki: Read the Wiki
+  listOfCommands: List of Commands
+  listOfCommandsFullDescription: |-
+    Type {{helpAll}} to get a list of all commands.
+    Type {{helpCommand}} to get info on a specific command.
+ping:
+  description: Checks the bot latency
