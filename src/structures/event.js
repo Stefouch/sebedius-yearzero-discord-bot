@@ -1,11 +1,11 @@
 /**
  * @callback SebediusEventExecuteCallback
- * @param {import('./client.js')} client
+ * @param {import('./sebedius-client')} client
  * @param {import('discord.js').BaseInteraction} [interaction]
  * @returns {*|Promise}
  */
 
-module.exports = class SebediusEvent {
+class SebediusEvent {
   /**
    * @param {Object}   options             Event options
    * @param {string}   options.name        The name of the event
@@ -29,7 +29,10 @@ module.exports = class SebediusEvent {
     /**
      * The callback function to execute.
      * @type {SebediusEventExecuteCallback}
+     * @callback
      */
     this.execute = execute;
   }
 };
+
+module.exports = SebediusEvent;

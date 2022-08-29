@@ -1,5 +1,5 @@
 const { EmbedBuilder, codeBlock, SlashCommandBuilder } = require('discord.js');
-const SebediusCommand = require('../../discord/command');
+const SebediusCommand = require('../../structures/command');
 const { relativeTimestamp, absoluteTimestamp } = require('../../utils/discord-utils');
 
 module.exports = class PingCommand extends SebediusCommand {

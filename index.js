@@ -6,10 +6,10 @@
 /*   (c) 2022 Stefouch                        */
 /* ========================================== */
 
-const Sebedius = require('./src/discord/client');
-const intents = require('./src/discord/sebedius-intents');
-const handleEvents = require('./src/discord/handlers/event-handler');
-const handleCommands = require('./src/discord/handlers/command-handler');
+const Sebedius = require('./src/structures/sebedius-client');
+const intents = require('./src/structures/sebedius-intents');
+const handleEvents = require('./src/structures/handlers/event-handler');
+const handleCommands = require('./src/structures/handlers/command-handler');
 
 // First, loads the ENV variables (e.g. bot's token).
 // if not in production mode.

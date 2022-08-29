@@ -1,6 +1,6 @@
 const i18next = require('i18next');
 const { codeBlock } = require('discord.js');
-const SebediusEvent = require('../../discord/event');
+const SebediusEvent = require('../../structures/event');
 
 module.exports = new SebediusEvent({
   name: 'interactionCreate',

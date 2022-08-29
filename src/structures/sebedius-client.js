@@ -2,8 +2,6 @@ const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('disco
 const SebediusPermissions = require('./sebedius-permissions');
 const Database = require('../database/database');
 
-/** @typedef {import('./command')} SebediusCommand */
-
 class Sebedius extends Client {
   constructor(options) {
     super(options);
@@ -12,7 +10,7 @@ class Sebedius extends Client {
 
     /**
      * Collection containing all the bot commands.
-     * @type {Collection<string, SebediusCommand>}
+     * @type {Collection<string, import('./command')>}
      */
     this.commands = new Collection();
 

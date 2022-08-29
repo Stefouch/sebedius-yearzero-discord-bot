@@ -1,5 +1,5 @@
 const { YearZeroGames } = require('./constants');
-const { YearZeroDieTypes } = require('../yearzero/roller/dice/dice-constants');
+const { YearZeroDieTypes } = require('./yearzero/roller/dice/dice-constants');
 
 const SebediusConfig = {};
 

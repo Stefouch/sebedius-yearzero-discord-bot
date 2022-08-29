@@ -1,6 +1,6 @@
 /**
  * @typedef {Object} SebediusCommandInteraction
- * @property {import('./client')} client
+ * @property {import('./sebedius-client')} client
  */
 
 /**
@@ -30,13 +30,13 @@
 
 class SebediusCommand {
   /**
-   * @param {import('./client')} client
+   * @param {import('./sebedius-client')} client
    * @param {SebediusCommandOptions} [options]
    */
   constructor(client, options) {
     /**
      * The bot client.
-     * @type {import('./client')}
+     * @type {import('./sebedius-client')}
      */
     this.client = client;
 

@@ -1,8 +1,8 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
-const SebediusCommand = require('../../discord/command');
+const SebediusCommand = require('../../structures/command');
 
 module.exports = class HelpCommand extends SebediusCommand {
-  /** @param {import('../../discord/client')} client */
+  /** @param {import('@structures/sebedius-client')} client */
   constructor(client) {
     super(client, {
       category: SebediusCommand.CategoryFlagsBits.UTILS,

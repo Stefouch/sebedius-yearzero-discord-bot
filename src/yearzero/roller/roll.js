@@ -1,5 +1,5 @@
 const Dice = require('./dice');
-const { YearZeroGames } = require('../../constants/constants');
+const { YearZeroGames } = require('../../constants');
 const { YearZeroDieTypes, BanableTypesBitField } = require('./dice/dice-constants');
 const { randomID } = require('../../utils/number-utils');
 
