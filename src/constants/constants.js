@@ -1,5 +1,6 @@
 /** @enum {string} */
 const YearZeroGames = {
+  BLANK: '0',
   ALIEN_RPG: 'alien',
   BLADE_RUNNER: 'br',
   CORIOLIS: 'cor',
