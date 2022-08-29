@@ -66,9 +66,14 @@ module.exports = class HelpCommand extends SebediusCommand {
       const command = this.bot.commands.get(commandName);
 
       if (!command) {
-        return interaction.reply('🤷 Command not found!');
+        return interaction.reply({
+          content: `🤷 ${t('commands:help.commandNotFound', {
+            cmd: inlineCode(commandName),
+          })}`,
+          ephemeral: true,
+        });
       }
+      await interaction.reply({ embeds: [embed] });
     }
-    await interaction.reply({ embeds: [embed] });
   }
 };

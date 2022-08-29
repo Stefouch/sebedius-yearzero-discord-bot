@@ -15,5 +15,6 @@ help:
   listOfCommandsFullDescription: |-
     Type {{helpAll}} to get a list of all commands.
     Type {{helpCommand}} to get info on a specific command.
+  commandNotFound: Sorry, the command {{cmd}} was not found!
 ping:
   description: Checks the bot latency
