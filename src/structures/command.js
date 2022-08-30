@@ -1,13 +1,14 @@
 /**
  * @typedef {Object} SebediusCommandInteraction
+ * @augments import('discord.js').ChatInputCommandInteraction
  * @property {import('./sebedius-client')} client
  */
 
 /**
  * @typedef {Object} SebediusCommandOptions
- * @property {boolean}                                 [ownerOnly=false]
- * @property {SebediusCommand.CategoryFlagsBits}        category
- * @property {import('discord.js').SlashCommandBuilder} data
+ * @property {boolean}                          [ownerOnly=false]
+ * @property {SebediusCommand.CategoryFlagsBits} category
+ * @property {import('discord.js').SlashCommandBuilder & any} data
  */
 
 /**
@@ -25,7 +26,8 @@
 /**
  * @callback SebediusCommandRunFunction
  * @param {SebediusCommandInteraction & import('discord.js').ChatInputCommandInteraction} interaction
- * @param {SebediusTranslationCallback} [t]
+ * @param {SebediusTranslationCallback}          [t]
+ * @param {import('../constants').YearZeroGames} [game]
  * @returns {Promise.<any>}
  * @async
  */
@@ -62,8 +64,9 @@ class SebediusCommand {
   }
 
   /**
-   * @readonly
+   * The bot client.
    * @alias this.client
+   * @readonly
    */
   get bot() {
     return this.client;
@@ -82,7 +85,7 @@ class SebediusCommand {
    * @type {SebediusCommandRunFunction}
    */
   // eslint-disable-next-line no-unused-vars
-  async run(interaction, t) {
+  async run(interaction, t, game) {
     throw new SyntaxError('Run Function Must Be Implemented!');
   }
 }
@@ -91,6 +94,7 @@ class SebediusCommand {
 SebediusCommand.CategoryFlagsBits = {
   ADMIN: 1 << 0,
   UTILS: 1 << 1,
+  ROLL: 1 << 2,
 };
 
 module.exports = SebediusCommand;
