@@ -12,8 +12,9 @@ module.exports = class HelpCommand extends SebediusCommand {
         .addStringOption(opt => opt
           .setName('command')
           // eslint-disable-next-line max-len
-          .setDescription('Prints more information about a specific command or type "all" to see a list of all commands')
-          .addChoices(...client.commands.map(c => ({ name: c.name, value: c.name }))),
+          .setDescription('Prints more information about a specific command or type "all" to see a list of all commands'),
+          // TODO autocomplete
+          // .setAutocomplete(true),
         ),
     });
   }
@@ -76,7 +77,7 @@ module.exports = class HelpCommand extends SebediusCommand {
 
         if (cmds.size) {
           embed.addFields({
-            name: `• ${t(category)}`,
+            name: t(category),
             value: [...cmds.mapValues(c => inlineCode(c.name)).values()].join(', '),
             inline: true,
           });
