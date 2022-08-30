@@ -1,6 +1,7 @@
 const Dice = require('./dice');
 const { YearZeroGames } = require('../../constants');
 const { YearZeroDieTypes, BanableTypesBitField } = require('./dice/dice-constants');
+const { DiceIcons } = require('../../config');
 const { randomID } = require('../../utils/number-utils');
 
 /** @typedef {import('./dice/die')} YearZeroDie */
@@ -9,6 +10,8 @@ const { randomID } = require('../../utils/number-utils');
  * @typedef {Object} YearZeroRollOptions
  * @property {string} name The name of the roll
  * @property {string} game The game used
+ * @property {import('discord.js').GuildMember | import('discord.js').APIInteractionGuildMember} [author]
+ *   The author of the roll
  */
 
 class YearZeroRoll {
@@ -40,6 +43,12 @@ class YearZeroRoll {
       value: randomID(6),
       enumerable: true,
     });
+
+    /**
+     * The author of the roll.
+     * @type {import('discord.js').GuildMember | import('discord.js').APIInteractionGuildMember}
+     */
+    this.author = options.author;
 
     /**
      * The title of the roll.
@@ -465,6 +474,18 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
+   * Sticks the results together.
+   * @param {YearZeroDieTypes} [type] Optional type to filter.
+   * @returns {number}
+   */
+  sumProductBaseTen(type) {
+    const dice = type ? this.getDice(type) : this.dice;
+    return Number(dice.map(d => d.result).join(''));
+  }
+
+  /* ------------------------------------------ */
+
+  /**
    * Sets the Full Automatic Fire mode.
    * `maxPush = 10` to avoid abuses.
    * @param {boolean} [bool=true] Full Auto yes or no
@@ -475,6 +496,53 @@ class YearZeroRoll {
     this.maxPush = bool ? 10 : 1;
     return this;
   }
+
+  /* ------------------------------------------ */
+
+  /**
+   * Returns a text with all the dice from a roll turned into emojis.
+   * @returns {string}
+   */
+  emojifyRoll() {
+    let str = '';
+
+    for (const die of this.dice) {
+      const r = die.result;
+      const errorIcon = `\`{${r}}\``;
+
+      if (die.hasType(YearZeroDieTypes.ARTO)) {
+        str += DiceIcons[YearZeroGames.FORBIDDEN_LANDS]?.[YearZeroDieTypes.ARTO]?.[r] || errorIcon;
+      }
+      else if (
+        this.game === YearZeroGames.TWILIGHT_2K &&
+        die.hasType(YearZeroDieTypes.BASE) &&
+        die.faces !== 6
+      ) {
+        str += DiceIcons[YearZeroGames.TWILIGHT_2K]?.[`d${die.faces}`]?.[r] || errorIcon;
+      }
+      else {
+        str += DiceIcons[this.game]?.[die.type]?.[r] || errorIcon;
+      }
+    }
+
+    return str;
+  }
+
+  /* ------------------------------------------ */
+  /*  Static Methods                            */
+  /* ------------------------------------------ */
+
+  // static rollD6() {
+  //   return Dice.BaseDie.rng(1, 6);
+  // }
+
+  // static rollD66() {
+  //   return this.rollD6() * 10 + this.rollD6();
+  // }
+
+  // static rollD666() {
+  //   return this.rollD6() * 100 + this.rollD66();
+  // }
 
   /* ------------------------------------------ */
 }
