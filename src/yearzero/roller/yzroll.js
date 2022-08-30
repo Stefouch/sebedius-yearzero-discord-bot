@@ -2,7 +2,9 @@ const Dice = require('./dice');
 const { YearZeroGames } = require('../../constants');
 const { YearZeroDieTypes, BanableTypesBitField } = require('./dice/dice-constants');
 const { DiceIcons } = require('../../config');
-const { randomID } = require('../../utils/number-utils');
+const { randomID, resolveNumber } = require('../../utils/number-utils');
+
+const ROLL_REGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
 
 /** @typedef {import('./dice/die')} YearZeroDie */
 
@@ -474,6 +476,24 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
+   * Gets the sum of the dice of a certain type.
+   * @param {YearZeroDieTypes} [type] The type of the dice to sum
+   * @returns {number} The summed result
+   */
+  // TODO Better sum function with operators priorities and parentheses.
+  sum(type) {
+    const dice = type ? this.getDice(type) : this.dice;
+    let sum = 0;
+    for (const d of dice) {
+      if (d.operator === '+') sum += d.result;
+      else if (d.operator === '-') sum -= d.result;
+      else if (d.operator === '*') sum *= d.result;
+      else if (d.operator === '/') sum /= d.result;
+    }
+    return sum;
+  }
+
+  /**
    * Sticks the results together.
    * @param {YearZeroDieTypes} [type] Optional type to filter.
    * @returns {number}
@@ -498,12 +518,29 @@ class YearZeroRoll {
   }
 
   /* ------------------------------------------ */
+  /*  String Methods                            */
+  /* ------------------------------------------ */
+
+  /**
+   * Reduces the Roll to a dice pool.
+   * @returns {Object}
+   */
+  pool() {
+    // .slice(1) removes the die's operator.
+    return this.dice
+      .map(d => d.toString().slice(1))
+      .reduce((obj, t) => {
+        if (!obj[t]) obj[t] = 1;
+        else obj[t]++;
+        return obj;
+      }, {});
+  }
 
   /**
    * Returns a text with all the dice from a roll turned into emojis.
    * @returns {string}
    */
-  emojifyRoll() {
+  emojify() {
     let str = '';
 
     for (const die of this.dice) {
@@ -528,9 +565,41 @@ class YearZeroRoll {
     return str;
   }
 
+  toString() {
+    const out = [];
+    out.push(`roll.${this.game}:`);
+
+    if (this.game === YearZeroGames.BLANK) {
+      out.push(this.valueOf());
+    }
+    else {
+
+      out.push();
+      out.push('[', this.results.join(', '), ']');
+    }
+
+    if (this.name) out.push('#', this.name);
+
+    return out.join(' ');
+  }
+
+  valueOf() {
+    return this.sum();
+  }
+
   /* ------------------------------------------ */
   /*  Static Methods                            */
   /* ------------------------------------------ */
+
+  static parse(diceString, options) {
+    const roll = new this(options);
+
+    const mod = resolveNumber(diceString);
+    if (mod) {
+      roll.modify(mod);
+    }
+    return roll;
+  }
 
   // static rollD6() {
   //   return Dice.BaseDie.rng(1, 6);

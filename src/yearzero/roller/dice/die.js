@@ -1,6 +1,6 @@
 // @ts-nocheck
 const MersenneTwister = require('mersenne-twister');
-const { SuccessTableMap, LockedValuesMap } = require('./dice-constants');
+const { SuccessTableMap, LockedValuesMap, YearZeroDieTypes } = require('./dice-constants');
 const { randomID } = require('../../../utils/number-utils');
 
 /**
@@ -214,8 +214,16 @@ class YearZeroDie {
 
   /* ------------------------------------------ */
 
-  toString() { return `D${this.faces} ${this.evaluated ? `(${this.result})` : ''}`; }
-  valueOf() { return this.result; }
+  toString() {
+    if (this.hasType(YearZeroDieTypes.NONE)) {
+      return `${this.operator}${this.result}`;
+    }
+    return `${this.operator}d${this.faces}`;
+  }
+
+  valueOf() {
+    return Number(`${this.operator}${this.result}`);
+  }
 }
 
 module.exports = YearZeroDie;
