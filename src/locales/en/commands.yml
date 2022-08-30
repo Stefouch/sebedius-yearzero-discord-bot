@@ -1,6 +1,7 @@
 categories:
   admin: Administrative
   utils: Utility
+  roll: Roll
 help:
   deployedVersion: Deployed Version
   developer: Developer
@@ -20,4 +21,4 @@ help:
     Type {{helpCommand}} to get info on a specific command.
   commandNotFound: Sorry, the command {{cmd}} was not found!
 ping:
-  description: Checks the bot latency
+  description: Checks the Sebedius' latency
