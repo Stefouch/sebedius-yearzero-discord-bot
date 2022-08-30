@@ -8,6 +8,8 @@ SebediusConfig.betaBotId = '549319447240769542';
 SebediusConfig.botGuildId = '585361465641271296',
 SebediusConfig.botLogChannelId = '752170706522865664',
 
+SebediusConfig.defaultLocale = 'en';
+
 SebediusConfig.favoriteColor = 0x1AA29B;
 SebediusConfig.activityLoopDelay = 600;
 
