@@ -1,6 +1,7 @@
 const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('discord.js');
 const SebediusPermissions = require('./sebedius-permissions');
 const Database = require('../database/database');
+const { YearZeroGames } = require('../constants');
 
 class Sebedius extends Client {
   constructor(options) {
@@ -72,6 +73,29 @@ class Sebedius extends Client {
       if (chan) guild = chan.guild;
     }
     return guild;
+  }
+
+  /* ------------------------------------------ */
+  /*  Database Methods                          */
+  /* ------------------------------------------ */
+
+  async getGame(guildId) {
+    const guild = await this.database.getGuild(guildId);
+    if (!guild?.game) return YearZeroGames.MUTANT_YEAR_ZERO;
+    return guild.game;
+  }
+
+  async getGameAndLocale(guildId) {
+    const out = {
+      game: YearZeroGames.MUTANT_YEAR_ZERO,
+      locale: this.config.defaultLocale,
+    };
+    const guild = await this.database.getGuild(guildId);
+    if (guild) {
+      if (guild.game) out.game = guild.game;
+      if (guild.locale) out.locale = guild.locale;
+    }
+    return out;
   }
 }
 
