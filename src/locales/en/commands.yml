@@ -23,5 +23,5 @@ help:
 ping:
   description: Checks the Sebedius' latency
 roll:
-  tooManyDiceError: Too Many Dice!
+  tooManyDiceError: Too Many Dice! (>42)
   resultForD66: '{{author}} rolled a {{dice}} and obtained {{result}}.'
