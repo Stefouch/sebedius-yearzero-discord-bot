@@ -47,6 +47,8 @@ class SebediusEvent {
   }
 
   /**
+   * The bot client.
+   * @alias this.client
    * @readonly
    */
   get bot() {
