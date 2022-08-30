@@ -4,19 +4,23 @@ const { zeroise } = require('./number-utils');
 const format = '{timestamp} {tag} {msg}\n';
 
 function error(msg) {
-  return write({ msg, tag: 'ERROR', bgTagColor: 'bgRed', isError: true });
+  return write({ msg, msgColor: 'red', tag: 'ERROR', bgTagColor: 'bgRed', isError: true });
 }
 
 function warn(msg) {
-  return write({ msg, tag: 'WARN', bgTagColor: 'bgYellow' });
+  return write({ msg, msgColor: 'yellow', tag: 'WARN', bgTagColor: 'bgYellow' });
+}
+
+function info(msg) {
+  return write({ msg, msgColor: 'blueBright', tag: 'INFO' });
 }
 
 function event(msg) {
-  return write({ msg, tag: 'EVT', bgTagColor: 'bgGreen', isError: true });
+  return write({ msg, msgColor: 'magenta', tag: 'EVENT', bgTagColor: 'bgMagenta' });
 }
 
 function command(msg) {
-  return write({ msg, tag: 'CMD', bgTagColor: 'bgMagenta' });
+  return write({ msg, msgColor: 'cyan', tag: 'COMMAND', bgTagColor: 'bgCyan' });
 }
 
 function client(msg) {
@@ -24,19 +28,27 @@ function client(msg) {
 }
 
 /**
- * @typedef {Object} TagOptions
- * @property {string}   msg
- * @property {string}   tag
- * @property {string}  [tagColor='black']
- * @property {string}   bgTagColor
- * @property {boolean} [isError=false]
+ * @typedef {Object} ConsoleOptions
+ * @property {string|Error} msg
+ * @property {string}      [msgColor='white']
+ * @property {string}       tag
+ * @property {string}      [tagColor='white']
+ * @property {string}      [bgTagColor]
+ * @property {boolean}     [isError=false]
  */
 
 /**
- * @param {TagOptions} options
+ * @param {ConsoleOptions} options
  * @private
  */
-function write({ msg, tag, tagColor = 'black', bgTagColor, isError = false }) {
+function write({
+  msg,
+  msgColor = 'white',
+  tag,
+  tagColor = 'white',
+  bgTagColor = 'black',
+  isError = false,
+}) {
   // Timestamp
   const date = new Date();
   const YYYY = date.getFullYear();
@@ -45,7 +57,10 @@ function write({ msg, tag, tagColor = 'black', bgTagColor, isError = false }) {
   const hh = zeroise(date.getHours());
   const mm = zeroise(date.getMinutes());
   const ss = zeroise(date.getSeconds());
-  const timestamp = `[${YYYY}-${MM}-${DD}  ${hh}:${mm}:${ss}]`;
+  const timestamp = `[${YYYY}-${MM}-${DD} ${hh}:${mm}:${ss}]`;
+
+  // Tag
+  const logTag = ` ${tag} `;
 
   // Stream
   const stream = isError ? process.stderr : process.stdout;
@@ -53,11 +68,18 @@ function write({ msg, tag, tagColor = 'black', bgTagColor, isError = false }) {
   // Format
   const content = format
     .replace('{timestamp}', chalk.gray(timestamp))
-    .replace('{tag}', chalk[bgTagColor][tagColor](`[${tag}]`))
-    .replace('{msg}', chalk.white(msg));
+    .replace(
+      '{tag}',
+      bgTagColor ? chalk[bgTagColor][tagColor](logTag) : chalk[tagColor](logTag))
+    .replace('{msg}', chalk[msgColor](msg));
 
   // Write
   stream.write(content);
+
+  // If Error
+  if (msg instanceof Error) {
+    console.error(msg);
+  }
 }
 
 module.exports = {
@@ -65,5 +87,6 @@ module.exports = {
   command,
   error,
   event,
+  info,
   warn,
 };
