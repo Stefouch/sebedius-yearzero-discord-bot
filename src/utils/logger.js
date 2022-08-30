@@ -12,7 +12,7 @@ function warn(msg) {
 }
 
 function info(msg) {
-  return write({ msg, msgColor: 'blueBright', tag: 'INFO' });
+  return write({ msg, tag: 'INFO', bgTagColor: 'bgBlueBright' });
 }
 
 function event(msg) {
@@ -25,6 +25,10 @@ function command(msg) {
 
 function client(msg) {
   return write({ msg, tag: 'CLIENT', bgTagColor: 'bgBlue' });
+}
+
+function roll(r) {
+  return write({ msg: r.toString(), tag: '🎲ROLL ', bgTagColor: 'bgCyan' });
 }
 
 /**
@@ -88,5 +92,6 @@ module.exports = {
   error,
   event,
   info,
+  roll,
   warn,
 };
