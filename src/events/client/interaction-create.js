@@ -12,7 +12,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
     if (interaction.isChatInputCommand()) {
       const logMsg = `${interaction.commandName}`
-        + ` :: ${interaction.user.tag} (${interaction.user.id})`
+        + ` • ${interaction.user.tag} (${interaction.user.id})`
         + ` # ${interaction.channel.name} (${interaction.channelId})`
         + ` @ ${interaction.guild.name} (${interaction.guildId})`;
       Logger.command(logMsg);
@@ -33,15 +33,15 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       if (!command) return interaction.reply('❌ Command does not exist!');
 
       try {
-        if (['roll', 'crit'].includes(command.name)) {
-          const game = interaction.options.getString('game') || await this.bot.getGame(interaction.guildId);
-          // @ts-ignore
-          await command.run(interaction, t, game);
-        }
-        else {
-          // @ts-ignore
-          await command.run(interaction, t);
-        }
+        // if (['roll', 'crit'].includes(command.name)) {
+        //   const game = interaction.options.getString('game') || await this.bot.getGame(interaction.guildId);
+        //   // @ts-ignore
+        //   await command.run(interaction, t, game);
+        // }
+        // else {
+        // @ts-ignore
+        await command.run(interaction, t);
+        // }
       }
       catch (err) {
         Logger.error(err);
