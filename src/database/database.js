@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Schemas = require('./models');
 const Logger = require('../utils/logger');
 
 class Database {
@@ -13,6 +14,14 @@ class Database {
       .catch(err => Logger.error(err));
 
     this.client = client;
+    this.guilds = Schemas.Guild;
+  }
+  /**
+   * Gets the stored informations for a guid.
+   * @param {string} id
+   */
+  async getGuild(id) {
+    return this.guilds.findOne({ id });
   }
 }
 
