@@ -16,8 +16,15 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       if (!command) return interaction.reply('❌ Command does not exist!');
 
       try {
-        // @ts-ignore
-        await command.run(interaction, t);
+        if (['roll', 'crit'].includes(command.name)) {
+          const game = interaction.options.getString('game') || await this.bot.getGame(interaction.guildId);
+          // @ts-ignore
+          await command.run(interaction, t, game);
+        }
+        else {
+          // @ts-ignore
+          await command.run(interaction, t);
+        }
       }
       catch (err) {
         Logger.error(err);
@@ -42,5 +49,6 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 };
 
 function logErrorOnError(e, verb) {
-  return Logger.error(`💥 An error occurred ${verb} on an error`, e);
+  Logger.error(`💥 An error occurred ${verb} on an error`);
+  console.error(e);
 }
