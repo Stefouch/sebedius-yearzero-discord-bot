@@ -11,7 +11,8 @@ module.exports = class HelpCommand extends SebediusCommand {
         .setDescription('View information about how to use Sebedius')
         .addStringOption(opt => opt
           .setName('command')
-          .setDescription('Input command')
+          // eslint-disable-next-line max-len
+          .setDescription('Prints more information about a specific command or type "all" to see a list of all commands')
           .addChoices(...client.commands.map(c => ({ name: c.name, value: c.name }))),
         ),
     });
