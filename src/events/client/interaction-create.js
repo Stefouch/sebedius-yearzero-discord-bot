@@ -11,8 +11,12 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
     const t = global.t = i18next.getFixedT(interaction.guildLocale);
 
     if (interaction.isChatInputCommand()) {
-      const command = this.bot.commands.get(interaction.commandName);
+      const logMsg = `${interaction.commandName} | `
+        + `User: ${interaction.user.tag} (${interaction.user.id}) `
+        + `@ ${interaction.guild.name} (${interaction.guildId})`;
+      Logger.command(logMsg);
 
+      const command = this.bot.commands.get(interaction.commandName);
       if (!command) return interaction.reply('❌ Command does not exist!');
 
       try {
