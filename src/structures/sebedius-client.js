@@ -85,6 +85,7 @@ class Sebedius extends Client {
     return guild.game;
   }
 
+  // TODO remove - useless
   async getGameAndLocale(guildId) {
     const out = {
       game: YearZeroGames.MUTANT_YEAR_ZERO,

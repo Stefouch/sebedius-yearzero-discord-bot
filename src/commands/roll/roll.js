@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder, inlineCode } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const { YearZeroGames, YearZeroGameNames } = require('../../constants');
@@ -145,13 +145,14 @@ module.exports = class RollCommand extends SebediusCommand {
     // Creates the roll.
     this.roll = new YearZeroRoll({
       game,
-      name: interaction.options.getString('title'),
+      name: interaction.options.getString('title') || diceString,
       author: interaction.member,
     });
 
     // Checks for d6, d66 & d666.
     const isD66 = /^d6{1,3}$/i.test(diceString);
     if (isD66) return this.replyD66Roll(interaction, t, diceString);
+
   }
 
   /* ------------------------------------------ */
@@ -168,28 +169,43 @@ module.exports = class RollCommand extends SebediusCommand {
 
   /**
    * Renders the results of the roll into a chat message.
-   * @param {SebediusCommand.SebediusCommandInteraction} interaction
+   * @param {import('discord.js').ChatInputCommandInteraction} interaction
    * @param {SebediusCommand.SebediusTranslationCallback} t
-   * @param {Object}  [options] 
-   * @param {boolean} [options.isPrivate=false]
+   * @param {Object}  [options]
    * @param {boolean} [options.isD66=false]
    */
-  async render(interaction, t, { isPrivate = false, isD66 = false } = {}) {
+  async render(interaction, t, { isD66 = false } = {}) {
+    if (this.roll.size > this.bot.config.Commands.roll.max) {
+      throw new Error(t('commands:roll.tooManyDiceError'));
+    }
+
     if (!this.roll.rolled) await this.roll.roll();
+
     const embed = new EmbedBuilder()
-      .setTitle(this.roll.name)
+      .setTitle(inlineCode(this.roll.name))
       .setColor(this.bot.config.favoriteColor)
-      .setTimestamp();
+      .setTimestamp()
+      .setFooter({
+        text: YearZeroGameNames[this.roll.game],
+      });
 
     if (isD66) {
-      embed.setDescription(t('commands:roll.result.d66', {
-        result: '' + this.roll.sumProductBaseTen(),
+      embed.setDescription(t('commands:roll.resultForD66', {
+        author: this.roll.author.toString(),
+        dice: inlineCode(`D${this.roll.dice.map(d => d.faces).join('')}`),
+        result: `__**${this.roll.sumProductBaseTen()}**__`,
       }));
+    }
+    else {
+      embed
+        .setDescription()
+        .addFields();
     }
 
     return interaction.reply({
-      content: this.roll.emojifyRoll(),
+      content: this.roll.emojify(),
       embeds: [embed],
+      ephemeral: interaction.options.getBoolean('private'),
     });
   }
 };

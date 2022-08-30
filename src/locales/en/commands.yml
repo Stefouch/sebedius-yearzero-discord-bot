@@ -22,3 +22,6 @@ help:
   commandNotFound: Sorry, the command {{cmd}} was not found!
 ping:
   description: Checks the Sebedius' latency
+roll:
+  tooManyDiceError: Too Many Dice!
+  resultForD66: '{{author}} rolled a {{dice}} and obtained {{result}}.'
