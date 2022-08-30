@@ -1,5 +1,6 @@
 const { YearZeroGames } = require('./constants');
 const { YearZeroDieTypes } = require('./yearzero/roller/dice/dice-constants');
+const { SkillDie, StressDie } = require('./yearzero/roller/dice');
 
 const SebediusConfig = {};
 
@@ -21,13 +22,6 @@ SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord
 /*  Commands Config                           */
 /* ------------------------------------------ */
 
-/**
- * @typedef {Object} DiceRenderOptions
- * @property {string}   successIcon
- * @property {boolean} [hasBlankDice]
- * @property {boolean} [detailed]
- */
-
 SebediusConfig.Commands = {};
 SebediusConfig.Commands.scrap = { max: 20 };
 SebediusConfig.Commands.stats = { start: '2020-12-05' };
@@ -37,8 +31,96 @@ SebediusConfig.Commands.roll = {
   pushCooldown: 120000,
 };
 
-/** @type {Object.<string, DiceRenderOptions>} */
-SebediusConfig.Commands.roll.options = {};
+/**
+ * @typedef {Object} DiceRenderOptions
+ * @property {YearZeroGames}          [iconTemplate]       Force rendering with another game template
+ * @property {string}                 [successIcon]        Default icon for successes
+ * @property {boolean}                [hasBlankDice=false] Whether the dice have blank faces
+ * @property {boolean}                [trauma=false]       Whether to display the trauma result
+ * @property {boolean}                [gearDamage=false]   Whether to display the gear damage quantity
+ * @property {boolean}                [panic=false]        Whether the roll can trigger panic check
+ * @property {boolean}                [mishap=false]       Whether to display mishap
+ * @property {boolean}                [detailed=false]     Whether to display additional details for the roll
+ * @property {(typeof import('./yearzero/roller/dice/die'))[]} [extraPushDice=[]]
+ *   Additional dice rolled when pushed
+ * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/die'))[] }[]} [reactionMenu]
+ *   Non-conventional reaction menu
+//  * @property {Object.<YearZeroDieTypes, YearZeroDieTypes>}     [aliases]
+ */
+
+SebediusConfig.Commands.roll.options = {
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.BLANK]: {
+    iconTemplate: YearZeroGames.ALIEN_RPG,
+    successIcon: '❇',
+    aliases: {
+      [YearZeroDieTypes.BASE]: YearZeroDieTypes.SKILL,
+      [YearZeroDieTypes.GEAR]: YearZeroDieTypes.SKILL,
+      [YearZeroDieTypes.NEG]: null,
+      [YearZeroDieTypes.STRESS]: null,
+    },
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.MUTANT_YEAR_ZERO]: {
+    successIcon: '<:b6:543422751428575238>',
+    trauma: true,
+    gearDamage: true,
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.FORBIDDEN_LANDS]: {
+    successIcon: '<:fblb6:585368712010399744>',
+    trauma: true,
+    gearDamage: true,
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.TALES_FROM_THE_LOOP]: {
+    successIcon: '<:talesb6:746306489668468737>',
+    hasBlankDice: true,
+    detailed: true,
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.CORIOLIS]: {
+    successIcon: '<:coriolisb6:746306927524577280>',
+    hasBlankDice: true,
+    detailed: true,
+    reactionMenu: [
+      {
+        icon: '🙏',
+        extraPushDice: [SkillDie],
+      },
+      {
+        icon: '🕌',
+        extraPushDice: [SkillDie, SkillDie],
+      },
+    ],
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.ALIEN_RPG]: {
+    successIcon: '<:alienb6:746320623436955691>',
+    extraPushDice: [StressDie],
+    panic: true,
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.VAESEN]: {
+    successIcon: '<:vaesenb6:721624875688787978>',
+    hasBlankDice: true,
+    detailed: true,
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.TWILIGHT_2K]: {
+    successIcon: '🎯',
+    hasBlankDice: true,
+    detailed: true,
+    mishap: true,
+  },
+  /** @type {DiceRenderOptions} */
+  [YearZeroGames.BLADE_RUNNER]: {
+    successIcon: '🦄',
+    hasBlankDice: true,
+    detailed: true,
+
+  },
+};
 
 /* ------------------------------------------ */
 /*  Icons                                     */
@@ -59,7 +141,21 @@ SebediusConfig.CardsIcons = [
 ];
 
 SebediusConfig.DiceIcons = {};
-SebediusConfig.DiceIcons[YearZeroGames.BLANK] = {};
+SebediusConfig.DiceIcons[YearZeroGames.BLANK] = {
+  [YearZeroDieTypes.SKILL]: [
+    '0',
+    '1️⃣',
+    '2️⃣',
+    '3️⃣',
+    '4️⃣',
+    '5️⃣',
+    '6️⃣',
+    '7️⃣',
+    '8️⃣',
+    '9️⃣',
+    '🔟',
+  ],
+};
 SebediusConfig.DiceIcons[YearZeroGames.MUTANT_YEAR_ZERO] = {
   [YearZeroDieTypes.BASE]: [
     '0',
