@@ -31,40 +31,40 @@ const CommandOptions = {
   // },
   dice: {
     description: 'Dice to roll',
-    type: String,
+    type: 'string',
     required: true,
   },
   title: {
     description: 'Define a title for the roll',
-    type: String,
+    type: 'string',
   },
   modifier: {
     description: 'Apply a difficulty modifier of `+X` or `-X` to the roll',
-    type: Number,
+    type: 'number',
   },
   maxpush: {
     description: 'Change the maximum number of allowed pushes',
-    type: Number,
+    type: 'number',
   },
   private: {
     description: 'Hide the roll from other players',
-    type: Boolean,
+    type: 'boolean',
   },
   fullauto: {
     description: 'Full-automatic fire: unlimited number of pushes (max 10)',
-    type: Boolean,
+    type: 'boolean',
   },
   pride: {
     description: 'Add a D12 Artifact Die to the roll',
-    type: Boolean,
+    type: 'boolean',
   },
   nerves: {
     description: 'Apply the talent *Nerves of Steel*',
-    type: Boolean,
+    type: 'boolean',
   },
   minpanic: {
     description: 'Adjusts a minimum treshold for multiple consecutive panic effects',
-    type: Number,
+    type: 'number',
   },
 };
 
@@ -90,19 +90,19 @@ function _getSlashCommandBuilder() {
         const option = CommandOptions[optionName];
         if (!option) throw new SyntaxError(`[Roll::${game}] Option "${optionName}" Not Found!`);
         switch (option.type) {
-          case String:
+          case 'string':
             sub.addStringOption(opt => opt
               .setName(optionName)
               .setDescription(option.description)
               .setRequired(!!option.required));
             break;
-          case Number:
+          case 'number':
             sub.addNumberOption(opt => opt
               .setName(optionName)
               .setDescription(option.description)
               .setRequired(!!option.required));
             break;
-          case Boolean:
+          case 'boolean':
             sub.addBooleanOption(opt => opt
               .setName(optionName)
               .setDescription(option.description)
@@ -217,6 +217,6 @@ module.exports = class RollCommand extends SebediusCommand {
 /**
  * @typedef {Object} CommandOption
  * @property {string}   description
- * @property {any}      type
+ * @property {string}   type
  * @property {boolean} [required=false]
  */
