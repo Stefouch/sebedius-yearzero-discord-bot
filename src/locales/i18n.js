@@ -1,6 +1,7 @@
 const i18next = require('i18next');
 const i18nextBackend = require('i18next-fs-backend');
 const { stringify, parse } = require('yaml');
+const SebediusConfig = require('../config');
 const Logger = require('../utils/logger');
 
 module.exports = async () => {
@@ -9,7 +10,7 @@ module.exports = async () => {
     .use(i18nextBackend)
     .init({
       supportedLngs: ['en'],
-      fallbackLng: 'en',
+      fallbackLng: SebediusConfig.defaultLocale,
       ns: ['commands'],
       defaultNS: 'commands',
       interpolation: {
