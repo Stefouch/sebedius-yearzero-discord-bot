@@ -1,7 +1,10 @@
 const Dice = require('./dice');
+const Abacus = require('../../utils/Abacus');
+const Logger = require('../../utils/logger');
 const { YearZeroGames } = require('../../constants');
 const { YearZeroDieTypes, BanableTypesBitField } = require('./dice/dice-constants');
 const { DiceIcons } = require('../../config');
+const { roll } = require('../../config').Commands;
 const { randomID, resolveNumber } = require('../../utils/number-utils');
 
 const ROLL_REGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
@@ -425,7 +428,8 @@ class YearZeroRoll {
 
     // === TWILIGHT 2000
     if (this.game === YearZeroGames.TWILIGHT_2K) {
-      // complicated
+      // TODO complex
+      const faces = [6, 8, 10, 12];
     }
     // === BLADE RUNNER
     else if (this.game === YearZeroGames.BLADE_RUNNER) {
@@ -462,12 +466,14 @@ class YearZeroRoll {
   async roll() {
     if (this.rolled) throw new Error('Roll Is Already Evaluated!');
     for (const d of this.dice) d.roll();
+    Logger.roll(this.toString());
     return this;
   }
 
   async push() {
     if (!this.pushable) return this;
     for (const d of this.dice) d.push();
+    Logger.roll(this.toString());
     return this;
   }
 
@@ -522,21 +528,6 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
-   * Reduces the Roll to a dice pool.
-   * @returns {Object}
-   */
-  pool() {
-    // .slice(1) removes the die's operator.
-    return this.dice
-      .map(d => d.toString().slice(1))
-      .reduce((obj, t) => {
-        if (!obj[t]) obj[t] = 1;
-        else obj[t]++;
-        return obj;
-      }, {});
-  }
-
-  /**
    * Returns a text with all the dice from a roll turned into emojis.
    * @returns {string}
    */
@@ -545,7 +536,7 @@ class YearZeroRoll {
 
     for (const die of this.dice) {
       const r = die.result;
-      const errorIcon = `\`{${r}}\``;
+      const errorIcon = ` \`{${r}}\` `;
 
       if (die.hasType(YearZeroDieTypes.ARTO)) {
         str += DiceIcons[YearZeroGames.FORBIDDEN_LANDS]?.[YearZeroDieTypes.ARTO]?.[r] || errorIcon;
@@ -565,23 +556,38 @@ class YearZeroRoll {
     return str;
   }
 
+  getDescription() {
+    const { options } = roll;
+    const out = [];
+
+  }
+
+  /* ------------------------------------------ */
+
   toString() {
     const out = [];
-    out.push(`roll.${this.game}:`);
+    out.push(`roll:${this.game} →`);
 
-    if (this.game === YearZeroGames.BLANK) {
-      out.push(this.valueOf());
-    }
-    else {
+    if (this.name) out.push(`"${this.name}"`);
 
-      out.push();
-      out.push('[', this.results.join(', '), ']');
-    }
+    out.push(this.dice
+      .reduce((a, d) => {
+        const g = d.toString().slice(1);
+        return a.increment(g);
+      }, new Abacus())
+      .map((v, k) => `${v}${k}`)
+      .join('+'),
+    );
 
-    if (this.name) out.push('#', this.name);
+    out.push(`→ [${this.results.join(',')}]`);
+    out.push('=', this.game === YearZeroGames.BLANK ? this.valueOf() : this.successCount);
+
+    if (this.pushed) out.push('(pushed)');
 
     return out.join(' ');
   }
+
+  /* ------------------------------------------ */
 
   valueOf() {
     return this.sum();
