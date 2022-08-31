@@ -25,4 +25,4 @@ usageMatchRegex:
 #  - i18n.get("$1")
 
 # If set to true, only enables this custom framework (will disable all built-in frameworks)
-monopoly: true
+monopoly: false
