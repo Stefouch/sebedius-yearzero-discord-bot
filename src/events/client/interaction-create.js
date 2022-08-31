@@ -1,5 +1,5 @@
 const i18next = require('i18next');
-const { codeBlock, InteractionType } = require('discord.js');
+const { codeBlock } = require('discord.js');
 const SebediusEvent = require('../../structures/event');
 const Logger = require('../../utils/logger');
 
@@ -11,11 +11,26 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
     const t = global.t = i18next.getFixedT(interaction.guildLocale);
 
     if (interaction.isChatInputCommand()) {
+      // Logs the command.
       const logMsg = `${interaction.commandName}`
         + ` • ${interaction.user.tag} (${interaction.user.id})`
         + ` # ${interaction.channel.name} (${interaction.channelId})`
         + ` @ ${interaction.guild.name} (${interaction.guildId})`;
       Logger.command(logMsg);
+
+      // Checks permissions.
+      const botMember = await interaction.guild.members.fetchMe();
+      if (!botMember.permissions.has(this.bot.permissions)) {
+        const missingPermsList = botMember.permissions
+          .missing(this.bot.permissions)
+          .join(', ');
+        // const msg = `⚠ ${t('commons:missingPermissionsError', {
+        //   member: botMember.toString(),
+        //   perms: codeBlock(missingPermsList),
+        // })}`;
+        Logger.warn(`Missing permissions: ${missingPermsList}`);
+        // return interaction.reply(msg);
+      }
 
       // TODO autocomplete for /help <command>
       // if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
@@ -32,6 +47,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       const command = this.bot.commands.get(interaction.commandName);
       if (!command) return interaction.reply('❌ Command does not exist!');
 
+      // Runs the command.
       try {
         // if (['roll', 'crit'].includes(command.name)) {
         //   const game = interaction.options.getString('game') || await this.bot.getGame(interaction.guildId);
