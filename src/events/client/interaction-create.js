@@ -1,6 +1,7 @@
 const i18next = require('i18next');
 const { codeBlock } = require('discord.js');
 const SebediusEvent = require('../../structures/event');
+const { Emojis } = require('../../config');
 const Logger = require('../../utils/logger');
 
 module.exports = class InteractionCreateEvent extends SebediusEvent {
@@ -24,7 +25,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         const missingPermsList = botMember.permissions
           .missing(this.bot.permissions)
           .join(', ');
-        // const msg = `⚠ ${t('commons:missingPermissionsError', {
+        // const msg = `${Emojis.warning} ${t('commons:missingPermissionsError', {
         //   member: botMember.toString(),
         //   perms: codeBlock(missingPermsList),
         // })}`;
@@ -45,7 +46,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       // }
 
       const command = this.bot.commands.get(interaction.commandName);
-      if (!command) return interaction.reply('❌ Command does not exist!');
+      if (!command) return interaction.reply(`${Emojis.error} Command does not exist!`);
 
       // Runs the command.
       try {
@@ -61,7 +62,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       }
       catch (err) {
         Logger.error(err);
-        const content = `❌ An error occured with this command${err.code ? `: ${err.code}` : ''}`
+        const content = `${Emojis.error} An error occured with this command${err.code ? `: ${err.code}` : ''}`
           + `\n${codeBlock('js', err.message)}`;
 
         if (interaction.replied) {
@@ -82,6 +83,6 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 };
 
 function logErrorOnError(e, verb) {
-  Logger.error(`💥 An error occurred ${verb} on an error`);
+  Logger.error(`${Emojis.boom} An error occurred ${verb} on an error`);
   console.error(e);
 }

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, hyperlink, inlineCode } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
+const { Emojis } = require('../../config');
 
 module.exports = class HelpCommand extends SebediusCommand {
   /** @param {import('@structures/sebedius-client')} client */
@@ -90,7 +91,7 @@ module.exports = class HelpCommand extends SebediusCommand {
 
       if (!command) {
         return interaction.reply({
-          content: `🤷 ${t('commands:help.commandNotFound', {
+          content: `${Emojis.shrug} ${t('commands:help.commandNotFound', {
             cmd: inlineCode(commandName),
           })}`,
           ephemeral: true,

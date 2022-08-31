@@ -22,12 +22,14 @@ SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord
 /*  Commands Config                           */
 /* ------------------------------------------ */
 
+/** @enum {Object} */
 SebediusConfig.Commands = {};
 SebediusConfig.Commands.scrap = { max: 20 };
 SebediusConfig.Commands.stats = { start: '2020-12-05' };
 SebediusConfig.Commands.roll = {
   max: 42,
   pushIcon: '🔄',
+  cancelIcon: '🛑',
   pushCooldown: 120000,
 };
 
@@ -125,6 +127,17 @@ SebediusConfig.Commands.roll.options = {
 /*  Icons                                     */
 /* ------------------------------------------ */
 
+/** @enum {string} */
+SebediusConfig.Emojis = {
+  boom: '💥',
+  ban: '⛔',
+  error: '❌',
+  ok: '✅',
+  shrug: '🤷',
+  stop: '🛑',
+  warning: '⚠',
+};
+
 SebediusConfig.CardsIcons = [
   '0️⃣',
   ':one:',
@@ -139,6 +152,7 @@ SebediusConfig.CardsIcons = [
   '🔟',
 ];
 
+/** @enum {Object.<YearZeroDieTypes, string[]>} */
 SebediusConfig.DiceIcons = {};
 SebediusConfig.DiceIcons[YearZeroGames.BLANK] = {
   [YearZeroDieTypes.SKILL]: [
