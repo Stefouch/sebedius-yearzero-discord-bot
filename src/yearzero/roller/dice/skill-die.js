@@ -1,4 +1,4 @@
-const YearZeroDie = require('./die');
+const YearZeroDie = require('./yzdie');
 const { YearZeroDieTypes, LockedValuesMap } = require('./dice-constants');
 
 module.exports = class SkillDie extends YearZeroDie {

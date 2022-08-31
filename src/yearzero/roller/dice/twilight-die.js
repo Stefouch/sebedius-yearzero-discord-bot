@@ -1,4 +1,4 @@
-const YearZeroDie = require('./die');
+const YearZeroDie = require('./yzdie');
 const { SuccessTableMap, YearZeroDieTypes } = require('./dice-constants');
 
 module.exports = class BladeRunnerDie extends YearZeroDie {

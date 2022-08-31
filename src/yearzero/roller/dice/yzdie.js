@@ -3,6 +3,9 @@ const MersenneTwister = require('mersenne-twister');
 const { SuccessTableMap, LockedValuesMap, YearZeroDieTypes } = require('./dice-constants');
 const { randomID } = require('../../../utils/number-utils');
 
+// Global
+const Twist = new MersenneTwister(Date.now());
+
 /**
  * @typedef {Object} YearZeroDieOptions
  * @property {number} [faces]    The number of faces of the roll
@@ -174,7 +177,7 @@ class YearZeroDie {
   roll() {
     if (this.evaluated) throw new Error('Die Is Already Evaluated!');
 
-    const result = this.constructor.rng(1, this.faces);
+    const result = Math.ceil(Twist.random() * this.faces);
 
     this.results.push(result);
     this.evaluated = true;
@@ -207,8 +210,10 @@ class YearZeroDie {
    * @returns {number}
    */
   static rng(min, max) {
-    const generator = new MersenneTwister();
-    const seed = generator.random();
+    const seed = Twist.random();
+    // TODO disable
+    // console.log('seed:', seed, 'val:', Math.ceil(seed * this.faces));
+    // return Math.ceil(seed * this.faces);
     return Math.floor(seed * (max - min + 1) + min);
   }
 

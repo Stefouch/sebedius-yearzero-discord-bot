@@ -4,12 +4,9 @@ const Logger = require('../../utils/logger');
 const { YearZeroGames } = require('../../constants');
 const { YearZeroDieTypes, BanableTypesBitField } = require('./dice/dice-constants');
 const { DiceIcons } = require('../../config');
-const { roll } = require('../../config').Commands;
 const { randomID, resolveNumber } = require('../../utils/number-utils');
 
-const ROLL_REGEX = /([*/+-]?)(\d*)[dD]?(\d*)(?:\[(.*)\])?/;
-
-/** @typedef {import('./dice/die')} YearZeroDie */
+/** @typedef {import('./dice/yzdie')} YearZeroDie */
 
 /**
  * @typedef {Object} YearZeroRollOptions
@@ -321,9 +318,9 @@ class YearZeroRoll {
 
   /**
    * Adds a number of dice to the roll.
-   * @param {typeof import('./dice/die')} cls  The class of dice to add
+   * @param {typeof import('./dice/yzdie')} cls  The class of dice to add
    * @param {number}                   [qty=1] The quantity to add
-   * @param {import('./dice/die').YearZeroDieOptions} options Additional options
+   * @param {import('./dice/yzdie').YearZeroDieOptions} options Additional options
    *   for constructing the die.
    * @returns {this} This roll
    */
@@ -419,6 +416,17 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
+   * Adds a number of ammo dice to the roll.
+   * @param {number} [qty=1] The quantity to add
+   * @returns {this} This roll
+   */
+  addAmmoDice(qty = 1) {
+    return this.addDice(Dice.AmmoDie, qty);
+  }
+
+  /* ------------------------------------------ */
+
+  /**
    * Applies a difficulty modifier to the roll.
    * @param {number} mod Difficulty modifier (bonus or malus)
    * @returns {this} This roll, modified
@@ -466,14 +474,14 @@ class YearZeroRoll {
   async roll() {
     if (this.rolled) throw new Error('Roll Is Already Evaluated!');
     for (const d of this.dice) d.roll();
-    Logger.roll(this.toString());
+    Logger.roll(this);
     return this;
   }
 
   async push() {
     if (!this.pushable) return this;
     for (const d of this.dice) d.push();
-    Logger.roll(this.toString());
+    Logger.roll(this);
     return this;
   }
 
@@ -529,9 +537,11 @@ class YearZeroRoll {
 
   /**
    * Returns a text with all the dice from a roll turned into emojis.
+   * @param {YearZeroGames} [template] Override the template with another game
    * @returns {string}
    */
-  emojify() {
+  emojify(template) {
+    const game = template || this.game;
     let str = '';
 
     for (const die of this.dice) {
@@ -542,24 +552,30 @@ class YearZeroRoll {
         str += DiceIcons[YearZeroGames.FORBIDDEN_LANDS]?.[YearZeroDieTypes.ARTO]?.[r] || errorIcon;
       }
       else if (
-        this.game === YearZeroGames.TWILIGHT_2K &&
+        game === YearZeroGames.TWILIGHT_2K &&
         die.hasType(YearZeroDieTypes.BASE) &&
         die.faces !== 6
       ) {
         str += DiceIcons[YearZeroGames.TWILIGHT_2K]?.[`d${die.faces}`]?.[r] || errorIcon;
       }
       else {
-        str += DiceIcons[this.game]?.[die.type]?.[r] || errorIcon;
+        str += DiceIcons[game]?.[die.type]?.[r] || errorIcon;
       }
     }
 
     return str;
   }
 
-  getDescription() {
-    const { options } = roll;
-    const out = [];
+  /* ------------------------------------------ */
 
+  toPool() {
+    return this.dice
+      .reduce((a, d) => {
+        const g = d.toString().slice(1);
+        return a.increment(g);
+      }, new Abacus())
+      .map((v, k) => `${v}${k}`)
+      .join('+');
   }
 
   /* ------------------------------------------ */
@@ -570,14 +586,7 @@ class YearZeroRoll {
 
     if (this.name) out.push(`"${this.name}"`);
 
-    out.push(this.dice
-      .reduce((a, d) => {
-        const g = d.toString().slice(1);
-        return a.increment(g);
-      }, new Abacus())
-      .map((v, k) => `${v}${k}`)
-      .join('+'),
-    );
+    out.push(this.toPool());
 
     out.push(`→ [${this.results.join(',')}]`);
     out.push('=', this.game === YearZeroGames.BLANK ? this.valueOf() : this.successCount);
