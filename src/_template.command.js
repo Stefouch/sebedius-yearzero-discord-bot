@@ -13,7 +13,7 @@ module.exports = class RollD66Command extends SebediusCommand {
     });
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
-  async run(interaction, t, game) {
+  async run(interaction, t, guildOptions) {
     // Add the command effects here.
   }
 };

@@ -16,7 +16,7 @@
 
 /**
  * @callback SebediusTranslationCallback t(key: string, { ...args }): string
- * @param {string|string[]}          keys     Key(s) to translate
+ * @param {string|string[]}                 keys     Key(s) to translate
  * @param {Object.<string, string|number>} [options] 
  * @returns {string}
  * @property {string} lng Secret property that stores the language code
@@ -25,8 +25,8 @@
 /**
  * @callback SebediusCommandRunFunction
  * @param {SebediusCommandInteraction & import('discord.js').ChatInputCommandInteraction} interaction
- * @param {SebediusTranslationCallback}          [t]
- * @param {import('../constants').YearZeroGames} [game]
+ * @param {SebediusTranslationCallback} [t]
+ * @param {Object}                      [guildOptions]
  * @returns {Promise.<any>}
  * @async
  */
