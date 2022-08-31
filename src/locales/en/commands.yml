@@ -44,3 +44,9 @@ roll:
     reliability: '**Reliability: −{{count}}** 💥'
     weaponJam: '**WEAPON JAM ‼️**'
     panic: '**PANIC!!!**'
+thread:
+  notThreadError: This is not a thread!
+  join: The bot joined the thread!
+  leave: The bot left the thread!
+conf:
+  title: Sebedius Configuration for {{guild}}
