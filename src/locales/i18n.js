@@ -11,7 +11,7 @@ module.exports = async () => {
     .init({
       supportedLngs: ['en'],
       fallbackLng: SebediusConfig.defaultLocale,
-      ns: ['commands'],
+      ns: ['commons', 'commands'],
       defaultNS: 'commands',
       interpolation: {
         escapeValue: false,

@@ -1,0 +1,3 @@
+missingPermissionsError: >-
+  The bot {{member}} is missing the following permissions and may not work
+  properly: {{perms}}
