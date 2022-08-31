@@ -11,7 +11,10 @@
       "@structures/*": ["./src/structures/*"],
       "@commands/*": ["./src/commands/*"],
       "@events/*": ["./src/events/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@roll/*": ["./src/yearzero/roller/*"],
+      "$constants": ["./src/constants.js"],
+      "$config": ["./src/config.js"]
     }
   },
   "include": ["src/**/*.js", "*.js", "*.json"],
