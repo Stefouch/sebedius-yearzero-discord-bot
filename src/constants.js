@@ -6,8 +6,8 @@ const YearZeroGames = {
   CORIOLIS: 'coriolis',
   FORBIDDEN_LANDS: 'fbl',
   MUTANT_YEAR_ZERO: 'myz',
-  TALES_FROM_THE_LOOP: 'tftl',
-  TWILIGHT_2K: 't2k',
+  TALES_FROM_THE_LOOP: 'tales',
+  TWILIGHT_2K: 'twilight2k',
   VAESEN: 'vaesen',
 };
 
@@ -24,7 +24,11 @@ const YearZeroGameNames = {
   [YearZeroGames.VAESEN]: 'Vaesen',
 };
 
+const YearZeroGameChoices = Object.entries(YearZeroGameNames)
+  .map(([code, name]) => ({ name, value: code }));
+
 module.exports = {
   YearZeroGames,
   YearZeroGameNames,
+  YearZeroGameChoices,
 };
