@@ -1,10 +1,13 @@
-const { SlashCommandBuilder, EmbedBuilder, inlineCode, codeBlock } = require('discord.js');
+const {
+  SlashCommandBuilder, EmbedBuilder,
+  inlineCode, codeBlock,
+  ActionRowBuilder, ButtonBuilder,
+} = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const { YearZeroGames, YearZeroGameNames } = require('../../constants');
 const { YearZeroDieTypes } = require('../../yearzero/roller/dice/dice-constants');
 const { ArtifactDie, TwilightDie, BladeRunnerDie } = require('../../yearzero/roller/dice');
-const { roll: RollCommandOptions } = require('../../config').Commands;
 const Logger = require('../../utils/logger');
 
 /* ------------------------------------------ */
@@ -120,7 +123,7 @@ function _getSlashCommandBuilder() {
       sub.setName(game).setDescription(YearZeroGameNames[game]);
       for (const optionName of options) {
         const option = SlashCommandOptions[optionName];
-        if (!option) throw new SyntaxError(`[Roll::${game}] Option "${optionName}" Not Found!`);
+        if (!option) throw new SyntaxError(`[roll:${game}] Option "${optionName}" Not Found!`);
         switch (option.type) {
           case 'string':
             sub.addStringOption(opt => opt
@@ -140,7 +143,7 @@ function _getSlashCommandBuilder() {
               .setDescription(option.description)
               .setRequired(!!option.required));
             break;
-          default: throw new TypeError(`[Roll::${game}] Type Not Found for Command Option "${optionName}"!`);
+          default: throw new TypeError(`[roll:${game}] Type Not Found for Command Option "${optionName}"!`);
         }
       }
       return sub;
@@ -258,7 +261,7 @@ module.exports = class RollCommand extends SebediusCommand {
    */
   async render(roll, interaction, t) {
     /** @type {import('$config').DiceRenderOptions} */
-    const options = RollCommandOptions.options[roll.game];
+    const options = this.bot.config.Commands.roll.options[roll.game];
     if (!options) throw new ReferenceError(`[roll:${roll.game}] Command Options Not Found!`);
 
     if (roll.size < 1) {
