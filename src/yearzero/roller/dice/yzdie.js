@@ -52,17 +52,15 @@ class YearZeroDie {
   /* ------------------------------------------ */
 
   /**
-   * ID of the die.
-   * @type {string}
-   * @readonly
-   */
-  id;
-
-  /**
    * @param {YearZeroDieOptions} [options] Options for constructing a Year Zero die
    */
   constructor(options) {
-
+    /**
+     * ID of the die.
+     * @name YearZeroDie#id
+     * @type {string}
+     * @readonly
+     */
     Object.defineProperty(this, 'id', {
       value: randomID(),
       enumerable: true,
