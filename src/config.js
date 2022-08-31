@@ -33,7 +33,7 @@ SebediusConfig.Commands.roll = {
 
 /**
  * @typedef {Object} DiceRenderOptions
- * @property {YearZeroGames}          [iconTemplate]       Force rendering with another game template
+ * @property {YearZeroGames}          [template]           Force rendering with another game template
  * @property {string}                 [successIcon]        Default icon for successes
  * @property {boolean}                [hasBlankDice=false] Whether the dice have blank faces
  * @property {boolean}                [trauma=false]       Whether to display the trauma result
@@ -41,9 +41,9 @@ SebediusConfig.Commands.roll = {
  * @property {boolean}                [panic=false]        Whether the roll can trigger panic check
  * @property {boolean}                [mishap=false]       Whether to display mishap
  * @property {boolean}                [detailed=false]     Whether to display additional details for the roll
- * @property {(typeof import('./yearzero/roller/dice/die'))[]} [extraPushDice=[]]
+ * @property {(typeof import('./yearzero/roller/dice/yzdie'))[]} [extraPushDice=[]]
  *   Additional dice rolled when pushed
- * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/die'))[] }[]} [reactionMenu]
+ * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]} [reactionMenu]
  *   Non-conventional reaction menu
 //  * @property {Object.<YearZeroDieTypes, YearZeroDieTypes>}     [aliases]
  */
@@ -51,7 +51,6 @@ SebediusConfig.Commands.roll = {
 SebediusConfig.Commands.roll.options = {
   /** @type {DiceRenderOptions} */
   [YearZeroGames.BLANK]: {
-    iconTemplate: YearZeroGames.ALIEN_RPG,
     successIcon: '❇',
     aliases: {
       [YearZeroDieTypes.BASE]: YearZeroDieTypes.SKILL,
@@ -115,10 +114,10 @@ SebediusConfig.Commands.roll.options = {
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.BLADE_RUNNER]: {
+    template: YearZeroGames.TWILIGHT_2K,
     successIcon: '🦄',
     hasBlankDice: true,
     detailed: true,
-
   },
 };
 
@@ -298,6 +297,65 @@ SebediusConfig.DiceIcons[YearZeroGames.VAESEN] = {
     '<:vaesenb0:721625417567436860>',
     '<:vaesenb0:721625417567436860>',
     '<:vaesenb6:721624875688787978>',
+  ],
+};
+SebediusConfig.DiceIcons[YearZeroGames.TWILIGHT_2K] = {
+  d12: [
+    '0',
+    '<:t2ka1:784779990285811712>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka10:784779990159720448>',
+    '<:t2ka10:784779990159720448>',
+    '<:t2ka10:784779990159720448>',
+  ],
+  d10: [
+    '0',
+    '<:t2kb1:784779990142681108>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb10:784779990419505152>',
+  ],
+  d8: [
+    '0',
+    '<:t2kc1:784779990779691040>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc6:784779990213722143>',
+    '<:t2kc6:784779990213722143>',
+    '<:t2kc6:784779990213722143>',
+  ],
+  [YearZeroDieTypes.BASE]: [
+    '0',
+    '<:t2kd1:784779989525987328>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd6:784779989324529674>',
+  ],
+  [YearZeroDieTypes.AMMO]: [
+    '0',
+    '<:t2kg1:784779357164011550>',
+    '<:t2kg0:784779356849176576>',
+    '<:t2kg0:784779356849176576>',
+    '<:t2kg0:784779356849176576>',
+    '<:t2kg0:784779356849176576>',
+    '<:t2kg6:784779357344235550>',
   ],
 };
 
