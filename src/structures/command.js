@@ -1,6 +1,5 @@
 /**
  * @typedef {Object} SebediusCommandInteraction
- * @augments import('discord.js').ChatInputCommandInteraction
  * @property {import('./sebedius-client')} client
  */
 
@@ -18,7 +17,7 @@
 /**
  * @callback SebediusTranslationCallback t(key: string, { ...args }): string
  * @param {string|string[]}          keys     Key(s) to translate
- * @param {Object.<string, string>} [options] 
+ * @param {Object.<string, string|number>} [options] 
  * @returns {string}
  * @property {string} lng Secret property that stores the language code
  */
