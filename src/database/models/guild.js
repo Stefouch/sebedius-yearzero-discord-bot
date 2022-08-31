@@ -1,10 +1,14 @@
 const mongoose = require('mongoose');
+const { YearZeroGames } = require('../../constants');
+const { defaultLocale } = require('../../config');
 
-const guildSchema = new mongoose.Schema({
+module.exports = mongoose.model('Guild', new mongoose.Schema({
   id: String,
   prefix: { type: String, default: '!' },
-  locale: { type: String, default: 'en' },
-  game: { type: String, default: 'myz' },
-});
-
-module.exports = mongoose.model('Guild', guildSchema);
+  locale: { type: String, default: defaultLocale },
+  game: { type: String, default: YearZeroGames.MUTANT_YEAR_ZERO },
+  createTimestamp: { type: Date, default: Date.now() },
+  isBanned: Boolean,
+  banDate: Date,
+  banReason: String,
+}));

@@ -23,6 +23,26 @@ class Database {
   async getGuild(id) {
     return this.guilds.findOne({ id });
   }
+
+  /**
+   * Sets the informations for a guild.
+   * @param {import('discord.js').Guild} guild
+   * @param {Object} [options]
+   */
+  async setGuild(guild, options = {}) {
+    let guildDocument = await this.getGuild(guild.id);
+    if (!guildDocument) {
+      guildDocument = new this.guilds({
+        ...options,
+        id: guild.id,
+      });
+      return guildDocument.save();
+    }
+    for (const key in options) {
+      if (guildDocument[key] !== options[key]) guildDocument[key] = options[key];
+    }
+    return guildDocument.updateOne(options);
+  }
 }
 
 module.exports = Database;
