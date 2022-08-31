@@ -1,7 +1,7 @@
 const chalk = require('chalk');
 const { zeroise } = require('./number-utils');
 
-const format = '{timestamp} {tag} {msg}\n';
+const format = '{timestamp} {tag} {msg}';
 
 function error(msg) {
   return write({ msg, msgColor: 'red', tag: 'ERROR', bgTagColor: 'bgRed', isError: true });
@@ -67,7 +67,8 @@ function write({
   const logTag = ` ${tag} `;
 
   // Stream
-  const stream = isError ? process.stderr : process.stdout;
+  // const stream = isError ? process.stderr : process.stdout;
+  const stream = isError ? console.error : console.log;
 
   // Format
   const content = format
@@ -78,7 +79,8 @@ function write({
     .replace('{msg}', chalk[msgColor](msg));
 
   // Write
-  stream.write(content);
+  // stream.write(content + '\n');
+  stream(content);
 
   // If Error
   if (msg instanceof Error) {
