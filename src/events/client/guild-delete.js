@@ -7,5 +7,8 @@ module.exports = class GuildCreateEvent extends SebediusEvent {
     const total = client.guilds.cache.size;
     const msg = `🚪 Guild #${total} | Left: ${guild.name} (${guild.id})`;
     Logger.event(msg);
+    await this.bot.database.grabGuild(guild, {
+      deleteTimestamp: Date.now(),
+    });
   }
 };

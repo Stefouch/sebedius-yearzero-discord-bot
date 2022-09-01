@@ -12,5 +12,7 @@ module.exports = class ReadyEvent extends SebediusEvent {
     // TODO Register global commands
     const devGuild = await this.bot.guilds.cache.get('585361465641271296');
     devGuild.commands.set(this.bot.commands.map(cmd => cmd.data));
+
+    // TODO Do not register ownerOnly commands!
   }
 };

@@ -113,4 +113,5 @@ module.exports = {
   getProperty,
   hasProperty,
   isObject,
+  isObjectEmpty,
 };

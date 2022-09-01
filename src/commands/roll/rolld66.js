@@ -31,8 +31,8 @@ module.exports = class RollD66Command extends SebediusCommand {
     });
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
-  async run(interaction, t) {
-    const game = interaction.options.getString('game') || await this.bot.getGame(interaction.guildId);
+  async run(interaction, t, guildOptions) {
+    const game = interaction.options.getString('game') || guildOptions.game;
     const die = interaction.options.getString('die');
 
     const n = die.split('6').length - 1;
@@ -41,7 +41,8 @@ module.exports = class RollD66Command extends SebediusCommand {
       game,
       name: interaction.options.getString('title') || inlineCode(die),
       author: interaction.member,
-    }).addBaseDice(n);
+    }).addBaseDice(n)
+      .setMaxPush(0);
 
     await roll.roll();
 
