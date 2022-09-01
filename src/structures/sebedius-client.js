@@ -2,7 +2,6 @@ const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('disco
 const SebediusPermissions = require('./sebedius-permissions');
 const Database = require('../database/database');
 const Logger = require('../utils/logger');
-const { YearZeroGames } = require('../constants');
 const { Emojis } = require('../config');
 
 class Sebedius extends Client {
@@ -19,6 +18,9 @@ class Sebedius extends Client {
     this.commands = new Collection();
 
     this.database = new Database(this, process.env.DATABASE_URI);
+
+    /** @type {NodeJS.Timeout} */
+    this.activity = null;
   }
 
   /* ------------------------------------------ */
@@ -54,6 +56,15 @@ class Sebedius extends Client {
   /*  Discord Methods                           */
   /* ------------------------------------------ */
 
+  async getGuildsCount() {
+    return (await this.guilds.fetch()).size;
+  }
+
+  async getUsersCount() {
+    await this.getGuildsCount();
+    return this.guilds.cache.reduce((sum, g) => sum + g.memberCount, 0);
+  }
+
   async getUser(userId) {
     let user = this.users.cache.get(userId);
     if (!user) user = await this.users.fetch(userId);
@@ -86,6 +97,7 @@ class Sebedius extends Client {
   /*  Database Methods                          */
   /* ------------------------------------------ */
 
+  // TODO clean
   // async getGame(guildId) {
   //   const guild = await this.database.grabGuild(guildId);
   //   if (!guild?.game) return YearZeroGames.MUTANT_YEAR_ZERO;

@@ -1,4 +1,6 @@
+const { ActivityType } = require('discord.js');
 const SebediusEvent = require('../../structures/event');
+const loopActivities = require('../../structures/presence');
 const Logger = require('../../utils/logger');
 
 module.exports = class ReadyEvent extends SebediusEvent {
@@ -14,5 +16,12 @@ module.exports = class ReadyEvent extends SebediusEvent {
     devGuild.commands.set(this.bot.commands.map(cmd => cmd.data));
 
     // TODO Do not register ownerOnly commands!
+
+    // Sets presence.
+    this.bot.user.setActivity({
+      name: `v${this.bot.version}`,
+      type: ActivityType.Playing,
+    });
+    this.bot.activity = loopActivities(this.bot);
   }
 };
