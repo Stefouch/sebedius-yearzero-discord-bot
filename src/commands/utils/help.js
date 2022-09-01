@@ -80,7 +80,7 @@ module.exports = class HelpCommand extends SebediusCommand {
           embed.addFields({
             name: t(category),
             value: [...cmds.mapValues(c => inlineCode(c.name)).values()].join(', '),
-            inline: true,
+            inline: false,
           });
         }
       }
