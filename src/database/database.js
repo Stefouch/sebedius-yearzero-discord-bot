@@ -16,10 +16,34 @@ class Database {
 
     this.client = client;
     this.guilds = Schemas.Guild;
+    this.commands = Schemas.Command;
   }
 
   isReady() {
     return mongoose.connection.readyState === 1;
+  }
+
+  /**
+   * @param {import('discord.js').ChatInputCommandInteraction} interaction
+   */
+  async incrementCommand(interaction) {
+    let commandName = interaction.commandName;
+
+    // @ts-ignore
+    if (interaction.options._subcommand) {
+      commandName += '_' + interaction.options.getSubcommand();
+    }
+
+    return this.commands.findOneAndUpdate({ name: commandName }, {
+      $setOnInsert: { name: commandName },
+      $inc: { count: 1 },
+      $currentDate: { lastUseTimestamp: true },
+    }, {
+      upsert: true,
+      // new: true,
+      // returnDocument: 'after',
+      lean: true,
+    });
   }
 
   /**
@@ -39,9 +63,9 @@ class Database {
     /** @type {typeof Schemas.Guild} */
     const model = this[collection];
     const id = typeof item === 'string' ? item : item.id;
-    let document = await model.findOne({ id });
+    let document = await model.findOne({ _id: id });
     if (!document) {
-      document = new model({ ...updateData, id });
+      document = new model({ ...updateData, _id: id });
       await document.save();
       Logger.client(`✨ Database | create: Guild ${id}`);
       return document;

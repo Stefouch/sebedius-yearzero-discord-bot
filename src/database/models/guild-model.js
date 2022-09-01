@@ -1,12 +1,13 @@
 const mongoose = require('mongoose');
 
 module.exports = mongoose.model('Guild', new mongoose.Schema({
-  id: String,
+  _id: String,
   // prefix: { type: String, default: '!' },
-  locale: String,
   game: String,
-  createTimestamp: { type: Date, default: Date.now() },
-  deleteTimestamp: Date,
+  locale: String,
+  lastActivityTimestamp: Date,
+  joinTimestamp: { type: Date, default: Date.now },
+  leaveTimestamp: Date,
   isBanned: Boolean,
   banDate: Date,
   banReason: String,

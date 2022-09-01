@@ -12,6 +12,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
   async execute(interaction) {
     const guild = interaction.guild;
 
+    // 1. Gets the guild options from the database (game & locale).
     let guildOptions = {};
     if (this.bot.database.isReady()) {
       // @ts-ignore
@@ -21,10 +22,12 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
     if (!guildOptions.game) guildOptions.game = YearZeroGames.MUTANT_YEAR_ZERO;
     if (!guildOptions.locale) guildOptions.locale = this.bot.config.defaultLocale;
 
+    // 2. Defines the translation callback.
     const locale = guildOptions?.locale || guild.preferredLocale;
     const t = global.t = i18next.getFixedT(locale);
 
     if (interaction.isChatInputCommand()) {
+
       // Logs the command.
       const logMsg = `${interaction.commandName}`
         + ` • ${interaction.user.tag} (${interaction.user.id})`
@@ -44,6 +47,10 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       //   await interaction.respond(filteredChoices.map(c => ({ name: c, value: c })));
       // }
 
+      // Promisify the command count
+      this.bot.database.incrementCommand(interaction);
+
+      // Gets the command.
       const command = this.bot.commands.get(interaction.commandName);
       if (!command) {
         return interaction.reply({
@@ -52,7 +59,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         });
       }
 
-      // Runs the command.ù
+      // Runs the command.
       try {
         if (['roll', 'rolld66', 'crit'].includes(command.name)) {
           // TODO clean or keep
