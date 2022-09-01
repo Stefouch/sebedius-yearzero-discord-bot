@@ -138,15 +138,15 @@ SebediusConfig.Commands.roll.options = {
 
 /** @enum {string} */
 SebediusConfig.Emojis = {
-  boom: '💥',
-  ban: '⛔',
-  die: '🎲',
-  error: '❌',
-  locale: '🌐',
-  ok: '✅',
-  shrug: '🤷',
-  stop: '🛑',
-  warning: '⚠',
+  /** @type {'💥'} **/ boom: '💥',
+  /** @type {'⛔'} **/ ban: '⛔',
+  /** @type {'🎲'} **/ die: '🎲',
+  /** @type {'❌'} **/ error: '❌',
+  /** @type {'🌐'} **/ locale: '🌐',
+  /** @type {'✅'} **/ ok: '✅',
+  /** @type {'🤷'} **/ shrug: '🤷',
+  /** @type {'🛑'} **/ stop: '🛑',
+  /** @type {'⚠'} **/ warning: '⚠',
 };
 
 SebediusConfig.CardsIcons = [
