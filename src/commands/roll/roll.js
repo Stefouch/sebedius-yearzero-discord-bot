@@ -1,14 +1,14 @@
 const {
   SlashCommandBuilder, EmbedBuilder,
-  ActionRowBuilder, ButtonBuilder, ButtonStyle,
+  ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
   inlineCode, codeBlock,
-  ComponentType,
 } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const { YearZeroGames, YearZeroGameNames } = require('../../constants');
 const { YearZeroDieTypes } = require('../../yearzero/roller/dice/dice-constants');
 const { ArtifactDie, TwilightDie, BladeRunnerDie } = require('../../yearzero/roller/dice');
+const { Emojis } = require('../../config');
 const Logger = require('../../utils/logger');
 
 /* ------------------------------------------ */
@@ -261,7 +261,7 @@ module.exports = class RollCommand extends SebediusCommand {
       fetchReply: true,
     });
     // TODO remove log
-    console.log('maxPush', roll.maxPush, 'pushCount', roll.pushCount, 'pushed', roll.pushed, 'pushable', roll.pushable);
+    // console.log('maxPush', roll.maxPush, 'pushCount', roll.pushCount, 'pushed', roll.pushed, 'pushable', roll.pushable);
 
     if (roll.pushable) await this.awaitPush(roll, interaction, t);
   }
@@ -333,6 +333,7 @@ module.exports = class RollCommand extends SebediusCommand {
    */
   async awaitPush(roll, interaction, t) {
     const message = await interaction.fetchReply();
+
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
       time: this.bot.config.Commands.roll.pushCooldown,
@@ -341,21 +342,22 @@ module.exports = class RollCommand extends SebediusCommand {
     collector.on('collect', async i => {
       if (i.user.id !== interaction.user.id) {
         i.reply({
-          content: 'This is not for you',
+          content: `${Emojis.ban} ${t('commands:roll.notYourRoll')}`,
           ephemeral: true,
         });
       }
       else if (i.customId === 'push-button') {
         await roll.push();
         const messageData = await this.render(roll, interaction, t);
-        await message.edit(messageData);
+        await message.edit(messageData); // TODO Using i.update() cause bugs with emojis
+        await i.deferUpdate(); // TODO Workaround to remove the "interaction failed" error
       }
       else if (i.customId === 'cancel-button') {
-        // await message.edit({ components: [] });
         collector.stop();
       }
     });
 
+    // @ts-ignore
     collector.on('end', () => message.edit({ components: [] }));
   }
 
