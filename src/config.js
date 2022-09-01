@@ -9,14 +9,23 @@ SebediusConfig.betaBotId = '549319447240769542';
 SebediusConfig.botGuildId = '585361465641271296',
 SebediusConfig.botLogChannelId = '752170706522865664',
 
-SebediusConfig.defaultLocale = 'en-US';
-
 SebediusConfig.favoriteColor = 0x1AA29B;
 SebediusConfig.activityLoopDelay = 600;
 
 SebediusConfig.readmeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md';
 SebediusConfig.wikiURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki';
 SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues';
+
+/* ------------------------------------------ */
+/*  Locales Config                            */
+/* ------------------------------------------ */
+
+/** @type {{ name: string, value: string }[]} */
+SebediusConfig.SupportedLocales = [
+  { name: 'English', value: 'en' },
+];
+
+SebediusConfig.defaultLocale = 'en-US';
 
 /* ------------------------------------------ */
 /*  Commands Config                           */
@@ -29,7 +38,7 @@ SebediusConfig.Commands.stats = { start: '2020-12-05' };
 SebediusConfig.Commands.roll = {
   max: 42,
   pushIcon: '🔄',
-  cancelIcon: '🛑',
+  cancelIcon: '✅',
   pushCooldown: 120000,
 };
 
@@ -131,7 +140,9 @@ SebediusConfig.Commands.roll.options = {
 SebediusConfig.Emojis = {
   boom: '💥',
   ban: '⛔',
+  die: '🎲',
   error: '❌',
+  locale: '🌐',
   ok: '✅',
   shrug: '🤷',
   stop: '🛑',

@@ -44,9 +44,15 @@ roll:
     reliability: '**Reliability: −{{count}}** 💥'
     weaponJam: '**WEAPON JAM ‼️**'
     panic: '**PANIC!!!**'
+  button:
+    push: Push
+    cancel: Accept
 thread:
   notThreadError: This is not a thread!
   join: The bot joined the thread!
   leave: The bot left the thread!
 conf:
   title: Sebedius Configuration for {{guild}}
+  databaseNotReadyError: Connection to database failed!
+eval:
+  noEntry: Only the bot owner can use this command. And you are not my master!

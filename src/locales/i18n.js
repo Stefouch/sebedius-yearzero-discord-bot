@@ -1,7 +1,7 @@
 const i18next = require('i18next');
 const i18nextBackend = require('i18next-fs-backend');
 const { stringify, parse } = require('yaml');
-const SebediusConfig = require('../config');
+const { SupportedLocales, defaultLocale, Emojis } = require('../config');
 const Logger = require('../utils/logger');
 
 module.exports = async () => {
@@ -9,8 +9,8 @@ module.exports = async () => {
     // @ts-ignore
     .use(i18nextBackend)
     .init({
-      supportedLngs: ['en'],
-      fallbackLng: SebediusConfig.defaultLocale,
+      supportedLngs: SupportedLocales.map(l => l.value),
+      fallbackLng: defaultLocale,
       ns: ['commons', 'commands'],
       defaultNS: 'commands',
       interpolation: {
@@ -25,6 +25,6 @@ module.exports = async () => {
         parse: data => parse(data),
       },
     })
-    .then(() => Logger.client('✔ Sebedius is translated!'))
+    .then(() => Logger.client(`${Emojis.locale} Sebedius is translated!`))
     .catch(err => Logger.error(err));
 };
