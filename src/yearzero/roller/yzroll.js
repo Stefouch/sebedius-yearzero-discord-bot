@@ -23,6 +23,13 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
+   * The ID of the roll.
+   * @type {string}
+   * @readonly
+   */
+  id;
+
+  /**
    * Whether the roll can be pushed at will (full auto).
    * To modify this property, you should use {@link setFullAuto()}.
    * @type {boolean}
@@ -33,12 +40,7 @@ class YearZeroRoll {
    * @param {YearZeroRollOptions} [options] Options for building a Year Zero roll
    */
   constructor(options) {
-    /**
-     * The ID of the roll.
-     * @name YearZeroRoll#id
-     * @type {string}
-     * @readonly
-     */
+
     Object.defineProperty(this, 'id', {
       value: randomID(6),
       enumerable: true,
