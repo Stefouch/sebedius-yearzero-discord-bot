@@ -1,3 +1,4 @@
+ownerOnlyCommandDisclaimer: Only the bot owner can use this command. And you are not my master!
 categories:
   admin: Administrative
   utils: Utility
@@ -25,7 +26,6 @@ ping:
   description: Checks the Sebedius' latency
 roll:
   tooManyDiceError: Too Many Dice! (>42)
-  resultForD66: '{{author}} rolled a {{dice}} and obtained {{result}}.'
   embed:
     details: Details
     pushed: Pushed
@@ -47,6 +47,9 @@ roll:
   button:
     push: Push
     cancel: Accept
+  notYourRoll: You can only interact with your own rolls!
+rolld66:
+  resultForD66: '{{author}} rolled a {{dice}} and obtained {{result}}.'
 thread:
   notThreadError: This is not a thread!
   join: The bot joined the thread!
@@ -54,5 +57,3 @@ thread:
 conf:
   title: Sebedius Configuration for {{guild}}
   databaseNotReadyError: Connection to database failed!
-eval:
-  noEntry: Only the bot owner can use this command. And you are not my master!

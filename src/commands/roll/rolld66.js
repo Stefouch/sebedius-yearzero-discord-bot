@@ -51,7 +51,7 @@ module.exports = class RollD66Command extends SebediusCommand {
       .setColor(this.bot.config.favoriteColor)
       .setTimestamp()
       .setFooter({ text: YearZeroGameNames[roll.game] })
-      .setDescription(t('commands:roll.resultForD66', {
+      .setDescription(t('commands:rolld66.resultForD66', {
         author: roll.author.toString(),
         dice: inlineCode(die),
         result: `__**${roll.sumProductBaseTen()}**__`,
