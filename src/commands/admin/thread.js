@@ -2,7 +2,7 @@ const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const { Emojis } = require('../../config');
 
-module.exports = class PingCommand extends SebediusCommand {
+module.exports = class ThreadCommand extends SebediusCommand {
   constructor(client) {
     super(client, {
       category: SebediusCommand.CategoryFlagsBits.ADMIN,

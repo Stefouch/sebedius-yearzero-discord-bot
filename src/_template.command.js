@@ -1,7 +1,7 @@
 const { SlashCommandBuilder } = require('discord.js');
 const SebediusCommand = require('./structures/command');
 
-module.exports = class RollD66Command extends SebediusCommand {
+module.exports = class TemplateCommand extends SebediusCommand {
   constructor(client) {
     super(client, {
       ownerOnly: true, // <- Command is hidden & available for the bot owner only
