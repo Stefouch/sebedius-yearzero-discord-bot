@@ -13,6 +13,7 @@ module.exports = async () => {
       fallbackLng: defaultLocale,
       ns: ['commons', 'commands'],
       defaultNS: 'commands',
+      compatibilityJSON: 'v3',
       interpolation: {
         escapeValue: false,
       },
