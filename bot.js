@@ -48,6 +48,7 @@ process.on('exit', code => {
 
 process.on('uncaughtException', (err, origin) => {
   Logger.error(`⛔ UNCAUGHT_EXCEPTION: ${err}\nOrigin: ${origin}`);
+  console.error(err);
 });
 
 process.on('unhandledRejection', (reason, promise) => {

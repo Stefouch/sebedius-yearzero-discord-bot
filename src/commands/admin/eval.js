@@ -1,7 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, codeBlock } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const Logger = require('../../utils/logger');
-const { Emojis } = require('../../config');
 
 module.exports = class EvalCommand extends SebediusCommand {
   constructor(client) {
@@ -21,7 +20,7 @@ module.exports = class EvalCommand extends SebediusCommand {
   async run(interaction, t) {
     if (interaction.user.id !== this.bot.ownerId) {
       return interaction.reply({
-        content: `${Emojis.ban} ${t('commands:eval.noEntry')}`,
+        content: `⛔ ${t('commands:ownerOnlyCommandDisclaimer')}`,
         ephemeral: true,
       });
     }
