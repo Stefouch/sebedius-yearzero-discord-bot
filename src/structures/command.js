@@ -84,7 +84,7 @@ class SebediusCommand {
    * @type {SebediusCommandRunFunction}
    */
   // eslint-disable-next-line no-unused-vars
-  async run(interaction, t, game) {
+  async run(interaction, t, guildOptions) {
     throw new SyntaxError('Run Function Must Be Implemented!');
   }
 }
