@@ -1,7 +1,8 @@
 const {
   SlashCommandBuilder, EmbedBuilder,
+  ActionRowBuilder, ButtonBuilder, ButtonStyle,
   inlineCode, codeBlock,
-  ActionRowBuilder, ButtonBuilder,
+  ComponentType,
 } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
@@ -66,7 +67,7 @@ const SlashCommandOptions = {
     type: 'number',
   },
   artifacts: {
-    description: 'A roll resolvable string to add a number of artifact dice',
+    description: 'Add a number of artifact dice: Type `d8ù`',
     type: 'string',
   },
   title: {
@@ -170,6 +171,7 @@ module.exports = class RollCommand extends SebediusCommand {
 
     const input = interaction.options.getString('input');
     const artosInput = interaction.options.getString('artifacts');
+    const maxPush = interaction.options.getNumber('maxpush');
 
     const dice = interaction.options.getNumber('dice');
     const base = interaction.options.getNumber('base');
@@ -246,7 +248,22 @@ module.exports = class RollCommand extends SebediusCommand {
     // Adds the modifier, if any.
     if (modifier) roll.modify(modifier);
 
-    return this.render(roll, interaction, t);
+    // Sets the maximum number of pushes.
+    // Note: Cannot use typeof undefined because null is returned by DiscordJS
+    if (maxPush != null) roll.setMaxPush(maxPush);
+
+    // Renders the roll to the chat.
+    /** @type {import('discord.js').InteractionReplyOptions} */
+    const messageData = await this.render(roll, interaction, t);
+    await interaction.reply({
+      ...messageData,
+      ephemeral: interaction.options.getBoolean('private'),
+      fetchReply: true,
+    });
+    // TODO remove log
+    console.log('maxPush', roll.maxPush, 'pushCount', roll.pushCount, 'pushed', roll.pushed, 'pushable', roll.pushable);
+
+    if (roll.pushable) await this.awaitPush(roll, interaction, t);
   }
 
   /* ------------------------------------------ */
@@ -296,13 +313,72 @@ module.exports = class RollCommand extends SebediusCommand {
       });
     }
 
-    // Sends the reply.
-    return interaction.reply({
+    const data = {
       content: roll.emojify(options.template),
       embeds: [embed],
-      ephemeral: interaction.options.getBoolean('private'),
-      fetchReply: true,
+    };
+    data.components = roll.pushable ? this.#createButtons(roll.game, t) : [];
+
+    return data;
+  }
+
+  /* ------------------------------------------ */
+  /*  Push Methods                              */
+  /* ------------------------------------------ */
+
+  /**
+   * @param {YearZeroRoll} roll
+   * @param {import('discord.js').ChatInputCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusTranslationCallback} t
+   */
+  async awaitPush(roll, interaction, t) {
+    const message = await interaction.fetchReply();
+    const collector = message.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      time: this.bot.config.Commands.roll.pushCooldown,
     });
+
+    collector.on('collect', async i => {
+      if (i.user.id !== interaction.user.id) {
+        i.reply({
+          content: 'This is not for you',
+          ephemeral: true,
+        });
+      }
+      else if (i.customId === 'push-button') {
+        await roll.push();
+        const messageData = await this.render(roll, interaction, t);
+        await message.edit(messageData);
+      }
+      else if (i.customId === 'cancel-button') {
+        // await message.edit({ components: [] });
+        collector.stop();
+      }
+    });
+
+    collector.on('end', () => message.edit({ components: [] }));
+  }
+
+  /* ------------------------------------------ */
+
+  #createButtons(game, t) {
+    const pushButton = new ButtonBuilder()
+      .setCustomId('push-button')
+      // .setEmoji(this.bot.config.Commands.roll.pushIcon)
+      .setEmoji(this.bot.config.Commands.roll.options[game]?.successIcon || this.bot.config.Commands.roll.pushIcon)
+      .setLabel(t('commands:roll.button.push'))
+      .setStyle(ButtonStyle.Primary);
+
+    const cancelButton = new ButtonBuilder()
+      .setCustomId('cancel-button')
+      .setEmoji(this.bot.config.Commands.roll.cancelIcon)
+      .setLabel(t('commands:roll.button.cancel'))
+      .setStyle(ButtonStyle.Secondary);
+
+    const firstActionRow = new ActionRowBuilder()
+      .addComponents(pushButton, cancelButton);
+
+    return [firstActionRow];
   }
 
   /* ------------------------------------------ */
@@ -322,13 +398,13 @@ module.exports = class RollCommand extends SebediusCommand {
     out.push(t('commands:roll.embed.success', { count: s }));
 
     // Traumas
-    if (options.trauma) {
+    if (options.trauma && roll.pushed) {
       const n = roll.attributeTrauma;
       out.push(t('commands:roll.embed.trauma', { count: n }));
     }
 
     // Gear Damage
-    if (options.gearDamage) {
+    if (options.gearDamage && roll.pushed) {
       out.push(t('commands:roll.embed.gearDamage', { count: roll.gearDamage }));
     }
 
