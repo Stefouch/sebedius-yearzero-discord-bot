@@ -522,12 +522,19 @@ class YearZeroRoll {
   /**
    * Sets the Full Automatic Fire mode.
    * `maxPush = 10` to avoid abuses.
-   * @param {boolean} [bool=true] Full Auto yes or no
+   * @param {boolean} [fa=true] Full Auto yes or no
    * @returns {this} This roll, with unlimited pushes
   */
-  setFullAuto(bool = true) {
-    this.#fullAuto = bool;
-    this.maxPush = bool ? 10 : 1;
+  setFullAuto(fa = true) {
+    this.#fullAuto = fa;
+    this.maxPush = fa ? 10 : 1;
+    return this;
+  }
+
+  /* ------------------------------------------ */
+
+  setMaxPush(n) {
+    this.maxPush = n;
     return this;
   }
 
@@ -559,7 +566,8 @@ class YearZeroRoll {
         str += DiceIcons[YearZeroGames.TWILIGHT_2K]?.[`d${die.faces}`]?.[r] || errorIcon;
       }
       else {
-        str += DiceIcons[game]?.[die.type]?.[r] || errorIcon;
+        const type = die.type in DiceIcons[game] ? die.type : YearZeroDieTypes.SKILL;
+        str += DiceIcons[game]?.[type]?.[r] || errorIcon;
       }
     }
 
