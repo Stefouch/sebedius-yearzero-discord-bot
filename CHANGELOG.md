@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 - **(Breaking)** Sebedius needed **permissions** have changed. You might need to kick and re-add the bot to have it work properly.
 - License is now **GPL-3.0-or-later** (was MIT)
 - **(Breaking)** New Database: MongoDB (was postgres)
-- Better [Contributing Guide](./CONTRIBUTING.md).
+- Better [Contributing Guide](../../CONTRIBUTING.md).
 - Code revamp:
   - Clean code using modern javascript coding guidelines
   - Use of Eslint & Prettier

@@ -4,15 +4,13 @@
 
 # Contributing to Sebedius Discord Bot
 
-This project depends on Free League community. That is why we try to accept all contributions no matter how small, or how new you are to programming or Discord. The below are mostly guidelines on how to contribute to the project.
+This project depends on the Free League community. That is why we try to accept all contributions no matter how small, or how new you are to programming or Discord. The below are mostly guidelines on how to contribute to the project.
 
 ### But I just have a question!
 
 > **Note:** [Please don't file an issue to ask a question.](/../../issues) You'll get better help by using the resources below.
 
-If you have usage questions the best place to get help is in the [#free-league channel on the official Foundry VTT Discord](https://discord.gg/foundryvtt).
-
-Otherwise, discussion about the development of the Blade Runner RPG system can be [found in discussions](/../../discussions).
+If you have usage questions the best place to get help is in the [#digital-tools channel on the Year Zero Worlds Discord](https://discord.gg/RnaydHR). _(I'm always lurking there.)_ You can also test the bot in the #dice-rolling channel before deciding to invite it in your own Discord server.
 
 ### Table of contents
 
@@ -42,13 +40,13 @@ Click the "Add Language" button and get started. :+1:
 
 > **Important!** You need to [have node.js LTS-version installed](https://nodejs.org/en/) with npm available.
 
-**Fork** or [Clone](https://github.com/fvtt-fria-ligan/blade-runner-foundry-vtt.git) the project and open the project folder in your terminal:
+**Fork** or [Clone](https://github.com/Stefouch/sebedius-yearzero-discord-bot.git) the project and open the project folder in your terminal:
 
 ### 0. Get a Discord developer account
 
-Because you'll need a Bot Token.
+It's easy and simple: Take a visit to the [Discord's Developers Portal](https://discord.com/developers/applications), create a new application and generate a token.
 
-### 1. Install dependencies.
+### 1. Install dependencies
 
 ```sh
 # Install the dependencies.
@@ -60,37 +58,27 @@ Because you'll need a Bot Token.
 
 ### 2. Create the environment variables
 
-Create a secret `.env` file at the root with the needed environment variables. See the `.env.example` file for more information.
+Create a secret `.env` file at the root that will store your sensitive data, like the discord token. See the `.env.example` file for an example.
 
 ### 3. Register the slash commands (optional)
 
-Slash commands must be registered to the Discord server. However, in development environment, this not needed if you specify the `BOT_GUILD_ID` environment variable in the `.env` file with the ID of your test guild.
+Slash commands must be registered to the Discord server, which might take time before the refresh take effect.
+
+However, if you specify the `BOT_GUILD_ID` environment variable in the `.env` file with the ID of your test guild, the commands will be immediately registered for that guild. Useful in a develop environment.
 
 ```sh
-# Register the commands
+# Register the commands.
 ❯ npm run register
 ```
 
 ### 4. Launch the bot
 
 ```sh
-# Build the dist folder where the system package lives.
-❯ npm start
-
-# Alternative
-❯ node .
+# Start the bot.
+❯ node bot.js
 ```
 
-### 5. Start edition and test your modificaitons!
-
-You should now be able to try the bot.
-
-If you do, congratulations:tada:! To begin editing the code:
-
-```sh
-# Test the validation of the changes.
-npm run test
-```
+> To stop the process, hit CTRL+C.
 
 > **It's not working!** If somewhere along the line something failed, do not stress! Please reach out to us in either Discord or the Issues page here. See [But I just have a question!](#but-i-just-have-a-question)
 
@@ -101,9 +89,9 @@ This project uses the [git hooks automator: Husky](https://typicode.github.io/hu
 To do so make a test branch in the project and commit a new file using a commit message that will fail. E.g.
 
 ```sh
-git checkout -b test-branch
-touch test.file
-git commit -am "feat: test commit"
+❯ git checkout -b test-branch
+❯ touch test.file
+❯ git commit -am "feat: test commit"
 ```
 
 You should now see Husky running. And if it works correctly the commit should pass and an emoji should be added to the commit message lke so `feat: ✨ test commit`.
@@ -111,8 +99,8 @@ You should now see Husky running. And if it works correctly the commit should pa
 If you have permission issues with Husky on Linux or macOS. Run the below commands to set the right executable permissions for Husky and git hooks.
 
 ```bash
-chmod ug+x .husky/*
-chmod ug+x .git/hooks/*
+❯ chmod ug+x .husky/*
+❯ chmod ug+x .git/hooks/*
 ```
 
 ## :package: What's in the Box?
@@ -128,7 +116,7 @@ Following are some of the files and folders that you may be interested in editin
 ├── 📁 node_modules*
 ├── 📁 src
 │   ├── 📁 commands
-│   │   └── 📁 *
+│   │   └── 📁 ...
 │   ├── 📁 events
 │   ├── 📁 locales
 │   ├── 📁 structures
@@ -169,26 +157,30 @@ Following are some of the files and folders that you may be interested in editin
 1. `.husky/`: This is a git hooks enhancment tool. See [.Husky](#5._.husky)
 2. `node_modules/` \*_Generated_: A directory generated when running the `npm install` command. It contains all the dependencies of the project.
 3. `src/`: This is the directory you want to focus most of your attention on. It contains the following files and subdirectories:
-   - `commands/`: Bot commands, sorted in subfolders. You can use the `_template.command.js` as a starting point.
+   - `commands/`: Bot commands, sorted in subfolders. You can use the `_template.command.js` as a starting point when developing your own commands.
    - `events/`: Bot events. The most important one is the `interactionCreate` event.
-   - `structures/`: Core structures for the bot. The subfolder `database/` contains the schemas and models for mongoose. In `/handlers` you'll find the methods that imports and loads the commands and events.
+   - `structures/`: Core structures for the bot. The subfolder `database/` contains the schemas and models for the database. In `/handlers` you'll find the methods that imports and loads the commands and events.
    - `utils/`: Collection of utilitary methods used by the bot.
    - `yearzero/`: Contains the gamedata and all methods dedicated to the games.
      - `roller/`, `dice/`: The YZ roll engine and the defined dice.
+   - `config.js`: Configuration values for the bot.
+   - `constants.js`: Constant values for the bot.
 4. `static/`: The static directory contains assets. It rarely sees changes and contains the following subdirectories:
    - `assets/`: Pictures, icons, and other assets.
    - `fonts/`: Typography files.
 5. `tools/`: Other utilities not used by the game system.
 6. `.env`, `.env.example`: Your secret tokens and IDs are stored here.
-7. `.editorconfig`, `.eslintrc`, `.gitattributes`, `.prettierrc`: These files achieve the same goal. They lint and format the code to comply with the style guide.
-8. `.eslintignore`, `.gitignore`, `.prettierignore`: These are ignore files configured to ignore certain directories that do not require linting or configuring.
-9. `bot.js`: Where it all begins. This is the first file.
+7. `.eslintignore`, `.gitignore`, `.prettierignore`: These are ignore files configured to ignore certain directories that do not require linting or configuring.
+8. `.editorconfig`, `.eslintrc`, `.gitattributes`, `.prettierrc`: These files achieve the same goal. They lint and format the code to comply with the style guide.
+9. `bot.js`: Where it all begins. This is the entry point for the bot code.
 10. `CHANGELOG.md`: This file contains changes made up until the latest release. It is automatically generated when one of the admins bumps the version of the system.
 11. `CONTRIBUTING.md`: You are reading it.
-12. `.jsconfig.json` and `gulpfile.js`: These files contains the configuration for the scripts used by admins.
+12. `.jsconfig.json` and `gulpfile.js`: These files contains the configuration for the scripts used by the admins.
 13. `LICENSE`: The License file for the project.
 14. `package-lock.json` and `package.json`: These files are used by `npm` to configure the project, and track dependencies.
 15. `README.md`: The Readme and project page.
+16. `register.js`: The script for registered commands to Discord.
+17. `SUPPORTERS.md`: List of Patreon supporters which helped this project with their donations. We are grateful to them.
 
 ## :hammer_and_wrench: How do I contribute?
 
@@ -200,13 +192,13 @@ At any time the project has [a few open issues](/../../issues). If there is anyt
 
 ### Project page
 
-Our [project page](/../../projects/1) contains a list of features and bugs that are suggested improvements to the system. Maybe there is something in there you would like to tackle.
+Our [project page](https://github.com/users/Stefouch/projects/2) contains a list of features and bugs that are suggested improvements to the system. Maybe there is something in there you would like to tackle.
 
 ### Raise an issue
 
 Maybe you have found a bug, or maybe you have a feature in mind that you would like to see implemented. Head over to the [issue tracker](/../../issues) first, and see if it is already listed there. If it is not, go ahead and open an issue, if it is feel free to bump it or comment on it.
 
-If you want to work on a bug or a feature yourself, please raise an issue first then assign yourself to it or indicate that you will be working on it. This way we don't end up with two people working on the same thing:bulb:
+If you want to work on a bug or a feature yourself, please raise an issue first then assign yourself to it or indicate that you will be working on it. This way we don't end up with two people working on the same thing :bulb:
 
 ### Localization
 
@@ -214,7 +206,7 @@ Check the instructions for [localization with GitLocalize](#globe_with_meridians
 
 ### Spread the word
 
-We are always looking for someone who can help with the project or one of the other projects in our organization. If you do not feel like you can contribute yourself, maybe you know someone who can:vulcan_salute:
+We are always looking for someone who can help with the project or one of the other projects in our organization. If you do not feel like you can contribute yourself, maybe you know someone who can :vulcan_salute:
 
 ## :dart: Pull Requests
 
@@ -225,4 +217,4 @@ When you are ready to submit a pull request, make sure you do a few things to he
 3. Now you are ready to submit a Pull Request. The project contains two branches: `master`, and `localization`. When submitting a Pull Request make sure to point it to the `master` branch. Unless, you are pushing a **localization** change, then point to `localization` instead.
 4. When creating the Pull Request consider prefacing the title with [an emoji that indicates the type of pull request](https://gitmoji.dev/).
 5. Briefly describe the pull request and whether you have made any deletions or modifications that may be breaking.
-6. That's it! Thank you so much for your help with improving this project:purple_heart:
+6. That's it! Thank you so much for your help with improving this project :purple_heart:
