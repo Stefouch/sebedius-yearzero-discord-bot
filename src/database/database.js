@@ -29,8 +29,7 @@ class Database {
   async incrementCommand(interaction) {
     let commandName = interaction.commandName;
 
-    // @ts-ignore
-    if (interaction.options._subcommand) {
+    if (interaction.options.getSubcommand(false)) {
       commandName += '_' + interaction.options.getSubcommand();
     }
 
