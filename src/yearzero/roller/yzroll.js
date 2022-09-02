@@ -428,6 +428,17 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
+   * Clears all the dice in the roll.
+   * @returns {this}
+   */
+  clear() {
+    this.dice = [];
+    return this;
+  }
+
+  /* ------------------------------------------ */
+
+  /**
    * Applies a difficulty modifier to the roll.
    * @param {number} mod Difficulty modifier (bonus or malus)
    * @returns {this} This roll, modified
@@ -482,6 +493,7 @@ class YearZeroRoll {
   }
 
   async push() {
+    if (!this.rolled) await this.roll();
     if (!this.pushable) return this;
     for (const d of this.dice) d.push();
     Logger.roll(this);

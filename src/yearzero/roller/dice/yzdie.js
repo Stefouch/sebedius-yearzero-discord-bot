@@ -194,6 +194,7 @@ class YearZeroDie {
    * @returns {number}
    */
   push() {
+    if (!this.evaluated) this.roll();
     if (this.pushable) {
       this.evaluated = false;
       return this.roll();
