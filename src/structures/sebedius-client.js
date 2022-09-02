@@ -1,6 +1,6 @@
 const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('discord.js');
 const SebediusPermissions = require('./sebedius-permissions');
-const Database = require('../database/database');
+const Database = require('./database/database');
 const Logger = require('../utils/logger');
 const handleEvents = require('./handlers/event-handler');
 const handleCommands = require('./handlers/command-handler');
@@ -20,7 +20,7 @@ class Sebedius extends Client {
      */
     this.commands = new Collection();
 
-    /** @type {import('../database/database')} */
+    /** @type {import('./database/database')} */
     this.database = null;
 
     /** @type {NodeJS.Timeout} */

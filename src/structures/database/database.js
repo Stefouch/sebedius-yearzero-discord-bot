@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schemas = require('./models');
-const Logger = require('../utils/logger');
-const { isObjectEmpty } = require('../utils/object-utils');
+const Logger = require('../../utils/logger');
+const { isObjectEmpty } = require('../../utils/object-utils');
 
 class Database {
   constructor(client, uri) {
