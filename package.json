@@ -55,12 +55,15 @@
     "test-client": "mocha ./test/client.test.js --exit",
     "test-db": "mocha ./test/db.test.js --exit",
     "precommit-msg": "devmoji -e --lint",
-    "pm2:watch": "pm2 start bot.js --watch & pm2 log"
+    "pm2:watch": "pm2 start bot.js --watch & pm2 log",
+    "register": "node register.js"
   },
   "pre-commit": [
     "precommit-msg"
   ],
   "dependencies": {
+    "@discordjs/builders": "^1.2.0",
+    "@discordjs/rest": "^1.1.0",
     "card-deck": "^1.0.1",
     "chalk": "4.1.2",
     "core-worker": "^0.3.5",

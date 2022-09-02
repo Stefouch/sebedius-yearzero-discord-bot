@@ -6,37 +6,30 @@
 /*   (c) 2022 Stefouch                        */
 /* ========================================== */
 
+const PRODUCTION = process.env.NODE_ENV === 'production';
+
 const Sebedius = require('./src/structures/sebedius-client');
-const intents = require('./src/structures/sebedius-intents');
-const handleEvents = require('./src/structures/handlers/event-handler');
-const handleCommands = require('./src/structures/handlers/command-handler');
-const loadLocales = require('./src/locales/i18n');
 const Logger = require('./src/utils/logger');
 
 // First, loads the ENV variables (e.g. bot's token).
 // if not in production mode.
-if (process.env.NODE_ENV !== 'production') {
+if (!PRODUCTION) {
   require('dotenv').config();
 }
 
 /* ------------------------------------------ */
 
 // Builds the client.
-const client = new Sebedius({ intents });
+const client = new Sebedius({
+  intents: require('./src/structures/sebedius-intents'),
+});
 
-/* ------------------------------------------ */
-/*  LOCALES                                   */
-/* ------------------------------------------ */
-
-loadLocales();
-
-/* ------------------------------------------ */
-/*  HANDLERS                                  */
-/* ------------------------------------------ */
-
-// Grafts our events & commands handlers to the client.
-handleEvents(client, './src/events/*/*.js');
-handleCommands(client, './src/commands/*/*.js');
+client.startSebedius({
+  token: PRODUCTION ? process.env.DISCORD_TOKEN : process.env.BETA_DISCORD_TOKEN,
+  dbURI: process.env.DATABASE_URI,
+  events: './src/events/**/*.js',
+  commands: './src/commands/**/*.js',
+});
 
 /* ------------------------------------------ */
 /*  ERRORS                                    */
@@ -48,7 +41,7 @@ process.on('exit', code => {
 
 process.on('uncaughtException', (err, origin) => {
   Logger.error(`⛔ UNCAUGHT_EXCEPTION: ${err}\nOrigin: ${origin}`);
-  console.error(err);
+  console.error(err.stack);
 });
 
 process.on('unhandledRejection', (reason, promise) => {
@@ -59,10 +52,3 @@ process.on('unhandledRejection', (reason, promise) => {
 process.on('warning', (...args) => {
   console.warn(...args);
 });
-
-/* ------------------------------------------ */
-/*  LOGIN                                     */
-/* ------------------------------------------ */
-
-// Logs the client to Discord.
-client.login(process.env.DISCORD_TOKEN);

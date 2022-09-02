@@ -2,6 +2,9 @@ const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('disco
 const SebediusPermissions = require('./sebedius-permissions');
 const Database = require('../database/database');
 const Logger = require('../utils/logger');
+const handleEvents = require('./handlers/event-handler');
+const handleCommands = require('./handlers/command-handler');
+const loadLocales = require('../locales/i18n');
 const { Emojis } = require('../config');
 
 class Sebedius extends Client {
@@ -17,7 +20,8 @@ class Sebedius extends Client {
      */
     this.commands = new Collection();
 
-    this.database = new Database(this, process.env.DATABASE_URI);
+    /** @type {import('../database/database')} */
+    this.database = null;
 
     /** @type {NodeJS.Timeout} */
     this.activity = null;
@@ -32,7 +36,7 @@ class Sebedius extends Client {
   }
 
   get ownerId() {
-    const id = process.env.OWNER;
+    const id = process.env.OWNER_ID;
     if (!id) throw new Error('❌ Owner ID Not Found in Environment!');
     return id;
   }
@@ -50,6 +54,24 @@ class Sebedius extends Client {
       scopes: [OAuth2Scopes.Bot, OAuth2Scopes.ApplicationsCommands],
       permissions: this.permissions,
     });
+  }
+
+  /* ------------------------------------------ */
+  /*  Load Sebedius                             */
+  /* ------------------------------------------ */
+
+  async startSebedius(options) {
+    // Attaches a database.
+    this.database = new Database(this, options.dbURI);
+
+    await loadLocales();
+
+    // Grafts our events & commands handlers to the client.
+    await handleEvents(this, options.events);
+    await handleCommands(this, options.commands);
+
+    // Logs the client to Discord.
+    await super.login(options.token);
   }
 
   /* ------------------------------------------ */
