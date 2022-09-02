@@ -4,11 +4,6 @@ const { SkillDie, StressDie } = require('./yearzero/roller/dice');
 
 const SebediusConfig = {};
 
-SebediusConfig.botId = '543445246143365130';
-SebediusConfig.betaBotId = '549319447240769542';
-SebediusConfig.botGuildId = '585361465641271296',
-SebediusConfig.botLogChannelId = '752170706522865664',
-
 SebediusConfig.favoriteColor = 0x1AA29B;
 SebediusConfig.activityLoopDelay = 600;
 
@@ -25,7 +20,7 @@ SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en' },
 ];
 
-SebediusConfig.defaultLocale = 'en-US';
+SebediusConfig.defaultLocale = 'en';
 
 /* ------------------------------------------ */
 /*  Commands Config                           */
@@ -62,13 +57,14 @@ SebediusConfig.Commands.roll = {
 SebediusConfig.Commands.roll.options = {
   /** @type {DiceRenderOptions} */
   [YearZeroGames.BLANK]: {
-    successIcon: '❇',
-    aliases: {
-      [YearZeroDieTypes.BASE]: YearZeroDieTypes.SKILL,
-      [YearZeroDieTypes.GEAR]: YearZeroDieTypes.SKILL,
-      [YearZeroDieTypes.NEG]: null,
-      [YearZeroDieTypes.STRESS]: null,
-    },
+    successIcon: null,
+    // TODO clean + clean TypeDef
+    // aliases: {
+    //   [YearZeroDieTypes.BASE]: YearZeroDieTypes.SKILL,
+    //   [YearZeroDieTypes.GEAR]: YearZeroDieTypes.SKILL,
+    //   [YearZeroDieTypes.NEG]: null,
+    //   [YearZeroDieTypes.STRESS]: null,
+    // },
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.MUTANT_YEAR_ZERO]: {
@@ -106,7 +102,7 @@ SebediusConfig.Commands.roll.options = {
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.ALIEN_RPG]: {
-    successIcon: '<:alienb6:746320623436955691>',
+    successIcon: '<:aliens6:746320686791917618>',
     extraPushDice: [StressDie],
     panic: true,
   },
@@ -118,7 +114,7 @@ SebediusConfig.Commands.roll.options = {
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.TWILIGHT_2K]: {
-    successIcon: '🎯',
+    successIcon: '🪖',
     hasBlankDice: true,
     detailed: true,
     mishap: true,
