@@ -7,7 +7,7 @@ module.exports = class ReadyEvent extends SebediusEvent {
   name = 'ready';
   once = true;
   async execute() {
-    if (process.env.NODE_ENV !== 'production') await this.registerCommands();
+    // if (process.env.NODE_ENV !== 'production') this.registerCommands();
 
     Logger.client('✔ Sebedius is ready!');
     Logger.client(`  ├ Logged in as: ${this.bot.user.tag} (${this.bot.user.id})`);
@@ -20,8 +20,9 @@ module.exports = class ReadyEvent extends SebediusEvent {
     });
     this.bot.activity = loopActivities(this.bot);
   }
-  async registerCommands() {
-    const devGuild = await this.bot.guilds.cache.get(process.env.BOT_GUILD_ID);
-    devGuild.commands.set(this.bot.commands.map(cmd => cmd.data));
-  }
+  // TODO ready event registerCommands
+  // registerCommands() {
+  //   const devGuild = this.bot.guilds.cache.get(process.env.BOT_GUILD_ID);
+  //   devGuild.commands.set(this.bot.commands.map(cmd => cmd.data));
+  // }
 };

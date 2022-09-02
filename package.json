@@ -49,6 +49,7 @@
   },
   "main": "bot.js",
   "scripts": {
+    "prestart": "node register.js",
     "start": "node .",
     "lint": "eslint .",
     "lint:fix": "eslint --ext .js --fix .",

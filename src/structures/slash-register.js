@@ -1,22 +1,20 @@
 const { REST } = require('@discordjs/rest');
 const { Routes } = require('discord.js');
-const handleCommands = require('./handlers/command-handler');
 const Logger = require('../utils/logger');
 
 /**
- * @param {import('./sebedius-client')} client
  * @param {string} clientId
- * @param {string} botGuildId
+ * @param {import('discord.js').Collection<string, import('./command')>} commands
  * @param {string} token
+ * @param {string} botGuildId
  */
-module.exports = async (client, clientId, botGuildId, token) => {
-  await handleCommands(client, './src/commands/**/*.js');
-  const [ownerOnlyCommands, globalCommands] = client.commands.partition(c => c.ownerOnly);
+module.exports = async (clientId, commands, token, botGuildId) => {
+  const [ownerOnlyCommands, globalCommands] = commands.partition(c => c.ownerOnly);
 
   const rest = new REST({ version: '10' }).setToken(token);
 
   try {
-    Logger.client(`↗️ Start refreshing ${client.commands.size} application (/) commands.`);
+    Logger.client(`↗️ Start refreshing ${commands.size} application (/) commands.`);
 
     const data = await Promise.all([
       await rest.put(
