@@ -1,5 +1,5 @@
-const SebediusEvent = require('../../structures/event');
-const Logger = require('../../utils/logger');
+const SebediusEvent = require('../structures/event');
+const Logger = require('../utils/logger');
 
 module.exports = class GuildCreateEvent extends SebediusEvent {
   name = 'guildCreate';

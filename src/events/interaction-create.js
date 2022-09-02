@@ -1,9 +1,9 @@
 const i18next = require('i18next');
 const { codeBlock, inlineCode } = require('discord.js');
-const SebediusEvent = require('../../structures/event');
-const Logger = require('../../utils/logger');
-const { YearZeroGames } = require('../../constants');
-const { Emojis } = require('../../config');
+const SebediusEvent = require('../structures/event');
+const Logger = require('../utils/logger');
+const { YearZeroGames } = require('../constants');
+const { Emojis } = require('../config');
 
 module.exports = class InteractionCreateEvent extends SebediusEvent {
   name = 'interactionCreate';
@@ -47,8 +47,10 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       //   await interaction.respond(filteredChoices.map(c => ({ name: c, value: c })));
       // }
 
-      // Promisify the command count
-      this.bot.database.incrementCommand(interaction);
+      // Promisifies the command count.
+      if (process.env.NODE_ENV === 'production') {
+        this.bot.database.incrementCommand(interaction); // Do not await
+      }
 
       // Gets the command.
       const command = this.bot.commands.get(interaction.commandName);
@@ -62,8 +64,6 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       // Runs the command.
       try {
         if (['roll', 'rolld66', 'crit'].includes(command.name)) {
-          // TODO clean or keep
-          // const guildOptions = await this.bot.database.grabGuild(interaction.guildId);
           // @ts-ignore
           await command.run(interaction, t, guildOptions);
         }
@@ -74,9 +74,11 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       }
       catch (err) {
         Logger.error(err);
-        const content = `${Emojis.error} An error occured with this command: ${inlineCode(err.name)}`
-          + (err.code ? `(${err.code})` : '')
-          + `\n${codeBlock('js', err.message)}`;
+        const content = `${Emojis.error} ${t('commons:commandError', {
+          name: inlineCode(err.name),
+          code: err.code ? `(${err.code})` : '',
+          message: codeBlock('js', err.message),
+        })}`;
 
         if (interaction.replied) {
           await interaction.followUp({ content, ephemeral: true })
