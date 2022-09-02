@@ -82,6 +82,8 @@ const SlashCommandOptions = {
   modifier: {
     description: 'Apply a difficulty modifier of `+X` or `-X` to the roll',
     type: ApplicationCommandOptionType.Integer,
+    min: -20,
+    max: 20,
   },
   maxpush: {
     description: 'Change the maximum number of allowed pushes',

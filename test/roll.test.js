@@ -34,33 +34,36 @@ describe('YearZeroROll Module', function () {
     expect(roll.pushCount).to.equal(1);
   });
 
-  // describe('# T2K Rolls', function () {
-  //   const ranges = [6, 8, 10, 12];
+  describe('# T2K Rolls', function () {
+    const ranges = [6, 8, 10, 12];
 
-  //   // For each range...
-  //   for (let r = 0; r < ranges.length; r++) {
-  //     // ...roll 1 or 2 base dice...
-  //     for (let n = 1; n < 3; n++) {
-  //       // ...with -10 to +10 modifier.
-  //       for(let m = -10; m < 11; m++) {
-  //         const rw = new YearZeroRoll({ game: YearZeroGames.TWILIGHT_2K })
-  //           .addDice(YearZeroDice.TwilightDie, n, { faces: ranges[r] });
-  //         const title = `Should ${m >= 0 ? 'add +' : 'remove '}${m} to ${rw.toString()}`;
+    // For each range...
+    for (let r = 0; r < ranges.length; r++) {
+      // ...roll 1 or 2 base dice...
+      for (let n = 1; n < 3; n++) {
+        // ...with -10 to +10 modifier.
+        for(let m = -10; m < 11; m++) {
+          const rw = new YearZeroRoll({ game: YearZeroGames.TWILIGHT_2K })
+            .addDice(YearZeroDice.TwilightDie, n, { faces: ranges[r] });
 
-  //         it(title, function () {
-  //           // Checks the correct initial size.
-  //           expect(rw.size).to.equal(n);
+          const title = `Should ${m >= 0 ? 'add +' : 'remove '}${m} to ${rw.toString()}`;
 
-  //           // Checks the modifier.
-  //           rw.modify(m);
-  //           const x = clamp(n * (r + 1) + m, 1, 8);
-  //           const y = rw.dice.reduce((sum, d) => sum + ranges.indexOf(d.range) + 1, 0);
-  //           expect(x).to.equal(y);
-  //         });
-  //       }
-  //     }
-  //   }
-  // });
+          it(title, async function () {
+            // Checks the correct initial size.
+            expect(rw.size).to.equal(n);
+
+            rw.modify(m);
+            await rw.roll();
+
+            // Checks the modifier.
+            const x = clamp(n * (r + 1) + m, 1, 8);
+            const y = rw.dice.reduce((sum, d) => sum + ranges.indexOf(d.faces) + 1, 0);
+            expect(x).to.equal(y);
+          });
+        }
+      }
+    }
+  });
 
   // describe('# Roll Parser: YZRoll.parse()', function () {
 

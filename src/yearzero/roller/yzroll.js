@@ -448,12 +448,12 @@ class YearZeroRoll {
 
     // === TWILIGHT 2000
     if (this.game === YearZeroGames.TWILIGHT_2K) {
-      // TODO complex
-      const faces = [6, 8, 10, 12];
+      this.modifyT2K(mod);
     }
     // === BLADE RUNNER
     else if (this.game === YearZeroGames.BLADE_RUNNER) {
-      const lowestDie = this.dice.reduce((acc, d) => acc?.faces < d.faces ? acc : d, { id: 0, faces: 6 });
+      const dice = this.getDice(YearZeroDieTypes.BASE);
+      const lowestDie = dice.reduce((acc, d) => acc?.faces < d.faces ? acc : d, null);
       // Advantage: adds a new die.
       if (mod > 0) {
         this.addDice(Dice.BladeRunnerDie, 1, { faces: lowestDie.faces });
@@ -477,6 +477,69 @@ class YearZeroRoll {
       this.addSkillDice(mod);
     }
     return this;
+  }
+
+  /* ------------------------------------------ */
+
+  async modifyT2K(mod) {
+    const diceMap = [null, 6, 8, 10, 12, Infinity];
+    // const typesMap = ['d', 'd', 'c', 'b', 'a', 'a'];
+    const refactorRange = (range, n) => diceMap[diceMap.indexOf(range) + n];
+    // const getTypeFromRange = range => typesMap[diceMap.indexOf(range)];
+
+    const dice = this.getDice(YearZeroDieTypes.BASE).map(d => d.faces);
+
+    while (mod !== 0) {
+      // 1 - Modifies the dice ranges.
+      let i;
+      // 1.1.1. - A positive modifier increases the lowest die.
+      if (mod > 0) {
+        i = dice.indexOf(Math.min(...dice));
+        dice[i] = refactorRange(dice[i], 1);
+        mod--;
+      }
+      // 1.1.2 - A negative modifier decreases the highest die.
+      else {
+        i = dice.indexOf(Math.max(...dice));
+        dice[i] = refactorRange(dice[i], -1);
+        mod++;
+      }
+      // 1.2 - Readjusts die faces
+      if (dice[i] === Infinity) {
+        dice[i] = refactorRange(dice[i], -1);
+        if (dice.length < 2) {
+          dice.push(diceMap[1]);
+        }
+      }
+      else if (dice[i] === null) {
+        if (dice.length > 1) {
+          dice.splice(i, 1);
+        }
+        else {
+          dice[i] = refactorRange(dice[i], 1);
+        }
+      }
+      else if (dice[i] === undefined) {
+        throw new Error(`YearZeroRoll.modifyT2K | dice[${i}] is out of bounds (mod: ${mod})`);
+      }
+    }
+    // 2 — Filters out all the base terms.
+    this.removeDice(YearZeroDieTypes.BASE, 100);
+
+    // 3 — Reconstructs the base terms.
+    // TODO clean
+    // const skilled = dice.length > 1;
+    for (let index = 0; index < dice.length; index++) {
+      // const ti = Math.min(index, skilled ? 1 : 0);
+      this.addDice(Dice.TwilightDie, 1, {
+        faces: dice[index],
+      });
+      // await this.addDice(1, getTypeFromRange(dice[index]), {
+      //   range: dice[index],
+      //   options: foundry.utils.deepClone(_terms[ti].options),
+      // });
+    }
+    this.dice.reverse();
   }
 
   /* ------------------------------------------ */
