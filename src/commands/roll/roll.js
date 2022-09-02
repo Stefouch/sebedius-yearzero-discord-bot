@@ -1,5 +1,5 @@
 const {
-  SlashCommandBuilder, EmbedBuilder,
+  SlashCommandBuilder, EmbedBuilder, ApplicationCommandOptionType,
   ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
   inlineCode, codeBlock,
 } = require('discord.js');
@@ -37,70 +37,77 @@ const GameSubcommandsList = {
 const SlashCommandOptions = {
   input: {
     description: 'A roll resolvable string for the dice to roll',
-    type: 'string',
+    type: ApplicationCommandOptionType.String,
     required: true,
   },
   dice: {
     description: 'Dice to roll',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
     required: true,
+    min: 1,
   },
   base: {
     description: 'Quantity of Base dice',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
     required: true,
+    min: 1,
   },
   skill: {
     description: 'Quantity of Skill dice',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
   },
   gear: {
     description: 'Quantity of Gear dice',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
+    min: 1,
   },
   stress: {
     description: 'Quantity of Stress dice',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
+    min: 1,
   },
   ammo: {
     description: 'Quantity of Ammunition dice',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
+    min: 1,
   },
   artifacts: {
-    description: 'Add a number of artifact dice: Type `d8ù`',
-    type: 'string',
+    description: 'Add a number of artifact dice: Type `d6`, `d8`, `d10` or `d12`',
+    type: ApplicationCommandOptionType.String,
   },
   title: {
     description: 'Define a title for the roll',
-    type: 'string',
+    type: ApplicationCommandOptionType.String,
   },
   modifier: {
     description: 'Apply a difficulty modifier of `+X` or `-X` to the roll',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
   },
   maxpush: {
     description: 'Change the maximum number of allowed pushes',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
+    min: 0,
+    max: 10,
   },
   private: {
     description: 'Whether to hide the roll from other players',
-    type: 'boolean',
+    type: ApplicationCommandOptionType.Boolean,
   },
   fullauto: {
     description: 'Full-automatic fire: unlimited number of pushes (actually, max 10)',
-    type: 'boolean',
+    type: ApplicationCommandOptionType.Boolean,
   },
   pride: {
     description: 'Add a D12 Artifact Die to the roll',
-    type: 'boolean',
+    type: ApplicationCommandOptionType.Boolean,
   },
   nerves: {
     description: 'Apply the talent *Nerves of Steel*',
-    type: 'boolean',
+    type: ApplicationCommandOptionType.Boolean,
   },
   minpanic: {
     description: 'Adjusts a minimum treshold for multiple consecutive panic effects',
-    type: 'number',
+    type: ApplicationCommandOptionType.Integer,
   },
 };
 
@@ -126,19 +133,21 @@ function _getSlashCommandBuilder() {
         const option = SlashCommandOptions[optionName];
         if (!option) throw new SyntaxError(`[roll:${game}] Option "${optionName}" Not Found!`);
         switch (option.type) {
-          case 'string':
+          case ApplicationCommandOptionType.String:
             sub.addStringOption(opt => opt
               .setName(optionName)
               .setDescription(option.description)
               .setRequired(!!option.required));
             break;
-          case 'number':
-            sub.addNumberOption(opt => opt
+          case ApplicationCommandOptionType.Integer:
+            sub.addIntegerOption(opt => opt
               .setName(optionName)
               .setDescription(option.description)
+              .setMinValue(option.min ?? 1)
+              .setMaxValue(option.max ?? 100)
               .setRequired(!!option.required));
             break;
-          case 'boolean':
+          case ApplicationCommandOptionType.Boolean:
             sub.addBooleanOption(opt => opt
               .setName(optionName)
               .setDescription(option.description)
@@ -171,15 +180,15 @@ module.exports = class RollCommand extends SebediusCommand {
 
     const input = interaction.options.getString('input');
     const artosInput = interaction.options.getString('artifacts');
-    const maxPush = interaction.options.getNumber('maxpush');
+    const maxPush = interaction.options.getInteger('maxpush');
 
-    const dice = interaction.options.getNumber('dice');
-    const base = interaction.options.getNumber('base');
-    const skill = interaction.options.getNumber('skill');
-    const gear = interaction.options.getNumber('gear');
-    const stress = interaction.options.getNumber('stress');
-    const ammo = interaction.options.getNumber('ammo');
-    const modifier = interaction.options.getNumber('modifier');
+    const dice = interaction.options.getInteger('dice');
+    const base = interaction.options.getInteger('base');
+    const skill = interaction.options.getInteger('skill');
+    const gear = interaction.options.getInteger('gear');
+    const stress = interaction.options.getInteger('stress');
+    const ammo = interaction.options.getInteger('ammo');
+    const modifier = interaction.options.getInteger('modifier');
 
     // Generic rolls are parsed by another library.
     if (game === YearZeroGames.BLANK) {
@@ -251,6 +260,10 @@ module.exports = class RollCommand extends SebediusCommand {
     // Sets the maximum number of pushes.
     // Note: Cannot use typeof undefined because null is returned by DiscordJS
     if (maxPush != null) roll.setMaxPush(maxPush);
+    else {
+      const fullauto = interaction.options.getBoolean('fullauto');
+      if (fullauto) roll.setMaxPush(10);
+    }
 
     // Renders the roll to the chat.
     /** @type {import('discord.js').InteractionReplyOptions} */
@@ -260,8 +273,6 @@ module.exports = class RollCommand extends SebediusCommand {
       ephemeral: interaction.options.getBoolean('private'),
       fetchReply: true,
     });
-    // TODO remove log
-    // console.log('maxPush', roll.maxPush, 'pushCount', roll.pushCount, 'pushed', roll.pushed, 'pushable', roll.pushable);
 
     if (roll.pushable) await this.awaitPush(roll, interaction, t);
   }
@@ -339,26 +350,61 @@ module.exports = class RollCommand extends SebediusCommand {
       time: this.bot.config.Commands.roll.pushCooldown,
     });
 
+    // *** COLLECTOR:COLLECT
     collector.on('collect', async i => {
       if (i.user.id !== interaction.user.id) {
-        i.reply({
+        await i.reply({
           content: `${Emojis.ban} ${t('commands:roll.notYourRoll')}`,
           ephemeral: true,
         });
       }
       else if (i.customId === 'push-button') {
         await roll.push();
+
+        // Add any extra pushed dice
+        if (this.bot.config.Commands.roll.options[roll.game]?.extraPushDice) {
+          for (const ExtraDie of this.bot.config.Commands.roll.options[roll.game].extraPushDice) {
+            roll.addDice(ExtraDie, 1);
+          }
+          await roll.roll();
+        }
+
+        // Stops if too many dice.
+        if (roll.size > this.bot.config.Commands.roll.max) {
+          collector.stop();
+          await i.reply({
+            content: `${Emojis.warning} ${t('commands:roll.tooManyDiceError')}`,
+            ephemeral: true,
+          });
+          return;
+        }
+
+        // Stops the collector if it's the last push.
+        if (!roll.pushable) collector.stop();
+
+        // Edits the message with the pushed roll.
         const messageData = await this.render(roll, interaction, t);
-        await message.edit(messageData); // TODO Using i.update() cause bugs with emojis
-        await i.deferUpdate(); // TODO Workaround to remove the "interaction failed" error
+        await message.edit(messageData); // ! Because using i.update() cause bugs with emojis
+        await i.deferUpdate(); // ! Workaround to remove the "interaction failed" error
+
+        // Detects panic.
+        if (this.bot.config.Commands.roll.options[roll.game]?.panic && roll.panic) {
+          collector.stop();
+          const stressCommand = this.bot.commands.get('panic');
+          // TODO call PanicCommand
+          // await stressCommand.run(interaction, t);
+        }
       }
       else if (i.customId === 'cancel-button') {
         collector.stop();
       }
     });
 
+    // *** COLLETOR:END
     // @ts-ignore
-    collector.on('end', () => message.edit({ components: [] }));
+    collector.on('end', async () => {
+      if (message.components.length) await message.edit({ components: [] });
+    });
   }
 
   /* ------------------------------------------ */
@@ -366,7 +412,6 @@ module.exports = class RollCommand extends SebediusCommand {
   #createButtons(game, t) {
     const pushButton = new ButtonBuilder()
       .setCustomId('push-button')
-      // .setEmoji(this.bot.config.Commands.roll.pushIcon)
       .setEmoji(this.bot.config.Commands.roll.options[game]?.successIcon || this.bot.config.Commands.roll.pushIcon)
       .setLabel(t('commands:roll.button.push'))
       .setStyle(ButtonStyle.Primary);
@@ -419,6 +464,7 @@ module.exports = class RollCommand extends SebediusCommand {
           if (s > 0) out.push(t('commands:roll.embed.extraHit', { count: n }));
           else out.push(t('commands:roll.embed.suppression', { count: n }));
         }
+        out.push(t('commands:roll.embed.ammoSpent', { count: roll.sum(YearZeroDieTypes.AMMO) }));
       }
 
       // Pushed Traumas
@@ -456,13 +502,16 @@ module.exports = class RollCommand extends SebediusCommand {
     }
     if (roll.pushed) {
       for (const [typeName, type] of Object.entries(YearZeroDieTypes)) {
-        const rpc = roll.pushCount;
         const dice = roll.getDice(type);
-        for (let p = rpc; p > 0; p--) {
-          const diceResults = dice
-            .filter(d => rpc - d.pushCount < p)
-            .map(d => d.results.at(d.pushCount - (rpc - p) - 1));
-          out.push(`#${p} [${typeName.toLowerCase()}]: ${diceResults.join(', ')}`);
+        if (dice.length) {
+          const rpc = roll.pushCount;
+          for (let p = rpc; p > 0; p--) {
+            const diceResults = dice
+              .filter(d => rpc - d.pushCount < p)
+              .map(d => d.results[d.pushCount - (rpc - p) - 1]);
+              // .map(d => d.results.at(d.results.length <= p ? -1 : p - 1)); // TODO remove
+            out.push(`#${p} [${typeName.toLowerCase()}]: ${diceResults.join(', ')}`);
+          }
         }
       }
     }
@@ -477,6 +526,8 @@ module.exports = class RollCommand extends SebediusCommand {
 /**
  * @typedef {Object} SlashCommandOption
  * @property {string}   description
- * @property {string}   type
+ * @property {number}   type
  * @property {boolean} [required=false]
+ * @property {number}  [min]
+ * @property {number}  [max]
  */
