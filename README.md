@@ -24,6 +24,11 @@
   </a>
 </p>
 
+> :warning: **Important Changes!** :warning:<br/>
+> As of September 1st 2022, due to Discord policies change over bots, Sebedius cannot read the content of messages anymore.<br/>
+> The is the end of *prefixed* `!commands`. All Sebedius commands have therefore been disabled.<br/>
+> But Sebedius will come back very soon with *Slash* `/commands`. See [Issues](../../issues) for more information.
+
 > **Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by _Free League Publishing (Fria Ligan)_.
 
 The supported games are:
