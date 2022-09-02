@@ -25,9 +25,9 @@ SuccessTableMap.TwilightRunner = SuccessTableMap.Default.concat(1, 1, 1, 2, 2, 2
 
 /** @enum {number[]} */
 const LockedValuesMap = {
-  Default: [1, 6, 7, 8, 9, 10, 11, 12],
-  Skill: [6, 7, 8, 9, 10, 11, 12],
-  Artifact: [6, 7, 8, 9, 10, 11, 12],
+  /** [1,6+] */ Default: [1, 6, 7, 8, 9, 10, 11, 12],
+  /** [6+] */ Skill: [6, 7, 8, 9, 10, 11, 12],
+  /** [6+] */ Artifact: [6, 7, 8, 9, 10, 11, 12],
 };
 
 module.exports = {

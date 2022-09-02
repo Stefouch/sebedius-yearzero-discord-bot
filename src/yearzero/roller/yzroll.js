@@ -217,7 +217,7 @@ class YearZeroRoll {
    * @readonly
    */
   get pushable() {
-    return this.dice.some(d => d.pushable);
+    return this.dice.some(d => d.pushable) && (this.pushCount < this.maxPush);
   }
 
   /**
@@ -258,7 +258,8 @@ class YearZeroRoll {
    * @readonly
    */
   get rolled() {
-    return this.dice.some(d => d.evaluated);
+    return this.dice.every(d => d.evaluated);
+    // return this.dice.some(d => d.evaluated); // TODO clean
   }
 
   /* ------------------------------------------ */
@@ -473,8 +474,10 @@ class YearZeroRoll {
 
   async roll() {
     if (this.rolled) throw new Error('Roll Is Already Evaluated!');
-    for (const d of this.dice) d.roll();
+    for (const d of this.dice) if (!d.evaluated) d.roll();
     Logger.roll(this);
+    // TODO remove log
+    console.log('maxPush', this.maxPush, 'pushCount', this.pushCount, 'pushed', this.pushed, 'pushable', this.pushable);
     return this;
   }
 
@@ -482,6 +485,8 @@ class YearZeroRoll {
     if (!this.pushable) return this;
     for (const d of this.dice) d.push();
     Logger.roll(this);
+    // TODO remove log
+    console.log('maxPush', this.maxPush, 'pushCount', this.pushCount, 'pushed', this.pushed, 'pushable', this.pushable);
     return this;
   }
 
@@ -567,7 +572,7 @@ class YearZeroRoll {
       }
       else {
         const type = die.type in DiceIcons[game] ? die.type : YearZeroDieTypes.SKILL;
-        str += DiceIcons[game]?.[type]?.[r] || errorIcon;
+        str += DiceIcons[game][type]?.[r] || errorIcon;
       }
     }
 
@@ -579,7 +584,7 @@ class YearZeroRoll {
   toPool() {
     return this.dice
       .reduce((a, d) => {
-        const g = d.toString().slice(1);
+        const g = d.toSimpleString().slice(1);
         return a.increment(g);
       }, new Abacus())
       .map((v, k) => `${v}${k}`)
@@ -596,10 +601,10 @@ class YearZeroRoll {
 
     out.push(this.toPool());
 
-    out.push(`→ [${this.results.join(',')}]`);
+    out.push(`→ [${this.results.toString()}]`);
     out.push('=', this.game === YearZeroGames.BLANK ? this.valueOf() : this.successCount);
 
-    if (this.pushed) out.push('(pushed)');
+    if (this.pushed) out.push(`(pushed${this.pushCount > 1 ? ` × ${this.pushCount}` : ''})`);
 
     return out.join(' ');
   }

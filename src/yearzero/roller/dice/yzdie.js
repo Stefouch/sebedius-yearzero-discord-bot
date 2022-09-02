@@ -98,12 +98,6 @@ class YearZeroDie {
      */
     this.evaluated = false;
 
-    /**
-     * Number of times the die has been pushed.
-     * @type {number}
-     */
-    this.pushCount = 0;
-
     if (typeof options.result !== 'undefined') {
       this.results.push(options.result);
       this.evaluated = true;
@@ -141,6 +135,14 @@ class YearZeroDie {
     const n = this.constructor.SuccessTable[this.result];
     if (typeof n === 'undefined') return this.constructor.SuccessTable.at(-1);
     return n;
+  }
+
+  /**
+     * Number of times the die has been pushed.
+     * @type {number}
+     */
+  get pushCount() {
+    return Math.max(0, this.results.length - 1);
   }
 
   /**
@@ -192,10 +194,12 @@ class YearZeroDie {
    * @returns {number}
    */
   push() {
-    if (!this.pushable) return this.result;
-    this.evaluated = false;
-    this.pushCount++;
-    return this.roll();
+    if (this.pushable) {
+      this.evaluated = false;
+      return this.roll();
+    }
+    this.results.push(this.result);
+    return this.result;
   }
 
   /* ------------------------------------------ */
@@ -219,11 +223,16 @@ class YearZeroDie {
 
   /* ------------------------------------------ */
 
-  toString() {
+  toSimpleString() {
     if (this.hasType(YearZeroDieTypes.NONE)) {
       return `${this.operator}${this.result}`;
     }
     return `${this.operator}d${this.faces}`;
+  }
+
+  toString() {
+    if (this.hasType(YearZeroDieTypes.NONE)) return this.toSimpleString();
+    return `${this.toSimpleString()} [${this.results.toString()}]`;
   }
 
   valueOf() {
