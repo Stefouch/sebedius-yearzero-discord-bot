@@ -29,7 +29,7 @@ roll:
   embed:
     details: Details
     pushed: Pushed
-    pushed_plural: Pushed x {{count}}
+    pushed_plural: Pushed × {{count}}
     success: 'Success: **{{count}}**'
     success_plural: 'Successes: **{{count}}**'
     trauma: 'Trauma: **{{count}}**'
