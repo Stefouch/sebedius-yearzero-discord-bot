@@ -5,7 +5,7 @@
   </a>
   <img alt="Version" src="https://img.shields.io/badge/dynamic/json?color=blue&label=version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FStefouch%2Fsebedius-yearzero-discord-bot%2Fmaster%2Fpackage.json&cacheSeconds=2592000"/>
   <a href="https://discord.js.org/" target="_blank">
-    <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v13-informational?logo=discord"/>
+    <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v14-informational?logo=discord"/>
   </a>
   <a href="https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki" target="_blank">
     <img alt="Documentation" src="https://img.shields.io/badge/documentation-yes-brightgreen.svg"/>
@@ -14,7 +14,7 @@
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/>
   </a>
   <a href="https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/LICENSE" target="_blank">
-    <img alt="License: MIT" src="https://img.shields.io/github/license/Stefouch/sebedius-yearzero-discord-bot"/>
+    <img alt="License: GPL-3.0-or-later" src="https://img.shields.io/github/license/Stefouch/sebedius-yearzero-discord-bot"/>
   </a>
   <a href="https://www.patreon.com/Stefouch">
     <img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon">
@@ -30,29 +30,31 @@ The supported games are:
 
 - [Mutant: Year Zero](http://frialigan.se/en/games/mutant-year-zero/) & extensions
 - [Forbidden Lands](https://frialigan.se/en/games/forbidden-lands/)
-- [ALIEN The Roleplaying Game](https://alien-rpg.com/)
+- [ALIEN – The Roleplaying Game](https://alien-rpg.com/)
 - [Tales From The Loop](https://frialigan.se/en/games/tales-from-the-loop/) & Things From the Flood
 - [Coriolis – The Third Horizon](https://frialigan.se/en/games/coriolis-2/)
 - [Vaesen](https://frialigan.se/en/games/vaesen/)
 - [Twilight 2000 4E](https://frialigan.se/en/games/twilight-2000/)
+- [Blade Runner – The Roleplaying Game](https://www.bladerunner-rpg.com/)
 
 # How to Use
 
-1. [Add the bot to your server](https://discord.com/oauth2/authorize?client_id=543445246143365130&scope=bot&permissions=355392)<br/>
+1. [Add the bot to your server](xxxxx)<br/>
    The link will prompt you to authorize the bot on a server. Once the bot is authorized, you'll see it in the Member List.
 
 2. [Read the Wiki](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki#list-of-commands)<br/>
-   Commands are triggered by the `!` default prefix or by mentioning the bot `@Sebedius`.<br/>_Example:_ `!help` _or_ `@Sebedius help`
+   Commands are triggered by the `/` slash character.<br/>_Example:_ `/help`
 
 3. [Roll the dice](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki/%21roll)<br/>
-   _Example:_ `!roll 7d` _or_ `!roll 3b 3s 1g`
+   _Example:_ `/roll alien dice:7` _or_ `/roll fbl base:5 skill:3 gear:2`
 
 # Supported Languages
 
-With the command `!setconf lang [language_code]` you can translate Sebedius into another language. Supported localisations are:
+By default, Sebedius will use the locale defined in your server, if it is supported.
+
+With the command `/conf locale:[language_code]` you can translate Sebedius into another language. Supported localisations are:
 
 - `en` – English (default)
-- `de` – German _(Deutsch)_
 
 Your language isn't supported yet? See _Contributing_ below!
 
@@ -72,13 +74,11 @@ Your language isn't supported yet? See _Contributing_ below!
 
 # 🤝 Contributing
 
-Contributions, translations, issues and feature requests are welcome!<br/>Feel free to check [issues page](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues). You can also take a look at the [contributing guide](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md).
+Contributions, translations, issues and feature requests are welcome!<br/>Feel free to check [issues page](../../issues). You can also take a look at the [contributing guide](../../CONTRIBUTING.md).
 
 ### Top Contributors
 
-- mprangenberg
-- Naith123
-- iarizex
+- @mprangenberg
 
 # ❤️ Sponsoring
 
@@ -88,9 +88,7 @@ Give a ⭐️ if this project helped you!
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-Let's thank **Jeremy Mettler, Joe Guilmette, Dale Chenault, Narcomed and all my other patrons** and generous donators who are supporting this project and are making it possible! _May the bot be merciful with their rolls._
-
-[paypal.me/Stefouch](https://www.paypal.me/stefouch)
+Let's thank **Joe Guilmette, Narcomed and all my other patrons** and generous donators who are supporting this project and are making it possible! _May the bot be merciful with their rolls._
 
 # List of Changes
 
@@ -110,7 +108,7 @@ This is a detailed list of needed permissions for the bot:
 
 # 📝 License
 
-> The literal and graphical information presented with this bot about _Mutant: Year Zero_, _Forbidden Lands_, _Alien RPG_, _Twiligh 2000_, _Coriolis_, _Tales From the Loop_ and _Vaesen_, including the textures (if any), is copyright _Free League Publishing (Fria Ligan)_. This bot is not produced by, endorsed by, supported by, or affiliated with _Fria Ligan_.
+> The literal and graphical information presented with this bot about _Mutant: Year Zero_, _Forbidden Lands_, _Alien RPG_, _Blade Runner RPH_, _Twiligh 2000_, _Coriolis_, _Tales From the Loop_ and _Vaesen_, including the textures (if any), is copyright _Free League Publishing (Fria Ligan)_. This bot is not produced by, endorsed by, supported by, or affiliated with _Fria Ligan_.
 
 The dice images are courtery of the following people.<br/>
 All credit goes to them!
@@ -120,8 +118,8 @@ All credit goes to them!
 - _Alien RPG_ dice by **Radomir Balint**.
 - _Vaesen_ dice by **Matt Kay**.
 
-Copyright © 2019-2021 [Stefouch](https://github.com/Stefouch).<br/>
-This project JavaScript code is [MIT](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/LICENSE) licensed.
+Copyright © 2019-2022 [Stefouch](https://github.com/Stefouch).<br/>
+This project JavaScript code is [GPL-3.0-or-later](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/LICENSE) licensed.
 
 ---
 

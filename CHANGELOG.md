@@ -4,6 +4,38 @@ All notable changes to this project will be documented in this file.
 <br/>The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.0.0] - 2022-09-24
+
+### Added
+
+- _Slash_ `/commands`:
+  - Admin: `/conf`, `/thread`, (`/botinfo`), (`/eval`)
+  - Roll: `/roll`, `/rolld66`
+  - Utils: `/help`, `/ping`
+- Support for Blade Runner RPG rolls (still missing the dice icons).
+
+### Changed
+
+- **(Breaking)** Sebedius needed **permissions** have changed. You might need to kick and re-add the bot to have it work properly.
+- License is now **GPL-3.0-or-later** (was MIT)
+- **(Breaking)** New Database: MongoDB (was postgres)
+- Better [Contributing Guide](./CONTRIBUTING.md).
+- Code revamp:
+  - Clean code using modern javascript coding guidelines
+  - Use of Eslint & Prettier
+  - Commented everywhere
+  - Templates for easy contribution
+  - Typed methods for VS Code Intellisense support
+  - Better translation module implementing **i18next**.
+  - Use of DiscordJS library v14 for Discord API v10
+
+### Removed
+
+- **(Breaking)** Discord policy change: **ALL** _prefixed_ `!commands` have been disabled:
+  - All command files are archived in the `./archives` folder for later conversion into slash commands.
+- **(Breaking)** Translations refactored:
+  - Due to the use of a new translation module (i18next), the current german translation is disabled. The original files are stored in the `./archives` folder for later re-use.
+
 ## [5.0.1] - 2022-05-31
 
 ### Fixed

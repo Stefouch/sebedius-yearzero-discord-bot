@@ -1,11 +1,5 @@
 Thanks to the following for supporting the development of **Sebedius**!
 
-* Dale Chenault
+- Dale Chenault
 
-* Jeremy Mettler
-
-* Joe Guilmette
-
-* Matt Kay
-
-* Narcomed
+- Joe Guilmette
