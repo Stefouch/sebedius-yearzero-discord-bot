@@ -3,7 +3,7 @@
   "version": "6.0.0",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://stefouch.be/",
   "keywords": [
     "year zero",
