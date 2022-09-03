@@ -14,8 +14,8 @@ jobs:
 
     # runs all of the steps inside the specified container rather than on the VM host.  
     # Because of this the network configuration changes from host based network to a container network.
-    container:
-      image:  node:10.16-jessie
+    # container:
+    #   image:  node:10.16-jessie
 
     # Set PostgreSQL database
     services:
@@ -26,22 +26,25 @@ jobs:
           MONGO_INITDB_ROOT_PASSWORD: tomasharenstam1234
           MONGO_INITDB_DATABASE: eden
         ports:
-          - 27017:27017
-        # postgres:
-        #   image: postgres:latest
-        #   env:
-        #     POSTGRES_DB: eden
-        #     POSTGRES_USER: sebedius
-        #     POSTGRES_PASSWORD: tomasharenstam1234
-        #     # POSTGRES_PORT: 5432
-        #   ports:
-        #     - 5432:5432
-        # Set health checks to wait until mongo has started
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          # - 27017:27017
+          # Will assign a random free host port
+          - 27017/tcp
+
+      # postgres:
+      #   image: postgres:latest
+      #   env:
+      #     POSTGRES_DB: eden
+      #     POSTGRES_USER: sebedius
+      #     POSTGRES_PASSWORD: tomasharenstam1234
+      #     # POSTGRES_PORT: 5432
+      #   ports:
+      #     - 5432:5432
+      # Set health checks to wait until mongo has started
+      # options: >-
+      #   --health-cmd mongo
+      #   --health-interval 10s
+      #   --health-timeout 5s
+      #   --health-retries 5
 
     steps:
       - name: 📡 Checkout
@@ -71,31 +74,33 @@ jobs:
       - name: 🍃 Test MongoDB Database
         run: npm run test:db
         env:
-          MONGODB_HOST: mongodb
+          # use localhost for the host here because we are running the job on the VM.
+          # If we were running the job on in a container this would be mongodb
+          MONGODB_HOST: localhost
           MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }}
-          DATABASE_URI: 'mongodb://sebedius:tomasharenstam1234@localhost:27017/eden'
+          DATABASE_URI: 'mongodb+srv://sebedius:tomasharenstam1234@localhost:27017/eden'
 
-  vm-job:
-    runs-on: ubuntu-latest
+  # vm-job:
+  #   runs-on: ubuntu-latest
 
-    services:
-      mongodb:
-        image: mongo
-        env:
-          MONGO_INITDB_ROOT_USERNAME: sebedius
-          MONGO_INITDB_ROOT_PASSWORD: tomasharenstam1234
-          MONGO_INITDB_DATABASE: eden
-        ports:
-        # will assign a random free host port
-        - 27017/tcp
+  #   services:
+  #     mongodb:
+  #       image: mongo
+  #       env:
+  #         MONGO_INITDB_ROOT_USERNAME: sebedius
+  #         MONGO_INITDB_ROOT_PASSWORD: tomasharenstam1234
+  #         MONGO_INITDB_DATABASE: eden
+  #       ports:
+  #       # will assign a random free host port
+  #       - 27017/tcp
 
-    steps:
-    - uses: actions/checkout@v3
-    - run: npm ci
-    - run: npm run test:db
-      env:
-        # use localhost for the host here because we are running the job on the VM.
-        # If we were running the job on in a container this would be mongodb
-        MONGODB_HOST: localhost
-        MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
-        DATABASE_URI: 'mongodb://sebedius:tomasharenstam1234@localhost:27017/eden'
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - run: npm ci
+  #   - run: npm run test:db
+  #     env:
+  #       # use localhost for the host here because we are running the job on the VM.
+  #       # If we were running the job on in a container this would be mongodb
+  #       MONGODB_HOST: localhost
+  #       MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
+  #       DATABASE_URI: 'mongodb+srv://sebedius:tomasharenstam1234@localhost:27017/eden'

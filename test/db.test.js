@@ -32,7 +32,7 @@ describe('Keyv & PostGreSQL Database', function () {
   });
 
   it('Should have a DATABASE_URI environment variable', function () {
-    const dbType = 'mongodb+srv';
+    const dbType = 'mongodb';
     const partialURI = process.env.DATABASE_URI.slice(0, dbType.length);
     expect(
       partialURI,
