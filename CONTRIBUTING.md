@@ -20,13 +20,13 @@ If you have usage questions the best place to get help is in the [#digital-tools
 
 3. [What's in the Box?](#package-whats-in-the-box)
 
-4. [How do I Contribute?](hammer_and_wrench-how-do-i-contribute)
+4. [How do I Contribute?](#hammer_and_wrench-how-do-i-contribute)
 
 5. [Pull Requests](#dart-pull-requests)
 
 ## :globe_with_meridians: Localization
 
-We are grateful for any and all localization support we can get. To localize the system you do not need to download or set up the system. To make it easier to help with localization we are using GitLocalize. All you need is a GitHub account. Then you can [head over to our GitLocalize page](https://gitlocalize.com/repo/XXXX) and start translating.
+We are grateful for any and all localization support we can get. To localize the system you do not need to download or set up the system. To make it easier to help with localization we are using GitLocalize. All you need is a GitHub account. Then you can [head over to our GitLocalize page](https://gitlocalize.com/repo/7910) and start translating.
 
 Once you are done, click the yellow button that says "Create Review Request" and GitLocalize will handle the rest on your behalf.
 
@@ -193,6 +193,10 @@ At any time the project has [a few open issues](/../../issues). If there is anyt
 ### Project page
 
 Our [project page](https://github.com/users/Stefouch/projects/2) contains a list of features and bugs that are suggested improvements to the system. Maybe there is something in there you would like to tackle.
+
+### TODO tags
+
+Also, there are `TODO` tags a bit everywhere in the code that could hints to remaining tasks to complete.
 
 ### Raise an issue
 
