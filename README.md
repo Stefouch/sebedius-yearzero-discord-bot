@@ -60,6 +60,8 @@ By default, Sebedius will use the locale defined in your server, if it is suppor
 With the command `/conf locale value:<language_code>` you can translate Sebedius into another language. Supported localisations are:
 
 - `en` – English (default)
+- Work in progress: `de` – German [![gitlocalized ](https://gitlocalize.com/repo/7910/de/badge.svg)](https://gitlocalize.com/repo/7910/de?utm_source=badge)
+- Work in progress: `fr` – French [![gitlocalized ](https://gitlocalize.com/repo/7910/fr/badge.svg)](https://gitlocalize.com/repo/7910/fr?utm_source=badge)
 
 Your language isn't supported yet? See _Contributing_ below!
 
