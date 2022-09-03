@@ -259,7 +259,6 @@ class YearZeroRoll {
    */
   get rolled() {
     return this.dice.every(d => d.evaluated);
-    // return this.dice.some(d => d.evaluated); // TODO clean
   }
 
   /* ------------------------------------------ */

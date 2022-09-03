@@ -51,20 +51,12 @@ SebediusConfig.Commands.roll = {
  *   Additional dice rolled when pushed
  * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]} [reactionMenu]
  *   Non-conventional reaction menu
-//  * @property {Object.<YearZeroDieTypes, YearZeroDieTypes>}     [aliases]
  */
 
 SebediusConfig.Commands.roll.options = {
   /** @type {DiceRenderOptions} */
   [YearZeroGames.BLANK]: {
     successIcon: null,
-    // TODO clean + clean TypeDef
-    // aliases: {
-    //   [YearZeroDieTypes.BASE]: YearZeroDieTypes.SKILL,
-    //   [YearZeroDieTypes.GEAR]: YearZeroDieTypes.SKILL,
-    //   [YearZeroDieTypes.NEG]: null,
-    //   [YearZeroDieTypes.STRESS]: null,
-    // },
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.MUTANT_YEAR_ZERO]: {

@@ -114,17 +114,6 @@ class Sebedius extends Client {
     Logger.warn(`${Emojis.ban} Guild is banned! → Leaving...`);
     return guild.leave();
   }
-
-  /* ------------------------------------------ */
-  /*  Database Methods                          */
-  /* ------------------------------------------ */
-
-  // TODO clean
-  // async getGame(guildId) {
-  //   const guild = await this.database.grabGuild(guildId);
-  //   if (!guild?.game) return YearZeroGames.MUTANT_YEAR_ZERO;
-  //   return guild.game;
-  // }
 }
 
 module.exports = Sebedius;
