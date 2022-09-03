@@ -1,63 +1,106 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Run Tests
+name: CI Test
 
-on: [pull_request]
+on:
+  - pull_request
+  - workflow_call
 
 jobs:
   test:
-    name: Node 16
+    name: Perform Tests
     runs-on: ubuntu-latest
 
-    strategy:
-      # max-parallel: 1
-      matrix:
-        node-version: [16]
+    # runs all of the steps inside the specified container rather than on the VM host.  
+    # Because of this the network configuration changes from host based network to a container network.
+    # container:
+    #   image:  node:10.16-jessie
 
     # Set PostgreSQL database
     services:
-      postgres:
-        image: postgres:latest
+      mongodb:
+        image: mongo
         env:
-          POSTGRES_DB: eden
-          POSTGRES_USER: sebedius
-          POSTGRES_PASSWORD: tomasharenstam1234
-          # POSTGRES_PORT: 5432
+          MONGO_INITDB_ROOT_USERNAME: sebedius
+          MONGO_INITDB_ROOT_PASSWORD: tomasharenstam1234
+          MONGO_INITDB_DATABASE: eden
         ports:
-          - 5432:5432
-        # Set health checks to wait until postgres has started
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+          # - 27017:27017
+          # Will assign a random free host port
+          - 27017/tcp
+
+      # postgres:
+      #   image: postgres:latest
+      #   env:
+      #     POSTGRES_DB: eden
+      #     POSTGRES_USER: sebedius
+      #     POSTGRES_PASSWORD: tomasharenstam1234
+      #     # POSTGRES_PORT: 5432
+      #   ports:
+      #     - 5432:5432
+      # Set health checks to wait until mongo has started
+      # options: >-
+      #   --health-cmd mongo
+      #   --health-interval 10s
+      #   --health-timeout 5s
+      #   --health-retries 5
 
     steps:
       - name: 📡 Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: ⚙ Use Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: ⚙️ Setup NodeJS 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
 
-      - name: ☕ Install Dependencies
+      - name: 🔧 Install Dependencies
         run: npm ci
 
       - name: 🎲 Test Rolls
-        run: npm run test-roll
+        run: npm run test:roll
 
-      - name: 🏷️ Test Translations
-        run: npm run test-lang
+      # - name: 🏷️ Test Translations
+      #   run: npm run test:locale
 
       - name: 🤖 Test Bot
-        run: npm run test-client
+        run: npm run test:client
         env:
-          TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
+          BETA_DISCORD_TOKEN: ${{ secrets.BETA_DISCORD_TOKEN }}
+          BETA_BOT_ID: ${{ secrets.BETA_BOT_ID }}
+          OWNER_ID: ${{ secrets.OWNER_ID }}
 
-      - name: 🐘 Test PostgreSQL Database
-        run: npm run test-db
+      - name: 🍃 Test MongoDB Database
+        run: npm run test:db
         env:
-          # DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
-          DATABASE_URL: 'postgres://sebedius:tomasharenstam1234@localhost:5432/eden'
+          # use localhost for the host here because we are running the job on the VM.
+          # If we were running the job on in a container this would be mongodb
+          MONGODB_HOST: localhost
+          MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }}
+          DATABASE_URI: 'mongodb://sebedius:tomasharenstam1234@localhost/eden'
+
+  # vm-job:
+  #   runs-on: ubuntu-latest
+
+  #   services:
+  #     mongodb:
+  #       image: mongo
+  #       env:
+  #         MONGO_INITDB_ROOT_USERNAME: sebedius
+  #         MONGO_INITDB_ROOT_PASSWORD: tomasharenstam1234
+  #         MONGO_INITDB_DATABASE: eden
+  #       ports:
+  #       # will assign a random free host port
+  #       - 27017/tcp
+
+  #   steps:
+  #   - uses: actions/checkout@v3
+  #   - run: npm ci
+  #   - run: npm run test:db
+  #     env:
+  #       # use localhost for the host here because we are running the job on the VM.
+  #       # If we were running the job on in a container this would be mongodb
+  #       MONGODB_HOST: localhost
+  #       MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port
+  #       DATABASE_URI: 'mongodb+srv://sebedius:tomasharenstam1234@localhost:27017/eden'

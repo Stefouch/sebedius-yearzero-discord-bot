@@ -1,0 +1,295 @@
+/* ===========================================================
+ * SEBEDIUS BOT
+ * ===========================================================
+ * Fonctionalities for Year Zero Roleplaying games.
+ * @author	Stefouch
+ * ===========================================================
+ */
+const { HTTPError, DiscordAPIError, Collection, Util, ChannelType } = require('discord.js');
+const { GuildEmbed } = require('./utils/embeds');
+const SebediusErrors = require('./utils/errors');
+const { __ } = require('./lang/locales');
+
+// First, loads the ENV variables (e.g. bot's token).
+// If not in production mode.
+if (process.env.NODE_ENV !== 'production') {
+	require('dotenv').config();
+}
+// Second, creates the (custom) bot client.
+const Sebedius = require('./Sebedius');
+const { splitMessage } = require('./utils/Util');
+const bot = new Sebedius(require('./config.json'));
+
+/* !
+ * READY HANDLER
+ */
+bot.on('ready', async () => {
+	bot.owner = bot.users.cache.get(bot.config.ownerID) || await bot.users.fetch(bot.config.ownerID);
+	bot.logChannel = bot.channels.cache.get(bot.config.botLogChannelID)
+		|| await bot.channels.fetch(bot.config.botLogChannelID);
+	bot.state = 'ready';
+	console.log('|===========================================================');
+	console.log('| CONNECTED');
+	console.log(`| Logged in as: ${bot.user.tag} (${bot.user.id})`);
+	console.log(`| # Servers: ${bot.guildCount}`);
+	console.log('|===========================================================');
+
+	// Sets banned users and blacklisted guilds. (Promise)
+	bot.populateBans();
+
+	// Activities Loop.
+	bot.user.setActivity({ name: `v${bot.version}`, type: 'PLAYING' });
+	bot.activity = require('./utils/activities')(bot);
+
+	// Warns the admin that the bot is ready!
+	if (process.env.NODE_ENV === 'production') {
+		bot.logChannel.send(`:man_scientist: **Sebedius** is __${bot.state}__! *(${bot.guildCount} guilds)*`);
+	}
+});
+
+/* !
+ * MESSAGE HANDLER
+ */
+bot.on('messageCreate', async message => {
+	// Exits early is the message was send by a bot
+	// and prevents bot from responding to its own messages.
+	if (message.author.bot) return;
+	// if (message.author.id === bot.user.id) return;
+
+	// Exits if the bot is not ready.
+	if (bot.state !== 'ready') return;
+
+	// Gets the guild's prefixes (an array).
+	const prefixes = await bot.getPrefixes(message);
+	let prefix;
+	for (const pfx of prefixes) {
+		if (message.content.startsWith(pfx)) {
+			prefix = pfx;
+			break;
+		}
+	}
+	if (!prefix) return;
+
+	// Adds important data to the context of the message.
+	// message.prefix = prefix;
+	// message.bot = bot;
+	const ctx = Sebedius.processMessage(message, prefix);
+
+	// Parses the arguments.
+	const args = ctx.content.slice(prefix.length).trim().split(/ +/);
+	const commandName = args.shift().toLowerCase();
+
+	// Gets the command from its name, with support for aliases.
+	const command = bot.commands.get(commandName)
+		|| bot.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
+
+	// Exits early if there is no command with this name.
+	if (!command) return;
+
+	// Gets the language
+	const lang = await bot.getLanguage(ctx);
+
+	// Aborts if the user or the guild are banned.
+	if (bot.mutedUsers.has(ctx.author.id) && ctx.author.id !== bot.owner.id) {
+		console.log(`[Banlist] User ${ctx.author.id} is MUTED.`);
+		return await ctx.reply(`⛔ ${__('bot-user-muted', lang)}`);
+	}
+	if (ctx.channel.type === ChannelType.GuildText && bot.blacklistedGuilds.has(ctx.guild.id) && ctx.author.id !== bot.owner.id) {
+		console.log(`[Banlist] Guild ${ctx.guild.id} is BLACKLISTED.`);
+		return await ctx.reply(`⛔ ${__('bot-server-blacklisted', lang)}`);
+		// return await ctx.channel.guild.leave();
+	}
+
+	// Aborts if the command is owner-only and the user is not the owner.
+	if (command.ownerOnly && ctx.author.id !== bot.owner.id) return;
+
+	// Notifies if can't DM (= PM).
+	if (command.guildOnly && ctx.channel.type !== ChannelType.GuildText) {
+		return ctx.reply(`⚠️ ${__('bot-cant-execute-in-dm', lang)}`);
+	}
+
+	// Notifies if arguments are missing.
+	if (command.args && !args.length) {
+		let reply = `ℹ️ ${ctx.author} ${__('bot-no-arguments', lang)}`;
+		if (command.usage) {
+			reply += `\n${__('bot-proper-usage', lang)} \`${prefix}${command.name} ${command.usage}\``;
+		}
+		return ctx.send(reply);
+	}
+
+	// Sets the cooldown.
+	// Skips for the bot owner.
+	if (command.cooldown && ctx.author.id !== bot.owner.id) {
+		if (!bot.cooldowns.has(command.name)) {
+			bot.cooldowns.set(command.name, new Collection());
+		}
+		const timeNow = Date.now();
+		const timeStamps = bot.cooldowns.get(command.name);
+		const cdAmount = (command.cooldown || 5) * 1000;
+		if (timeStamps.has(ctx.author.id)) {
+			const cdExpire = timeStamps.get(ctx.author.id) + cdAmount;
+			if (timeNow < cdExpire) {
+				const timeLeft = (cdExpire - timeNow) / 1000;
+				return ctx.reply(
+					`${__('bot-cooldown', lang).replace('{will_be_replaced}', timeLeft.toFixed(0))} `
+					+ `\`${prefix}${command.name}\``,
+				);
+			}
+		}
+		timeStamps.set(ctx.author.id, timeNow);
+		setTimeout(() => timeStamps.delete(ctx.author.id), cdAmount);
+	}
+
+	// Runs the command.
+	console.log(`[CMD] ${ctx.author.tag} (${ctx.author.id})`
+		+ (ctx.guild ? ` at ${ctx.guild.name} (${ctx.guild.id}) in #${ctx.channel.name} (${ctx.channel.id})` : '')
+		+ `: ${ctx.prefix}${command.name}`, args.join(' '),
+	);
+	try {
+		await command.run(args, ctx);
+		bot.raiseCommandStats(command.name, ctx);
+	}
+	catch (error) {
+		console.error('[Error] At command execution.');
+		onError(error, ctx);
+	}
+});
+
+/* !
+ * GUILD HANDLER
+ */
+bot.on('guildCreate', async guild => {
+	await bot.log(
+		`[GUILD] Joined: ${guild.name} (${guild.id})`,
+		// new GuildEmbed(guild),
+	);
+
+	if (bot.blacklistedGuilds.has(guild.id)) {
+		bot.log('Guild was blacklisted. Leaving.');
+		return await guild.leave();
+	}
+	// if (bot.whitelistedGuilds.has(guild.id)) return;
+
+	const bots = guild.members.cache.filter(m => m.user.bot).size;
+	const members = guild.memberCount;
+	const ratio = bots / members;
+
+	if (ratio >= 0.6 && members >= 20) {
+		await bot.log(`Detected bot collection server ${guild.id}, ratio ${ratio}. Leaving.`);
+		try {
+			const owner = await guild.fetchOwner();
+			await owner.send(
+				'Please do not add me to bot collection servers. '
+				+ 'Your server was flagged for having over 60% bots.'
+				+ 'If you believe this is an error, please PM the bot author.',
+			);
+		}
+		catch (err) { console.error(err); }
+		await guild.leave();
+	}
+});
+
+bot.on('guildDelete', async guild => {
+	await bot.log(
+		`[GUILD] Left: ${guild.name} (${guild.id})`,
+		// new GuildEmbed(guild),
+	);
+
+	// Empties the databases from entries with this guild.
+	const deletedEntries = await bot.kdbCleanGuild(guild.id);
+	if (deletedEntries.length) {
+		const msg = deletedEntries.map(name => {
+			return `[KDB] Deleted entry "${guild.id}" from \`${name}\` database.`;
+		});
+		await bot.log(msg.join('\n'));
+	}
+});
+
+/* !
+ * ERROR LISTENER
+ */
+bot.on('error', error => onError(error));
+
+/* !
+ * Catching UnhandledPromiseRejectionWarnings.
+ */
+process.on('unhandledRejection', error => {
+	// Logs the error.
+	console.error('[Error] Uncaught Promise Rejection', error);
+	onError(error);
+});
+
+/**
+ * Errors Handler.
+ * @param {Error} error The catched error
+ * @param {Discord.Message} [ctx] Discord message with context
+ * @async
+ */
+async function onError(error, ctx) {
+	// Gets the language.
+	let lang = 'en';
+	try {
+		if (ctx && ctx.bot) lang = await ctx.bot.getLanguage(ctx);
+	}
+	catch (err) {
+		console.error('Cannot get the lang', ctx, err);
+	}
+
+	// Processes the errors.
+	if (error instanceof HTTPError) {
+		console.error(error.name, error.code);
+	}
+	else if (error instanceof DiscordAPIError) {
+		console.error(error.name, error.code);
+	}
+	else if (error instanceof SebediusErrors.TooManyDiceError) {
+		if (ctx) ctx.reply(`⚠️ ${__('bot-error-too-many-dice', lang)} (${error.message})`);
+	}
+	else if (error instanceof SebediusErrors.NoSelectionElementsError) {
+		if (ctx) ctx.reply(`⚠️ ${__('bot-error-no-element-selected', lang)}`);
+	}
+	else if (error instanceof SebediusErrors.SelectionCancelledError) {
+		if (ctx) ctx.reply(`⏹️ ${__('bot-error-selection-canceled', lang)}`);
+	}
+	else if (error instanceof SebediusErrors.NotFoundError) {
+		if (ctx) ctx.reply(`⚠️ [${error.name}] ${error.message}.`);
+	}
+	else {
+		// Sends me a message if the error is Unknown.
+		if (process.env.NODE_ENV === 'production') {
+			let msg = `❌ __${error.toString()}__`;
+			if (ctx) {
+				msg += `\n**Command:** \`${ctx.content}\``
+					+ (ctx.author ? `\n**Author:** ${ctx.author.tag} (${ctx.author.id})` : '')
+					+ (ctx.guild ? `\n**Guild:** ${ctx.guild.name} (${ctx.guild.id})` : '');
+			}
+			msg += `\n**Code:** ${error.code} <https://discord.com/developers/docs/topics/opcodes-and-status-codes>`
+				+ `\n**Path:** ${error.path}`
+				+ `\n**Stack:** ${error.stack}`;
+			// bot.owner.send(msg, { split: true }) // split is deprecated
+			// 	.catch(console.error);
+			if (msg.length > 2000) {
+				msgs = splitMessage(msg);
+				for (const m of msgs) await bot.log(m);
+			}
+			else {
+				bot.log(msg);
+			}
+		}
+		if (ctx) {
+			ctx.reply(`❌ ${__('bot-error-command-execution', lang)}`)
+				.catch(console.error);
+		}
+	}
+	if (process.env.NODE_ENV !== 'production') {
+		console.error(error);
+	}
+}
+
+/**
+ * Get your bot's secret token from:
+ * https://discordapp.com/developers/applications/
+ * Click on your application -> Bot -> Token -> "Click to Reveal Token".
+ * Log our bot in using the token from https://discordapp.com/developers/applications/me
+ */
+bot.login(process.env.TOKEN);

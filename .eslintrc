@@ -4,11 +4,6 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "ecmaFeatures": {
-    "modules": true,
-    "spread": true,
-    "restParams": true
-  },
   "env": {
     "node": true,
     "es6": true

@@ -1,0 +1,6 @@
+missingPermissionsError: >-
+  The bot {{member}} is missing the following permissions and may not work
+  properly: {{perms}}
+commandError: |-
+  An error occured with this command: {{name}} {{code}}
+  {{message}}
