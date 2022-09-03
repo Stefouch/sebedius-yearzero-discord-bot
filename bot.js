@@ -17,6 +17,13 @@ if (!PRODUCTION) {
   require('dotenv').config();
 }
 
+// Because we need a lot of environment variables, we added a check.
+// BETA_DISCORD_TOKEN & BETA_BOT_ID are also needed in develop environment.
+(() => {
+  const envVars = ['DISCORD_TOKEN', 'BOT_GUILD_ID', 'BOT_LOGCHANNEL_ID', 'DATABASE_URI', 'OWNER_ID'];
+  for (const env of envVars) if (!process.env[env]) throw new Error(`🔑 Missing ENV variable "${env}"`);
+})();
+
 /* ------------------------------------------ */
 
 // Builds the client.
