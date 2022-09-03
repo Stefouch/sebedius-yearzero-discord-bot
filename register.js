@@ -1,9 +1,10 @@
 const Sebedius = require('./src/structures/sebedius-client');
 const handleCommands = require('./src/structures/handlers/command-handler');
 const registerSlashCommands = require('./src/structures/slash-register');
-require('dotenv').config();
 
 const production = process.env.NODE_ENV === 'production';
+
+if (!production) require('dotenv').config();
 
 const client = new Sebedius({
   intents: require('./src/structures/sebedius-intents'),
