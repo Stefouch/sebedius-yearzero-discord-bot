@@ -446,9 +446,18 @@ module.exports = class RollCommand extends SebediusCommand {
 
         // Edits the message with the pushed roll.
         const messageData = await this.render(roll, interaction, t);
-        // await interaction.editReply(messageData); // !
-        await message.edit(messageData); // ! Because using i.update() cause bugs with emojis
-        await i.deferUpdate(); // ! Workaround to remove the "interaction failed" error
+
+        // TODO https://github.com/discordjs/discord.js/issues/8588
+        // TODO https://github.com/discord/discord-api-docs/issues/5279
+        // ! Also, message.edit does not work with ephemeral messages
+        if (interaction.ephemeral) {
+          await i.update(messageData); // !
+          // await interaction.editReply(messageData); // !
+        }
+        else {
+          await message.edit(messageData); // ! Because using i.update() cause bugs with emojis
+          await i.deferUpdate(); // ! Workaround to remove the "interaction failed" error
+        }
 
         // Detects panic.
         if (this.bot.config.Commands.roll.options[roll.game]?.panic && roll.panic) {
@@ -466,7 +475,9 @@ module.exports = class RollCommand extends SebediusCommand {
     // *** COLLETOR:END
     // @ts-ignore
     collector.on('end', async () => {
-      if (message.components.length) await message.edit({ components: [] });
+      if (message.components.length && !interaction.ephemeral) {
+        await message.edit({ components: [] });
+      }
     });
   }
 
@@ -572,7 +583,6 @@ module.exports = class RollCommand extends SebediusCommand {
             const diceResults = dice
               .filter(d => rpc - d.pushCount < p)
               .map(d => d.results[d.pushCount - (rpc - p) - 1]);
-              // .map(d => d.results.at(d.results.length <= p ? -1 : p - 1)); // TODO remove
             out.push(`#${p} [${typeName.toLowerCase()}]: ${diceResults.join(', ')}`);
           }
         }

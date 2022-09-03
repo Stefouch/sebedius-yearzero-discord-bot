@@ -4,7 +4,13 @@ const registerSlashCommands = require('./src/structures/slash-register');
 
 const production = process.env.NODE_ENV === 'production';
 
-if (!production) require('dotenv').config();
+if (!production) {
+  require('dotenv').config();
+  console.log('🛠️ DEVELOP MODE: Register for the BETA BOT');
+}
+else {
+  console.log('🚀 PRODUCTION MODE: Register for the SEBEDIUS BOT');
+}
 
 const client = new Sebedius({
   intents: require('./src/structures/sebedius-intents'),

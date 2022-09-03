@@ -216,9 +216,6 @@ class YearZeroDie {
    */
   static rng(min, max) {
     const seed = Twist.random();
-    // TODO disable
-    // console.log('seed:', seed, 'val:', Math.ceil(seed * this.faces));
-    // return Math.ceil(seed * this.faces);
     return Math.floor(seed * (max - min + 1) + min);
   }
 

@@ -51,20 +51,12 @@ SebediusConfig.Commands.roll = {
  *   Additional dice rolled when pushed
  * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]} [reactionMenu]
  *   Non-conventional reaction menu
-//  * @property {Object.<YearZeroDieTypes, YearZeroDieTypes>}     [aliases]
  */
 
 SebediusConfig.Commands.roll.options = {
   /** @type {DiceRenderOptions} */
   [YearZeroGames.BLANK]: {
     successIcon: null,
-    // TODO clean + clean TypeDef
-    // aliases: {
-    //   [YearZeroDieTypes.BASE]: YearZeroDieTypes.SKILL,
-    //   [YearZeroDieTypes.GEAR]: YearZeroDieTypes.SKILL,
-    //   [YearZeroDieTypes.NEG]: null,
-    //   [YearZeroDieTypes.STRESS]: null,
-    // },
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.MUTANT_YEAR_ZERO]: {
@@ -377,6 +369,56 @@ SebediusConfig.DiceIcons[YearZeroGames.TWILIGHT_2K] = {
     '<:t2kg0:784779356849176576>',
     '<:t2kg0:784779356849176576>',
     '<:t2kg6:784779357344235550>',
+  ],
+};
+SebediusConfig.DiceIcons[YearZeroGames.BLADE_RUNNER] = {
+  d12: [
+    '0',
+    '<:t2ka1:784779990285811712>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka0:784779989005893653>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka6:784779989911863307>',
+    '<:t2ka10:784779990159720448>',
+    '<:t2ka10:784779990159720448>',
+    '<:t2ka10:784779990159720448>',
+  ],
+  d10: [
+    '0',
+    '<:t2kb1:784779990142681108>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb0:784779989866381372>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb6:784779990352527411>',
+    '<:t2kb10:784779990419505152>',
+  ],
+  d8: [
+    '0',
+    '<:t2kc1:784779990779691040>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc0:784779990469181460>',
+    '<:t2kc6:784779990213722143>',
+    '<:t2kc6:784779990213722143>',
+    '<:t2kc6:784779990213722143>',
+  ],
+  [YearZeroDieTypes.BASE]: [
+    '0',
+    '<:t2kd1:784779989525987328>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd0:784779989178515457>',
+    '<:t2kd6:784779989324529674>',
   ],
 };
 

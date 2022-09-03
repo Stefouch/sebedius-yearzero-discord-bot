@@ -4,7 +4,25 @@ All notable changes to this project will be documented in this file.
 <br/>The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.0.0] - 2022-09-23
+## [6.0.1] - 2022-09-04
+
+### Added
+
+- Git Localize link in the docs: https://gitlocalize.com/repo/7910
+
+### Changed
+
+- `/rolld66` dice argument is no more required, and will roll a D66 by default.
+- Simplified Github templates for bug reports & feature requests.
+
+### Fixed
+
+- Ephemeral messages not pushable.
+- `/rolld66` rendering blank dice with some games.
+- Errors with guild events.
+- Some other errors.
+
+## [6.0.0] - 2022-09-03
 
 ### Added
 

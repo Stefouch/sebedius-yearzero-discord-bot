@@ -1,4 +1,4 @@
-export default (() => {
+module.exports = (() => {
   const args = process.argv.slice(2);
   if (args.length === 0) return;
   return args.reduce((acc, arg, index, arr) => {

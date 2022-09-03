@@ -1,9 +1,9 @@
-import fs from 'node:fs';
-import chalk from 'chalk';
-import gulp from 'gulp';
-import semver from 'semver';
-import { execa } from 'execa';
-import argv from './tools/args-parser.js';
+const fs = require('node:fs');
+const chalk = require('chalk');
+const gulp = require('gulp');
+const semver = require('semver');
+// const { execa } = require('execa');
+const argv = require('./tools/args-parser.js');
 
 /* ------------------------------------------ */
 /*  Configuration                             */
@@ -38,6 +38,7 @@ function getTargetVersion(currentVersion, releaseType) {
  * @async
  */
 async function changelog() {
+  const { execa } = await import('execa');
   await execa('npx', ['standard-version', '--skip.bump', '--skip.tag', '--skip.commit'], { stdio });
 }
 
@@ -46,6 +47,7 @@ async function changelog() {
  * @async
  */
 async function commitTagPush() {
+  const { execa } = await import('execa');
   const { version } = packageJson;
   const commitMsg = `chore(release): Release ${version}`;
   await execa('git', ['add', '-A'], { stdio });
@@ -100,5 +102,5 @@ async function bumpVersion(cb) {
 /*  Scripts                                   */
 /* ------------------------------------------ */
 
-export const bump = gulp.series(bumpVersion, changelog);
-export const release = commitTagPush;
+module.exports.bump = gulp.series(bumpVersion, changelog);
+module.exports.release = commitTagPush;

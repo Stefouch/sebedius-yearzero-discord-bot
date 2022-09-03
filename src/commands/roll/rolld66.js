@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, inlineCode, EmbedBuilder } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
-const { YearZeroGameChoices, YearZeroGameNames } = require('../../constants');
+const { YearZeroGameChoices, YearZeroGameNames, YearZeroGames } = require('../../constants');
 
 module.exports = class RollD66Command extends SebediusCommand {
   constructor(client) {
@@ -16,8 +16,7 @@ module.exports = class RollD66Command extends SebediusCommand {
           .addChoices(
             { name: 'D6', value: 'D6' },
             { name: 'D66', value: 'D66' },
-            { name: 'D666', value: 'D666' })
-          .setRequired(true))
+            { name: 'D666', value: 'D666' }))
         .addStringOption(opt => opt
           .setName('title')
           .setDescription('Define a title for the roll'))
@@ -33,7 +32,7 @@ module.exports = class RollD66Command extends SebediusCommand {
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t, guildOptions) {
     const game = interaction.options.getString('game') || guildOptions.game;
-    const die = interaction.options.getString('die');
+    const die = interaction.options.getString('die') ?? 'D66';
 
     const n = die.split('6').length - 1;
 
@@ -50,15 +49,18 @@ module.exports = class RollD66Command extends SebediusCommand {
       .setTitle(roll.name)
       .setColor(this.bot.config.favoriteColor)
       .setTimestamp()
-      .setFooter({ text: YearZeroGameNames[roll.game] })
+      .setFooter({ text: YearZeroGameNames[game] })
       .setDescription(t('commands:rolld66.resultForD66', {
         author: roll.author.toString(),
         dice: inlineCode(die),
         result: `__**${roll.sumProductBaseTen()}**__`,
       }));
 
+    // If the game has blank dice, we should use the default template.
+    const hasBlankDice = this.bot.config.Commands.roll.options[game]?.hasBlankDice;
+
     return interaction.reply({
-      content: roll.emojify(),
+      content: roll.emojify(hasBlankDice ? YearZeroGames.BLANK : game),
       embeds: [embed],
       ephemeral: interaction.options.getBoolean('private'),
     });
