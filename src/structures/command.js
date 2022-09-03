@@ -28,7 +28,6 @@
  * @param {SebediusTranslationCallback} [t]
  * @param {Object}                      [guildOptions]
  * @returns {Promise.<any>}
- * @async
  */
 
 class SebediusCommand {

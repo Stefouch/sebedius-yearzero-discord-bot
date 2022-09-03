@@ -2,14 +2,12 @@
  * @callback SebediusEventMessageCreateFunction
  * @param {import('discord.js').Message} message
  * @returns {Promise.<any>}
- * @async
  */
 
 /**
  * @callback SebediusEventInteractionCreateFunction
  * @param {import('discord.js').BaseInteraction} interaction
  * @returns {Promise.<any>}
- * @async
  */
 
 /**
@@ -60,7 +58,6 @@ class SebediusEvent {
    * @param {*} args
    * @returns {Promise.<any>}
    * @abstract
-   * @async
    */
   // eslint-disable-next-line no-unused-vars
   async execute(...args) {
