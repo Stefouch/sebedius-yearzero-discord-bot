@@ -63,7 +63,8 @@
     "test:db": "mocha ./test/db.test.js --exit",
     "precommit-msg": "devmoji -e --lint",
     "pm2:watch": "pm2 start bot.js --watch & pm2 log",
-    "register": "node register.js"
+    "register": "node register.js",
+    "bump": "npm run lint:fix && gulp bump --r"
   },
   "pre-commit": [
     "precommit-msg"
