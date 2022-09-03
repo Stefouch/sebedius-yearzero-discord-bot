@@ -48,6 +48,7 @@ roll:
     push: Push
     cancel: Accept
   notYourRoll: You can only interact with your own rolls!
+  genericRollParseError: Could not parse the following input roll string! {{input}}
 rolld66:
   resultForD66: '{{author}} rolled a {{dice}} and obtained {{result}}.'
 thread:

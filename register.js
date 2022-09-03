@@ -23,4 +23,3 @@ const client = new Sebedius({
     console.error(err);
   }
 })();
-

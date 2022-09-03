@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 <br/>The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [6.0.0] - 2022-09-24
+## [6.0.0] - 2022-09-23
 
 ### Added
 
@@ -13,13 +13,16 @@ All notable changes to this project will be documented in this file.
   - Roll: `/roll`, `/rolld66`
   - Utils: `/help`, `/ping`
 - Support for Blade Runner RPG rolls (still missing the dice icons).
+- Support for generic rolls like `5d6!>6`.
+- A [privacy policy](../../PRIVACY_POLICY.md) declaration.
 
 ### Changed
 
 - **(Breaking)** Sebedius needed **permissions** have changed. You might need to kick and re-add the bot to have it work properly.
 - License is now **GPL-3.0-or-later** (was MIT)
-- **(Breaking)** New Database: MongoDB (was postgres)
+- Use of the `Mersenne-Twister` algorithm for the random numbers generations instead of the vanilla javascript `Math.random` method.
 - Better [Contributing Guide](../../CONTRIBUTING.md).
+- **(Breaking)** New Database: MongoDB (was postgres)
 - Code revamp:
   - Clean code using modern javascript coding guidelines
   - Use of Eslint & Prettier
