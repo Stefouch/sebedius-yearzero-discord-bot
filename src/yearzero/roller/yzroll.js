@@ -546,22 +546,28 @@ class YearZeroRoll {
   /*  Roll Methods                              */
   /* ------------------------------------------ */
 
-  async roll() {
+  /**
+   * Rolls the dice.
+   * @param {boolean} [log=false] Wether to log the roll in the console
+   * @returns {Promise.<this>}
+   */
+  async roll(log = false) {
     if (this.rolled) throw new Error('Roll Is Already Evaluated!');
     for (const d of this.dice) if (!d.evaluated) d.roll();
-    Logger.roll(this);
-    // TODO remove log
-    console.log('maxPush', this.maxPush, 'pushCount', this.pushCount, 'pushed', this.pushed, 'pushable', this.pushable);
+    if (log) Logger.roll(this);
     return this;
   }
 
-  async push() {
+  /**
+   * Rolls the dice.
+   * @param {boolean} [log=false] Wether to log the roll in the console
+   * @returns {Promise.<this>}
+   */
+  async push(log = false) {
     if (!this.rolled) await this.roll();
     if (!this.pushable) return this;
     for (const d of this.dice) d.push();
-    Logger.roll(this);
-    // TODO remove log
-    console.log('maxPush', this.maxPush, 'pushCount', this.pushCount, 'pushed', this.pushed, 'pushable', this.pushable);
+    if (log) Logger.roll(this);
     return this;
   }
 
@@ -676,8 +682,13 @@ class YearZeroRoll {
 
     out.push(this.toPool());
 
-    out.push(`→ [${this.results.toString()}]`);
-    out.push('=', this.game === YearZeroGames.BLANK ? this.valueOf() : this.successCount);
+    if (this.dice.some(d => d.evaluated)) {
+      out.push(`→ [${this.results.toString()}]`);
+      out.push('=', this.game === YearZeroGames.BLANK ? this.valueOf() : this.successCount);
+    }
+    else {
+      out.push('[unrolled]');
+    }
 
     if (this.pushed) out.push(`(pushed${this.pushCount > 1 ? ` × ${this.pushCount}` : ''})`);
 

@@ -44,7 +44,7 @@ module.exports = class RollD66Command extends SebediusCommand {
     }).addBaseDice(n)
       .setMaxPush(0);
 
-    await roll.roll();
+    await roll.roll(true);
 
     const embed = new EmbedBuilder()
       .setTitle(roll.name)
