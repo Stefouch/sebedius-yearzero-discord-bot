@@ -1,56 +1,29 @@
-name: 🚀 Feature request
-description: Suggest an idea for this bot
-labels: [enhancement]
-
+name: ✨ Feature request
+description: Request a new feature for the bot
+labels: [feature request]
 body:
   - type: textarea
-    id: relationship
+    id: description
     attributes:
-      label: Is your feature request related to a problem? Please describe
-      description: A clear and concise description of what the problem is.
-      placeholder: '...'
+      label: Feature
+      description: A clear and concise description of what the problem is, or what feature you want to be implemented.
+      placeholder: I'm always frustrated when..., Sebedius has recently released..., A good addition would be...
     validations:
       required: true
-
   - type: textarea
-    id: users
+    id: solution
     attributes:
-      label: Who would use it?
-      description: The use case for this feature.
-      placeholder: '...'
+      label: Ideal solution or implementation
+      description: A clear and concise description of what you want to happen.
     validations:
       required: true
-
   - type: textarea
-    id: bot-part
+    id: alternatives
     attributes:
-      label: What part of the bot?
-      description: Initiative, dice roller, general functionality, commands aliasing.
-      placeholder: '...'
-    validations:
-      required: true
-
-  - type: textarea
-    id: syntax
-    attributes:
-      label: How would it work?
-      description: This is where you put the syntax/command.
-      placeholder: '...'
-    validations:
-      required: true
-
-  - type: textarea
-    id: justify
-    attributes:
-      label: Why should this be added?
-      description: Justify why you think it'd help others.
-      placeholder: '...'
-    validations:
-      required: true
-
+      label: Alternative solutions or implementations
+      description: A clear and concise description of any alternative solutions or features you have considered.
   - type: textarea
     id: additional-context
     attributes:
-      label: Additional context
-      description: Add any other context or screenshots about the feature request here.
-      placeholder: '...'
+      label: Other context
+      description: Any other context, screenshots, or file uploads that help us understand your feature request.
