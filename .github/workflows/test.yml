@@ -1,7 +1,7 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: CI Tests
+name: CI Test
 
 on:
   - pull_request
@@ -11,6 +11,11 @@ jobs:
   test:
     name: Perform Tests
     runs-on: ubuntu-latest
+
+    # runs all of the steps inside the specified container rather than on the VM host.  
+    # Because of this the network configuration changes from host based network to a container network.
+    container:
+      image:  node:10.16-jessie
 
     # Set PostgreSQL database
     services:
@@ -59,9 +64,33 @@ jobs:
       - name: 🤖 Test Bot
         run: npm run test:client
         env:
-          TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
+          BETA_DISCORD_TOKEN: ${{ secrets.BETA_DISCORD_TOKEN }}
+          BETA_BOT_ID: ${{ secrets.BETA_BOT_ID }}
+          OWNER_ID: ${{ secrets.OWNER_ID }}
 
-      - name: 🐘 Test PostgreSQL Database
+      - name: 🍃 Test MongoDB Database
         run: npm run test:db
         env:
+          MONGODB_HOST: mongodb
+          MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }}
           DATABASE_URI: 'mongodb://sebedius:tomasharenstam1234@localhost:27017/eden'
+
+  vm-job:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo
+        ports:
+        # will assign a random free host port
+        - 27017/tcp
+
+    steps:
+    - uses: actions/checkout@v3
+    - run: npm ci
+    - run: npm run test:db
+      env:
+        # use localhost for the host here because we are running the job on the VM.
+        # If we were running the job on in a container this would be mongodb
+        MONGODB_HOST: localhost
+        MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }} # get randomly assigned published port

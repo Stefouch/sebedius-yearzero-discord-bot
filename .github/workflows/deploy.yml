@@ -33,6 +33,10 @@ jobs:
         run: npm run register
         env:
           NODE_ENV: production
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          BOT_GUILD_ID: ${{ secrets.BOT_GUILD_ID }}
+          BOT_ID: ${{ secrets.BOT_ID }}
+
 
       - name: 🚀 Deploy
         run: heroku pipelines:promote -a ${{ secrets.HEROKU_STAGING_APP_NAME }}
