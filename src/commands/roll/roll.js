@@ -3,12 +3,14 @@ const {
   ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
   inlineCode, codeBlock,
 } = require('discord.js');
+const { parseAndRoll } = require('roll-parser');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const { YearZeroGames, YearZeroGameNames } = require('../../constants');
 const { YearZeroDieTypes } = require('../../yearzero/roller/dice/dice-constants');
 const { ArtifactDie, TwilightDie, BladeRunnerDie } = require('../../yearzero/roller/dice');
 const { Emojis } = require('../../config');
+const { RollError } = require('../../utils/errors');
 const Logger = require('../../utils/logger');
 
 /* ------------------------------------------ */
@@ -22,26 +24,31 @@ const GameSubcommandsList = {
   [YearZeroGames.ALIEN_RPG]: [
     'dice', 'stress', 'title', 'modifier', 'maxpush', 'private', 'fullauto', 'nerves', 'minpanic',
   ],
-  [YearZeroGames.BLADE_RUNNER]: ['input', 'title', 'modifier', 'maxpush', 'private'],
+  [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modifier', 'maxpush', 'private'],
   [YearZeroGames.CORIOLIS]: ['dice', 'title', 'modifier', 'maxpush', 'private', 'fullauto'],
   [YearZeroGames.FORBIDDEN_LANDS]: [
     'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'private', 'fullauto', 'pride',
   ],
   [YearZeroGames.MUTANT_YEAR_ZERO]: ['base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'private'],
   [YearZeroGames.TALES_FROM_THE_LOOP]: ['dice', 'title', 'modifier', 'maxpush', 'private'],
-  [YearZeroGames.TWILIGHT_2K]: ['input', 'ammo', 'title', 'modifier', 'maxpush', 'private', 'fullauto'],
+  [YearZeroGames.TWILIGHT_2K]: ['abcd', 'ammo', 'title', 'modifier', 'maxpush', 'private', 'fullauto'],
   [YearZeroGames.VAESEN]: ['dice', 'title', 'modifier', 'maxpush', 'private'],
 };
 
 /** @enum {SlashCommandOption} */
 const SlashCommandOptions = {
   input: {
-    description: 'A roll resolvable string for the dice to roll',
+    description: 'A roll string for the dice to roll in the format NdX!>XfX (separate multiple rolls with a space)',
+    type: ApplicationCommandOptionType.String,
+    required: true,
+  },
+  abcd: {
+    description: 'Type any of the following: 12, 10, 8, 6, a, b, c, d',
     type: ApplicationCommandOptionType.String,
     required: true,
   },
   dice: {
-    description: 'Dice to roll',
+    description: 'Number of dice to roll',
     type: ApplicationCommandOptionType.Integer,
     required: true,
     min: 1,
@@ -86,7 +93,7 @@ const SlashCommandOptions = {
     max: 20,
   },
   maxpush: {
-    description: 'Change the maximum number of allowed pushes',
+    description: 'Change the maximum number of allowed pushes (type 0 for no push)',
     type: ApplicationCommandOptionType.Integer,
     min: 0,
     max: 10,
@@ -180,21 +187,22 @@ module.exports = class RollCommand extends SebediusCommand {
     const game = interaction.options.getSubcommand();
     const title = interaction.options.getString('title');
 
-    const input = interaction.options.getString('input');
-    const artosInput = interaction.options.getString('artifacts');
-    const maxPush = interaction.options.getInteger('maxpush');
-
     const dice = interaction.options.getInteger('dice');
     const base = interaction.options.getInteger('base');
     const skill = interaction.options.getInteger('skill');
     const gear = interaction.options.getInteger('gear');
     const stress = interaction.options.getInteger('stress');
     const ammo = interaction.options.getInteger('ammo');
+
     const modifier = interaction.options.getInteger('modifier');
+    const maxPush = interaction.options.getInteger('maxpush');
+
+    const artosInput = interaction.options.getString('artifacts');
 
     // Generic rolls are parsed by another library.
     if (game === YearZeroGames.BLANK) {
-      // TODO return this.renderGeneric(diceString, title);
+      const input = interaction.options.getString('input');
+      return this.executeGenericRoll(input, title, interaction, t);
     }
 
     // Creates the roll.
@@ -205,7 +213,8 @@ module.exports = class RollCommand extends SebediusCommand {
     });
 
     // Parses roll string input (for Twilight 2000 & Blade Runner).
-    if (input) {
+    if (game === YearZeroGames.TWILIGHT_2K || game === YearZeroGames.BLADE_RUNNER) {
+      const input = interaction.options.getString('abcd');
       const Die = game === YearZeroGames.TWILIGHT_2K ? TwilightDie : BladeRunnerDie;
 
       const inputRegex = /(?:(\d+)?d?(6|8|10|12))|([abcd])/g;
@@ -245,8 +254,11 @@ module.exports = class RollCommand extends SebediusCommand {
       let result;
       // https://stackoverflow.com/a/27753327
       while ((result = artoRegex.exec(artosInput)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
+        // This is necessary to avoid infinite loops with zero-width matches.
         if (result.index === artoRegex.lastIndex) artoRegex.lastIndex++;
+        // Allows only a subset of die faces.
+        if (![6, 8, 10, 12].includes(+result[0])) continue;
+        // Adds the artifact dice.
         roll.addDice(ArtifactDie, 1, { faces: +result[0] });
       }
     }
@@ -280,7 +292,55 @@ module.exports = class RollCommand extends SebediusCommand {
   }
 
   /* ------------------------------------------ */
-  /*  Support Methods                           */
+  /*  Generic Roll Method                       */
+  /* ------------------------------------------ */
+
+  /**
+   * Parses & renders a generic roll.
+   * @param {string} input
+   * @param {string} title
+   * @param {import('discord.js').ChatInputCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusTranslationCallback} t
+   */
+  async executeGenericRoll(input, title, interaction, t) {
+    const roll = parseAndRoll(input);
+    Logger.roll(`roll:generic ${roll ? roll.toString() : input}`);
+
+    if (!roll) {
+      return interaction.reply({
+        ephemeral: true,
+        content: `${Emojis.shrug} ${t('commands:roll.genericRollParseError', {
+          input: codeBlock(input),
+        })}`,
+      });
+    }
+
+    if (roll.rolls.length > this.bot.config.Commands.roll.max) {
+      return interaction.reply({
+        content: `${Emojis.warning} ${t('commands:roll.tooManyDiceError')}`,
+        ephemeral: true,
+      });
+    }
+
+    const embed = new EmbedBuilder()
+      .setTitle(title ?? inlineCode(input))
+      .setDescription(`**${roll.value}**`)
+      .setColor(this.bot.config.favoriteColor)
+      .setTimestamp()
+      .setFooter({ text: YearZeroGameNames[YearZeroGames.BLANK] })
+      .addFields({
+        name: t('commands:roll.embed.details'),
+        value: codeBlock(roll.toString()),
+      });
+
+    return interaction.reply({
+      embeds: [embed],
+      ephemeral: interaction.options.getBoolean('private'),
+    });
+  }
+
+  /* ------------------------------------------ */
+  /*  Year Zero Roll Render Method              */
   /* ------------------------------------------ */
 
   /**
@@ -295,15 +355,15 @@ module.exports = class RollCommand extends SebediusCommand {
     if (!options) throw new ReferenceError(`[roll:${roll.game}] Command Options Not Found!`);
 
     if (roll.size < 1) {
-      throw new Error(t('commands:help.noDiceError'));
+      throw new RollError(t('commands:help.noDiceError'), roll);
     }
 
     if (roll.size > this.bot.config.Commands.roll.max) {
-      throw new Error(t('commands:roll.tooManyDiceError'));
+      throw new RollError(t('commands:roll.tooManyDiceError'), roll);
     }
 
     // Rolls the dice.
-    if (!roll.rolled) await roll.roll();
+    if (!roll.rolled) await roll.roll(true);
 
     // Fixes the name.
     if (!roll.name) roll.name = inlineCode(roll.toPool());
@@ -361,7 +421,7 @@ module.exports = class RollCommand extends SebediusCommand {
         });
       }
       else if (i.customId === 'push-button') {
-        await roll.push();
+        await roll.push(true);
 
         // Add any extra pushed dice
         if (this.bot.config.Commands.roll.options[roll.game]?.extraPushDice) {
@@ -386,15 +446,16 @@ module.exports = class RollCommand extends SebediusCommand {
 
         // Edits the message with the pushed roll.
         const messageData = await this.render(roll, interaction, t);
+        // await interaction.editReply(messageData); // !
         await message.edit(messageData); // ! Because using i.update() cause bugs with emojis
         await i.deferUpdate(); // ! Workaround to remove the "interaction failed" error
 
         // Detects panic.
         if (this.bot.config.Commands.roll.options[roll.game]?.panic && roll.panic) {
           collector.stop();
-          const stressCommand = this.bot.commands.get('panic');
+          const panicCommand = this.bot.commands.get('panic');
           // TODO call PanicCommand
-          // await stressCommand.run(interaction, t);
+          // await panicCommand.run(interaction, t);
         }
       }
       else if (i.customId === 'cancel-button') {
