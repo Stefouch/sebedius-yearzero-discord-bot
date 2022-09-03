@@ -1,13 +1,13 @@
 const { PermissionFlagsBits } = require('discord.js');
 
 module.exports = [
-  PermissionFlagsBits.AddReactions,
+  // PermissionFlagsBits.AddReactions,
+  // PermissionFlagsBits.Connect,
   PermissionFlagsBits.EmbedLinks,
-  // PermissionFlagsBits.ManageEmojisAndStickers,
-  // PermissionFlagsBits.ManageMessages,
-  // PermissionFlagsBits.ReadMessageHistory,
-  // PermissionFlagsBits.SendMessages,
-  // PermissionFlagsBits.SendMessagesInThreads,
-  PermissionFlagsBits.UseExternalEmojis,
-  PermissionFlagsBits.UseApplicationCommands,
+  PermissionFlagsBits.ManageMessages, // For message pinning
+  PermissionFlagsBits.ReadMessageHistory, // Possibly mandatory?
+  PermissionFlagsBits.SendMessages, // Mandatory
+  PermissionFlagsBits.SendMessagesInThreads, // Mandatory
+  PermissionFlagsBits.UseExternalEmojis, // For custom dice emojis
+  PermissionFlagsBits.ViewChannel, // Mandatory
 ];

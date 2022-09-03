@@ -95,18 +95,23 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       }
 
       // Checks permissions (put after because we only have 3 seconds to respond to an interaction).
-      const botMember = await interaction.guild.members.fetchMe();
+      // const botMember = await interaction.guild.members.fetchMe();
+      const botMember = interaction.guild.members.me;
       if (!botMember.permissions.has(this.bot.permissions)) {
         const missingPermsList = botMember.permissions
           .missing(this.bot.permissions)
           .join(', ');
-          // TODO Message for missing permissions
+
+        // TODO Message for missing permissions
         // const msg = `${Emojis.warning} ${t('commons:missingPermissionsError', {
         //   member: botMember.toString(),
         //   perms: codeBlock(missingPermsList),
         // })}`;
         Logger.warn(`Missing permissions: ${missingPermsList}`);
-        // return interaction.reply(msg);
+
+        // if (interaction.replied) await interaction.followUp({ content: msg, ephemeral: true });
+        // else if (interaction.deferred) await interaction.editReply({ content: msg });
+        // else await interaction.reply({ content: msg, ephemeral: true });
       }
     }
   }
