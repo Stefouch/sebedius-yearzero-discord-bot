@@ -1,63 +1,67 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Run Tests
+name: CI Tests
 
-on: [pull_request]
+on:
+  - pull_request
+  - workflow_call
 
 jobs:
   test:
-    name: Node 16
+    name: Perform Tests
     runs-on: ubuntu-latest
-
-    strategy:
-      # max-parallel: 1
-      matrix:
-        node-version: [16]
 
     # Set PostgreSQL database
     services:
-      postgres:
-        image: postgres:latest
+      mongodb:
+        image: mongo
         env:
-          POSTGRES_DB: eden
-          POSTGRES_USER: sebedius
-          POSTGRES_PASSWORD: tomasharenstam1234
-          # POSTGRES_PORT: 5432
+          MONGO_INITDB_ROOT_USERNAME: sebedius
+          MONGO_INITDB_ROOT_PASSWORD: tomasharenstam1234
+          MONGO_INITDB_DATABASE: eden
         ports:
-          - 5432:5432
-        # Set health checks to wait until postgres has started
+          - 27017:27017
+        # postgres:
+        #   image: postgres:latest
+        #   env:
+        #     POSTGRES_DB: eden
+        #     POSTGRES_USER: sebedius
+        #     POSTGRES_PASSWORD: tomasharenstam1234
+        #     # POSTGRES_PORT: 5432
+        #   ports:
+        #     - 5432:5432
+        # Set health checks to wait until mongo has started
         options: >-
-          --health-cmd pg_isready
+          --health-cmd mongo
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
 
     steps:
       - name: 📡 Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: ⚙ Use Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
+      - name: ⚙️ Setup NodeJS 16
+        uses: actions/setup-node@v3
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 16
 
-      - name: ☕ Install Dependencies
+      - name: 🔧 Install Dependencies
         run: npm ci
 
       - name: 🎲 Test Rolls
-        run: npm run test-roll
+        run: npm run test:roll
 
-      - name: 🏷️ Test Translations
-        run: npm run test-lang
+      # - name: 🏷️ Test Translations
+      #   run: npm run test:locale
 
       - name: 🤖 Test Bot
-        run: npm run test-client
+        run: npm run test:client
         env:
           TOKEN: ${{ secrets.DISCORD_BETA_BOT_TOKEN }}
 
       - name: 🐘 Test PostgreSQL Database
-        run: npm run test-db
+        run: npm run test:db
         env:
-          # DATABASE_URL: "postgres://sebedius:tomasharenstam1234@localhost:5432/eden?ssl=true&sslmode=require&sslfactory=org.postgresql.ssl.NonValidatingFactory"
-          DATABASE_URL: 'postgres://sebedius:tomasharenstam1234@localhost:5432/eden'
+          DATABASE_URI: 'mongodb://sebedius:tomasharenstam1234@localhost:27017/eden'
