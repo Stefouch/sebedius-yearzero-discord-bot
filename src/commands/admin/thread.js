@@ -9,6 +9,7 @@ module.exports = class ThreadCommand extends SebediusCommand {
       data: new SlashCommandBuilder()
         .setName('thread')
         .setDescription('Make the bot join or leave a thread')
+        .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionFlagsBits.ManageThreads)
         .addSubcommand(sub => sub
           .setName('join')
