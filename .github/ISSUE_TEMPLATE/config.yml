@@ -3,9 +3,9 @@ contact_links:
   - name: Question
     url: https://discord.gg/RnaydHR
     about: Please ask questions on Discord.
-  - name: Commands Usage
-    url: https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki
-    about: Read the Wiki.
+  # - name: Commands Usage
+  #   url: https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki
+  #   about: Read the Wiki.
   - name: Support Us
     url: https://www.patreon.com/Stefouch
     about: Please, if you love the bot consider supporting us on Patreon!

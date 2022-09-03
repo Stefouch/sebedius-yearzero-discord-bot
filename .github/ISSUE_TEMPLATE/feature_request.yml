@@ -1,8 +1,6 @@
 name: 🚀 Feature request
-about: Suggest an idea for this bot
-title: ''
-labels: ['enhancement']
-assignees: ''
+description: Suggest an idea for this bot
+labels: [enhancement]
 
 body:
   - type: textarea

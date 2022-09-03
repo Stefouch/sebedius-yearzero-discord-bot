@@ -1,8 +1,6 @@
 name: 🐞 Bug report
-about: Create a report to help us improve
-title: ''
-labels: ['bug']
-assignees: ''
+description: Report incorrect or unexpected behavior of the bot
+labels: [bug]
 
 body:
   - type: textarea
@@ -26,8 +24,6 @@ body:
         - Medium (minor functional impact)
         - High (a broken feature, major functional impact)
         - Critical (bot crash, extremely major functional impact)
-      validations:
-        required: true
 
   - type: textarea
     id: context
@@ -35,7 +31,7 @@ body:
       label: Context
       description: What was the run command that triggered the bug?
       placeholder: '!ping'
-      render: shell
+      render: bash
 
   - type: textarea
     id: steps-to-reproduce
