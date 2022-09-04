@@ -79,7 +79,8 @@ class Sebedius extends Client {
   /* ------------------------------------------ */
 
   async getGuildsCount() {
-    return (await this.guilds.fetch()).size;
+    await this.guilds.fetch();
+    return this.guilds.cache.size;
   }
 
   async getUsersCount() {
