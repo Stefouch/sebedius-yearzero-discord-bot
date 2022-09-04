@@ -1,8 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, inlineCode } = require('discord.js');
+const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, codeBlock } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
-const { capitalize } = require('../../utils/string-utils');
 const { YearZeroGameChoices } = require('../../constants');
 const { Emojis, SupportedLocales } = require('../../config');
+const { isObjectEmpty } = require('../../utils/object-utils');
 
 module.exports = class ConfCommand extends SebediusCommand {
   constructor(client) {
@@ -13,20 +13,14 @@ module.exports = class ConfCommand extends SebediusCommand {
         .setDescription('Sets the bot\'s configuration for this server.')
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-        .addSubcommand(sub => sub
+        .addStringOption(opt => opt
           .setName('game')
-          .setDescription('Define the default game for your server (for ice skins and critical injuries tables)')
-          .addStringOption(opt => opt
-            .setName('value')
-            .setDescription('Input')
-            .addChoices(...YearZeroGameChoices)))
-        .addSubcommand(sub => sub
+          .setDescription('Define the default game for your server (for dice skins and critical injuries tables)')
+          .addChoices(...YearZeroGameChoices))
+        .addStringOption(opt => opt
           .setName('locale')
           .setDescription('Define the default language for your server (see Readme for details)')
-          .addStringOption(opt => opt
-            .setName('value')
-            .setDescription('Input')
-            .addChoices(...SupportedLocales))),
+          .addChoices(...SupportedLocales)),
     });
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
@@ -37,30 +31,53 @@ module.exports = class ConfCommand extends SebediusCommand {
         ephemeral: true,
       });
     }
-
-    const key = interaction.options.getSubcommand();
-    let value = interaction.options.getString('value');
-
     await interaction.deferReply({ ephemeral: true });
 
-    if (value) {
-      await this.bot.database.grabGuild(interaction.guildId, { [key]: value });
+    const game = interaction.options.getString('game');
+    const locale = interaction.options.getString('locale');
+
+    const updateData = {};
+    if (game) updateData.game = game;
+    if (locale) updateData.locale = locale;
+    let guildDocument;
+
+    if (!isObjectEmpty(updateData)) {
+      guildDocument = await this.bot.database.guilds.findByIdAndUpdate(
+        interaction.guildId,
+        updateData,
+        { projection: 'game locale', lean: true, new: true },
+      );
     }
     else {
-      value = (await this.bot.database.grabGuild(interaction.guildId)).get(key);
+      guildDocument = await this.bot.database.guilds.findById(
+        interaction.guildId,
+        'game locale',
+        { lean: true },
+      );
     }
 
-    let emoji = '';
-    switch (key) {
-      case 'game': emoji = Emojis.die; break;
-      case 'locale': emoji = Emojis.locale; break;
+    const fields = [];
+    for (const [k, v] of Object.entries(guildDocument)) {
+      if (k && k !== '_id' && v) {
+        let emoji;
+        switch (k) {
+          case 'game': emoji = Emojis.die; break;
+          case 'locale': emoji = Emojis.locale; break;
+          default: emoji = Emojis.ok;
+        }
+        fields.push({
+          name: `${emoji} ${t(`commands:conf.options.${k}`)}`,
+          value: codeBlock(v),
+          inline: true,
+        });
+      }
     }
 
     const embed = new EmbedBuilder()
-      .setTitle(t('commands:conf.title', {
-        guild: interaction.guild.name,
-      }))
-      .setDescription(`${emoji} **${capitalize(key)}** = ${inlineCode(value)}`)
+      .setTitle(t('commands:conf.title'))
+      .setDescription(interaction.guild.name)
+      .setColor(this.bot.config.favoriteColor)
+      .addFields(...fields)
       .setTimestamp();
 
     return interaction.editReply({ embeds: [embed] });
