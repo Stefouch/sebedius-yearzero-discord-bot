@@ -22,16 +22,18 @@ const Logger = require('../../utils/logger');
 const GameSubcommandsList = {
   [YearZeroGames.BLANK]: ['input', 'title', 'private'],
   [YearZeroGames.ALIEN_RPG]: [
-    'dice', 'stress', 'title', 'modifier', 'maxpush', 'private', 'fullauto', 'nerves', 'minpanic',
+    'dice', 'stress', 'title', 'modifier', 'maxpush', 'fullauto', 'private', 'nerves', 'minpanic',
   ],
   [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modifier', 'maxpush', 'private'],
-  [YearZeroGames.CORIOLIS]: ['dice', 'title', 'modifier', 'maxpush', 'private', 'fullauto'],
+  [YearZeroGames.CORIOLIS]: ['dice', 'title', 'modifier', 'maxpush', 'fullauto', 'private'],
   [YearZeroGames.FORBIDDEN_LANDS]: [
-    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'private', 'fullauto', 'pride',
+    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'private', 'pride',
   ],
-  [YearZeroGames.MUTANT_YEAR_ZERO]: ['base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'private'],
+  [YearZeroGames.MUTANT_YEAR_ZERO]: [
+    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'fullauto', 'private',
+  ],
   [YearZeroGames.TALES_FROM_THE_LOOP]: ['dice', 'title', 'modifier', 'maxpush', 'private'],
-  [YearZeroGames.TWILIGHT_2K]: ['abcd', 'ammo', 'title', 'modifier', 'maxpush', 'private', 'fullauto'],
+  [YearZeroGames.TWILIGHT_2K]: ['abcd', 'ammo', 'title', 'modifier', 'maxpush', 'fullauto', 'private'],
   [YearZeroGames.VAESEN]: ['dice', 'title', 'modifier', 'maxpush', 'private'],
 };
 
