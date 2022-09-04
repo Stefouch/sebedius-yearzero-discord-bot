@@ -7,7 +7,7 @@ module.exports = class GuildCreateEvent extends SebediusEvent {
     const total = this.bot.guilds.cache.size;
     const msg = `✔ Guild #${total} | Joined: ${guild.name} (${guild.id})`;
     Logger.event(msg);
-    const guildOptions = await this.bot.database.grabGuild(guild);
+    const guildOptions = await this.bot.database.grabGuild(guild.id);
     if (guildOptions?.isBanned) return this.bot.leaveBanned(guild);
   }
 };

@@ -56,5 +56,8 @@ thread:
   join: The bot joined the thread!
   leave: The bot left the thread!
 conf:
-  title: Sebedius Configuration for {{guild}}
+  title: Sebedius Configuration
   databaseNotReadyError: Connection to database failed!
+  options:
+    game: Game
+    locale: Locale

@@ -10,42 +10,30 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
   /** @type {SebediusEvent.SebediusEventInteractionCreateFunction} */
   async execute(interaction) {
-    const guild = interaction.guild;
-
     // 1. Gets the guild options from the database (game & locale).
-    let guildOptions = {};
-    if (this.bot.database.isReady()) {
-      // @ts-ignore
-      guildOptions = await this.bot.database.grabGuild(guild);
-      if (guildOptions?.isBanned) return this.bot.leaveBanned(guild);
-    }
-    if (!guildOptions.game) guildOptions.game = YearZeroGames.MUTANT_YEAR_ZERO;
-    if (!guildOptions.locale) guildOptions.locale = this.bot.config.defaultLocale;
+    const guildOptions = await this.getGuildOptions(interaction);
 
     // 2. Defines the translation callback.
-    const locale = guildOptions?.locale || guild.preferredLocale;
+    const locale =
+      guildOptions.locale ||
+      interaction.guild?.preferredLocale ||
+      interaction.locale ||
+      this.bot.config.defaultLocale;
     const t = global.t = i18next.getFixedT(locale);
 
+    // 3. Chat Input Command
     if (interaction.isChatInputCommand()) {
 
       // Logs the command.
-      const logMsg = `${interaction.commandName}`
-        + ` • ${interaction.user.tag} (${interaction.user.id})`
-        + ` # ${interaction.channel.name} (${interaction.channelId})`
-        + ` @ ${guild.name} (${guild.id})`;
+      let logMsg = `${interaction.commandName} • ${interaction.user.tag} (${interaction.user.id})`;
+      if (interaction.inGuild()) {
+        logMsg += ` # ${interaction.channel.name} (${interaction.channelId})`
+          + ` @ ${interaction.guild.name} (${interaction.guild.id})`;
+      }
+      else {
+        logMsg += '@ DM';
+      }
       Logger.command(logMsg);
-
-      // TODO autocomplete for /help <command>
-      // if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-      //   console.log('in');
-      //   const focusedOption = interaction.options.getFocused(true);
-      //   let choices;
-      //   if (interaction.commandName === 'help' && focusedOption.name === 'command') {
-      //     choices = this.bot.commands.map(c => c.name);
-      //   }
-      //   const filteredChoices = choices.filter(c => c.startsWith(focusedOption.value));
-      //   await interaction.respond(filteredChoices.map(c => ({ name: c, value: c })));
-      // }
 
       // Promisifies the command count.
       if (process.env.NODE_ENV === 'production') {
@@ -95,6 +83,28 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       }
 
       // Checks permissions (put after because we only have 3 seconds to respond to an interaction).
+      this.checkPermissions(interaction, t);
+    }
+  }
+
+  async getGuildOptions(interaction) {
+    let guildOptions = {};
+    if (interaction.inGuild() && this.bot.database.isReady()) {
+      // @ts-ignore
+      guildOptions = await this.bot.database.guilds.findById(
+        interaction.guildId,
+        null,
+        { upsert: true, lean: true },
+      ) || {};
+      if (guildOptions?.isBanned) return this.bot.leaveBanned(interaction.guild);
+    }
+    if (!guildOptions.game) guildOptions.game = YearZeroGames.MUTANT_YEAR_ZERO;
+    return guildOptions;
+  }
+
+  // TODO check permissions
+  async checkPermissions(interaction, t) {
+    if (interaction.inGuild()) {
       // const botMember = await interaction.guild.members.fetchMe();
       const botMember = interaction.guild.members.me;
       if (!botMember.permissions.has(this.bot.permissions)) {
