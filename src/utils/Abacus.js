@@ -12,6 +12,9 @@ class Abacus extends Map {
       entries = [...entries].map(([k, v]) => [k, +v]);
     }
     super(entries);
+    this.forEach((v, k) => {
+      if (typeof v !== 'number') throw new TypeError(`Abacus: Not A Number! [key: ${k} → value: ${v}]`);
+    });
   }
 
   /**
@@ -30,6 +33,7 @@ class Abacus extends Map {
    * @returns {this}
    */
   increment(key, value = 1) {
+    if (typeof value !== 'number') throw new TypeError(`Abacus: Not A Number! [key: ${key} → value: ${value}]`);
     if (this.has(key)) return this.set(key, this.get(key) + value);
     return this.set(key, value);
   }
@@ -119,6 +123,7 @@ class Abacus extends Map {
    * @override
    */
   set(key, value = 1) {
+    if (typeof value !== 'number') throw new TypeError(`Abacus: Not A Number! [key: ${key} → value: ${value}]`);
     return super.set(key, +value || 0);
   }
 }
