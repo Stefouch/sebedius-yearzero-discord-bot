@@ -20,7 +20,7 @@ SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
 ];
 
-SebediusConfig.defaultLocale = 'en';
+SebediusConfig.defaultLocale = 'en-US';
 
 /* ------------------------------------------ */
 /*  Commands Config                           */

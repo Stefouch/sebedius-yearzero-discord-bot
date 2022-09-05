@@ -3,6 +3,7 @@ const SebediusCommand = require('../../structures/command');
 const { YearZeroGameChoices } = require('../../constants');
 const { Emojis, SupportedLocales } = require('../../config');
 const { isObjectEmpty } = require('../../utils/object-utils');
+const Logger = require('../../utils/logger');
 
 module.exports = class ConfCommand extends SebediusCommand {
   constructor(client) {
@@ -47,6 +48,7 @@ module.exports = class ConfCommand extends SebediusCommand {
         updateData,
         { projection: 'game locale', lean: true, new: true },
       );
+      Logger.client(`📝 Database | update: Guild ${interaction.guildId} with ${JSON.stringify(updateData)}`);
     }
     else {
       guildDocument = await this.bot.database.guilds.findById(

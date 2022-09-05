@@ -17,7 +17,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
     // 2. Defines the translation callback.
     const locale =
       guildOptions.locale ||
-      interaction.guild?.preferredLocale ||
+      interaction.guildLocale ||
       interaction.locale ||
       this.bot.config.defaultLocale;
     const t = global.t = i18next.getFixedT(locale);
