@@ -135,7 +135,8 @@ const SlashCommandOptions = {
 function _getSlashCommandBuilder() {
   const data = new SlashCommandBuilder()
     .setName('roll')
-    .setDescription('Roll dice for any Year Zero roleplaying game');
+    .setDescription('Roll dice for any Year Zero roleplaying game')
+    .setDMPermission(false);
 
   for (const [game, options] of Object.entries(GameSubcommandsList)) {
     data.addSubcommand(sub => {

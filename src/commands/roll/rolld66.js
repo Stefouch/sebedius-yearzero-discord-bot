@@ -10,6 +10,7 @@ module.exports = class RollD66Command extends SebediusCommand {
       data: new SlashCommandBuilder()
         .setName('rolld66')
         .setDescription('Roll a d6, d66 or d666 die')
+        .setDMPermission(false)
         .addStringOption(opt => opt
           .setName('die')
           .setDescription('Choose d6, d66 or d666')
