@@ -27,8 +27,14 @@ const YearZeroGameNames = {
 const YearZeroGameChoices = Object.entries(YearZeroGameNames)
   .map(([code, name]) => ({ name, value: code }));
 
+/** @enum {string} */
+const YearZeroRollTables = {
+  PANIC: 'table-alien-panic-effects',
+};
+
 module.exports = {
   YearZeroGames,
   YearZeroGameNames,
   YearZeroGameChoices,
+  YearZeroRollTables,
 };
