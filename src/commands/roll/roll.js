@@ -276,7 +276,8 @@ module.exports = class RollCommand extends SebediusCommand {
 
     // Sets the maximum number of pushes.
     // Note: Cannot use typeof undefined because null is returned by DiscordJS
-    if (maxPush != null) roll.setMaxPush(maxPush);
+    if (this.isPanic) roll.setMaxPush(0);
+    else if (maxPush != null) roll.setMaxPush(maxPush);
     else {
       const fullauto = interaction.options.getBoolean('fullauto');
       if (fullauto) roll.setMaxPush(10);
@@ -291,6 +292,9 @@ module.exports = class RollCommand extends SebediusCommand {
       fetchReply: true,
     });
 
+
+    // Detects panic.
+    if (this.isPanic(roll)) return this.fetchPanic(roll, interaction, t);
     if (roll.pushable) await this.awaitPush(roll, interaction, t);
   }
 
@@ -462,12 +466,9 @@ module.exports = class RollCommand extends SebediusCommand {
         }
 
         // Detects panic.
-        if (this.bot.config.Commands.roll.options[roll.game]?.panic && roll.panic) {
+        if (this.isPanic()) {
           collector.stop();
-          const panicCommand = this.bot.commands.get('panic');
-          // TODO call PanicCommand
-          // interaction.options.data.push('test');
-          // await panicCommand.run(interaction, t, null);
+          await this.fetchPanic(roll, interaction, t);
         }
       }
       else if (i.customId === 'cancel-button') {
@@ -507,6 +508,32 @@ module.exports = class RollCommand extends SebediusCommand {
 
   /* ------------------------------------------ */
   /*  Utils Methods                             */
+  /* ------------------------------------------ */
+
+  /**
+   * @param {YearZeroRoll} roll
+   * @param {SebediusCommand.SebediusCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusTranslationCallback} t
+   */
+  async fetchPanic(roll, interaction, t) {
+    Logger.roll('roll:alien → Panic!');
+    /** @type {import('./panic')} */
+    // @ts-ignore
+    const panicCommand = this.bot.commands.get('panic');
+    return panicCommand.panic(interaction, t, {
+      stress: roll.stress,
+      minPanic: interaction.options.getInteger('minpanic'),
+      isFixed: false,
+      hasNerves: interaction.options.getBoolean('nerves'),
+    });
+  }
+
+  /* ------------------------------------------ */
+
+  isPanic(roll) {
+    return this.bot.config.Commands.roll.options[roll.game]?.panic && roll.panic;
+  }
+
   /* ------------------------------------------ */
 
   /**

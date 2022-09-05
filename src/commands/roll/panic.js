@@ -37,9 +37,22 @@ module.exports = class PanicCommand extends SebediusCommand {
     const isFixed = interaction.options.getBoolean('fixed');
     const hasNerves = interaction.options.getBoolean('nerves');
 
+    return this.panic(interaction, t, { stress, minPanic, isFixed, hasNerves });
+  }
+
+  /**
+   * @param {SebediusCommand.SebediusCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusTranslationCallback} t
+   * @param {Object} args
+   * @param {number} args.stress
+   * @param {number} args.minPanic
+   * @param {boolean} args.isFixed
+   * @param {boolean} args.hasNerves
+   */
+  async panic(interaction, t, { stress, minPanic, isFixed, hasNerves }) {
     const panicRoll = new YearZeroRoll({
       game: YearZeroGames.ALIEN_RPG,
-      name: 'Panic Roll',
+      name: t('commands:panic.panicRoll'),
       author: interaction.member,
     });
     panicRoll.addStressDice(1);
@@ -53,6 +66,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     const panicValueMore = panicLowerThanMin ? panicMin + 1 : panicValue;
     const panicResult = clamp(panicValueMore, 0, 15);
 
+    // @ts-ignore
     const panicTable = await this.bot.getTable(t.lng, YearZeroRollTables.PANIC);
 
     /** @type {{ icon, name, description }} */
@@ -66,7 +80,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     }
 
     // Builds the message's content.
-    let text = `${panicAction.icon} ${t('commands:panic.panicRoll').toUpperCase()}:`
+    let text = `${panicAction.icon} ${panicRoll.name.toUpperCase()}:`
       + ` **${stress}** + ${panicRoll.emojify()}`;
 
     if (hasNerves) text += ` − 2 *(${t('commons:talents.alien.nervesOfSteel')})*`;
