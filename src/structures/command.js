@@ -26,13 +26,13 @@
  * @param {string|string[]}                 keys     Key(s) to translate
  * @param {Object.<string, string|number>} [options] Properties passed to the translation job
  * @returns {string}
- * @property {string} lng Secret property that stores the language code
+ * @property {import('discord.js').LocaleString} lng Secret property that stores the language code
  */
 
 /**
  * @callback SebediusCommandRunFunction
  * @param {SebediusCommandInteraction}   interaction
- * @param {SebediusTranslationCallback & { lng: string }} [t]
+ * @param {SebediusTranslationCallback & { lng: import('discord.js').LocaleString }} [t]
  * @param {GuildOptions}                [guildOptions]
  * @returns {Promise.<any>}
  */

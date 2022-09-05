@@ -284,7 +284,7 @@ module.exports = class RollCommand extends SebediusCommand {
 
     // Renders the roll to the chat.
     /** @type {import('discord.js').InteractionReplyOptions} */
-    const messageData = await this.render(roll, interaction, t);
+    const messageData = await this.render(roll, t);
     await interaction.reply({
       ...messageData,
       ephemeral: interaction.options.getBoolean('private'),
@@ -302,7 +302,7 @@ module.exports = class RollCommand extends SebediusCommand {
    * Parses & renders a generic roll.
    * @param {string} input
    * @param {string} title
-   * @param {import('discord.js').ChatInputCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusCommandInteraction} interaction
    * @param {SebediusCommand.SebediusTranslationCallback} t
    */
   async executeGenericRoll(input, title, interaction, t) {
@@ -349,10 +349,9 @@ module.exports = class RollCommand extends SebediusCommand {
   /**
    * Renders the results of the roll into a chat message.
    * @param {YearZeroRoll} roll
-   * @param {import('discord.js').ChatInputCommandInteraction} interaction
    * @param {SebediusCommand.SebediusTranslationCallback} t
    */
-  async render(roll, interaction, t) {
+  async render(roll, t) {
     /** @type {import('$config').DiceRenderOptions} */
     const options = this.bot.config.Commands.roll.options[roll.game];
     if (!options) throw new ReferenceError(`[roll:${roll.game}] Command Options Not Found!`);
@@ -404,7 +403,7 @@ module.exports = class RollCommand extends SebediusCommand {
 
   /**
    * @param {YearZeroRoll} roll
-   * @param {import('discord.js').ChatInputCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusCommandInteraction} interaction
    * @param {SebediusCommand.SebediusTranslationCallback} t
    */
   async awaitPush(roll, interaction, t) {
@@ -448,7 +447,7 @@ module.exports = class RollCommand extends SebediusCommand {
         if (!roll.pushable) collector.stop();
 
         // Edits the message with the pushed roll.
-        const messageData = await this.render(roll, interaction, t);
+        const messageData = await this.render(roll, t);
 
         // TODO https://github.com/discordjs/discord.js/issues/8588
         // TODO https://github.com/discord/discord-api-docs/issues/5279
@@ -467,7 +466,8 @@ module.exports = class RollCommand extends SebediusCommand {
           collector.stop();
           const panicCommand = this.bot.commands.get('panic');
           // TODO call PanicCommand
-          // await panicCommand.run(interaction, t);
+          // interaction.options.data.push('test');
+          // await panicCommand.run(interaction, t, null);
         }
       }
       else if (i.customId === 'cancel-button') {
