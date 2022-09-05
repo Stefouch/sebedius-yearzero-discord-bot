@@ -11,6 +11,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
   /** @type {SebediusEvent.SebediusEventInteractionCreateFunction} */
   async execute(interaction) {
     // 1. Gets the guild options from the database (game & locale).
+    //      If not inGuild, it will return an object with a default game.
     const guildOptions = await this.getGuildOptions(interaction);
 
     // 2. Defines the translation callback.
@@ -24,23 +25,15 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
     // 3. Chat Input Command
     if (interaction.isChatInputCommand()) {
 
-      // Logs the command.
-      let logMsg = `${interaction.commandName} • ${interaction.user.tag} (${interaction.user.id})`;
-      if (interaction.inGuild()) {
-        logMsg += ` # ${interaction.channel.name} (${interaction.channelId})`
-          + ` @ ${interaction.guild.name} (${interaction.guild.id})`;
-      }
-      else {
-        logMsg += '@ DM';
-      }
-      Logger.command(logMsg);
+      // 3.1 Logs the interaction.
+      this.logInteraction(interaction);
 
-      // Promisifies the command count.
+      // 3.2. Promisifies the command count.
       if (process.env.NODE_ENV === 'production') {
         this.bot.database.incrementCommand(interaction); // Do not await
       }
 
-      // Gets the command.
+      // 3.3. Gets the command.
       const command = this.bot.commands.get(interaction.commandName);
       if (!command) {
         return interaction.reply({
@@ -49,7 +42,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         });
       }
 
-      // Runs the command.
+      // 3.4. Runs the command.
       try {
         if (['roll', 'rolld66', 'crit'].includes(command.name)) {
           // @ts-ignore
@@ -82,11 +75,34 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         }
       }
 
-      // Checks permissions (put after because we only have 3 seconds to respond to an interaction).
+      // 3.5. Checks permissions (put after because we only have 3 seconds to respond to an interaction).
       this.checkPermissions(interaction, t);
     }
   }
 
+  /**
+   * Logs the interaction in the console.
+   * @param {import('../structures/command').SebediusCommandInteraction} interaction
+   * @returns {string} The log message
+   */
+  logInteraction(interaction) {
+    let logMsg = `${interaction.commandName} • ${interaction.user.tag} (${interaction.user.id})`;
+    if (interaction.inGuild()) {
+      logMsg += ` # ${interaction.channel.name} (${interaction.channelId})`
+        + ` @ ${interaction.guild.name} (${interaction.guild.id})`;
+    }
+    else {
+      logMsg += '@ DM';
+    }
+    Logger.command(logMsg);
+    return logMsg;
+  }
+
+  /**
+   * Gets the options of the guild from the database.
+   * @param {import('../structures/command').SebediusCommandInteraction} interaction 
+   * @returns {Promise.<import('../structures/command').GuildOptions>}
+   */
   async getGuildOptions(interaction) {
     let guildOptions = {};
     if (interaction.inGuild() && this.bot.database.isReady()) {
