@@ -1,34 +1,43 @@
 /**
- * @typedef {Object} SebediusCommandInteraction
- * @property {import('./sebedius-client')} client
+ * @typedef {import('discord.js').ChatInputCommandInteraction
+ *   & { client: import('./sebedius-client')}} SebediusCommandInteraction
  */
 
 /**
  * @typedef {Object} SebediusCommandOptions
- * @property {boolean}                          [ownerOnly=false]
- * @property {SebediusCommand.CategoryFlagsBits} category
- * @property {import('discord.js').SlashCommandBuilder & any} data
+ * @property {boolean}                          [ownerOnly=false]  Owner-only commands are only registered
+ *   in the bot dedicated guild
+ * @property {SebediusCommand.CategoryFlagsBits} category          The category of the command
+ * @property {import('discord.js').SlashCommandBuilder & any} data Slash command data
  */
 
 /**
- * @typedef {string} SebediusCommandCategory
+ * @typedef {Object} GuildOptions
+ * @property {string}                               [_id]       The ID of the guild
+ * @property {import('../constants').YearZeroGames} [game]      The game chosen for the guild
+ * @property {import('discord.js').LocaleString}    [locale]    The locale chosen for the guild
+ * @property {boolean}                              [isBanned]  Whether the guild is banned from using the bot
+ * @property {Date}                                 [banDate]   The date when the guild was banned, if any
+ * @property {string}                               [banReason] The reason the guild was banned, if any
  */
 
 /**
  * @callback SebediusTranslationCallback t(key: string, { ...args }): string
  * @param {string|string[]}                 keys     Key(s) to translate
- * @param {Object.<string, string|number>} [options] 
+ * @param {Object.<string, string|number>} [options] Properties passed to the translation job
  * @returns {string}
  * @property {string} lng Secret property that stores the language code
  */
 
 /**
  * @callback SebediusCommandRunFunction
- * @param {SebediusCommandInteraction & import('discord.js').ChatInputCommandInteraction} interaction
- * @param {SebediusTranslationCallback} [t]
- * @param {Object}                      [guildOptions]
+ * @param {SebediusCommandInteraction}   interaction
+ * @param {SebediusTranslationCallback & { lng: string }} [t]
+ * @param {GuildOptions}                [guildOptions]
  * @returns {Promise.<any>}
  */
+
+/* ------------------------------------------ */
 
 class SebediusCommand {
   /**

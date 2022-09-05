@@ -15,9 +15,9 @@ SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord
 /*  Locales Config                            */
 /* ------------------------------------------ */
 
-/** @type {{ name: string, value: string }[]} */
+/** @type {{ name: string, value: import('discord.js').LocaleString }[]} */
 SebediusConfig.SupportedLocales = [
-  { name: 'English', value: 'en' },
+  { name: 'English', value: 'en-US' },
 ];
 
 SebediusConfig.defaultLocale = 'en';
@@ -29,7 +29,7 @@ SebediusConfig.defaultLocale = 'en';
 /** @enum {Object} */
 SebediusConfig.Commands = {};
 SebediusConfig.Commands.scrap = { max: 20 };
-SebediusConfig.Commands.stats = { start: '2020-12-05' };
+SebediusConfig.Commands.stats = { start: '2022-09-03' };
 SebediusConfig.Commands.roll = {
   max: 42,
   pushIcon: '🔄',

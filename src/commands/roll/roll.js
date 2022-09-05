@@ -117,7 +117,7 @@ const SlashCommandOptions = {
     type: ApplicationCommandOptionType.Boolean,
   },
   minpanic: {
-    description: 'Adjusts a minimum treshold for multiple consecutive panic effects',
+    description: 'Adjust a minimum treshold for multiple consecutive panic effects',
     type: ApplicationCommandOptionType.Integer,
   },
 };

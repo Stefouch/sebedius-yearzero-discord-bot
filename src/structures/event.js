@@ -6,7 +6,7 @@
 
 /**
  * @callback SebediusEventInteractionCreateFunction
- * @param {import('discord.js').BaseInteraction} interaction
+ * @param {import('./command').SebediusCommandInteraction} interaction
  * @returns {Promise.<any>}
  */
 
@@ -15,6 +15,8 @@
  * @property {string}   name        The name of the event
  * @property {boolean} [once=false] Whether the event is run only once (default is false)
  */
+
+/* ------------------------------------------ */
 
 /**
  * Sebedius Event.
