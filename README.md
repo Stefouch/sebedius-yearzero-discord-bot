@@ -48,7 +48,7 @@ The supported games are:
    The link will prompt you to authorize the bot on a server. Once the bot is authorized, you'll see it in the Member List.
 
 2. [Read the manual](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki#list-of-commands)<br/>
-   Commands are triggered by the `/` slash character.<br/>Your first command should always be `/help`.
+   Commands are triggered by the `/` slash character.<br/>When typing `/<command>`, a menu appears on Discord with a filtered list of available slash commands. Select one, choose any argument (if available) and then hit `enter` to run the command. You can use the arrow keys and the `tab` key to navigate faster between commands and their arguments.<br/><br/><small>PS: Your first command should always be `/help`.</small>
 
 3. [Roll the dice](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki/%21roll)<br/>
    _Example:_ `/roll alien dice:7` _or_ `/roll fbl base:5 skill:3 gear:2`
@@ -101,7 +101,7 @@ Let's thank **Joe Guilmette, Narcomed and all my other patrons** and generous do
 
 See the [changelog](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CHANGELOG.md#changelog) for a complete list of changes applied to the Bot since 2019.
 
-# 🔐 Permissions
+# 🔑 Permissions
 
 This is a detailed list of needed permissions for the bot:
 
