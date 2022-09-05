@@ -23,7 +23,7 @@ help:
   commandNotFound: Sorry, the command {{cmd}} was not found!
   noDiceError: No Dice To Roll!
 ping:
-  description: Checks the Sebedius' latency
+  description: Checks the Sebedius’ latency
 roll:
   tooManyDiceError: Too Many Dice! (>42)
   embed:
@@ -61,3 +61,5 @@ conf:
   options:
     game: Game
     locale: Locale
+panic:
+  panicEffectNotFoundError: The panic effect wasn’t found
