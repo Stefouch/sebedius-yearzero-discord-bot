@@ -4,9 +4,8 @@ const Database = require('./database/database');
 const Logger = require('../utils/logger');
 const handleEvents = require('./handlers/event-handler');
 const handleCommands = require('./handlers/command-handler');
-const handleTable = require('./handlers/table-handler');
 const loadLocales = require('../locales/i18n');
-const { Emojis } = require('../config');
+const { parseGamedata } = require('../yearzero/gamedata/gamedata-parser');
 
 class Sebedius extends Client {
   constructor(options) {
@@ -134,7 +133,7 @@ class Sebedius extends Client {
   }
 
   async leaveBanned(guild) {
-    Logger.warn(`${Emojis.ban} Guild is banned! → Leaving...`);
+    Logger.warn(`${this.config.Emojis.ban} Guild is banned! → Leaving...`);
     return guild.leave();
   }
 
@@ -142,10 +141,14 @@ class Sebedius extends Client {
   /*  Table Methods                             */
   /* ------------------------------------------ */
 
+  /**
+   * 
+   * @param {import('discord.js').LocaleString} locale 
+   * @param {string} name 
+   * @returns {Promise.<import('@utils/RollTable')>}
+   */
   async getTable(locale, name) {
-    console.log(locale, name); // TODO remove
-    locale = locale === 'en-US' ? 'en' : locale;
-    const table = await handleTable(`./src/locales/${locale}/gamedata/${name}.yml`);
+    return parseGamedata(locale, name);
   }
 }
 

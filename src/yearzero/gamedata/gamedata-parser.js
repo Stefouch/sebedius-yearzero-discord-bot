@@ -1,27 +1,19 @@
 const { existsSync, readFileSync } = require('node:fs');
 const { parse: ymlParse } = require('yaml');
 const { isObject } = require('../../utils/object-utils');
-const { rand, isNumber, hasSameDigits, convertToBijective } = require('../../utils/number-utils');
+const { isNumber } = require('../../utils/number-utils');
 const RollTable = require('../../utils/RollTable');
 const Logger = require('../../utils/logger');
 
 const GAMEDATA_PATH = './src/yearzero/gamedata';
 const EXT = 'yml';
 
-// /**
-//  * @typedef RollTableData
-//  * @property {string} name → RollTable.name
-//  * @property {string} roll → RollTable.d
-//  * @property {number}  <K, V>
-//  * @property {string|string[]|RollTableData} [data.ref]
-//  */
-
-function parseGamedata(lang, fileName) {
+async function parseGamedata(lang, fileName) {
   let filePath = `${GAMEDATA_PATH}/${lang}/${fileName}.${EXT}`;
 
   if (!existsSync(filePath)) {
     Logger.warn(`GamedataParser: Path Not Found! Using default...\nFile → ${filePath}`);
-    filePath = `${GAMEDATA_PATH}/en/${fileName}.${EXT}`;
+    filePath = `${GAMEDATA_PATH}/en-US/${fileName}.${EXT}`;
     if (!existsSync(filePath)) {
       throw new SyntaxError(`GamedataParserError: Resource Not Found!\nFile → ${filePath}`);
     }
@@ -29,70 +21,40 @@ function parseGamedata(lang, fileName) {
 
   const fileContent = readFileSync(filePath, { encoding: 'utf-8' });
   const data = ymlParse(fileContent);
+
+  if (_validateRollTable(data)) return parseRollTable(data);
+  else return data;
 }
 
 /**
  * Parses a new RollTable from input data.
  * @param {Object} data
+ * @param {number} [depth=100]
  */
-function parseRollTable(data) {
-  if (!_validateRollTable(data)) return data;
-  const rollFn = _getRollTableRandomFunction(data.$roll);
-  const table = new RollTable(rollFn);
+function parseRollTable(data, depth = 100) {
+  if (depth < 0) {
+    throw new RangeError('GamedataParserError: Maximum Call Stack Depth Exceeded!');
+  }
+  const table = new RollTable(data.$name, data.$roll);
 
   for (const [key, value] of Object.entries(data)) {
-    if (isNumber(key)) {
-      // if (isObject(value) && )
-      table.set(+key, data[key]);
+    if (_validateRollTable(value)) {
+      const tbl = parseRollTable(value, --depth);
+      table.set(+key, tbl, false);
+    }
+    else if (isNumber(key)) {
+      table.set(key, data[key], false);
     }
   }
+  return table.sort();
 }
 
 function _validateRollTable(data) {
   if (!isObject(data)) return false;
-  return Object.keys(data).some(key => {
+  return ('$roll' in data) && Object.keys(data).some(key => {
     const k = +key;
     if (typeof k === 'number' && !isNaN(k)) return true;
   });
-}
-
-function _getRollTableRandomFunction($roll) {
-  if (!$roll) return null;
-  const regex = /^(\d*)[dD](\d+)$/g;
-  const exec = regex.exec($roll);
-  const qty = +exec[1] || 1;
-  const max = +exec[2];
-
-  /** @type {() => number} */
-  let fn;
-
-  if (hasSameDigits(max)) {
-    // Gets the actual Base. D66 = 6; D88 = 8;
-    const digit = this.max % 10;
-    // Creates sequence for the Base <digit>
-    const seq = Array(digit).fill().map((x, n) => n + 1).join('');
-
-    fn = () => {
-      let result = 0;
-      for (let i = 0; i < qty; i++) {
-        let seed = rand(1, max);
-        // Adjusts the seed.
-        let log = Math.floor(Math.log10(max));
-        for (; log > 0; log--) seed += digit ** log;
-        // Converts the seed into a valid reference.
-        result += +convertToBijective(seed, seq);
-      }
-      return result;
-    };
-  }
-  else if (max) {
-    fn = () => {
-      let result = 0;
-      for (let i = 0; i < qty; i++) result += rand(1, max);
-      return result;
-    };
-  }
-  return fn;
 }
 
 module.exports = { parseGamedata, parseRollTable };
