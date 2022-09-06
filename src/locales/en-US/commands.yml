@@ -11,8 +11,8 @@ help:
     roleplaying games by Free League Publishing (Fria Ligan).
   usefulLinks: Useful Links
   website: Website
-  supportOnPatreon: Support the dev on his {{url}}!
-  patreonPage: Patreon page
+  supportOnPatreon: Support the dev on {{url}}!
+  patreonPage: Patreon
   githubIssues: Send a bug report or a feature request
   addToServer: Add to Server
   readTheWiki: Read the Wiki
@@ -22,6 +22,9 @@ help:
     Type {{helpCommand}} to get info on a specific command.
   commandNotFound: Sorry, the command {{cmd}} was not found!
   noDiceError: No Dice To Roll!
+  contribute: How to contribute
+  required: Required
+  arguments: Arguments
 ping:
   description: Checks the Sebedius’ latency
 roll:
@@ -44,9 +47,11 @@ roll:
     reliability: "**Reliability: −{{count}}** 💥"
     weaponJam: "**WEAPON JAM ‼️**"
     panic: "**PANIC!!!**"
-  button:
+  buttons:
     push: Push
     cancel: Accept
+    prayTheIcons: Pray the Icons (+1D)
+    fanaticPush: Pray the Icons (+2D)
   notYourRoll: You can only interact with your own rolls!
   genericRollParseError: Could not parse the following input roll string! {{input}}
 rolld66:
