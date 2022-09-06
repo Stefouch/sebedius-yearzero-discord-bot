@@ -27,7 +27,7 @@
 > :warning: **Important Changes!** :warning:<br/>
 > As of September 1st 2022, due to Discord policies change over bots, Sebedius cannot read the content of messages anymore.<br/>
 > The is the end of _prefixed_ `!commands`. All Sebedius commands have therefore been disabled.<br/>
-> Sebedius uses now _Slash_ `/commands`. See [Issues](../../issues) for more information.
+> Sebedius uses now _Slash_ `/commands`. See [Issues](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues) for more information.
 
 > **Sebedius** is a [Discord](https://discordapp.com) bot with command utilities for the **Year Zero** roleplaying games by _Free League Publishing (Fria Ligan)_.
 
@@ -44,7 +44,7 @@ The supported games are:
 
 # 🎲 How to Use
 
-1. [Add the bot to your server](xxxxx)<br/>
+1. [Add the bot to your server](https://discord.com/api/oauth2/authorize?client_id=543445246143365130&permissions=274879310912&scope=bot%20applications.commands)<br/>
    The link will prompt you to authorize the bot on a server. Once the bot is authorized, you'll see it in the Member List.
 
 2. [Read the manual](https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki#list-of-commands)<br/>
@@ -67,7 +67,7 @@ Your language isn't supported yet? See _Contributing_ below!
 
 # 🤝 Contributing
 
-Contributions, translations, issues and feature requests are welcome!<br/>Take a look at the [contributing guide](../../CONTRIBUTING.md).
+Contributions, translations, issues and feature requests are welcome!<br/>Take a look at the [contributing guide](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md).
 
 ### Top Contributors
 
@@ -112,7 +112,7 @@ This is a detailed list of needed permissions for the bot:
 
 # 👮‍♀️ Privacy Policy
 
-We have a detailed document for the [privacy policy](../../PRIVACY_POLICY.md) regarding the data usage with Sebedius.
+We have a detailed document for the [privacy policy](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/PRIVACY_POLICY.md) regarding the data usage with Sebedius.
 
 # 📝 License
 
@@ -127,7 +127,7 @@ All credit goes to them!
 - _Vaesen_ dice by **Matt Kay**.
 
 Copyright © 2019-2022 [Stefouch](https://github.com/Stefouch).<br/>
-This project JavaScript code is [GPL-3.0-or-later](../../LICENSE) licensed.
+This project JavaScript code is [GPL-3.0-or-later](https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/LICENSE) licensed.
 
 ---
 
