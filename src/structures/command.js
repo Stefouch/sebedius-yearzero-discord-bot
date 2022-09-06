@@ -1,44 +1,9 @@
-/**
- * @typedef {import('discord.js').ChatInputCommandInteraction
- *   & { client: import('./sebedius-client')}} SebediusCommandInteraction
- */
+const { SlashCommandBuilder, ApplicationCommandOptionType } = require('discord.js');
+const { YearZeroGameNames } = require('../constants');
 
 /**
- * @typedef {Object} SebediusCommandOptions
- * @property {boolean}                          [ownerOnly=false]  Owner-only commands are only registered
- *   in the bot dedicated guild
- * @property {SebediusCommand.CategoryFlagsBits} category          The category of the command
- * @property {import('discord.js').SlashCommandBuilder & any} data Slash command data
+ * Sebedius Command.
  */
-
-/**
- * @typedef {Object} GuildOptions
- * @property {string}                               [_id]       The ID of the guild
- * @property {import('../constants').YearZeroGames} [game]      The game chosen for the guild
- * @property {import('discord.js').LocaleString}    [locale]    The locale chosen for the guild
- * @property {boolean}                              [isBanned]  Whether the guild is banned from using the bot
- * @property {Date}                                 [banDate]   The date when the guild was banned, if any
- * @property {string}                               [banReason] The reason the guild was banned, if any
- */
-
-/**
- * @callback SebediusTranslationCallback t(key: string, { ...args }): string
- * @param {string|string[]}                 keys     Key(s) to translate
- * @param {Object.<string, string|number>} [options] Properties passed to the translation job
- * @returns {string}
- * @property {import('discord.js').LocaleString} lng Secret property that stores the language code
- */
-
-/**
- * @callback SebediusCommandRunFunction
- * @param {SebediusCommandInteraction}   interaction
- * @param {SebediusTranslationCallback & { lng: import('discord.js').LocaleString }} [t]
- * @param {GuildOptions}                [guildOptions]
- * @returns {Promise.<any>}
- */
-
-/* ------------------------------------------ */
-
 class SebediusCommand {
   /**
    * @param {import('./sebedius-client')} client
@@ -70,6 +35,8 @@ class SebediusCommand {
     this.data = options.data;
   }
 
+  /* ------------------------------------------ */
+
   /**
    * The bot client.
    * @alias this.client
@@ -87,6 +54,8 @@ class SebediusCommand {
     return this.data.description;
   }
 
+  /* ------------------------------------------ */
+
   /**
    * Run method executed by the command.
    * @type {SebediusCommandRunFunction}
@@ -95,7 +64,65 @@ class SebediusCommand {
   async run(interaction, t, guildOptions) {
     throw new SyntaxError('Run Function Must Be Implemented!');
   }
+
+  /* ------------------------------------------ */
+
+  /**
+   * Builds the roll slash command, subcommands & options.
+   * @param {string} name
+   * @param {string} description
+   * @param {Object.<import('../constants').YearZeroGames, string[]>} GameSubcommandsList
+   * @param {Object.<string, SlashCommandOption>} SlashCommandOptions
+   * @returns {SlashCommandBuilder}
+   */
+  static createSlashCommandBuilder(name, description, GameSubcommandsList, SlashCommandOptions) {
+    const data = new SlashCommandBuilder()
+      .setName(name)
+      .setDescription(description);
+
+    for (const [game, options] of Object.entries(GameSubcommandsList)) {
+      data.addSubcommand(sub => {
+        sub.setName(game).setDescription(YearZeroGameNames[game]);
+        for (const optionName of options) {
+          const option = SlashCommandOptions[optionName];
+          if (!option) throw new SyntaxError(`[${name}:${game}] Option "${optionName}" Not Found!`);
+          if (!option.choices) option.choices = [];
+          switch (option.type) {
+            case ApplicationCommandOptionType.String:
+              sub.addStringOption(opt => opt
+                .setName(optionName)
+                .setDescription(option.description)
+                .setRequired(!!option.required)
+                // @ts-ignore
+                .addChoices(...option.choices));
+              break;
+            case ApplicationCommandOptionType.Integer:
+              sub.addIntegerOption(opt => opt
+                .setName(optionName)
+                .setDescription(option.description)
+                .setMinValue(option.min ?? 1)
+                .setMaxValue(option.max ?? 100)
+                .setRequired(!!option.required)
+                // @ts-ignore
+                .addChoices(...option.choices));
+              break;
+            case ApplicationCommandOptionType.Boolean:
+              sub.addBooleanOption(opt => opt
+                .setName(optionName)
+                .setDescription(option.description)
+                .setRequired(!!option.required));
+              break;
+            default: throw new TypeError(`[${name}:${game}] Type Not Found for Command Option "${optionName}"!`);
+          }
+        }
+        return sub;
+      });
+    }
+    return data;
+  }
 }
+
+/* ------------------------------------------ */
 
 /** @enum {number} */
 SebediusCommand.CategoryFlagsBits = {
@@ -104,4 +131,63 @@ SebediusCommand.CategoryFlagsBits = {
   ROLL: 1 << 2,
 };
 
+/* ------------------------------------------ */
+
 module.exports = SebediusCommand;
+
+/* ------------------------------------------ */
+/*  Types Definitions                         */
+/* ------------------------------------------ */
+
+/**
+ * @typedef {import('discord.js').ChatInputCommandInteraction
+ *   & { client: import('./sebedius-client')}} SebediusCommandInteraction
+ */
+
+/**
+ * @typedef {Object} SebediusCommandOptions
+ * @property {boolean}                          [ownerOnly=false]  Owner-only commands are only registered
+ *   in the bot dedicated guild
+ * @property {SebediusCommand.CategoryFlagsBits} category          The category of the command
+ * @property {import('discord.js').SlashCommandBuilder & any} data Slash command data
+ */
+
+/**
+ * @typedef {Object} GuildOptions
+ * @property {string}                               [_id]       The ID of the guild
+ * @property {import('../constants').YearZeroGames} [game]      The game chosen for the guild
+ * @property {import('discord.js').LocaleString}    [locale]    The locale chosen for the guild
+ * @property {boolean}                              [isBanned]  Whether the guild is banned from using the bot
+ * @property {Date}                                 [banDate]   The date when the guild was banned, if any
+ * @property {string}                               [banReason] The reason the guild was banned, if any
+ */
+
+// /**
+//  * @callback SebediusTranslationCallback t(key: string, { ...args }): string
+//  * @param {string|string[]}                 keys     Key(s) to translate
+//  * @param {Object.<string, string|number>} [options] Properties passed to the translation job
+//  * @returns {string}
+//  * @property {import('discord.js').LocaleString} lng Secret property that stores the language code
+//  */
+
+/**
+ * @typedef {import('i18next').TFunction & { lng: import('discord.js').LocaleString }} SebediusTranslationCallback
+ */
+
+/**
+ * @callback SebediusCommandRunFunction
+ * @param {SebediusCommandInteraction}   interaction
+ * @param {SebediusTranslationCallback} [t]
+ * @param {GuildOptions}                [guildOptions]
+ * @returns {Promise.<any>}
+ */
+
+/**
+ * @typedef {Object} SlashCommandOption
+ * @property {string}   description
+ * @property {number}   type
+ * @property {boolean} [required=false]
+ * @property {number}  [min]
+ * @property {number}  [max]
+ * @property {import('discord.js').APIApplicationCommandOptionChoice<string|number>[]} [choices]
+ */
