@@ -12,7 +12,7 @@ jobs:
     name: Perform Tests
     runs-on: ubuntu-latest
 
-    # runs all of the steps inside the specified container rather than on the VM host.  
+    # runs all of the steps inside the specified container rather than on the VM host.
     # Because of this the network configuration changes from host based network to a container network.
     # container:
     #   image:  node:10.16-jessie
@@ -58,6 +58,9 @@ jobs:
       - name: 🔧 Install Dependencies
         run: npm ci
 
+      - name: ✒️ Check Lint
+        run: npm run lint
+
       - name: 🎲 Test Rolls
         run: npm run test:roll
 
@@ -78,7 +81,7 @@ jobs:
           # If we were running the job on in a container this would be mongodb
           MONGODB_HOST: localhost
           MONGODB_PORT: ${{ job.services.mongodb.ports[27017] }}
-          DATABASE_URI: 'mongodb://sebedius:tomasharenstam1234@localhost/eden'
+          DATABASE_URI: "mongodb://sebedius:tomasharenstam1234@localhost/eden"
 
   # vm-job:
   #   runs-on: ubuntu-latest
