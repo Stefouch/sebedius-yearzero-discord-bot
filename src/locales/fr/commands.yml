@@ -1,0 +1,61 @@
+---
+ownerOnlyCommandDisclaimer: Seul le propriétaire du bot peut utiliser cette commande.
+  Et tu n'es pas mon maître !
+categories:
+  admin: Administratif
+  utils: Utilitaire
+  roll: Lancer
+help:
+  deployedVersion: Version déployée
+  developer: Développeur
+  fullDescription: Sebedius est un bot Discord avec des utilitaires de commande pour
+    les JDRs Year Zero de Free League Publishing (Fria Ligan).
+  usefulLinks: Liens Utiles
+  website: Site Web
+  supportOnPatreon: Supporter le dev sur son {{url}} !
+  patreonPage: Patreon
+  githubIssues: Envoyer un rapport de bug ou une demande de fonctionnalité
+  addToServer: Ajouter à un serveur
+  readTheWiki: Lire le Wiki
+  listOfCommands: Liste des Commandes
+  listOfCommandsFullDescription: |-
+    Tapez {{helpAll}} pour obtenir une liste de toutes les commandes.
+    Tapez {{helpCommand}} pour obtenir des informations sur une commande spécifique.
+  commandNotFound: Désolé, la commande {{cmd}} n'a pas été trouvée !
+  noDiceError: Aucun Dé à Lancer !
+ping:
+  description: Vérifie la latence de Sebedius
+roll:
+  tooManyDiceError: Trop de Dés ! (>42)
+  embed:
+    details: Détails
+    pushed: Poussé
+    pushed_plural: Poussé {{count}} fois
+    success: 'Succès : **{{count}}**'
+    success_plural: 'Succès : **{{count}}**'
+    trauma: 'Trauma : **{{count}}**'
+    trauma_plural: 'Traumas: **{{count}}**'
+    gearDamage: 'Dégâts d''équipement : **{{count}}**'
+    extraHit: 'Coup supplémentaire: **{{count}}**'
+    extraHit_plural: 'Coups supplémentaires: **{{count}}**'
+    suppression: 'Suppression: **{{count}}**'
+    suppression_plural: 'Suppressions: **{{count}}**'
+    ammoSpent: 'Munitions dépensées : **{{count}}**'
+    damageOrStress: "Dégâts/Stress : **{{count}}** \U0001F4A2"
+    reliability: "**Fiabilité: −{{count}}** \U0001F4A5"
+    weaponJam: "**ARME ENRAYÉE ‼️**"
+    panic: "**PANIQUE !!!**"
+  button:
+    push: Pousser
+    cancel: Accepter
+  notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
+  genericRollParseError: Impossible d'analyser les instructions du lancer ! {{input}}
+rolld66:
+  resultForD66: "{{author}} a lancé un {{dice}} et obtenu {{result}}."
+thread:
+  notThreadError: 'Ceci n''est pas un fil! '
+  join: Le bot a rejoint le fil !
+  leave: Le bot a quitté le fil !
+conf:
+  title: Configuration de Sebedius
+  databaseNotReadyError: Échec de la connexion à la base de données!
