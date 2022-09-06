@@ -6,6 +6,7 @@
   ],
   "i18n-ally.namespace": true,
   "i18n-ally.pathMatcher": "{locale}/{namespace}.yml",
+  "i18n-ally.sourceLanguage": "en-US",
   "i18n-ally.usage.derivedKeyRules": [
     "{key}_one",
     "{key}_two",
@@ -14,5 +15,5 @@
     "{key}_many",
     "{key}_other",
     "{key}_plural"
-  ]
+  ],
 }

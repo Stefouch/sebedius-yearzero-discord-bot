@@ -10,49 +10,30 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
   /** @type {SebediusEvent.SebediusEventInteractionCreateFunction} */
   async execute(interaction) {
-    const guild = interaction.guild;
-
     // 1. Gets the guild options from the database (game & locale).
-    let guildOptions = {};
-    if (this.bot.database.isReady()) {
-      // @ts-ignore
-      guildOptions = await this.bot.database.grabGuild(guild);
-      if (guildOptions?.isBanned) return this.bot.leaveBanned(guild);
-    }
-    if (!guildOptions.game) guildOptions.game = YearZeroGames.MUTANT_YEAR_ZERO;
-    if (!guildOptions.locale) guildOptions.locale = this.bot.config.defaultLocale;
+    //      If not inGuild, it will return an object with a default game.
+    const guildOptions = await this.getGuildOptions(interaction);
 
     // 2. Defines the translation callback.
-    const locale = guildOptions?.locale || guild.preferredLocale;
+    const locale =
+      guildOptions.locale ||
+      interaction.guildLocale ||
+      interaction.locale ||
+      this.bot.config.defaultLocale;
     const t = global.t = i18next.getFixedT(locale);
 
+    // 3. Chat Input Command
     if (interaction.isChatInputCommand()) {
 
-      // Logs the command.
-      const logMsg = `${interaction.commandName}`
-        + ` • ${interaction.user.tag} (${interaction.user.id})`
-        + ` # ${interaction.channel.name} (${interaction.channelId})`
-        + ` @ ${guild.name} (${guild.id})`;
-      Logger.command(logMsg);
+      // 3.1 Logs the interaction.
+      this.logInteraction(interaction);
 
-      // TODO autocomplete for /help <command>
-      // if (interaction.type === InteractionType.ApplicationCommandAutocomplete) {
-      //   console.log('in');
-      //   const focusedOption = interaction.options.getFocused(true);
-      //   let choices;
-      //   if (interaction.commandName === 'help' && focusedOption.name === 'command') {
-      //     choices = this.bot.commands.map(c => c.name);
-      //   }
-      //   const filteredChoices = choices.filter(c => c.startsWith(focusedOption.value));
-      //   await interaction.respond(filteredChoices.map(c => ({ name: c, value: c })));
-      // }
-
-      // Promisifies the command count.
+      // 3.2. Promisifies the command count.
       if (process.env.NODE_ENV === 'production') {
         this.bot.database.incrementCommand(interaction); // Do not await
       }
 
-      // Gets the command.
+      // 3.3. Gets the command.
       const command = this.bot.commands.get(interaction.commandName);
       if (!command) {
         return interaction.reply({
@@ -61,7 +42,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         });
       }
 
-      // Runs the command.
+      // 3.4. Runs the command.
       try {
         if (['roll', 'rolld66', 'crit'].includes(command.name)) {
           // @ts-ignore
@@ -94,7 +75,52 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
         }
       }
 
-      // Checks permissions (put after because we only have 3 seconds to respond to an interaction).
+      // 3.5. Checks permissions (put after because we only have 3 seconds to respond to an interaction).
+      this.checkPermissions(interaction, t);
+    }
+  }
+
+  /**
+   * Logs the interaction in the console.
+   * @param {import('../structures/command').SebediusCommandInteraction} interaction
+   * @returns {string} The log message
+   */
+  logInteraction(interaction) {
+    let logMsg = `${interaction.commandName} • ${interaction.user.tag} (${interaction.user.id})`;
+    if (interaction.inGuild()) {
+      logMsg += ` # ${interaction.channel.name} (${interaction.channelId})`
+        + ` @ ${interaction.guild.name} (${interaction.guild.id})`;
+    }
+    else {
+      logMsg += '@ DM';
+    }
+    Logger.command(logMsg);
+    return logMsg;
+  }
+
+  /**
+   * Gets the options of the guild from the database.
+   * @param {import('../structures/command').SebediusCommandInteraction} interaction 
+   * @returns {Promise.<import('../structures/command').GuildOptions>}
+   */
+  async getGuildOptions(interaction) {
+    let guildOptions = {};
+    if (interaction.inGuild() && this.bot.database.isReady()) {
+      // @ts-ignore
+      guildOptions = await this.bot.database.guilds.findById(
+        interaction.guildId,
+        null,
+        { upsert: true, lean: true },
+      ) || {};
+      if (guildOptions?.isBanned) return this.bot.leaveBanned(interaction.guild);
+    }
+    if (!guildOptions.game) guildOptions.game = YearZeroGames.MUTANT_YEAR_ZERO;
+    return guildOptions;
+  }
+
+  // TODO check permissions
+  async checkPermissions(interaction, t) {
+    if (interaction.inGuild()) {
       // const botMember = await interaction.guild.members.fetchMe();
       const botMember = interaction.guild.members.me;
       if (!botMember.permissions.has(this.bot.permissions)) {

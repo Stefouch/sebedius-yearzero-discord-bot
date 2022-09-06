@@ -4,3 +4,6 @@ missingPermissionsError: >-
 commandError: |-
   An error occured with this command: {{name}} {{code}}
   {{message}}
+talents:
+  alien:
+    nervesOfSteel: Nerves of Steel

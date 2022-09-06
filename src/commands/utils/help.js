@@ -46,7 +46,8 @@ module.exports = class HelpCommand extends SebediusCommand {
           name: `🔗 ${t('commands:help.usefulLinks')}`,
           value: `• ${hyperlink(t('commands:help.addToServer'), this.bot.inviteURL)}`
             + `\n• ${hyperlink(t('commands:help.readTheWiki'), this.bot.config.wikiURL)}`
-            + `\n• ${hyperlink(t('commands:help.githubIssues'), this.bot.config.issueURL)}`,
+            + `\n• ${hyperlink(t('commands:help.githubIssues'), this.bot.config.issueURL)}`
+            + `\n• ${hyperlink(t('commands:help.contribute'), this.bot.config.contributeURL)}`,
           inline: false,
         }, {
           name: '❤ Patreon',
@@ -75,11 +76,15 @@ module.exports = class HelpCommand extends SebediusCommand {
       for (const [cat, code] of Object.entries(SebediusCommand.CategoryFlagsBits)) {
         const category = `commands:categories.${cat.toLowerCase()}`;
         const cmds = commands.filter(c => c.category === code);
+        const cmdLines = [...cmds
+          .mapValues(c => `${inlineCode(c.name)} – ${c.description}`)
+          .values(),
+        ].join('\n');
 
         if (cmds.size) {
           embed.addFields({
             name: t(category),
-            value: [...cmds.mapValues(c => inlineCode(c.name)).values()].join(', '),
+            value: cmdLines,
             inline: false,
           });
         }
@@ -99,20 +104,60 @@ module.exports = class HelpCommand extends SebediusCommand {
       }
 
       // Gets the localized description.
-      // @ts-ignore
-      const lng = t.lng;
-      // if (lng === 'en-US' || lng === 'en-GB') lng = 'en';
-      let commandDescription = command.data.description_localizations?.[lng];
+      let commandDescription = command.data.description_localizations?.[t.lng];
       if (!commandDescription) commandDescription = command.description;
 
       embed
-        .setTitle(inlineCode(commandName))
-        .setDescription(commandDescription)
-        .addFields({
-          name: 'Wiki',
-          value: `${this.bot.config.wikiURL}/%21${commandName}`,
-        });
+        .setTitle(inlineCode(`/${commandName}`))
+        .setDescription(commandDescription);
+
+      if (command.data.options?.length) {
+        embed.addFields(...getCommandOptionsEmbedFields(command, t));
+      }
+
+      embed.addFields({
+        name: 'Wiki',
+        value: `${this.bot.config.wikiURL}/%21${commandName}`,
+      });
     }
     await interaction.reply({ embeds: [embed] });
   }
 };
+
+/**
+ * @param {SebediusCommand & any} command
+ * @param {SebediusCommand.SebediusTranslationCallback} t 
+ */
+function getCommandOptionsEmbedFields(command, t) {
+  const fields = [];
+  if (typeof command.data.options[0]?.options !== 'undefined') {
+    // Has subcommands.
+    for (const subcommand of command.data.options) {
+      fields.push({
+        name: `/${command.name} ${subcommand.name}`,
+        value: subcommand.description
+          + (subcommand.options?.length ? `\n${getCommandOptionsDescription(subcommand.options, t)}` : ''),
+      });
+    }
+  }
+  else {
+    fields.push({
+      name: t('commands:help.arguments'),
+      value: getCommandOptionsDescription(command.data.options),
+    });
+  }
+  return fields;
+}
+
+function getCommandOptionsDescription(commandOptions, t) {
+  const out = [];
+  for (const commandOption of commandOptions) {
+    out.push(getArgumentDescription(commandOption, t));
+  }
+  return out.join('\n');
+}
+
+function getArgumentDescription(commandOption, t) {
+  return `${inlineCode(commandOption.name)}`
+    + ` – ${commandOption.required ? `*(${t('commands:help.required')})* ` : ''}${commandOption.description}`;
+}

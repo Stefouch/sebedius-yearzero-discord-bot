@@ -1,0 +1,42 @@
+$name: alien-panic
+$roll: true
+0:
+  icon: 😅
+  name: KEEPING IT TOGETHER
+  description: You manage to keep your nerves in check. Barely.
+7:
+  icon: 😓
+  name: NERVOUS TWITCH
+  description: Your `STRESS LEVEL`, and the `STRESS LEVEL` of all friendly PCs in `SHORT` range of you, increases by one.
+8:
+  icon: 😲
+  name: TREMBLE
+  description: You start to tremble uncontrollably. All skill rolls using `AGILITY` suffer a –2 modification until your panic stops.
+9:
+  icon: 😬
+  name: DROP ITEM
+  description: Whether by stress, confusion or the realization that you’re all going to die anyway, you drop a weapon or other important item—the GM decides which one. Your `STRESS LEVEL` increases by one.
+10:
+  icon: 🥶
+  name: FREEZE
+  description: You’re frozen by fear or stress for one Round, losing your next point of action. Your `STRESS LEVEL`, and the `STRESS LEVEL` of all friendly PCs in `SHORT` range of you, increases by one.
+11:
+  icon: 🤢
+  name: SEEK COVER
+  description: You must use your next action to move away from danger and find a safe spot if possible. You are allowed to make a retreat roll (see page 93) if you have an enemy at `ENGAGED` range. Your `STRESS LEVEL` is decreased by one, but the `STRESS LEVEL` of all friendly PCs in `SHORT` range increases by one. After one Round, you can act normally.
+12:
+  icon: 😱
+  name: SCREAM
+  description: You scream your lungs out for one Round, losing your next point of action. Your `STRESS LEVEL` is decreased by one, but every friendly character who hears your scream must make an immediate __Panic Roll__.
+13:
+  icon: 😭
+  name: FLEE
+  description: You just can’t take it anymore. You must flee to a safe place and refuse to leave it. You won’t attack anyone and won’t attempt anything dangerous. You are not allowed to make a retreat roll (see page 93) if you have an enemy at `ENGAGED` range when you flee. Your `STRESS LEVEL` is decreased by one, but every friendly character who sees you run must make an immediate __Panic Roll__.
+14:
+  icon: 👹
+  name: BERSERK
+  description: You must immediately attack the nearest person or creature, friendly or not. You won’t stop until you or the target is Broken. Every friendly character who witnesses your rampage must make an immediate __Panic Roll__.
+15:
+  icon: 😵
+  name: CATATONIC
+  description: You collapse to the floor and can’t talk or move, staring blankly into oblivion.

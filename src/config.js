@@ -10,17 +10,18 @@ SebediusConfig.activityLoopDelay = 600;
 SebediusConfig.readmeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md';
 SebediusConfig.wikiURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki';
 SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues';
+SebediusConfig.contributeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md';
 
 /* ------------------------------------------ */
 /*  Locales Config                            */
 /* ------------------------------------------ */
 
-/** @type {{ name: string, value: string }[]} */
+/** @type {{ name: string, value: import('discord.js').LocaleString }[]} */
 SebediusConfig.SupportedLocales = [
-  { name: 'English', value: 'en' },
+  { name: 'English', value: 'en-US' },
 ];
 
-SebediusConfig.defaultLocale = 'en';
+SebediusConfig.defaultLocale = 'en-US';
 
 /* ------------------------------------------ */
 /*  Commands Config                           */
@@ -29,7 +30,7 @@ SebediusConfig.defaultLocale = 'en';
 /** @enum {Object} */
 SebediusConfig.Commands = {};
 SebediusConfig.Commands.scrap = { max: 20 };
-SebediusConfig.Commands.stats = { start: '2020-12-05' };
+SebediusConfig.Commands.stats = { start: '2022-09-03' };
 SebediusConfig.Commands.roll = {
   max: 42,
   pushIcon: '🔄',
@@ -49,7 +50,12 @@ SebediusConfig.Commands.roll = {
  * @property {boolean}                [detailed=false]     Whether to display additional details for the roll
  * @property {(typeof import('./yearzero/roller/dice/yzdie'))[]} [extraPushDice=[]]
  *   Additional dice rolled when pushed
- * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]} [reactionMenu]
+ * @property {{
+ *   customId: string,
+ *   emoji: string,
+ *   label: string,
+ *   extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]
+ * } [pushMenu]
  *   Non-conventional reaction menu
  */
 
@@ -81,16 +87,17 @@ SebediusConfig.Commands.roll.options = {
     successIcon: '<:coriolisb6:746306927524577280>',
     hasBlankDice: true,
     detailed: true,
-    reactionMenu: [
-      {
-        icon: '🙏',
-        extraPushDice: [SkillDie],
-      },
-      {
-        icon: '🕌',
-        extraPushDice: [SkillDie, SkillDie],
-      },
-    ],
+    pushMenu: [{
+      customId: 'pray-button',
+      emoji: '🙏',
+      label: 'commands:roll.buttons.prayTheIcons',
+      extraPushDice: [SkillDie],
+    }, {
+      customId: 'chapel-button',
+      emoji: '🕌',
+      label: 'commands:roll.buttons.fanaticPush',
+      extraPushDice: [SkillDie, SkillDie],
+    }],
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.ALIEN_RPG]: {

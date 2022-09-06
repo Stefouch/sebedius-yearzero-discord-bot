@@ -1,0 +1,82 @@
+ownerOnlyCommandDisclaimer: Only the bot owner can use this command. And you are not my master!
+categories:
+  admin: Administrative
+  utils: Utility
+  roll: Roll
+help:
+  deployedVersion: Deployed Version
+  developer: Developer
+  fullDescription: >-
+    Sebedius is a Discord bot with command utilities for the Year Zero
+    roleplaying games by Free League Publishing (Fria Ligan).
+  usefulLinks: Useful Links
+  website: Website
+  supportOnPatreon: Support the dev on {{url}}!
+  patreonPage: Patreon
+  githubIssues: Send a bug report or a feature request
+  addToServer: Add to Server
+  readTheWiki: Read the Wiki
+  listOfCommands: List of Commands
+  listOfCommandsFullDescription: |-
+    Type {{helpAll}} to get a list of all commands.
+    Type {{helpCommand}} to get info on a specific command.
+  commandNotFound: Sorry, the command {{cmd}} was not found!
+  noDiceError: No Dice To Roll!
+  contribute: How to contribute
+  required: Required
+  arguments: Arguments
+ping:
+  description: Checks the Sebedius’ latency
+roll:
+  tooManyDiceError: Too Many Dice! (>42)
+  embed:
+    details: Details
+    pushed: Pushed
+    pushed_plural: Pushed × {{count}}
+    success: "Success: **{{count}}**"
+    success_plural: "Successes: **{{count}}**"
+    trauma: "Trauma: **{{count}}**"
+    trauma_plural: "Traumas: **{{count}}**"
+    gearDamage: "Gear Damage: **{{count}}**"
+    extraHit: "Extra Hit: **{{count}}**"
+    extraHit_plural: "Extra Hits: **{{count}}**"
+    suppression: "Suppression: **{{count}}**"
+    suppression_plural: "Suppressions: **{{count}}**"
+    ammoSpent: "Ammo Spent: **{{count}}**"
+    damageOrStress: "Damage/Stress: **{{count}}** 💢"
+    reliability: "**Reliability: −{{count}}** 💥"
+    weaponJam: "**WEAPON JAM ‼️**"
+    panic: "**PANIC!!!**"
+  buttons:
+    push: Push
+    cancel: Accept
+    prayTheIcons: Pray the Icons (+1D)
+    fanaticPush: Pray the Icons (+2D)
+  notYourRoll: You can only interact with your own rolls!
+  genericRollParseError: Could not parse the following input roll string! {{input}}
+rolld66:
+  resultForD66: "{{author}} rolled a {{dice}} and obtained {{result}}."
+thread:
+  notThreadError: This is not a thread!
+  join: The bot joined the thread!
+  leave: The bot left the thread!
+conf:
+  title: Sebedius Configuration
+  databaseNotReadyError: Connection to database failed!
+  options:
+    game: Game
+    locale: Locale
+panic:
+  panicEffectNotFoundError: The panic effect wasn’t found
+  interruptedSkillRollTitle: Interrupted Skill Roll
+  interruptedSkillRollText: >-
+    You will be forced to perform a specific action. If the Panic Roll was the
+    result of a skill check for an action, the action is cancelled and
+    immediately replaced by the forced panic action, even if you succeeded your
+    roll.
+  mentalTraumaReminderTitle: "End of Game Session: Roll for Permanent Mental Trauma"
+  mentalTraumaReminderText: >-
+    You must make an **EMPATHY** roll after the session. Roll for the attribute
+    only, not using any skill. If the roll *succeeds*, you develop a permanent
+    mental trauma of some kind. Roll a D6 and consult the table on page 161.
+  panicRoll: Panic Roll

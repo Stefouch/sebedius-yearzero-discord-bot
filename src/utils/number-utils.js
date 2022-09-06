@@ -216,9 +216,10 @@ function zeroise(value, min = 2) {
 module.exports = {
   clamp,
   // closest,
-  // convertToBijective,
+  convertToBijective,
   // getBoolean,
-  // hasSameDigits,
+  hasSameDigits,
+  isNumber,
   rand,
   random,
   randomID,

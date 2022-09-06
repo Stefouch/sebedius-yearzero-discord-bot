@@ -4,7 +4,7 @@ const { stringify, parse } = require('yaml');
 const { SupportedLocales, defaultLocale, Emojis } = require('../config');
 const Logger = require('../utils/logger');
 
-module.exports = async () => {
+module.exports = async client => {
   await i18next
     // @ts-ignore
     .use(i18nextBackend)
@@ -28,4 +28,6 @@ module.exports = async () => {
     })
     .then(() => Logger.client(`${Emojis.locale} Sebedius is translated!`))
     .catch(err => Logger.error(err));
+
+  client.i18n = i18next;
 };

@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 <br/>The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.1.0] - 2022-09-06
+
+### Added
+
+- **Slash Commands:**
+  - Admin: (`/emit`)
+  - Roll: `/panic` – for ALIEN RPG
+- The `/roll alien` with a `stress` value command can now automatically trigger a panic roll.
+- The `/roll coriolis` command now has more push options _(Pray the Icons!)_.
+- The `/help command:<command>` now returns more details with each subcommand and argument' description.
+- Add a section to how to use slash commands in the readme.
+- Add a gamedata parser method for future random generation commands.
+- **Gamedata:**
+  - ALIEN RPG: Panic table for `en-US` & `de` locales.
+
+### Fixed
+
+- Add missing `fullauto` argument to the command `/roll myz`.
+
+### Changed
+
+- **Locale:** _(minor)_ English translation now uses the code `en-US` instead of `en`. _(Plain "en" was not supported by Discord.)_
+
+### Removed
+
+- Due to its complexity, roll commands (`/roll` & `/rolld66`) in DM (private messages) have been temporarely disabled until Discord fixes their API. See #148 & #146.
+- Remove `fullauto` argument from the command `/roll fbl`.
+
 ## [6.0.1] - 2022-09-04
 
 ### Added
