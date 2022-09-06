@@ -20,12 +20,6 @@ class Sebedius extends Client {
      */
     this.commands = new Collection();
 
-    /**
-     * Collection containing all the game tables.
-     * @type {Collection<string, import('../utils/RollTable')>}
-     */
-    this.tables = new Collection();
-
     /** @type {import('./database/database')} */
     this.database = null;
 

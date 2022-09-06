@@ -10,7 +10,7 @@ module.exports = class PanicCommand extends SebediusCommand {
       category: SebediusCommand.CategoryFlagsBits.ROLL,
       data: new SlashCommandBuilder()
         .setName('panic')
-        .setDescription('Rolls a random panic effect for the ALIEN RPG')
+        .setDescription('Roll a random panic effect for the ALIEN RPG')
         .addIntegerOption(opt => opt
           .setName('stress')
           .setDescription('Starting stress level')
@@ -43,9 +43,9 @@ module.exports = class PanicCommand extends SebediusCommand {
   /**
    * @param {SebediusCommand.SebediusCommandInteraction} interaction
    * @param {SebediusCommand.SebediusTranslationCallback} t
-   * @param {Object} args
-   * @param {number} args.stress
-   * @param {number} args.minPanic
+   * @param {Object}  args
+   * @param {number}  args.stress
+   * @param {number}  args.minPanic
    * @param {boolean} args.isFixed
    * @param {boolean} args.hasNerves
    */

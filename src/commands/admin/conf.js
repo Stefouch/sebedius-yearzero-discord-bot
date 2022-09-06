@@ -11,7 +11,7 @@ module.exports = class ConfCommand extends SebediusCommand {
       category: SebediusCommand.CategoryFlagsBits.ADMIN,
       data: new SlashCommandBuilder()
         .setName('conf')
-        .setDescription('Sets the bot\'s configuration for this server.')
+        .setDescription('Sets the bot\'s configuration for this server')
         .setDMPermission(false)
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
         .addStringOption(opt => opt
