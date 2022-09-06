@@ -10,6 +10,7 @@ SebediusConfig.activityLoopDelay = 600;
 SebediusConfig.readmeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md';
 SebediusConfig.wikiURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki';
 SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues';
+SebediusConfig.contributeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md';
 
 /* ------------------------------------------ */
 /*  Locales Config                            */
@@ -49,7 +50,12 @@ SebediusConfig.Commands.roll = {
  * @property {boolean}                [detailed=false]     Whether to display additional details for the roll
  * @property {(typeof import('./yearzero/roller/dice/yzdie'))[]} [extraPushDice=[]]
  *   Additional dice rolled when pushed
- * @property {{ icon: string, extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]} [reactionMenu]
+ * @property {{
+ *   customId: string,
+ *   emoji: string,
+ *   label: string,
+ *   extraPushDice: (typeof import('./yearzero/roller/dice/yzdie'))[] }[]
+ * } [pushMenu]
  *   Non-conventional reaction menu
  */
 
@@ -81,16 +87,17 @@ SebediusConfig.Commands.roll.options = {
     successIcon: '<:coriolisb6:746306927524577280>',
     hasBlankDice: true,
     detailed: true,
-    reactionMenu: [
-      {
-        icon: '🙏',
-        extraPushDice: [SkillDie],
-      },
-      {
-        icon: '🕌',
-        extraPushDice: [SkillDie, SkillDie],
-      },
-    ],
+    pushMenu: [{
+      customId: 'pray-button',
+      emoji: '🙏',
+      label: 'commands:roll.buttons.prayTheIcons',
+      extraPushDice: [SkillDie],
+    }, {
+      customId: 'chapel-button',
+      emoji: '🕌',
+      label: 'commands:roll.buttons.fanaticPush',
+      extraPushDice: [SkillDie, SkillDie],
+    }],
   },
   /** @type {DiceRenderOptions} */
   [YearZeroGames.ALIEN_RPG]: {

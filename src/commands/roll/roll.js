@@ -45,7 +45,7 @@ const SlashCommandOptions = {
     required: true,
   },
   abcd: {
-    description: 'Type any of the following: 12, 10, 8, 6, a, b, c, d',
+    description: 'Type any of the following: `12`, `10`, `8`, `6`, `a`, `b`, `c`, `d`',
     type: ApplicationCommandOptionType.String,
     required: true,
   },
@@ -276,7 +276,7 @@ module.exports = class RollCommand extends SebediusCommand {
 
     // Sets the maximum number of pushes.
     // Note: Cannot use typeof undefined because null is returned by DiscordJS
-    if (this.isPanic) roll.setMaxPush(0);
+    if (this.isPanic(roll)) roll.setMaxPush(0);
     else if (maxPush != null) roll.setMaxPush(maxPush);
     else {
       const fullauto = interaction.options.getBoolean('fullauto');
@@ -412,6 +412,7 @@ module.exports = class RollCommand extends SebediusCommand {
    */
   async awaitPush(roll, interaction, t) {
     const message = await interaction.fetchReply();
+    const gameOptions = this.bot.config.Commands.roll.options[roll.game];
 
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
@@ -426,14 +427,23 @@ module.exports = class RollCommand extends SebediusCommand {
           ephemeral: true,
         });
       }
-      else if (i.customId === 'push-button') {
+      else if (['push-button', 'pray-button', 'chapel-button'].includes(i.customId)) {
         await roll.push(true);
 
-        // Add any extra pushed dice
-        if (this.bot.config.Commands.roll.options[roll.game]?.extraPushDice) {
-          for (const ExtraDie of this.bot.config.Commands.roll.options[roll.game].extraPushDice) {
-            roll.addDice(ExtraDie, 1);
-          }
+        const extraPushDice = [];
+
+        // Adds any extra pushed dice.
+        if (gameOptions?.extraPushDice) {
+          extraPushDice.push(...gameOptions.extraPushDice);
+        }
+
+        // Idem, but for Coriolis.
+        if (['pray-button', 'chapel-button'].includes(i.customId)) {
+          extraPushDice.push(...gameOptions.pushMenu.find(b => b.customId === i.customId).extraPushDice);
+        }
+
+        if (extraPushDice.length) {
+          for (const ExtraDie of extraPushDice) roll.addDice(ExtraDie, 1);
           await roll.roll();
         }
 
@@ -466,7 +476,7 @@ module.exports = class RollCommand extends SebediusCommand {
         }
 
         // Detects panic.
-        if (this.isPanic()) {
+        if (this.isPanic(roll)) {
           collector.stop();
           await this.fetchPanic(roll, interaction, t);
         }
@@ -488,22 +498,43 @@ module.exports = class RollCommand extends SebediusCommand {
   /* ------------------------------------------ */
 
   #createButtons(game, t) {
+    const gameOptions = this.bot.config.Commands.roll.options[game];
+
     const pushButton = new ButtonBuilder()
       .setCustomId('push-button')
-      .setEmoji(this.bot.config.Commands.roll.options[game]?.successIcon || this.bot.config.Commands.roll.pushIcon)
-      .setLabel(t('commands:roll.button.push'))
+      .setEmoji(gameOptions?.successIcon || this.bot.config.Commands.roll.pushIcon)
+      .setLabel(t('commands:roll.buttons.push'))
       .setStyle(ButtonStyle.Primary);
 
     const cancelButton = new ButtonBuilder()
       .setCustomId('cancel-button')
       .setEmoji(this.bot.config.Commands.roll.cancelIcon)
-      .setLabel(t('commands:roll.button.cancel'))
+      .setLabel(t('commands:roll.buttons.cancel'))
       .setStyle(ButtonStyle.Secondary);
+
+    const actionRows = [];
 
     const firstActionRow = new ActionRowBuilder()
       .addComponents(pushButton, cancelButton);
 
-    return [firstActionRow];
+    actionRows.push(firstActionRow);
+
+    // If we have a custom push menu, we add the buttons configured in the config.
+    if (gameOptions?.pushMenu) {
+      const secondActionRow = new ActionRowBuilder();
+      for (const buttonData of gameOptions.pushMenu) {
+        const button = new ButtonBuilder({
+          style: ButtonStyle.Primary,
+          customId: buttonData.customId,
+          emoji: buttonData.emoji,
+          label: t(buttonData.label),
+        });
+        secondActionRow.addComponents(button);
+      }
+      actionRows.push(secondActionRow);
+    }
+
+    return actionRows;
   }
 
   /* ------------------------------------------ */
