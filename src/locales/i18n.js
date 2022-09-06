@@ -26,7 +26,7 @@ module.exports = async client => {
         parse: data => parse(data),
       },
     })
-    .then(() => Logger.client(`${Emojis.locale} Sebedius is translated!`))
+    .then(() => Logger.client(`${Emojis.globe} Sebedius is translated!`))
     .catch(err => Logger.error(err));
 
   client.i18n = i18next;

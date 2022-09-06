@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder, codeBlock } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const { YearZeroGameChoices } = require('../../constants');
-const { Emojis, SupportedLocales } = require('../../config');
+const { SupportedLocales } = require('../../config');
 const { isObjectEmpty } = require('../../utils/object-utils');
 const Logger = require('../../utils/logger');
 
@@ -28,7 +28,7 @@ module.exports = class ConfCommand extends SebediusCommand {
   async run(interaction, t) {
     if (!this.bot.database.isReady()) {
       return interaction.reply({
-        content: `${Emojis.stop} ${t('commands:conf:databaseNotReadyError')}`,
+        content: `${this.bot.config.Emojis.stop} ${t('commands:conf:databaseNotReadyError')}`,
         ephemeral: true,
       });
     }
@@ -63,9 +63,9 @@ module.exports = class ConfCommand extends SebediusCommand {
       if (k && k !== '_id' && v) {
         let emoji;
         switch (k) {
-          case 'game': emoji = Emojis.die; break;
-          case 'locale': emoji = Emojis.locale; break;
-          default: emoji = Emojis.ok;
+          case 'game': emoji = this.bot.config.Emojis.die; break;
+          case 'locale': emoji = this.bot.config.Emojis.globe; break;
+          default: emoji = this.bot.config.Emojis.ok;
         }
         fields.push({
           name: `${emoji} ${t(`commands:conf.options.${k}`)}`,

@@ -20,7 +20,7 @@ SebediusConfig.contributeURL = 'https://github.com/Stefouch/sebedius-yearzero-di
 SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
   // { name: 'Français', value: 'fr' },
-  // { name: 'Deutche', value: 'de' },
+  // { name: 'Deutsche', value: 'de' },
 ];
 
 SebediusConfig.defaultLocale = 'en-US';
@@ -139,11 +139,11 @@ SebediusConfig.Emojis = {
   /** @type {'⛔'} **/ ban: '⛔',
   /** @type {'🎲'} **/ die: '🎲',
   /** @type {'❌'} **/ error: '❌',
-  /** @type {'🌐'} **/ locale: '🌐',
+  /** @type {'🌐'} **/ globe: '🌐',
   /** @type {'✅'} **/ ok: '✅',
   /** @type {'🤷'} **/ shrug: '🤷',
   /** @type {'🛑'} **/ stop: '🛑',
-  /** @type {'⚠'} **/ warning: '⚠',
+  /** @type {'⚠️'} **/ warning: '⚠️',
 };
 
 SebediusConfig.CardsIcons = [
