@@ -136,7 +136,7 @@ function fakeDiscord(client) {
       name: 'at-everyone',
       id: guild.id,
       color: 11493413,
-      permissions: Discord.Permissions.ALL,
+      permissions: Discord.PermissionFlagsBits.Administrator,
     },
     guild,
   ));
@@ -198,26 +198,7 @@ function fakeDiscord(client) {
   ));
 
   // Creates a fake Discord Message.
-  const message = Object.assign(
-    new Discord.Message(
-      client,
-      {
-        name: 'Fake Message',
-        id: Discord.SnowflakeUtil.generate(),
-        channel_id: channel.id,
-        guild_id: guild.id,
-        author: user,
-        member: member,
-      },
-      channel,
-    ),
-    {
-      edit: async msg => fakeSimpleMessage(client, channel, msg),
-      reply: async msg => fakeSimpleMessage(client, channel, msg),
-      react: async () => true,
-      delete: async () => true,
-    },
-  );
+  const message = fakeSimpleMessage(client, channel, 'Fake Message');
   channel.messages.cache.set(message.id, message);
 
   return message;
@@ -245,17 +226,41 @@ function fakeSimpleMessage(client, channel, msg = 'Hello') {
     reply: async () => true,
     react: async () => true,
     delete: async () => true,
-    createReactionCollector: () => {
-      return { on: () => true };
-    },
+    // createReactionCollector: () => {
+    //   return { on: () => true };
+    // },
   };
-  // return new Discord.Message(
-  // 	client,
-  // 	{
-  // 		id: Discord.SnowflakeUtil.generate(),
-  // 		author: client.user,
-  // 		content: msg,
-  // 	},
-  // 	channel,
-  // );
+}
+
+/** @param {Discord.Client} client */
+function createFakeInteraction(client) {
+  const interaction = {
+    client,
+    command: null,
+    get commandName() { return this.command.name; },
+    channel: client.channels.cache.at(0),
+    get channelId() { return this.channel.id; },
+    createdAt: Date.now(),
+    deferred: false,
+    ephemeral: false,
+    guild: client.guilds.cache.at(0),
+    get guildId() { return this.guild.id; },
+    guildLocale: 'en-US',
+    locale: 'en-US',
+    member: client.guilds.cache.at(0).members.cache.at(0),
+    get memberPermissions() { return this.member.permissions; },
+    options: null,
+    token: Discord.SnowflakeUtil.generate(),
+    type: 2,
+    get user() { return this.member.user; },
+    reply: async () => true,
+    editReply: async () => true,
+    deleteReply: async () => true,
+    followUp: async () => true,
+    inGuild: () => true,
+    isChatInputCommand: () => true,
+    isCommand: () => true,
+    isRepliable: () => true,
+  };
+  return interaction;
 }
