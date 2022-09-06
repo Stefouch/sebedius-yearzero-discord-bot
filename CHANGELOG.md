@@ -36,7 +36,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Git Localize link in the docs: https://gitlocalize.com/repo/7910
+- Git Localize link in the docs: https://gitlocalize.com/repo/7923
 
 ### Changed
 

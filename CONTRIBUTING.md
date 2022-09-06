@@ -26,7 +26,7 @@ If you have usage questions the best place to get help is in the [#digital-tools
 
 ## :globe_with_meridians: Localization
 
-We are grateful for any and all localization support we can get. To localize the system you do not need to download or set up the system. To make it easier to help with localization we are using GitLocalize. All you need is a GitHub account. Then you can [head over to our GitLocalize page](https://gitlocalize.com/repo/7910) and start translating.
+We are grateful for any and all localization support we can get. To localize the system you do not need to download or set up the system. To make it easier to help with localization we are using GitLocalize. All you need is a GitHub account. Then you can [head over to our GitLocalize page](https://gitlocalize.com/repo/7923) and start translating.
 
 Once you are done, click the yellow button that says "Create Review Request" and GitLocalize will handle the rest on your behalf.
 
