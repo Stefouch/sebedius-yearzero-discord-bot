@@ -1,6 +1,6 @@
----
-ownerOnlyCommandDisclaimer: Seul le propriétaire du bot peut utiliser cette commande.
-  Et tu n'es pas mon maître !
+ownerOnlyCommandDisclaimer: >-
+  Seul le propriétaire du bot peut utiliser cette commande. Et tu n'es pas mon
+  maître !
 categories:
   admin: Administratif
   utils: Utilitaire
@@ -8,10 +8,10 @@ categories:
 help:
   deployedVersion: Version déployée
   developer: Développeur
-  fullDescription: Sebedius est un bot Discord avec des utilitaires de commande pour
-    les JDRs Year Zero de Free League Publishing (Fria Ligan).
+  fullDescription: >-
+    Sebedius est un bot Discord avec des utilitaires de commande pour les JDRs
+    Year Zero de Free League Publishing (Fria Ligan).
   usefulLinks: Liens Utiles
-  website: Site Web
   supportOnPatreon: Supporter le dev sur son {{url}} !
   patreonPage: Patreon
   githubIssues: Envoyer un rapport de bug ou une demande de fonctionnalité
@@ -20,42 +20,42 @@ help:
   listOfCommands: Liste des Commandes
   listOfCommandsFullDescription: |-
     Tapez {{helpAll}} pour obtenir une liste de toutes les commandes.
-    Tapez {{helpCommand}} pour obtenir des informations sur une commande spécifique.
-  commandNotFound: Désolé, la commande {{cmd}} n'a pas été trouvée !
-  noDiceError: Aucun Dé à Lancer !
-ping:
-  description: Vérifie la latence de Sebedius
+    Tapez {{helpCommand}} pour obtenir des informations sur une commande
+    spécifique.
+  commandNotFound: "Désolé, la commande {{cmd}} n'a pas été trouvée\_!"
+  noDiceError: "Aucun Dé à Lancer\_!"
+ping: {}
 roll:
-  tooManyDiceError: Trop de Dés ! (>42)
+  tooManyDiceError: "Trop de Dés\_! (>42)"
   embed:
     details: Détails
     pushed: Poussé
     pushed_plural: Poussé {{count}} fois
-    success: 'Succès : **{{count}}**'
-    success_plural: 'Succès : **{{count}}**'
-    trauma: 'Trauma : **{{count}}**'
-    trauma_plural: 'Traumas: **{{count}}**'
-    gearDamage: 'Dégâts d''équipement : **{{count}}**'
-    extraHit: 'Coup supplémentaire: **{{count}}**'
-    extraHit_plural: 'Coups supplémentaires: **{{count}}**'
-    suppression: 'Suppression: **{{count}}**'
-    suppression_plural: 'Suppressions: **{{count}}**'
-    ammoSpent: 'Munitions dépensées : **{{count}}**'
-    damageOrStress: "Dégâts/Stress : **{{count}}** \U0001F4A2"
-    reliability: "**Fiabilité: −{{count}}** \U0001F4A5"
+    success: "Succès\_: **{{count}}**"
+    success_plural: "Succès\_: **{{count}}**"
+    trauma: "Trauma\_: **{{count}}**"
+    trauma_plural: "Traumas: **{{count}}**"
+    gearDamage: "Dégâts d'équipement\_: **{{count}}**"
+    extraHit: "Coup supplémentaire: **{{count}}**"
+    extraHit_plural: "Coups supplémentaires: **{{count}}**"
+    suppression: "Suppression: **{{count}}**"
+    suppression_plural: "Suppressions: **{{count}}**"
+    ammoSpent: "Munitions dépensées\_: **{{count}}**"
+    damageOrStress: "Dégâts/Stress\_: **{{count}}** 💢"
+    reliability: "**Fiabilité: −{{count}}** 💥"
     weaponJam: "**ARME ENRAYÉE ‼️**"
     panic: "**PANIQUE !!!**"
-  button:
+  buttons:
     push: Pousser
     cancel: Accepter
   notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
-  genericRollParseError: Impossible d'analyser les instructions du lancer ! {{input}}
+  genericRollParseError: "Impossible d'analyser les instructions du lancer\_! {{input}}"
 rolld66:
   resultForD66: "{{author}} a lancé un {{dice}} et obtenu {{result}}."
 thread:
-  notThreadError: 'Ceci n''est pas un fil! '
-  join: Le bot a rejoint le fil !
-  leave: Le bot a quitté le fil !
+  notThreadError: "Ceci n'est pas un fil! "
+  join: "Le bot a rejoint le fil\_!"
+  leave: "Le bot a quitté le fil\_!"
 conf:
   title: Configuration de Sebedius
   databaseNotReadyError: Échec de la connexion à la base de données!
