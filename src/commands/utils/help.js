@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, hyperlink, inlineCode } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
-const { Emojis } = require('../../config');
 
 module.exports = class HelpCommand extends SebediusCommand {
   /** @param {import('@structures/sebedius-client')} client */
@@ -30,12 +29,22 @@ module.exports = class HelpCommand extends SebediusCommand {
       embed
         .setTitle('**Sebedius – Year Zero Discord Bot**')
         .setDescription(t('commands:help.fullDescription') + ' https://github.com/Stefouch/sebedius-myz-discord-bot')
+        // TODO Slash command Update - Disclaimer - remove later
+        .addFields({
+          name: `${this.bot.config.Emojis.warning} Important Changes!`,
+          value: 'As of September 1st 2022, due to Discord policies change for bots,'
+          + ' Sebedius cannot read the content of messages anymore.'
+          + ' The is the end of *prefixed* `!commands`. Consequently, all Sebedius commands are disabled.'
+          + '\nBut!.. I am slowly converting all the "old" commands into the new Discord standard for bots:'
+          + ' *Slash* `/commands`! The task is huge (there were 50+ commands) and will take time unfortunately.'
+          + '\n[Read more about slash commands here](https://discord.com/blog/welcome-to-the-new-era-of-discord-apps/)',
+        })
         .addFields({
           name: `🏁 ${t('commands:help.deployedVersion')}`,
           value: this.bot.version,
           inline: true,
         }, {
-          name: `🛠 ${t('commands:help.developer')}`,
+          name: `🛠️ ${t('commands:help.developer')}`,
           value: `${(await this.bot.getUser(this.bot.ownerId)).toString()}\n${hyperlink('stefouch.be', 'https://www.stefouch.be')}`,
           inline: true,
         }, {
@@ -50,13 +59,13 @@ module.exports = class HelpCommand extends SebediusCommand {
             + `\n• ${hyperlink(t('commands:help.contribute'), this.bot.config.contributeURL)}`,
           inline: false,
         }, {
-          name: '❤ Patreon',
+          name: '💖 Patreon',
           value: t('commands:help.supportOnPatreon', {
             url: hyperlink(t('commands:help.patreonPage'), 'https://patreon.com/Stefouch'),
           }),
           inline: false,
         }, {
-          name: `🗒 ${t('commands:help.listOfCommands')}`,
+          name: `🗒️ ${t('commands:help.listOfCommands')}`,
           value: t('commands:help.listOfCommandsFullDescription', {
             helpAll: inlineCode('/help all'),
             helpCommand: inlineCode('/help <command>'),
@@ -96,7 +105,7 @@ module.exports = class HelpCommand extends SebediusCommand {
 
       if (!command) {
         return interaction.reply({
-          content: `${Emojis.shrug} ${t('commands:help.commandNotFound', {
+          content: `${this.bot.config.Emojis.shrug} ${t('commands:help.commandNotFound', {
             cmd: inlineCode(commandName),
           })}`,
           ephemeral: true,
