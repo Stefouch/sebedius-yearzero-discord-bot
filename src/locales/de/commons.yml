@@ -1,0 +1,9 @@
+---
+missingPermissionsError: 'Dem Bot {{member}} fehlen die folgenden Berechtigungen und
+  er funktioniert möglicherweise nicht richtig: {{perms}}'
+commandError: |-
+  Bei diesem Befehl ist ein Fehler aufgetreten: {{name}} {{code}}
+  {{message}}
+talents:
+  alien:
+    nervesOfSteel: Nerven aus Stahl
