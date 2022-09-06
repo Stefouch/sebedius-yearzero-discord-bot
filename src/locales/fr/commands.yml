@@ -1,0 +1,42 @@
+---
+ownerOnlyCommandDisclaimer: Seul le propriétaire du bot peut utiliser cette commande.
+  Et tu n'es pas mon maître !
+categories:
+  admin: Administratif
+  utils: Utilitaire
+  roll: Lancer
+help:
+  deployedVersion: Version déployée
+  developer: Développeur
+  usefulLinks: Liens Utiles
+  website: Site Web
+  supportOnPatreon: Supporter le dev sur son {{url}} !
+  patreonPage: Patreon
+  githubIssues: Envoyer un rapport de bug ou une demande de fonctionnalité
+  addToServer: Ajouter à un serveur
+  readTheWiki: Lire le Wiki
+  listOfCommands: Liste des Commandes
+  commandNotFound: Désolé, la commande {{cmd}} n'a pas été trouvée !
+  noDiceError: Aucun Dé à Lancer !
+ping:
+  description: Vérifie la latence de Sebedius
+roll:
+  tooManyDiceError: Trop de Dés ! (>42)
+  embed:
+    details: Détails
+    pushed: Poussé
+    success: 'Succès : **{{count}}**'
+    success_plural: 'Succès : **{{count}}**'
+    trauma: 'Trauma : **{{count}}**'
+    trauma_plural: 'Traumas: **{{count}}**'
+    ammoSpent: 'Munitions dépensées : **{{count}}**'
+    damageOrStress: "Dégâts/Stress : **{{count}}** \U0001F4A2"
+    panic: "**PANIQUE !!!**"
+  button:
+    push: Pousser
+    cancel: Accepter
+  notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
+rolld66: {}
+thread: {}
+conf:
+  title: Configuration de Sebedius
