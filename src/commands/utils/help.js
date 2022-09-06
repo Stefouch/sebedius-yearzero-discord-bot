@@ -143,7 +143,7 @@ function getCommandOptionsEmbedFields(command, t) {
   else {
     fields.push({
       name: t('commands:help.arguments'),
-      value: getCommandOptionsDescription(command.data.options),
+      value: getCommandOptionsDescription(command.data.options, t),
     });
   }
   return fields;
