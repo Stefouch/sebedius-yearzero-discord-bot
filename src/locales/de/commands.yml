@@ -1,0 +1,83 @@
+---
+ownerOnlyCommandDisclaimer: Nur der Bot-Besitzer kann diesen Befehl verwenden. Und
+  du bist nicht mein Meister!
+categories:
+  admin: Verwaltung
+  utils: Werkzeug
+  roll: Würfeln
+help:
+  deployedVersion: Bereitgestellte Version
+  developer: Entwickler
+  fullDescription: |-
+    Sebedius ist ein Discord-Bot mit Befehlen für die Year Zero-Rollenspiele von Free League Publishing (Fria Ligan).
+    Die deutschen Produkte der Jahr Null-Systeme werden herausgegeben vom Uhrwerk Verlag und Ulisses Spiele.
+  usefulLinks: Nützliche Links
+  supportOnPatreon: Unterstützt den Entwickler unter {{url}}!
+  patreonPage: Patreon
+  githubIssues: Einen Fehlerbericht oder eine Funktionsanfrage senden (englisch)
+  addToServer: Bot einem Discord-Server hinzufügen
+  readTheWiki: Im Wiki stöbern
+  listOfCommands: Liste der Befehle
+  listOfCommandsFullDescription: |-
+    Gebe {{helpAll}} ein, um eine Liste aller Befehle zu erhalten.
+    Gebe {{helpCommand}} ein, um Informationen zu einem bestimmten Befehl zu erhalten.
+  commandNotFound: Entschuldigung, der Befehl {{cmd}} wurde nicht gefunden!
+  noDiceError: Keine Würfel zum Werfen!
+  contribute: So kannst du beitragen
+  required: Erforderlich
+  arguments: Argumente
+ping: {}
+roll:
+  tooManyDiceError: Zu viele Würfel! (>42)
+  embed:
+    details: Details
+    pushed: Strapaziert
+    pushed_plural: Strapaziert × {{count}}
+    success: 'Erfolg: **{{count}}**'
+    success_plural: 'Erfolge: **{{count}}**'
+    trauma: 'Trauma: **{{count}}**'
+    trauma_plural: 'Traumas: **{{count}}**'
+    gearDamage: 'Ausrüstungsschaden: **{{count}}**'
+    extraHit: 'Zusätzlicher Treffer: **{{count}}**'
+    extraHit_plural: 'Zusätzliche Treffer: **{{count}}**'
+    suppression: 'Unterdrückung: **{{count}}**'
+    suppression_plural: 'Unterdrückungen: **{{count}}**'
+    ammoSpent: 'Verbrauchte Munition: **{{count}}**'
+    damageOrStress: "Schaden/Stress: **{{count}}** \U0001F4A2"
+    reliability: "**Zuverlässigkeit: −{{count}}** \U0001F4A5"
+    weaponJam: "**LADEHEMMUNG ‼️**"
+    panic: "**PANIK!!!**"
+  buttons:
+    push: Strapazieren
+    cancel: Annehmen
+    prayTheIcons: Vorbereitendes Gebet (+1D)
+    fanaticPush: Vorb. Gebet in Kapelle (+2D)
+  notYourRoll: Du kannst nur mit deinen eigenen Würfen interagieren!
+  genericRollParseError: Der folgende Würfeleingabe konnte nicht ausgewertet werden!
+    {{input}}
+rolld66:
+  resultForD66: "{{author}} würfelte einen {{dice}} und erhielt {{result}}."
+thread:
+  notThreadError: Das ist kein Thread!
+  join: Der Bot ist dem Thread beigetreten!
+  leave: Der Bot hat den Thread verlassen!
+conf:
+  title: Sebedius-Konfiguration
+  databaseNotReadyError: Verbindung zur Datenbank ist fehlgeschlagen!
+  options:
+    game: Spiel
+    locale: Gebietsschema
+panic:
+  panicEffectNotFoundError: Der Panikeffekt wurde nicht gefunden
+  interruptedSkillRollTitle: Unterbrochener Fertigkeitswurf
+  interruptedSkillRollText: Du wirst gezwungen, eine bestimmte Aktion auszuführen.
+    Wenn der Panikwurf das Ergebnis einer Fertigkeitsprobe für eine Aktion war, wird
+    die Aktion abgebrochen und sofort durch die erzwungene Panikaktion ersetzt, selbst
+    wenn dir dein Wurf gelungen ist.
+  mentalTraumaReminderTitle: 'Am Ende der Spielsitzung: Würfle für ein dauerhaftes
+    mentales Trauma'
+  mentalTraumaReminderText: Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf
+    machen. Würfle nur für das Attribut, ohne Verwendung einer Fertigkeit. Wenn der
+    Wurf *gelingt*, entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6
+    und prüfe die Tabelle auf Seite 101.
+  panicRoll: Panikwurf
