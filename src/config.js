@@ -135,6 +135,7 @@ SebediusConfig.Commands.roll.options = {
 
 /** @enum {string} */
 SebediusConfig.Emojis = {
+  /** @type {'💢'} */ anger: '💢',
   /** @type {'💥'} */ boom: '💥',
   /** @type {'⛔'} */ ban: '⛔',
   /** @type {'🎲'} */ die: '🎲',
