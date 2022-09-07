@@ -19,6 +19,8 @@ SebediusConfig.contributeURL = 'https://github.com/Stefouch/sebedius-yearzero-di
 /** @type {{ name: string, value: import('discord.js').LocaleString }[]} */
 SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
+  { name: 'Français', value: 'fr' },
+  { name: 'Deutsche', value: 'de' },
 ];
 
 SebediusConfig.defaultLocale = 'en-US';
@@ -133,15 +135,17 @@ SebediusConfig.Commands.roll.options = {
 
 /** @enum {string} */
 SebediusConfig.Emojis = {
-  /** @type {'💥'} **/ boom: '💥',
-  /** @type {'⛔'} **/ ban: '⛔',
-  /** @type {'🎲'} **/ die: '🎲',
-  /** @type {'❌'} **/ error: '❌',
-  /** @type {'🌐'} **/ locale: '🌐',
-  /** @type {'✅'} **/ ok: '✅',
-  /** @type {'🤷'} **/ shrug: '🤷',
-  /** @type {'🛑'} **/ stop: '🛑',
-  /** @type {'⚠'} **/ warning: '⚠',
+  /** @type {'💢'} */ anger: '💢',
+  /** @type {'💥'} */ boom: '💥',
+  /** @type {'⛔'} */ ban: '⛔',
+  /** @type {'🎲'} */ die: '🎲',
+  /** @type {'❌'} */ error: '❌',
+  /** @type {'🌐'} */ globe: '🌐',
+  /** @type {'✅'} */ ok: '✅',
+  /** @type {'🤷'} */ shrug: '🤷',
+  /** @type {'✨'} */ sparkles: '✨',
+  /** @type {'🛑'} */ stop: '🛑',
+  /** @type {'⚠️'} */ warning: '⚠️',
 };
 
 SebediusConfig.CardsIcons = [

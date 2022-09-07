@@ -1,24 +1,4 @@
 /**
- * @callback SebediusEventMessageCreateFunction
- * @param {import('discord.js').Message} message
- * @returns {Promise.<any>}
- */
-
-/**
- * @callback SebediusEventInteractionCreateFunction
- * @param {import('./command').SebediusCommandInteraction} interaction
- * @returns {Promise.<any>}
- */
-
-/**
- * @typedef {Object} SebediusEventOptions
- * @property {string}   name        The name of the event
- * @property {boolean} [once=false] Whether the event is run only once (default is false)
- */
-
-/* ------------------------------------------ */
-
-/**
  * Sebedius Event.
  */
 class SebediusEvent {
@@ -68,3 +48,25 @@ class SebediusEvent {
 };
 
 module.exports = SebediusEvent;
+
+/* ------------------------------------------ */
+/*  Types Definitions                         */
+/* ------------------------------------------ */
+
+/**
+ * @callback SebediusEventMessageCreateFunction
+ * @param {import('discord.js').Message} message
+ * @returns {Promise.<any>}
+ */
+
+/**
+ * @callback SebediusEventInteractionCreateFunction
+ * @param {import('./command').SebediusCommandInteraction} interaction
+ * @returns {Promise.<any>}
+ */
+
+/**
+ * @typedef {Object} SebediusEventOptions
+ * @property {string}   name        The name of the event
+ * @property {boolean} [once=false] Whether the event is run only once (default is false)
+ */

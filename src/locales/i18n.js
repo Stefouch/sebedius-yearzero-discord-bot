@@ -9,10 +9,11 @@ module.exports = async client => {
     // @ts-ignore
     .use(i18nextBackend)
     .init({
-      supportedLngs: SupportedLocales.map(l => l.value),
-      fallbackLng: defaultLocale,
       ns: ['commons', 'commands'],
       defaultNS: 'commands',
+      supportedLngs: SupportedLocales.map(l => l.value),
+      preload: SupportedLocales.map(l => l.value),
+      fallbackLng: defaultLocale,
       compatibilityJSON: 'v3',
       interpolation: {
         escapeValue: false,
@@ -26,7 +27,7 @@ module.exports = async client => {
         parse: data => parse(data),
       },
     })
-    .then(() => Logger.client(`${Emojis.locale} Sebedius is translated!`))
+    .then(() => Logger.client(`${Emojis.globe} Sebedius is translated!`))
     .catch(err => Logger.error(err));
 
   client.i18n = i18next;

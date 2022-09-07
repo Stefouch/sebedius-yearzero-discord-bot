@@ -1,5 +1,5 @@
 const {
-  SlashCommandBuilder, EmbedBuilder, ApplicationCommandOptionType,
+  EmbedBuilder, ApplicationCommandOptionType,
   ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
   inlineCode, codeBlock,
 } = require('discord.js');
@@ -22,12 +22,12 @@ const Logger = require('../../utils/logger');
 const GameSubcommandsList = {
   [YearZeroGames.BLANK]: ['input', 'title', 'private'],
   [YearZeroGames.ALIEN_RPG]: [
-    'dice', 'stress', 'title', 'modifier', 'maxpush', 'fullauto', 'private', 'nerves', 'minpanic',
+    'dice', 'stress', 'title', 'modifier', 'maxpush', 'fullauto', 'nerves', 'minpanic', 'private',
   ],
   [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modifier', 'maxpush', 'private'],
   [YearZeroGames.CORIOLIS]: ['dice', 'title', 'modifier', 'maxpush', 'fullauto', 'private'],
   [YearZeroGames.FORBIDDEN_LANDS]: [
-    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'private', 'pride',
+    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'pride', 'private',
   ],
   [YearZeroGames.MUTANT_YEAR_ZERO]: [
     'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'fullauto', 'private',
@@ -37,7 +37,7 @@ const GameSubcommandsList = {
   [YearZeroGames.VAESEN]: ['dice', 'title', 'modifier', 'maxpush', 'private'],
 };
 
-/** @enum {SlashCommandOption} */
+/** @enum {SebediusCommand.SlashCommandOption} */
 const SlashCommandOptions = {
   input: {
     description: 'A roll string for the dice to roll in the format NdX!>XfX (separate multiple rolls with a space)',
@@ -123,58 +123,6 @@ const SlashCommandOptions = {
 };
 
 /* ------------------------------------------ */
-/*  Slash Command Builder                     */
-/*    for the Roll Command                    */
-/* ------------------------------------------ */
-
-/**
- * Builds the roll slash command, subcommands & options.
- * @returns {SlashCommandBuilder}
- * @private
- */
-function _getSlashCommandBuilder() {
-  const data = new SlashCommandBuilder()
-    .setName('roll')
-    .setDescription('Roll dice for any Year Zero roleplaying game')
-    .setDMPermission(false);
-
-  for (const [game, options] of Object.entries(GameSubcommandsList)) {
-    data.addSubcommand(sub => {
-      sub.setName(game).setDescription(YearZeroGameNames[game]);
-      for (const optionName of options) {
-        const option = SlashCommandOptions[optionName];
-        if (!option) throw new SyntaxError(`[roll:${game}] Option "${optionName}" Not Found!`);
-        switch (option.type) {
-          case ApplicationCommandOptionType.String:
-            sub.addStringOption(opt => opt
-              .setName(optionName)
-              .setDescription(option.description)
-              .setRequired(!!option.required));
-            break;
-          case ApplicationCommandOptionType.Integer:
-            sub.addIntegerOption(opt => opt
-              .setName(optionName)
-              .setDescription(option.description)
-              .setMinValue(option.min ?? 1)
-              .setMaxValue(option.max ?? 100)
-              .setRequired(!!option.required));
-            break;
-          case ApplicationCommandOptionType.Boolean:
-            sub.addBooleanOption(opt => opt
-              .setName(optionName)
-              .setDescription(option.description)
-              .setRequired(!!option.required));
-            break;
-          default: throw new TypeError(`[roll:${game}] Type Not Found for Command Option "${optionName}"!`);
-        }
-      }
-      return sub;
-    });
-  }
-  return data;
-}
-
-/* ------------------------------------------ */
 /* Roll Command                               */
 /* ------------------------------------------ */
 
@@ -182,7 +130,12 @@ module.exports = class RollCommand extends SebediusCommand {
   constructor(client) {
     super(client, {
       category: SebediusCommand.CategoryFlagsBits.ROLL,
-      data: _getSlashCommandBuilder(),
+      data: SebediusCommand.createSlashCommandBuilder(
+        'roll',
+        'Roll dice for any Year Zero roleplaying game',
+        GameSubcommandsList,
+        SlashCommandOptions,
+      ),
     });
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
@@ -217,7 +170,7 @@ module.exports = class RollCommand extends SebediusCommand {
 
     // Parses roll string input (for Twilight 2000 & Blade Runner).
     if (game === YearZeroGames.TWILIGHT_2K || game === YearZeroGames.BLADE_RUNNER) {
-      const input = interaction.options.getString('abcd');
+      const input = interaction.options.getString('abcd')?.toLowerCase();
       const Die = game === YearZeroGames.TWILIGHT_2K ? TwilightDie : BladeRunnerDie;
 
       const inputRegex = /(?:(\d+)?d?(6|8|10|12))|([abcd])/g;
@@ -582,12 +535,12 @@ module.exports = class RollCommand extends SebediusCommand {
     // Traumas
     if (options.trauma && roll.pushed) {
       const n = roll.attributeTrauma;
-      out.push(t('commands:roll.embed.trauma', { count: n }));
+      out.push(`${t('commands:roll.embed.trauma', { count: n })} ${Emojis.anger}`);
     }
 
     // Gear Damage
     if (options.gearDamage && roll.pushed) {
-      out.push(t('commands:roll.embed.gearDamage', { count: roll.gearDamage }));
+      out.push(`${t('commands:roll.embed.gearDamage', { count: roll.gearDamage })} ${Emojis.boom}`);
     }
 
     // Twilight 2000
@@ -605,16 +558,16 @@ module.exports = class RollCommand extends SebediusCommand {
       // Pushed Traumas
       if (roll.pushed && roll.baneCount > 0) {
         const b = roll.attributeTrauma;
-        if (b > 0) out.push(t('commands:roll.embed.damageOrStress', { count: b }));
+        if (b > 0) out.push(`${t('commands:roll.embed.damageOrStress', { count: b })} ${Emojis.anger}`);
         const j = roll.jamCount;
-        if (j > 0) out.push(t('commands:roll.embed.reliability', { count: j }));
-        if (roll.jammed) out.push(t('commands:roll.embed.weaponJam'));
+        if (j > 0) out.push(`${t('commands:roll.embed.reliability', { count: j })} ${Emojis.boom}`);
+        if (roll.jammed) out.push(`${t('commands:roll.embed.weaponJam')} ‼️`);
       }
     }
 
     // Panic (Alien RPG)
     if (options.panic && roll.panic) {
-      out.push(t('commands:roll.embed.panic'));
+      out.push(`${t('commands:roll.embed.panic')} ‼️`);
     }
 
     return out.join('\n');
@@ -652,16 +605,3 @@ module.exports = class RollCommand extends SebediusCommand {
     return codeBlock('php', out.join('\n'));
   }
 };
-
-/* ------------------------------------------ */
-/*  Type Definitions                          */
-/* ------------------------------------------ */
-
-/**
- * @typedef {Object} SlashCommandOption
- * @property {string}   description
- * @property {number}   type
- * @property {boolean} [required=false]
- * @property {number}  [min]
- * @property {number}  [max]
- */

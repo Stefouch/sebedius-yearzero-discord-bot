@@ -264,4 +264,5 @@ function resolveString(data) {
 module.exports = {
   capitalize,
   resolveString,
+  trimString,
 };

@@ -58,8 +58,8 @@ jobs:
       - name: 🔧 Install Dependencies
         run: npm ci
 
-      - name: ✒️ Check Lint
-        run: npm run lint
+      # - name: ✒️ Check Lint
+      #   run: npm run lint
 
       - name: 🎲 Test Rolls
         run: npm run test:roll

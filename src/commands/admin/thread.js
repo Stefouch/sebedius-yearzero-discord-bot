@@ -1,6 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
-const { Emojis } = require('../../config');
 
 module.exports = class ThreadCommand extends SebediusCommand {
   constructor(client) {
@@ -25,7 +24,7 @@ module.exports = class ThreadCommand extends SebediusCommand {
 
     if (!thread.isThread()) {
       return interaction.reply({
-        content: `${Emojis.shrug} ${t('commands:thread.notThreadError')}`,
+        content: `${this.bot.config.Emojis.shrug} ${t('commands:thread.notThreadError')}`,
         ephemeral: true,
       });
     }
@@ -36,7 +35,7 @@ module.exports = class ThreadCommand extends SebediusCommand {
       if (thread.joinable) {
         await thread.join();
         await interaction.reply({
-          content: `${Emojis.ok} ${t('commands:thread.join')}`,
+          content: `${this.bot.config.Emojis.ok} ${t('commands:thread.join')}`,
           ephemeral: true,
         });
       }
@@ -44,7 +43,7 @@ module.exports = class ThreadCommand extends SebediusCommand {
     else if (cmd === 'leave') {
       await thread.leave();
       await interaction.reply({
-        content: `${Emojis.ok} ${t('commands:thread.leave')}`,
+        content: `${this.bot.config.Emojis.ok} ${t('commands:thread.leave')}`,
         ephemeral: true,
       });
     }

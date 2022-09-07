@@ -1,5 +1,5 @@
----
-missingPermissionsError: 'Le bot {{member}} manque les permissions suivantes et pourrait
+missingPermissionsError:
+  'Le bot {{member}} manque les permissions suivantes et pourrait
   ne pas fonctionner correctement : {{perms}}'
 commandError: |-
   Une erreur s'est produite avec cette commande : {{name}} {{code}}

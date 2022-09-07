@@ -43,11 +43,11 @@ module.exports = class BotInfoCommand extends SebediusCommand {
         inline: true,
       }, {
         name: 'Users',
-        value: '' + await this.bot.getUsersCount(),
+        value: '' + await this.bot.getUserCount(),
         inline: true,
       }, {
         name: 'Servers',
-        value: '' + await this.bot.getGuildsCount(),
+        value: '' + await this.bot.getGuildCount(),
         inline: true,
       }, {
         name: 'Channels',

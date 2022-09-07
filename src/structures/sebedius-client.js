@@ -1,6 +1,7 @@
 const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('discord.js');
 const SebediusPermissions = require('./sebedius-permissions');
 const Database = require('./database/database');
+const WebhookManager = require('./webhook-manager');
 const Logger = require('../utils/logger');
 const handleEvents = require('./handlers/event-handler');
 const handleCommands = require('./handlers/command-handler');
@@ -23,11 +24,14 @@ class Sebedius extends Client {
     /** @type {import('./database/database')} */
     this.database = null;
 
-    /** @type {NodeJS.Timeout} */
-    this.activity = null;
+    /** @type {WebhookManager} */
+    this.webhookManager = null;
 
     /** @type {import('i18next').default} */
     this.i18n = null;
+
+    /** @type {NodeJS.Timeout} */
+    this.activity = null;
   }
 
   /* ------------------------------------------ */
@@ -70,14 +74,18 @@ class Sebedius extends Client {
    * - Load events & commands
    * - Login to Discord
    * @param {Object} options Options for starting Sebedius
-   * @param {string} options.dbURI    Database URI
-   * @param {string} options.events   Glob pattern for event files
-   * @param {string} options.commands Glob pattern for command files
-   * @param {string} options.token    Discord token
+   * @param {string} options.dbURI         Database URI
+   * @param {string} options.logWebhookURL ID of the bot's log channel
+   * @param {string} options.events        Glob pattern for event files
+   * @param {string} options.commands      Glob pattern for command files
+   * @param {string} options.token         Discord token
    */
   async startSebedius(options) {
     // Attaches a database.
     this.database = new Database(this, options.dbURI);
+
+    // Creates the webhook manager.
+    this.webhookManager = new WebhookManager(this, options.logWebhookURL);
 
     await loadLocales(this);
 
@@ -93,13 +101,13 @@ class Sebedius extends Client {
   /*  Discord Methods                           */
   /* ------------------------------------------ */
 
-  async getGuildsCount() {
+  async getGuildCount() {
     await this.guilds.fetch();
     return this.guilds.cache.size;
   }
 
-  async getUsersCount() {
-    await this.getGuildsCount();
+  async getUserCount() {
+    await this.getGuildCount();
     return this.guilds.cache.reduce((sum, g) => sum + g.memberCount, 0);
   }
 

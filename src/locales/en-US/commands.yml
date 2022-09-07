@@ -36,15 +36,16 @@ roll:
     trauma: 'Trauma: **{{count}}**'
     trauma_plural: 'Traumas: **{{count}}**'
     gearDamage: 'Gear Damage: **{{count}}**'
+    gearDamage_plural: 'Gear Damage: **{{count}}**'
     extraHit: 'Extra Hit: **{{count}}**'
     extraHit_plural: 'Extra Hits: **{{count}}**'
     suppression: 'Suppression: **{{count}}**'
     suppression_plural: 'Suppressions: **{{count}}**'
     ammoSpent: 'Ammo Spent: **{{count}}**'
-    damageOrStress: 'Damage/Stress: **{{count}}** 💢'
-    reliability: '**Reliability: −{{count}}** 💥'
-    weaponJam: '**WEAPON JAM ‼️**'
-    panic: '**PANIC!!!**'
+    damageOrStress: 'Damage/Stress: **{{count}}**'
+    reliability: '**Reliability: −{{count}}**'
+    weaponJam: '**WEAPON JAM**'
+    panic: '**PANIC**'
   buttons:
     push: Push
     cancel: Accept
