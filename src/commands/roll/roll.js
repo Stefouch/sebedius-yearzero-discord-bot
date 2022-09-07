@@ -170,7 +170,7 @@ module.exports = class RollCommand extends SebediusCommand {
 
     // Parses roll string input (for Twilight 2000 & Blade Runner).
     if (game === YearZeroGames.TWILIGHT_2K || game === YearZeroGames.BLADE_RUNNER) {
-      const input = interaction.options.getString('abcd');
+      const input = interaction.options.getString('abcd')?.toLowerCase();
       const Die = game === YearZeroGames.TWILIGHT_2K ? TwilightDie : BladeRunnerDie;
 
       const inputRegex = /(?:(\d+)?d?(6|8|10|12))|([abcd])/g;
