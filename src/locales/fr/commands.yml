@@ -22,11 +22,14 @@ help:
     Tapez {{helpAll}} pour obtenir une liste de toutes les commandes.
     Tapez {{helpCommand}} pour obtenir des informations sur une commande
     spécifique.
-  commandNotFound: "Désolé, la commande {{cmd}} n'a pas été trouvée !"
-  noDiceError: 'Aucun Dé à Lancer !'
+  commandNotFound: Désolé, la commande {{cmd}} n'a pas été trouvée !
+  noDiceError: Aucun Dé à Lancer !
+  arguments: Arguments
+  contribute: Comment contribuer
+  required: Obligatoire
 ping: {}
 roll:
-  tooManyDiceError: 'Trop de Dés ! (>42)'
+  tooManyDiceError: Trop de Dés ! (>42)
   embed:
     details: Détails
     pushed: Poussé
@@ -49,14 +52,34 @@ roll:
   buttons:
     push: Pousser
     cancel: Accepter
+    prayTheIcons: Prier les Icônes (+1D)
+    fanaticPush: Prier les Icônes (+2D)
   notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
-  genericRollParseError: "Impossible d'analyser les instructions du lancer ! {{input}}"
+  genericRollParseError: Impossible d'analyser les instructions du lancer ! {{input}}
 rolld66:
   resultForD66: '{{author}} a lancé un {{dice}} et obtenu {{result}}.'
 thread:
   notThreadError: "Ceci n'est pas un fil! "
-  join: 'Le bot a rejoint le fil !'
-  leave: 'Le bot a quitté le fil !'
+  join: Le bot a rejoint le fil !
+  leave: Le bot a quitté le fil !
 conf:
   title: Configuration de Sebedius
   databaseNotReadyError: Échec de la connexion à la base de données!
+  options:
+    locale: Langue
+    game: Jeu
+panic:
+  panicEffectNotFoundError: L’effet de panique n’a pas été trouvé
+  panicRoll: Test de Panique
+  interruptedSkillRollText: >-
+    Vous serez obligé d’effectuer une action spécifique. Si le jet de panique
+    était le résultat d’un test de compétence pour une action, l’action est
+    annulée et immédiatement remplacée par l’action de panique forcée, même si
+    vous aviez réussi votre jet.
+  interruptedSkillRollTitle: Test de compétence interrompu
+  mentalTraumaReminderText: >-
+    Vous devez faire un jet d’**EMPATHIE** après la séance. Lancez pour
+    l’attribut uniquement, sans utiliser aucune compétence. Si le jet est *réussi*,
+    vous développez un traumatisme mental permanent d’un certain type. Lancez
+    1D6 et consultez la table page 161.
+  mentalTraumaReminderTitle: 'Session de Fin de Partie : Tester pour un Traumatisme Mental Permanent'

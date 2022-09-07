@@ -1,5 +1,5 @@
----
-ownerOnlyCommandDisclaimer: Nur der Bot-Besitzer kann diesen Befehl verwenden. Und
+ownerOnlyCommandDisclaimer:
+  Nur der Bot-Besitzer kann diesen Befehl verwenden. Und
   du bist nicht mein Meister!
 categories:
   admin: Verwaltung
@@ -38,25 +38,27 @@ roll:
     trauma: 'Trauma: **{{count}}**'
     trauma_plural: 'Traumas: **{{count}}**'
     gearDamage: 'Ausrüstungsschaden: **{{count}}**'
+    gearDamage_plural: 'Ausrüstungsschaden: **{{count}}**'
     extraHit: 'Zusätzlicher Treffer: **{{count}}**'
     extraHit_plural: 'Zusätzliche Treffer: **{{count}}**'
     suppression: 'Unterdrückung: **{{count}}**'
     suppression_plural: 'Unterdrückungen: **{{count}}**'
     ammoSpent: 'Verbrauchte Munition: **{{count}}**'
-    damageOrStress: "Schaden/Stress: **{{count}}** \U0001F4A2"
-    reliability: "**Zuverlässigkeit: −{{count}}** \U0001F4A5"
-    weaponJam: "**LADEHEMMUNG ‼️**"
-    panic: "**PANIK!!!**"
+    damageOrStress: 'Schaden/Stress: **{{count}}**'
+    reliability: '**Zuverlässigkeit: −{{count}}**'
+    weaponJam: '**LADEHEMMUNG**'
+    panic: '**PANIK**'
   buttons:
     push: Strapazieren
     cancel: Annehmen
     prayTheIcons: Vorbereitendes Gebet (+1D)
     fanaticPush: Vorb. Gebet in Kapelle (+2D)
   notYourRoll: Du kannst nur mit deinen eigenen Würfen interagieren!
-  genericRollParseError: Der folgende Würfeleingabe konnte nicht ausgewertet werden!
+  genericRollParseError: |-
+    Der folgende Würfeleingabe konnte nicht ausgewertet werden!
     {{input}}
 rolld66:
-  resultForD66: "{{author}} würfelte einen {{dice}} und erhielt {{result}}."
+  resultForD66: '{{author}} würfelte einen {{dice}} und erhielt {{result}}.'
 thread:
   notThreadError: Das ist kein Thread!
   join: Der Bot ist dem Thread beigetreten!
@@ -70,13 +72,16 @@ conf:
 panic:
   panicEffectNotFoundError: Der Panikeffekt wurde nicht gefunden
   interruptedSkillRollTitle: Unterbrochener Fertigkeitswurf
-  interruptedSkillRollText: Du wirst gezwungen, eine bestimmte Aktion auszuführen.
+  interruptedSkillRollText:
+    Du wirst gezwungen, eine bestimmte Aktion auszuführen.
     Wenn der Panikwurf das Ergebnis einer Fertigkeitsprobe für eine Aktion war, wird
     die Aktion abgebrochen und sofort durch die erzwungene Panikaktion ersetzt, selbst
     wenn dir dein Wurf gelungen ist.
-  mentalTraumaReminderTitle: 'Am Ende der Spielsitzung: Würfle für ein dauerhaftes
+  mentalTraumaReminderTitle:
+    'Am Ende der Spielsitzung: Würfle für ein dauerhaftes
     mentales Trauma'
-  mentalTraumaReminderText: Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf
+  mentalTraumaReminderText:
+    Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf
     machen. Würfle nur für das Attribut, ohne Verwendung einer Fertigkeit. Wenn der
     Wurf *gelingt*, entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6
     und prüfe die Tabelle auf Seite 101.
