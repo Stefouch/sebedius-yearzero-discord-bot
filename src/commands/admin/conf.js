@@ -46,7 +46,7 @@ module.exports = class ConfCommand extends SebediusCommand {
       guildDocument = await this.bot.database.guilds.findByIdAndUpdate(
         interaction.guildId,
         updateData,
-        { projection: 'game locale', lean: true, new: true },
+        { projection: 'game locale', upsert: true, lean: true, new: true },
       );
       Logger.client(`📝 Database | update: Guild ${interaction.guildId} with ${JSON.stringify(updateData)}`);
     }
@@ -54,7 +54,7 @@ module.exports = class ConfCommand extends SebediusCommand {
       guildDocument = await this.bot.database.guilds.findById(
         interaction.guildId,
         'game locale',
-        { lean: true },
+        { upsert: true, lean: true },
       );
     }
 
