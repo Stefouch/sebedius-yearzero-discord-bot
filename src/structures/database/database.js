@@ -12,7 +12,7 @@ class Database {
       socketTimeoutMS: 45000,
       family: 4,
     }).then(() => Logger.client('✔ Sebedius is connected to the database!'))
-      .catch(err => Logger.error(err));
+      .catch(Logger.error);
 
     this.client = client;
     this.guilds = Schemas.Guild;

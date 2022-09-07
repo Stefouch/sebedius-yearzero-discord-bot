@@ -37,6 +37,7 @@ module.exports = class HelpCommand extends SebediusCommand {
           + ' The is the end of *prefixed* `!commands`. Consequently, all Sebedius commands are disabled.'
           + '\nBut!.. I am slowly converting all the "old" commands into the new Discord standard for bots:'
           + ' *Slash* `/commands`! The task is huge (there were 50+ commands) and will take time unfortunately.'
+          + ' Stay tuned!'
           + '\n[Read more about slash commands here](https://discord.com/blog/welcome-to-the-new-era-of-discord-apps/)',
         })
         .addFields({
