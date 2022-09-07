@@ -22,40 +22,41 @@ help:
     Tapez {{helpAll}} pour obtenir une liste de toutes les commandes.
     Tapez {{helpCommand}} pour obtenir des informations sur une commande
     spécifique.
-  commandNotFound: "Désolé, la commande {{cmd}} n'a pas été trouvée\_!"
-  noDiceError: "Aucun Dé à Lancer\_!"
+  commandNotFound: "Désolé, la commande {{cmd}} n'a pas été trouvée !"
+  noDiceError: 'Aucun Dé à Lancer !'
 ping: {}
 roll:
-  tooManyDiceError: "Trop de Dés\_! (>42)"
+  tooManyDiceError: 'Trop de Dés ! (>42)'
   embed:
     details: Détails
     pushed: Poussé
     pushed_plural: Poussé {{count}} fois
-    success: "Succès\_: **{{count}}**"
-    success_plural: "Succès\_: **{{count}}**"
-    trauma: "Trauma\_: **{{count}}**"
-    trauma_plural: "Traumas: **{{count}}**"
-    gearDamage: "Dégâts d'équipement\_: **{{count}}**"
-    extraHit: "Coup supplémentaire: **{{count}}**"
-    extraHit_plural: "Coups supplémentaires: **{{count}}**"
-    suppression: "Suppression: **{{count}}**"
-    suppression_plural: "Suppressions: **{{count}}**"
-    ammoSpent: "Munitions dépensées\_: **{{count}}**"
-    damageOrStress: "Dégâts/Stress\_: **{{count}}** 💢"
-    reliability: "**Fiabilité: −{{count}}** 💥"
-    weaponJam: "**ARME ENRAYÉE ‼️**"
-    panic: "**PANIQUE !!!**"
+    success: 'Succès : **{{count}}**'
+    success_plural: 'Succès : **{{count}}**'
+    trauma: 'Trauma : **{{count}}**'
+    trauma_plural: 'Traumas: **{{count}}**'
+    gearDamage: "Dégât d'équipement : **{{count}}**"
+    gearDamage_plural: "Dégâts d'équipement : **{{count}}**"
+    extraHit: 'Coup supplémentaire: **{{count}}**'
+    extraHit_plural: 'Coups supplémentaires: **{{count}}**'
+    suppression: 'Suppression: **{{count}}**'
+    suppression_plural: 'Suppressions: **{{count}}**'
+    ammoSpent: 'Munitions dépensées : **{{count}}**'
+    damageOrStress: 'Dégâts/Stress : **{{count}}**'
+    reliability: '**Fiabilité: −{{count}}**'
+    weaponJam: '**ARME ENRAYÉE**'
+    panic: '**PANIQUE**'
   buttons:
     push: Pousser
     cancel: Accepter
   notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
-  genericRollParseError: "Impossible d'analyser les instructions du lancer\_! {{input}}"
+  genericRollParseError: "Impossible d'analyser les instructions du lancer ! {{input}}"
 rolld66:
-  resultForD66: "{{author}} a lancé un {{dice}} et obtenu {{result}}."
+  resultForD66: '{{author}} a lancé un {{dice}} et obtenu {{result}}.'
 thread:
   notThreadError: "Ceci n'est pas un fil! "
-  join: "Le bot a rejoint le fil\_!"
-  leave: "Le bot a quitté le fil\_!"
+  join: 'Le bot a rejoint le fil !'
+  leave: 'Le bot a quitté le fil !'
 conf:
   title: Configuration de Sebedius
   databaseNotReadyError: Échec de la connexion à la base de données!

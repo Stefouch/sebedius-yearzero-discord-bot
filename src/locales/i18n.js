@@ -9,10 +9,11 @@ module.exports = async client => {
     // @ts-ignore
     .use(i18nextBackend)
     .init({
-      supportedLngs: SupportedLocales.map(l => l.value),
-      fallbackLng: defaultLocale,
       ns: ['commons', 'commands'],
       defaultNS: 'commands',
+      supportedLngs: SupportedLocales.map(l => l.value),
+      preload: SupportedLocales.map(l => l.value),
+      fallbackLng: defaultLocale,
       compatibilityJSON: 'v3',
       interpolation: {
         escapeValue: false,
