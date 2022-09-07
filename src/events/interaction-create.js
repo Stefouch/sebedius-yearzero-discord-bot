@@ -60,6 +60,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
           code: err.code ? `(${err.code})` : '',
           message: codeBlock('js', err.message),
         })}`;
+        this.bot.webhookManager.sendLog(content, interaction);
 
         if (interaction.replied) {
           await interaction.followUp({ content, ephemeral: true })
