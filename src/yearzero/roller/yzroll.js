@@ -546,8 +546,8 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
-   * Rolls the dice.
-   * @param {boolean} [log=false] Wether to log the roll in the console
+   * Rolls the dice (only those who where not rolled).
+   * @param {boolean} [log=false] Whether to log the roll in the console
    * @returns {Promise.<this>}
    */
   async roll(log = false) {
@@ -558,7 +558,7 @@ class YearZeroRoll {
   }
 
   /**
-   * Rolls the dice.
+   * Pushes the roll.
    * @param {boolean} [log=false] Wether to log the roll in the console
    * @returns {Promise.<this>}
    */
