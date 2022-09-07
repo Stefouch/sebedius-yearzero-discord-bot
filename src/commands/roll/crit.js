@@ -3,14 +3,11 @@ const {
   ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
   inlineCode, codeBlock,
 } = require('discord.js');
-const { parseAndRoll } = require('roll-parser');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const { YearZeroGames, YearZeroGameNames } = require('../../constants');
 const { YearZeroDieTypes } = require('../../yearzero/roller/dice/dice-constants');
-const { ArtifactDie, TwilightDie, BladeRunnerDie } = require('../../yearzero/roller/dice');
 const { Emojis } = require('../../config');
-const { RollError } = require('../../utils/errors');
 const Logger = require('../../utils/logger');
 
 /* ------------------------------------------ */
@@ -31,7 +28,7 @@ const GameSubcommandsList = {
   // [YearZeroGames.VAESEN]: [],
 };
 
-/** @enum {SlashCommandOption} */
+/** @enum {SebediusCommand.SlashCommandOption} */
 const SlashCommandOptions = {
   table: {
     description: 'Choose the table',
@@ -75,96 +72,25 @@ const SlashCommandOptions = {
 };
 
 /* ------------------------------------------ */
-/*  Slash Command Builder                     */
-/*    for the Crit Command                    */
-/* ------------------------------------------ */
-
-/**
- * Builds the roll slash command, subcommands & options.
- * @returns {SlashCommandBuilder}
- * @private
- */
-function _getSlashCommandBuilder() {
-  const data = new SlashCommandBuilder()
-    .setName('crit')
-    .setDescription('Draw a random mutation');
-
-  for (const [game, options] of Object.entries(GameSubcommandsList)) {
-    data.addSubcommand(sub => {
-      sub.setName(game).setDescription(YearZeroGameNames[game]);
-      for (const optionName of options) {
-        const option = SlashCommandOptions[optionName];
-        if (!option) throw new SyntaxError(`[roll:${game}] Option "${optionName}" Not Found!`);
-        switch (option.type) {
-          case ApplicationCommandOptionType.String:
-            sub.addStringOption(opt => opt
-              .setName(optionName)
-              .setDescription(option.description)
-              .setRequired(!!option.required));
-            break;
-          case ApplicationCommandOptionType.Integer:
-            sub.addIntegerOption(opt => opt
-              .setName(optionName)
-              .setDescription(option.description)
-              .setMinValue(option.min ?? 1)
-              .setMaxValue(option.max ?? 100)
-              .setRequired(!!option.required));
-            break;
-          case ApplicationCommandOptionType.Boolean:
-            sub.addBooleanOption(opt => opt
-              .setName(optionName)
-              .setDescription(option.description)
-              .setRequired(!!option.required));
-            break;
-          default: throw new TypeError(`[roll:${game}] Type Not Found for Command Option "${optionName}"!`);
-        }
-      }
-      return sub;
-    });
-  }
-  return data;
-}
-
-/* ------------------------------------------ */
 /* Roll Command                               */
 /* ------------------------------------------ */
 
-module.exports = class RollCommand extends SebediusCommand {
+module.exports = class CritCommand extends SebediusCommand {
   constructor(client) {
     super(client, {
+      ownerOnly: true,
       category: SebediusCommand.CategoryFlagsBits.ROLL,
-      data: _getSlashCommandBuilder(),
+      data: SebediusCommand.createSlashCommandBuilder(
+        'crit',
+        'Draw a random critical injury',
+        GameSubcommandsList,
+        SlashCommandOptions,
+      ),
     });
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {
     const game = interaction.options.getSubcommand();
-    const title = interaction.options.getString('title');
-
-    const dice = interaction.options.getInteger('dice');
-    const base = interaction.options.getInteger('base');
-    const skill = interaction.options.getInteger('skill');
-    const gear = interaction.options.getInteger('gear');
-    const stress = interaction.options.getInteger('stress');
-    const ammo = interaction.options.getInteger('ammo');
-
-    const modifier = interaction.options.getInteger('modifier');
-    const maxPush = interaction.options.getInteger('maxpush');
-
-    const artosInput = interaction.options.getString('artifacts');
+    // const title = interaction.options.getString('title');
   }
 };
-
-/* ------------------------------------------ */
-/*  Type Definitions                          */
-/* ------------------------------------------ */
-
-/**
- * @typedef {Object} SlashCommandOption
- * @property {string}   description
- * @property {number}   type
- * @property {boolean} [required=false]
- * @property {number}  [min]
- * @property {number}  [max]
- * @property {{ name: string, value: string|number }[]} [choices]
- */
