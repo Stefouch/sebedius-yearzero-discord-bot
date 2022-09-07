@@ -535,12 +535,12 @@ module.exports = class RollCommand extends SebediusCommand {
     // Traumas
     if (options.trauma && roll.pushed) {
       const n = roll.attributeTrauma;
-      out.push(t('commands:roll.embed.trauma', { count: n }));
+      out.push(`${t('commands:roll.embed.trauma', { count: n })} ${Emojis.anger}`);
     }
 
     // Gear Damage
     if (options.gearDamage && roll.pushed) {
-      out.push(t('commands:roll.embed.gearDamage', { count: roll.gearDamage }));
+      out.push(`${t('commands:roll.embed.gearDamage', { count: roll.gearDamage })} ${Emojis.boom}`);
     }
 
     // Twilight 2000
@@ -558,16 +558,16 @@ module.exports = class RollCommand extends SebediusCommand {
       // Pushed Traumas
       if (roll.pushed && roll.baneCount > 0) {
         const b = roll.attributeTrauma;
-        if (b > 0) out.push(t('commands:roll.embed.damageOrStress', { count: b }));
+        if (b > 0) out.push(`${t('commands:roll.embed.damageOrStress', { count: b })} ${Emojis.anger}`);
         const j = roll.jamCount;
-        if (j > 0) out.push(t('commands:roll.embed.reliability', { count: j }));
-        if (roll.jammed) out.push(t('commands:roll.embed.weaponJam'));
+        if (j > 0) out.push(`${t('commands:roll.embed.reliability', { count: j })} ${Emojis.boom}`);
+        if (roll.jammed) out.push(`${t('commands:roll.embed.weaponJam')} ‼️`);
       }
     }
 
     // Panic (Alien RPG)
     if (options.panic && roll.panic) {
-      out.push(t('commands:roll.embed.panic'));
+      out.push(`${t('commands:roll.embed.panic')} ‼️`);
     }
 
     return out.join('\n');
