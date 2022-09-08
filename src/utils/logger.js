@@ -4,11 +4,11 @@ const { zeroise } = require('./number-utils');
 const format = '{timestamp} {tag} {msg}';
 
 function error(msg) {
-  return write({ msg, msgColor: 'red', tag: 'ERROR', bgTagColor: 'bgRed', isError: true });
+  return write({ msg, msgColor: 'red', tag: '❌ERROR', bgTagColor: 'bgRed', isError: true });
 }
 
 function warn(msg) {
-  return write({ msg, msgColor: 'yellow', tag: 'WARN', bgTagColor: 'bgYellow' });
+  return write({ msg, msgColor: 'yellow', tag: '⚠️WARN', bgTagColor: 'bgYellow' });
 }
 
 function info(msg) {

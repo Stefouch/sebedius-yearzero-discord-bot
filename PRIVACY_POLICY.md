@@ -8,7 +8,7 @@ What we do with your privacy?
 
 **We collect a few information only for bot errors handling.**
 
-Typing a command will mark the following informations in the our log:
+Typing a command will mark the following informations in our log:
 
 - Command typed
 - Name of the user and their Discord ID
