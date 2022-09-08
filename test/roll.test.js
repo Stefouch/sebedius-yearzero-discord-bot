@@ -4,9 +4,10 @@ const expect = require('chai').expect;
 const YearZeroRoll = require('../src/yearzero/roller/yzroll');
 const YearZeroDice = require('../src/yearzero/roller/dice');
 const { YearZeroGames } = require('../src/constants');
+const { YearZeroDieTypes } = require('../src/yearzero/roller/dice/dice-constants');
 const { clamp, rand } = require('../src/utils/number-utils');
 
-describe('YearZeroROll Module', function () {
+describe('YearZeroRoll Module', function () {
   const roll = new YearZeroRoll({
     game: YearZeroGames.MUTANT_YEAR_ZERO,
     author: 'Stefouch',
@@ -27,9 +28,17 @@ describe('YearZeroROll Module', function () {
     expect(roll.dice).to.have.lengthOf(qty * count);
   });
 
-  it('Should be pushable only once by default', async function () {
-    await roll.push();
-    await roll.push();
+  it('Should be able to remove dice correctly', function () {
+    // Stress dice on 1 stops the pushability.
+    roll.removeDice(YearZeroDieTypes.STRESS, qty);
+    expect(roll.dice, 'Stress').to.have.lengthOf(qty * (count - 1));
+    roll.removeDice(YearZeroDieTypes.NEG, qty);
+    expect(roll.dice, 'Neg').to.have.lengthOf(qty * (count - 2));
+  });
+
+  it('Should be rollable & pushable', async function () {
+    await roll.roll();
+    expect(roll.pushCount).to.equal(0);
     await roll.push();
     expect(roll.pushCount).to.equal(1);
   });
