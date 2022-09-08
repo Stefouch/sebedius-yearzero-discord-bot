@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { YearZeroGameNames } = require('../constants');
+const { isObjectEmpty } = require('../utils/object-utils');
 
 /**
  * Sebedius Command.
@@ -33,6 +34,8 @@ class SebediusCommand {
      * @type {import('discord.js').SlashCommandBuilder}
      */
     this.data = options.data;
+
+    if (this.data) this.addLocalizations();
   }
 
   /* ------------------------------------------ */
@@ -63,6 +66,31 @@ class SebediusCommand {
   // eslint-disable-next-line no-unused-vars
   async run(interaction, t, guildOptions) {
     throw new SyntaxError('Run Function Must Be Implemented!');
+  }
+
+  /* ------------------------------------------ */
+
+  addLocalizations() {
+    const nameLocalizations = {};
+    const descriptionLocalizations = {};
+    for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
+      if (lng === this.bot.config.defaultLocale) continue;
+      const name = this.bot.i18n.getResource(lng, 'commands', `${this.name}.name`);
+      const desc = this.bot.i18n.getResource(lng, 'commands', `${this.name}.description`);
+      if (name) nameLocalizations[lng] = name;
+      if (desc) descriptionLocalizations[lng] = desc;
+      if (this.data.options) {
+        for (const option of this.data.options) {
+          // TODO localize options
+        }
+      }
+    }
+    if (!isObjectEmpty(nameLocalizations)) {
+      this.data.setNameLocalizations(nameLocalizations);
+    }
+    if (!isObjectEmpty(descriptionLocalizations)) {
+      this.data.setDescriptionLocalizations(descriptionLocalizations);
+    }
   }
 
   /* ------------------------------------------ */
