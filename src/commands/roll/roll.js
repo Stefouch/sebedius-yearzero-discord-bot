@@ -304,7 +304,6 @@ module.exports = class RollCommand extends SebediusCommand {
       .setTitle(title ?? inlineCode(input))
       .setDescription(`**${roll.value}**`)
       .setColor(this.bot.config.favoriteColor)
-      .setTimestamp()
       .setFooter({ text: YearZeroGameNames[YearZeroGames.BLANK] })
       .addFields({
         name: t('commands:roll.embed.details'),
@@ -350,7 +349,6 @@ module.exports = class RollCommand extends SebediusCommand {
       .setTitle(roll.name + (roll.pushed ? '⁺'.repeat(roll.pushCount) : ''))
       .setColor(this.bot.config.favoriteColor)
       .setDescription(this.#getRollDescription(roll, t, options))
-      .setTimestamp()
       .setFooter({
         text: YearZeroGameNames[roll.game]
           + (roll.pushed ? ` • ${t('commands:roll.embed.pushed', { count: roll.pushCount })}` : ''),

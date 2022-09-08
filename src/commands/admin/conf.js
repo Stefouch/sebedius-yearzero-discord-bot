@@ -79,8 +79,7 @@ module.exports = class ConfCommand extends SebediusCommand {
       .setTitle(t('commands:conf.title'))
       .setDescription(interaction.guild.name)
       .setColor(this.bot.config.favoriteColor)
-      .addFields(...fields)
-      .setTimestamp();
+      .addFields(...fields);
 
     return interaction.editReply({ embeds: [embed] });
   }
