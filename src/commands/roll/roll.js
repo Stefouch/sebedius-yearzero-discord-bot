@@ -25,7 +25,7 @@ const GameSubcommandsList = {
   [YearZeroGames.ALIEN_RPG]: [
     'dice', 'stress', 'title', 'modifier', 'maxpush', 'fullauto', 'nerves', 'minpanic', 'private',
   ],
-  [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modifier', 'maxpush', 'private'],
+  [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modify', 'maxpush', 'private'],
   [YearZeroGames.CORIOLIS]: ['dice', 'title', 'modifier', 'maxpush', 'fullauto', 'private'],
   [YearZeroGames.FORBIDDEN_LANDS]: [
     'base', 'skill', 'gear', 'neg', 'artifacts', 'title', 'modifier', 'maxpush', 'pride', 'private',
@@ -100,6 +100,16 @@ const SlashCommandOptions = {
     min: -20,
     max: 20,
   },
+  modify: {
+    description: 'Apply advantage or disadvantage to the roll',
+    type: ApplicationCommandOptionType.Integer,
+    min: -1,
+    max: 1,
+    choices: [
+      { name: 'Advantage', value: 1 },
+      { name: 'Disadvantage', value: -1 },
+    ],
+  },
   maxpush: {
     description: 'Change the maximum number of allowed pushes (type 0 for no push)',
     type: ApplicationCommandOptionType.Integer,
@@ -157,7 +167,7 @@ module.exports = class RollCommand extends SebediusCommand {
     const stress = interaction.options.getInteger('stress');
     const ammo = interaction.options.getInteger('ammo');
 
-    const modifier = interaction.options.getInteger('modifier');
+    const modifier = interaction.options.getInteger('modifier') || interaction.options.getInteger('modify');
     const maxPush = interaction.options.getInteger('maxpush');
 
     const artosInput = interaction.options.getString('artifacts');
