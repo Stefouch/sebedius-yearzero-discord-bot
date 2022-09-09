@@ -49,7 +49,6 @@ module.exports = class RollD66Command extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle(roll.name)
       .setColor(this.bot.config.favoriteColor)
-      .setTimestamp()
       .setFooter({ text: YearZeroGameNames[game] })
       .setDescription(t('commands:rolld66.resultForD66', {
         author: roll.author.toString(),

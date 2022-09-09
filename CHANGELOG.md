@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 <br/>The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 <br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [6.2.2] - 2022-09-09
+
+### Added
+
+- A missing `neg` option in `/roll myz` & `/roll fbl` commands to add negative dice.
+
+### Changed
+
+- The `modifier` argument for `/roll bladerunner` now have the advantage/disadvantage choices.
+
+### Fixed
+
+- A minor issue where the message buttons appeared with a roll that has panic.
+- Some typos in various translations.
+
 ## [6.2.1] - 2022-09-07
 
 ### Fixed

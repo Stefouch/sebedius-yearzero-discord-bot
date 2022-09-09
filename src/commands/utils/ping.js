@@ -33,7 +33,6 @@ module.exports = class PingCommand extends SebediusCommand {
         value: `${absoluteTimestamp(this.bot.readyTimestamp)}\n(${relativeTimestamp(this.bot.readyTimestamp)})`,
         inline: true,
       })
-      .setTimestamp()
       .setFooter({
         text: interaction.user.username,
         iconURL: interaction.user.displayAvatarURL(),

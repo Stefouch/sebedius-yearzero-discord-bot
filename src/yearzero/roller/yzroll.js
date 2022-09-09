@@ -212,11 +212,12 @@ class YearZeroRoll {
   /* ------------------------------------------ */
 
   /**
-   * Whether the roll is can be pushed.
+   * Whether the roll can be pushed.
    * @type {boolean}
    * @readonly
    */
   get pushable() {
+    if (this.panic > 0) return false;
     return this.dice.some(d => d.pushable) && (this.pushCount < this.maxPush);
   }
 
