@@ -1,9 +1,10 @@
 const i18next = require('i18next');
 const { codeBlock, inlineCode } = require('discord.js');
 const SebediusEvent = require('../structures/event');
-const Logger = require('../utils/logger');
 const { YearZeroGames } = require('../constants');
 const { Emojis } = require('../config');
+const { RollError } = require('../utils/errors');
+const Logger = require('../utils/logger');
 
 module.exports = class InteractionCreateEvent extends SebediusEvent {
   name = 'interactionCreate';
@@ -60,7 +61,10 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
           code: err.code ? `(${err.code})` : '',
           message: codeBlock('js', err.message),
         })}`;
-        this.bot.webhookManager.sendLog(content, interaction);
+
+        if (!(err instanceof RollError)) {
+          this.bot.webhookManager.sendLog(content, interaction);
+        }
 
         if (interaction.replied) {
           await interaction.followUp({ content, ephemeral: true })
