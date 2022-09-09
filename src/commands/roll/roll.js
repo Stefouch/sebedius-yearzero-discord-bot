@@ -11,6 +11,7 @@ const { YearZeroDieTypes } = require('../../yearzero/roller/dice/dice-constants'
 const { ArtifactDie, TwilightDie, BladeRunnerDie } = require('../../yearzero/roller/dice');
 const { Emojis } = require('../../config');
 const { RollError } = require('../../utils/errors');
+const { sleep } = require('../../utils/discord-utils');
 const Logger = require('../../utils/logger');
 
 /* ------------------------------------------ */
@@ -24,13 +25,13 @@ const GameSubcommandsList = {
   [YearZeroGames.ALIEN_RPG]: [
     'dice', 'stress', 'title', 'modifier', 'maxpush', 'fullauto', 'nerves', 'minpanic', 'private',
   ],
-  [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modifier', 'maxpush', 'private'],
+  [YearZeroGames.BLADE_RUNNER]: ['abcd', 'title', 'modify', 'maxpush', 'private'],
   [YearZeroGames.CORIOLIS]: ['dice', 'title', 'modifier', 'maxpush', 'fullauto', 'private'],
   [YearZeroGames.FORBIDDEN_LANDS]: [
-    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'pride', 'private',
+    'base', 'skill', 'gear', 'neg', 'artifacts', 'title', 'modifier', 'maxpush', 'pride', 'private',
   ],
   [YearZeroGames.MUTANT_YEAR_ZERO]: [
-    'base', 'skill', 'gear', 'artifacts', 'title', 'modifier', 'maxpush', 'fullauto', 'private',
+    'base', 'skill', 'gear', 'neg', 'artifacts', 'title', 'modifier', 'maxpush', 'fullauto', 'private',
   ],
   [YearZeroGames.TALES_FROM_THE_LOOP]: ['dice', 'title', 'modifier', 'maxpush', 'private'],
   [YearZeroGames.TWILIGHT_2K]: ['abcd', 'ammo', 'title', 'modifier', 'maxpush', 'fullauto', 'private'],
@@ -70,6 +71,11 @@ const SlashCommandOptions = {
     type: ApplicationCommandOptionType.Integer,
     min: 1,
   },
+  neg: {
+    description: 'Quantity of Negative dice (6 removes one success)',
+    type: ApplicationCommandOptionType.Integer,
+    min: 1,
+  },
   stress: {
     description: 'Quantity of Stress dice',
     type: ApplicationCommandOptionType.Integer,
@@ -93,6 +99,16 @@ const SlashCommandOptions = {
     type: ApplicationCommandOptionType.Integer,
     min: -20,
     max: 20,
+  },
+  modify: {
+    description: 'Apply advantage or disadvantage to the roll',
+    type: ApplicationCommandOptionType.Integer,
+    min: -1,
+    max: 1,
+    choices: [
+      { name: 'Advantage', value: 1 },
+      { name: 'Disadvantage', value: -1 },
+    ],
   },
   maxpush: {
     description: 'Change the maximum number of allowed pushes (type 0 for no push)',
@@ -147,10 +163,11 @@ module.exports = class RollCommand extends SebediusCommand {
     const base = interaction.options.getInteger('base');
     const skill = interaction.options.getInteger('skill');
     const gear = interaction.options.getInteger('gear');
+    const neg = interaction.options.getInteger('neg');
     const stress = interaction.options.getInteger('stress');
     const ammo = interaction.options.getInteger('ammo');
 
-    const modifier = interaction.options.getInteger('modifier');
+    const modifier = interaction.options.getInteger('modifier') || interaction.options.getInteger('modify');
     const maxPush = interaction.options.getInteger('maxpush');
 
     const artosInput = interaction.options.getString('artifacts');
@@ -201,6 +218,7 @@ module.exports = class RollCommand extends SebediusCommand {
     if (base) roll.addBaseDice(base);
     if (skill) roll.addSkillDice(skill);
     if (gear) roll.addGearDice(gear);
+    if (neg) roll.addNegDice(neg);
     if (stress) roll.addStressDice(stress);
     if (ammo) roll.addAmmoDice(ammo);
 
@@ -286,7 +304,6 @@ module.exports = class RollCommand extends SebediusCommand {
       .setTitle(title ?? inlineCode(input))
       .setDescription(`**${roll.value}**`)
       .setColor(this.bot.config.favoriteColor)
-      .setTimestamp()
       .setFooter({ text: YearZeroGameNames[YearZeroGames.BLANK] })
       .addFields({
         name: t('commands:roll.embed.details'),
@@ -332,7 +349,6 @@ module.exports = class RollCommand extends SebediusCommand {
       .setTitle(roll.name + (roll.pushed ? '⁺'.repeat(roll.pushCount) : ''))
       .setColor(this.bot.config.favoriteColor)
       .setDescription(this.#getRollDescription(roll, t, options))
-      .setTimestamp()
       .setFooter({
         text: YearZeroGameNames[roll.game]
           + (roll.pushed ? ` • ${t('commands:roll.embed.pushed', { count: roll.pushCount })}` : ''),
@@ -440,7 +456,6 @@ module.exports = class RollCommand extends SebediusCommand {
     });
 
     // *** COLLETOR:END
-    // @ts-ignore
     collector.on('end', async () => {
       if (message.components.length && !interaction.ephemeral) {
         await message.edit({ components: [] });
@@ -501,6 +516,7 @@ module.exports = class RollCommand extends SebediusCommand {
    */
   async fetchPanic(roll, interaction, t) {
     Logger.roll('roll:alien → Panic!');
+    await sleep(2000);
     /** @type {import('./panic')} */
     // @ts-ignore
     const panicCommand = this.bot.commands.get('panic');
@@ -533,13 +549,12 @@ module.exports = class RollCommand extends SebediusCommand {
     out.push(t('commands:roll.embed.success', { count: s }));
 
     // Traumas
-    if (options.trauma && roll.pushed) {
-      const n = roll.attributeTrauma;
-      out.push(`${t('commands:roll.embed.trauma', { count: n })} ${Emojis.anger}`);
+    if (options.trauma && roll.pushed && roll.attributeTrauma > 0) {
+      out.push(`${t('commands:roll.embed.trauma', { count: roll.attributeTrauma })} ${Emojis.anger}`);
     }
 
     // Gear Damage
-    if (options.gearDamage && roll.pushed) {
+    if (options.gearDamage && roll.pushed && roll.gearDamage > 0) {
       out.push(`${t('commands:roll.embed.gearDamage', { count: roll.gearDamage })} ${Emojis.boom}`);
     }
 

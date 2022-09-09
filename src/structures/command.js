@@ -26,7 +26,7 @@ class SebediusCommand {
      * The category of the command.
      * @type {SebediusCommand.CategoryFlagsBits}
      */
-    this.category = options.category || SebediusCommand.CategoryFlagsBits.UTILS;
+    this.category = options.category;
 
     /**
      * Slash command builder data.
@@ -66,6 +66,14 @@ class SebediusCommand {
   }
 
   /* ------------------------------------------ */
+
+  addLocalizations() {
+    const nameChoices = [];
+    const descriptionChoices = [];
+    for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
+      // d
+    }
+  }
 
   /**
    * Builds the roll slash command, subcommands & options.

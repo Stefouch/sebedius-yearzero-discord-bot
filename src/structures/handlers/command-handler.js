@@ -3,26 +3,26 @@ const { sync: globSync } = require('glob');
 const Logger = require('../../utils/logger');
 
 module.exports = async (client, pathPattern) => {
-  globSync(pathPattern).map(async commandFile => {
+  globSync(pathPattern).map(commandFile => {
 
     /** @type {typeof import('../command')} */
     const cls = require(path.resolve(commandFile));
     const command = new cls(client);
 
     if (!command.name) {
-      Logger.error(`Command Loading Error: No Name!\nFile → "${commandFile}"`);
+      Logger.error(`"${commandFile}" → Command Loading Error: No Name!`);
     }
 
     if (!command.description) {
-      Logger.error(`Command Loading Error: No Description!\nFile → "${commandFile}"`);
+      Logger.error(`"${commandFile}" → Command Loading Error: No Description!`);
     }
 
     if (!command.category) {
-      Logger.error(`Command Loading Error: No Category!\nFile → "${commandFile}"`);
+      Logger.error(`"${commandFile}" → Command Loading Error: No Category!`);
     }
 
     if (!command.run) {
-      Logger.error(`Command Loading Error: Run Function Not Found!\nFile → "${commandFile}"`);
+      Logger.error(`"${commandFile}" → Command Loading Error: Run Function Not Found!`);
     }
 
     client.commands.set(command.name, command);
