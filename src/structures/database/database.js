@@ -11,7 +11,7 @@ class Database {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       family: 4,
-    }).then(() => Logger.client('✔ Sebedius is connected to the database!'))
+    }).then(() => Logger.client('🗂️ Sebedius is connected to the database!'))
       .catch(Logger.error);
 
     this.client = client;

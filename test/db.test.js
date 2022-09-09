@@ -11,7 +11,7 @@ if (process.env.NODE_ENV !== 'production') {
   // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
-describe('Keyv & PostGreSQL Database', function () {
+describe('MongoDB Database', function () {
   this.slow(500);
   this.timeout(12000);
   this.retries(3);
