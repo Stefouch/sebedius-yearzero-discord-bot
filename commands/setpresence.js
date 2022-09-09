@@ -70,9 +70,7 @@ module.exports = {
 		}
 
 		// Sets the presence.
-		await ctx.bot.user.setPresence({ status, afk, activity: { name, type } })
-			.then(console.log)
-			.catch(console.error);
+		ctx.bot.user.setPresence({ status, afk, activity: { name, type } });
 
 		// Restores the Activities interval.
 		if (argv.loop) {

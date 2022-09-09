@@ -5,6 +5,7 @@ const RollTable = require('../utils/RollTable');
 const ReactionMenu = require('../utils/ReactionMenu');
 const { YZEmbed } = require('../utils/embeds');
 const { __ } = require('../lang/locales');
+const { YZWeapon } = require('../yearzero/YZObject');
 
 module.exports = {
 	name: 'attack',
@@ -36,7 +37,7 @@ module.exports = {
 				? monster.agi + (monster.skills.shoot || 0)
 				: monster.str + (monster.skills.fight || 0);
 
-			if (atkDice > 0) {
+			if (attack instanceof YZWeapon && atkDice > 0) {
 				let str;
 				if (attack.base > 0) {
 					const w = Math.ceil(Math.log10(attack.base));
@@ -70,17 +71,17 @@ module.exports = {
 		else if (ref) {
 			footer = `Ref: [${ref}]`;
 		}
-		if (footer) embed.setFooter(footer);
+		if (footer) embed.setFooter({ text: footer });
 
 		// Sends the message.
 		let message;
-		if (argv.private) message = await ctx.author.send(embed);
+		if (argv.private) message = await ctx.author.send({ embeds: [embed] });
 		else message = await ctx.send(embed);
 
 		// Adds a Reaction Menu to roll the dice of the attack.
-		if (attack.base || attack.damage || attack.crit) {
+		if (attack.base || attack.damage || attack.crit || attack.attackAsFighter) {
 			const reactions = [];
-			if (attack.base || attack.damage) {
+			if (attack.base || attack.damage || attack.attackAsFighter) {
 				reactions.push({
 					icon: '⚔️',
 					owner: ctx.author.id,
@@ -160,12 +161,10 @@ async function rollAttack(attack, monster, message, bot) {
 	}
 
 	// Sends the message.
-	await message.channel.send(
-		emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
-		damage
-			? new YZEmbed(`${__('damage', monster.lang)} × ${damage}`, ':boom:'.repeat(damage))
-			: null,
-	);
+	await message.channel.send({
+		content: emojifyRoll(atkRoll, bot.config.commands.roll.options[game], true),
+		embeds: damage ? [new YZEmbed(`${__('damage', monster.lang)} × ${damage}`, ':boom:'.repeat(damage))] : null,
+	});
 }
 
 /**

@@ -77,6 +77,7 @@ describe('Discord Bot Client', function() {
 				else if (cmdName === 'feral') args = ['99'];
 				else if (cmdName === 'help') args = ['help'];
 				else if (cmdName === 'init') args = ['help'];
+				else if (cmdName === 'invite') this.skip();
 				else if (cmdName === 'importcharacter') this.skip();
 				else if (cmdName === 'job') args = ['mil'];
 				else if (cmdName === 'journey') args = ['create', 'night', 'summer', 'hills', '-fbr'];
@@ -130,6 +131,7 @@ function fakeDiscord(client) {
 			name: 'at-everyone',
 			id: guild.id,
 			color: 11493413,
+			permissions: Discord.Permissions.ALL,
 		},
 		guild,
 	));
@@ -197,6 +199,8 @@ function fakeDiscord(client) {
 			{
 				name: 'Fake Message',
 				id: Discord.SnowflakeUtil.generate(),
+				channel_id: channel.id,
+				guild_id: guild.id,
 				author: user,
 				member: member,
 			},

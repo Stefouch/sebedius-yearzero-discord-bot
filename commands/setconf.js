@@ -1,5 +1,6 @@
 const { SUPPORTED_GAMES, SUPPORTED_LANGS, SOURCE_MAP } = require('../utils/constants');
 const { __ } = require('../lang/locales');
+const { Permissions } = require('discord.js');
 
 module.exports = {
 	name: 'setconf',
@@ -12,7 +13,7 @@ module.exports = {
 		// Exits early if the message's author doesn't have the ADMINISTRATOR Permission.
 		// The bot.owner may bypass this security check.
 		if (
-			!ctx.member.hasPermission('ADMINISTRATOR')
+			!ctx.member.permissions.has(Permissions.FLAGS.ADMINISTRATOR)
 			&& ctx.author.id !== ctx.bot.owner.id
 		) {
 			return ctx.reply(`⛔ ${__('csetconf-only-admin', ctx.bot.getLanguage(ctx))}`);

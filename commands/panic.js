@@ -68,6 +68,9 @@ module.exports = {
 
 		console.log(`:>> ${__('panic', lang)}! ${panicVal}`);
 
-		return await ctx.send(text, embed);
+		return await ctx.send({
+			content: text,
+			embeds: [embed],
+		});
 	},
 };

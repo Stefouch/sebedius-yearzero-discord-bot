@@ -23,7 +23,7 @@ class PageMenu {
 		this.page = 0;
 		this.reactionMenu = null;
 
-		channel.send(this.currentPage)
+		channel.send({ embeds: [this.currentPage] })
 			.then(menu => {
 				this.menu = menu;
 				this.react(reactionData);
@@ -45,7 +45,7 @@ class PageMenu {
 	setPage(page = 0) {
 		this.page = page;
 		this.currentPage = this.pages[this.page];
-		this.menu.edit(this.currentPage);
+		this.menu.edit({ embeds: [this.currentPage] });
 	}
 
 	/**

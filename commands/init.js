@@ -305,7 +305,7 @@ async function join(args, ctx, lang) {
 	if (!group) {
 		combat.addCombatant(me);
 		await ctx.send(`:white_check_mark: **${name}** ${__('cinit-added-to-initiative', lang)} \`${me.inits.join('`, `')}\`.`);
-		// embed.setFooter('Added to combat!');
+		// embed.setFooter({ text: 'Added to combat!' });
 	}
 	else {
 		const grp = combat.getGroup(group, true, me.inits, me.speed, me.haste);
@@ -1015,7 +1015,10 @@ async function attack(args, ctx, lang) {
 				:shield: ${__('cinit-damage-absorbed', lang)}: **${damage - finalDamage}**
 				${armorDamage > 0 ? `:anger: ${__('cinit-armor-degraded', lang)}: **-${armorDamage}**` : ''}`,
 			);
-		await ctx.send(dice, embed);
+		await ctx.send({
+			content: dice,
+			embeds: [embed],
+		});
 	}
 
 	if (combatant.hp <= 0) {

@@ -1,4 +1,4 @@
-const { Message } = require('discord.js');
+const { Message, Permissions } = require('discord.js');
 const Util = require('./Util');
 
 /**
@@ -76,7 +76,7 @@ class ReactionMenu {
 	 * @type {boolean}
 	 */
 	get isDM() {
-		return this.channel.type === 'dm';
+		return this.channel.type === 'DM';
 	}
 
 	/**
@@ -85,13 +85,17 @@ class ReactionMenu {
 	createCollector() {
 		// Checks Permissions (not possible in DM).
 		if (!this.isDM) {
-			if (!this.channel.permissionsFor(this.bot).has('READ_MESSAGE_HISTORY')) throw new ReactionMenuError('Missing READ_MESSAGE_HISTORY permission!');
-			if (!this.channel.permissionsFor(this.bot).has('MANAGE_MESSAGES')) throw new ReactionMenuError('Missing MANAGE_MESSAGES permission!');
+			if (!this.channel.permissionsFor(this.bot).has(Permissions.FLAGS.READ_MESSAGE_HISTORY)) {
+				throw new ReactionMenuError('Missing READ_MESSAGE_HISTORY permission!');
+			}
+			if (!this.channel.permissionsFor(this.bot).has(Permissions.FLAGS.MANAGE_MESSAGES)) {
+				throw new ReactionMenuError('Missing MANAGE_MESSAGES permission!');
+			}
 		}
 		// Adds a ReactionCollector to the push icons.
 		// The filter is for reacting only to the push icon and the user who rolled the dice.
 		const filter = (reac, user) => this.emojis.includes(reac.emoji.name) && user.id !== this.bot.id;
-		this.collector = this.message.createReactionCollector(filter, { time: this.time });
+		this.collector = this.message.createReactionCollector({ filter, time: this.time });
 
 		// ========== Listener: On Collect ==========
 		this.collector.on('collect', (reac, user) => {

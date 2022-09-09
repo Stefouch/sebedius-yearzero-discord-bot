@@ -60,9 +60,9 @@ module.exports = {
 			embed = new YZEmbed(`💥 ${roll.name} (${ref})`, entry.effect, ctx, true);
 		}
 
-		return await ctx.send(
-			emojifyRoll(roll, ctx.bot.config.commands.roll.options.myz),
-			embed,
-		);
+		return await ctx.send({
+			content: emojifyRoll(roll, ctx.bot.config.commands.roll.options.myz),
+			embeds: [embed],
+		});
 	},
 };
