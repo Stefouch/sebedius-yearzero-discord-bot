@@ -130,13 +130,14 @@ module.exports = class RollCommand extends SebediusCommand {
   constructor(client) {
     super(client, {
       category: SebediusCommand.CategoryFlagsBits.ROLL,
-      data: SebediusCommand.createSlashCommandBuilder(
-        'roll',
-        'Roll dice for any Year Zero roleplaying game',
-        GameSubcommandsList,
-        SlashCommandOptions,
-      ),
+      data: null,
     });
+    this.data = this.createSlashCommandBuilder(
+      'roll',
+      'Roll dice for any Year Zero roleplaying game',
+      GameSubcommandsList,
+      SlashCommandOptions,
+    );
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {

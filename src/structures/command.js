@@ -1,6 +1,6 @@
-const { SlashCommandBuilder, ApplicationCommandOptionType } = require('discord.js');
+// @ts-nocheck
+const { SlashCommandBuilder, ApplicationCommandOptionType, SlashCommandAssertions } = require('discord.js');
 const { YearZeroGameNames } = require('../constants');
-const { isObjectEmpty } = require('../utils/object-utils');
 
 /**
  * Sebedius Command.
@@ -27,7 +27,7 @@ class SebediusCommand {
      * The category of the command.
      * @type {SebediusCommand.CategoryFlagsBits}
      */
-    this.category = options.category || SebediusCommand.CategoryFlagsBits.UTILS;
+    this.category = options.category;
 
     /**
      * Slash command builder data.
@@ -35,7 +35,7 @@ class SebediusCommand {
      */
     this.data = options.data;
 
-    if (this.data) this.addLocalizations();
+    if (this.data) this.#addLocalizations();
   }
 
   /* ------------------------------------------ */
@@ -70,26 +70,72 @@ class SebediusCommand {
 
   /* ------------------------------------------ */
 
-  addLocalizations() {
-    const nameLocalizations = {};
-    const descriptionLocalizations = {};
+  /**
+   * Adds all localizations to the command.
+   */
+  #addLocalizations() {
     for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
       if (lng === this.bot.config.defaultLocale) continue;
+
       const name = this.bot.i18n.getResource(lng, 'commands', `${this.name}.name`);
       const desc = this.bot.i18n.getResource(lng, 'commands', `${this.name}.description`);
-      if (name) nameLocalizations[lng] = name;
-      if (desc) descriptionLocalizations[lng] = desc;
-      if (this.data.options) {
+
+      if (name) this.data.setNameLocalization(lng, name);
+      if (desc) this.data.setDescriptionLocalization(lng, desc);
+
+      if (this.data.options.length) {
         for (const option of this.data.options) {
-          // TODO localize options
+          this.#localizeCommandOption(lng, option, `${this.name}.options`);
+          if (option.options?.length) {
+            option.options.forEach(opt => {
+              this.#localizeCommandOption(lng, opt, `${this.name}.options.${option.name}.options`);
+            });
+          }
         }
       }
     }
-    if (!isObjectEmpty(nameLocalizations)) {
-      this.data.setNameLocalizations(nameLocalizations);
+  }
+
+  /* ------------------------------------------ */
+
+  /**
+   * Sets the localized name & description for a command option.
+   * @param {string} lng Locale
+   * @param {Object} option
+   * @param {string} keyPrefix
+   */
+  #localizeCommandOption(lng, option, keyPrefix) {
+    const localizedOptionName =
+    this.bot.i18n.getResource(lng, 'commands', `${keyPrefix}.${option.name}.name`);
+    const localizedOptionDescription =
+    this.bot.i18n.getResource(lng, 'commands', `${keyPrefix}.${option.name}.description`);
+
+    if (localizedOptionName) {
+      if (!option.name_localizations) option.name_localizations = {};
+      try {
+        SlashCommandAssertions.validateName(localizedOptionName);
+      }
+      catch (err) {
+        throw new Error(
+          `CommandLocalizationError[${keyPrefix}]: Invalid name for option ${option.name}!`,
+          { cause: err },
+        );
+      }
+      option.name_localizations[lng] = localizedOptionName;
     }
-    if (!isObjectEmpty(descriptionLocalizations)) {
-      this.data.setDescriptionLocalizations(descriptionLocalizations);
+
+    if (localizedOptionDescription) {
+      if (!option.description_localizations) option.description_localizations = {};
+      try {
+        SlashCommandAssertions.validateDescription(localizedOptionDescription);
+      }
+      catch (err) {
+        throw new Error(
+          `CommandLocalizationError[${keyPrefix}]: Invalid description for option ${option.name}!`,
+          { cause: err },
+        );
+      }
+      option.description_localizations[lng] = localizedOptionDescription;
     }
   }
 
@@ -103,26 +149,33 @@ class SebediusCommand {
    * @param {Object.<string, SlashCommandOption>} SlashCommandOptions
    * @returns {SlashCommandBuilder}
    */
-  static createSlashCommandBuilder(name, description, GameSubcommandsList, SlashCommandOptions) {
+  createSlashCommandBuilder(name, description, GameSubcommandsList, SlashCommandOptions) {
     const data = new SlashCommandBuilder()
       .setName(name)
-      .setDescription(description);
+      .setDescription(description)
+      .setNameLocalizations(this.#getLocalizations(`${name}.name`))
+      .setDescriptionLocalizations(this.#getLocalizations(`${name}.description`));
 
     for (const [game, options] of Object.entries(GameSubcommandsList)) {
       data.addSubcommand(sub => {
-        sub.setName(game).setDescription(YearZeroGameNames[game]);
+        sub
+          .setName(game)
+          .setDescription(YearZeroGameNames[game]);
+
         for (const optionName of options) {
           const option = SlashCommandOptions[optionName];
           if (!option) throw new SyntaxError(`[${name}:${game}] Option "${optionName}" Not Found!`);
           if (!option.choices) option.choices = [];
+
           switch (option.type) {
             case ApplicationCommandOptionType.String:
               sub.addStringOption(opt => opt
                 .setName(optionName)
                 .setDescription(option.description)
                 .setRequired(!!option.required)
-                // @ts-ignore
-                .addChoices(...option.choices));
+                .addChoices(...option.choices)
+                .setNameLocalizations(this.#getLocalizations(`${name}.options.${optionName}.name`))
+                .setDescriptionLocalizations(this.#getLocalizations(`${name}.options.${optionName}.description`)));
               break;
             case ApplicationCommandOptionType.Integer:
               sub.addIntegerOption(opt => opt
@@ -131,14 +184,17 @@ class SebediusCommand {
                 .setMinValue(option.min ?? 1)
                 .setMaxValue(option.max ?? 100)
                 .setRequired(!!option.required)
-                // @ts-ignore
-                .addChoices(...option.choices));
+                .addChoices(...option.choices)
+                .setNameLocalizations(this.#getLocalizations(`${name}.options.${optionName}.name`))
+                .setDescriptionLocalizations(this.#getLocalizations(`${name}.options.${optionName}.description`)));
               break;
             case ApplicationCommandOptionType.Boolean:
               sub.addBooleanOption(opt => opt
                 .setName(optionName)
                 .setDescription(option.description)
-                .setRequired(!!option.required));
+                .setRequired(!!option.required)
+                .setNameLocalizations(this.#getLocalizations(`${name}.options.${optionName}.name`))
+                .setDescriptionLocalizations(this.#getLocalizations(`${name}.options.${optionName}.description`)));
               break;
             default: throw new TypeError(`[${name}:${game}] Type Not Found for Command Option "${optionName}"!`);
           }
@@ -147,6 +203,25 @@ class SebediusCommand {
       });
     }
     return data;
+  }
+
+  /* ------------------------------------------ */
+
+  /**
+   * 
+   * @param {string} commandName
+   * @param {string} optionName
+   * @param {'name'|'description'} type
+   * @returns 
+   */
+  #getLocalizations(key) {
+    const localizations = {};
+    for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
+      if (lng === this.bot.config.defaultLocale) continue;
+      const localizedName = this.bot.i18n.getResource(lng, 'commands', `${key}`);
+      if (localizedName) localizations[lng] = localizedName;
+    }
+    return localizations;
   }
 }
 
@@ -189,14 +264,6 @@ module.exports = SebediusCommand;
  * @property {Date}                                 [banDate]   The date when the guild was banned, if any
  * @property {string}                               [banReason] The reason the guild was banned, if any
  */
-
-// /**
-//  * @callback SebediusTranslationCallback t(key: string, { ...args }): string
-//  * @param {string|string[]}                 keys     Key(s) to translate
-//  * @param {Object.<string, string|number>} [options] Properties passed to the translation job
-//  * @returns {string}
-//  * @property {import('discord.js').LocaleString} lng Secret property that stores the language code
-//  */
 
 /**
  * @typedef {import('i18next').TFunction & { lng: import('discord.js').LocaleString }} SebediusTranslationCallback
