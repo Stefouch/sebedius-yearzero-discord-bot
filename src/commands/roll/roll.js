@@ -54,12 +54,14 @@ const SlashCommandOptions = {
     type: ApplicationCommandOptionType.Integer,
     required: true,
     min: 1,
+    max: 666,
   },
   base: {
     description: 'Quantity of Base dice',
     type: ApplicationCommandOptionType.Integer,
     required: true,
     min: 1,
+    max: 666,
   },
   skill: {
     description: 'Quantity of Skill dice',
@@ -154,6 +156,13 @@ module.exports = class RollCommand extends SebediusCommand {
     const maxPush = interaction.options.getInteger('maxpush');
 
     const artosInput = interaction.options.getString('artifacts');
+
+    // Detects D66 & D666.
+    const d66 = dice ?? base;
+    if (d66 === 66 || d66 === 666) {
+      // @ts-ignore
+      return this.bot.commands.get('rolld66').rollD66(game, `D${d66}`, interaction, t);
+    }
 
     // Generic rolls are parsed by another library.
     if (game === YearZeroGames.BLANK) {
