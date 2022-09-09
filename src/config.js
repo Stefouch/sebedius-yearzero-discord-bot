@@ -20,7 +20,7 @@ SebediusConfig.contributeURL = 'https://github.com/Stefouch/sebedius-yearzero-di
 SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
   { name: 'Français', value: 'fr' },
-  { name: 'Deutsche', value: 'de' },
+  { name: 'Deutsch', value: 'de' },
 ];
 
 SebediusConfig.defaultLocale = 'en-US';

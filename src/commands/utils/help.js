@@ -21,8 +21,7 @@ module.exports = class HelpCommand extends SebediusCommand {
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {
     const embed = new EmbedBuilder()
-      .setColor(this.bot.config.favoriteColor)
-      .setTimestamp();
+      .setColor(this.bot.config.favoriteColor);
 
     const commandName = interaction.options.getString('command');
     if (!commandName) {

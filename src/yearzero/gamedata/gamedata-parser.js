@@ -12,7 +12,7 @@ async function parseGamedata(lang, fileName) {
   let filePath = `${GAMEDATA_PATH}/${lang}/${fileName}.${EXT}`;
 
   if (!existsSync(filePath)) {
-    Logger.warn(`GamedataParser: Path Not Found! Using default...\nFile → ${filePath}`);
+    Logger.warn(`"${filePath}" → GamedataParser: Path Not Found! Using default...`);
     filePath = `${GAMEDATA_PATH}/en-US/${fileName}.${EXT}`;
     if (!existsSync(filePath)) {
       throw new SyntaxError(`GamedataParserError: Resource Not Found!\nFile → ${filePath}`);
