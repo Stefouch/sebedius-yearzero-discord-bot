@@ -54,12 +54,12 @@ module.exports = class ConfCommand extends SebediusCommand {
       guildDocument = await this.bot.database.guilds.findById(
         interaction.guildId,
         'game locale',
-        { upsert: true, lean: true },
+        { upsert: true, lean: true, new: true },
       );
     }
 
     const fields = [];
-    for (const [k, v] of Object.entries(guildDocument)) {
+    for (const [k, v] of Object.entries(guildDocument || {})) {
       if (k && k !== '_id' && v) {
         let emoji;
         switch (k) {
