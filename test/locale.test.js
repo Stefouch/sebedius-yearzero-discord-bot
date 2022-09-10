@@ -71,7 +71,7 @@ describe('LOCALIZATIONS', function () {
                 for (const key in enResource) {
                   if (!(key in resource)) out.push(key);
                 }
-                expect(out.join(), `Missing keys in ${lng}/${ns}.yml`).to.equal([].join());
+                expect(out.join('\n'), `Missing keys in ${lng}/${ns}.yml`).to.equal([].join());
                 expect(out).to.have.lengthOf(0);
               });
 
@@ -80,7 +80,7 @@ describe('LOCALIZATIONS', function () {
                 for (const key in resource) {
                   if (!(key in enResource)) out.push(key);
                 }
-                expect(out.join(), 'Missing keys in english').to.equal([].join());
+                expect(out.join('\n'), 'Missing keys in english').to.equal([].join());
                 expect(out).to.have.lengthOf(0);
               });
             }
