@@ -216,11 +216,11 @@ class SebediusCommand {
   /* ------------------------------------------ */
 
   /**
-   * 
+   * Gets the localizations object for the name or the description of a command
+   * or its options/arguments.
    * @param {string} commandName
    * @param {string} optionName
-   * @param {'name'|'description'} type
-   * @returns 
+   * @returns {Object.<import('discord.js').LocaleString, string>}
    */
   #getLocalizations(key) {
     const localizations = {};
