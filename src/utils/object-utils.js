@@ -10,6 +10,34 @@ function duplicate(object) {
 /* ------------------------------------------ */
 
 /**
+ * Flattens an object.
+ * @param {Object} o
+ * @returns {Object}
+ */
+function flattenObject(o) {
+  const out = {};
+
+  for (const i in o) {
+    if (!o.hasOwnProperty(i)) continue;
+
+    if (isObject(o[i])) {
+      const flatObject = flattenObject(o[i]);
+      for (const x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) continue;
+
+        out[i + '.' + x] = flatObject[x];
+      }
+    }
+    else {
+      out[i] = o[i];
+    }
+  }
+  return out;
+}
+
+/* ------------------------------------------ */
+
+/**
  * Searches through an object to retrieve a value by a string key.
  * The string key supports the notation a.b.c which would return object[a][b][c].
  * @param {Object}  o         The object to traverse
@@ -98,18 +126,8 @@ function paginate(array, n) {
 
 /* ------------------------------------------ */
 
-/**
- * Pauses the Node process during the defined time.
- * @param {number} [ms=1000] Milliseconds to wait
- * @returns {Promise}
- */
-function sleep(ms = 1000) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/* ------------------------------------------ */
-
 module.exports = {
+  flattenObject,
   getProperty,
   hasProperty,
   isObject,
