@@ -64,15 +64,15 @@ jobs:
       - name: 🎲 Test Rolls
         run: npm run test:roll
 
-      - name: 🏷️ Test Translations
-        run: npm run test:locale
-
       - name: 🤖 Test Bot
         run: npm run test:client
         env:
           BETA_DISCORD_TOKEN: ${{ secrets.BETA_DISCORD_TOKEN }}
           BETA_BOT_ID: ${{ secrets.BETA_BOT_ID }}
           OWNER_ID: ${{ secrets.OWNER_ID }}
+
+      - name: 🏷️ Test Translations
+        run: npm run test:locale
 
       - name: 🍃 Test MongoDB Database
         run: npm run test:db
