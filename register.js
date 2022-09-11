@@ -1,4 +1,5 @@
 const Sebedius = require('./src/structures/sebedius-client');
+const loadLocales = require('./src/locales/i18n');
 const handleCommands = require('./src/structures/handlers/command-handler');
 const registerSlashCommands = require('./src/structures/slash-register');
 
@@ -18,6 +19,7 @@ const client = new Sebedius({
 
 (async () => {
   try {
+    await loadLocales(client);
     await handleCommands(client, './src/commands/**/*.js');
     await registerSlashCommands(
       production ? process.env.BOT_ID : process.env.BETA_BOT_ID,

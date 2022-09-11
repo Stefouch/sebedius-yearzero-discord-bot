@@ -1,6 +1,6 @@
-ownerOnlyCommandDisclaimer:
-  Nur der Bot-Besitzer kann diesen Befehl verwenden. Und
-  du bist nicht mein Meister!
+ownerOnlyCommandDisclaimer: >-
+  Nur der Bot-Besitzer kann diesen Befehl verwenden. Und du bist nicht mein
+  Meister!
 categories:
   admin: Verwaltung
   utils: Werkzeug
@@ -8,9 +8,12 @@ categories:
 help:
   deployedVersion: Bereitgestellte Version
   developer: Entwickler
-  fullDescription: |-
-    Sebedius ist ein Discord-Bot mit Befehlen für die Year Zero-Rollenspiele von Free League Publishing (Fria Ligan).
-    Die deutschen Produkte der Jahr Null-Systeme werden herausgegeben vom Uhrwerk Verlag und Ulisses Spiele.
+  fullDescription: >-
+    Sebedius ist ein Discord-Bot mit Befehlen für die Year Zero-Rollenspiele von
+    Free League Publishing (Fria Ligan).
+
+    Die deutschen Produkte der Jahr Null-Systeme werden herausgegeben vom
+    Uhrwerk Verlag und Ulisses Spiele.
   usefulLinks: Nützliche Links
   supportOnPatreon: Unterstützt den Entwickler unter {{url}}!
   patreonPage: Patreon
@@ -18,9 +21,11 @@ help:
   addToServer: Bot einem Discord-Server hinzufügen
   readTheWiki: Im Wiki stöbern
   listOfCommands: Liste der Befehle
-  listOfCommandsFullDescription: |-
+  listOfCommandsFullDescription: >-
     Gebe {{helpAll}} ein, um eine Liste aller Befehle zu erhalten.
-    Gebe {{helpCommand}} ein, um Informationen zu einem bestimmten Befehl zu erhalten.
+
+    Gebe {{helpCommand}} ein, um Informationen zu einem bestimmten Befehl zu
+    erhalten.
   commandNotFound: Entschuldigung, der Befehl {{cmd}} wurde nicht gefunden!
   noDiceError: Keine Würfel zum Werfen!
   contribute: So kannst du beitragen
@@ -67,22 +72,22 @@ conf:
   title: Sebedius-Konfiguration
   databaseNotReadyError: Verbindung zur Datenbank ist fehlgeschlagen!
   options:
+    locale:
+      name: ''
+  params:
     game: Spiel
-    locale: Gebietsschema
 panic:
   panicEffectNotFoundError: Der Panikeffekt wurde nicht gefunden
   interruptedSkillRollTitle: Unterbrochener Fertigkeitswurf
-  interruptedSkillRollText:
-    Du wirst gezwungen, eine bestimmte Aktion auszuführen.
-    Wenn der Panikwurf das Ergebnis einer Fertigkeitsprobe für eine Aktion war, wird
-    die Aktion abgebrochen und sofort durch die erzwungene Panikaktion ersetzt, selbst
-    wenn dir dein Wurf gelungen ist.
-  mentalTraumaReminderTitle:
-    'Am Ende der Spielsitzung: Würfle für ein dauerhaftes
-    mentales Trauma'
-  mentalTraumaReminderText:
-    Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf
-    machen. Würfle nur für das Attribut, ohne Verwendung einer Fertigkeit. Wenn der
-    Wurf *gelingt*, entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6
-    und prüfe die Tabelle auf Seite 101.
+  interruptedSkillRollText: >-
+    Du wirst gezwungen, eine bestimmte Aktion auszuführen. Wenn der Panikwurf
+    das Ergebnis einer Fertigkeitsprobe für eine Aktion war, wird die Aktion
+    abgebrochen und sofort durch die erzwungene Panikaktion ersetzt, selbst wenn
+    dir dein Wurf gelungen ist.
+  mentalTraumaReminderTitle: 'Am Ende der Spielsitzung: Würfle für ein dauerhaftes mentales Trauma'
+  mentalTraumaReminderText: >-
+    Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf machen. Würfle nur
+    für das Attribut, ohne Verwendung einer Fertigkeit. Wenn der Wurf *gelingt*,
+    entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6 und prüfe
+    die Tabelle auf Seite 101.
   panicRoll: Panikwurf

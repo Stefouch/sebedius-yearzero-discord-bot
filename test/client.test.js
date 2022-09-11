@@ -1,20 +1,24 @@
-const { describe, it, beforeEach, afterEach } = require('mocha');
+const { describe, it } = require('mocha');
 const expect = require('chai').expect;
 const sinon = require('sinon');
 const Discord = require('discord.js');
 const Sebedius = require('../src/structures/sebedius-client');
+const SebediusCommand = require('../src/structures/command');
+const loadLocales = require('../src/locales/i18n');
 const handleCommands = require('../src/structures/handlers/command-handler');
+
+const commandPattern = './src/commands/**/*.js';
+const size = require('glob').sync(commandPattern).length;
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
 }
 
-describe('Discord Bot Client', function () {
+describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
   // this.slow(500);
   this.timeout(5000);
   // this.retries(3);
 
-  // const token = process.env.TOKEN;
   const bot = new Sebedius({ intents: require('../src/structures/sebedius-intents') });
   bot.user = new Discord.User(bot, {
     username: 'Sebedius',
@@ -29,18 +33,20 @@ describe('Discord Bot Client', function () {
   });
   bot.users.cache.set(owner.id, owner);
 
-  it('Should load all the commands without any error', async function () {
-    await handleCommands(bot, './src/commands/**/*.js');
+  this.beforeAll(function () {
+    return new Promise(resolve => {
+      loadLocales(bot)
+        .then(() => handleCommands(bot, commandPattern)
+          .then(() => resolve()));
+    });
   });
 
-
-  it('Sebedius is successfully created', function () {
-    expect(bot).to.be.instanceOf(Sebedius);
-    expect(bot.id).to.equal(process.env.BETA_BOT_ID);
-    expect(owner).to.be.instanceOf(Discord.User);
-    expect(bot.ownerId).to.equal(owner.id);
-    // expect(bot.config.defaultPrefix).to.equal('!');
-    expect(bot.commands.size).to.be.greaterThan(7);
+  it(`Sebedius is successfully created with ${size} commands`, function () {
+    expect(bot, 'client').to.be.instanceOf(Sebedius);
+    expect(bot.id, 'clientId').to.equal(process.env.BETA_BOT_ID);
+    expect(owner, 'owner').to.be.instanceOf(Discord.User);
+    expect(bot.ownerId, 'ownerId').to.equal(owner.id);
+    expect(bot.commands.size, 'commands.size').to.be.equal(size);
   });
 
   it('All commands should have correct properties', function () {
@@ -51,60 +57,68 @@ describe('Discord Bot Client', function () {
     }
   });
 
-  // describe('# Check each command with custom interaction', function () {
-  //   const sandbox = sinon.createSandbox();
-  //   let ctx;
+  it('Check all command files', function () {
+    describe('❯ Check each command with custom interaction', function () {
+      const sandbox = sinon.createSandbox();
+      const guildOptions = { game: 'myz', locale: bot.config.defaultLocale };
 
-  //   beforeEach(function () {
-  //     // Creates a Discord message with context (CTX).
-  //     const message = fakeDiscord(bot);
-  //     ctx = Sebedius.processMessage(message, '!');
-  //   });
+      this.beforeEach(function () {
+        fakeDiscord(bot);
+      });
 
-  //   afterEach(function () {
-  //     sandbox.restore();
-  //   });
+      this.afterEach(function () {
+        sandbox.restore();
+      });
 
-  //   for (const [cmdName, cmd] of bot.commands) {
+      for (const [cmdName, cmd] of bot.commands) {
 
-  //     it(`Command: ${cmdName}`, async function () {
-  //       if (cmd.category === 'admin') this.skip();
+        it(`Command: ${cmdName}`, async function () {
+          if (cmd.ownerOnly) this.skip();
+          const t = bot.i18n.getFixedT(bot.config.defaultLocale);
 
-  //       let args = [];
-  //       if (cmdName === 'attack') args = ['alien', 'bloodburster', '1'];
-  //       else if (cmdName === 'cast') args = ['6', 'Fireball'];
-  //       else if (cmdName === 'character') this.skip();
-  //       else if (cmdName === 'contact') args = ['99'];
-  //       else if (cmdName === 'critfbl') args = ['stab', '69'];
-  //       else if (cmdName.startsWith('crit')) args = ['42'];
-  //       else if (cmdName === 'embed') args = ['Hello|World'];
-  //       else if (cmdName === 'eval') args = ['true'];
-  //       else if (cmdName === 'feral') args = ['99'];
-  //       else if (cmdName === 'help') args = ['help'];
-  //       else if (cmdName === 'init') args = ['help'];
-  //       else if (cmdName === 'invite') this.skip();
-  //       else if (cmdName === 'importcharacter') this.skip();
-  //       else if (cmdName === 'job') args = ['mil'];
-  //       else if (cmdName === 'journey') args = ['create', 'night', 'summer', 'hills', '-fbr'];
-  //       else if (cmdName === 'module') args = ['99'];
-  //       else if (cmdName === 'monster') args = ['myz', 'cannibal'];
-  //       else if (cmdName === 'mutation') args = ['99'];
-  //       else if (cmdName === 'myzpower') args = ['myz', '99'];
-  //       else if (cmdName === 'resource') args = ['d8', 'Torches'];
-  //       else if (cmdName.startsWith('roll')) args = ['5b2g', 'd10', '-p', '0', '#', 'Uber Roll!'];
-  //       else if (cmdName === 'setconf') args = ['lang'];
-  //       else if (cmdName === 'setpresence') args = ['idle'];
-  //       else if (cmdName === 'supply') args = ['8'];
+          let option = {};
+          if (cmdName === 'conf') {
+            this.skip();
+          }
+          else if (cmdName === 'help') {
+            option = { name: 'command', value: 'help', type: Discord.ApplicationCommandOptionType.String };
+          }
+          else if (cmdName === 'panic') {
+            option = { name: 'stress', value: 10, type: Discord.ApplicationCommandOptionType.Integer };
+          }
+          else if (cmdName === 'roll') {
+            option = {
+              name: 'myz',
+              type: Discord.ApplicationCommandOptionType.Subcommand,
+              options: [{
+                name: 'base',
+                value: 4,
+                type: Discord.ApplicationCommandOptionType.Integer,
+              }, {
+                name: 'maxpush',
+                value: 0,
+                type: Discord.ApplicationCommandOptionType.Integer,
+              }],
+            };
+          }
+          else if (cmdName === 'rolld66') {
+            option = { name: 'die', value: 'D666', type: Discord.ApplicationCommandOptionType.String };
+          }
+          else if (cmdName === 'thread') {
+            this.skip();
+          }
+          console.log('      ┌Options:', JSON.stringify(option));
 
-  //       const matahari = sandbox.spy(ctx, 'send');
+          const interaction = createFakeInteraction(bot, cmdName, [option]);
 
-  //       await cmd.run(args, ctx);
+          const matahari = sandbox.spy(interaction, 'reply');
+          await cmd.run(interaction, t, guildOptions);
 
-  //       if (['setconf', 'setpresence'].includes(cmdName)) expect(matahari.notCalled).to.be.true;
-  //       else expect(matahari.calledOnce).to.be.true;
-  //     });
-  //   }
-  // });
+          expect(matahari.calledOnce).to.be.true;
+        });
+      }
+    });
+  });
 });
 
 /**
@@ -117,7 +131,7 @@ describe('Discord Bot Client', function () {
  * * 2x GuildMembers
  * * 1x Message (returned) with overriden methods: `send`, `reply`, `delete` and `react`.
  * @param {Discord.Client} client The bot
- * @returns {Discord.Message}
+ * @returns {Discord.ChatInputCommandInteraction}
  */
 function fakeDiscord(client) {
   // Creates a fake Discord Guild/Server.
@@ -197,11 +211,16 @@ function fakeDiscord(client) {
     guild,
   ));
 
-  // Creates a fake Discord Message.
-  const message = fakeSimpleMessage(client, channel, 'Fake Message');
-  channel.messages.cache.set(message.id, message);
+  // Fixes methods.
+  client.generateInvite = () => '<invite>';
 
-  return message;
+  // Creates a fake Discord Message.
+  // const message = fakeSimpleMessage(client, channel, 'Fake Message');
+  // channel.messages.cache.set(message.id, message);
+  // return message;
+  // Creates a fake Discord CommandInteraction.
+  // const interaction = createFakeInteraction(client);
+  // return interaction;
 }
 
 /**
@@ -233,34 +252,33 @@ function fakeSimpleMessage(client, channel, msg = 'Hello') {
 }
 
 /** @param {Discord.Client} client */
-function createFakeInteraction(client) {
-  const interaction = {
-    client,
-    command: null,
-    get commandName() { return this.command.name; },
-    channel: client.channels.cache.at(0),
-    get channelId() { return this.channel.id; },
-    createdAt: Date.now(),
-    deferred: false,
-    ephemeral: false,
-    guild: client.guilds.cache.at(0),
-    get guildId() { return this.guild.id; },
-    guildLocale: 'en-US',
-    locale: 'en-US',
-    member: client.guilds.cache.at(0).members.cache.at(0),
-    get memberPermissions() { return this.member.permissions; },
-    options: null,
-    token: Discord.SnowflakeUtil.generate(),
+function createFakeInteraction(client, commandName, options) {
+  const i = new Discord.ChatInputCommandInteraction(client, {
     type: 2,
-    get user() { return this.member.user; },
-    reply: async () => true,
-    editReply: async () => true,
-    deleteReply: async () => true,
-    followUp: async () => true,
-    inGuild: () => true,
-    isChatInputCommand: () => true,
-    isCommand: () => true,
-    isRepliable: () => true,
-  };
-  return interaction;
+    id: Discord.SnowflakeUtil.generate(),
+    token: null,
+    application_id: Discord.SnowflakeUtil.generate(),
+    channel_id: client.channels.cache.at(0).id,
+    guild_id: client.guilds.cache.at(0).id,
+    member: client.guilds.cache.at(0).members.cache.at(0),
+    version: 10,
+    app_permissions: Discord.PermissionFlagsBits.Administrator,
+    locale: 'en-US',
+    guild_locale: 'en_US',
+    data: {
+      id: Discord.SnowflakeUtil.generate(),
+      name: commandName,
+      type: Discord.ApplicationCommandType.ChatInput,
+      guild_id: client.guilds.cache.at(0).id,
+      options,
+      resolved: null,
+    },
+  });
+  i.reply = async () => true;
+  i.editReply = async () => true;
+  i.deferReply = async () => true;
+  i.fetchReply = async () => true;
+  i.deleteReply = async () => true;
+  i.followUp = async () => true;
+  return i;
 }

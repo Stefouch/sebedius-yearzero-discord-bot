@@ -68,7 +68,7 @@ module.exports = class ConfCommand extends SebediusCommand {
           default: emoji = this.bot.config.Emojis.ok;
         }
         fields.push({
-          name: `${emoji} ${t(`commands:conf.options.${k}`)}`,
+          name: `${emoji} ${t(`commands:conf.params.${k}`)}`,
           value: codeBlock(v),
           inline: true,
         });

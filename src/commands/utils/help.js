@@ -12,7 +12,7 @@ module.exports = class HelpCommand extends SebediusCommand {
         .addStringOption(opt => opt
           .setName('command')
           // eslint-disable-next-line max-len
-          .setDescription('Prints more information about a specific command or type "all" to see a list of all commands'),
+          .setDescription('Print more information about a specific command or type "all" to see a list of all commands'),
           // TODO autocomplete
           // .setAutocomplete(true),
         ),
@@ -74,7 +74,7 @@ module.exports = class HelpCommand extends SebediusCommand {
         });
     }
     // Help message with the list of all commands.
-    else if (commandName === 'all') {
+    else if (commandName === 'all' || commandName === t('commons:all')) {
       embed
         .setTitle('**Sebedius – Year Zero Discord Bot**')
         .setDescription(`${this.bot.config.wikiURL}#list-of-commands`);
@@ -86,7 +86,10 @@ module.exports = class HelpCommand extends SebediusCommand {
         const category = `commands:categories.${cat.toLowerCase()}`;
         const cmds = commands.filter(c => c.category === code);
         const cmdLines = [...cmds
-          .mapValues(c => `${inlineCode(c.name)} – ${c.description}`)
+          .mapValues(c => {
+            return inlineCode(`/${c.data.name_localizations?.[t.lng] || c.name}`)
+              + ` – ${c.data.description_localizations?.[t.lng] || c.description}`;
+          })
           .values(),
         ].join('\n');
 
@@ -101,7 +104,8 @@ module.exports = class HelpCommand extends SebediusCommand {
     }
     // Help message for one specific command.
     else {
-      const command = this.bot.commands.get(commandName);
+      let command = this.bot.commands.get(commandName);
+      if (!command) command = this.bot.commands.find(c => c.data.name_localizations?.[t.lng] === commandName);
 
       if (!command) {
         return interaction.reply({
@@ -144,7 +148,7 @@ function getCommandOptionsEmbedFields(command, t) {
     for (const subcommand of command.data.options) {
       fields.push({
         name: `/${command.name} ${subcommand.name}`,
-        value: subcommand.description
+        value: (subcommand.description_localizations?.[t.lng] || subcommand.description)
           + (subcommand.options?.length ? `\n${getCommandOptionsDescription(subcommand.options, t)}` : ''),
       });
     }
@@ -167,6 +171,7 @@ function getCommandOptionsDescription(commandOptions, t) {
 }
 
 function getArgumentDescription(commandOption, t) {
-  return `${inlineCode(commandOption.name)}`
-    + ` – ${commandOption.required ? `*(${t('commands:help.required')})* ` : ''}${commandOption.description}`;
+  return `${inlineCode(commandOption.name_localizations?.[t.lng] || commandOption.name)}`
+    + ` – ${commandOption.required ? `*(${t('commands:help.required')})* ` : ''}`
+    + (commandOption.description_localizations?.[t.lng] || commandOption.description);
 }
