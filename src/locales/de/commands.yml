@@ -159,7 +159,7 @@ thread:
   join: Der Bot ist dem Thread beigetreten!
   leave: Der Bot hat den Thread verlassen!
 conf:
-  name: konfigurieren
+  name: konfiguriere
   description: Legt die Konfiguration des Bots für diesen Server fest
   options:
     game:
