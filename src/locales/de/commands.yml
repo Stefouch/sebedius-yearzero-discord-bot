@@ -11,8 +11,8 @@ help:
   options:
     command:
       name: befehl
-      description: Weitere Informationen zu einem bestimmten Befehl anzeigen oder
-        „alle“ eingeben, um eine Liste aller Befehle anzuzeigen
+      description: Informationen zu einem Befehl anzeigen oder
+        „alle“ eingeben, um alle Befehle anzuzeigen
   deployedVersion: Bereitgestellte Version
   developer: Entwickler
   fullDescription: |-
@@ -42,8 +42,8 @@ roll:
   options:
     input:
       name: eingabe
-      description: Eine Zeichenfolge für die zu würfelnden Würfel im Format NdX!>XfX
-        (mehrere Würfe sind durch ein Leerzeichen zu trennen)
+      description: Die zu würfelnden Würfel im Format NdX!>XfX
+        (mehrere Würfe mit Leerzeichen trennen)
     abcd:
       name: abcd
       description: 'Folgende Angaben sind möglich: `12`, `10`, `8`, `6`, `a`, `b`,
@@ -165,7 +165,7 @@ conf:
     game:
       name: spiel
       description: Legt das Standardspiel für diesen Server fest (für Würfel-Skins
-        und Tabellen mit kritischen Verletzungen)
+        und kritische Verletzungen)
     locale:
       name: sprache
       description: Legt die Standardsprache für diesen Server fest (siehe Readme für
