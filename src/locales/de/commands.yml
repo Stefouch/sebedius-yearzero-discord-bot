@@ -1,19 +1,23 @@
-ownerOnlyCommandDisclaimer: >-
-  Nur der Bot-Besitzer kann diesen Befehl verwenden. Und du bist nicht mein
-  Meister!
+---
+ownerOnlyCommandDisclaimer: Nur der Bot-Besitzer kann diesen Befehl verwenden. Und
+  du bist nicht mein Meister!
 categories:
   admin: Verwaltung
   utils: Werkzeug
   roll: Würfeln
 help:
+  name: hilfe
+  description: Informationen zur Verwendung von Sebedius anzeigen
+  options:
+    command:
+      name: befehl
+      description: Weitere Informationen zu einem bestimmten Befehl anzeigen oder
+        „alle“ eingeben, um eine Liste aller Befehle anzuzeigen
   deployedVersion: Bereitgestellte Version
   developer: Entwickler
-  fullDescription: >-
-    Sebedius ist ein Discord-Bot mit Befehlen für die Year Zero-Rollenspiele von
-    Free League Publishing (Fria Ligan).
-
-    Die deutschen Produkte der Jahr Null-Systeme werden herausgegeben vom
-    Uhrwerk Verlag und Ulisses Spiele.
+  fullDescription: |-
+    Sebedius ist ein Discord-Bot mit Befehlen für die Year Zero-Rollenspiele von Free League Publishing (Fria Ligan).
+    Die deutschen Produkte der Jahr Null-Systeme werden herausgegeben vom Uhrwerk Verlag und Ulisses Spiele.
   usefulLinks: Nützliche Links
   supportOnPatreon: Unterstützt den Entwickler unter {{url}}!
   patreonPage: Patreon
@@ -21,18 +25,79 @@ help:
   addToServer: Bot einem Discord-Server hinzufügen
   readTheWiki: Im Wiki stöbern
   listOfCommands: Liste der Befehle
-  listOfCommandsFullDescription: >-
+  listOfCommandsFullDescription: |-
     Gebe {{helpAll}} ein, um eine Liste aller Befehle zu erhalten.
-
-    Gebe {{helpCommand}} ein, um Informationen zu einem bestimmten Befehl zu
-    erhalten.
+    Gebe {{helpCommand}} ein, um Informationen zu einem bestimmten Befehl zu erhalten.
   commandNotFound: Entschuldigung, der Befehl {{cmd}} wurde nicht gefunden!
   noDiceError: Keine Würfel zum Werfen!
   contribute: So kannst du beitragen
   required: Erforderlich
   arguments: Argumente
-ping: {}
+ping:
+  name: ping
+  description: Zeigt die Latenz von Sebedius an
 roll:
+  name: würfle
+  description: Wirf Würfel für ein Jahr Null-Rollenspiel
+  options:
+    input:
+      name: eingabe
+      description: Eine Zeichenfolge für die zu würfelnden Würfel im Format NdX!>XfX
+        (mehrere Würfe sind durch ein Leerzeichen zu trennen)
+    abcd:
+      name: abcd
+      description: 'Folgende Angaben sind möglich: `12`, `10`, `8`, `6`, `a`, `b`,
+        `c`, `d`'
+    dice:
+      name: würfel
+      description: Anzahl der zu würfelnden Würfel
+    base:
+      name: basis
+      description: Anzahl der Basiswürfel
+    skill:
+      name: fertigkeit
+      description: Anzahl der Fertigkeitswürfeln
+    gear:
+      name: ausrüstung
+      description: Anzahl der Ausrüstungswürfel
+    stress:
+      name: stress
+      description: Anzahl der Stresswürfel
+    ammo:
+      name: munition
+      description: Anzahl der Munitionswürfel
+    artifacts:
+      name: artefakte
+      description: 'Eine Anzahl Artefaktwürfel hinzufügen: Tippe `d6`, `d8`, `d10`
+        oder `d12`'
+    title:
+      name: titel
+      description: Dem Wurf eine Bezeichnung geben
+    modifier:
+      name: modifikator
+      description: Einen Schwierigkeitsmodifikator von `+X` oder `-X` auf den Wurf
+        anwenden
+    maxpush:
+      name: maxstrapazieren
+      description: Die maximale Anzahl zum Strapazieren von Würfen (0 um nicht zu
+        strapazieren)
+    private:
+      name: privat
+      description: Den Wurf vor anderen Spielern verstecken
+    fullauto:
+      name: vollautomatik
+      description: 'Vollautomatisches Feuern: unbegrenztes Strapazieren (tatsächlich
+        maximal 10)'
+    pride:
+      name: stolz
+      description: Füge dem Wurf einen D12-Artefaktwürfel hinzu
+    nerves:
+      name: nerven
+      description: Wendet das Talent *Nerven aus Stahl* an
+    minpanic:
+      name: minpanik
+      description: Stellt einen Mindestschwellenwert für mehrere aufeinanderfolgende
+        Panikeffekte ein
   tooManyDiceError: Zu viele Würfel! (>42)
   embed:
     details: Details
@@ -50,9 +115,9 @@ roll:
     suppression_plural: 'Unterdrückungen: **{{count}}**'
     ammoSpent: 'Verbrauchte Munition: **{{count}}**'
     damageOrStress: 'Schaden/Stress: **{{count}}**'
-    reliability: '**Zuverlässigkeit: −{{count}}**'
-    weaponJam: '**LADEHEMMUNG**'
-    panic: '**PANIK**'
+    reliability: "**Zuverlässigkeit: −{{count}}**"
+    weaponJam: "**LADEHEMMUNG**"
+    panic: "**PANIK**"
   buttons:
     push: Strapazieren
     cancel: Annehmen
@@ -63,31 +128,83 @@ roll:
     Der folgende Würfeleingabe konnte nicht ausgewertet werden!
     {{input}}
 rolld66:
-  resultForD66: '{{author}} würfelte einen {{dice}} und erhielt {{result}}.'
+  name: würfled66
+  description: Einen d6, d66 oder d666 würfeln
+  options:
+    die:
+      name: würfel
+      description: Wähle d6, d66 oder d666
+    title:
+      name: titel
+      description: Dem Wurf eine Bezeichnung geben
+    private:
+      name: privat
+      description: Den Wurf vor anderen Spielern verstecken
+    game:
+      name: spiel
+      description: Überschreibt das standardmäßig ausgewählte Spiel, das zum Anzeigen
+        der Würfel verwendet wird
+  resultForD66: "{{author}} würfelte einen {{dice}} und erhielt {{result}}."
 thread:
+  name: thread
+  description: Den Bot einem Thread bei- oder austreten lassen
+  options:
+    join:
+      name: beitreten
+      description: Den Bot dem aktuellen Thread beitreten lassen
+    leave:
+      name: verlassen
+      description: Den Bot aus dem aktuellen Thread entfernen
   notThreadError: Das ist kein Thread!
   join: Der Bot ist dem Thread beigetreten!
   leave: Der Bot hat den Thread verlassen!
 conf:
+  name: konfigurieren
+  description: Legt die Konfiguration des Bots für diesen Server fest
+  options:
+    game:
+      name: spiel
+      description: Legt das Standardspiel für diesen Server fest (für Würfel-Skins
+        und Tabellen mit kritischen Verletzungen)
+    locale:
+      name: sprache
+      description: Legt die Standardsprache für diesen Server fest (siehe Readme für
+        Details)
   title: Sebedius-Konfiguration
   databaseNotReadyError: Verbindung zur Datenbank ist fehlgeschlagen!
-  options:
-    locale:
-      name: ''
   params:
     game: Spiel
+    locale: Sprache
 panic:
+  name: panik
+  description: Würfelt einen zufälligen Panikeffekt für das ALIEN RPG
+  options:
+    stress:
+      name: stress
+      description: Aktuelles Stresslevel
+    fixed:
+      name: festwert
+      description: Verwendet einen festen Wert anstatt einen D6 hinzuzufügen
+    minpanic:
+      name: minpanik
+      description: Stellt einen Mindestschwellenwert für mehrere aufeinanderfolgende
+        Panikeffekte ein
+    nerves:
+      name: nerven
+      description: Wendet das Talent *Nerven aus Stahl* an
+    private:
+      name: privat
+      description: Den Wurf vor anderen Spielern verstecken
   panicEffectNotFoundError: Der Panikeffekt wurde nicht gefunden
   interruptedSkillRollTitle: Unterbrochener Fertigkeitswurf
-  interruptedSkillRollText: >-
-    Du wirst gezwungen, eine bestimmte Aktion auszuführen. Wenn der Panikwurf
-    das Ergebnis einer Fertigkeitsprobe für eine Aktion war, wird die Aktion
-    abgebrochen und sofort durch die erzwungene Panikaktion ersetzt, selbst wenn
-    dir dein Wurf gelungen ist.
-  mentalTraumaReminderTitle: 'Am Ende der Spielsitzung: Würfle für ein dauerhaftes mentales Trauma'
-  mentalTraumaReminderText: >-
-    Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf machen. Würfle nur
-    für das Attribut, ohne Verwendung einer Fertigkeit. Wenn der Wurf *gelingt*,
-    entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6 und prüfe
-    die Tabelle auf Seite 101.
+  interruptedSkillRollText: Du wirst gezwungen, eine bestimmte Aktion auszuführen.
+    Wenn der Panikwurf das Ergebnis einer Fertigkeitsprobe für eine Aktion war, wird
+    die Aktion abgebrochen und sofort durch die erzwungene Panikaktion ersetzt, selbst
+    wenn dir dein Wurf gelungen ist.
+  mentalTraumaReminderTitle: 'Am Ende der Spielsitzung: Würfle für ein dauerhaftes
+    mentales Trauma'
+  mentalTraumaReminderText: Am Ende der Spielsitzung musst du einen **EMPATHIE**-Wurf
+    machen. Würfle nur für das Attribut, ohne Verwendung einer Fertigkeit. Wenn der
+    Wurf *gelingt*, entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6
+    und prüfe die Tabelle auf Seite 101.
   panicRoll: Panikwurf
