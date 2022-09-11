@@ -1,4 +1,5 @@
 ---
+all: alle
 missingPermissionsError: 'Dem Bot {{member}} fehlen die folgenden Berechtigungen und
   er funktioniert möglicherweise nicht richtig: {{perms}}'
 commandError: |-
