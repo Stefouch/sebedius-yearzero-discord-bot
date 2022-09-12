@@ -41,7 +41,6 @@ jobs:
         uses: ncipollo/release-action@v1.10.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          artifacts: './dist/system.json, fbl-fvtt_${{ steps.version.outputs.tag }}.zip'
           body: ${{ steps.changelog.outputs.changelog }}
           allowUpdates: true
           draft: true
