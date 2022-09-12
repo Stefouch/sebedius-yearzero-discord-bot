@@ -3,7 +3,6 @@ const expect = require('chai').expect;
 const sinon = require('sinon');
 const Discord = require('discord.js');
 const Sebedius = require('../src/structures/sebedius-client');
-const SebediusCommand = require('../src/structures/command');
 const loadLocales = require('../src/locales/i18n');
 const handleCommands = require('../src/structures/handlers/command-handler');
 

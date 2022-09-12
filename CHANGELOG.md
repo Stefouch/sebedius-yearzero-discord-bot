@@ -1,8 +1,13 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
-<br/>The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
-<br/>and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [6.3.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.2.2...v6.3.0) (2022-09-12)
+
+### Features
+
+- 🌐🇫🇷 French translation of commands
+- 🌐🇩🇪 German translation of commands
 
 ## [6.2.2] - 2022-09-09
 

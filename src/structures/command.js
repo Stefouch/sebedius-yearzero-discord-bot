@@ -70,14 +70,6 @@ class SebediusCommand {
 
   /* ------------------------------------------ */
 
-  addLocalizations() {
-    const nameChoices = [];
-    const descriptionChoices = [];
-    for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
-      // d
-    }
-  }
-
   /**
    * Adds all localizations to the command.
    */
