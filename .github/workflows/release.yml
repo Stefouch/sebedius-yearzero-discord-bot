@@ -1,0 +1,42 @@
+name: CI Draft release
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - 'v**'
+  workflow_dispatch:
+
+jobs:
+  release:
+    name: Draft a release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📡 Checkout
+        uses: actions/checkout@v3
+
+      # - name: ⚙️ Setup NodeJS 16
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 16
+
+      - name: 🏷️ Get Version Tag
+        id: version
+        uses: ncipollo/semantic-version-action@v1.0.1
+
+      - name: 📜 Generate Changelog
+        id: changelog
+        uses: mikepenz/release-changelog-builder-action@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 🧵 Create Release
+        uses: ncipollo/release-action@v1.10.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          artifacts: './dist/system.json, fbl-fvtt_${{ steps.version.outputs.tag }}.zip'
+          body: ${{ steps.changelog.outputs.changelog }}
+          allowUpdates: true
+          draft: true

@@ -1,5 +1,3 @@
-# See https://www.notion.so/parabol/conventional-commit-style-Pull-Request-titles-b70e585fcf084e0f8f9f22e74594f70c (🔒)
-# for governance on this.
 name: CI Validate PR Title
 
 on:
