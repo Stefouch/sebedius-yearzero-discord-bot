@@ -2,8 +2,6 @@ name: CI Draft Release
 
 on:
   push:
-    branches:
-      - master
     tags:
       - 'v**'
   workflow_dispatch:
@@ -29,6 +27,8 @@ jobs:
       - name: 🏷️ Get Version Tag
         id: version
         uses: ncipollo/semantic-version-action@v1.0.1
+        with:
+          tag: ${{ inputs.tag }}
 
       - name: 📜 Generate Changelog
         id: changelog
