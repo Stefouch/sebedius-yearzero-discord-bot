@@ -1,4 +1,4 @@
-name: CI Draft release
+name: CI Draft Release
 
 on:
   push:
@@ -7,6 +7,10 @@ on:
     tags:
       - 'v**'
   workflow_dispatch:
+    inputs:
+      tag:
+        description: Choose the version tag "vX.X.X"
+        required: true
 
 jobs:
   release:
