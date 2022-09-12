@@ -40,6 +40,7 @@ jobs:
       - name: 🧵 Create Release
         uses: ncipollo/release-action@v1.10.0
         with:
+          tag: ${{ inputs.tag }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.changelog.outputs.changelog }}
           allowUpdates: true
