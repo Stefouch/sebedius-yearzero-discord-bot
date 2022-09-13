@@ -441,8 +441,9 @@ module.exports = class RollCommand extends SebediusCommand {
           // await interaction.editReply(messageData); // !
         }
         else {
-          await message.edit(messageData); // ! Because using i.update() cause bugs with emojis
-          await i.deferUpdate(); // ! Workaround to remove the "interaction failed" error
+          await i.update(messageData);
+          // await message.edit(messageData); // ! Because using i.update() cause bugs with emojis
+          // await i.deferUpdate(); // ! Workaround to remove the "interaction failed" error
         }
 
         // Detects panic.
