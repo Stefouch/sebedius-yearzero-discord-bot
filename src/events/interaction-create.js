@@ -87,7 +87,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
   /**
    * Logs the interaction in the console.
-   * @param {import('../structures/command').SebediusCommandInteraction} interaction
+   * @param {import('@structures/command').SebediusCommandInteraction} interaction
    * @returns {string} The log message
    */
   logInteraction(interaction) {
@@ -105,8 +105,8 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
   /**
    * Gets the options of the guild from the database.
-   * @param {import('../structures/command').SebediusCommandInteraction} interaction 
-   * @returns {Promise.<import('../structures/command').GuildOptions>}
+   * @param {import('@structures/command').SebediusCommandInteraction} interaction 
+   * @returns {Promise.<import('@structures/command').GuildOptions>}
    */
   async getGuildOptions(interaction) {
     let guildOptions = {};

@@ -145,7 +145,7 @@ class SebediusCommand {
    * Builds the roll slash command, subcommands & options.
    * @param {string} name
    * @param {string} description
-   * @param {Object.<import('../constants').YearZeroGames, string[]>} GameSubcommandsList
+   * @param {Object.<import('$constants').YearZeroGames, string[]>} GameSubcommandsList
    * @param {Object.<string, SlashCommandOption>} SlashCommandOptions
    * @returns {SlashCommandBuilder}
    */
