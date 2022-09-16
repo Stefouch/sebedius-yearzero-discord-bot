@@ -12,13 +12,21 @@ class WebhookManager {
   }
 
   async guildCreate(guild) {
-    const embed = this.#createGuildEmbed(guild, `${this.client.config.Emojis.sparkles} Sebedius joined a new server!`);
+    const embed = this.#createGuildEmbed(
+      guild,
+      `${this.client.config.Emojis.sparkles} Sebedius joined a new server!`,
+      this.client.config.Colors.rare,
+    );
     const webhook = new WebhookClient({ url: this.logs });
     await webhook.send({ embeds: [embed] }).catch(Logger.error);
   }
 
   async guildDelete(guild) {
-    const embed = this.#createGuildEmbed(guild, '🚪 Sebedius was kicked from a server!');
+    const embed = this.#createGuildEmbed(
+      guild,
+      '🚪 Sebedius was kicked from a server!',
+      this.client.config.Colors.brown,
+    );
     const webhook = new WebhookClient({ url: this.logs });
     await webhook.send({ embeds: [embed] }).catch(Logger.error);
   }
@@ -56,10 +64,12 @@ class WebhookManager {
   /**
    * @param {import('discord.js').Guild} guild
    * @param {string} title
+   * @param {import('discord.js').ColorResolvable} [color]
    */
-  #createGuildEmbed(guild, title) {
+  #createGuildEmbed(guild, title, color = null) {
     const embed = new EmbedBuilder()
       .setTitle(title)
+      .setColor(color)
       .setTimestamp()
       .setDescription(
         `**Name:** ${inlineCode(guild.name)}`

@@ -67,7 +67,7 @@ module.exports = class EvalCommand extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle('Evaluated successfully')
       // .setDescription('d')
-      .setColor(this.bot.config.favoriteColor)
+      .setColor(this.bot.config.Colors.green)
       .addFields({
         name: 'Input:',
         value: codeBlock('js', code),
