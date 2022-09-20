@@ -29,14 +29,6 @@ module.exports = class RollAllCommand extends SebediusCommand {
   async run(interaction, t, guildOptions) {
     const game = interaction.options.getString('game') || guildOptions.game;
 
-    // TODO keep or clean
-    // if (game === YearZeroGames.BLANK) {
-    //   return interaction.reply({
-    //     content: t('commands:r.notGeneric'),
-    //     ephemeral: true,
-    //   });
-    // }
-
     // @ts-ignore
     interaction.options._subcommand = game;
     interaction.commandName = 'roll';
