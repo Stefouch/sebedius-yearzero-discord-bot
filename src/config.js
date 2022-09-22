@@ -31,6 +31,7 @@ SebediusConfig.defaultLocale = 'en-US';
 
 /** @enum {Object} */
 SebediusConfig.Commands = {};
+SebediusConfig.Commands.init = { expires: '10d' };
 SebediusConfig.Commands.scrap = { max: 20 };
 SebediusConfig.Commands.stats = { start: '2022-09-03' };
 SebediusConfig.Commands.roll = {
