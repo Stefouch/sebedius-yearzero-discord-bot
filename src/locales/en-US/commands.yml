@@ -212,12 +212,15 @@ initiative:
         keep:
           name: keep
           description: Number of initiative cards to keep
+        unlucky:
+          name: unlucky
+          description: Whether to keep the worst result
         user:
           name: user
           description: Choose another user who draws initiative, if not you
         alias:
           name: alias
-          description: Choose an alias for user who draws initiative
+          description: Choose an alias for the user who draws initiative
     shuffle:
       name: shuffle
       description: >-

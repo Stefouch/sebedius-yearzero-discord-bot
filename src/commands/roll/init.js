@@ -26,12 +26,15 @@ module.exports = class InitiativeCommand extends SebediusCommand {
             .setDescription('Number of initiative cards to keep')
             .setMinValue(1)
             .setMaxValue(10))
+          .addBooleanOption(opt => opt
+            .setName('unlucky')
+            .setDescription('Whether to keep the worst result'))
           .addUserOption(opt => opt
             .setName('user')
             .setDescription('Choose another user who draws initiative, if not you'))
           .addStringOption(opt => opt
             .setName('alias')
-            .setDescription('Choose an alias for user who draws initiative')))
+            .setDescription('Choose an alias for the user who draws initiative')))
         .addSubcommand(sub => sub
           .setName('reset')
           .setDescription('Reset the initiative deck *(probably needed at the beginning of every new encounter)*')),
@@ -41,6 +44,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
   async run(interaction, t) {
     const speed = interaction.options.getInteger('speed') || 1;
     const keep = interaction.options.getInteger('keep') || speed;
+    const unlucky = interaction.options.getBoolean('unlucky');
     const user = interaction.options.getUser('user') || interaction.user;
     const alias = interaction.options.getString('alias') || user.toString();
 
@@ -69,7 +73,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
 
     const cards = await this.getCards(interaction.guildId);
 
-    if (!cards || cards.length <= 0) {
+    if (cards?.length < 1) {
       reset();
     }
     else {
@@ -78,12 +82,12 @@ module.exports = class InitiativeCommand extends SebediusCommand {
 
 
     // Draws the cards
-    const sortCardsFn = (a, b) => a - b;
-    const drawnCards = [];
+    const sortCardsFn = (a, b) => unlucky ? b - a : a - b; // Ordre croissant par défaut
+    let drawnCards = [];
     let keptCards;
 
     for (let i = 0; i < speed; i++) {
-      if (i > deck.size || keep > deck.size) {
+      if (deck.size < 1) {
         out.push(`ℹ ${t('commands:initiative.deckTooSmall')}`);
         reset();
       }
@@ -93,10 +97,11 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     if (speed !== keep) {
       drawnCards.sort(sortCardsFn);
       keptCards = drawnCards.splice(0, keep);
-      deck.addToBottom(drawnCards).shuffle();
+      deck.addToBottom(drawnCards);
     }
     else {
       keptCards = drawnCards;
+      drawnCards = [];
     }
 
     // Builds the embed.
@@ -107,10 +112,20 @@ module.exports = class InitiativeCommand extends SebediusCommand {
       .addFields({
         name: t('commands:initiative.drawEvents'),
         value: out.join('\n'),
-      }, {
-        name: t('commands:initiative.remainingCards'),
-        value: spoiler(this.printCard(...deck._stack.sort(sortCardsFn))),
       });
+
+    if (deck.size > 0) {
+      embed.addFields({
+        name: t('commands:initiative.remainingCards'),
+        value: this.#createRemainingCardsDescription(deck._stack),
+      });
+    }
+
+    if (!this.bot.database.isReady()) {
+      embed.setFooter({
+        text: `${this.bot.config.Emojis.warning} No database connection!`,
+      });
+    }
 
     // Sends the message.
     await interaction.reply({
@@ -128,7 +143,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     if (drawn.length) {
       return t('commands:initiative.lootDescription', {
         name: `**${userName}**`,
-        cards: this.printCard(...drawn),
+        cards: this.printCard(...drawn, ...kept),
         card: this.printCard(...kept),
       });
     }
@@ -138,9 +153,18 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     });
   }
 
+  #createRemainingCardsDescription(cards) {
+    return spoiler(InitiativeDeck.INITIATIVE_CARDS
+      .map(c => cards.includes(c) ? this.printCard(c) : '⬛')
+      .join(''),
+    );
+  }
+
   printCard(...cards) {
     return cards.map(c => this.bot.config.CardsIcons[c]).join('');
   }
+
+  /* ------------------------------------------ */
 
   /**
    * Gets the cards stack from the database.
