@@ -7,12 +7,12 @@ const Deck = require('card-deck');
  */
 class InitiativeDeck extends Deck {
   /**
-   * @param {Array.<any>} [data=YZInitDeck.INITIATIVE_CARDS] An array of objects, default are initiative cards
+   * @param {Array.<any>} [arr=YZInitDeck.INITIATIVE_CARDS] An array of objects, default are initiative cards
    */
-  constructor(data) {
-    if (data) super(data);
+  constructor(arr) {
+    if (arr) super(arr);
     else super(InitiativeDeck.INITIATIVE_CARDS);
-    super.shuffle();
+    this.shuffle();
   }
 
   /**
@@ -30,11 +30,11 @@ class InitiativeDeck extends Deck {
    * @param {number}   [numKeep=1]     Number of cards to keep
    * @param {Function?} fn             Callback function to sort the best cards to keep
    * @param {boolean}  [shuffle=false] Whether the discarded cards should be shuffled back into the deck
-   * @returns {number[]}
+   * @returns {{ keptCards: number[], cards: number[] }}
    */
   loot(numDraw, numKeep = 1, fn = null, shuffle = false) {
     // Draws the cards.
-    let cards = super.draw(numDraw);
+    let cards = this.draw(numDraw);
     if (!Array.isArray(cards)) cards = [cards];
 
     // Sorts the cards.
@@ -45,11 +45,11 @@ class InitiativeDeck extends Deck {
 
     // Shuffle the cards back if required.
     if (shuffle && cards.length > 0) {
-      super.addToBottom(cards);
-      super.shuffle();
+      this.addToBottom(cards);
+      this.shuffle();
     }
     // Returns the kept cards.
-    return [keptCards, cards];
+    return { keptCards, cards };
   }
 }
 
