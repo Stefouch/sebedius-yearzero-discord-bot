@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schemas = require('./models');
 const Logger = require('../../utils/logger');
-// const { isObjectEmpty } = require('../../utils/object-utils'); // TODO clean
+const { isObjectEmpty } = require('../../utils/object-utils');
 
 class Database {
   constructor(client, uri) {
@@ -17,21 +17,29 @@ class Database {
     this.client = client;
     this.guilds = Schemas.Guild;
     this.commands = Schemas.Command;
+    this.initiatives = Schemas.Initiative;
+
+    this.initiatives.schema.index({ updatedAt: 1 }, { expires: this.client.config.Commands.init.expires });
   }
 
+  /**
+   * Whether the Mongoose connection is ready.
+   * @example mongoose.connection.readyState === 1
+   * @returns {boolean}
+   */
   isReady() {
     return mongoose.connection.readyState === 1;
   }
 
-  /**
-   * @param {import('discord.js').ChatInputCommandInteraction} interaction
-   */
-  async incrementCommand(interaction) {
-    let commandName = interaction.commandName;
+  /* ------------------------------------------ */
 
-    if (interaction.options.getSubcommand(false)) {
-      commandName += '_' + interaction.options.getSubcommand();
-    }
+  /**
+   * Increments the usage counter of a command.
+   * @param {string}  commandName
+   * @param {string} [subCommand]
+   */
+  async incrementCommand(commandName, subCommand) {
+    if (subCommand?.length) commandName += '_' + subCommand;
 
     return this.commands.findOneAndUpdate({ name: commandName }, {
       $setOnInsert: { name: commandName },
@@ -44,75 +52,83 @@ class Database {
       lean: true,
     });
   }
-  // TODO clean code
-  // /**
-  //  * See {@link Database.grab}
-  //  * @param {string}      id
-  //  * @param {UpdateData} [updateData]
-  //  */
-  // async grabGuild(id, updateData) {
-  //   return this.grab('guilds', id, updateData);
-  // }
 
-  // async getGuild(id) {
-  //   const document = await this.guilds.findById(id, null, { upsert: true });
-  //   if (document.isNew) Logger.client(`✨ Database | create: Guild ${id}`);
-  //   return document;
-  // }
+  /* ------------------------------------------ */
 
-  // /**
-  //  * Returns a document from a collection, with the following:
-  //  * - Updates the document if update data is provided.
-  //  * - Creates the document (with the update data) if it does not exist.
-  //  * @param {string}      collection
-  //  * @param {string}      id
-  //  * @param {UpdateData} [updateData]
-  //  */
-  // async grab(collection, id, updateData = {}) {
-  //   /** @type {typeof Schemas.Guild} */
-  //   const model = this[collection];
-  //   if (!model) throw new TypeError(`Collection "${collection} does not exist in database!"`);
-  //   if (!id || typeof id !== 'string') return undefined;
+  /**
+   * @param {string} guildId Guild ID
+   * @param {mongoose.UpdateQuery<any>} [updateData]
+   * @param {mongoose.QueryOptions}     [options]
+   * @returns {Promise.<mongoose.HydratedDocument.<typeof Schemas.Guild.schema.obj>>}
+   */
+  async getGuild(guildId, updateData, options) {
+    return this.get('Guild', guildId, updateData, options);
+  }
 
-  //   const document = await model.findByIdAndUpdate(id, updateData, {
-  //     upsert: true,
-  //     new: true,
-  //     // maxTimeMS: 2000,
-  //   });
+  /**
+   * @param {string} guildId Guild ID
+   * @param {mongoose.UpdateQuery<any>} [updateData]
+   * @param {mongoose.QueryOptions}     [options]
+   * @returns {Promise.<mongoose.Document & { cards: number[] }>}
+   */
+  async getInitiative(guildId, updateData, options) {
+    return this.get('Initiative', guildId, updateData, options);
+  }
 
-  //   if (document.isNew) Logger.client(`✨ Database | create: Guild ${id}`);
-  //   if (document.isModified()) Logger.client(`📝 Database | update: Guild ${id} with ${JSON.stringify(updateData)}`);
+  /* ------------------------------------------ */
 
-  //   return document;
+  /**
+   * Returns a document from a collection, with the following:
+   * - Updates the document if update data is provided.
+   * - Creates the document (with the update data) if it does not exist.
+   * @param {string} modelName
+   * @param {string} id
+   * @param {mongoose.UpdateQuery<any>} [updateData]
+   * @param {mongoose.QueryOptions}     [options]
+   * @returns {Promise.<mongoose.HydratedDocument.<any>>}
+   */
+  async get(modelName, id, updateData = {}, options = {}) {
+    const modelCollection = modelName.toLowerCase() + 's';
 
-  //   // let document = await model.findOne({ _id: id });
+    /** @type {mongoose.Model} */
+    const c = this[modelCollection];
+    if (!c) throw new mongoose.MongooseError(`Unknown collection: ${modelCollection}`);
 
-  //   // if (!document) {
-  //   //   document = new model({ ...updateData, _id: id });
-  //   //   await document.save();
-  //   //   Logger.client(`✨ Database | create: Guild ${id}`);
-  //   //   return document;
-  //   // }
+    const opts = {
+      upsert: true,
+      new: true,
+      lean: false,
+      ...options,
+    };
 
-  //   // if (isObjectEmpty(updateData)) return document;
+    /** @type {mongoose.Document} */
+    let document;
 
-  //   // const data = {};
+    if (isObjectEmpty(updateData)) {
+      document = await c.findById(id, null, opts);
+    }
+    else {
+      document = await c.findByIdAndUpdate(id, updateData, opts);
+    }
 
-  //   // for (const [k, v] of Object.entries(updateData)) {
-  //   //   if (k !== 'id' && document[k] !== v) data[k] = v;
-  //   // }
+    if (!document) {
+      const msg = `Undefined Document [${modelCollection}:${id}]`
+        + ` with updateData ${JSON.stringify(updateData)}`
+        + ` and options ${JSON.stringify(opts)}`;
+      throw new mongoose.MongooseError(msg);
+    }
 
-  //   // if (!isObjectEmpty(data)) {
-  //   //   await document.updateOne(data);
-  //   //   Logger.client(`📝 Database | update: Guild ${id} with ${JSON.stringify(data)}`);
-  //   // }
+    if (!opts.lean) {
+      if (document.isNew) {
+        Logger.client(`✨ Database | create: ${modelName} ${id}`);
+      }
+      if (document.isModified()) {
+        Logger.client(`📝 Database | update: ${modelName} ${id} with ${JSON.stringify(updateData)}`);
+      }
+    }
 
-  //   // return document;
-  // }
+    return document;
+  }
 }
 
 module.exports = Database;
-
-/**
- * @typedef {Object.<string, any>} UpdateData
- */
