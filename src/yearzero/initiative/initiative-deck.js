@@ -11,7 +11,7 @@ class InitiativeDeck extends Deck {
    */
   constructor(arr) {
     if (arr) super(arr);
-    else super(InitiativeDeck.INITIATIVE_CARDS);
+    else super([...InitiativeDeck.INITIATIVE_CARDS]);
     this.shuffle();
   }
 
