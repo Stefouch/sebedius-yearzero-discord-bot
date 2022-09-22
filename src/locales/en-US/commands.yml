@@ -198,3 +198,36 @@ panic:
     only, not using any skill. If the roll *succeeds*, you develop a permanent
     mental trauma of some kind. Roll a D6 and consult the table on page 161.
   panicRoll: Panic Roll
+initiative:
+  name: initiative
+  description: Draw one or more initiative cards
+  options:
+    draw:
+      name: draw
+      description: Draw one or more initiative cards
+      options:
+        speed:
+          name: speed
+          description: Number of initiative cards to draw
+        keep:
+          name: keep
+          description: Number of initiative cards to keep
+        user:
+          name: user
+          description: Choose another user who draws initiative, if not you
+        alias:
+          name: alias
+          description: Choose an alias for user who draws initiative
+    shuffle:
+      name: shuffle
+      description: >-
+        Reset the initiative deck *(probably needed at the beginning of every
+        new encounter)*
+  deckShuffled: Shuffled a new deck of Initiative cards.
+  deckTooSmall: The size of the Initiative deck is too small.
+  drawHint: Draw {{number}}, keep {{keep}}.
+  lootDescription: '{{name}} drew {{cards}} and kept {{card}}.'
+  drawDescription: '{{name}} drew {{card}}.'
+  drawTitle: Draw Initiative
+  drawEvents: Events
+  remainingCards: Remaining Cards
