@@ -200,7 +200,7 @@ panic:
   panicRoll: Panic Roll
 initiative:
   name: initiative
-  description: Draw one or more initiative cards
+  description: Draw initiative
   options:
     draw:
       name: draw
@@ -221,8 +221,8 @@ initiative:
         alias:
           name: alias
           description: Choose an alias for the user who draws initiative
-    shuffle:
-      name: shuffle
+    reset:
+      name: reset
       description: >-
         Reset the initiative deck *(probably needed at the beginning of every
         new encounter)*

@@ -8,7 +8,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
       category: SebediusCommand.CategoryFlagsBits.ROLL,
       data: new SlashCommandBuilder()
         .setName('initiative')
-        .setDescription('Draw one or more initiative cards')
+        .setDescription('Draw initiative')
         // .addSubcommand(sub => sub
         //   .setName('roll')
         //   .setDescription('Roll for initiative'))
