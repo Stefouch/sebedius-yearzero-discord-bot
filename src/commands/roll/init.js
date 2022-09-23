@@ -123,7 +123,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
 
     if (!this.bot.database.isReady()) {
       embed.setFooter({
-        text: `${this.bot.config.Emojis.warning} No database connection!`,
+        text: `${this.bot.config.Emojis.warning} ${t('commands:initiative.noDatabaseConnection')}`,
       });
     }
 

@@ -234,3 +234,4 @@ initiative:
   drawTitle: Draw Initiative
   drawEvents: Events
   remainingCards: Remaining Cards
+  noDatabaseConnection: No database connection!
