@@ -35,6 +35,13 @@ help:
 ping:
   name: ping
   description: Display the Sebedius' latency
+rolla:
+  name: rolla
+  description: Roll dice, all arguments available
+  options:
+    game:
+      name: game
+      description: Override the default chosen game which is used to render the rolled dice
 roll:
   name: roll
   description: Roll dice for any Year Zero roleplaying game

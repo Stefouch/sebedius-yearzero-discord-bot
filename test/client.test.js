@@ -103,6 +103,9 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
           else if (cmdName === 'panic') {
             option = { name: 'stress', value: 10, type: Discord.ApplicationCommandOptionType.Integer };
           }
+          else if (cmdName === 'rolla') {
+            this.skip();
+          }
           else if (cmdName === 'roll') {
             option = {
               name: 'myz',

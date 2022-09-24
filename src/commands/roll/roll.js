@@ -304,7 +304,7 @@ module.exports = class RollCommand extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle(title ?? inlineCode(input))
       .setDescription(`**${roll.value}**`)
-      .setColor(this.bot.config.favoriteColor)
+      .setColor(this.bot.config.Colors.favoriteColor)
       .setFooter({ text: YearZeroGameNames[YearZeroGames.BLANK] })
       .addFields({
         name: t('commands:roll.embed.details'),
@@ -348,7 +348,7 @@ module.exports = class RollCommand extends SebediusCommand {
     // Builds the embed.
     const embed = new EmbedBuilder()
       .setTitle(roll.name + (roll.pushed ? '⁺'.repeat(roll.pushCount) : ''))
-      .setColor(this.bot.config.favoriteColor)
+      .setColor(this.bot.config.Colors.favoriteColor)
       .setDescription(this.#getRollDescription(roll, t, options))
       .setFooter({
         text: YearZeroGameNames[roll.game]
@@ -621,3 +621,5 @@ module.exports = class RollCommand extends SebediusCommand {
     return codeBlock('php', out.join('\n'));
   }
 };
+
+module.exports.SlashCommandOptions = SlashCommandOptions;

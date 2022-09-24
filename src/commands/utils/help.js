@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, hyperlink, inlineCode } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
+const { trimString } = require('../../utils/string-utils');
 
 module.exports = class HelpCommand extends SebediusCommand {
   /** @param {import('@structures/sebedius-client')} client */
@@ -21,7 +22,7 @@ module.exports = class HelpCommand extends SebediusCommand {
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {
     const embed = new EmbedBuilder()
-      .setColor(this.bot.config.favoriteColor);
+      .setColor(this.bot.config.Colors.favoriteColor);
 
     const commandName = interaction.options.getString('command');
     if (!commandName) {
@@ -167,7 +168,7 @@ function getCommandOptionsDescription(commandOptions, t) {
   for (const commandOption of commandOptions) {
     out.push(getArgumentDescription(commandOption, t));
   }
-  return out.join('\n');
+  return trimString(out.join('\n'), 1024);
 }
 
 function getArgumentDescription(commandOption, t) {

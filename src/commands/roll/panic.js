@@ -90,7 +90,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle(`${panicAction.name} (${panicResult})`)
       .setDescription(panicAction.description)
-      .setColor(this.bot.config.favoriteColor);
+      .setColor(this.bot.config.Colors.rare);
 
     // Interrupted skill roll reminder.
     if (panicValue >= 10) {
