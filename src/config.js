@@ -44,7 +44,22 @@ SebediusConfig.defaultLocale = 'en-US';
 
 /** @enum {Object} */
 SebediusConfig.Commands = {};
-SebediusConfig.Commands.init = { expires: '10d' };
+SebediusConfig.Commands.init = {
+  expires: '10d',
+  colorGradient: [
+    0x000000,
+    0x63be7b,
+    0x7bb966,
+    0x90b253,
+    0xa5ab44,
+    0xb8a23b,
+    0xca9839,
+    0xda8d3e,
+    0xe78149,
+    0xf27458,
+    0xf8696b,
+  ],
+};
 SebediusConfig.Commands.scrap = { max: 20 };
 SebediusConfig.Commands.stats = { start: '2022-09-03' };
 SebediusConfig.Commands.roll = {
@@ -164,15 +179,15 @@ SebediusConfig.Emojis = {
 
 SebediusConfig.CardsIcons = [
   '0️⃣',
-  ':one:',
-  ':two:',
-  ':three:',
-  ':four:',
-  ':five:',
-  ':six:',
-  ':seven:',
-  ':eight:',
-  ':nine:',
+  '1️⃣',
+  '2️⃣',
+  '3️⃣',
+  '4️⃣',
+  '5️⃣',
+  '6️⃣',
+  '7️⃣',
+  '8️⃣',
+  '9️⃣',
   '🔟',
 ];
 
