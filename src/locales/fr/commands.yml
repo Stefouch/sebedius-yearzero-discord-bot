@@ -214,7 +214,7 @@ initiative:
   deckTooSmall: La taille du deck d'initiative est trop petite.
   description: Piocher une ou plusieurs cartes d'initiative
   drawDescription: '{{name}} a pioché {{card}}.'
-  drawEvents: Evènements
+  drawEvents: Évènements
   drawHint: Pioche {{number}}, garde {{keep}}.
   drawTitle: Pioche Initiative
   lootDescription: '{{name}} a pioché {{cards}} et gardé {{card}}.'
@@ -222,7 +222,7 @@ initiative:
   noDatabaseConnection: Pas de connexion à la base de données !
   options:
     draw:
-      name: pioche
+      name: piocher
       description: Piocher l'initiative
       options:
         alias:
@@ -243,7 +243,7 @@ initiative:
             Choisir un autre utilisateur qui pioche l'initiative, si ce n'est
             pas vous
     reset:
-      name: mélanger
+      name: réinitialiser
       description: >-
         Réinitialiser le deck d'initiative *(probablement nécessaire au début de
         chaque nouvelle rencontre)*
