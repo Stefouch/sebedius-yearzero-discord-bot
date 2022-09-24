@@ -61,8 +61,8 @@ class Database {
    * @param {mongoose.QueryOptions}     [options]
    * @returns {Promise.<mongoose.HydratedDocument.<typeof Schemas.Guild.schema.obj>>}
    */
-  async getGuild(guildId, updateData, options) {
-    return this.get('Guild', guildId, updateData, options);
+  async grabGuild(guildId, updateData, options) {
+    return this.grab('Guild', guildId, updateData, options);
   }
 
   /**
@@ -71,8 +71,8 @@ class Database {
    * @param {mongoose.QueryOptions}     [options]
    * @returns {Promise.<mongoose.Document & { cards: number[] }>}
    */
-  async getInitiative(guildId, updateData, options) {
-    return this.get('Initiative', guildId, updateData, options);
+  async grabInitiative(guildId, updateData, options) {
+    return this.grab('Initiative', guildId, updateData, options);
   }
 
   /* ------------------------------------------ */
@@ -87,7 +87,7 @@ class Database {
    * @param {mongoose.QueryOptions}     [options]
    * @returns {Promise.<mongoose.HydratedDocument.<any>>}
    */
-  async get(modelName, id, updateData = {}, options = {}) {
+  async grab(modelName, id, updateData = {}, options = {}) {
     const modelCollection = modelName.toLowerCase() + 's';
 
     /** @type {mongoose.Model} */
