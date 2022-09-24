@@ -31,7 +31,9 @@ help:
   name: aide
   options:
     command:
-      description: Afficher plus d'info sur une commande ou taper "tout" pour voir une liste de toutes les commandes
+      description: >-
+        Afficher plus d'info sur une commande ou taper "tout" pour voir une
+        liste de toutes les commandes
       name: commande
 ping:
   description: Afficher la latence de Sebedius
@@ -91,7 +93,9 @@ roll:
       description: Quantité de dés d'Equipement
       name: materiel
     input:
-      description: Une chaîne de charactères pour lancer au format NdX!>XfX (séparer plusieurs lancers par un espace)
+      description: >-
+        Une chaîne de charactères pour lancer au format NdX!>XfX (séparer
+        plusieurs lancers par un espace)
       name: saisie
     maxpush:
       description: >-
@@ -131,7 +135,9 @@ rolld66:
       description: Choisir d6, d66 ou d666
       name: de
     game:
-      description: Outrepasser le jeu choisi par défaut qui est utilisé pour afficher les dés lancés
+      description: >-
+        Outrepasser le jeu choisi par défaut qui est utilisé pour afficher les
+        dés lancés
       name: jeu
     private:
       description: S'il faut cacher le lancer des autres joueurs
@@ -158,9 +164,13 @@ conf:
   options:
     game:
       name: jeu
-      description: Définir le jeu par défaut pour votre serveur (pour les skins de dés et les tables de critiques)
+      description: >-
+        Définir le jeu par défaut pour votre serveur (pour les skins de dés et
+        les tables de critiques)
     locale:
-      description: Définir la langue par défaut de votre serveur (voir le Readme pour plus de détails)
+      description: >-
+        Définir la langue par défaut de votre serveur (voir le Readme pour plus
+        de détails)
       name: langue
   params:
     game: Jeu
@@ -200,3 +210,42 @@ panic:
     stress:
       description: Niveau de stress de départ
       name: stress
+initiative:
+  deckTooSmall: La taille du deck d'initiative est trop petite.
+  description: Piocher une ou plusieurs cartes d'initiative
+  drawDescription: '{{name}} a pioché {{card}}.'
+  drawEvents: Évènements
+  drawHint: Pioche {{number}}, garde {{keep}}.
+  drawTitle: Pioche Initiative
+  lootDescription: '{{name}} a pioché {{cards}} et gardé {{card}}.'
+  name: initiative
+  noDatabaseConnection: Pas de connexion à la base de données !
+  options:
+    draw:
+      name: piocher
+      description: Piocher l'initiative
+      options:
+        alias:
+          name: alias
+          description: Choisir un alias pour l'utilisateur qui pioche l'initiative
+        keep:
+          name: garde
+          description: Nombre de cartes d'initiative à garder
+        speed:
+          name: vitesse
+          description: Nombre de cartes d'initiative à piocher
+        unlucky:
+          name: malchanceux
+          description: S'il faut garder le pire résultat
+        user:
+          name: utilisateur
+          description: >-
+            Choisir un autre utilisateur qui pioche l'initiative, si ce n'est
+            pas vous
+    reset:
+      name: réinitialiser
+      description: >-
+        Réinitialiser le deck d'initiative *(probablement nécessaire au début de
+        chaque nouvelle rencontre)*
+  deckShuffled: Mélangé un nouveau deck de cartes d'initiative.
+  remainingCards: Cartes restantes

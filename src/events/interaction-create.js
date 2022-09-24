@@ -31,7 +31,8 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
       // 3.2. Promisifies the command count.
       if (process.env.NODE_ENV === 'production') {
-        this.bot.database.incrementCommand(interaction); // Do not await
+        // Do not await
+        this.bot.database.incrementCommand(interaction.commandName, interaction.options.getSubcommand(false));
       }
 
       // 3.3. Gets the command.
@@ -109,7 +110,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       guildOptions = await this.bot.database.guilds.findById(
         interaction.guildId,
         null,
-        { upsert: true, lean: true },
+        { upsert: true, lean: true, new: true },
       ) || {};
       if (guildOptions?.isBanned) return this.bot.leaveBanned(interaction.guild);
     }

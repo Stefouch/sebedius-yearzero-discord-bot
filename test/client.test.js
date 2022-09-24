@@ -19,6 +19,9 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
   // this.retries(3);
 
   const bot = new Sebedius({ intents: require('../src/structures/sebedius-intents') });
+  bot.database = {};
+  bot.database.isReady = () => false;
+  bot.database.getInitiative = async () => null;
   bot.user = new Discord.User(bot, {
     username: 'Sebedius',
     discriminator: '1234',
@@ -81,6 +84,21 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
           }
           else if (cmdName === 'help') {
             option = { name: 'command', value: 'help', type: Discord.ApplicationCommandOptionType.String };
+          }
+          else if (cmdName === 'initiative') {
+            option = {
+              name: 'draw',
+              type: Discord.ApplicationCommandOptionType.Subcommand,
+              options: [{
+                name: 'speed',
+                value: 4,
+                type: Discord.ApplicationCommandOptionType.Integer,
+              }, {
+                name: 'keep',
+                value: 2,
+                type: Discord.ApplicationCommandOptionType.Integer,
+              }],
+            };
           }
           else if (cmdName === 'panic') {
             option = { name: 'stress', value: 10, type: Discord.ApplicationCommandOptionType.Integer };
