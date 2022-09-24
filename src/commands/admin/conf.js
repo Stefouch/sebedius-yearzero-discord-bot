@@ -68,7 +68,7 @@ module.exports = class ConfCommand extends SebediusCommand {
           default: emoji = this.bot.config.Emojis.ok;
         }
         fields.push({
-          name: `${emoji} ${t(`commands:conf.options.${k}`)}`,
+          name: `${emoji} ${t(`commands:conf.params.${k}`)}`,
           value: codeBlock(v),
           inline: true,
         });
@@ -78,7 +78,7 @@ module.exports = class ConfCommand extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle(t('commands:conf.title'))
       .setDescription(interaction.guild.name)
-      .setColor(this.bot.config.favoriteColor)
+      .setColor(this.bot.config.Colors.favoriteColor)
       .addFields(...fields);
 
     return interaction.editReply({ embeds: [embed] });

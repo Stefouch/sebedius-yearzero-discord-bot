@@ -4,26 +4,26 @@ const mongoose = require('mongoose');
 // const Keyv = require('keyv');
 // const Util = require('../utils/Util');
 // const dbParams = '';
-const { randomID } = require('../src/utils/number-utils');
+// const { randomID } = require('../src/utils/number-utils');
 
 if (process.env.NODE_ENV !== 'production') {
   require('dotenv').config();
   // process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 }
 
-describe('MongoDB Database', function () {
+describe('MONGODB DATABASE', function () {
   this.slow(500);
   this.timeout(12000);
   this.retries(3);
-  const name = 'test-' + randomID();
+  // const name = 'test-' + randomID();
   // const key = 'project', value = 'E.D.E.N.';
   // let kdb;
 
-  this.beforeEach(function () {
-    if (process.env.NODE_ENV !== 'production') {
-      // this.skip();
-    }
-  });
+  // this.beforeEach(function () {
+  //   if (process.env.NODE_ENV !== 'production') {
+  //     // this.skip();
+  //   }
+  // });
 
   it('Should have NodeJS version 16.x', function () {
     const nodeVersion = +process.version.split('.')[0].slice(1);

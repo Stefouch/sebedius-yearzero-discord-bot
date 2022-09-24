@@ -1,3 +1,4 @@
+all: tout
 missingPermissionsError: >-
   Le bot {{member}} manque les permissions suivantes et pourrait ne pas
   fonctionner correctement : {{perms}}

@@ -14,7 +14,7 @@
     <img alt="Maintenance" src="https://img.shields.io/badge/Maintained%3F-yes-green.svg"/>
   </a>
   <a href="https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/LICENSE" target="_blank">
-    <img alt="License: GPL-3.0-or-later" src="https://img.shields.io/github/license/Stefouch/sebedius-yearzero-discord-bot"/>
+    <img alt="License: GPL-3.0-or-later" src="https://img.shields.io/badge/license-GPLv3-green"/>
   </a>
   <a href="https://www.patreon.com/Stefouch">
     <img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon">
@@ -24,7 +24,7 @@
   </a>
 </p>
 
-> :warning: **Important Changes!** :warning:<br/>
+> **Warning**: **Important Changes!**<br/>
 > As of September 1st 2022, due to Discord policies change over bots, Sebedius cannot read the content of messages anymore.<br/>
 > The is the end of _prefixed_ `!commands`. All Sebedius commands have therefore been disabled.<br/>
 > Sebedius uses now _Slash_ `/commands`. See [Issues](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues) for more information.
@@ -57,11 +57,11 @@ The supported games are:
 
 By default, Sebedius will use the locale defined in your server, if it is supported (otherwise, english).
 
-With the command `/conf locale value:<language_code>` you can translate Sebedius into another language. Supported localisations are:
+With the command `/conf locale:<language_code>` you can translate Sebedius into another language. Supported localisations are:
 
 - `en` – English (default)
-- Work in progress: `de` – German [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)
-- Work in progress: `fr` – French [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)
+- `de` – German [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)
+- `fr` – French [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)
 
 Your language isn't supported yet? See _Contributing_ below!
 

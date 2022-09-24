@@ -31,7 +31,8 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
       // 3.2. Promisifies the command count.
       if (process.env.NODE_ENV === 'production') {
-        this.bot.database.incrementCommand(interaction); // Do not await
+        // Do not await
+        this.bot.database.incrementCommand(interaction.commandName, interaction.options.getSubcommand(false));
       }
 
       // 3.3. Gets the command.
@@ -45,14 +46,8 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
       // 3.4. Runs the command.
       try {
-        if (['roll', 'rolld66', 'crit'].includes(command.name)) {
-          // @ts-ignore
-          await command.run(interaction, t, guildOptions);
-        }
-        else {
         // @ts-ignore
-          await command.run(interaction, t);
-        }
+        await command.run(interaction, t, guildOptions);
       }
       catch (err) {
         Logger.error(err);
@@ -105,8 +100,8 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
 
   /**
    * Gets the options of the guild from the database.
-   * @param {import('../structures/command').SebediusCommandInteraction} interaction 
-   * @returns {Promise.<import('../structures/command').GuildOptions>}
+   * @param {import('@structures/command').SebediusCommandInteraction} interaction 
+   * @returns {Promise.<import('@structures/command').GuildOptions>}
    */
   async getGuildOptions(interaction) {
     let guildOptions = {};
@@ -115,7 +110,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       guildOptions = await this.bot.database.guilds.findById(
         interaction.guildId,
         null,
-        { upsert: true, lean: true },
+        { upsert: true, lean: true, new: true },
       ) || {};
       if (guildOptions?.isBanned) return this.bot.leaveBanned(interaction.guild);
     }

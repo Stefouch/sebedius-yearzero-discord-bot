@@ -4,6 +4,14 @@ categories:
   utils: Utility
   roll: Roll
 help:
+  name: help
+  description: View information about how to use Sebedius
+  options:
+    command:
+      name: command
+      description: >-
+        Print more information about a specific command or type "all" to see a
+        list of all commands
   deployedVersion: Deployed Version
   developer: Developer
   fullDescription: >-
@@ -24,8 +32,73 @@ help:
   contribute: How to contribute
   required: Required
   arguments: Arguments
-ping: {}
+ping:
+  name: ping
+  description: Display the Sebedius' latency
+rolla:
+  name: rolla
+  description: Roll dice, all arguments available
+  options:
+    game:
+      name: game
+      description: Override the default chosen game which is used to render the rolled dice
 roll:
+  name: roll
+  description: Roll dice for any Year Zero roleplaying game
+  options:
+    input:
+      name: input
+      description: >-
+        A roll string for the dice to roll in the format NdX!>XfX (separate
+        multiple rolls with a space)
+    abcd:
+      name: abcd
+      description: 'Type any of the following: `12`, `10`, `8`, `6`, `a`, `b`, `c`, `d`'
+    dice:
+      name: dice
+      description: Number of dice to roll
+    base:
+      name: base
+      description: Quantity of Base dice
+    skill:
+      name: skill
+      description: Quantity of Skill dice
+    gear:
+      name: gear
+      description: Quantity of Gear dice
+    stress:
+      name: stress
+      description: Quantity of Stress dice
+    ammo:
+      name: ammo
+      description: Quantity of Ammunition dice
+    artifacts:
+      name: artifacts
+      description: 'Add a number of artifact dice: Type `d6`, `d8`, `d10` or `d12`'
+    title:
+      name: title
+      description: Define a title for the roll
+    modifier:
+      name: modifier
+      description: Apply a difficulty modifier of `+X` or `-X` to the roll
+    maxpush:
+      name: maxpush
+      description: Change the maximum number of allowed pushes (type 0 for no push)
+    private:
+      name: private
+      description: Whether to hide the roll from other players
+    fullauto:
+      name: fullauto
+      description: 'Full-automatic fire: unlimited number of pushes (actually, max 10)'
+    pride:
+      name: pride
+      description: Add a D12 Artifact Die to the roll
+    nerves:
+      name: nerves
+      description: Apply the talent *Nerves of Steel*
+    minpanic:
+      name: minpanic
+      description: Adjust a minimum treshold for multiple consecutive panic effects
   tooManyDiceError: Too Many Dice! (>42)
   embed:
     details: Details
@@ -54,18 +127,71 @@ roll:
   notYourRoll: You can only interact with your own rolls!
   genericRollParseError: Could not parse the following input roll string! {{input}}
 rolld66:
+  name: rolld66
+  description: Roll a d6, d66 or d666 die
+  options:
+    die:
+      name: die
+      description: Choose d6, d66 or d666
+    title:
+      name: title
+      description: Define a title for the roll
+    private:
+      name: private
+      description: Whether to hide the roll from other players
+    game:
+      name: game
+      description: Override the default chosen game which is used to render the rolled dice
   resultForD66: '{{author}} rolled a {{dice}} and obtained {{result}}.'
 thread:
+  name: thread
+  description: Make the bot join or leave a thread
+  options:
+    join:
+      name: join
+      description: Make the bot join the current thread
+    leave:
+      name: leave
+      description: Make the bot leave the current thread
   notThreadError: This is not a thread!
   join: The bot joined the thread!
   leave: The bot left the thread!
 conf:
+  name: conf
+  description: Sets the bot's configuration for this server
+  options:
+    game:
+      name: game
+      description: >-
+        Define the default game for your server (for dice skins and critical
+        injuries tables)
+    locale:
+      name: locale
+      description: Define the default language for your server (see Readme for details)
   title: Sebedius Configuration
   databaseNotReadyError: Connection to database failed!
-  options:
+  params:
     game: Game
     locale: Locale
 panic:
+  name: panic
+  description: Roll a random panic effect for ALIEN RPG
+  options:
+    stress:
+      name: stress
+      description: Starting stress level
+    fixed:
+      name: fixed
+      description: Use a fixed number instead (doesn't add a D6)
+    minpanic:
+      name: minpanic
+      description: Adjust a minimum threshold for multiple consecutive panic effects
+    nerves:
+      name: nerves
+      description: Apply the talent *Nerves of Steel*
+    private:
+      name: private
+      description: Whether to hide the result from other players
   panicEffectNotFoundError: The panic effect wasn’t found
   interruptedSkillRollTitle: Interrupted Skill Roll
   interruptedSkillRollText: >-
@@ -79,3 +205,40 @@ panic:
     only, not using any skill. If the roll *succeeds*, you develop a permanent
     mental trauma of some kind. Roll a D6 and consult the table on page 161.
   panicRoll: Panic Roll
+initiative:
+  name: initiative
+  description: Draw initiative
+  options:
+    draw:
+      name: draw
+      description: Draw one or more initiative cards
+      options:
+        speed:
+          name: speed
+          description: Number of initiative cards to draw
+        keep:
+          name: keep
+          description: Number of initiative cards to keep
+        unlucky:
+          name: unlucky
+          description: Whether to keep the worst result
+        user:
+          name: user
+          description: Choose another user who draws initiative, if not you
+        alias:
+          name: alias
+          description: Choose an alias for the user who draws initiative
+    reset:
+      name: reset
+      description: >-
+        Reset the initiative deck *(probably needed at the beginning of every
+        new encounter)*
+  deckShuffled: Shuffled a new deck of Initiative cards.
+  deckTooSmall: The size of the Initiative deck is too small.
+  drawHint: Draw {{number}}, keep {{keep}}.
+  lootDescription: '{{name}} drew {{cards}} and kept {{card}}.'
+  drawDescription: '{{name}} drew {{card}}.'
+  drawTitle: Draw Initiative
+  drawEvents: Events
+  remainingCards: Remaining Cards
+  noDatabaseConnection: No database connection!

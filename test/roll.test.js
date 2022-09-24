@@ -7,7 +7,7 @@ const { YearZeroGames } = require('../src/constants');
 const { YearZeroDieTypes } = require('../src/yearzero/roller/dice/dice-constants');
 const { clamp, rand } = require('../src/utils/number-utils');
 
-describe('YearZeroRoll Module', function () {
+describe('YEARZERO ROLL MODULE', function () {
   const roll = new YearZeroRoll({
     game: YearZeroGames.MUTANT_YEAR_ZERO,
     author: 'Stefouch',
@@ -43,7 +43,7 @@ describe('YearZeroRoll Module', function () {
     expect(roll.pushCount).to.equal(1);
   });
 
-  describe('# T2K Rolls', function () {
+  describe('❯ T2K Rolls', function () {
     const ranges = [6, 8, 10, 12];
 
     // For each range...

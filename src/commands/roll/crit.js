@@ -80,13 +80,14 @@ module.exports = class CritCommand extends SebediusCommand {
     super(client, {
       ownerOnly: true,
       category: SebediusCommand.CategoryFlagsBits.ROLL,
-      data: SebediusCommand.createSlashCommandBuilder(
-        'crit',
-        'Draw a random critical injury',
-        GameSubcommandsList,
-        SlashCommandOptions,
-      ),
+      data: null,
     });
+    this.data = this.createSlashCommandBuilder(
+      'crit',
+      'Draw a random critical injury',
+      GameSubcommandsList,
+      SlashCommandOptions,
+    );
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {

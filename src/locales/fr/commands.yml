@@ -27,7 +27,17 @@ help:
   arguments: Arguments
   contribute: Comment contribuer
   required: Obligatoire
-ping: {}
+  description: Afficher des informations sur l'utilisation de Sebedius
+  name: aide
+  options:
+    command:
+      description: >-
+        Afficher plus d'info sur une commande ou taper "tout" pour voir une
+        liste de toutes les commandes
+      name: commande
+ping:
+  description: Afficher la latence de Sebedius
+  name: ping
 roll:
   tooManyDiceError: Trop de Dés ! (>42)
   embed:
@@ -56,18 +66,117 @@ roll:
     fanaticPush: Prier les Icônes (+2D)
   notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
   genericRollParseError: Impossible d'analyser les instructions du lancer ! {{input}}
+  description: Lancer les dés pour n'importe quel jeu de rôle Year Zero
+  name: lancer
+  options:
+    abcd:
+      description: "Taper l'un des éléments suivants\_: `12`, `10`, `8`, `6`, `a`, `b`, `c`, `d`"
+      name: abcd
+    ammo:
+      description: Quantité de dés Munitions
+      name: munitions
+    artifacts:
+      description: "Ajouter un certain nombre de dés d'artefact\_: tapez `d6`, `d8`, `d10` ou `d12`"
+      name: artefacts
+    base:
+      description: Quantité de dés de base
+      name: base
+    dice:
+      description: Nombre de dés à lancer
+      name: des
+    fullauto:
+      description: >-
+        Tir entièrement automatique : nombre illimité de poussées (en fait, max
+        10)
+      name: fullauto
+    gear:
+      description: Quantité de dés d'Equipement
+      name: materiel
+    input:
+      description: >-
+        Une chaîne de charactères pour lancer au format NdX!>XfX (séparer
+        plusieurs lancers par un espace)
+      name: saisie
+    maxpush:
+      description: >-
+        Modifier le nombre maximum de poussées autorisées (tapez 0 pour aucune
+        poussée)
+      name: maxpousse
+    minpanic:
+      name: minpanic
+      description: Ajuster un seuil minimum pour plusieurs effets de panique consécutifs
+    modifier:
+      description: "Appliquer un modificateur de difficulté de `\_X` ou `-X` au jet"
+      name: mod
+    nerves:
+      description: Appliquer le talent *Nerfs d'acier*
+      name: nerfs
+    pride:
+      description: Ajouter un dé d'artefact D12 au lancer
+      name: fiert
+    private:
+      description: S'il faut cacher le lancer des autres joueurs
+      name: cacher
+    skill:
+      name: competence
+      description: Quantité de dés de compétence
+    stress:
+      description: Quantité de dés de stress
+      name: stress
+    title:
+      description: Définir un titre pour le lancer
+      name: titre
 rolld66:
   resultForD66: '{{author}} a lancé un {{dice}} et obtenu {{result}}.'
+  description: Lancer un dé d6, d66 ou d666
+  name: lancerd66
+  options:
+    die:
+      description: Choisir d6, d66 ou d666
+      name: de
+    game:
+      description: >-
+        Outrepasser le jeu choisi par défaut qui est utilisé pour afficher les
+        dés lancés
+      name: jeu
+    private:
+      description: S'il faut cacher le lancer des autres joueurs
+      name: cacher
+    title:
+      description: Définir un titre pour le lancer
+      name: titre
 thread:
-  notThreadError: "Ceci n'est pas un fil! "
+  notThreadError: Ceci n'est pas un fil !
   join: Le bot a rejoint le fil !
   leave: Le bot a quitté le fil !
+  description: Faire en sorte que le bot rejoigne ou quitte un fil de discussion
+  name: fil
+  options:
+    join:
+      description: Faire en sorte que le bot rejoigne le fil de discussion en cours
+      name: joindre
+    leave:
+      description: Faire en sorte que le bot quitte le fil de discussion en cours
+      name: quitter
 conf:
   title: Configuration de Sebedius
   databaseNotReadyError: Échec de la connexion à la base de données!
   options:
-    locale: Langue
+    game:
+      name: jeu
+      description: >-
+        Définir le jeu par défaut pour votre serveur (pour les skins de dés et
+        les tables de critiques)
+    locale:
+      description: >-
+        Définir la langue par défaut de votre serveur (voir le Readme pour plus
+        de détails)
+      name: langue
+  params:
     game: Jeu
+    locale: Langue
+  description: Définir la configuration du bot pour ce serveur
+  name: conf
 panic:
   panicEffectNotFoundError: L’effet de panique n’a pas été trouvé
   panicRoll: Test de Panique
@@ -79,7 +188,64 @@ panic:
   interruptedSkillRollTitle: Test de compétence interrompu
   mentalTraumaReminderText: >-
     Vous devez faire un jet d’**EMPATHIE** après la séance. Lancez pour
-    l’attribut uniquement, sans utiliser aucune compétence. Si le jet est *réussi*,
-    vous développez un traumatisme mental permanent d’un certain type. Lancez
-    1D6 et consultez la table page 161.
+    l’attribut uniquement, sans utiliser aucune compétence. Si le jet est
+    *réussi*, vous développez un traumatisme mental permanent d’un certain type.
+    Lancez 1D6 et consultez la table page 161.
   mentalTraumaReminderTitle: 'Session de Fin de Partie : Tester pour un Traumatisme Mental Permanent'
+  description: Lancer un effet de panique aléatoire pour ALIEN RPG
+  name: panique
+  options:
+    fixed:
+      description: Utiliser un nombre fixe à la place (n'ajoute pas de D6)
+      name: fixe
+    minpanic:
+      description: Ajuster un seuil minimum pour plusieurs effets de panique consécutifs
+      name: minpanic
+    nerves:
+      description: Appliquer le talent *Nerfs d'acier*
+      name: nerfs
+    private:
+      description: S'il faut cacher le résultat aux autres joueurs
+      name: cacher
+    stress:
+      description: Niveau de stress de départ
+      name: stress
+initiative:
+  deckTooSmall: La taille du deck d'initiative est trop petite.
+  description: Piocher une ou plusieurs cartes d'initiative
+  drawDescription: '{{name}} a pioché {{card}}.'
+  drawEvents: Évènements
+  drawHint: Pioche {{number}}, garde {{keep}}.
+  drawTitle: Pioche Initiative
+  lootDescription: '{{name}} a pioché {{cards}} et gardé {{card}}.'
+  name: initiative
+  noDatabaseConnection: Pas de connexion à la base de données !
+  options:
+    draw:
+      name: piocher
+      description: Piocher l'initiative
+      options:
+        alias:
+          name: alias
+          description: Choisir un alias pour l'utilisateur qui pioche l'initiative
+        keep:
+          name: garde
+          description: Nombre de cartes d'initiative à garder
+        speed:
+          name: vitesse
+          description: Nombre de cartes d'initiative à piocher
+        unlucky:
+          name: malchanceux
+          description: S'il faut garder le pire résultat
+        user:
+          name: utilisateur
+          description: >-
+            Choisir un autre utilisateur qui pioche l'initiative, si ce n'est
+            pas vous
+    reset:
+      name: réinitialiser
+      description: >-
+        Réinitialiser le deck d'initiative *(probablement nécessaire au début de
+        chaque nouvelle rencontre)*
+  deckShuffled: Mélangé un nouveau deck de cartes d'initiative.
+  remainingCards: Cartes restantes

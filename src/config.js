@@ -4,13 +4,26 @@ const { SkillDie, StressDie } = require('./yearzero/roller/dice');
 
 const SebediusConfig = {};
 
-SebediusConfig.favoriteColor = 0x1AA29B;
 SebediusConfig.activityLoopDelay = 600;
 
 SebediusConfig.readmeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/README.md';
 SebediusConfig.wikiURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/wiki';
 SebediusConfig.issueURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues';
 SebediusConfig.contributeURL = 'https://github.com/Stefouch/sebedius-yearzero-discord-bot/blob/master/CONTRIBUTING.md';
+
+/* ------------------------------------------ */
+/*  Colors                                    */
+/* ------------------------------------------ */
+
+/** @enum {number} */
+SebediusConfig.Colors = {
+  favoriteColor: 0x1aa29b,
+  brown: 0x775353,
+  green: 0x63be7b,
+  rare: 0xffff77,
+  red: 0xff4d4d,
+  teal: 0x1aa29b,
+};
 
 /* ------------------------------------------ */
 /*  Locales Config                            */
@@ -31,6 +44,7 @@ SebediusConfig.defaultLocale = 'en-US';
 
 /** @enum {Object} */
 SebediusConfig.Commands = {};
+SebediusConfig.Commands.init = { expires: '10d' };
 SebediusConfig.Commands.scrap = { max: 20 };
 SebediusConfig.Commands.stats = { start: '2022-09-03' };
 SebediusConfig.Commands.roll = {
