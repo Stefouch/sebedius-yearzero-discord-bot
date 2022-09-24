@@ -59,10 +59,6 @@ class RollTable extends Map {
     return Math.min(...this.keys());
   }
 
-  /* ------------------------------------------ */
-  /*  Map Methods                               */
-  /* ------------------------------------------ */
-
   // /**
   //  * The highest reference.
   //  * @type {number}
@@ -72,6 +68,17 @@ class RollTable extends Map {
   //   return this.rollFn();
   // }
 
+  /* ------------------------------------------ */
+  /*  Map Methods                               */
+  /* ------------------------------------------ */
+
+  /**
+   * Sets an entry in the table at a defined index.
+   * @param {number}   key        The numbered index for the table value
+   * @param {any}      value      The value to return at this index
+   * @param {boolean} [sort=true] Whether to sort the table after setting this entry
+   * @returns {this}
+   */
   set(key, value, sort = true) {
     if (typeof key === 'string') key = +key;
     if (typeof key === 'number' && !isNaN(key)) {
