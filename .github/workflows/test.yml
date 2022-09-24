@@ -73,6 +73,12 @@ jobs:
 
       - name: 🏷️ Test Translations
         run: npm run test:locale
+        if: false
+      - name: 🏷️ Test Translations
+        run: npm run test:locale
+        if: true
+        env:
+          NODE_ENV: production
 
       - name: 🍃 Test MongoDB Database
         run: npm run test:db

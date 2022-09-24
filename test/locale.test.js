@@ -62,18 +62,20 @@ describe('LOCALIZATIONS', function () {
 
             // These tests are not needed for english:
             if (lng !== defaultLocale) {
-              it(`Should have ${size} translation keys`, function () {
-                expect(Object.keys(resource).length).to.equal(size);
-              });
+              if (process.env.NODE_ENV !== 'production') {
+                it(`Should have ${size} translation keys`, function () {
+                  expect(Object.keys(resource).length).to.equal(size);
+                });
 
-              it('Should have all english keys', function () {
-                const out = [];
-                for (const key in enResource) {
-                  if (!(key in resource)) out.push(key);
-                }
-                expect(out.join('\n'), `Missing keys in ${lng}/${ns}.yml`).to.equal([].join());
-                expect(out).to.have.lengthOf(0);
-              });
+                it('Should have all english keys', function () {
+                  const out = [];
+                  for (const key in enResource) {
+                    if (!(key in resource)) out.push(key);
+                  }
+                  expect(out.join('\n'), `Missing keys in ${lng}/${ns}.yml`).to.equal([].join());
+                  expect(out).to.have.lengthOf(0);
+                });
+              }
 
               it('Should not have any unlisted keys', function () {
                 const out = [];

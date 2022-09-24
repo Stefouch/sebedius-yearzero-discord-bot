@@ -165,44 +165,70 @@ class SebediusCommand {
         for (const optionName of options) {
           const option = SlashCommandOptions[optionName];
           if (!option) throw new SyntaxError(`[${name}:${game}] Option "${optionName}" Not Found!`);
-          if (!option.choices) option.choices = [];
-
-          switch (option.type) {
-            case ApplicationCommandOptionType.String:
-              sub.addStringOption(opt => opt
-                .setName(optionName)
-                .setDescription(option.description)
-                .setRequired(!!option.required)
-                .addChoices(...option.choices)
-                .setNameLocalizations(this.#getLocalizations(`${name}.options.${optionName}.name`))
-                .setDescriptionLocalizations(this.#getLocalizations(`${name}.options.${optionName}.description`)));
-              break;
-            case ApplicationCommandOptionType.Integer:
-              sub.addIntegerOption(opt => opt
-                .setName(optionName)
-                .setDescription(option.description)
-                .setMinValue(option.min ?? 1)
-                .setMaxValue(option.max ?? 100)
-                .setRequired(!!option.required)
-                .addChoices(...option.choices)
-                .setNameLocalizations(this.#getLocalizations(`${name}.options.${optionName}.name`))
-                .setDescriptionLocalizations(this.#getLocalizations(`${name}.options.${optionName}.description`)));
-              break;
-            case ApplicationCommandOptionType.Boolean:
-              sub.addBooleanOption(opt => opt
-                .setName(optionName)
-                .setDescription(option.description)
-                .setRequired(!!option.required)
-                .setNameLocalizations(this.#getLocalizations(`${name}.options.${optionName}.name`))
-                .setDescriptionLocalizations(this.#getLocalizations(`${name}.options.${optionName}.description`)));
-              break;
-            default: throw new TypeError(`[${name}:${game}] Type Not Found for Command Option "${optionName}"!`);
-          }
+          this.addOptionToCommand(name, sub, optionName, option);
         }
         return sub;
       });
     }
     return data;
+  }
+
+  /* ------------------------------------------ */
+
+  /**
+   * 
+   * @param {string}   cmdName             The name of the command
+   * @param {import('discord.js').SlashCommandBuilder} cmd    The command or subcommand Builder
+   * @param {string}   optionName          The name of the command option
+   * @param {SebediusCommand.SlashCommandOption}       option The data for creating the command option
+   * @param {Object}  [options]                    Additional options for this method
+   * @param {boolean} [options.allowRequired=true] Whether to ignore the "required" property
+   * @param {string}  [options.overrideCmdName]    Replacement name when searching for translations
+   */
+  addOptionToCommand(
+    cmdName,
+    cmd,
+    optionName,
+    option,
+    {
+      allowRequired = true,
+      overrideCmdName = '',
+    } = {},
+  ) {
+    if (overrideCmdName) cmdName = overrideCmdName;
+    if (!option.choices) option.choices = [];
+
+    switch (option.type) {
+      case ApplicationCommandOptionType.String:
+        cmd.addStringOption(opt => opt
+          .setName(optionName)
+          .setDescription(option.description)
+          .setRequired(allowRequired && !!option.required)
+          .addChoices(...option.choices)
+          .setNameLocalizations(this.#getLocalizations(`${cmdName}.options.${optionName}.name`))
+          .setDescriptionLocalizations(this.#getLocalizations(`${cmdName}.options.${optionName}.description`)));
+        break;
+      case ApplicationCommandOptionType.Integer:
+        cmd.addIntegerOption(opt => opt
+          .setName(optionName)
+          .setDescription(option.description)
+          .setMinValue(option.min ?? 1)
+          .setMaxValue(option.max ?? 100)
+          .setRequired(allowRequired && !!option.required)
+          .addChoices(...option.choices)
+          .setNameLocalizations(this.#getLocalizations(`${cmdName}.options.${optionName}.name`))
+          .setDescriptionLocalizations(this.#getLocalizations(`${cmdName}.options.${optionName}.description`)));
+        break;
+      case ApplicationCommandOptionType.Boolean:
+        cmd.addBooleanOption(opt => opt
+          .setName(optionName)
+          .setDescription(option.description)
+          .setRequired(allowRequired && !!option.required)
+          .setNameLocalizations(this.#getLocalizations(`${cmdName}.options.${optionName}.name`))
+          .setDescriptionLocalizations(this.#getLocalizations(`${cmdName}.options.${optionName}.description`)));
+        break;
+      default: throw new TypeError(`[${cmdName}] Type Not Found for Command Option "${optionName}"!`);
+    }
   }
 
   /* ------------------------------------------ */
