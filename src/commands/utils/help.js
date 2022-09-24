@@ -129,10 +129,10 @@ module.exports = class HelpCommand extends SebediusCommand {
         embed.addFields(...getCommandOptionsEmbedFields(command, t));
       }
 
-      embed.addFields({
-        name: 'Wiki',
-        value: `${this.bot.config.wikiURL}/%21${commandName}`,
-      });
+      // embed.addFields({
+      //   name: 'Wiki',
+      //   value: `${this.bot.config.wikiURL}/%21${commandName}`,
+      // });
     }
     await interaction.reply({ embeds: [embed] });
   }
