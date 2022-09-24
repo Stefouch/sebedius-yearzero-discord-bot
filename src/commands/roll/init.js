@@ -84,7 +84,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     // Draws the cards
     const sortCardsFn = (a, b) => unlucky ? b - a : a - b; // Ordre croissant par défaut
     let drawnCards = [];
-    let keptCards;
+    let selectedCards;
 
     for (let i = 0; i < speed; i++) {
       if (deck.size < 1) {
@@ -96,11 +96,11 @@ module.exports = class InitiativeCommand extends SebediusCommand {
 
     if (speed !== keep) {
       drawnCards.sort(sortCardsFn);
-      keptCards = drawnCards.splice(0, keep);
+      selectedCards = drawnCards.splice(0, keep);
       deck.addToBottom(drawnCards);
     }
     else {
-      keptCards = drawnCards;
+      selectedCards = drawnCards;
       drawnCards = [];
     }
 
@@ -108,7 +108,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle(t('commands:initiative.drawTitle'))
       .setThumbnail(user.avatarURL())
-      .setDescription(this.#createDrawDescription(alias, keptCards, drawnCards, t))
+      .setDescription(this.#createDrawDescription(alias, selectedCards, drawnCards, t))
       .addFields({
         name: t('commands:initiative.drawEvents'),
         value: out.join('\n'),
@@ -129,7 +129,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
 
     // Sends the message.
     await interaction.reply({
-      content: this.printCard(...keptCards),
+      content: this.emojifyCards(...selectedCards),
       embeds: [embed],
     });
 
@@ -143,24 +143,29 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     if (drawn.length) {
       return t('commands:initiative.lootDescription', {
         name: `**${userName}**`,
-        cards: this.printCard(...drawn, ...kept),
-        card: this.printCard(...kept),
+        cards: this.emojifyCards(...drawn, ...kept),
+        card: this.emojifyCards(...kept),
       });
     }
     return t('commands:initiative.drawDescription', {
       name: `**${userName}**`,
-      card: this.printCard(...kept),
+      card: this.emojifyCards(...kept),
     });
   }
 
   #createRemainingCardsDescription(cards) {
     return spoiler(InitiativeDeck.INITIATIVE_CARDS
-      .map(c => cards.includes(c) ? this.printCard(c) : '⬛')
+      .map(c => cards.includes(c) ? this.emojifyCards(c) : '⬛')
       .join(''),
     );
   }
 
-  printCard(...cards) {
+  /**
+   * Turns the card's numbers into emojis.
+   * @param {...number} cards List of card's numbers
+   * @returns {string}
+   */
+  emojifyCards(...cards) {
     return cards.map(c => this.bot.config.CardsIcons[c]).join('');
   }
 
@@ -174,7 +179,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
     if (!this.bot.database.isReady()) return;
 
     const c = { cards: InitiativeDeck.INITIATIVE_CARDS };
-    const initiativeDoc = await this.bot.database.getInitiative(
+    const initiativeDoc = await this.bot.database.grabInitiative(
       guildId,
       { $setOnInsert: c },
       { lean: true },
@@ -190,6 +195,6 @@ module.exports = class InitiativeCommand extends SebediusCommand {
    */
   async saveStack(guilId, stack) {
     if (!this.bot.database.isReady()) return;
-    return this.bot.database.getInitiative(guilId, { cards: stack });
+    return this.bot.database.grabInitiative(guilId, { cards: stack });
   }
 };
