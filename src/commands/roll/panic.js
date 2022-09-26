@@ -63,7 +63,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     const panicValue = stress + panicRand - (hasNerves ? 2 : 0);
     const panicMin = clamp(minPanic, 0, 15);
     const panicLowerThanMin = panicValue < panicMin;
-    const panicValueMore = panicLowerThanMin ? panicMin + 1 : panicValue;
+    const panicValueMore = panicLowerThanMin ? panicMin + (minPanic ? 1 : 0) : panicValue;
     const panicResult = clamp(panicValueMore, 0, 15);
 
     // @ts-ignore
