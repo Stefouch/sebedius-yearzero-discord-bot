@@ -3,7 +3,7 @@
   <a href="https://discordbots.org/bot/543445246143365130" target="_blank">
     <img alt="Status" src="https://top.gg/api/widget/status/543445246143365130.svg"/>
   </a>
-  <img alt="Version" src="https://img.shields.io/badge/dynamic/json?color=blue&label=version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FStefouch%2Fsebedius-yearzero-discord-bot%2Fmaster%2Fpackage.json&cacheSeconds=2592000"/>
+  <img alt="Version" src="https://img.shields.io/badge/dynamic/json?color=blue&label=version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FStefouch%2Fsebedius-yearzero-discord-bot%2Fmaster%2Fpackage.json&cacheSeconds=3600"/>
   <a href="https://discord.js.org/" target="_blank">
     <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v14-informational?logo=discord"/>
   </a>
