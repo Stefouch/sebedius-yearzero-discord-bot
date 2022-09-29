@@ -74,14 +74,14 @@ SebediusConfig.Commands.roll = {
 
 /**
  * @typedef {Object} DiceRenderOptions
- * @property {YearZeroGames}          [template]           Force rendering with another game template
- * @property {string}                 [successIcon]        Default icon for successes
- * @property {boolean}                [hasBlankDice=false] Whether the dice have blank faces
- * @property {boolean}                [trauma=false]       Whether to display the trauma result
- * @property {boolean}                [gearDamage=false]   Whether to display the gear damage quantity
- * @property {boolean}                [panic=false]        Whether the roll can trigger panic check
- * @property {boolean}                [mishap=false]       Whether to display mishap
- * @property {boolean}                [detailed=false]     Whether to display additional details for the roll
+ * @property {YearZeroGames} [template]           Force rendering with another game template
+ * @property {string}        [successIcon]        Default icon for successes
+ * @property {boolean}       [hasBlankDice=false] Whether the dice have blank faces
+ * @property {boolean}       [trauma=false]       Whether to display the trauma result
+ * @property {boolean}       [gearDamage=false]   Whether to display the gear damage quantity
+ * @property {boolean}       [panic=false]        Whether the roll can trigger panic check
+ * @property {boolean}       [mishap=false]       Whether to display mishap
+ * @property {boolean}       [detailed=false]     Whether to display additional details for the roll
  * @property {(typeof import('./yearzero/roller/dice/yzdie'))[]} [extraPushDice=[]]
  *   Additional dice rolled when pushed
  * @property {{
