@@ -11,8 +11,8 @@ help:
   options:
     command:
       name: befehl
-      description: Informationen zu einem Befehl anzeigen oder
-        „alle“ eingeben, um alle Befehle anzuzeigen
+      description: Informationen zu einem Befehl anzeigen oder „alle“ eingeben, um
+        alle Befehle anzuzeigen
   deployedVersion: Bereitgestellte Version
   developer: Entwickler
   fullDescription: |-
@@ -36,14 +36,22 @@ help:
 ping:
   name: ping
   description: Zeigt die Latenz von Sebedius an
+rolla:
+  name: würflealles
+  description: Allgemeines Würfeln, alle Argumente verfügbar
+  options:
+    game:
+      name: spiel
+      description: Überschreibt das standardmäßig zum Anzeigen der gewürfelten Würfel
+        ausgewählte Spiel
 roll:
   name: würfle
   description: Wirf Würfel für ein Jahr Null-Rollenspiel
   options:
     input:
       name: eingabe
-      description: Die zu würfelnden Würfel im Format NdX!>XfX
-        (mehrere Würfe mit Leerzeichen trennen)
+      description: Die zu würfelnden Würfel im Format NdX!>XfX (mehrere Würfe mit
+        Leerzeichen trennen)
     abcd:
       name: abcd
       description: 'Folgende Angaben sind möglich: `12`, `10`, `8`, `6`, `a`, `b`,
@@ -208,3 +216,40 @@ panic:
     Wurf *gelingt*, entwickelst du ein dauerhaftes mentales Trauma. Würfle einen D6
     und prüfe die Tabelle auf Seite 101.
   panicRoll: Panikwurf
+initiative:
+  name: initiative
+  description: Initiative ziehen
+  options:
+    draw:
+      name: ziehen
+      description: Eine oder mehrere Initiativekarten ziehen
+      options:
+        speed:
+          name: geschwindigkeit
+          description: Anzahl der zu ziehenden Initiativekarten
+        keep:
+          name: behalten
+          description: Anzahl der zu behaltenden Initiativekarten
+        unlucky:
+          name: unglücklich
+          description: Das schlechteste Ergebnis soll beibehalten werden
+        user:
+          name: benutzer
+          description: Wähle einen anderen Benutzer, der die Initiative zieht, anstatt
+            dich selbst
+        alias:
+          name: alias
+          description: Wähle einen Alias für den Benutzer, der die Initiative zieht
+    reset:
+      name: zurücksetzen
+      description: Setzt das Initiativedeck zurück *(wird wahrscheinlich zu Beginn
+        jeder neuen Begegnung benötigt)*
+  deckShuffled: Ein neues Deck Initiativekarten wurde gemischt.
+  deckTooSmall: Die Größe des Initiative-Decks ist zu klein.
+  drawHint: Ziehe {{number}}, behalte {{keep}}.
+  lootDescription: "{{name}} zog {{cards}} und behielt {{card}}."
+  drawDescription: "{{name}} zog {{card}}."
+  drawTitle: Initiative ziehen
+  drawEvents: Ereignisse
+  remainingCards: Verbleibende Karten
+  noDatabaseConnection: Keine Datenbankverbindung!
