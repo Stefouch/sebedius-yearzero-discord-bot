@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.4.1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.4.0+a...v6.4.1) (2022-10-18)
+
+### Features
+
+- **Initiative:** ✨ Add color gradient to the embed result ([faa422f](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/faa422fc3baa7398e9b1bc6a5af9747e64a62d4f))
+- **ready-event:** ✨ Add version when ready ([1ea77d3](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/1ea77d3ed695164726567e961cc2c6ddfdf82b59))
+- **Roll:** ✨ Roll a D66 from `/roll` ([#165](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/165)) ([88c3d20](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/88c3d2028567023971b653a98c20954eeb46ab83))
+
+### Bug Fixes
+
+- **Panic:** negative modifiers not reducing stress dice ([#182](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/182)) ([67bf23b](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/67bf23be059cd919d531e69900a2c9f2b81d6996)), closes [#180](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/180) [#180](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/180)
+- **Panic:** 🐛 Patch panicValue minimum ([e3284b3](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/e3284b35c7b923a675073335d92ee11023a60175))
+
 ## [6.4.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.3.0...v6.4.0) (2022-09-24)
 
 ### Features
