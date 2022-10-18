@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.4.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.3.0...v6.4.0) (2022-09-24)
+
+### Features
+
+- **Commands:** Add `/initiative` command ([#177](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/177)) ([5d113bf](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/5d113bfba1396aaf71dd1c4cdbf384eff5fa50a1))
+- **Commands:** Add `/rollall` command ([#169](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/169)) ([01b47f9](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/01b47f9d21b096a3825bc97322812137134c4630))
+
+### Bug Fixes
+
+- **Panic:** 🐛 Add correct index for 0-6 results on the table ([#175](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/175)) ([351499e](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/351499eeea6dab94b00b4bcae831f17c8c2d3ad3)), closes [#171](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/171)
+
 ## [6.3.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.2.2...v6.3.0) (2022-09-12)
 
 ### Features

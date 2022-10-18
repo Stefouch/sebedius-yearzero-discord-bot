@@ -17,4 +17,7 @@
     "{key}_other",
     "{key}_plural"
   ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "file:///c%3A/Stefouch/Github/sebedius-yearzero-discord-bot/.github/workflows/deploy.yml"
+  },
 }

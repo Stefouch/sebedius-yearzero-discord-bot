@@ -63,7 +63,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     const panicValue = stress + panicRand - (hasNerves ? 2 : 0);
     const panicMin = clamp(minPanic, 0, 15);
     const panicLowerThanMin = panicValue < panicMin;
-    const panicValueMore = panicLowerThanMin ? panicMin + 1 : panicValue;
+    const panicValueMore = panicLowerThanMin ? panicMin + (minPanic ? 1 : 0) : panicValue;
     const panicResult = clamp(panicValueMore, 0, 15);
 
     // @ts-ignore
@@ -80,9 +80,8 @@ module.exports = class PanicCommand extends SebediusCommand {
     }
 
     // Builds the message's content.
-    let text = `${panicAction.icon} ${panicRoll.name.toUpperCase()}:`
-      + ` **${stress}** + ${panicRoll.emojify()}`;
-
+    let text = `${panicAction.icon} **${panicRoll.name.toUpperCase()}:** ${stress}`;
+    if (!isFixed) text += ` + ${panicRoll.emojify()}`;
     if (hasNerves) text += ` − 2 *(${t('commons:talents.alien.nervesOfSteel')})*`;
     if (panicMin) text += ` ${panicLowerThanMin ? '<' : '≥'} ${panicMin}`;
 
@@ -90,7 +89,11 @@ module.exports = class PanicCommand extends SebediusCommand {
     const embed = new EmbedBuilder()
       .setTitle(`${panicAction.name} (${panicResult})`)
       .setDescription(panicAction.description)
-      .setColor(this.bot.config.Colors.rare);
+      .setColor(panicResult < 7 ? this.bot.config.Colors.green : this.bot.config.Colors.brown)
+      .setAuthor({
+        name: interaction.user.username,
+        iconURL: interaction.user.avatarURL(),
+      });
 
     // Interrupted skill roll reminder.
     if (panicValue >= 10) {

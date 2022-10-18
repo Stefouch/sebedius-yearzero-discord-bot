@@ -38,6 +38,13 @@ help:
 ping:
   description: Afficher la latence de Sebedius
   name: ping
+rolla:
+  name: rolla
+  description: Lancer les dés, tout arguments disponibles
+  options:
+    game:
+      name: jeu
+      description: Outrepasser le jeu choisi par défaut qui est utilisé pour afficher les dés lancés
 roll:
   tooManyDiceError: Trop de Dés ! (>42)
   embed:
