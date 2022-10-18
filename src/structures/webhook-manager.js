@@ -43,7 +43,7 @@ class WebhookManager {
     if (interaction) {
       embed = new EmbedBuilder()
         .setTitle('Interaction information')
-        .setColor('#f00')
+        .setColor(this.client.config.Colors.isoProhibit)
         .setTimestamp()
         .setDescription(
           `👤 **User:** ${inlineCode(interaction.user.tag)} (${inlineCode(interaction.user.id)})`
@@ -71,6 +71,7 @@ class WebhookManager {
       .setTitle(title)
       .setColor(color)
       .setTimestamp()
+      .setThumbnail(guild.iconURL())
       .setDescription(
         `**Name:** ${inlineCode(guild.name)}`
         + `\n**ID:** ${inlineCode(guild.id)}`

@@ -7,11 +7,13 @@ module.exports = class ReadyEvent extends SebediusEvent {
   name = 'ready';
   once = true;
   async execute() {
-    Logger.client('✅ Sebedius is ready!');
+    Logger.client(`✅ Sebedius v${this.bot.version} is ready!`);
     Logger.client(`  ├ Logged in as: ${this.bot.user.tag} (${this.bot.user.id})`);
     Logger.client(`  └ # Guilds: ${this.bot.guilds.cache.size}`);
 
-    this.bot.webhookManager.sendLog(`👨‍🔬 **Sebedius** is \`ready\` ! (\`${this.bot.guilds.cache.size}\` guilds)`);
+    this.bot.webhookManager.sendLog(
+      `👨‍🔬 **Sebedius** v${this.bot.version} is \`ready\` ! (\`${this.bot.guilds.cache.size}\` guilds)`,
+    );
 
     // Sets presence.
     this.bot.user.setActivity({
