@@ -21,7 +21,7 @@ const GameSubcommandsList = {
   [YearZeroGames.ALIEN_RPG]: ['table', 'reference', 'private'],
   // [YearZeroGames.BLADE_RUNNER]: [],
   // [YearZeroGames.CORIOLIS]: [],
-  [YearZeroGames.FORBIDDEN_LANDS]: ['reference', 'lucky', 'private'],
+  [YearZeroGames.FORBIDDEN_LANDS]: ['table', 'reference', 'lucky', 'private'],
   [YearZeroGames.MUTANT_YEAR_ZERO]: ['table', 'reference', 'private'],
   // [YearZeroGames.TALES_FROM_THE_LOOP]: [],
   // [YearZeroGames.TWILIGHT_2K]: [],
@@ -90,7 +90,7 @@ module.exports = class CritCommand extends SebediusCommand {
     );
   }
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
-  async run(interaction, t) {
+  async run(interaction, t, guildOptions) {
     const game = interaction.options.getSubcommand();
     // const title = interaction.options.getString('title');
   }

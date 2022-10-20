@@ -73,10 +73,14 @@ class RollTable extends Map {
   /* ------------------------------------------ */
 
   /**
+   * A number, or a string that can be resolved into a number.
+   * @typedef {number|string} NumberResolvable
+   */
+  /**
    * Sets an entry in the table at a defined index.
-   * @param {number}   key        The numbered index for the table value
-   * @param {any}      value      The value to return at this index
-   * @param {boolean} [sort=true] Whether to sort the table after setting this entry
+   * @param {NumberResolvable} key        The numbered index for the table value
+   * @param {any}              value      The value to return at this index
+   * @param {boolean}         [sort=true] Whether to sort the table after setting this entry
    * @returns {this}
    */
   set(key, value, sort = true) {
