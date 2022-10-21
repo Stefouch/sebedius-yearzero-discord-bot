@@ -5,15 +5,18 @@ const { getBoolean } = require('../../utils/number-utils');
  */
 class YearZeroCrit {
   /**
-   * @param {Object}  data Critical data
-   * @param {number}  data.ref
-   * @param {string}  data.name
-   * @param {boolean} data.lethal
-   * @param {number}  data.healMalus
-   * @param {number}  data.timeLimit
-   * @param {string}  data.timeLimitUnit
-   * @param {string}  data.effect
-   * @param {number}  data.healingTime
+   * @param {Object}    data Critical data
+   * @param {number}    data.ref
+   * @param {string}    data.name
+   * @param {boolean}   data.lethal
+   * @param {number}    data.healMalus
+   * @param {number}    data.timeLimit
+   * @param {string}    data.timeLimitUnit
+   * @param {string}    data.effect
+   * @param {number}    data.healingTime
+   * @param {?string}   data.game
+   * @param {?string}   data.tableName
+   * @param {?number[]} data.rolledResults
    * @throws {SyntaxError} If no data was given
    */
   constructor(data) {
@@ -68,15 +71,45 @@ class YearZeroCrit {
      * @type {number}
      */
     this.healingTime = +data.healingTime || 0;
+
+    /* ------------------------------------------ */
+
+    /**
+     * The game used for the Critical Injury.
+     * @type {string}
+     */
+    this.game = data.game;
+
+    /**
+     * The name of the table the Critical Injury comes from.
+     * @type {string}
+     */
+    this.tableName = data.tableName;
+
+    /**
+     * The rolled results for drawing the Critical Injury.
+     * @type {number[]}
+     */
+    this.rolledResults = data.rolledResults || [];
   }
 
+  /* ------------------------------------------ */
+
   /**
-   * Tells if the Critical Injury is fatal (instant death).
+   * Whether the Critical Injury is fatal (instant death).
    * @type {boolean}
    * @readonly
    */
   get fatal() {
     return this.lethal && this.timeLimit === 0;
+  }
+
+  /**
+   * Whether the victim was lucky.
+   * @type {boolean}
+   */
+  get lucky() {
+    return this.rolledResults.length > 1;
   }
 }
 
