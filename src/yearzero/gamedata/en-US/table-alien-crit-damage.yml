@@ -1,7 +1,7 @@
 $name: alien-crit-damage
 $roll: true
 11:
-  injury: Winded
+  name: Winded
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -9,7 +9,7 @@ $roll: true
   timeLimitUnit:
   effect: No effect.
 12:
-  injury: Stunned
+  name: Stunned
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -17,7 +17,7 @@ $roll: true
   timeLimitUnit:
   effect: No effect.
 13:
-  injury: Crippling Pain
+  name: Crippling Pain
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -25,7 +25,7 @@ $roll: true
   timeLimitUnit:
   effect: STRESS LEVEL increases by one step.
 14:
-  injury: Sprained Ankle
+  name: Sprained Ankle
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -33,7 +33,7 @@ $roll: true
   timeLimitUnit:
   effect: "MOBILITY −2 and can't run until MEDICAL AID roll is made."
 15:
-  injury: Blood in Eyes
+  name: Blood in Eyes
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -41,7 +41,7 @@ $roll: true
   timeLimitUnit:
   effect: OBSERVATION and RANGED COMBAT −2 until MEDICAL AID roll is made.
 16:
-  injury: Concussion
+  name: Concussion
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -49,7 +49,7 @@ $roll: true
   timeLimitUnit:
   effect: MOBILITY −2.
 21:
-  injury: Severed Ear
+  name: Severed Ear
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -57,7 +57,7 @@ $roll: true
   timeLimitUnit:
   effect: OBSERVATION −2.
 22:
-  injury: Broken Toes
+  name: Broken Toes
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -65,7 +65,7 @@ $roll: true
   timeLimitUnit:
   effect: To run becomes a slow action.
 23:
-  injury: Broken Hand
+  name: Broken Hand
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -73,7 +73,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't use hand."
 24:
-  injury: Knocked Out Teeth
+  name: Knocked Out Teeth
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -81,7 +81,7 @@ $roll: true
   timeLimitUnit:
   effect: MANIPULATION −2.
 25:
-  injury: Impaled Thigh
+  name: Impaled Thigh
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -89,7 +89,7 @@ $roll: true
   timeLimitUnit:
   effect: To run becomes a slow action.
 26:
-  injury: Slashed Shoulder
+  name: Slashed Shoulder
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -97,7 +97,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't use arm."
 31:
-  injury: Broken Nose
+  name: Broken Nose
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -105,7 +105,7 @@ $roll: true
   timeLimitUnit:
   effect: MANIPULATION and OBSERVATION −2.
 32:
-  injury: Crotch Hit
+  name: Crotch Hit
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -113,7 +113,7 @@ $roll: true
   timeLimitUnit:
   effect: One point of damage at every roll for MOBILITY and CLOSE COMBAT.
 33:
-  injury: Broken Ribs
+  name: Broken Ribs
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -121,7 +121,7 @@ $roll: true
   timeLimitUnit:
   effect: MOBILITY and CLOSE COMBAT −2.
 34:
-  injury: Gouged Eye
+  name: Gouged Eye
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -129,7 +129,7 @@ $roll: true
   timeLimitUnit:
   effect: RANGED COMBAT and OBSERVATION −2.
 35:
-  injury: Busted Kneecap
+  name: Busted Kneecap
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -137,7 +137,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't run, only crawl."
 36:
-  injury: Broken Arm
+  name: Broken Arm
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -145,7 +145,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't use arm."
 41:
-  injury: Broken Leg
+  name: Broken Leg
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -153,7 +153,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't run, only crawl."
 42:
-  injury: Crushed Foot
+  name: Crushed Foot
   lethal: false
   healMalus: 0
   healingTime: 3
@@ -161,7 +161,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't run, only crawl."
 43:
-  injury: Crushed Elbow
+  name: Crushed Elbow
   lethal: false
   healMalus: 0
   healingTime: 3
@@ -169,7 +169,7 @@ $roll: true
   timeLimitUnit:
   effect: "Can't use arm."
 44:
-  injury: Punctured Lung
+  name: Punctured Lung
   lethal: true
   healMalus: 0
   healingTime: 1
@@ -177,7 +177,7 @@ $roll: true
   timeLimitUnit: day
   effect: STAMINA and MOBILITY −2.
 45:
-  injury: Bleeding Gut
+  name: Bleeding Gut
   lethal: true
   healMalus: 0
   healingTime: 1
@@ -185,7 +185,7 @@ $roll: true
   timeLimitUnit: shift
   effect: One point of damage at every roll for MOBILITY and CLOSE COMBAT.
 46:
-  injury: Ruptured Intestines
+  name: Ruptured Intestines
   lethal: true
   healMalus: 0
   healingTime: 2
@@ -193,7 +193,7 @@ $roll: true
   timeLimitUnit: shift
   effect: Disease with Virulence 6.
 51:
-  injury: Busted Kidney
+  name: Busted Kidney
   lethal: true
   healMalus: 0
   healingTime: 2
@@ -201,7 +201,7 @@ $roll: true
   timeLimitUnit: day
   effect: "Can't run, only crawl, MOBILITY −2."
 52:
-  injury: Arm Artery Cut
+  name: Arm Artery Cut
   lethal: true
   healMalus: -1
   healingTime: 1
@@ -209,7 +209,7 @@ $roll: true
   timeLimitUnit: turn
   effect: "Can't use arm."
 53:
-  injury: Leg Artery Cut
+  name: Leg Artery Cut
   lethal: true
   healMalus: -1
   healingTime: 1
@@ -217,7 +217,7 @@ $roll: true
   timeLimitUnit: turn
   effect: To run becomes a slow action.
 54:
-  injury: Severed Arm
+  name: Severed Arm
   lethal: true
   healMalus: -1
   healingTime: -1
@@ -225,7 +225,7 @@ $roll: true
   timeLimitUnit: shift
   effect: "Can't use arm."
 55:
-  injury: Severed Leg
+  name: Severed Leg
   lethal: true
   healMalus: -1
   healingTime: -1
@@ -233,7 +233,7 @@ $roll: true
   timeLimitUnit: shift
   effect: "Can't run, only crawl."
 56:
-  injury: Cracked Spine
+  name: Cracked Spine
   lethal: false
   healMalus: 0
   healingTime: 3
@@ -241,7 +241,7 @@ $roll: true
   timeLimitUnit:
   effect: Paralyzed from the neck down. If not given MEDICAL AID in time, the effect is permanent.
 61:
-  injury: Ruptured Jugular
+  name: Ruptured Jugular
   lethal: true
   healMalus: -1
   healingTime: 2
@@ -249,7 +249,7 @@ $roll: true
   timeLimitUnit: round
   effect: STAMINA −1.
 62:
-  injury: Ruptured Aorta
+  name: Ruptured Aorta
   lethal: true
   healMalus: -2
   healingTime: 3
@@ -257,7 +257,7 @@ $roll: true
   timeLimitUnit: round
   effect: STAMINA −2.
 63:
-  injury: Disemboweled
+  name: Disemboweled
   lethal: true
   healMalus: 0
   healingTime: 0
@@ -265,7 +265,7 @@ $roll: true
   timeLimitUnit:
   effect: Instant death.
 64:
-  injury: Crushed Skull
+  name: Crushed Skull
   lethal: true
   healMalus: 0
   healingTime: 0
@@ -273,7 +273,7 @@ $roll: true
   timeLimitUnit:
   effect: Your story ends here.
 65:
-  injury: Pierced Head
+  name: Pierced Head
   lethal: true
   healMalus: 0
   healingTime: 0
@@ -281,7 +281,7 @@ $roll: true
   timeLimitUnit:
   effect: You die immediately.
 66:
-  injury: Impaled Heart
+  name: Impaled Heart
   lethal: true
   healMalus: 0
   healingTime: 0
