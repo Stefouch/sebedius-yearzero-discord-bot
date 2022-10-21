@@ -8,10 +8,10 @@ const Twist = new MersenneTwister(Date.now());
 
 /**
  * @typedef {Object} YearZeroDieOptions
- * @property {number} [faces]    The number of faces of the roll
- * @property {number} [maxPush]  Maximum number of times the die can be pushed
- * @property {string} [operator] Arithmetic operator applied by the die
- * @property {number} [result]   Custom result for the die (marks it as evaluated)
+ * @property {number}   [faces]    The number of faces of the roll
+ * @property {number}   [maxPush]  Maximum number of times the die can be pushed
+ * @property {string}   [operator] Arithmetic operator applied by the die
+ * @property {number[]} [results]  Custom results for the die (marks it as evaluated)
  */
 
 /**
@@ -98,8 +98,8 @@ class YearZeroDie {
      */
     this.evaluated = false;
 
-    if (typeof options.result !== 'undefined') {
-      this.results.push(options.result);
+    if (typeof options.result !== 'undefined' && options.results.length > 0) {
+      this.results.push(options.results);
       this.evaluated = true;
     }
   }
