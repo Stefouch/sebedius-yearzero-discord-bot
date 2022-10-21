@@ -99,6 +99,12 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
           if (cmdName === 'conf') {
             this.skip();
           }
+          else if (cmdName === 'crit') {
+            option = {
+              name: 'alien',
+              type: Discord.ApplicationCommandOptionType.Subcommand,
+            };
+          }
           else if (cmdName === 'help') {
             option = { name: 'command', value: 'help', type: Discord.ApplicationCommandOptionType.String };
           }
