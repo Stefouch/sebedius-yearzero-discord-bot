@@ -98,7 +98,7 @@ class YearZeroDie {
      */
     this.evaluated = false;
 
-    if (typeof options.result !== 'undefined' && options.results.length > 0) {
+    if (typeof options.results !== 'undefined' && options.results.length > 0) {
       this.results.push(options.results);
       this.evaluated = true;
     }
