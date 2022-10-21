@@ -29,7 +29,19 @@ const YearZeroGameChoices = Object.entries(YearZeroGameNames)
 
 /** @enum {string} */
 const YearZeroRollTables = {
-  PANIC: 'table-alien-panic-effects',
+  ALIEN_CRIT_DAMAGE: 'table-alien-crit-damage',
+  ALIEN_CRIT_MENTAL: 'table-alien-crit-mental',
+  ALIEN_CRIT_SYNTHETIC: 'table-alien-crit-synthetic',
+  ALIEN_CRIT_XENO: 'table-alien-crit-xeno',
+  ALIEN_PANIC: 'table-alien-panic-effects',
+  CORIOLIS_CRIT_DAMAGE: 'table-coriolis-crit-damage',
+  FBL_CRIT_SLASH: 'table-fbl-crit-slash',
+  FBL_CRIT_BLUNT: 'table-fbl-crit-blunt',
+  FBL_CRIT_STAB: 'table-fbl-crit-stab',
+  FBL_CRIT_HORROR: 'table-fbl-crit-horror',
+  MYZ_CRIT_DAMAGE: 'table-myz-crit-damage',
+  VAESEN_CRIT_DAMAGE: 'table-vaesen-crit-damage',
+  VAESEN_CRIT_MENTAL: 'table-vaesen-crit-mental',
 };
 
 module.exports = {

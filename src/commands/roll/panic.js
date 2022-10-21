@@ -67,7 +67,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     const panicResult = clamp(panicValueMore, 0, 15);
 
     // @ts-ignore
-    const panicTable = await this.bot.getTable(t.lng, YearZeroRollTables.PANIC);
+    const panicTable = await this.bot.getTable(t.lng, YearZeroRollTables.ALIEN_PANIC);
 
     /** @type {{ icon, name, description }} */
     const panicAction = panicTable.get(panicResult, true);
