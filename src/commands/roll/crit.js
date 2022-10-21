@@ -1,7 +1,7 @@
 const {
   SlashCommandBuilder, EmbedBuilder, ApplicationCommandOptionType,
   ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
-  inlineCode, codeBlock,
+  inlineCode, codeBlock, bold,
 } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
@@ -126,6 +126,10 @@ module.exports = class CritCommand extends SebediusCommand {
     const luckyRank = interaction.options.getInteger('lucky');
     const tableName = interaction.options.getString(`table_${game}`);
 
+    // await interaction.deferReply({
+    //   ephemeral: interaction.options.getBoolean('private'),
+    // });
+
     return this.crit(interaction, t, {
       game, tableName, fixedReference, luckyRank,
     });
@@ -162,9 +166,9 @@ module.exports = class CritCommand extends SebediusCommand {
       author: interaction.member,
       name: 'Crit Roll',
       game,
-    }).setMaxPush(0);
+    });
 
-    let value = 0;
+    let value = 0, values;
 
     if (fixedReference) {
       value = +[...String(fixedReference)]
@@ -174,6 +178,7 @@ module.exports = class CritCommand extends SebediusCommand {
     else if (luckyRank) {
       const luckyResult = this.#lucky(luckyRank);
       value = luckyResult.value;
+      values = luckyResult.values;
     }
     else {
       value = rollD66();
@@ -184,15 +189,29 @@ module.exports = class CritCommand extends SebediusCommand {
       critRoll.addDice(BaseDie, 1, { results: [Number(d)] }),
     );
 
+    critRoll.setMaxPush(0);
+
     // Gets the crit.
-    const critData = critTable.get(value, true);
+    const critData = critTable.get(value, true) || {};
+    critData.ref = value;
+    critData.game = game;
+    critData.tableName = tableName;
+    if (values) critData.rolledResults = values;
+
     const crit = new YearZeroCrit(critData);
 
     return interaction.reply({
       content: critRoll.emojify(),
-      embeds: [this.#getCritEmbed(crit)],
-      ephemeral: interaction.options.getBoolean('private', false),
-    });
+      embeds: [this.#createCritEmbed(crit, t)],
+      // ephemeral: interaction.options.getBoolean('private', false),
+    })
+      .then(() => {
+        if (crit.fatal && game !== YearZeroGames.VAESEN) {
+          // Sends a coffin emoji.
+          setTimeout(() => interaction.followUp('⚰️'), rollD66() * 150);
+        }
+      })
+      .catch(console.error);
   }
 
   /* ------------------------------------------ */
@@ -223,11 +242,59 @@ module.exports = class CritCommand extends SebediusCommand {
   /* ------------------------------------------ */
 
   /**
-   * @param {YearZeroCrit} crit 
+   * Creates an embed for the critical injury.
+   * @param {YearZeroCrit} crit
+   * @param {SebediusCommand.SebediusTranslationCallback} t
    */
-  #getCritEmbed(crit) {
+  #createCritEmbed(crit, t) {
     const embed = new EmbedBuilder()
-      .setTitle();
+      .setTitle(`**${crit.name}**`)
+      .setDescription(crit.effect);
+
+    if (crit.healingTime) {
+      let name, value;
+      // -1 means permanent effect.
+      if (crit.healingTime === -1) {
+        name = t('commands:crit.embed.permanent');
+        value = t('commands:crit.embed.permanentEffects');
+      }
+      else {
+        name = t('commands:crit.embed.healingTime');
+        value = t('commands:crit.embed.healingTimeDescription', {
+          count: crit.healingTime,
+        });
+      }
+      embed.addFields({ name, value });
+    }
+
+    if (crit.lethal) {
+      let value;
+      if (crit.timeLimit || crit.game === YearZeroGames.VAESEN) {
+        value = t('commands:crit.embed.lethalityDescription', {
+          modifier: crit.healMalus ? `(${t('commands:crit.embed.modifiedBy', { mod: crit.healMalus })})` : ' ',
+          time: bold(t('commands:crit.embed.timeLimit', {
+            count: crit.timeLimit,
+            unit: crit.timeLimitUnit,
+          })),
+        });
+      }
+      else {
+        value = '💀💀💀';
+      }
+      embed.addFields({ name: t('commands:crit.embed.lethality'), value });
+    }
+
+    if (crit.lucky) {
+      embed.addFields({
+        name: t('commons:talents.fbl.lucky'),
+        value: t('commands:crit.embed.lucky', { values: crit.rolledResults }),
+      });
+    }
+
+    embed.setFooter({
+      text: `${crit.ref} → ${crit.tableName}`,
+    });
+
     return embed;
   }
 

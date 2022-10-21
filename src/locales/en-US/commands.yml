@@ -242,3 +242,30 @@ initiative:
   drawEvents: Events
   remainingCards: Remaining Cards
   noDatabaseConnection: No database connection!
+crit:
+  name: crit
+  description: Draw a random critical injury
+  options:
+    reference:
+      name: reference
+      description: Use a fixed number instead (doesn't roll a D66)
+    lucky:
+      name: lucky
+      description: Apply the talent *Lucky*, and choose the rank I, II or III
+    private:
+      name: private
+      description: Whether to hide the result from other players
+  embed:
+    permanent: Permanent
+    permanentEffects: These effects are permanent.
+    healingTime: Healing Time
+    healingTimeDescription: '{{count}} day until end of effects.'
+    healingTimeDescription_plural: '{{count}} days until end of effects.'
+    lethality: Lethality
+    lethalityDescription: >-
+      This critical injury is **LETHAL** and must be `HEALED`{{modifier}}
+      within {{time}} or the character will die.
+    modifiedBy: modified by {{mod}}
+    timeLimit: one {{unit}}
+    timeLimit_plural: the next {{count}} {{unit}}s
+    lucky: 'Lucky using the following values: {{values}}'
