@@ -1,0 +1,290 @@
+$name: alien-crit-damage
+$roll: true
+11:
+  injury: Winded
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+12:
+  injury: Stunned
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+13:
+  injury: Crippling Pain
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: STRESS LEVEL increases by one step.
+14:
+  injury: Sprained Ankle
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "MOBILITY −2 and can't run until MEDICAL AID roll is made."
+15:
+  injury: Blood in Eyes
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: OBSERVATION and RANGED COMBAT −2 until MEDICAL AID roll is made.
+16:
+  injury: Concussion
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MOBILITY −2.
+21:
+  injury: Severed Ear
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: OBSERVATION −2.
+22:
+  injury: Broken Toes
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To run becomes a slow action.
+23:
+  injury: Broken Hand
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't use hand."
+24:
+  injury: Knocked Out Teeth
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION −2.
+25:
+  injury: Impaled Thigh
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To run becomes a slow action.
+26:
+  injury: Slashed Shoulder
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't use arm."
+31:
+  injury: Broken Nose
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION and OBSERVATION −2.
+32:
+  injury: Crotch Hit
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: One point of damage at every roll for MOBILITY and CLOSE COMBAT.
+33:
+  injury: Broken Ribs
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MOBILITY and CLOSE COMBAT −2.
+34:
+  injury: Gouged Eye
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RANGED COMBAT and OBSERVATION −2.
+35:
+  injury: Busted Kneecap
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't run, only crawl."
+36:
+  injury: Broken Arm
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't use arm."
+41:
+  injury: Broken Leg
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't run, only crawl."
+42:
+  injury: Crushed Foot
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't run, only crawl."
+43:
+  injury: Crushed Elbow
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Can't use arm."
+44:
+  injury: Punctured Lung
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: day
+  effect: STAMINA and MOBILITY −2.
+45:
+  injury: Bleeding Gut
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: shift
+  effect: One point of damage at every roll for MOBILITY and CLOSE COMBAT.
+46:
+  injury: Ruptured Intestines
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: shift
+  effect: Disease with Virulence 6.
+51:
+  injury: Busted Kidney
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: day
+  effect: "Can't run, only crawl, MOBILITY −2."
+52:
+  injury: Arm Artery Cut
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: turn
+  effect: "Can't use arm."
+53:
+  injury: Leg Artery Cut
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: turn
+  effect: To run becomes a slow action.
+54:
+  injury: Severed Arm
+  lethal: true
+  healMalus: -1
+  healingTime: -1
+  timeLimit: 1
+  timeLimitUnit: shift
+  effect: "Can't use arm."
+55:
+  injury: Severed Leg
+  lethal: true
+  healMalus: -1
+  healingTime: -1
+  timeLimit: 1
+  timeLimitUnit: shift
+  effect: "Can't run, only crawl."
+56:
+  injury: Cracked Spine
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Paralyzed from the neck down. If not given MEDICAL AID in time, the effect is permanent.
+61:
+  injury: Ruptured Jugular
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: round
+  effect: STAMINA −1.
+62:
+  injury: Ruptured Aorta
+  lethal: true
+  healMalus: -2
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: round
+  effect: STAMINA −2.
+63:
+  injury: Disemboweled
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Instant death.
+64:
+  injury: Crushed Skull
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your story ends here.
+65:
+  injury: Pierced Head
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You die immediately.
+66:
+  injury: Impaled Heart
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your heart beats for the last time.

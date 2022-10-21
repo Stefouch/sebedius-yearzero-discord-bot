@@ -1,0 +1,290 @@
+$name: alien-crit-damage
+$roll: true
+11:
+  injury: erschöpft
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+12:
+  injury: benommen
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+13:
+  injury: lähmender Schmerz
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: STRESSLEVEL steigt um 1.
+14:
+  injury: verstauchter Knöchel
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: kein Laufen und BEWEGLICHKEIT -2, bis Wurf auf MEDIZINISCHE HILFE erfolgt.
+15:
+  injury: Blut in den Augen
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: WAHRNEHMUNG und FERNKAMPF -2, bis Wurf auf MEDIZINISCHE HILFE erfolgt.
+16:
+  injury: Gehirnerschütterung
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: BEWEGLICHKEIT −2.
+21:
+  injury: abgetrenntes Ohr
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: WAHRNEHMUNG −2.
+22:
+  injury: gebrochene Zehen
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Laufen wird langsame Aktion.
+23:
+  injury: gebrochene Hand
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Hand kann nicht benutzt werden.
+24:
+  injury: ausgeschlagene Zähne
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION −2.
+25:
+  injury: aufgespießter Oberschenkel
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Laufen wird langsame Aktion.
+26:
+  injury: aufgeschlitzte Schulter
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Arm kann nicht genutzt werden.
+31:
+  injury: gebrochene Nase
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION und WAHRNEHMUNG −2.
+32:
+  injurr: in die Weichteile
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: 1 Punkt Schaden bei jedem Wurf auf BEWEGLICHKEIT und NAHKAMPF.
+33:
+  injury: gebrochene Rippen
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: BEWEGLICHKEIT und NAHKAMPF −2.
+34:
+  injury: verletztes Auge
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: FERNKAMPF und WAHRNEHMUNG −2.
+35:
+  injury: zerstörte Kniescheibe
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: kein Laufen, nur Kriechen.
+36:
+  injury: gebrochener Arm
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Arm kann nicht benutzt werden.
+41:
+  injury: gebrochenes Bein
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: kein Laufen, nur Kriechen.
+42:
+  injury: zertrümmerter Fuß
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: kein Laufen, nur Kriechen.
+43:
+  injury: zertrümmerter Ellbogen
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Arm kann nicht benutzt werden.
+44:
+  injury: punktierte Lunge
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Tages
+  effect: AUSDAUER und BEWEGLICHKEIT −2.
+45:
+  injury: Darmblutungen
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Schicht
+  effect: 1 Punkt Schaden bei jedem Wurf auf BEWEGLICHKEIT und NAHKAMPF.
+46:
+  injury: Innere Verletzungen
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Schicht
+  effect: Krankheit mit Virulenz 6.
+51:
+  injury: gequetschte Niere
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Tages
+  effect: kein Laufen, nur Kriechen, BEWEGLICHKEIT −2.
+52:
+  injury: aufgeschlitzte Armarterie
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Phase
+  effect: Arm kann nicht benutzt werden.
+53:
+  injury: aufgeschlitzte Beinarterie
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Phase
+  effect: Laufen wird langsame Aktion.
+54:
+  injury: Abgetrennter Arm
+  lethal: true
+  healMalus: -1
+  healingTime: -1
+  timeLimit: 1
+  timeLimitUnit: Schicht
+  effect: Arm kann nicht benutzt werden *(permanent)*.
+55:
+  injury: Angetrenntes Bein
+  lethal: true
+  healMalus: -1
+  healingTime: -1
+  timeLimit: 1
+  timeLimitUnit: Schicht
+  effect: kein Laufen, nur Kriechen *(permanent)*.
+56:
+  injury: gebrochene Wirbelsäule
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: halsabwärts gelähmt (permanent, wenn nicht zeitnah  MEDIZINISCHE HILFE erfolgt).
+61:
+  injury: Halsschlagader gerissen
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Runde
+  effect: AUSDAUER −1.
+62:
+  injury: Aorta gerissen
+  lethal: true
+  healMalus: -2
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: Runde
+  effect: AUSDAUER −2.
+63:
+  injury: herausgerissene Eingeweide
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: sofortiger Tod.
+64:
+  injury: zerquetschter Schädel
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Deine Geschichte endet hier.
+65:
+  injury: durchbohrter Kopf
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du stirbst sofort.
+66:
+  injury: aufgespießtes Herz
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Herz schlägt zum letzten Mal.
