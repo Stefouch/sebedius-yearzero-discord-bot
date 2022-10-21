@@ -1,8 +1,4 @@
-const {
-  SlashCommandBuilder, EmbedBuilder, ApplicationCommandOptionType,
-  ActionRowBuilder, ButtonBuilder, ButtonStyle, ComponentType,
-  inlineCode, codeBlock, bold,
-} = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType, bold } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const YearZeroCrit = require('../../yearzero/crit/yzcrit');
@@ -108,7 +104,6 @@ const SlashCommandOptions = {
 module.exports = class CritCommand extends SebediusCommand {
   constructor(client) {
     super(client, {
-      ownerOnly: true,
       category: SebediusCommand.CategoryFlagsBits.ROLL,
       data: null,
     });
