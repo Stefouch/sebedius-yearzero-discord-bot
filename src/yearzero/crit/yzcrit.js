@@ -107,6 +107,7 @@ class YearZeroCrit {
   /**
    * Whether the victim was lucky.
    * @type {boolean}
+   * @readonly
    */
   get lucky() {
     return this.rolledResults.length > 1;
