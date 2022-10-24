@@ -1,0 +1,66 @@
+$roll: true
+1:
+  name: Ear slashed
+  lethal: No
+  timeLimit: 0
+  effect: RECON –1
+  healingTime: '[[D6]]'
+2:
+  name: Concussion
+  lethal: No
+  timeLimit: 0
+  effect: CUF –1
+  healingTime: '[[D6]]'
+3:
+  name: Nose crushed
+  lethal: No
+  timeLimit: 0
+  effect: RECON and PERSUASION –1
+  healingTime: '[[2D6]]'
+4:
+  name: Shattered teeth
+  lethal: No
+  timeLimit: 0
+  effect: PERSUASION –2
+  healingTime: '[[3D6]]'
+5:
+  name: Cracked skull
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  effect: CUF –2
+  healingTime: '[[2D6]]'
+6:
+  name: Gouged eye
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  effect: RANGED COMBAT and RECON –2
+  healingTime: -1
+7:
+  name: Brain hemorrhage
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Stretch
+  effect: All INT skills –2
+  healingTime: '[[3D6]]'
+8:
+  name: Shattered neck
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Stretch
+  effect: Fall down, immobile
+  healingTime: '[[4D6]]'
+9:
+  name: Crushed windpipe
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Round
+  effect: STAMINA and MOBILITY –2
+  healingTime: '[[3D6]]'
+10:
+  name: Brains blown out
+  lethal: Yes
+  timeLimit: 0
+  effect: Instant death
+  healingTime: 0
