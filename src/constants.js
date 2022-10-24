@@ -33,7 +33,7 @@ const YearZeroRollTables = {
   ALIEN_CRIT_MENTAL: 'table-alien-crit-mental',
   ALIEN_CRIT_SYNTHETIC: 'table-alien-crit-synthetic',
   ALIEN_CRIT_XENO: 'table-alien-crit-xeno',
-  ALIEN_PANIC: 'table-alien-panic-effects',
+  ALIEN_PANIC: 'table-alien-panic',
   CORIOLIS_CRIT_DAMAGE: 'table-coriolis-crit-damage',
   FBL_CRIT_SLASH: 'table-fbl-crit-slash',
   FBL_CRIT_BLUNT: 'table-fbl-crit-blunt',
