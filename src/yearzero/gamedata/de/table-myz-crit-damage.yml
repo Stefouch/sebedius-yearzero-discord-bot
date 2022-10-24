@@ -1,0 +1,289 @@
+$roll: true
+11:
+  name: Atemnot
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+  healingTime: 0
+12:
+  name: Benommenheit
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+  healingTime: 0
+13:
+  name: Verstauchtes Handgelenk
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Schießen und Prügeln.
+  healingTime: 1
+14:
+  name: Verstauchter Knöchel
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Bewegen und Schleichen.
+  healingTime: 1
+15:
+  name: Gehirnerschütterung
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Auskundschaften und Begreifen.
+  healingTime: 1
+16:
+  name: Verletztes Schienbein
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Bewegen und Schleichen.
+  healingTime: 2
+21:
+  name: Gebrochene Nase
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Manipulieren, +1 auf Einschüchtern, Mutation Spurenlesen nicht einsetzbar.
+  healingTime: 2
+22:
+  name: Gebrochene Finger
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Schießen und Prügeln.
+  healingTime: 2
+23:
+  name: Gebrochene Zehen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Bewegen und Schleichen.
+  healingTime: 2
+24:
+  name: Ausgeschlagene Zähne
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Manipulieren, +1 auf Einschüchtern.
+  healingTime: 2
+25:
+  name: Unterleib lädiert
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.
+  healingTime: 2
+26:
+  name: Ramponierter Oberschenkel
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 auf Bewegen und Schleichen.
+  healingTime: 2
+31:
+  name: Verwundeter Bizeps
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 auf Schießen und Prügeln.
+  healingTime: 2
+32:
+  name: Durchtrennte Achillessehne
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 auf Bewegen und Schleichen.
+  healingTime: 2
+33:
+  name: Ausgerenkte Schulter
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −3 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden
+  healingTime: 1
+34:
+  name: Zertrümmerte Rippen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 auf Bewegen und Prügeln.
+  healingTime: 2
+35:
+  name: Gebrochener Unterarm
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du kannst keine zweihändigen Waffen führen.
+  healingTime: 3
+36:
+  name: Gebrochenes Bein
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 auf Bewegen und Schleichen.
+  healingTime: 3
+41:
+  name: Abgerissenes Ohr
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 auf Auskundschaften, Mutation Sonar nicht einsetzbar.
+  healingTime: 3
+42:
+  name: Ausgestochenes Auge
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 auf Schießen und Auskundschaften.
+  healingTime: 3
+43:
+  name: Perforierte Lunge
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: −2 auf Erdulden und Bewegen.
+  healingTime: 2
+44:
+  name: Verletzte Niere
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.
+  healingTime: 3
+45:
+  name: Zertrümmertes Knie
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: −2 auf Bewegen und Schleichen.
+  healingTime: 4
+46:
+  name: Zertrümmerter Ellbogen
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: −2 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden
+  healingTime: 4
+51:
+  name: Zertrümmerter Fuß
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: −2 auf Bewegen und Schleichen.
+  healingTime: 4
+52:
+  name: Blutender Bauch
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.
+  healingTime: 1
+53:
+  name: Zermatschtes Gesicht
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: −2 auf Manipulieren.
+  healingTime: 4
+54:
+  name: Geplatzter Darm
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Du erleidest pro Stunde einen Punkt Fäulnis bis du Geheilt wirst.
+  healingTime: 2
+55:
+  name: Geschädigtes Rückgrat
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Gelähmt von der Hüfte abwärts. Der Effekt ist dauerhaft, wenn er während der Heilungszeit nicht Geheilt wird.
+  healingTime: 4
+56:
+  name: Halsverletzung
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Gelähmt vom Hals abwärts. Der Effekt ist dauerhaft, wenn er während der Heilungszeit nicht Geheilt wird.
+  healingTime: 4
+61:
+  name: Innere Blutungen
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: Du erleidest einen Schadenspunkt für jeden Wurf mit Bewegen, Kraftakt oder Prügeln, den du ablegst.
+  healingTime: 2
+62:
+  name: Durchtrennte Armschlagader
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: −1 auf Erdulden und Bewegen.
+  healingTime: 1
+63:
+  name: Durchtrennte Beinschlagader
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: −1 auf Erdulden und Bewegen.
+  healingTime: 1
+64:
+  name: Durchtrennte Halsschlagader
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Züge
+  effect: −1 auf Erdulden und Bewegen.
+  healingTime: 1
+65:
+  name: Durchbohrtes Herz
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Herz schlägt ein letztes Mal und du bist tot. Zeit für einen neuen SC.
+  healingTime: 0
+66:
+  name: Zermalmter Schädel
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du stirbst sofort und wirst Eden niemals sehen.
+  healingTime: 0
