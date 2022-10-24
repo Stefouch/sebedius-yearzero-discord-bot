@@ -56,17 +56,19 @@ class RollTable extends Map {
    * @readonly
    */
   get min() {
-    return Math.min(...this.keys());
+    if (this.max === 66) return 11;
+    if (this.max === 666) return 111;
+    return 1;
   }
 
-  // /**
-  //  * The highest reference.
-  //  * @type {number}
-  //  * @readonly
-  //  */
-  // get max() {
-  //   return this.rollFn();
-  // }
+  /**
+   * The highest reference.
+   * @type {number}
+   * @readonly
+   */
+  get max() {
+    return Math.max(...this.keys());
+  }
 
   /* ------------------------------------------ */
   /*  Map Methods                               */
