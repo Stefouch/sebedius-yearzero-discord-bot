@@ -1,0 +1,16 @@
+$roll: true
+16:
+  name: Rise Again
+  effect: The Xenomorph falls to the ground, seemingly dead, but it’s a ruse. If it’s attacked again, or on its next initiative, it regains one point of Health and attacks—fueled by instinctive hatred.
+26:
+  name: Wounded
+  effect: The Xenomorph staggers in agony, bleeding severely. It gets Speed –1 (down to a minimum of 1, losing the lowest initiative), but regains one point of Health. Roll a [[D6]] at the start of each Round. On 1–3, it tries to escape.
+36:
+  name: Desperate Action
+  effect: 'The Xenomorph is severely wounded and cries out in alien fury. It immediately performs a fast and a slow action, outside of the normal turn order. Roll a [[D6]]: On 1–3, it tries to escape (if it succeeds it regains half its Health). On 4–6, it instantly attacks the closest opponent. If it fails to inflict any damage, the creature dies. If it succeeds, it regains one point of Health.'
+46:
+  name: Last Breath
+  effect: The Xenomorph is mortally wounded and contorts wildly. On its next initiative, it will try to kill the nearest victim, then the beast dies. If it’s wounded again before then, it dies instantly.
+66:
+  name: Torn Apart
+  effect: Instant death. The Xenomorph is torn apart or crushed amidst shrieks of rage. Severely mutilated, it can only be Analyzed with OBSERVATION –2.
