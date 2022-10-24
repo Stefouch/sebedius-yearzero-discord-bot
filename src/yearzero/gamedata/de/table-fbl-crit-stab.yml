@@ -1,0 +1,137 @@
+$roll: true
+13:
+  name: Durchstochenes Ohr
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effect
+16:
+  name: Aufgespießter Fuß
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+23:
+  name: Durchbohrte Hand
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Zweihändige Waffen können nicht benutzt werden.
+26:
+  name: Durchstochene Wange
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf MANIPULATION.
+33:
+  name: Durchbohrter Schenkel
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+34:
+  name: Durchtrennte Sehne
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+41:
+  name: Durchbohrte Schulter
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Zweihändige Waffen können nicht benutzt werden.
+43:
+  name: Durchstochenes Auge
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -2 auf FERNKAMPF und AUSKUNDSCHAFTEN.
+45:
+  name: Durchstoßene Leiste
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: 1 Punkt Schaden bei jedem Wurf auf BEWEGEN oder NAHKAMPF.
+51:
+  name: Durchstochene Lunge
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: -2 auf AUSDAUER und BEWEGEN.
+54:
+  name: Innere Blutungen
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: 1 Punkt Schaden bei jedem Wurf auf BEWEGEN oder NAHKAMPF.
+56:
+  name: Gerissene Eingeweide
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Krankheit mit Ansteckungskraft 6.
+61:
+  name: Durchtrennte Armarterie
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: Zweihändige Waffen können nicht benutzt werden.
+62:
+  name: Durchtrennte Beinarterie
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: RENNEN wird zu einer langsamen Aktion.
+63:
+  name: Durchbohrter Hals
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Runden
+  effect: -2 auf AUSDAUER.
+64:
+  name: Durchbohrter Schädel
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du stirbst sofort.
+66:
+  name: Durchbohrtes Herz
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Herz schlägt zum letzten Mal.

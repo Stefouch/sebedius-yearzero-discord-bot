@@ -1,0 +1,137 @@
+$roll: true
+16:
+  name: Trembling
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Penalty –1 to all rolls for Agility.
+  healingTime: 1
+21:
+  name: White Hair
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your hair turns white.
+  healingTime: -1
+24:
+  name: Anxious
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Penalty –1 to all rolls for Wits.
+  healingTime: 1
+31:
+  name: Sullen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Penalty –1 to all rolls for Empathy.
+  healingTime: 1
+35:
+  name: Nightmares
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours) spent sleeping. Failure means that the sleep doesn't count."
+  healingTime: 1
+41:
+  name: Nocturnal
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You can only sleep during the light part of the day.
+  healingTime: 2
+43:
+  name: Phobic
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You are terrified by something related to what Broke you. The GM decides what it is. You suffer 1 point of damage to Wits each round within Near range of the object of your phobia.
+  healingTime: 2
+45:
+  name: Drunkard
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You must drink wine or mead every day, or suffer 1 point of damage to Agility.
+  healingTime: 3
+51:
+  name: Claustrophobic
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Every turn (15 minutes) in a confined environment, you suffer 1 point of damage to Wits.
+  healingTime: 2
+52:
+  name: Mythomania
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You cannot stop yourself from lying. About everything. *(The effect should be roleplayed.)*
+  healingTime: 2
+54:
+  name: Paranoia
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You are certain that someone is out to get you. *(The effect should be roleplayed.)*
+  healingTime: 2
+55:
+  name: Delusion
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: "You are totally convinced of something that is totally untrue. *(For example that a certain kin doesn't exist.)*"
+  healingTime: 3
+56:
+  name: Hallucinations
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Make an INSIGHT/SENSE EMOTION roll every Quarter Day (4+ hours). If you fail, you suffer a powerful hallucination. The GM determines the details.
+  healingTime: 3
+62:
+  name: Altered Personality
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your personality is altered in a fundamental way. Determine how together with the GM. *(The effect should be roleplayed.)*
+  healingTime: -1
+63:
+  name: Amnesia
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You lose all memory, and cannot recollect who you or the other adventurers are. *(The effect should be roleplayed.)*
+  healingTime: 1
+65:
+  name: Catatonic
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You stare blankly into oblivion, and do not respond to any stimuli.
+  healingTime: 1
+66:
+  name: Heart Attack
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your heart stops, and you die of pure fright.
+  healingTime: 0

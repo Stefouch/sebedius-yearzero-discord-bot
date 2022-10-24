@@ -1,0 +1,137 @@
+$roll: true
+13:
+  name: Pierced Ear
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+16:
+  name: Skewered Foot
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+23:
+  name: Hand Runthrough
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Two-handed weapons cannot be used.
+26:
+  name: Pierced Cheek
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION -1.
+33:
+  name: Impaled Thigh
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+34:
+  name: Severed Tendon
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+41:
+  name: Impaled Shoulder
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Two-handed weapons cannot be used.
+43:
+  name: Pierced Eye
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MARKSMANSHIP and SCOUTING -2.
+45:
+  name: Skewered Groin
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: 1 point of damage suffered at every MOVE or MELEE roll.
+51:
+  name: Punctured Lung
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: ENDURANCE and MOVE -2.
+54:
+  name: Bleeding Gut
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: 1 point of damage at each roll for MIGHT, MOVE and MELEE.
+56:
+  name: Ruptured Intestines
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Disease with Virulence 6.
+61:
+  name: Severed Arm Artery
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Two-handed weapons cannot be used.
+62:
+  name: Severed Leg Artery
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: To RUN becomes a slow action.
+63:
+  name: Impaled Neck
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: turns
+  effect: ENDURANCE -2.
+64:
+  name: Skewered Skull
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You die at once.
+66:
+  name: Pierced Heart
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your heart beats for the last time.

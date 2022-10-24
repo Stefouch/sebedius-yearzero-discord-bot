@@ -1,0 +1,137 @@
+$roll: true
+16:
+  name: Zittern
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf alle Würfe auf Geschicklichkeit.
+  healingTime: 1
+21:
+  name: Weißes Haar
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Deine Haare werden weiß.
+  healingTime: -1
+24:
+  name: Beklommen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf alle Würfe auf Verstand.
+  healingTime: 1
+31:
+  name: Mürrisch
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf alle Würfe auf Empathie.
+  healingTime: 1
+35:
+  name: Albträume
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Würfel auf MENSCHENKENNTNIS, wenn du einen Tagesabschnitt mit SCHLAFEN verbringst. Misserfolg bedeutet, dass der SCHLAF nicht zählt.
+  healingTime: 1
+41:
+  name: Nachtaktiv
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du kannst nur bei Tageslicht SCHLAFEN.
+  healingTime: 2
+43:
+  name: Verängstigt
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du wirst durch etwas verängstigt, das damit zu tun hat, wie du Gebrochen wurdest. Die SL entscheidet, was. Du erleidest 1 Punkt Schaden auf Verstand für jede Runde, in der du auf NAHER Reichweite zur Ursache deiner Furcht bist.
+  healingTime: 2
+45:
+  name: Trunksüchtig
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du musst jeden Tag Wein oder Met trinken, sonst erleidest du 1 Punkt Schaden auf Geschicklichkeit.
+  healingTime: 3
+51:
+  name: Klaustrophobisch
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für jeden Zug (15 Minuten), den du in beengten Räumen verbringst, erleidest du 1 Punkt Schaden auf Verstand.
+  healingTime: 2
+52:
+  name: Pathologischer Lügner
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du kannst nicht aufhören zu lügen. Über alles. *(Diese Wirkung sollte durch Rollenspiel ausgespielt werden.)*
+  healingTime: 2
+54:
+  name: Paranoia
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du bist dir sicher, dass jemand hinter dir her ist. *(Diese Wirkung sollte durch Rollenspiel ausgespielt werden.)*
+  healingTime: 2
+55:
+  name: Wahnvorstellung
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du bist fest von einer völlig unwahren Sache überzeugt *(zum Beispiel, dass ein bestimmtes Volk nicht existiert.)*
+  healingTime: 3
+56:
+  name: Halluzinationen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Würfel jeden Tagesabschnitt auf MENSCHENKENNTNIS. Wenn der Wurf misslingt, erliegst du einer starken Halluzination. Die SL bestimmt die Details.
+  healingTime: 3
+62:
+  name: Veränderte Persönlichkeit
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Deine Persönlichkeit wird auf fundamentale Weise geändert. Entscheide gemeinsam mit der SL, was diese Veränderung ist. *(Die Auswirkung sollte durch Rollenspiel ausgespielt werden.)*
+  healingTime: -1
+63:
+  name: Amnesie
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du verlierst dein vollständiges Gedächtnis und kannst dich nicht mehr erinnern wer du oder die anderen Abenteurer sind. *(Diese Wirkung sollte durch Rollenspiel ausgespielt werden.)*
+  healingTime: 1
+65:
+  name: Katatonisch
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du starrst verständnislos in die Leere und reagierst auf keine äußeren Reize.
+  healingTime: 1
+66:
+  name: Herzinfarkt
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Herz kommt zum Stillstand und du stirbst vor lauter Angst.
+  healingTime: 0

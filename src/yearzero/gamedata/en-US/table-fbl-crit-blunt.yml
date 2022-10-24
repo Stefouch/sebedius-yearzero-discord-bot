@@ -1,0 +1,137 @@
+$roll: true
+12:
+  name: Stunned
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+  healingTime: 0
+14:
+  name: Breathless
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+  healingTime: 0
+16:
+  name: Concussion
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SCOUTING -2.
+  healingTime: 1
+22:
+  name: Broken Nose
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION -1.
+  healingTime: 1
+24:
+  name: Broken Fingers
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Two-handed weapons can’t be used.
+  healingTime: 1
+26:
+  name: Broken Toes
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+  healingTime: 1
+33:
+  name: Knocked Out Teeth
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION -1.
+  healingTime: 1
+36:
+  name: Groin Hit
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: 1 point of damage suffered at every MOVE or MELEE roll.
+  healingTime: 1
+43:
+  name: Broken Ribs
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MOVE and MELEE -2.
+  healingTime: 2
+45:
+  name: Broken Arm
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Two-handed weapons can’t be used.
+  healingTime: 2
+51:
+  name: Broken Leg
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+  healingTime: 2
+53:
+  name: Gouged Eye
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MARKSMANSHIP and SCOUTING -2.
+  healingTime: 2
+55:
+  name: Crushed Foot
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: To RUN becomes a slow action.
+  healingTime: 3
+61:
+  name: Crushed Elbow
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: Two-handed weapons can’t be used.
+  healingTime: -1
+63:
+  name: Crushed Knee
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: To RUN becomes a slow action.
+  healingTime: -1
+64:
+  name: Broken Neck
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Paralyzed from the neck down. If not HEALED in time, the effect is permament.
+  healingTime: 3
+66:
+  name: Crushed Skull
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your adventure and your life end here.
+  healingTime: 0

@@ -1,0 +1,137 @@
+$roll: true
+13:
+  name: Genomborrat öra
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Ingen Effekt.
+  healingTime: 0
+16:
+  name: Spetsad fot
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SPRINGA blir lång handling.
+  healingTime: 1
+23:
+  name: Genomborrad hand
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Tvåhandsvapen kan inte användas.
+  healingTime: 1
+26:
+  name: Spetsad kind
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: –1 på MANIPULERA
+  healingTime: 1
+33:
+  name: Genomborrat lår
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SPRINGA blir lång handling.
+  healingTime: 2
+34:
+  name: Avskuren hälsena
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SPRINGA blir lång handling.
+  healingTime: 3
+41:
+  name: Genomborrad axel
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Tvåhandsvapen kan inte användas.
+  healingTime: 2
+43:
+  name: Sargat öga
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: –2 på SKJUTA, SPEJA
+  healingTime: 2
+45:
+  name: Sargat skrev
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: 1 poäng skada vid varje slag för STYRKEPROV och RÖRLIGHET
+  healingTime: 2
+51:
+  name: Punkterad lunga
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Dagar
+  effect: –2 på UTHÅLLIGHET och RÖRLIGHET
+  healingTime: 1
+54:
+  name: Blödande buk
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Timmar
+  effect: 1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP
+  healingTime: 1
+56:
+  name: Perforerad tarm
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Timmar
+  effect: Sjukdom med Smittvärde 6.
+  healingTime: 2
+61:
+  name: Avskuren armpulsåde
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Minuter
+  effect: Tvåhandsvapen kan inte användas.
+  healingTime: 1
+62:
+  name: Avskuren benpulsåder
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Minuter
+  effect: SPRINGA blir lång handling.
+  healingTime: 1
+63:
+  name: Genomborrad hals
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Rundor
+  effect: –2 på UTHÅLLIGHET
+  healingTime: 2
+64:
+  name: Spetsad skalle
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du dör på fläcken.
+  healingTime: 0
+66:
+  name: Genomborrat hjärta
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Ditt hjärta slår sitt sista slag.
+  healingTime: 0
