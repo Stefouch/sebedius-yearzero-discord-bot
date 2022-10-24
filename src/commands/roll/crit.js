@@ -3,7 +3,7 @@ const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const YearZeroCrit = require('../../yearzero/crit/yzcrit');
 const { YearZeroGames, YearZeroRollTables } = require('../../constants');
-const { BaseDie } = require('../../yearzero/roller/dice');
+const { BaseDie, BladeRunnerDie, TwilightDie } = require('../../yearzero/roller/dice');
 const { clamp } = require('../../utils/number-utils');
 
 /* ------------------------------------------ */
@@ -15,13 +15,13 @@ const { clamp } = require('../../utils/number-utils');
 const GameSubcommandsList = {
   // [YearZeroGames.BLANK]: [],
   [YearZeroGames.ALIEN_RPG]: [`table_${YearZeroGames.ALIEN_RPG}`, 'reference', 'private'],
-  // [YearZeroGames.BLADE_RUNNER]: [],
-  // [YearZeroGames.CORIOLIS]: [],
+  [YearZeroGames.BLADE_RUNNER]: [`table_${YearZeroGames.BLADE_RUNNER}`, 'reference', 'private'],
+  [YearZeroGames.CORIOLIS]: ['reference', 'private'],
   [YearZeroGames.FORBIDDEN_LANDS]: [`table_${YearZeroGames.FORBIDDEN_LANDS}`, 'reference', 'lucky', 'private'],
   [YearZeroGames.MUTANT_YEAR_ZERO]: [`table_${YearZeroGames.MUTANT_YEAR_ZERO}`, 'reference', 'private'],
   // [YearZeroGames.TALES_FROM_THE_LOOP]: [],
-  // [YearZeroGames.TWILIGHT_2K]: [],
-  // [YearZeroGames.VAESEN]: [],
+  [YearZeroGames.TWILIGHT_2K]: [`table_${YearZeroGames.TWILIGHT_2K}`, 'reference', 'private'],
+  [YearZeroGames.VAESEN]: [`table_${YearZeroGames.VAESEN}`, 'reference', 'private'],
 };
 
 /** @enum {SebediusCommand.SlashCommandOption} */
@@ -41,6 +41,20 @@ const SlashCommandOptions = {
     }, {
       name: 'Xeno',
       value: YearZeroRollTables.ALIEN_CRIT_XENO,
+    }],
+  },
+  [`table_${YearZeroGames.BLADE_RUNNER}`]: {
+    description: 'Choose the table',
+    type: ApplicationCommandOptionType.String,
+    choices: [{
+      name: 'Piercing',
+      value: YearZeroRollTables.BLADERUNNER_CRIT_PIERCING,
+    }, {
+      name: 'Crushing',
+      value: YearZeroRollTables.BLADERUNNER_CRIT_CRUSHING,
+    }, {
+      name: 'Critical Stress Effect',
+      value: YearZeroRollTables.BLADERUNNER_CRIT_MENTAL,
     }],
   },
   [`table_${YearZeroGames.FORBIDDEN_LANDS}`]: {
@@ -71,10 +85,41 @@ const SlashCommandOptions = {
       value: YearZeroRollTables.FBL_CRIT_HORROR,
     }],
   },
+  [`table_${YearZeroGames.TWILIGHT_2K}`]: {
+    description: 'Choose the table',
+    type: ApplicationCommandOptionType.String,
+    choices: [{
+      name: 'Head',
+      value: YearZeroRollTables.T2K_CRIT_HEAD,
+    }, {
+      name: 'Arms',
+      value: YearZeroRollTables.T2K_CRIT_ARMS,
+    }, {
+      name: 'Torso',
+      value: YearZeroRollTables.T2K_CRIT_TORSO,
+    }, {
+      name: 'Legs',
+      value: YearZeroRollTables.T2K_CRIT_LEGS,
+    }, {
+      name: 'Mental',
+      value: YearZeroRollTables.T2K_CRIT_MENTAL,
+    }],
+  },
+  [`table_${YearZeroGames.VAESEN}`]: {
+    description: 'Choose the table',
+    type: ApplicationCommandOptionType.String,
+    choices: [{
+      name: 'Damage',
+      value: YearZeroRollTables.VAESEN_CRIT_DAMAGE,
+    }, {
+      name: 'Mental',
+      value: YearZeroRollTables.VAESEN_CRIT_MENTAL,
+    }],
+  },
   reference: {
     description: 'Choose a fixed reference',
     type: ApplicationCommandOptionType.Integer,
-    min: 11,
+    min: 1,
     max: 66,
   },
   lucky: {
@@ -156,6 +201,8 @@ module.exports = class CritCommand extends SebediusCommand {
       throw new ReferenceError(`[crit:${game}] Table "${tableName}" Not Found!`);
     }
 
+    const max = critTable.max;
+
     // Makes a roll for the crit.
     const critRoll = new YearZeroRoll({
       author: interaction.member,
@@ -165,24 +212,39 @@ module.exports = class CritCommand extends SebediusCommand {
 
     let value = 0, values;
 
-    if (fixedReference) {
-      value = +[...String(fixedReference)]
-        .map(v => clamp(Number(v), 1, 6))
-        .join('');
+    // Classic games:
+    if ([66, 666].includes(max)) {
+      if (fixedReference) {
+        value = +[...String(fixedReference)]
+          .map(v => clamp(Number(v), 1, 6))
+          .join('');
+      }
+      else if (luckyRank) {
+        const luckyResult = this.#lucky(luckyRank);
+        value = luckyResult.value;
+        values = luckyResult.values;
+      }
+      else {
+        value = rollD66();
+      }
     }
-    else if (luckyRank) {
-      const luckyResult = this.#lucky(luckyRank);
-      value = luckyResult.value;
-      values = luckyResult.values;
-    }
-    else {
-      value = rollD66();
-    }
+    // Twilight 2000 & Blade Runner:
+    else if (fixedReference) value = clamp(fixedReference, 1, max);
+    else value = BaseDie.rng(1, max);
 
     // Adds the dice.
-    [...String(value)].forEach(d =>
-      critRoll.addDice(BaseDie, 1, { results: [Number(d)] }),
-    );
+    switch (game) {
+      case YearZeroGames.BLADE_RUNNER:
+        critRoll.addDice(BladeRunnerDie, 1, { faces: max, results: [value] });
+        break;
+      case YearZeroGames.TWILIGHT_2K:
+        critRoll.addDice(TwilightDie, 1, { faces: max, results: [value] });
+        break;
+      default:
+        [...String(value)].forEach(d =>
+          critRoll.addDice(BaseDie, 1, { results: [Number(d)] }),
+        );
+    }
 
     critRoll.setMaxPush(0);
 
@@ -190,14 +252,19 @@ module.exports = class CritCommand extends SebediusCommand {
     const critData = critTable.get(value, true) || {};
     critData.ref = value;
     critData.game = game;
-    critData.tableName = tableName;
     if (values) critData.rolledResults = values;
 
     const crit = new YearZeroCrit(critData);
 
+    const embed = await this.#createCritEmbed(crit, t);
+    embed.setFooter({ text: `D${max} • ${tableName}` });
+
+    // If the game has blank dice, we should use the default template.
+    const hasBlankDice = this.bot.config.Commands.roll.options[game]?.hasBlankDice;
+
     return interaction.reply({
-      content: critRoll.emojify(),
-      embeds: [this.#createCritEmbed(crit, t)],
+      content: critRoll.emojify(hasBlankDice ? YearZeroGames.BLANK : game),
+      embeds: [embed],
       // ephemeral: interaction.options.getBoolean('private', false),
     })
       .then(() => {
@@ -221,12 +288,15 @@ module.exports = class CritCommand extends SebediusCommand {
     };
 
     switch (rank) {
+      // Rank I: Roll twice, take the lowest.
       case 1:
         result.values = [rollD66(), rollD66()];
         break;
+      // Rank II: Roll twice, reverse the values, then take the lowest.
       case 2:
         result.values = [rollD66(), rollD66()].map(v => +[...String(v)].reverse().join(''));
         break;
+      // Rank III: Choose whichever you want.
       case 3:
         result.values = [11];
         break;
@@ -241,22 +311,32 @@ module.exports = class CritCommand extends SebediusCommand {
    * @param {YearZeroCrit} crit
    * @param {SebediusCommand.SebediusTranslationCallback} t
    */
-  #createCritEmbed(crit, t) {
+  async #createCritEmbed(crit, t) {
     const embed = new EmbedBuilder()
-      .setTitle(`**${crit.name}**`)
-      .setDescription(crit.effect);
+      .setTitle(`${crit.ref} → **${crit.name}**`)
+      .setDescription(await this.bot.enricher.enrichText(crit.effect));
 
-    if (crit.healingTime) {
+    if (crit.healingTime.value !== 0 || crit.healingTime.text) {
       let name, value;
       // -1 means permanent effect.
-      if (crit.healingTime === -1) {
+      if (crit.healingTime.value === -1) {
         name = t('commands:crit.embed.permanent');
         value = t('commands:crit.embed.permanentEffects');
       }
       else {
+        if (
+          typeof crit.healingTime.text !== 'undefined' &&
+          typeof crit.healingTime.value === 'undefined'
+        ) {
+          crit.healingTime.value = Number(await this.bot.enricher.enrichText(
+            crit.healingTime.text,
+            { onlyNumber: true },
+          ));
+        }
         name = t('commands:crit.embed.healingTime');
         value = t('commands:crit.embed.healingTimeDescription', {
-          count: crit.healingTime,
+          count: crit.healingTime.value,
+          text: crit.healingTime.text ?? crit.healingTime.value,
         });
       }
       embed.addFields({ name, value });
@@ -286,15 +366,23 @@ module.exports = class CritCommand extends SebediusCommand {
       });
     }
 
-    embed.setFooter({
-      text: `${crit.ref} → ${crit.tableName}`,
-    });
+    // Sets the color.
+    if (crit.lethal) {
+      embed.setColor(crit.fatal ? this.bot.config.Colors.isoProhibit : this.bot.config.Colors.red);
+    }
+    // else if (crit.ref < ) {
+    //   embed.setColor(this.bot.config.Colors.isoWarn);
+    // } // TODO
 
     return embed;
   }
 
 };
 
+/**
+ * Rolls a D66 and returns the result.
+ * @returns {number}
+ */
 function rollD66() {
   return BaseDie.rng(1, 6) * 10 + BaseDie.rng(1, 6);
 }

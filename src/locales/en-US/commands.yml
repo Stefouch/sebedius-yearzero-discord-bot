@@ -259,12 +259,12 @@ crit:
     permanent: Permanent
     permanentEffects: These effects are permanent.
     healingTime: Healing Time
-    healingTimeDescription: '{{count}} day until end of effects.'
+    healingTimeDescription: '{{text}} day until end of effects.'
     healingTimeDescription_plural: '{{count}} days until end of effects.'
     lethality: Lethality
     lethalityDescription: >-
-      This critical injury is **LETHAL** and must be `HEALED`{{modifier}}
-      within {{time}} or the character will die.
+      This critical injury is **LETHAL** and must be `HEALED`{{modifier}} within
+      {{time}} or the character will die.
     modifiedBy: modified by {{mod}}
     timeLimit: one {{unit}}
     timeLimit_plural: the next {{count}} {{unit}}s

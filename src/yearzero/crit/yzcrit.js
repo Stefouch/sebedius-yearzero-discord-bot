@@ -15,7 +15,6 @@ class YearZeroCrit {
    * @param {string}    data.effect
    * @param {number}    data.healingTime
    * @param {?string}   data.game
-   * @param {?string}   data.tableName
    * @param {?number[]} data.rolledResults
    * @throws {SyntaxError} If no data was given
    */
@@ -68,9 +67,9 @@ class YearZeroCrit {
 
     /**
      * Healing time for the injury.
-     * @type {number}
+     * @type {{ value: number, text: string }}
      */
-    this.healingTime = +data.healingTime || 0;
+    this.healingTime = this.#prepareHealingTime(data.healingTime);
 
     /* ------------------------------------------ */
 
@@ -79,12 +78,6 @@ class YearZeroCrit {
      * @type {string}
      */
     this.game = data.game;
-
-    /**
-     * The name of the table the Critical Injury comes from.
-     * @type {string}
-     */
-    this.tableName = data.tableName;
 
     /**
      * The rolled results for drawing the Critical Injury.
@@ -111,6 +104,19 @@ class YearZeroCrit {
    */
   get lucky() {
     return this.rolledResults.length > 1;
+  }
+
+  /* ------------------------------------------ */
+
+  #prepareHealingTime(healingTime) {
+    const out = {};
+    if (typeof healingTime === 'string') {
+      out.text = healingTime;
+    }
+    else {
+      out.value = healingTime;
+    }
+    return out;
   }
 }
 
