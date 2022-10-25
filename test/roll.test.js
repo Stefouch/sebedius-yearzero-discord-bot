@@ -1,8 +1,8 @@
 const { describe, it } = require('mocha');
 const expect = require('chai').expect;
-// const RollTable = require('../utils/RollTable');
 const YearZeroRoll = require('../src/yearzero/roller/yzroll');
 const YearZeroDice = require('../src/yearzero/roller/dice');
+const RollTable = require('../src/utils/RollTable');
 const { YearZeroGames } = require('../src/constants');
 const { YearZeroDieTypes } = require('../src/yearzero/roller/dice/dice-constants');
 const { clamp, rand } = require('../src/utils/number-utils');
@@ -98,70 +98,70 @@ describe('YEARZERO ROLL MODULE', function () {
   // });
 });
 
-// describe('RollTable Module - D6', function () {
-//   const rt = new RollTable('Box of Stef', 'D6', [
-//     ['1-3', 'Sebedius'],
-//     ['4-5', 'Thaddeus'],
-//     ['6', 'Retzius'],
-//   ]);
+describe('YEARZERO ROLL TABLE MODULE - D6', function () {
+  const rt = new RollTable('Box of Stef', 'D6', [
+    [1, 'Sebedius'],
+    [3, 'Thaddeus'],
+    [6, 'Retzius'],
+  ]);
 
-//   it('Should have correct properties', function () {
-//     expect(rt.min).to.equal(1);
-//     expect(rt.max).to.equal(6);
-//     expect(rt.length).to.equal(6);
-//     expect(rt.size).to.equal(3);
-//     expect(rt.d).to.equal('D6');
-//   });
+  it('Should have correct properties', function () {
+    expect(rt.min).to.equal(1);
+    expect(rt.max).to.equal(6);
+    // expect(rt.length).to.equal(6);
+    expect(rt.size).to.equal(3);
+    expect(rt.roller).to.equal('D6');
+  });
 
-//   it('Should return Sebedius', function () {
-//     expect(rt.get(0)).to.equal('Sebedius');
-//   });
+  it('Should return Sebedius', function () {
+    expect(rt.get(0)).to.equal('Sebedius');
+  });
 
-//   it('Should return Thaddeus', function () {
-//     expect(rt.get('5')).to.equal('Thaddeus');
-//   });
+  it('Should return Thaddeus', function () {
+    expect(rt.get(2)).to.equal('Thaddeus');
+  });
 
-//   it('Should return Retzius', function () {
-//     expect(rt.get(7)).to.equal('Retzius');
-//   });
+  it('Should return Retzius', function () {
+    expect(rt.get(7)).to.equal('Retzius');
+  });
 
-//   it('Should return correct random values', function () {
-//     for (let i = 0; i < 1000; i++) {
-//       expect(rt.random()).to.be.a('string');
-//     }
-//   });
-// });
+  it('Should return correct random values', function () {
+    for (let i = 0; i < 1000; i++) {
+      expect(rt.roll()).to.be.a('string');
+    }
+  });
+});
 
-// describe('RollTable Module - D66', function () {
-//   const rt = new RollTable('Box of Stef', 'D66', [
-//     ['11-22', 'Sebedius'],
-//     ['23-56', 'Thaddeus'],
-//     ['61-66', 'Retzius'],
-//   ]);
+describe('YEARZERO ROLL TABLE MODULE - D66', function () {
+  const rt = new RollTable('Box of Stef', 'D66', [
+    [22, 'Sebedius'],
+    [56, 'Thaddeus'],
+    [66, 'Retzius'],
+  ]);
 
-//   it('Should have correct properties', function () {
-//     expect(rt.min).to.equal(11);
-//     expect(rt.max).to.equal(66);
-//     expect(rt.length).to.equal(36);
-//     expect(rt.size).to.equal(3);
-//     expect(rt.d).to.equal('D66');
-//   });
+  it('Should have correct properties', function () {
+    expect(rt.min).to.equal(11);
+    expect(rt.max).to.equal(66);
+    // expect(rt.length).to.equal(36);
+    expect(rt.size).to.equal(3);
+    expect(rt.roller).to.equal('D66');
+  });
 
-//   it('Should return Sebedius', function () {
-//     expect(rt.get(0)).to.equal('Sebedius');
-//   });
+  it('Should return Sebedius', function () {
+    expect(rt.get(0)).to.equal('Sebedius');
+  });
 
-//   it('Should return Thaddeus', function () {
-//     expect(rt.get('33')).to.equal('Thaddeus');
-//   });
+  it('Should return Thaddeus', function () {
+    expect(rt.get(33)).to.equal('Thaddeus');
+  });
 
-//   it('Should return Retzius', function () {
-//     expect(rt.get(100)).to.equal('Retzius');
-//   });
+  it('Should return Retzius', function () {
+    expect(rt.get(100)).to.equal('Retzius');
+  });
 
-//   it('Should return correct random values', function () {
-//     for (let i = 0; i < 10000; i++) {
-//       expect(rt.random()).to.be.a('string');
-//     }
-//   });
-// });
+  it('Should return correct random values', function () {
+    for (let i = 0; i < 10000; i++) {
+      expect(rt.roll()).to.be.a('string');
+    }
+  });
+});
