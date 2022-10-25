@@ -97,15 +97,6 @@ class YearZeroCrit {
     return this.lethal && this.timeLimit === 0;
   }
 
-  /**
-   * Whether the victim was lucky.
-   * @type {boolean}
-   * @readonly
-   */
-  get lucky() {
-    return this.rolledResults.length > 1;
-  }
-
   /* ------------------------------------------ */
 
   #prepareHealingTime(healingTime) {
