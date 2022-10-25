@@ -20,7 +20,7 @@ const GameSubcommandsList = {
   [YearZeroGames.FORBIDDEN_LANDS]: [`table_${YearZeroGames.FORBIDDEN_LANDS}`, 'reference', 'lucky', 'private'],
   [YearZeroGames.MUTANT_YEAR_ZERO]: [`table_${YearZeroGames.MUTANT_YEAR_ZERO}`, 'reference', 'private'],
   // [YearZeroGames.TALES_FROM_THE_LOOP]: [],
-  [YearZeroGames.TWILIGHT_2K]: [`table_${YearZeroGames.TWILIGHT_2K}`, 'reference', 'private'],
+  [YearZeroGames.TWILIGHT_2K]: [`table_${YearZeroGames.TWILIGHT_2K}`, 'reference', 'severe', 'private'],
   [YearZeroGames.VAESEN]: [`table_${YearZeroGames.VAESEN}`, 'reference', 'private'],
 };
 
@@ -122,6 +122,17 @@ const SlashCommandOptions = {
     min: 1,
     max: 66,
   },
+  severe: {
+    description: 'Apply damage severity (roll more D10s and use the highest result, see page 74)',
+    type: ApplicationCommandOptionType.Integer,
+    choices: [{
+      name: 'Two steps or more - roll 2D10',
+      value: 2,
+    }, {
+      name: 'Four steps or more - roll 3D10',
+      value: 3,
+    }],
+  },
   lucky: {
     description: 'Apply the talent *Lucky*, and choose the rank I, II or III',
     type: ApplicationCommandOptionType.Integer,
@@ -164,6 +175,7 @@ module.exports = class CritCommand extends SebediusCommand {
     const game = interaction.options.getSubcommand();
     const fixedReference = interaction.options.getInteger('reference');
     const luckyRank = interaction.options.getInteger('lucky');
+    const severeRank = interaction.options.getInteger('severe') || 1;
     const tableName = interaction.options.getString(`table_${game}`);
 
     // await interaction.deferReply({
@@ -171,10 +183,17 @@ module.exports = class CritCommand extends SebediusCommand {
     // });
 
     return this.crit(interaction, t, {
-      game, tableName, fixedReference, luckyRank,
+      game, tableName, fixedReference, luckyRank, severeRank,
     });
-
   }
+
+  /* ------------------------------------------ */
+  /*  METHODS PLAN:                             */
+  /*  run → crit ← 0. (#getTwilightCritTable)   */
+  /*         ↓   ← 2. (#severe | #lucky)        */
+  /*         ↓   ← 4.  #createCritEmbed     ↑   */
+  /*        reply                      rollD66  */
+  /* ------------------------------------------ */
 
   /**
    * @param {SebediusCommand.SebediusCommandInteraction}  interaction
@@ -184,18 +203,26 @@ module.exports = class CritCommand extends SebediusCommand {
    * @param {string}        args.tableName
    * @param {number}        args.fixedReference
    * @param {number}        args.luckyRank
+   * @param {number}        args.severeRank
    */
-  async crit(interaction, t, { game, tableName, fixedReference, luckyRank }) {
-    // If the tableName was not found, takes the first table of the game.
+  async crit(interaction, t, { game, tableName, fixedReference, luckyRank, severeRank }) {
+    // 0. If the tableName was not found, finds one.
     if (!tableName) {
-      tableName = Object.values(YearZeroRollTables)
-        .find(rt => rt.startsWith(`table-${game}`));
+      // For T2K, rolls a location die.
+      if (game === YearZeroGames.TWILIGHT_2K) {
+        tableName = this.#getTwilightCritTable();
+      }
+      // For other games, takes the first table of the game.
+      else {
+        tableName = Object.values(YearZeroRollTables)
+          .find(rt => rt.startsWith(`table-${game}`));
+      }
     }
     if (!tableName) {
       throw new ReferenceError(`[crit:${game}] Table Name Not Found!`);
     }
 
-    // Loads the crit table.
+    // 1.Loads the crit table.
     const critTable = await this.bot.getTable(t.lng, tableName);
     if (!critTable) {
       throw new ReferenceError(`[crit:${game}] Table "${tableName}" Not Found!`);
@@ -203,16 +230,16 @@ module.exports = class CritCommand extends SebediusCommand {
 
     const max = critTable.max;
 
-    // Makes a roll for the crit.
+    // 2. Creates a roll for the crit.
     const critRoll = new YearZeroRoll({
       author: interaction.member,
       name: 'Crit Roll',
       game,
     });
 
-    let value = 0, values;
+    let value = 0, values = [];
 
-    // Classic games:
+    // 2.1.1. Classic games:
     if ([66, 666].includes(max)) {
       if (fixedReference) {
         value = +[...String(fixedReference)]
@@ -228,11 +255,20 @@ module.exports = class CritCommand extends SebediusCommand {
         value = rollD66();
       }
     }
-    // Twilight 2000 & Blade Runner:
-    else if (fixedReference) value = clamp(fixedReference, 1, max);
-    else value = BaseDie.rng(1, max);
+    // 2.1.2. Twilight 2000 & Blade Runner:
+    else if (fixedReference) {
+      value = clamp(fixedReference, 1, max);
+    }
+    else if (game === YearZeroGames.TWILIGHT_2K && severeRank > 1) {
+      const severeResult = this.#severe(severeRank);
+      value = severeResult.value;
+      values = severeResult.values;
+    }
+    else {
+      value = BaseDie.rng(1, max);
+    }
 
-    // Adds the dice.
+    // 2.3. Adds the dice.
     switch (game) {
       case YearZeroGames.BLADE_RUNNER:
         critRoll.addDice(BladeRunnerDie, 1, { faces: max, results: [value] });
@@ -248,16 +284,32 @@ module.exports = class CritCommand extends SebediusCommand {
 
     critRoll.setMaxPush(0);
 
-    // Gets the crit.
+    // 3. Gets the crit.
     const critData = critTable.get(value, true) || {};
     critData.ref = value;
     critData.game = game;
-    if (values) critData.rolledResults = values;
+    if (values.length > 1) critData.rolledResults = values;
 
     const crit = new YearZeroCrit(critData);
 
+    // 4. Creates the embed.
     const embed = await this.#createCritEmbed(crit, t);
-    embed.setFooter({ text: `D${max} • ${tableName}` });
+
+    // 4.1. 
+    if (critData.call) {
+      const calledCrit = critData.get(critData.call);
+      embed.addFields({
+        name: calledCrit.name,
+        value: calledCrit.effect,
+      });
+    }
+
+    // 4.2. Adds the footer.
+    embed.setFooter({
+      text: `${t('commons:D', { number: '', faces: max })} • ${tableName}`,
+    });
+
+    // 4. Sends the reply.
 
     // If the game has blank dice, we should use the default template.
     const hasBlankDice = this.bot.config.Commands.roll.options[game]?.hasBlankDice;
@@ -265,7 +317,7 @@ module.exports = class CritCommand extends SebediusCommand {
     return interaction.reply({
       content: critRoll.emojify(hasBlankDice ? YearZeroGames.BLANK : game),
       embeds: [embed],
-      // ephemeral: interaction.options.getBoolean('private', false),
+      ephemeral: interaction.options.getBoolean('private', false),
     })
       .then(() => {
         if (crit.fatal && game !== YearZeroGames.VAESEN) {
@@ -279,6 +331,44 @@ module.exports = class CritCommand extends SebediusCommand {
   /* ------------------------------------------ */
 
   /**
+   * Rolls a Location Die and return the corresponding crit table
+   * for Twilight 2000 games.
+   */
+  #getTwilightCritTable() {
+    const roll = BaseDie.rng(1, 6);
+    switch (roll) {
+      case 1: return YearZeroRollTables.T2K_CRIT_LEGS;
+      case 5: return YearZeroRollTables.T2K_CRIT_ARMS;
+      case 6: return YearZeroRollTables.T2K_CRIT_HEAD;
+      default: return YearZeroRollTables.T2K_CRIT_TORSO;
+    }
+  }
+
+  /* ------------------------------------------ */
+
+  /**
+   * Severe injury: rolls multiple dice and uses the highest result.
+   * Used by the following games:
+   * - Twilight 2000 (page 74)
+   * @param {number} rank
+   */
+  #severe(rank) {
+    const result = {
+      /** @type {number[]} */ values: [],
+      get value() { return Math.max(...this.values); },
+    };
+    for (; rank > 0; rank--) {
+      result.values.push(BaseDie.rng(1, 10));
+    }
+    return result;
+  }
+
+  /* ------------------------------------------ */
+
+  /**
+   * Rolls multiple dice and manipulates them.
+   * Used by the following games:
+   * - Forbidden Lands (Lucky talent)
    * @param {number} rank
    */
   #lucky(rank) {
@@ -359,20 +449,28 @@ module.exports = class CritCommand extends SebediusCommand {
       embed.addFields({ name: t('commands:crit.embed.lethality'), value });
     }
 
-    if (crit.lucky) {
-      embed.addFields({
-        name: t('commons:talents.fbl.lucky'),
-        value: t('commands:crit.embed.lucky', { values: crit.rolledResults }),
-      });
+    if (crit.rolledResults.length > 1) {
+      if (crit.game === YearZeroGames.FORBIDDEN_LANDS) {
+        embed.addFields({
+          name: t('commons:talents.fbl.lucky'),
+          value: t('commands:crit.embed.luckyResults', { values: crit.rolledResults }),
+        });
+      }
+      else if (crit.game === YearZeroGames.TWILIGHT_2K) {
+        embed.addFields({
+          name: t('commands:crit.embed.severe'),
+          value: t('commands:crit.embed.severeResults', { values: crit.rolledResults }),
+        });
+      }
     }
 
     // Sets the color.
     if (crit.lethal) {
       embed.setColor(crit.fatal ? this.bot.config.Colors.isoProhibit : this.bot.config.Colors.red);
     }
-    // else if (crit.ref < ) {
-    //   embed.setColor(this.bot.config.Colors.isoWarn);
-    // } // TODO
+    else {
+      embed.setColor(this.bot.config.Colors.isoWarn);
+    }
 
     return embed;
   }
