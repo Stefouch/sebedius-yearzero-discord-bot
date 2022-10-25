@@ -1,7 +1,7 @@
 $name: alien-crit-damage
 $roll: true
 11:
-  name: erschöpft
+  name: Erschöpft
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -9,7 +9,7 @@ $roll: true
   timeLimitUnit:
   effect: Kein Effekt.
 12:
-  name: benommen
+  name: Benommen
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -17,7 +17,7 @@ $roll: true
   timeLimitUnit:
   effect: Kein Effekt.
 13:
-  name: lähmender Schmerz
+  name: Lähmender Schmerz
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -25,7 +25,7 @@ $roll: true
   timeLimitUnit:
   effect: STRESSLEVEL steigt um 1.
 14:
-  name: verstauchter Knöchel
+  name: Verstauchter Knöchel
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -33,7 +33,7 @@ $roll: true
   timeLimitUnit:
   effect: kein Laufen und BEWEGLICHKEIT -2, bis Wurf auf MEDIZINISCHE HILFE erfolgt.
 15:
-  name: Blut in den Augen
+  name: Blut In Den Augen
   lethal: false
   healMalus: 0
   healingTime: 0
@@ -49,7 +49,7 @@ $roll: true
   timeLimitUnit:
   effect: BEWEGLICHKEIT −2.
 21:
-  name: abgetrenntes Ohr
+  name: Abgetrenntes Ohr
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -57,7 +57,7 @@ $roll: true
   timeLimitUnit:
   effect: WAHRNEHMUNG −2.
 22:
-  name: gebrochene Zehen
+  name: Gebrochene Zehen
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -65,7 +65,7 @@ $roll: true
   timeLimitUnit:
   effect: Laufen wird langsame Aktion.
 23:
-  name: gebrochene Hand
+  name: Gebrochene Hand
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -73,7 +73,7 @@ $roll: true
   timeLimitUnit:
   effect: Hand kann nicht benutzt werden.
 24:
-  name: ausgeschlagene Zähne
+  name: Ausgeschlagene Zähne
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -81,7 +81,7 @@ $roll: true
   timeLimitUnit:
   effect: MANIPULATION −2.
 25:
-  name: aufgespießter Oberschenkel
+  name: Aufgespießter Oberschenkel
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -89,7 +89,7 @@ $roll: true
   timeLimitUnit:
   effect: Laufen wird langsame Aktion.
 26:
-  name: aufgeschlitzte Schulter
+  name: Aufgeschlitzte Schulter
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -97,7 +97,7 @@ $roll: true
   timeLimitUnit:
   effect: Arm kann nicht genutzt werden.
 31:
-  name: gebrochene Nase
+  name: Gebrochene Nase
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -105,7 +105,7 @@ $roll: true
   timeLimitUnit:
   effect: MANIPULATION und WAHRNEHMUNG −2.
 32:
-  injurr: in die Weichteile
+  name: In Die Weichteile
   lethal: false
   healMalus: 0
   healingTime: 1
@@ -113,7 +113,7 @@ $roll: true
   timeLimitUnit:
   effect: 1 Punkt Schaden bei jedem Wurf auf BEWEGLICHKEIT und NAHKAMPF.
 33:
-  name: gebrochene Rippen
+  name: Gebrochene Rippen
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -121,7 +121,7 @@ $roll: true
   timeLimitUnit:
   effect: BEWEGLICHKEIT und NAHKAMPF −2.
 34:
-  name: verletztes Auge
+  name: Verletztes Auge
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -129,7 +129,7 @@ $roll: true
   timeLimitUnit:
   effect: FERNKAMPF und WAHRNEHMUNG −2.
 35:
-  name: zerstörte Kniescheibe
+  name: Zerstörte Kniescheibe
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -137,7 +137,7 @@ $roll: true
   timeLimitUnit:
   effect: kein Laufen, nur Kriechen.
 36:
-  name: gebrochener Arm
+  name: Gebrochener Arm
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -145,7 +145,7 @@ $roll: true
   timeLimitUnit:
   effect: Arm kann nicht benutzt werden.
 41:
-  name: gebrochenes Bein
+  name: Gebrochenes Bein
   lethal: false
   healMalus: 0
   healingTime: 2
@@ -153,7 +153,7 @@ $roll: true
   timeLimitUnit:
   effect: kein Laufen, nur Kriechen.
 42:
-  name: zertrümmerter Fuß
+  name: Zertrümmerter Fuß
   lethal: false
   healMalus: 0
   healingTime: 3
@@ -161,7 +161,7 @@ $roll: true
   timeLimitUnit:
   effect: kein Laufen, nur Kriechen.
 43:
-  name: zertrümmerter Ellbogen
+  name: Zertrümmerter Ellbogen
   lethal: false
   healMalus: 0
   healingTime: 3
@@ -169,7 +169,7 @@ $roll: true
   timeLimitUnit:
   effect: Arm kann nicht benutzt werden.
 44:
-  name: punktierte Lunge
+  name: Punktierte Lunge
   lethal: true
   healMalus: 0
   healingTime: 1
@@ -193,7 +193,7 @@ $roll: true
   timeLimitUnit: Schicht
   effect: Krankheit mit Virulenz 6.
 51:
-  name: gequetschte Niere
+  name: Gequetschte Niere
   lethal: true
   healMalus: 0
   healingTime: 2
@@ -201,7 +201,7 @@ $roll: true
   timeLimitUnit: Tages
   effect: kein Laufen, nur Kriechen, BEWEGLICHKEIT −2.
 52:
-  name: aufgeschlitzte Armarterie
+  name: Aufgeschlitzte Armarterie
   lethal: true
   healMalus: -1
   healingTime: 1
@@ -209,7 +209,7 @@ $roll: true
   timeLimitUnit: Phase
   effect: Arm kann nicht benutzt werden.
 53:
-  name: aufgeschlitzte Beinarterie
+  name: Aufgeschlitzte Beinarterie
   lethal: true
   healMalus: -1
   healingTime: 1
@@ -233,7 +233,7 @@ $roll: true
   timeLimitUnit: Schicht
   effect: kein Laufen, nur Kriechen *(permanent)*.
 56:
-  name: gebrochene Wirbelsäule
+  name: Gebrochene Wirbelsäule
   lethal: false
   healMalus: 0
   healingTime: 3
@@ -241,7 +241,7 @@ $roll: true
   timeLimitUnit:
   effect: halsabwärts gelähmt (permanent, wenn nicht zeitnah  MEDIZINISCHE HILFE erfolgt).
 61:
-  name: Halsschlagader gerissen
+  name: Halsschlagader Gerissen
   lethal: true
   healMalus: -1
   healingTime: 2
@@ -249,7 +249,7 @@ $roll: true
   timeLimitUnit: Runde
   effect: AUSDAUER −1.
 62:
-  name: Aorta gerissen
+  name: Aorta Gerissen
   lethal: true
   healMalus: -2
   healingTime: 3
@@ -257,7 +257,7 @@ $roll: true
   timeLimitUnit: Runde
   effect: AUSDAUER −2.
 63:
-  name: herausgerissene Eingeweide
+  name: Herausgerissene Eingeweide
   lethal: true
   healMalus: 0
   healingTime: 0
@@ -265,7 +265,7 @@ $roll: true
   timeLimitUnit:
   effect: sofortiger Tod.
 64:
-  name: zerquetschter Schädel
+  name: Zerquetschter Schädel
   lethal: true
   healMalus: 0
   healingTime: 0
@@ -273,7 +273,7 @@ $roll: true
   timeLimitUnit:
   effect: Deine Geschichte endet hier.
 65:
-  name: durchbohrter Kopf
+  name: Durchbohrter Kopf
   lethal: true
   healMalus: 0
   healingTime: 0
@@ -281,7 +281,7 @@ $roll: true
   timeLimitUnit:
   effect: Du stirbst sofort.
 66:
-  name: aufgespießtes Herz
+  name: Aufgespießtes Herz
   lethal: true
   healMalus: 0
   healingTime: 0

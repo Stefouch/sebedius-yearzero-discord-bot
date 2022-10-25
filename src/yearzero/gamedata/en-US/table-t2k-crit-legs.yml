@@ -1,0 +1,66 @@
+$name: t2k-crit-legs
+$roll: true
+1:
+  name: Crushed Toes
+  lethal: No
+  timeLimit: 0
+  effect: Running becomes a slow action
+  healingTime: '[[2D6]]'
+2:
+  name: Dislocated Knee
+  lethal: No
+  timeLimit: 0
+  effect: "Can't run, only crawl"
+  healingTime: '[[D6]]'
+3:
+  name: Severed Tendons
+  lethal: No
+  timeLimit: 0
+  effect: Running is slow action, MOBILITY –2
+  healingTime: '[[2D6]]'
+4:
+  name: Broken Shinbone
+  lethal: No
+  timeLimit: 0
+  effect: "Can't run, only crawl"
+  healingTime: '[[3D6]]'
+5:
+  name: Crushed Ankle
+  lethal: No
+  timeLimit: 0
+  effect: "Can't run, MOBILITY –2"
+  healingTime: '[[2D6]]'
+6:
+  name: Cracked Hip
+  lethal: No
+  timeLimit: 0
+  effect: "Can't run, MOBILITY –2"
+  healingTime: '[[3D6]]'
+7:
+  name: Thigh Gash
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  effect: Running is slow action, MOBILITY –2
+  healingTime: '[[D6]]'
+8:
+  name: Shattered Knee
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  effect: "Can't run, MOBILITY –2"
+  healingTime: '[[3D6]]'
+9:
+  name: Arterial Bleeding
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Stretch
+  effect: Running becomes a slow action
+  healingTime: '[[2D6]]'
+10:
+  name: Severed Leg
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Stretch
+  effect: "Can't run, MOBILITY –2"
+  healingTime: -1

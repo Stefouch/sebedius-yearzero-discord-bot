@@ -8,7 +8,7 @@ const Logger = require('../../utils/logger');
 const GAMEDATA_PATH = './src/yearzero/gamedata';
 const EXT = 'yml';
 
-async function parseGamedata(lang, fileName) {
+function parseGamedata(lang, fileName) {
   let filePath = `${GAMEDATA_PATH}/${lang}/${fileName}.${EXT}`;
 
   if (!existsSync(filePath)) {

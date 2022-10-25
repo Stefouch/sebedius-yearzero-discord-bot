@@ -1,0 +1,66 @@
+$name: t2k-crit-arms
+$roll: true
+1:
+  name: Dislocated Shoulder
+  lethal: No
+  timeLimit: 0
+  effect: '`RANGED COMBAT` –2 with two-handed weapons'
+  healingTime: '[[D6]]'
+2:
+  name: Slashed Forearm
+  lethal: No
+  timeLimit: 0
+  effect: '`RANGED COMBAT` –2 with two-handed weapons'
+  healingTime: '[[2D6]]'
+3:
+  name: Crushed Fingers
+  lethal: No
+  timeLimit: 0
+  effect: '`RANGED COMBAT` –2 with two-handed weapons'
+  healingTime: '[[3D6]]'
+4:
+  name: Dislocated Elbow
+  lethal: No
+  timeLimit: 0
+  effect: Two-handed weapons cannot be used
+  healingTime: '[[D6]]'
+5:
+  name: Broken Forearm
+  lethal: No
+  timeLimit: 0
+  effect: Two-handed weapons cannot be used
+  healingTime: '[[2D6]]'
+6:
+  name: Crushed Wrist
+  lethal: No
+  timeLimit: 0
+  effect: Two-handed weapons cannot be used
+  healingTime: '[[3D6]]'
+7:
+  name: Bleeding Shoulder
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  effect: '`RANGED COMBAT` –2 with two-handed weapons'
+  healingTime: '[[D6]]'
+8:
+  name: Shattered Elbow
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  effect: Two-handed weapons cannot be used
+  healingTime: '[[3D6]]'
+9:
+  name: Arterial Bleeding
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Stretch
+  effect: '`RANGED COMBAT` –2 with two-handed weapons'
+  healingTime: '[[2D6]]'
+10:
+  name: Severed Arm
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Stretch
+  effect: Two-handed weapons cannot be used
+  healingTime: -1

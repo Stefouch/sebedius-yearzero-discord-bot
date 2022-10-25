@@ -1,3 +1,4 @@
+$name: myz-crit-damage
 $roll: true
 11:
   name: Atemnot
@@ -80,7 +81,7 @@ $roll: true
   effect: −1 auf Manipulieren, +1 auf Einschüchtern.
   healingTime: 2
 25:
-  name: Unterleib lädiert
+  name: Unterleib Lädiert
   lethal: false
   healMalus: 0
   timeLimit: 0

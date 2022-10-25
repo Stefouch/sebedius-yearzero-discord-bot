@@ -1,9 +1,11 @@
+$name: t2k-crit-head
 $roll: true
+$header: ref;name;lethal;timeLimit;effect;healingTime
 1:
-  name: Ear slashed
+  name: Ear Slashed
   lethal: No
   timeLimit: 0
-  effect: RECON –1
+  effect: '`RECON` –1'
   healingTime: '[[D6]]'
 2:
   name: Concussion
@@ -12,54 +14,54 @@ $roll: true
   effect: CUF –1
   healingTime: '[[D6]]'
 3:
-  name: Nose crushed
+  name: Nose Crushed
   lethal: No
   timeLimit: 0
-  effect: RECON and PERSUASION –1
+  effect: '`RECON` and `PERSUASION` –1'
   healingTime: '[[2D6]]'
 4:
-  name: Shattered teeth
+  name: Shattered Teeth
   lethal: No
   timeLimit: 0
-  effect: PERSUASION –2
+  effect: '`PERSUASION` –2'
   healingTime: '[[3D6]]'
 5:
-  name: Cracked skull
+  name: Cracked Skull
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Shift
   effect: CUF –2
   healingTime: '[[2D6]]'
 6:
-  name: Gouged eye
+  name: Gouged Eye
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Shift
-  effect: RANGED COMBAT and RECON –2
+  effect: '`RANGED COMBAT` and RECON –2'
   healingTime: -1
 7:
-  name: Brain hemorrhage
+  name: Brain Hemorrhage
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Stretch
-  effect: All INT skills –2
+  effect: All `INT` skills –2
   healingTime: '[[3D6]]'
 8:
-  name: Shattered neck
+  name: Shattered Neck
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Stretch
   effect: Fall down, immobile
   healingTime: '[[4D6]]'
 9:
-  name: Crushed windpipe
+  name: Crushed Windpipe
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Round
-  effect: STAMINA and MOBILITY –2
+  effect: '`STAMINA` and `MOBILITY` –2'
   healingTime: '[[3D6]]'
 10:
-  name: Brains blown out
+  name: Brains Blown Out
   lethal: Yes
   timeLimit: 0
   effect: Instant death

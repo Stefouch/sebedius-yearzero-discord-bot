@@ -1,3 +1,4 @@
+$name: coriolis-crit-damage
 $roll: true
 11:
   name: Atemnot
@@ -80,7 +81,7 @@ $roll: true
   timeLimitUnit:
   effect: Für eine Runde betäubt, dann -2 auf Manipulation.
 25:
-  nameim: Schritt
+  name: Schritt
   lethal: false
   healMalus: 0
   healingTime: 2

@@ -33,7 +33,7 @@ $roll: true
   timeLimitUnit:
   effect: "MOBILITY −2 and can't run until MEDICAL AID roll is made."
 15:
-  name: Blood in Eyes
+  name: Blood In Eyes
   lethal: false
   healMalus: 0
   healingTime: 0

@@ -1,19 +1,20 @@
+$name: alien-crit-synthetic
 $roll: true
 16:
-  injury: beschädigte Hydraulikpumpe
+  name: Beschädigte Hydraulikpumpe
   effect: Der Androide verliert seine nächste langsame Aktion.
 26:
-  injury: zerstörte Beinservormotoren
+  name: Zerstörte Beinservormotoren
   effect: Beide Beine sind funktionsuntüchtig. Der Androide liegt am Boden und kann nicht aufstehen, sondern lediglich kriechen.
 36:
-  injury: zerstörte Armservomotoren
+  name: Zerstörte Armservomotoren
   effect: Ein Arm ist funktionsuntüchtig. Der Androide kann nur einhändige Ausrüstung verwenden.
 46:
-  injury: Kopfdislokation
+  name: Kopfdislokation
   effect: Das künstliche Genick des Androiden ist massiv zerstört und sein Kopf befindet sich in einer unnatürlichen Position. Alle schnellen Aktuinen werden zu langsamen.
 56:
-  injury: schwerer Gehäuseschaden
+  name: Schwerer Gehäuseschaden
   effect: Die künstlichen inneren Organe quellen heraus und der Androide ist völlig bewegungsunfähig.
 66:
-  injury: Systemabschaltung
+  name: Systemabschaltung
   effect: Der Androide wurde in Stücke gehackt, zerquetscht oder auf andere Weise massiv beschädigt. Das Zentralsystem ist aber noch funktionstüchtig und kann reaktiviert werden.
