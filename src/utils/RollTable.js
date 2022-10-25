@@ -116,6 +116,9 @@ class RollTable extends Map {
     if (typeof reference !== 'number') {
       throw new TypeError(`RollTableError[${this.name}]: Reference "${reference}" Not A Number!`);
     }
+    if (reference > this.max) {
+      return this.get(this.max);
+    }
     for (const [key] of this) {
       if (reference <= key) {
         const value = super.get(key);
@@ -163,8 +166,8 @@ class RollTable extends Map {
    */
   roll(rollFn) {
     const fn = rollFn || this.rollFn;
-    if (typeof rollFn === 'undefined' || typeof rollFn !== 'function') {
-      throw new TypeError('RollTableError[${this.name}]: rollFn Is Not A Function!');
+    if (typeof fn === 'undefined' || typeof fn !== 'function') {
+      throw new TypeError(`RollTableError[${this.name}]: rollFn Is Not A Function!`);
     }
     const seed = fn();
     const value = this.get(seed);
