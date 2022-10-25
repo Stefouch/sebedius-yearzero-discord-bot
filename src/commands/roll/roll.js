@@ -152,7 +152,7 @@ module.exports = class RollCommand extends SebediusCommand {
     });
     this.data = this.createSlashCommandBuilder(
       'roll',
-      'Roll dice for any Year Zero roleplaying game',
+      'Roll dice for a Year Zero roleplaying game',
       GameSubcommandsList,
       SlashCommandOptions,
     );

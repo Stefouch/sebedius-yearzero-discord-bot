@@ -243,7 +243,9 @@ class SebediusCommand {
   #getLocalizations(key) {
     const localizations = {};
     for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
-      if (lng === this.bot.config.defaultLocale) continue;
+      // ? Disabled the following line in order to translate the table_<game>'s argument
+      // ? in the crit command to a simple "table"
+      // ! if (lng === this.bot.config.defaultLocale) continue;
       const localizedName = this.bot.i18n.getResource(lng, 'commands', `${key}`);
       if (localizedName) localizations[lng] = localizedName;
     }

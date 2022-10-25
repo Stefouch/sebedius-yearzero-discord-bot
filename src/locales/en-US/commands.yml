@@ -44,7 +44,7 @@ rolla:
       description: Override the default chosen game which is used to render the rolled dice
 roll:
   name: roll
-  description: Roll dice for any Year Zero roleplaying game
+  description: Roll dice for a Year Zero roleplaying game
   options:
     input:
       name: input
@@ -246,12 +246,33 @@ crit:
   name: crit
   description: Draw a random critical injury
   options:
+    table_alien:
+      name: table
+      desription: Choose the table
+    table_bladerunner:
+      name: table
+      desription: Choose the table
+    table_fbl:
+      name: table
+      desription: Choose the table
+    table_myz:
+      name: table
+      desription: Choose the table
+    table_twilight2000:
+      name: table
+      desription: Choose the table
+    table_vaesen:
+      name: table
+      desription: Choose the table
     reference:
       name: reference
-      description: Use a fixed number instead (doesn't roll a D66)
+      description: Use a fixed number instead (no roll)
     lucky:
       name: lucky
       description: Apply the talent *Lucky*, and choose the rank I, II or III
+    severe:
+      name: severe
+      description: Apply damage severity (roll more D10s and use the highest result, see page 74)
     private:
       name: private
       description: Whether to hide the result from other players
@@ -268,4 +289,6 @@ crit:
     modifiedBy: modified by {{mod}}
     timeLimit: one {{unit}}
     timeLimit_plural: the next {{count}} {{unit}}s
-    lucky: 'Lucky using the following values: {{values}}'
+    luckyResults: 'Lucky using the following values: {{values}}'
+    severe: Severe Injury
+    severeResults: 'Rolled the following values: {{values}}'
