@@ -47,6 +47,10 @@ SebediusConfig.defaultLocale = 'en-US';
 
 /** @enum {Object} */
 SebediusConfig.Commands = {};
+SebediusConfig.Commands.crit = {
+  fatalEmoji: '💀💀💀',
+  deadEmoji: '🪦', // Headstone
+};
 SebediusConfig.Commands.init = {
   expires: '10d',
   colorGradient: [
