@@ -101,8 +101,13 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
           }
           else if (cmdName === 'crit') {
             option = {
-              name: 'alien',
+              name: 'fbl',
               type: Discord.ApplicationCommandOptionType.Subcommand,
+              options: [{
+                name: 'lucky',
+                value: 2,
+                type: Discord.ApplicationCommandOptionType.Integer,
+              }],
             };
           }
           else if (cmdName === 'help') {
