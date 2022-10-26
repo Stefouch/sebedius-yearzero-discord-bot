@@ -37,6 +37,7 @@ SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
   { name: 'Français', value: 'fr' },
   { name: 'Deutsch', value: 'de' },
+  { name: 'Svenska', value: 'sv-SE' },
 ];
 
 SebediusConfig.defaultLocale = 'en-US';
