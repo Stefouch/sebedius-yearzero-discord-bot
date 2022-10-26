@@ -41,7 +41,7 @@ describe('TABLES', function () {
                   expect(r.name, `${lang}/${tableName}: name of ${i}`)
                     .to.be.a('string');
                   expect(r.name, `${lang}/${tableName}: title case name of ${i}`)
-                    .to.match(/^(?:[A-Z][^\s]*\s?\(?)+$/);
+                    .to.match(/^(?:[A-ZÖ][^\s]*\s?\(?)+$/);
 
                   // Checks effect.
                   expect(r.effect, `${lang}/${tableName}: effect of ${i}`)
