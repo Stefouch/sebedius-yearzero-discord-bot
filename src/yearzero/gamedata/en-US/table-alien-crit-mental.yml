@@ -13,7 +13,7 @@ _roll: true
   name: Depression
   effect: You are prone to episodes of depression and moodiness. Every day, make an Empathy roll—if you fail, you’re having a bad day. Your STRESS LEVEL increases by one and you can’t relieve stress until the next day.
 56:
-  name: Drug USE
+  name: Drug Use
   effect: You must use some form of recreational drug (see page 137) every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 104) without consuming your drug of choice.
 66:
   name: Amnesia

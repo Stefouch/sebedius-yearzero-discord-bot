@@ -51,7 +51,7 @@ _roll: true
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Stretch
-  effect: STAMINA –1 and disease virulence –3, incubation one shift.
+  effect: '`STAMINA` –1 and disease virulence –3, incubation one shift.'
   healingTime: '[[2D6]]'
 9:
   name: Internal Bleeding

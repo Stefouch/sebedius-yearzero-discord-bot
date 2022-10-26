@@ -31,7 +31,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: "MOBILITY −2 and can't run until MEDICAL AID roll is made."
+  effect: "`MOBILITY` −2 and can't run until `MEDICAL AID` roll is made."
 15:
   name: Blood In Eyes
   lethal: false
@@ -39,7 +39,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: OBSERVATION and RANGED COMBAT −2 until MEDICAL AID roll is made.
+  effect: '`OBSERVATION` and `RANGED COMBAT` −2 until `MEDICAL AID` roll is made.'
 16:
   name: Concussion
   lethal: false
@@ -47,7 +47,7 @@ _roll: true
   healingTime: 1
   timeLimit: 0
   timeLimitUnit:
-  effect: MOBILITY −2.
+  effect: '`MOBILITY` −2.'
 21:
   name: Severed Ear
   lethal: false
@@ -55,7 +55,7 @@ _roll: true
   healingTime: 1
   timeLimit: 0
   timeLimitUnit:
-  effect: OBSERVATION −2.
+  effect: '`OBSERVATION` −2.'
 22:
   name: Broken Toes
   lethal: false
@@ -79,7 +79,7 @@ _roll: true
   healingTime: 1
   timeLimit: 0
   timeLimitUnit:
-  effect: MANIPULATION −2.
+  effect: '`MANIPULATION` −2.'
 25:
   name: Impaled Thigh
   lethal: false
@@ -103,7 +103,7 @@ _roll: true
   healingTime: 1
   timeLimit: 0
   timeLimitUnit:
-  effect: MANIPULATION and OBSERVATION −2.
+  effect: '`MANIPULATION` and `OBSERVATION` −2.'
 32:
   name: Crotch Hit
   lethal: false
@@ -111,7 +111,7 @@ _roll: true
   healingTime: 1
   timeLimit: 0
   timeLimitUnit:
-  effect: One point of damage at every roll for MOBILITY and CLOSE COMBAT.
+  effect: One point of damage at every roll for `MOBILITY` and `CLOSE COMBAT`.
 33:
   name: Broken Ribs
   lethal: false
@@ -119,7 +119,7 @@ _roll: true
   healingTime: 2
   timeLimit: 0
   timeLimitUnit:
-  effect: MOBILITY and CLOSE COMBAT −2.
+  effect: '`MOBILITY` and `CLOSE COMBAT` −2.'
 34:
   name: Gouged Eye
   lethal: false
@@ -127,7 +127,7 @@ _roll: true
   healingTime: 2
   timeLimit: 0
   timeLimitUnit:
-  effect: RANGED COMBAT and OBSERVATION −2.
+  effect: '`RANGED COMBAT` and `OBSERVATION` −2.'
 35:
   name: Busted Kneecap
   lethal: false
@@ -175,7 +175,7 @@ _roll: true
   healingTime: 1
   timeLimit: 1
   timeLimitUnit: day
-  effect: STAMINA and MOBILITY −2.
+  effect: '`STAMINA` and `MOBILITY` −2.'
 45:
   name: Bleeding Gut
   lethal: true
@@ -183,7 +183,7 @@ _roll: true
   healingTime: 1
   timeLimit: 1
   timeLimitUnit: shift
-  effect: One point of damage at every roll for MOBILITY and CLOSE COMBAT.
+  effect: One point of damage at every roll for `MOBILITY` and `CLOSE COMBAT`.
 46:
   name: Ruptured Intestines
   lethal: true
@@ -199,7 +199,7 @@ _roll: true
   healingTime: 2
   timeLimit: 1
   timeLimitUnit: day
-  effect: "Can't run, only crawl, MOBILITY −2."
+  effect: "Can't run, only crawl, `MOBILITY` −2."
 52:
   name: Arm Artery Cut
   lethal: true
@@ -239,7 +239,7 @@ _roll: true
   healingTime: 3
   timeLimit: 0
   timeLimitUnit:
-  effect: Paralyzed from the neck down. If not given MEDICAL AID in time, the effect is permanent.
+  effect: Paralyzed from the neck down. If not given `MEDICAL AID` in time, the effect is permanent.
 61:
   name: Ruptured Jugular
   lethal: true
@@ -247,7 +247,7 @@ _roll: true
   healingTime: 2
   timeLimit: 1
   timeLimitUnit: round
-  effect: STAMINA −1.
+  effect: '`STAMINA` −1.'
 62:
   name: Ruptured Aorta
   lethal: true
@@ -255,7 +255,7 @@ _roll: true
   healingTime: 3
   timeLimit: 1
   timeLimitUnit: round
-  effect: STAMINA −2.
+  effect: '`STAMINA` −2.'
 63:
   name: Disemboweled
   lethal: true

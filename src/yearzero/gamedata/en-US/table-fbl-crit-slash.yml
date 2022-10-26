@@ -22,7 +22,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: Two-handed weapons can-not be used.
+  effect: Two-handed weapons cannot be used.
   healingTime: 1
 22:
   name: Severed Toe
@@ -62,7 +62,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: Two-handed weapons can-not be used.
+  effect: Two-handed weapons cannot be used.
   healingTime: 2
 36:
   name: Severed Ear
@@ -118,7 +118,7 @@ _roll: true
   healMalus: -1
   timeLimit: 1
   timeLimitUnit: hours
-  effect: Two-handed weapons can-not be used.
+  effect: Two-handed weapons cannot be used.
   healingTime: -1
 62:
   name: Severed Leg
