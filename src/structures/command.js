@@ -49,6 +49,15 @@ class SebediusCommand {
     return this.client;
   }
 
+  /**
+   * The command's config.
+   * @alias this.bot.config.Commands[this.name]
+   * @readonly
+   */
+  get config() {
+    return this.client.config.Commands[this.name];
+  }
+
   get name() {
     return this.data.name;
   }
@@ -243,7 +252,9 @@ class SebediusCommand {
   #getLocalizations(key) {
     const localizations = {};
     for (const lng of this.bot.config.SupportedLocales.map(l => l.value)) {
-      if (lng === this.bot.config.defaultLocale) continue;
+      // ? Disabled the following line in order to translate the table_<game>'s argument
+      // ? in the crit command to a simple "table"
+      // ! if (lng === this.bot.config.defaultLocale) continue;
       const localizedName = this.bot.i18n.getResource(lng, 'commands', `${key}`);
       if (localizedName) localizations[lng] = localizedName;
     }

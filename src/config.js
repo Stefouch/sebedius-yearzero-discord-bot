@@ -37,6 +37,7 @@ SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
   { name: 'Français', value: 'fr' },
   { name: 'Deutsch', value: 'de' },
+  { name: 'Svenska', value: 'sv-SE' },
 ];
 
 SebediusConfig.defaultLocale = 'en-US';
@@ -47,7 +48,11 @@ SebediusConfig.defaultLocale = 'en-US';
 
 /** @enum {Object} */
 SebediusConfig.Commands = {};
-SebediusConfig.Commands.init = {
+SebediusConfig.Commands.crit = {
+  fatalEmoji: '💀💀💀',
+  deadEmoji: '🪦', // Headstone
+};
+SebediusConfig.Commands.initiative = {
   expires: '10d',
   colorGradient: [
     0x000000,

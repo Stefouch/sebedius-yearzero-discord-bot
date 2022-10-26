@@ -1,0 +1,290 @@
+_name: coriolis-crit-damage
+_roll: true
+11:
+  name: Wind Knocked Out
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn.
+12:
+  name: Disoriented
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn.
+13:
+  name: Sprained Wrist
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Drops held item, then -1 to RANGED COMBAT and MELEE COMBAT.
+14:
+  name: Sprained Ankle
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Falls down, then -1 to DEXTERITY and INFILTRATION.
+15:
+  name: Concussion
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -1 to all advanced skills.
+16:
+  name: Bruised Lower Leg
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Falls down, then -1 to DEXTERITY and INFILTRATION.
+21:
+  name: Broken Nose
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -2 to MANIPULATION.
+22:
+  name: Broken Fingers
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Drops hold item, then -2 to RANGED COMBAT and MELEE COMBAT.
+23:
+  name: Broken Toes
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -2 to DEXTERITY and INFILTRATION.
+24:
+  name: Teeth Knocked Out
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -2 to MANIPULATION.
+25:
+  name: Groin Hit
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for two turns, then 1 point of damage per FORCE, DEXTERITY, and MELEE COMBAT test.
+26:
+  name: Dislocated Shoulder
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -3 to FORCE and MELEE COMBAT.
+31:
+  name: Broken Ribs
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -2 to DEXTERITY and MELEE COMBAT.
+32:
+  name: Broken Arm
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -3 to RANGED COMBAT and MELEE COMBAT.
+33:
+  name: Broken Leg
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Falls down, then Movement Rate halved, and -2 to DEXTERITY and INFILTRATION.
+34:
+  name: Shredded Ear
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -2 to OBSERVATION. `Permanent ugly scar`.
+35:
+  name: Gouged Eye
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Stunned for one turn, then -2 to RANGED COMBAT and OBSERVATION.
+36:
+  name: Punctured Lung
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: Stunned for one turn, then -3 to DEXTERITY.
+41:
+  name: Lacerated Kidney
+  lethal: true
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: Stunned for two turns, then 1 point of damage per FORCE, DEXTERITY, or MELEE COMBAT test.
+42:
+  name: Crushed Foot
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: Falls over, then Movement Rate halved, and -3 to DEXTERITY and INFILTRATION.
+43:
+  name: Crushed Elbow
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: Stunned for one turn, then -2 to FORCE and MELEE COMBAT. No use of two-handed weapons.
+44:
+  name: Crushed Knee
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Stunned for one turn, falls over, then Movement Rate halved, and -3 to DEXTERITY and INFILTRATION.
+45:
+  name: Crushed Face
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Unconscious [[D6]] hours, then -2 to MANIPULATION.
+46:
+  name: Pierced Intestines
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Stunned for one turn, then 1 point of damage per hour until first aid is administered.
+51:
+  name: Broken Spine
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Unconscious [[D6]] hours, then paralyzed from the waist down. Unless medical aid is given during healing time, the paralysis becomes permanent.
+52:
+  name: Brokenr Neck
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Unconscious [[D6]] hours, then paralyzed from the neck down. Unless medical aid is given during healing time, the paralysis becomes permanent.
+53:
+  name: Bleeding Gut
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: 1 point of damage per turn until first aid is given.
+54:
+  name: Internal Bleeding
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then 1 point of damage per FORCE, DEXTERITY, or MELEE COMBAT test.
+55:
+  name: Severed Artery (Arm)
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then -1 to DEXTERITY.
+56:
+  name: Severed Artery (Leg)
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then -2 to DEXTERITY.
+61:
+  name: Destroyed Arm
+  lethal: true
+  healMalus: -1
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then -2 to DEXTERITY. The arm is permanently lost. No use of two-handed weapons.
+62:
+  name: Destroyed Leg
+  lethal: true
+  healMalus: -1
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then -2 to DEXTERITY. the leg is permanently lost. Movement Rate is halved.
+63:
+  name: Severed Jugular
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then -1 to DEXTERITY.
+64:
+  name: Severed Aorta
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: Unconscious [[D6]] hours, then -2 to DEXTERITY.
+65:
+  name: Pierced Heart
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your heart beats one final time. Create a new PC.
+66:
+  name: Crushed Skull
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You are instantly killed. Your adventure ends here. Create a new PC.

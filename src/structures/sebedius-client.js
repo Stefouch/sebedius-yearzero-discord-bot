@@ -2,6 +2,7 @@ const { Client, Collection, OAuth2Scopes, PermissionsBitField } = require('disco
 const SebediusPermissions = require('./sebedius-permissions');
 const Database = require('./database/database');
 const WebhookManager = require('./webhook-manager');
+const TextEnricher = require('../utils/enricher');
 const Logger = require('../utils/logger');
 const handleEvents = require('./handlers/event-handler');
 const handleCommands = require('./handlers/command-handler');
@@ -32,6 +33,12 @@ class Sebedius extends Client {
 
     /** @type {NodeJS.Timeout} */
     this.activity = null;
+
+    /**
+     * Text content enrichment engine.
+     * @type {TextEnricher}
+     */
+    this.enricher = new TextEnricher();
   }
 
   /* ------------------------------------------ */

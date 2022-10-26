@@ -1,0 +1,290 @@
+_name: myz-crit-damage
+_roll: true
+11:
+  name: Lost Breath
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+  healingTime: 0
+12:
+  name: Stunned
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+  healingTime: 0
+13:
+  name: Sprained Wrist
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Shoot and Fight.
+  healingTime: 1
+14:
+  name: Sprained Ankle
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Move and Sneak.
+  healingTime: 1
+15:
+  name: Concussion
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Scout and Comprehend.
+  healingTime: 1
+16:
+  name: Damaged Shin
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Move and Sneak.
+  healingTime: 2
+21:
+  name: Broken Nose
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Manipulate, +1 Intimidate, Tracker mutation disabled.
+  healingTime: 2
+22:
+  name: Broken Fingers
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Shoot and Fight.
+  healingTime: 2
+23:
+  name: Broken Toes
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Move and Sneak.
+  healingTime: 2
+24:
+  name: Teeth Knocked Out
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Manipulate, +1 Intimidate.
+  healingTime: 2
+25:
+  name: Groin Hit
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You suffer one point of damage for every roll you make to Force, Move or Fight.
+  healingTime: 2
+26:
+  name: Thigh Wound
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 to Move and Sneak.
+  healingTime: 2
+31:
+  name: Biceps Wound
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 to Shoot and Fight.
+  healingTime: 2
+32:
+  name: Severed Achilles Tendon
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 to Move and Sneak.
+  healingTime: 2
+33:
+  name: Dislocated Shoulder
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −3 to Force and Fight, can not use two-handed weapons.
+  healingTime: 1
+34:
+  name: Broken Ribs
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 to Move and Fight.
+  healingTime: 2
+35:
+  name: Broken Forearm
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Can not use two-handed weapons.
+  healingTime: 3
+36:
+  name: Broken Leg
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 to Move and Sneak.
+  healingTime: 3
+41:
+  name: Ear Torn Off
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −1 to Scout, Sonar mutation disabled.
+  healingTime: 3
+42:
+  name: Gouged Eye
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: −2 to Shoot and Scout.
+  healingTime: 3
+43:
+  name: Punctured Lung
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: −2 to Endure and Move.
+  healingTime: 2
+44:
+  name: Damaged Kidney
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: You suffer one point of damage for every roll you make to Force, Move or Fight.
+  healingTime: 3
+45:
+  name: Crushed Knee
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: −2 to Move and Sneak.
+  healingTime: 4
+46:
+  name: Crushed Elbow
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: −2 to Force and Fight, can not use two-handed weapons.
+  healingTime: 4
+51:
+  name: Crushed Foot
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: −2 to Move and Sneak.
+  healingTime: 4
+52:
+  name: Bleeding Gut
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: You suffer one point of damage for every roll you make to Force, Move or Fight.
+  healingTime: 1
+53:
+  name: Crushed Face
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: −2 to Manipulate.
+  healingTime: 4
+54:
+  name: Busted Intestine
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: You suffer one Rot Point per hour until Healed.
+  healingTime: 2
+55:
+  name: Damaged Spine
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Paralyzed from the waist down. Effect is permanent unless Healed during healing time.
+  healingTime: 4
+56:
+  name: Neck Injury
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Paralyzed from the neck down. Effect is permanent unless Healed during healing time.
+  healingTime: 4
+61:
+  name: Internal Bleeding
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: You suffer one point of damage for every roll you make to Force, Move or Fight.
+  healingTime: 2
+62:
+  name: Severed Arm Artery
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: −1 to Endure and Move.
+  healingTime: 1
+63:
+  name: Severed Leg Artery
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: minutes
+  effect: −1 to Endure and Move.
+  healingTime: 1
+64:
+  name: Severed Jugular
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: turns
+  effect: −1 to Endure and Move.
+  healingTime: 1
+65:
+  name: Pierced Heart
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your heart beats one last time, then you die. Time to make a new PC.
+  healingTime: 0
+66:
+  name: Crushed Skull
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You die instantly, and will never see Eden.
+  healingTime: 0

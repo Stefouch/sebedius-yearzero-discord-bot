@@ -1,0 +1,154 @@
+_name: fbl-crit-slash
+_roll: true
+12:
+  name: Blutende Stirn
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+  healingTime: 0
+14:
+  name: Abgetrennte Nase
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf MANIPULATION.
+  healingTime: 1
+16:
+  name: Abgetrennter Finger
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Zweihändige Waffen können nicht benutzt werden.
+  healingTime: 1
+22:
+  name: Abgetrennter Zeh
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: 1
+24:
+  name: Blutender Schenkel
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: 1
+26:
+  name: Aufgeschlitzter Mund
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -2 auf MANIPULATION.
+  healingTime: 1
+32:
+  name: Durchgetrennte Sehne
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: 2
+34:
+  name: Verletzte Schulter
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Zweihändige Waffen können nicht benutzt werden.
+  healingTime: 2
+36:
+  name: Abgetrenntes Ohr
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf AUSKUNDSCHAFTEN.
+  healingTime: 1
+42:
+  name: Aufgeschlitztes Auge
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -2 auf FERNKAMPF und AUSKUNDSCHAFTEN.
+  healingTime: 2
+44:
+  name: Durchbohrte Lunge
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: -2 auf AUSDAUER und BEWEGEN.
+  healingTime: 1
+46:
+  name: Abgetrennter Fuß
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: -1
+52:
+  name: Innere Blutungen
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: 1 Punkt Schaden bei jedem Wurf auf KRAFT, BEWEGEN oder NAHKAMPF.
+  healingTime: 1
+54:
+  name: Gerissene Eingeweide
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Krankheit mit Ansteckungskraft 6.
+  healingTime: 2
+56:
+  name: Abgetrennter Arm
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Zweihändige Waffen können nicht benutzt werden.
+  healingTime: -1
+62:
+  name: Abgetrenntes Bein
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: -1
+64:
+  name: Durchschnittene Kehle
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Runden
+  effect: -2 auf AUSDAUER.
+  healingTime: 1
+65:
+  name: Gespaltener Schädel
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du stirbst sofort.
+  healingTime: 0
+66:
+  name: Enthauptung
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Kopf trennt sich von deinem Körper.
+  healingTime: 0

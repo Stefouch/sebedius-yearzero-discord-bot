@@ -217,7 +217,7 @@ module.exports = {
   clamp,
   // closest,
   convertToBijective,
-  // getBoolean,
+  getBoolean,
   hasSameDigits,
   isNumber,
   rand,

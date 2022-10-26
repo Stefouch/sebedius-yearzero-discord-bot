@@ -44,7 +44,7 @@ rolla:
       description: Override the default chosen game which is used to render the rolled dice
 roll:
   name: roll
-  description: Roll dice for any Year Zero roleplaying game
+  description: Roll dice for a Year Zero roleplaying game
   options:
     input:
       name: input
@@ -242,3 +242,57 @@ initiative:
   drawEvents: Events
   remainingCards: Remaining Cards
   noDatabaseConnection: No database connection!
+crit:
+  name: crit
+  description: Draw a random critical injury
+  options:
+    table_alien:
+      name: table
+      desription: Choose the table
+    table_bladerunner:
+      name: table
+      desription: Choose the table
+    table_fbl:
+      name: table
+      desription: Choose the table
+    table_myz:
+      name: table
+      desription: Choose the table
+    table_twilight2k:
+      name: table
+      desription: Choose the table
+    table_vaesen:
+      name: table
+      desription: Choose the table
+    reference:
+      name: reference
+      description: Use a fixed number instead (no roll)
+    lucky:
+      name: lucky
+      description: Apply the talent *Lucky*, and choose the rank I, II or III
+    severity:
+      name: severity
+      description: How many crit dice to roll? *(Use the highest result)*
+    private:
+      name: private
+      description: Whether to hide the result from other players
+  embed:
+    permanent: Permanent
+    permanentEffects: These effects are permanent.
+    healingTime: Healing Time
+    healingTimeDescription: '{{text}} day until end of effects.'
+    healingTimeDescription_plural: '{{text}} days until end of effects.'
+    healingTimeBeforePermanentDescription: >-
+      The injury will last for **one {{unit}}**. 
+      At some point during the healing time, you need to be given medical care or the injury will become permanent *(see the Core Rules book, page 072)*.
+    lethality: Lethality
+    lethalityDescription: >-
+      This critical injury is **LETHAL** and must be `HEALED`
+      {{modifier}}
+      within {{time}} or the character will die.
+    modifiedBy: modified by {{mod}}
+    timeLimit: one **{{unit}}**
+    timeLimit_plural: the next {{number}} **{{unit}}s**
+    luckyResults: 'Lucky using the following values: {{values}}'
+    severe: Severe Injury
+    severeResults: 'Rolled the following values: {{values}}'

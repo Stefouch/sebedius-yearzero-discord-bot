@@ -1,4 +1,5 @@
 all: tout
+D: '{{number}}D{{faces}}'
 missingPermissionsError: >-
   Le bot {{member}} manque les permissions suivantes et pourrait ne pas
   fonctionner correctement : {{perms}}
@@ -8,3 +9,5 @@ commandError: |-
 talents:
   alien:
     nervesOfSteel: Nerfs d’Acier
+  fbl:
+    lucky: Chanceux

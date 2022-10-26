@@ -64,6 +64,9 @@ jobs:
       - name: 🎲 Test Rolls
         run: npm run test:roll
 
+      - name: 📑 Test Tables
+        run: npm run test:table
+
       - name: 🤖 Test Bot
         run: npm run test:client
         env:

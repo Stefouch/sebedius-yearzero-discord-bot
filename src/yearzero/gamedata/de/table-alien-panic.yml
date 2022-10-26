@@ -1,0 +1,42 @@
+_name: alien-panic
+_roll: true
+6:
+  icon: 😅
+  name: Zusammenreissen
+  effect: Du schaffst es, deine Nerven im Griff zu behalten. Gerade so.
+7:
+  icon: 😓
+  name: Nervöses Zucken
+  effect: Dein `STRESSLEVEL` und der aller befreundeter SC in `KURZER` Entfernung zu dir steigt um 1.
+8:
+  icon: 😲
+  name: Zittern
+  effect: Du fängst an, unkontrolliert zu zittern. Alle Fertigkeitswürfe, die auf `GESCHICKLICHKEIT` basieren, erhalten einen Modifikator von -2, bis deine Panik aufhört.
+9:
+  icon: 😬
+  name: Gegenstand Fallen Lassen
+  effect: Ob durch Stress, Verwirrung oder die Einsicht, dass ihr ohnehin alle sterben werdet, lässt du eine Waffe oder einen anderen wichtigen Gegenstand fallen - die SL entscheidet, welchen. Dein `STRESSLEVEL` steigt um 1.
+10:
+  icon: 🥶
+  name: Starre
+  effect: Du erstarrst vor Angst und verlierst deine nächste langsame Aktion. Dein `STRESSLEVEL` und der aller befreundeter SC in `KURZER` Entfernung zu dir steigt um 1.
+11:
+  icon: 🤢
+  name: Schutz Suchen
+  effect: Du musst deine nächste Aktion dazu verwenden, dich von der Gefahr wegzubewegen und, wenn möglich, einen sicheren Ort aufzusuchen. Du darfst einen Wurf auf Rückzug ablegen (siehe Seite 93), wenn sich ein Feind in `KONTAKT` mit dir befindet. Dein `STRESSLEVEL` sinkt um 1, aber der aller befreundeter SC in `KURZER` Entfernung zu dir steigt um 1. Nach einer Runde kannst du wieder normal handeln.
+12:
+  icon: 😱
+  name: Schreien
+  effect: Du schreist dir eine Runde lang die Lunge aus dem Leib und verlierst deine nächste langsame Aktion. Dein `STRESSLEVEL` sinkt um 1, aber alle befreundeten SC, die deinen Schrei hören, müssen sofort einen __Panikwurf__ ablegen.
+13:
+  icon: 😭
+  name: Fliehen
+  effect: Du hälst das einfach nicht mehr aus. Du musst sofort an einen sicheren Ort fliehen und wirst dich weigern, ihn zu verlassen. Außerdem wirst du niemanden angreifen und nichts Gefähreliches unternehmen. Du darfst keinen Wurf auf Rückzug ablegen, wenn sich ein Feind in `KONTAKT` mit dir befindet. Dein `STRESSLEVEL` sinkt um 1, aber alle befreundeten Charaktere, die dich davonrennen sehen, müssen sofort einen __Panikwurf__ ablegen.
+14:
+  icon: 👹
+  name: Berserker
+  effect: Du musst sofort die nächste Person oder Kreatur angreifen, ob Freund oder Feind. Du wirst nicht aufhören, bis du oder das Ziel außer Gefecht gesetzt ist. Jeder befreundete Charakter, der deinen Amoklauf mitbekommt, muss sofort einen __Panikwurf__ ablegen.
+15:
+  icon: 😵
+  name: Katatonie
+  effect: Du brichst völlig zusammen und kannst weder sprechen noch dich bewegen, sondern starrst nur noch ausdrucklos ins Nichts.

@@ -56,27 +56,33 @@ class RollTable extends Map {
    * @readonly
    */
   get min() {
-    return Math.min(...this.keys());
+    if (this.max === 66) return 11;
+    if (this.max === 666) return 111;
+    return 1;
   }
 
-  // /**
-  //  * The highest reference.
-  //  * @type {number}
-  //  * @readonly
-  //  */
-  // get max() {
-  //   return this.rollFn();
-  // }
+  /**
+   * The highest reference.
+   * @type {number}
+   * @readonly
+   */
+  get max() {
+    return Math.max(...this.keys());
+  }
 
   /* ------------------------------------------ */
   /*  Map Methods                               */
   /* ------------------------------------------ */
 
   /**
+   * A number, or a string that can be resolved into a number.
+   * @typedef {number|string} NumberResolvable
+   */
+  /**
    * Sets an entry in the table at a defined index.
-   * @param {number}   key        The numbered index for the table value
-   * @param {any}      value      The value to return at this index
-   * @param {boolean} [sort=true] Whether to sort the table after setting this entry
+   * @param {NumberResolvable} key        The numbered index for the table value
+   * @param {any}              value      The value to return at this index
+   * @param {boolean}         [sort=true] Whether to sort the table after setting this entry
    * @returns {this}
    */
   set(key, value, sort = true) {
@@ -109,6 +115,9 @@ class RollTable extends Map {
   get(reference, log = false) {
     if (typeof reference !== 'number') {
       throw new TypeError(`RollTableError[${this.name}]: Reference "${reference}" Not A Number!`);
+    }
+    if (reference > this.max) {
+      return this.get(this.max);
     }
     for (const [key] of this) {
       if (reference <= key) {
@@ -157,8 +166,8 @@ class RollTable extends Map {
    */
   roll(rollFn) {
     const fn = rollFn || this.rollFn;
-    if (typeof rollFn === 'undefined' || typeof rollFn !== 'function') {
-      throw new TypeError('RollTableError[${this.name}]: rollFn Is Not A Function!');
+    if (typeof fn === 'undefined' || typeof fn !== 'function') {
+      throw new TypeError(`RollTableError[${this.name}]: rollFn Is Not A Function!`);
     }
     const seed = fn();
     const value = this.get(seed);
