@@ -69,7 +69,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     // @ts-ignore
     const panicTable = await this.bot.getTable(t.lng, YearZeroRollTables.ALIEN_PANIC);
 
-    /** @type {{ icon, name, description }} */
+    /** @type {{ icon, name, effect }} */
     const panicAction = panicTable.get(panicResult, true);
 
     if (!panicAction) {
@@ -88,7 +88,7 @@ module.exports = class PanicCommand extends SebediusCommand {
     // Builds the embed.
     const embed = new EmbedBuilder()
       .setTitle(`${panicAction.name} (${panicResult})`)
-      .setDescription(panicAction.description)
+      .setDescription(panicAction.effect)
       .setColor(panicResult < 7 ? this.bot.config.Colors.green : this.bot.config.Colors.brown)
       .setAuthor({
         name: interaction.user.username,
