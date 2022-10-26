@@ -284,25 +284,29 @@ crit:
     lucky:
       name: chance
       description: Appliquer le talent *Chanceux*, et choisir le rang I, II ou III
-    severe:
+    severity:
       name: sévèrité
-      description: Appliquer la sévérité de la blessure critique (voir page 74)
+      description: Combien de dés critiques à lancer? *(Utilise le résultat le plus élevé)*
     private:
       name: cacher
       description: S'il faut cacher le résultat aux autres joueurs
   embed:
     permanent: Permanent
     permanentEffects: Ces effets sont permanents.
-    healingTime: Healing Time
+    healingTime: Temps de rétablissement
     healingTimeDescription: '{{text}} jour avant la fin des effets.'
-    healingTimeDescription_plural: '{{count}} jours avant la fin des effets.'
+    healingTimeDescription_plural: '{{text}} jours avant la fin des effets.'
+    healingTimeBeforePermanentDescription: >-
+      Les effets de la blessure dureront **un {{unit}}**. 
+      A un certain moment pendant la période de rétablissement, vous devrez recevoir des soins ou la blessure deviendra permanente *(voir le livre des règles, page 072)*.
     lethality: Létalité
     lethalityDescription: >-
-      Cette blessure critique est **LÉTALE** and doit être `SOIGNÉE`{{modifier}}
+      Cette blessure critique est **LÉTALE** et doit être `SOIGNÉE`
+      {{modifier}}
       endéans {{time}} ou le personnage va mourir.
     modifiedBy: modifié de {{mod}}
-    timeLimit: une {{unit}}
-    timeLimit_plural: les prochains {{count}} {{unit}}s
+    timeLimit: une **{{unit}}**
+    timeLimit_plural: les prochains {{number}} **{{unit}}s**
     luckyResults: 'Chanceux avec les valeurs suivantes : {{values}}'
-    severe: Blessure Sévère
+    severe: Blessure sévère
     severeResults: 'Avec les valeurs suivantes : {{values}}'

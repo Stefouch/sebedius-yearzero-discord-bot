@@ -270,9 +270,9 @@ crit:
     lucky:
       name: lucky
       description: Apply the talent *Lucky*, and choose the rank I, II or III
-    severe:
-      name: severe
-      description: Apply damage severity (roll more D10s and use the highest result, see page 74)
+    severity:
+      name: severity
+      description: How many crit dice to roll? *(Use the highest result)*
     private:
       name: private
       description: Whether to hide the result from other players
@@ -281,14 +281,18 @@ crit:
     permanentEffects: These effects are permanent.
     healingTime: Healing Time
     healingTimeDescription: '{{text}} day until end of effects.'
-    healingTimeDescription_plural: '{{count}} days until end of effects.'
+    healingTimeDescription_plural: '{{text}} days until end of effects.'
+    healingTimeBeforePermanentDescription: >-
+      The injury will last for **one {{unit}}**. 
+      At some point during the healing time, you need to be given medical care or the injury will become permanent *(see the Core Rules book, page 072)*.
     lethality: Lethality
     lethalityDescription: >-
-      This critical injury is **LETHAL** and must be `HEALED`{{modifier}} within
-      {{time}} or the character will die.
+      This critical injury is **LETHAL** and must be `HEALED`
+      {{modifier}}
+      within {{time}} or the character will die.
     modifiedBy: modified by {{mod}}
-    timeLimit: one {{unit}}
-    timeLimit_plural: the next {{count}} {{unit}}s
+    timeLimit: one **{{unit}}**
+    timeLimit_plural: the next {{number}} **{{unit}}s**
     luckyResults: 'Lucky using the following values: {{values}}'
     severe: Severe Injury
     severeResults: 'Rolled the following values: {{values}}'

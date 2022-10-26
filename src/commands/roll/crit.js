@@ -1,4 +1,4 @@
-const { EmbedBuilder, ApplicationCommandOptionType, bold } = require('discord.js');
+const { EmbedBuilder, ApplicationCommandOptionType, italic, inlineCode } = require('discord.js');
 const SebediusCommand = require('../../structures/command');
 const YearZeroRoll = require('../../yearzero/roller/yzroll');
 const YearZeroCrit = require('../../yearzero/crit/yzcrit');
@@ -15,12 +15,12 @@ const { clamp } = require('../../utils/number-utils');
 const GameSubcommandsList = {
   // [YearZeroGames.BLANK]: [],
   [YearZeroGames.ALIEN_RPG]: [`table_${YearZeroGames.ALIEN_RPG}`, 'reference', 'private'],
-  [YearZeroGames.BLADE_RUNNER]: [`table_${YearZeroGames.BLADE_RUNNER}`, 'reference', 'private'],
+  [YearZeroGames.BLADE_RUNNER]: [`table_${YearZeroGames.BLADE_RUNNER}`, 'severity', 'reference', 'private'],
   [YearZeroGames.CORIOLIS]: ['reference', 'private'],
-  [YearZeroGames.FORBIDDEN_LANDS]: [`table_${YearZeroGames.FORBIDDEN_LANDS}`, 'reference', 'lucky', 'private'],
+  [YearZeroGames.FORBIDDEN_LANDS]: [`table_${YearZeroGames.FORBIDDEN_LANDS}`, 'lucky', 'reference', 'private'],
   [YearZeroGames.MUTANT_YEAR_ZERO]: [`table_${YearZeroGames.MUTANT_YEAR_ZERO}`, 'reference', 'private'],
   // [YearZeroGames.TALES_FROM_THE_LOOP]: [],
-  [YearZeroGames.TWILIGHT_2K]: [`table_${YearZeroGames.TWILIGHT_2K}`, 'reference', 'severe', 'private'],
+  [YearZeroGames.TWILIGHT_2K]: [`table_${YearZeroGames.TWILIGHT_2K}`, 'severity', 'reference', 'private'],
   [YearZeroGames.VAESEN]: [`table_${YearZeroGames.VAESEN}`, 'reference', 'private'],
 };
 
@@ -116,22 +116,11 @@ const SlashCommandOptions = {
       value: YearZeroRollTables.VAESEN_CRIT_MENTAL,
     }],
   },
-  reference: {
-    description: 'Choose a fixed reference',
+  severity: {
+    description: 'How many crit dice to roll? *(Use the highest result)*',
     type: ApplicationCommandOptionType.Integer,
-    min: 1,
-    max: 66,
-  },
-  severe: {
-    description: 'Apply damage severity (roll more D10s and use the highest result, see page 74)',
-    type: ApplicationCommandOptionType.Integer,
-    choices: [{
-      name: 'Two steps or more - roll 2D10',
-      value: 2,
-    }, {
-      name: 'Four steps or more - roll 3D10',
-      value: 3,
-    }],
+    min: 2,
+    max: 10,
   },
   lucky: {
     description: 'Apply the talent *Lucky*, and choose the rank I, II or III',
@@ -146,6 +135,12 @@ const SlashCommandOptions = {
       name: 'Rank III – Take the first critical injury (#11)',
       value: 3,
     }],
+  },
+  reference: {
+    description: 'Choose a fixed reference',
+    type: ApplicationCommandOptionType.Integer,
+    min: 1,
+    max: 66,
   },
   private: {
     description: 'Whether to hide the result from other players',
@@ -170,12 +165,13 @@ module.exports = class CritCommand extends SebediusCommand {
       SlashCommandOptions,
     );
   }
+
   /** @type {SebediusCommand.SebediusCommandRunFunction} */
   async run(interaction, t) {
     const game = interaction.options.getSubcommand();
     const fixedReference = interaction.options.getInteger('reference');
     const luckyRank = interaction.options.getInteger('lucky');
-    const severeRank = interaction.options.getInteger('severe') || 1;
+    const severeRank = interaction.options.getInteger('severity') || 1;
     const tableName = interaction.options.getString(`table_${game}`);
 
     // await interaction.deferReply({
@@ -191,7 +187,8 @@ module.exports = class CritCommand extends SebediusCommand {
   /*  METHODS PLAN:                             */
   /*  run → crit ← 0. (#getTwilightCritTable)   */
   /*         ↓   ← 2. (#severe | #lucky)        */
-  /*         ↓   ← 4.  #createCritEmbed     ↑   */
+  /*         ↓   ← 4. #createCritEmbed          */
+  /*         ↓   ← 4. #addCritTableCallsToEmbed */
   /*        reply                      rollD66  */
   /* ------------------------------------------ */
 
@@ -259,8 +256,8 @@ module.exports = class CritCommand extends SebediusCommand {
     else if (fixedReference) {
       value = clamp(fixedReference, 1, max);
     }
-    else if (game === YearZeroGames.TWILIGHT_2K && severeRank > 1) {
-      const severeResult = this.#severe(severeRank);
+    else if (severeRank > 1) {
+      const severeResult = this.#severe(severeRank, max);
       value = severeResult.value;
       values = severeResult.values;
     }
@@ -295,14 +292,8 @@ module.exports = class CritCommand extends SebediusCommand {
     // 4. Creates the embed.
     const embed = await this.#createCritEmbed(crit, t);
 
-    // 4.1. 
-    if (critData.call) {
-      const calledCrit = critData.get(critData.call);
-      embed.addFields({
-        name: calledCrit.name,
-        value: calledCrit.effect,
-      });
-    }
+    // 4.1. Checks if there is a call for another table result, and displays it.
+    this.#addCritTableCallsToEmbed(embed, critData, critTable);
 
     // 4.2. Adds the footer.
     embed.setFooter({
@@ -322,7 +313,7 @@ module.exports = class CritCommand extends SebediusCommand {
       .then(() => {
         if (crit.fatal && game !== YearZeroGames.VAESEN) {
           // Sends a coffin emoji.
-          setTimeout(() => interaction.followUp('⚰️'), rollD66() * 150);
+          setTimeout(() => interaction.followUp(this.config.deadEmoji), rollD66() * 150);
         }
       })
       .catch(console.error);
@@ -351,14 +342,15 @@ module.exports = class CritCommand extends SebediusCommand {
    * Used by the following games:
    * - Twilight 2000 (page 74)
    * @param {number} rank
+   * @param {number} max
    */
-  #severe(rank) {
+  #severe(rank, max) {
     const result = {
       /** @type {number[]} */ values: [],
       get value() { return Math.max(...this.values); },
     };
     for (; rank > 0; rank--) {
-      result.values.push(BaseDie.rng(1, 10));
+      result.values.push(BaseDie.rng(1, max));
     }
     return result;
   }
@@ -406,45 +398,65 @@ module.exports = class CritCommand extends SebediusCommand {
       .setTitle(`${crit.ref} → **${crit.name}**`)
       .setDescription(await this.bot.enricher.enrichText(crit.effect));
 
-    if (crit.healingTime.value !== 0 || crit.healingTime.text) {
+    if (crit.healingTime) {
       let name, value;
+
       // -1 means permanent effect.
-      if (crit.healingTime.value === -1) {
+      if (crit.healingTime === -1) {
         name = t('commands:crit.embed.permanent');
         value = t('commands:crit.embed.permanentEffects');
       }
       else {
-        if (
-          typeof crit.healingTime.text !== 'undefined' &&
-          typeof crit.healingTime.value === 'undefined'
-        ) {
-          crit.healingTime.value = Number(await this.bot.enricher.enrichText(
-            crit.healingTime.text,
-            { onlyNumber: true },
-          ));
+        let healingTimeCount = crit.healingTime;
+        let healingTimeText;
+
+        if (typeof healingTimeCount === 'string') {
+          healingTimeText = await this.bot.enricher.enrichText(healingTimeCount);
+          healingTimeCount = +/\*\*(\d+)\*\*/.exec(healingTimeText)[1];
         }
         name = t('commands:crit.embed.healingTime');
         value = t('commands:crit.embed.healingTimeDescription', {
-          count: crit.healingTime.value,
-          text: crit.healingTime.text ?? crit.healingTime.value,
+          count: healingTimeCount,
+          text: healingTimeText ?? healingTimeCount,
         });
       }
       embed.addFields({ name, value });
     }
+    else if (crit.healingTimeBeforePermanent) {
+      embed.addFields({
+        name: t('commands:crit.embed.healingTime'),
+        value: t('commands:crit.embed.healingTimeBeforePermanentDescription', {
+          unit: crit.healingTimeBeforePermanent,
+        }),
+      });
+    }
 
     if (crit.lethal) {
       let value;
-      if (crit.timeLimit || crit.game === YearZeroGames.VAESEN) {
+
+      if (crit.timeLimit) {
+        let timeLimitCount = crit.timeLimit;
+        let timeLimitText;
+
+        if (typeof timeLimitCount === 'string') {
+          timeLimitText = await this.bot.enricher.enrichText(timeLimitCount);
+          timeLimitCount = +/\*\*(\d+)\*\*/.exec(timeLimitText)[1];
+        }
+
         value = t('commands:crit.embed.lethalityDescription', {
           modifier: crit.healMalus ? `(${t('commands:crit.embed.modifiedBy', { mod: crit.healMalus })})` : ' ',
-          time: bold(t('commands:crit.embed.timeLimit', {
-            count: crit.timeLimit,
+          time: t('commands:crit.embed.timeLimit', {
+            count: timeLimitCount,
+            number: timeLimitText ?? timeLimitCount,
             unit: crit.timeLimitUnit,
-          })),
+          }),
         });
       }
+      else if (crit.fatal) {
+        value = this.config.fatalEmoji;
+      }
       else {
-        value = '💀💀💀';
+        value = this.bot.config.Emojis.warning;
       }
       embed.addFields({ name: t('commands:crit.embed.lethality'), value });
     }
@@ -453,13 +465,17 @@ module.exports = class CritCommand extends SebediusCommand {
       if (crit.game === YearZeroGames.FORBIDDEN_LANDS) {
         embed.addFields({
           name: t('commons:talents.fbl.lucky'),
-          value: t('commands:crit.embed.luckyResults', { values: crit.rolledResults }),
+          value: t('commands:crit.embed.luckyResults', {
+            values: inlineCode(crit.rolledResults.join(', ')),
+          }),
         });
       }
       else if (crit.game === YearZeroGames.TWILIGHT_2K) {
         embed.addFields({
           name: t('commands:crit.embed.severe'),
-          value: t('commands:crit.embed.severeResults', { values: crit.rolledResults }),
+          value: t('commands:crit.embed.severeResults', {
+            values: inlineCode(crit.rolledResults.join(', ')),
+          }),
         });
       }
     }
@@ -473,6 +489,35 @@ module.exports = class CritCommand extends SebediusCommand {
     }
 
     return embed;
+  }
+
+  /* ------------------------------------------ */
+
+  /**
+   * Adds new fields to the embed
+   * @param {EmbedBuilder} embed
+   * @param {Object}       critData
+   * @param {Object}       critTable
+   */
+  #addCritTableCallsToEmbed(embed, critData, critTable) {
+    let call = critData._call;
+    while (call) {
+      const calledCritData = critTable.get(call);
+      if (calledCritData) {
+        const name = calledCritData.name;
+        const effect = calledCritData.effect;
+        if (name && effect) {
+          embed.addFields({
+            name: `#${call}: ${name}`,
+            value: italic(effect),
+          });
+        }
+        call = calledCritData._call;
+      }
+      else {
+        call = null;
+      }
+    }
   }
 
 };
