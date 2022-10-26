@@ -1,20 +1,20 @@
-$name: alien-crit-mental
-$roll: true
+_name: alien-crit-mental
+_roll: true
 16:
-  name: PHOBIE
+  name: Phobie
   effect: Du wirst von etwas in Angst und Schrecken versetzt, das in Verbindung mit dem ursprünglichen Grund deiner Panik steht. Die SL entscheidet, worum es sich genau handelt. Dein STRESSLEVEL steigt um 1, sobald du dich in KURZER Entfernung zu dem Objekt deiner Phobie befindest. Bleibst du länger als eine einzige Runde in seiner Nähe, führe einen __Panikwurf__ aus.
 26:
-  name: ALKOHOLISMUS
+  name: Alkoholismus
   effect: Du musst jede Schicht Alkohol trinken, sonst steigt dein STRESSLEVEL um 1. Du kannst dich nicht von Stress erholen (siehe Seite 104), ohne Alkohol zu trinken.
 36:
-  name: ALBTRÄUME
+  name: Albträume
   effect: Lege jedes Mal einen Wurf auf EMPATHIE ab, wenn du schläfst. Gelingt der Wurf, hast du schreckliche Albträume und dein STRESSLEVEL steigt um 1. Du kannst dich nach einem Albtraum einen ganzen Tag lang nicht von Stress erholen.
 46:
-  name: DEPRESSION
+  name: Depression
   effect: Du leidest unter schweren depressiven Episoden. Führe jeden Tag einen Wurf auf EMPATHIE aus. Misslingt der Wurf, bist du antrie und freudlos, launisch und niedergeschlagen. Dein STRESSLEVEL steigt um 1 und du kannst dich bis zum nächsten Tag nicht von Stress erholen.
 56:
   name: Drogenkonsum
   effect: Du musst jede Schicht Drogen konsumieren (siehe Seite 137), sonst steigt dein STRESSLEVEL um 1. Du kannst dich nicht von Stress erholen, ohne eine Droge deiner Wahl zu konsumieren.
 66:
-  name: AMNESIE
+  name: Amnesie
   effect: Deine Erinnerung ist völlig ausgelöscht. Du weißt nicht länger, wer du bist und wer die anderen Charaktere sind. *Der Effekt sollte ausgespielt werden*.

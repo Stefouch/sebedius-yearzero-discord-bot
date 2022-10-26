@@ -1,5 +1,5 @@
-$name: t2k-crit-mental
-$roll: true
+_name: t2k-crit-mental
+_roll: true
 1:
   name: Nervous Tremble
   effect: RANGED COMBAT and DRIVING –1

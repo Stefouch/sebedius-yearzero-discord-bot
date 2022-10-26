@@ -1,5 +1,5 @@
-$name: fbl-crit-horror
-$roll: true
+_name: fbl-crit-horror
+_roll: true
 16:
   name: Skakningar
   lethal: false

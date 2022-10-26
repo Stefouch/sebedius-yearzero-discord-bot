@@ -1,5 +1,5 @@
-$name: coriolis-crit-damage
-$roll: true
+_name: coriolis-crit-damage
+_roll: true
 11:
   name: Atemnot
   lethal: false

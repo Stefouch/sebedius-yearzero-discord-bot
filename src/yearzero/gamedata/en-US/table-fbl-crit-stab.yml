@@ -1,5 +1,5 @@
-$name: fbl-crit-stab
-$roll: true
+_name: fbl-crit-stab
+_roll: true
 13:
   name: Pierced Ear
   lethal: false

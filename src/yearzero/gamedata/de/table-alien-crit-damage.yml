@@ -1,5 +1,5 @@
-$name: alien-crit-damage
-$roll: true
+_name: alien-crit-damage
+_roll: true
 11:
   name: Erschöpft
   lethal: false

@@ -1,5 +1,5 @@
-$name: alien-crit-xeno
-$roll: true
+_name: alien-crit-xeno
+_roll: true
 16:
   name: Steht Wieder Auf
   effect: Der Xenomorph fällt scheinbar tödlich getroffen zu Boden, allerdings nur um sein Opfer näher heranzulocken. Wenn er erneut angegriffen wird oder das nächste Mal an der Reihe ist, erhält er 1 Gesundheitspunkt zurück und steht wieder auf, um seine Beute in Stücke zu reißen.

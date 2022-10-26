@@ -1,5 +1,5 @@
-$name: t2k-crit-head
-$roll: true
+_name: t2k-crit-head
+_roll: true
 $header: ref;name;lethal;timeLimit;effect;healingTime
 1:
   name: Ear Slashed

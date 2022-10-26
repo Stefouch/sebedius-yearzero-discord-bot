@@ -1,5 +1,5 @@
-$name: t2k-crit-arms
-$roll: true
+_name: t2k-crit-arms
+_roll: true
 1:
   name: Dislocated Shoulder
   lethal: No

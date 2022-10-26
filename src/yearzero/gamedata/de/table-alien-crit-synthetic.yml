@@ -1,5 +1,5 @@
-$name: alien-crit-synthetic
-$roll: true
+_name: alien-crit-synthetic
+_roll: true
 16:
   name: Beschädigte Hydraulikpumpe
   effect: Der Androide verliert seine nächste langsame Aktion.

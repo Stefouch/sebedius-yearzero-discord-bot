@@ -1,20 +1,20 @@
-$name: alien-crit-mental
-$roll: true
+_name: alien-crit-mental
+_roll: true
 16:
-  name: PHOEBIA
+  name: Phoebia
   effect: You are terrified by something related to what caused you to panic. The GM decides what it is. Your STRESS LEVEL increases by one when within SHORT range of the object of your phobia. If you stay close to it for more than a single round, make a Panic Roll.
 26:
-  name: ALCOHOLISM
+  name: Alcoholism
   effect: You must drink alcohol every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 104) without drinking alcohol.
 36:
-  name: NIGHTMARES
+  name: Nightmares
   effect: Make an Empathy roll when you sleep. If the roll succeeds, you have a horrible nightmare and your STRESS LEVEL increases by one. You cannot relieve stress for a full day after such a nightmare.
 46:
-  name: DEPRESSION
+  name: Depression
   effect: You are prone to episodes of depression and moodiness. Every day, make an Empathy roll—if you fail, you’re having a bad day. Your STRESS LEVEL increases by one and you can’t relieve stress until the next day.
 56:
-  name: DRUG USE
+  name: Drug USE
   effect: You must use some form of recreational drug (see page 137) every Shift, or your STRESS LEVEL increases by one. You cannot relieve stress (see page 104) without consuming your drug of choice.
 66:
-  name: AMNESIA
+  name: Amnesia
   effect: Your memory is a blank slate. You can no longer recall who you or the other characters are. The effect should be roleplayed.

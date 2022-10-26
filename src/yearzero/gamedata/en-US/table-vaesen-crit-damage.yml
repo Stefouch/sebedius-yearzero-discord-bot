@@ -1,5 +1,5 @@
-$name: vaesen-crit-damage
-$roll: true
+_name: vaesen-crit-damage
+_roll: true
 11:
   name: Foot Injury
   lethal: false

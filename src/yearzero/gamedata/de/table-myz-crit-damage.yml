@@ -1,5 +1,5 @@
-$name: myz-crit-damage
-$roll: true
+_name: myz-crit-damage
+_roll: true
 11:
   name: Atemnot
   lethal: false

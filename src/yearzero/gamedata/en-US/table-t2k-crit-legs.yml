@@ -1,5 +1,5 @@
-$name: t2k-crit-legs
-$roll: true
+_name: t2k-crit-legs
+_roll: true
 1:
   name: Crushed Toes
   lethal: No

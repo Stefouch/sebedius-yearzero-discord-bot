@@ -1,5 +1,5 @@
-$name: alien-crit-xeno
-$roll: true
+_name: alien-crit-xeno
+_roll: true
 16:
   name: Rise Again
   effect: The Xenomorph falls to the ground, seemingly dead, but it’s a ruse. If it’s attacked again, or on its next initiative, it regains one point of Health and attacks—fueled by instinctive hatred.

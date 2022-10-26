@@ -1,5 +1,5 @@
-$name: fbl-crit-slash
-$roll: true
+_name: fbl-crit-slash
+_roll: true
 12:
   name: Blödande panna
   lethal: false

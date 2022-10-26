@@ -1,5 +1,5 @@
-$name: t2k-crit-torso
-$roll: true
+_name: t2k-crit-torso
+_roll: true
 1:
   name: Snapped Collarbone
   lethal: No

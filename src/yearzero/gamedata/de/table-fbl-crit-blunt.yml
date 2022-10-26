@@ -1,5 +1,5 @@
-$name: fbl-crit-blunt
-$roll: true
+_name: fbl-crit-blunt
+_roll: true
 12:
   name: Betäubt
   lethal: false
