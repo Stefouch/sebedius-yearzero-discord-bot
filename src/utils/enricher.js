@@ -36,8 +36,10 @@ class TextEnricher {
 
   /**
    * Enriches some text.
-   * @param {string}  text     Text to enrich
-   * @param {Object} [options] Options to add to the enricher method
+   * @param {string}   text     Text to enrich
+   * @param {Object}  [options] Options to add to the enricher method
+   * @param {boolean} [options.resultOnly] Whether to return only a numbered result (for roll enrichers).
+   * @returns {Promise.<string>}
    */
   async enrichText(text, options = {}) {
     for (const { pattern, enricher } of this.enrichers) {
@@ -66,16 +68,18 @@ module.exports = TextEnricher;
 /**
  * - $1: Number of dice
  * - $2: Face of the di·c·e
+ * @param {string[]} match
+ * @param {{ resultOnly: boolean }} [options]
  */
 function rollEnricher(match, options) {
   const title = match[0].replace(/\[|\]/g, '');
-  const qty = match[1] || 1;
-  const size = match[2] || 6;
+  const qty = +match[1] || 1;
+  const size = +match[2] || 6;
   let result = 0;
   for (let i = 0; i < qty; i++) {
     result += YearZeroDie.rng(1, size);
   }
-  if (options.onlyNumber) {
+  if (options.resultOnly) {
     return String(result);
   }
   // eslint-disable-next-line no-irregular-whitespace
