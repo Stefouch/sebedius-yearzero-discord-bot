@@ -6,7 +6,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: Ingen Effekt
+  effect: Ingen Effekt.
   healingTime: 0
 14:
   name: Kapad Näsa
@@ -14,7 +14,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: –1 på MANIPULERA
+  effect: –1 på MANIPULERA.
   healingTime: 1
 16:
   name: Kapat Finger

@@ -46,7 +46,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: -1 på att Fly och Smyga
+  effect: -1 på att Fly och Smyga.
   healingTime: 2
 21:
   name: Blodig Näsa
@@ -134,7 +134,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: Inga tvåhandsvapen kan användas
+  effect: Inga tvåhandsvapen kan användas.
   healingTime: 3
 36:
   name: Brutet Ben
@@ -206,7 +206,7 @@ _roll: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: Timmar
-  effect: En poäng skada vid varje slag för att Ta krafttag, Fly eller Slåss
+  effect: En poäng skada vid varje slag för att Ta krafttag, Fly eller Slåss.
   healingTime: 1
 53:
   name: Krossat Ansikte
@@ -278,7 +278,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: Ditt hjärta slår sitt sista slag. Dags att skapa en ny rollperson
+  effect: Ditt hjärta slår sitt sista slag. Dags att skapa en ny rollperson.
   healingTime: 0
 66:
   name: Krossad Skalle

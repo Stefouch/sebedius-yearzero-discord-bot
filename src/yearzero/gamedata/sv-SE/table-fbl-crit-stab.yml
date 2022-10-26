@@ -30,7 +30,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: –1 på MANIPULERA
+  effect: –1 på MANIPULERA.
   healingTime: 1
 33:
   name: Genomborrat Lår
@@ -62,7 +62,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: –2 på SKJUTA, SPEJA
+  effect: –2 på SKJUTA, SPEJA.
   healingTime: 2
 45:
   name: Sargat Skrev
@@ -70,7 +70,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 1 poäng skada vid varje slag för STYRKEPROV och RÖRLIGHET
+  effect: 1 poäng skada vid varje slag för STYRKEPROV och RÖRLIGHET.
   healingTime: 2
 51:
   name: Punkterad Lunga
@@ -78,7 +78,7 @@ _roll: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: Dagar
-  effect: –2 på UTHÅLLIGHET och RÖRLIGHET
+  effect: –2 på UTHÅLLIGHET och RÖRLIGHET.
   healingTime: 1
 54:
   name: Blödande Buk
@@ -86,7 +86,7 @@ _roll: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: Timmar
-  effect: 1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP
+  effect: 1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP.
   healingTime: 1
 56:
   name: Perforerad Tarm
@@ -118,7 +118,7 @@ _roll: true
   healMalus: -1
   timeLimit: 1
   timeLimitUnit: Rundor
-  effect: –2 på UTHÅLLIGHET
+  effect: –2 på UTHÅLLIGHET.
   healingTime: 2
 64:
   name: Spetsad Skalle
