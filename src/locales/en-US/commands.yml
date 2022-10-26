@@ -258,7 +258,7 @@ crit:
     table_myz:
       name: table
       desription: Choose the table
-    table_twilight2000:
+    table_twilight2k:
       name: table
       desription: Choose the table
     table_vaesen:
