@@ -49,6 +49,15 @@ class SebediusCommand {
     return this.client;
   }
 
+  /**
+   * The command's config.
+   * @alias this.bot.config.Commands[this.name]
+   * @readonly
+   */
+  get config() {
+    return this.client.config.Commands[this.name];
+  }
+
   get name() {
     return this.data.name;
   }

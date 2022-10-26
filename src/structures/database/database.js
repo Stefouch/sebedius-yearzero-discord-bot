@@ -19,7 +19,7 @@ class Database {
     this.commands = Schemas.Command;
     this.initiatives = Schemas.Initiative;
 
-    this.initiatives.schema.index({ updatedAt: 1 }, { expires: this.client.config.Commands.init.expires });
+    this.initiatives.schema.index({ updatedAt: 1 }, { expires: this.client.config.Commands.initiative.expires });
   }
 
   /**

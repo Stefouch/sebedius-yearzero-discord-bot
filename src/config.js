@@ -51,7 +51,7 @@ SebediusConfig.Commands.crit = {
   fatalEmoji: '💀💀💀',
   deadEmoji: '🪦', // Headstone
 };
-SebediusConfig.Commands.init = {
+SebediusConfig.Commands.initiative = {
   expires: '10d',
   colorGradient: [
     0x000000,
