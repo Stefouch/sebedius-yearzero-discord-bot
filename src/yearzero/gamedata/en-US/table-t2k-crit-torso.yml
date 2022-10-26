@@ -4,65 +4,65 @@ _roll: true
   name: Snapped Collarbone
   lethal: No
   timeLimit: 0
-  effect: '`MOBILITY` –1'
+  effect: '`MOBILITY` –1.'
   healingTime: '[[D6]]'
 2:
   name: Broken Ribs
   lethal: No
   timeLimit: 0
-  effect: '`STAMINA` and `MOBILITY` –1'
+  effect: '`STAMINA` and `MOBILITY` –1.'
   healingTime: '[[2D6]]'
 3:
   name: Cracked Pelvis
   lethal: No
   timeLimit: 0
-  effect: '`MOBILITY` –2'
+  effect: '`MOBILITY` –2.'
   healingTime: '[[3D6]]'
 4:
   name: Bleeding Gut
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Shift
-  effect: '`STAMINA` –2, any `MOBILITY` roll reopens wound'
+  effect: '`STAMINA` –2, any `MOBILITY` roll reopens wound.'
   healingTime: '[[2D6]]'
 5:
   name: Ruptured Kidney
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Shift
-  effect: 1 damage at any `MOBILITY` roll
+  effect: 1 damage at any `MOBILITY` roll.
   healingTime: '[[2D6]]'
 6:
   name: Punctured Lung
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Shift
-  effect: '`STAMINA` and `MOBILITY` –2'
+  effect: '`STAMINA` and `MOBILITY` –2.'
   healingTime: '[[2D6]]'
 7:
   name: Cracked Spine
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Shift
-  effect: Fall down, immobile
+  effect: Fall down, immobile.
   healingTime: '[[4D6]]'
 8:
   name: Torn Intestines
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Stretch
-  effect: STAMINA –1 and disease virulence –3, incubation one shift
+  effect: STAMINA –1 and disease virulence –3, incubation one shift.
   healingTime: '[[2D6]]'
 9:
   name: Internal Bleeding
   lethal: Yes
   timeLimit: 1
   timeLimitUnit: Round
-  effect: Fall down, cannot run, only crawl
+  effect: Fall down, cannot run, only crawl.
   healingTime: '[[3D6]]'
 10:
   name: Heart Impaled
   lethal: Yes
   timeLimit: 0
-  effect: Instant death
+  effect: Instant death.
   healingTime: 0

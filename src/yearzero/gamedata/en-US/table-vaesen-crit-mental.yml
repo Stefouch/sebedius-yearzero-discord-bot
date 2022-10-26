@@ -7,7 +7,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Dazed, Investigation −1'
+  effect: 'Defect: Dazed, Investigation −1.'
 12:
   name: Overwhelmed
   lethal: false
@@ -15,7 +15,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Sensitive to stress, Stealth −1'
+  effect: 'Defect: Sensitive to stress, Stealth −1.'
 13:
   name: Pushed Too Far
   lethal: false
@@ -23,7 +23,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Fanatic, Manipulation −1'
+  effect: 'Defect: Fanatic, Manipulation −1.'
 14:
   name: Incapacitated
   lethal: false
@@ -31,7 +31,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Clumsy, Agility −1'
+  effect: 'Defect: Clumsy, Agility −1.'
 15:
   name: Exhausted
   lethal: false
@@ -39,7 +39,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Claustrophobic, Stealth −1'
+  effect: 'Defect: Claustrophobic, Stealth −1.'
 16:
   name: Panic Attack
   lethal: false
@@ -47,7 +47,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Skittish, Fear −1'
+  effect: 'Defect: Skittish, Fear −1.'
 21:
   name: Sees Her True Self
   lethal: false
@@ -55,7 +55,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Compulsive liar, Inspiration −1'
+  effect: 'Defect: Compulsive liar, Inspiration −1.'
 22:
   name: Frozen Facial Muscles
   lethal: false
@@ -63,7 +63,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Mask of terror, Manipulation −1'
+  effect: 'Defect: Mask of terror, Manipulation −1.'
 23:
   name: Whitened Hair
   lethal: false
@@ -71,7 +71,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Aged, Observation −1'
+  effect: 'Defect: Aged, Observation −1.'
 24:
   name: Feelings Of Worthlessness
   lethal: false
@@ -79,7 +79,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Shattered confidence, Inspiration −1'
+  effect: 'Defect: Shattered confidence, Inspiration −1.'
 25:
   name: Paralyzed
   lethal: false
@@ -87,7 +87,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Lacks initiative, Investigation −1'
+  effect: 'Defect: Lacks initiative, Investigation −1.'
 26:
   name: Trembling
   lethal: false
@@ -95,7 +95,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Tremor, Ranged Combat −1'
+  effect: 'Defect: Tremor, Ranged Combat −1.'
 31:
   name: Confronted With Mortality
   lethal: false
@@ -103,7 +103,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Fear of death, Close Combat −1'
+  effect: 'Defect: Fear of death, Close Combat −1.'
 32:
   name: Fighting And Screaming
   lethal: false
@@ -111,7 +111,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Impaired impulse control, Stealth −1'
+  effect: 'Defect: Impaired impulse control, Stealth −1.'
 33:
   name: Divided Attention
   lethal: false
@@ -119,7 +119,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Hears voices, Learning −1'
+  effect: 'Defect: Hears voices, Learning −1.'
 34:
   name: Disgusted
   lethal: false
@@ -127,7 +127,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Hates filth, Medicine −1'
+  effect: 'Defect: Hates filth, Medicine −1.'
 35:
   name: Shaken
   lethal: false
@@ -135,7 +135,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Sentimental, Manipulation −1'
+  effect: 'Defect: Sentimental, Manipulation −1.'
 36:
   name: Stressed
   lethal: false
@@ -143,7 +143,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Weakened immune system, Force −1'
+  effect: 'Defect: Weakened immune system, Force −1.'
 41:
   name: Extreme Muscle Tension
   lethal: false
@@ -151,140 +151,140 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: High-strung, Agility −1'
+  effect: 'Defect: High-strung, Agility −1.'
 42:
   name: Traumatized
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: PTSD, Fear −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: PTSD, Fear −1.'
 43:
   name: Furious
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Capricious, Manipulation −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Capricious, Manipulation −1.'
 44:
   name: Abandoned
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Lack of trust, Manipulation −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Lack of trust, Manipulation −1.'
 45:
   name: Overwhelmed By Vulnerability
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Paranoid, Vigilance −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Paranoid, Vigilance −1.'
 46:
   name: Crushed
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Defect: Impaired empathy, Inspiration −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Defect: Impaired empathy, Inspiration −1.'
 51:
   name: Ashamed
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Defect: Self-loathing, Manipulation −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Defect: Self-loathing, Manipulation −1.'
 52:
   name: Detached
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Defect: Egocentric, Medicine −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Defect: Egocentric, Medicine −1.'
 53:
   name: Out-of-body Experience
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Dissociating, Ranged Combat −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Dissociating, Ranged Combat −2.'
 54:
   name: Dream State
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Nightmares, Fear −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Nightmares, Fear −2.'
 55:
   name: Return To Childhood
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Regressing, Learning −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Regressing, Learning −2.'
 56:
   name: Horrifying Realization
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Mortified, Medicine −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Mortified, Medicine −2.'
 61:
   name: Hypersensitive
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Insight: Healer, Medicine +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Insight: Healer, Medicine +3.'
 62:
   name: Possessed
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: minutes
-  effect: 'Insight: Haunted, Learning +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minute
+  effect: 'Insight: Haunted, Learning +3.'
 63:
   name: Obsessed With Detail
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: minutes
-  effect: 'Insight: All-seeing, Investigation +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minute
+  effect: 'Insight: All-seeing, Investigation +3.'
 64:
   name: Supernatural Experience
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: minutes
-  effect: 'Insight: Divine messenger, Inspiration +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minute
+  effect: 'Insight: Divine messenger, Inspiration +3.'
 65:
   name: Invaded By Other People’s Emotions
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Insight: Absolute empathy, Observation +4'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Insight: Absolute empathy, Observation +4.'
 66:
   name: Split Consciousness
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Insight: Enlightened, Learning +4'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Insight: Enlightened, Learning +4.'

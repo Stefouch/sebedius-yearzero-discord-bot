@@ -1,7 +1,7 @@
 _name: fbl-crit-stab
 _roll: true
 13:
-  name: Genomborrat öra
+  name: Genomborrat Öra
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -9,7 +9,7 @@ _roll: true
   effect: Ingen Effekt.
   healingTime: 0
 16:
-  name: Spetsad fot
+  name: Spetsad Fot
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -17,7 +17,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 1
 23:
-  name: Genomborrad hand
+  name: Genomborrad Hand
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -25,7 +25,7 @@ _roll: true
   effect: Tvåhandsvapen kan inte användas.
   healingTime: 1
 26:
-  name: Spetsad kind
+  name: Spetsad Kind
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -33,7 +33,7 @@ _roll: true
   effect: –1 på MANIPULERA
   healingTime: 1
 33:
-  name: Genomborrat lår
+  name: Genomborrat Lår
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -41,7 +41,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 2
 34:
-  name: Avskuren hälsena
+  name: Avskuren Hälsena
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -49,7 +49,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 3
 41:
-  name: Genomborrad axel
+  name: Genomborrad Axel
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -57,7 +57,7 @@ _roll: true
   effect: Tvåhandsvapen kan inte användas.
   healingTime: 2
 43:
-  name: Sargat öga
+  name: Sargat Öga
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -65,7 +65,7 @@ _roll: true
   effect: –2 på SKJUTA, SPEJA
   healingTime: 2
 45:
-  name: Sargat skrev
+  name: Sargat Skrev
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -73,7 +73,7 @@ _roll: true
   effect: 1 poäng skada vid varje slag för STYRKEPROV och RÖRLIGHET
   healingTime: 2
 51:
-  name: Punkterad lunga
+  name: Punkterad Lunga
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -81,7 +81,7 @@ _roll: true
   effect: –2 på UTHÅLLIGHET och RÖRLIGHET
   healingTime: 1
 54:
-  name: Blödande buk
+  name: Blödande Buk
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -89,7 +89,7 @@ _roll: true
   effect: 1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP
   healingTime: 1
 56:
-  name: Perforerad tarm
+  name: Perforerad Tarm
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -97,7 +97,7 @@ _roll: true
   effect: Sjukdom med Smittvärde 6.
   healingTime: 2
 61:
-  name: Avskuren armpulsåde
+  name: Avskuren Armpulsåde
   lethal: true
   healMalus: -1
   timeLimit: 1
@@ -105,7 +105,7 @@ _roll: true
   effect: Tvåhandsvapen kan inte användas.
   healingTime: 1
 62:
-  name: Avskuren benpulsåder
+  name: Avskuren Benpulsåder
   lethal: true
   healMalus: -1
   timeLimit: 1
@@ -113,7 +113,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 1
 63:
-  name: Genomborrad hals
+  name: Genomborrad Hals
   lethal: true
   healMalus: -1
   timeLimit: 1
@@ -121,7 +121,7 @@ _roll: true
   effect: –2 på UTHÅLLIGHET
   healingTime: 2
 64:
-  name: Spetsad skalle
+  name: Spetsad Skalle
   lethal: true
   healMalus: 0
   timeLimit: 0
@@ -129,7 +129,7 @@ _roll: true
   effect: Du dör på fläcken.
   healingTime: 0
 66:
-  name: Genomborrat hjärta
+  name: Genomborrat Hjärta
   lethal: true
   healMalus: 0
   timeLimit: 0

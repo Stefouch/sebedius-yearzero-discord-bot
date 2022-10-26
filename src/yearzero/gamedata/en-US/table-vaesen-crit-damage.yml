@@ -7,7 +7,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Limp, Agility −1'
+  effect: 'Defect: Limp, Agility −1.'
 12:
   name: Broken Fingers
   lethal: false
@@ -15,7 +15,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Crooked fingers, Close Combat −1'
+  effect: 'Defect: Crooked fingers, Close Combat −1.'
 13:
   name: Ruptured Tendon
   lethal: false
@@ -23,7 +23,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Reduced mobility, Agility −1'
+  effect: 'Defect: Reduced mobility, Agility −1.'
 14:
   name: Knee Injury
   lethal: false
@@ -31,7 +31,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Skewed walk, Agility −1'
+  effect: 'Defect: Skewed walk, Agility −1.'
 15:
   name: Fracture
   lethal: false
@@ -39,7 +39,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: False joint, Force −1'
+  effect: 'Defect: False joint, Force −1.'
 16:
   name: Splinters In The Body
   lethal: false
@@ -47,7 +47,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Ulcer, Inspiration −1'
+  effect: 'Defect: Ulcer, Inspiration −1.'
 21:
   name: Skin Lesion
   lethal: false
@@ -55,7 +55,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Disfigured, Manipulation −1'
+  effect: 'Defect: Disfigured, Manipulation −1.'
 22:
   name: Damaged Throat
   lethal: false
@@ -63,7 +63,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Wheezing, Stealth −1'
+  effect: 'Defect: Wheezing, Stealth −1.'
 23:
   name: Eye Injury
   lethal: false
@@ -71,7 +71,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Impaired eyesight, Vigilance −1'
+  effect: 'Defect: Impaired eyesight, Vigilance −1.'
 24:
   name: Injured Arm
   lethal: false
@@ -79,7 +79,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Crooked arm, Ranged Combat −1'
+  effect: 'Defect: Crooked arm, Ranged Combat −1.'
 25:
   name: Facial Injury
   lethal: false
@@ -87,7 +87,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Deformed face, Manipulation −1'
+  effect: 'Defect: Deformed face, Manipulation −1.'
 26:
   name: Crush Injury
   lethal: false
@@ -95,7 +95,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Tremor, Ranged Combat −1'
+  effect: 'Defect: Tremor, Ranged Combat −1.'
 31:
   name: Dislodged Teeth
   lethal: false
@@ -103,7 +103,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Toothless, Inspiration −1'
+  effect: 'Defect: Toothless, Inspiration −1.'
 32:
   name: Ear Injury
   lethal: false
@@ -111,7 +111,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Impaired balance, Close Combat −1'
+  effect: 'Defect: Impaired balance, Close Combat −1.'
 33:
   name: Jaw Injury
   lethal: false
@@ -119,7 +119,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Drooling, Inspiration −1'
+  effect: 'Defect: Drooling, Inspiration −1.'
 34:
   name: Back Injury
   lethal: false
@@ -127,7 +127,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Hunchback, Agility −1'
+  effect: 'Defect: Hunchback, Agility −1.'
 35:
   name: Severed Fingers
   lethal: false
@@ -135,7 +135,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Finger stumps, Ranged Combat −1'
+  effect: 'Defect: Finger stumps, Ranged Combat −1.'
 36:
   name: Nerve Damage
   lethal: false
@@ -143,7 +143,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Pain, Force −1'
+  effect: 'Defect: Pain, Force −1.'
 41:
   name: Torn Ear
   lethal: false
@@ -151,140 +151,140 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: 'Defect: Impaired hearing, Vigilance −1'
+  effect: 'Defect: Impaired hearing, Vigilance −1.'
 42:
   name: Abdominal Injury
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Stiff body, Close Combat −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Stiff body, Close Combat −1.'
 43:
   name: Dirty Wound
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Sepsis, Force −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Sepsis, Force −1.'
 44:
   name: Bleeding Wound
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Gangrene, Agility −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Gangrene, Agility −1.'
 45:
   name: Crushed Genitals
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Defect: Incontinence, Agility −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Defect: Incontinence, Agility −1.'
 46:
   name: Punctured Eye
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Defect: One-eyed, Vigilance −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Defect: One-eyed, Vigilance −1.'
 51:
   name: Ruptured Bowel
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Defect: Wears a colostomy bag, Agility −1'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Defect: Wears a colostomy bag, Agility −1.'
 52:
   name: Deep Arm Gash
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Defect:  One-armed, Force −1 (cannot use two-handed weapons)'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Defect: One-armed, Force −1 (cannot use two-handed weapons).'
 53:
   name: Burst Artery
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Phobia of blood, Fear −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Phobia of blood, Fear −2.'
 54:
   name: Internal Bleeding
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Anemia, Force −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Anemia, Force −2.'
 55:
   name: Caved-in Forehead
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Altered personality, Observation −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Altered personality, Observation −2.'
 56:
   name: Cracked Skull
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Defect: Brain damage, Learning −2'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Defect: Brain damage, Learning −2.'
 61:
   name: Coma
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: days
-  effect: 'Insight: Prophetic vision, Investigation +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: day
+  effect: 'Insight: Prophetic vision, Investigation +3.'
 62:
   name: Spinal Injury
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Insight: Living dead, Stealth +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Insight: Living dead, Stealth +3.'
 63:
   name: Torn Abdomen
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: hours
-  effect: 'Insight: Supernatural focus, Ranged Combat +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: hour
+  effect: 'Insight: Supernatural focus, Ranged Combat +3.'
 64:
   name: Torn Body
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: minutes
-  effect: 'Insight: Champion, Close Combat +3'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minute
+  effect: 'Insight: Champion, Close Combat +3.'
 65:
   name: Punctured Lungs
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Insight: Guardian angel, Agility +4'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Insight: Guardian angel, Agility +4.'
 66:
   name: Crushed Chest
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: 1
-  timeLimitUnit: rounds
-  effect: 'Insight: Supernatural strength, Force +4'
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: round
+  effect: 'Insight: Supernatural strength, Force +4.'

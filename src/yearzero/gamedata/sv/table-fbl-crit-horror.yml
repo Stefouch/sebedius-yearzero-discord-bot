@@ -9,7 +9,7 @@ _roll: true
   effect: Avdrag –1 på alla slag för SMI.
   healingTime: 1
 21:
-  name: Vitt hår
+  name: Vitt Hår
   lethal: false
   healMalus: 0
   timeLimit: 0

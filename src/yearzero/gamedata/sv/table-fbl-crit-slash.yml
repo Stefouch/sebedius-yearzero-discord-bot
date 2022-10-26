@@ -1,7 +1,7 @@
 _name: fbl-crit-slash
 _roll: true
 12:
-  name: Blödande panna
+  name: Blödande Panna
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -9,7 +9,7 @@ _roll: true
   effect: Ingen Effekt
   healingTime: 0
 14:
-  name: Kapad näsa
+  name: Kapad Näsa
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -17,7 +17,7 @@ _roll: true
   effect: –1 på MANIPULERA
   healingTime: 1
 16:
-  name: Kapat finger
+  name: Kapat Finger
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -25,7 +25,7 @@ _roll: true
   effect: Tvåhandsvapen kan inte användas.
   healingTime: 1
 22:
-  name: Kapad tå
+  name: Kapad Tå
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -33,7 +33,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 1
 24:
-  name: Blödande lår
+  name: Blödande Lår
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -41,7 +41,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 1
 26:
-  name: Uppskuren mun
+  name: Uppskuren Mun
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -49,7 +49,7 @@ _roll: true
   effect: –2 på MANIPULERA.
   healingTime: 1
 32:
-  name: Avskuren hälsena
+  name: Avskuren Hälsena
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -57,7 +57,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: 2
 34:
-  name: Sargad axel
+  name: Sargad Axel
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -65,7 +65,7 @@ _roll: true
   effect: Tvåhandsvapen kan inte användas.
   healingTime: 2
 36:
-  name: Kapat öra
+  name: Kapat Öra
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -73,7 +73,7 @@ _roll: true
   effect: –1 på SPEJA.
   healingTime: 1
 42:
-  name: Sargat öga
+  name: Sargat Öga
   lethal: false
   healMalus: 0
   timeLimit: 0
@@ -81,7 +81,7 @@ _roll: true
   effect: –2 på SKJUTA, SPEJA.
   healingTime: 2
 44:
-  name: Punkterad lunga
+  name: Punkterad Lunga
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -89,7 +89,7 @@ _roll: true
   effect: –2 på UTHÅLLIGHET och RÖRLIGHET.
   healingTime: 1
 46:
-  name: Kapad fot
+  name: Kapad Fot
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -97,7 +97,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: -1
 52:
-  name: Blödande buk
+  name: Blödande Buk
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -105,7 +105,7 @@ _roll: true
   effect: 1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP.
   healingTime: 1
 54:
-  name: Perforerad tarm
+  name: Perforerad Tarm
   lethal: true
   healMalus: 0
   timeLimit: 1
@@ -113,7 +113,7 @@ _roll: true
   effect: Sjukdom med Smittvärde 6.
   healingTime: 2
 56:
-  name: Kapad arm
+  name: Kapad Arm
   lethal: true
   healMalus: -1
   timeLimit: 1
@@ -121,7 +121,7 @@ _roll: true
   effect: Tvåhandsvapen kan inte användas.
   healingTime: -1
 62:
-  name: Kapat ben
+  name: Kapat Ben
   lethal: true
   healMalus: -1
   timeLimit: 1
@@ -129,7 +129,7 @@ _roll: true
   effect: SPRINGA blir lång handling.
   healingTime: -1
 64:
-  name: Uppskuren hals
+  name: Uppskuren Hals
   lethal: true
   healMalus: -1
   timeLimit: 1
@@ -137,7 +137,7 @@ _roll: true
   effect: –2 på UTHÅLLIGHET.
   healingTime: 1
 65:
-  name: Kluven skalle
+  name: Kluven Skalle
   lethal: true
   healMalus: 0
   timeLimit: 0
@@ -145,7 +145,7 @@ _roll: true
   effect: Du dör på fläcken.
   healingTime: 0
 66:
-  name: Avhugget huvud
+  name: Avhugget Huvud
   lethal: true
   healMalus: 0
   timeLimit: 0

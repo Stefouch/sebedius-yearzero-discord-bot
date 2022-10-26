@@ -119,7 +119,7 @@ _roll: true
   healingTime: 3
   timeLimit: 0
   timeLimitUnit:
-  effect: Fällt zu Boden, dann Bewegungsrate halbiert und -2 auf Beweglichkeit und Infiltration
+  effect: Fällt zu Boden, dann Bewegungsrate halbiert und -2 auf Beweglichkeit und Infiltration.
 34:
   name: Abgerissenes Ohr
   lethal: false

@@ -7,7 +7,7 @@ _roll: true
   healingTime: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: Kein Effect
+  effect: Kein Effect.
 16:
   name: Aufgespießter Fuß
   lethal: false

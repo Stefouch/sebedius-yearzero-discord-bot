@@ -2,31 +2,31 @@ _name: t2k-crit-mental
 _roll: true
 1:
   name: Nervous Tremble
-  effect: RANGED COMBAT and DRIVING –1
+  effect: '`RANGED COMBAT` and `DRIVING` –1.'
 2:
   name: Anxious
-  effect: RECON and SURVIVAL –1
+  effect: '`RECON` and `SURVIVAL` –1.'
 3:
   name: Sullen
-  effect: COMMAND and PERSUASION –1
+  effect: '`COMMAND` and `PERSUASION` –1.'
 4:
   name: Nightmares
-  effect: "CUF roll every shift spent sleeping – if failed, the sleep doesn't count"
+  effect: "CUF roll every shift spent sleeping – if failed, the sleep doesn't count."
 5:
   name: Nocturnal
-  effect: Sleep only possible during morning and day shifts
+  effect: Sleep only possible during morning and day shifts.
 6:
   name: Phobia
-  effect: 1 stress each round in the same hex as the object of phobia (related to trauma)
+  effect: 1 stress each round in the same hex as the object of phobia (related to trauma).
 7:
   name: Alcoholism
-  effect: 1 point of stress and no stress recovery each shift without drinking alcohol
+  effect: 1 point of stress and no stress recovery each shift without drinking alcohol.
 8:
   name: Paranoia
-  effect: Effects are to be roleplayed
+  effect: Effects are to be roleplayed.
 9:
   name: Psychosis
-  effect: EMP roll (attribute only) in stressful situations, failure triggers violent rampage
+  effect: '`EMP` roll (attribute only) in stressful situations, failure triggers violent rampage.'
 10:
   name: Catatonic
-  effect: Immobile and non-responsive
+  effect: Immobile and non-responsive.

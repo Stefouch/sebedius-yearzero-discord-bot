@@ -118,7 +118,7 @@ _roll: true
   healMalus: 0
   timeLimit: 0
   timeLimitUnit:
-  effect: −3 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden
+  effect: −3 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden.
   healingTime: 1
 34:
   name: Zertrümmerte Rippen
@@ -190,7 +190,7 @@ _roll: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: Tage
-  effect: −2 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden
+  effect: −2 auf Kraftakt und Prügeln, du kannst keine zweihändig geführten Waffen verwenden.
   healingTime: 4
 51:
   name: Zertrümmerter Fuß
