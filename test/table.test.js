@@ -37,22 +37,22 @@ describe('TABLES', function () {
                 for (let i = 0; i < table.max; i++) {
                   const r = table.get(i);
 
-
-                  expect(r.name, `${lang}/${table.name}: name of ${i}`)
+                  // Checks name.
+                  expect(r.name, `${lang}/${tableName}: name of ${i}`)
                     .to.be.a('string');
                   expect(r.name, `${lang}/${tableName}: title case name of ${i}`)
                     .to.match(/^(?:[A-Z][^\s]*\s?\(?)+$/);
 
-                  if (tableName.includes('crit')) {
-                    expect(r.effect, `${lang}/${table.name}: effect of ${i}`)
-                      .to.be.a('string');
-                  }
-                  else if (tableName.includes('panic')) {
+                  // Checks effect.
+                  expect(r.effect, `${lang}/${tableName}: effect of ${i}`)
+                    .to.be.a('string');
+                  expect(r.effect, `${lang}/${tableName}: punctuation end of effect of ${i}`)
+                    .to.match(/\.\)?\*?$/gm);
+
+                  if (tableName.includes('panic')) {
                     expect(r.icon.length, `${lang}/${tableName}: icon of ${i}`)
                       .to.greaterThan(0)
                       .and.below(3);
-                    expect(r.description, `${lang}/${tableName}: description of ${i}`)
-                      .to.be.a('string');
                   }
                 }
               });
