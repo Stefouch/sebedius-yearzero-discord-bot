@@ -1,7 +1,7 @@
----
 all: allt
-missingPermissionsError: 'Botten {{member}} saknar följande behörigheter och kanske
-  inte fungerar som den ska: {{perms}}'
+missingPermissionsError: >-
+  Botten {{member}} saknar följande behörigheter och kanske
+  inte fungerar som den ska: {{perms}}
 commandError: |-
   Ett fel uppstod med detta kommando: {{name}} {{code}}
   {{message}}
