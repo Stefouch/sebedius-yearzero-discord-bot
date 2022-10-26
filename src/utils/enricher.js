@@ -54,7 +54,7 @@ class TextEnricher {
  */
 TextEnricher.DefaultEnrichers = [
   {
-    pattern: /\[\[(\d?)[dD](\d+)\]\]/gm,
+    pattern: /\[\[(\d?)[dD](\d+)([+-]\d+)?\]\]/gm,
     enricher: rollEnricher,
   },
 ];
@@ -68,6 +68,7 @@ module.exports = TextEnricher;
 /**
  * - $1: Number of dice
  * - $2: Face of the di·c·e
+ * - $3: Modifier, if any
  * @param {string[]} match
  * @param {{ resultOnly: boolean }} [options]
  */
@@ -75,7 +76,8 @@ function rollEnricher(match, options) {
   const title = match[0].replace(/\[|\]/g, '');
   const qty = +match[1] || 1;
   const size = +match[2] || 6;
-  let result = 0;
+  const mod = +match[3] || 0;
+  let result = mod;
   for (let i = 0; i < qty; i++) {
     result += YearZeroDie.rng(1, size);
   }
