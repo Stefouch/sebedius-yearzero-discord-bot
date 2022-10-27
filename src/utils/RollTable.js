@@ -117,7 +117,7 @@ class RollTable extends Map {
       throw new TypeError(`RollTableError[${this.name}]: Reference "${reference}" Not A Number!`);
     }
     if (reference > this.max) {
-      return this.get(this.max);
+      return super.get(this.max);
     }
     for (const [key] of this) {
       if (reference <= key) {
@@ -197,14 +197,28 @@ class RollTable extends Map {
     /** @type {RandFunction} */
     let fn;
 
-    if (hasSameDigits(max)) {
+    if (max === 66) {
+      fn = () => {
+        let result = mod;
+        for (let i = 0; i < qty; i++) result += rand(1, 6) * 10 + rand(1, 6);
+        return result;
+      };
+    }
+    else if (max === 666) {
+      fn = () => {
+        let result = mod;
+        for (let i = 0; i < qty; i++) result += rand(1, 6) * 100 + rand(1, 6) * 10 + rand(1, 6);
+        return result;
+      };
+    }
+    else if (max > 66 && hasSameDigits(max)) {
       // Gets the actual Base. D66 = 6; D88 = 8;
       const digit = max % 10;
       // Creates sequence for the Base <digit>
       const seq = Array(digit).fill().map((x, n) => n + 1).join('');
 
       fn = () => {
-        let result = 0;
+        let result = mod;
         for (let i = 0; i < qty; i++) {
           let seed = rand(1, max);
           // Adjusts the seed.
@@ -213,14 +227,14 @@ class RollTable extends Map {
           // Converts the seed into a valid reference.
           result += +convertToBijective(seed, seq);
         }
-        return result + mod;
+        return result;
       };
     }
     else if (max > 0) {
       fn = () => {
-        let result = 0;
+        let result = mod;
         for (let i = 0; i < qty; i++) result += rand(1, max);
-        return result + mod;
+        return result;
       };
     }
     else {
