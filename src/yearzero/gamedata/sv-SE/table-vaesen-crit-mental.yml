@@ -1,0 +1,271 @@
+_name: vaesen-crit-mental
+_roll: true
+11:
+  name: Konfys
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Rörig, UNDERSÖKNING −1.'
+12:
+  name: Överväldigad
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Stresskänslig, LÖNNDOM −1.'
+13:
+  name: Trängd Över Gränsen
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Fanatisk, MANIPULERA −1.'
+14:
+  name: Handlingsförlamad
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Tafatt, RÖRLIGHET −1.'
+15:
+  name: Slutkörd
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Klaustrofobi, LÖNNDOM −1.'
+16:
+  name: Panikattack
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Lättskrämd, Skräckslag −1.'
+21:
+  name: Ser Sitt Sanna Jag
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Mytoman, INSPIRERA −1.'
+22:
+  name: Låsta Ansiktsmuskler
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Skräckmask, MANIPULERA −1.'
+23:
+  name: Håret Vitnar
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Åldrad, GENOMSKÅDA −1.'
+24:
+  name: Värdelöshetskänslor
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Krossat självförtroende, INSPIRERA −1.'
+25:
+  name: Paralyserad
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Initiativlös, UNDERSÖKNING −1.'
+26:
+  name: Darrar
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Tremor, SKYTTE −1.'
+31:
+  name: Kontakt Med Livets Förgänglighet
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Dödsångest, NÄRKAMP −1.'
+32:
+  name: Slåss Och Skriker
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Nedsatt impulskontroll, LÖNNDOM −1.'
+33:
+  name: Splittrad Uppmärksamhet
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Hör röster, BILDNING −1.'
+34:
+  name: Äcklad
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Avskyr smuts, LÄKEKONST −1.'
+35:
+  name: Skakad
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Blödig, MANIPULERA −1.'
+36:
+  name: Stresstillstånd
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Nedsatt immunförsvar, KRAFTPROV −1.'
+41:
+  name: Extrem Muskelspänning
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Defekt: Överspänd, RÖRLIGHET −1.'
+42:
+  name: Traumatiserad
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: dag
+  effect: 'Defekt: PTSD, Skräckslag −1.'
+43:
+  name: Raseri
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: dag
+  effect: 'Defekt: Lynnig, MANIPULERA −1.'
+44:
+  name: Övergiven
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: dag
+  effect: 'Defekt: Tillitsbrist, MANIPULERA −1.'
+45:
+  name: Överväldigad Av Utsatthet
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: dag
+  effect: 'Defekt: Paranoid, VAKSAMHET −1.'
+46:
+  name: Krossad
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: timme
+  effect: 'Defekt: Empatistörd, INSPIRERA −1.'
+51:
+  name: Uppfylld Av Skam
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: timme
+  effect: 'Defekt: Självförakt, MANIPULERA −1.'
+52:
+  name: Avskärmad
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: timme
+  effect: 'Defekt: Egocentrisk, LÄKEKONST −1.'
+53:
+  name: Medvetande Lämnar Kroppen
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: runda
+  effect: 'Defekt: Dissociation, SKYTTE −2.'
+54:
+  name: Drömtillstånd
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: runda
+  effect: 'Defekt: Mardrömmar, Skräckslag −2.'
+55:
+  name: Återgång Till Barndom
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: runda
+  effect: 'Defekt: Regredierar, BILDNING −2.'
+56:
+  name: Skrämmande Insikt
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: runda
+  effect: 'Defekt: Tillintetgjord, LÄKEKONST −2.'
+61:
+  name: Hyperkänslig
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: dag
+  effect: 'Insikt: Helare, LÄKEKONST +3.'
+62:
+  name: Besatt
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minut
+  effect: 'Insikt: Hemsökt, BILDNING +3.'
+63:
+  name: Fixerad Vid Detalj
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minut
+  effect: 'Insikt: Allseende, UNDERSÖKNING +3.'
+64:
+  name: Övernaturlig Upplevelse
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: minut
+  effect: 'Insikt: Gudomlig budbärare, INSPIRERA +3.'
+65:
+  name: Invaderad Av Andras Känslor
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: runda
+  effect: 'Insikt: Total empati, GENOMSKÅDA +4.'
+66:
+  name: Splittrat Medvetande
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: '[[1D6]]'
+  timeLimitUnit: runda
+  effect: 'Insikt: Upplyst, BILDNING +4.'

@@ -1,6 +1,6 @@
-ownerOnlyCommandDisclaimer:
+ownerOnlyCommandDisclaimer: >-
   Endast bottens ägare kan använda detta kommando. Och du
-  är icke min mästare!
+  äro icke min mästare!
 categories:
   admin: Administrativt
   utils: Verktyg
@@ -11,10 +11,12 @@ help:
   options:
     command:
       name: kommando
-      description: Skriv ut mer info om ett specifikt kommando eller skriv "all" för att se en lista med alla kommandon
+      description: >-
+        Skriv ut mer info om ett specifikt kommando eller skriv "all" för
+        att se en lista med alla kommandon
   deployedVersion: Distribuerad Version
   developer: Utvecklare
-  fullDescription:
+  fullDescription: >-
     Sebedius är en Discord-bot med kommandon och verktyg för rollspel
     som nyttjar Fria Ligans (Free League Publishing) spel i Year Zero-motorn.
   usefulLinks: Användbara Länkar
@@ -41,23 +43,19 @@ rolla:
   options:
     game:
       name: spel
-      description:
-        Åsidosätt det förvalda spelet som används för att återge de slagna
-        tärningarna
+      description: Åsidosätt det förvalda spelet som används för att återge de slagna tärningarna
 roll:
   name: slag
-  description: Slå tärning för vilket Year Zero-spel som helst
+  description: Slå tärning för ett Year Zero-spel
   options:
     input:
       name: input
       description: Slåsträng för tärningarna att rulla i formatet NdX!>XfX (separata multipla slag med ett mellanrum)
     abcd:
       name: abcd
-      description:
-        'Skriv något av följande: `12`, `10`, `8`, `6`, `a`, `b`, `c`,
-        `d`'
+      description: 'Skriv något av följande: `12`, `10`, `8`, `6`, `a`, `b`, `c`, `d`'
     dice:
-      name: 'tärningar'
+      name: tärningar
       description: Antal tärningar att slå
     base:
       name: grund
@@ -70,21 +68,19 @@ roll:
       description: Antal Utrustningstärningar
     stress:
       name: stress
-      description: Antal Stress-tärningar
+      description: Antal Stresstärningar
     ammo:
       name: patroner
       description: Antal Patrontärningar
     artifacts:
       name: artefakter
-      description:
-        'Lägg till ett antal artefakttärningar: Skriv `d6`, `d8`, `d10`
-        or `d12`'
+      description: 'Lägg till ett antal artefakttärningar: Skriv `d6`, `d8`, `d10` or `d12`'
     title:
       name: titel
       description: Välj en titel för slaget
     modifier:
       name: modifikation
-      description: Lägg till modifikation för `+X` eller `-X` till slaget
+      description: Lägg till svårighetsmodifikation för `+X` eller `-X` till slaget
     maxpush:
       name: maxpress
       description: Ändra maximala antalet tillåtna pressar (skriv 0 för inga pressningar)
@@ -93,9 +89,7 @@ roll:
       description: Om slaget skall döljas från andra spelare
     fullauto:
       name: helautomat
-      description:
-        'Helautomatisk eld: oändligt antal pressningar (eller ja, egentligen
-        max 10)'
+      description: 'Helautomatisk eld: oändligt antal pressningar (eller ja, egentligen max 10)'
     pride:
       name: stolthet
       description: Lägg till en D12 Artefakttärning till slaget
@@ -118,18 +112,18 @@ roll:
     gearDamage_plural: 'Utrustningsskada: **{{count}}**'
     extraHit: 'Extra Träff: **{{count}}**'
     extraHit_plural: 'Extra Träffar: **{{count}}**'
-    suppression: 'Suppression: **{{count}}**'
-    suppression_plural: 'Suppressions: **{{count}}**'
+    suppression: 'Täckning: **{{count}}**'
+    suppression_plural: 'Täckningar: **{{count}}**'
     ammoSpent: 'Ammunition Spenderad: **{{count}}**'
     damageOrStress: 'Skada/Stress: **{{count}}**'
     reliability: '**Pålitlighet: −{{count}}**'
-    weaponJam: '**WEAPON JAM**'
-    panic: '**PANIC**'
+    weaponJam: '**VAPENKRÅNGEL**'
+    panic: '**PANIK**'
   buttons:
     push: Pressa
     cancel: Acceptera
-    prayTheIcons: Be till ikonerna (+1T)
-    fanaticPush: Be till ikonerna (+2D)
+    prayTheIcons: Be till Ikonerna (+1T)
+    fanaticPush: Be till Ikonerna (+2D)
   notYourRoll: Du kan inte ändra andras slag!
   genericRollParseError: Kunde inte hämta denna slag-sträng! {{input}}
 rolld66:
@@ -147,9 +141,7 @@ rolld66:
       description: Om slaget skall döljas från andra spelare
     game:
       name: spel
-      description:
-        Åsidosätt det förvalda spelet som används för att återge de slagna
-        tärningarna
+      description: Åsidosätt det förvalda spelet som används för att återge de slagna tärningarna
   resultForD66: '{{author}} slog en {{dice}} och fick {{result}}.'
 thread:
   name: tråd
@@ -166,13 +158,11 @@ thread:
   leave: Botten har lämnat tråden!
 conf:
   name: conf
-  description: Sätt inställningar för botten i denna server
+  description: Ställ in inställningar för botten i denna server
   options:
     game:
       name: spel
-      description:
-        Definera standard-spelet för servern (för tärningars utseende och
-        kritiska skador-tabeller)
+      description: Definera standard-spelet för servern (för tärningars utseende och tabeller för kritiska skador)
     locale:
       name: plats
       description: Bestäm standardspråket för din server (se Readme för detaljer)
@@ -202,13 +192,13 @@ panic:
       description: Om slaget skall döljas från andra spelare eller ej
   panicEffectNotFoundError: Panik-effekten kunde ej hittas
   interruptedSkillRollTitle: Avbrutet Slag För Färdighet
-  interruptedSkillRollText:
+  interruptedSkillRollText: >-
     Du kommer att tvingas utföra en specifik åtgärd. Om slaget
     för Panik var resultatet av att du rullade en färdighet för att göra något så
     avbryts åtgärden och ersätts omedelbart av den påtvingade panikhändelsen, även
     om du lyckades med din rullning.
   mentalTraumaReminderTitle: 'Slutet på Spelsessionen: Slå för Permanent Mentalt Trauma'
-  mentalTraumaReminderText:
+  mentalTraumaReminderText: >-
     Du måste slå för **EMPATHY** efter sessionen. Slå endast
     för attributet, utan någon färdighet. Om slaget *succeeds* så utvecklar du ett
     permanent mentalt trauma av något slag. Slå en D6 och se resultatet på tabellen
@@ -239,9 +229,7 @@ initiative:
           description: Välj ett alias för användaren som drar initativ
     reset:
       name: återställ
-      description:
-        Återställ initativ-kortleken *(behövs förmodligen vid varje ny
-        konflikt)
+      description: Återställ initativ-kortleken *(behövs förmodligen vid varje ny konflikt)
   deckShuffled: Blandade en ny lek av initiativkort.
   deckTooSmall: Storleken av initiativ-leken är för liten.
   drawHint: Dra {{number}}, behåll {{keep}}.
@@ -251,3 +239,58 @@ initiative:
   drawEvents: Händelser
   remainingCards: Kvarvarande Kort
   noDatabaseConnection: Ingen databasanslutning!
+crit:
+  name: krit
+  description: Dra en kritisk skada på måfå
+  options:
+    table_alien:
+      name: tabell
+      desription: Välj tabell
+    table_bladerunner:
+      name: tabell
+      desription: Välj tabell
+    table_fbl:
+      name: tabell
+      desription: Välj tabell
+    table_myz:
+      name: tabell
+      desription: Välj tabell
+    table_twilight2k:
+      name: tabell
+      desription: Välj tabell
+    table_vaesen:
+      name: tabell
+      desription: Välj tabell
+    reference:
+      name: referens
+      description: Använd ett specifierat nummer istället (rulla ej)
+    lucky:
+      name: turlig
+      description: Använd talangen *Turlig*, och välj nivå I, II eller III
+    severity:
+      name: allvarlighetsgrad
+      description: Hur många tärningar skall rullas för kritisk skada? *(Använd det högsta resultatet)*
+    private:
+      name: privat
+      description: Om slaget skall döljas från andra spelare
+  embed:
+    permanent: Permanent
+    permanentEffects: Dessa effekter är permanenta.
+    healingTime: Läkestid
+    healingTimeDescription: '{{text}} dag tills effekten går över.'
+    healingTimeDescription_plural: '{{text}} dagar tills effekten går över.'
+    healingTimeBeforePermanentDescription: >-
+      Skadan kvarstår i **en {{unit}}**. Någon
+      gång under läkestiden så behöver du medicinsk vård eller så blir skadan permanent
+      *(se Grundregelboken, sida 72)*.
+    lethality: Dödlighet
+    lethalityDescription: >-
+      Denna kritiska skada är **DÖDLIG** och måste bli `VÅRDAD`
+      {{modifier}}
+      inom {{time}} annars dör karaktären..
+    modifiedBy: modifierad med {{mod}}
+    timeLimit: en **{{unit}}**
+    timeLimit_plural: inom {{number}} **{{unit}}ar**
+    luckyResults: 'Turlig, användandes av följande värden: {{values}}'
+    severe: Allvarlig Skada
+    severeResults: 'Slog dessa värden: {{values}}'

@@ -27,21 +27,22 @@ describe('TABLES', function () {
 
             // For crit & panic tables
             if (tableName.includes('crit') || tableName.includes('panic')) {
-              it('Sould be a RollTable with a name', function () {
+              it('Should be a RollTable with a name', function () {
                 expect(table).to.be.an.instanceOf(RollTable);
                 expect(table.name).to.be.a('string');
+                expect(table.name).to.equal(tableName.split('table-')[1]);
               });
 
               // Iterates over each value of the table.
               it('Should have all the necessary values', function () {
-                for (let i = 0; i < table.max; i++) {
+                for (let i = 1; i <= table.max; i++) {
                   const r = table.get(i);
 
                   // Checks name.
                   expect(r.name, `${lang}/${tableName}: name of ${i}`)
                     .to.be.a('string');
                   expect(r.name, `${lang}/${tableName}: title case name of ${i}`)
-                    .to.match(/^(?:[A-ZÖ][^\s]*\s?\(?)+$/);
+                    .to.match(/^(?:[A-ZÄÅÖ][^\s]*\s?\(?)+$/);
 
                   // Checks effect.
                   expect(r.effect, `${lang}/${tableName}: effect of ${i}`)
