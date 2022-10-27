@@ -1,4 +1,4 @@
-const fs = require('node:fs');
+const { readFileSync, writeFileSync } = require('node:fs');
 const chalk = require('chalk');
 const gulp = require('gulp');
 const semver = require('semver');
@@ -10,15 +10,15 @@ const argv = require('./tools/args-parser.js');
 /* ------------------------------------------ */
 
 // const production = process.env.NODE_ENV === 'production';
-const packageJson = JSON.parse(fs.readFileSync('package.json'));
+const packageJson = JSON.parse(readFileSync('package.json', { encoding: 'utf-8' }));
 const stdio = 'inherit';
 
 /* ------------------------------------------ */
 
 /**
  * Gets the target version based on on the current version and the argument passed as release.
- * @param {string} currentVersion The current version
- * @param {string} releaseType        The release type,
+ * @param {string}             currentVersion The current version
+ * @param {semver.ReleaseType} releaseType    The release type,
  *    any of `['major', 'premajor', 'minor', 'preminor', 'patch', 'prepatch', 'prerelease']`
  * @returns {string} The target version
  */
@@ -34,8 +34,7 @@ function getTargetVersion(currentVersion, releaseType) {
 /* ------------------------------------------ */
 
 /**
- * Makes a changelog.
- * @async
+ * Creates a changelog.
  */
 async function changelog() {
   const { execa } = await import('execa');
@@ -44,7 +43,6 @@ async function changelog() {
 
 /**
  * Commits and pushes release to Github Upstream.
- * @async
  */
 async function commitTagPush() {
   const { execa } = await import('execa');
@@ -54,7 +52,7 @@ async function commitTagPush() {
   await execa('git', ['commit', '--message', commitMsg], { stdio });
   await execa('git', ['tag', `v${version}`], { stdio });
   await execa('git', ['push', 'upstream'], { stdio });
-  await execa('git', ['push', 'upstream', '--tag'], { stdio });
+  await execa('git', ['push', 'upstream', '--tags'], { stdio });
 }
 
 /* ------------------------------------------ */
@@ -65,13 +63,11 @@ async function commitTagPush() {
  * @throws {Error} When missing release type
  * @throws {Error} When incorrect version arguments
  * @throws {Error} When target version is identical to current version
- * @async
  */
 async function bumpVersion(cb) {
-
   try {
+    // @ts-ignore
     const releaseType = argv.release || argv.r;
-
     const currentVersion = packageJson.version;
 
     if (!releaseType) {
@@ -91,7 +87,7 @@ async function bumpVersion(cb) {
     console.log(`Updating version number to '${targetVersion}'`);
 
     packageJson.version = targetVersion;
-    fs.writeFileSync('package.json', JSON.stringify(packageJson, null, '  '));
+    writeFileSync('package.json', JSON.stringify(packageJson, null, '  '));
 
     return cb();
   }
