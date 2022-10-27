@@ -28,6 +28,11 @@ If you have usage questions the best place to get help is in the [#digital-tools
 
 We are grateful for any and all localization support we can get. To localize the system you do not need to download or set up the system. To make it easier to help with localization we are using GitLocalize. All you need is a GitHub account. Then you can [head over to our GitLocalize page](https://gitlocalize.com/repo/7923) and start translating.
 
+There are small restrictions imposed for the translations of commands:
+
+- Command's names can only have letters and must have between 3 and 32 characters.
+- Command's descriptions cannot have more than 100 characters.
+
 Once you are done, click the yellow button that says "Create Review Request" and GitLocalize will handle the rest on your behalf.
 
 ### But I don't see my language in the list!

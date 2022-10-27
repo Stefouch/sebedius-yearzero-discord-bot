@@ -57,11 +57,14 @@ The supported games are:
 
 By default, Sebedius will use the locale defined in your server, if it is supported (otherwise, english).
 
-With the command `/conf locale:<language_code>` you can translate Sebedius into another language. Supported localisations are:
+With the command `/conf locale:<language>` you can translate Sebedius into another language. Supported localisations are:
 
-- `en` – English (default)
-- `de` – German [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)
-- `fr` – French [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)
+| Language | Commands | Gamedata | Progress                                                                                                                     |
+| :------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Engish   | –        | –        | _Default language_                                                                                                           |
+| German   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)    |
+| French   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)    |
+| Swedish  | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/sv-SE/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge) |
 
 Your language isn't supported yet? See _Contributing_ below!
 
@@ -71,7 +74,9 @@ Contributions, translations, issues and feature requests are welcome!<br/>Take a
 
 ### Top Contributors
 
-- [@mprangenberg](https://github.com/mprangenberg)
+- [@mprangenberg](https://github.com/mprangenberg) (Code & German translation)
+- [@LordDredger](https://github.com/LordDreger) (French translation with @Stefouch)
+- [@SnakeOfMidgaard](https://github.com/SnakeOfMidgaard) (Swedish translation)
 
 # 🔬 Author
 
