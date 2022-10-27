@@ -1,7 +1,7 @@
----
 all: allt
-D: "{{number}}D{{faces}}"
-missingPermissionsError: 'Botten {{member}} saknar följande behörigheter och kanske
+D: '{{number}}D{{faces}}'
+missingPermissionsError: >-
+  'Botten {{member}} saknar följande behörigheter och kanske
   inte fungerar som den ska: {{perms}}'
 commandError: |-
   Ett fel uppstod med detta kommando: {{name}} {{code}}

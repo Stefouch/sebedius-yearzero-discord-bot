@@ -1,155 +1,154 @@
----
 _name: myz-crit-damage
 _roll: true
-'11':
+11:
   name: Tappar Andan
   lethal: false
   healMalus: 0
   timeLimit: 0
   healingTime: 0
   effect: Ingen effekt.
-'12':
+12:
   name: Vimmelkantig
   lethal: false
   healMalus: 0
   timeLimit: 0
   healingTime: 0
   effect: Ingen effekt.
-'13':
+13:
   name: Stukad Hand
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "-1 på att Skjuta och slåss."
+  effect: '-1 på att Skjuta och slåss.'
   healingTime: 1
-'14':
+14:
   name: Stukad Fot
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "-1 på att Fly och Smyga."
+  effect: '-1 på att Fly och Smyga.'
   healingTime: 1
-'15':
+15:
   name: Hjärnskakning
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "-1 på att Speja och Förstå sig på."
+  effect: '-1 på att Speja och Förstå sig på.'
   healingTime: 1
-'16':
+16:
   name: Skadat Skenben
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "-1 på att Fly och Smyga."
+  effect: '-1 på att Fly och Smyga.'
   healingTime: 2
-'21':
+21:
   name: Blodig Näsa
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "-1 på att Manipulera, +1 Mucka, Spårsinne fungerar ej."
+  effect: '-1 på att Manipulera, +1 Mucka, Spårsinne fungerar ej.'
   healingTime: 2
-'22':
+22:
   name: Brutna Fingrar
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−1 på att Skjuta och Slåss."
+  effect: '−1 på att Skjuta och Slåss.'
   healingTime: 2
-'23':
+23:
   name: Brutna Tår
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−1 på att Fly och Smyga."
+  effect: '−1 på att Fly och Smyga.'
   healingTime: 2
-'24':
+24:
   name: Utslagna Tänder
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−1 på att Manipulera, +1 Mucka."
+  effect: '−1 på att Manipulera, +1 Mucka.'
   healingTime: 2
-'25':
+25:
   name: Skrevsmäll
   lethal: false
   healMalus: 0
   timeLimit: 0
   healingTime: 2
   effect: En poäng skada vid varje slag för att Ta krafttag, Fly eller Slåss.
-'26':
+26:
   name: Lårskada
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−2 på att Fly och Smyga."
+  effect: '−2 på att Fly och Smyga.'
   healingTime: 2
-'31':
+31:
   name: Skadad Överarm
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−2 på att Skjuta och Slåss."
+  effect: '−2 på att Skjuta och Slåss.'
   healingTime: 2
-'32':
+32:
   name: Avskuren Hälsena
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−2 på att Fly och Smyga."
+  effect: '−2 på att Fly och Smyga.'
   healingTime: 2
-'33':
+33:
   name: Axel Ur Led
   lethal: false
   healMalus: 0
   timeLimit: 0
   healingTime: 1
-  effect: "-3 på Ta krafttag och Slåss, inga tvåhandsvapen kan användas."
-'34':
+  effect: '-3 på Ta krafttag och Slåss, inga tvåhandsvapen kan användas.'
+34:
   name: Knäckta Revben
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−2 på att Fly och Slåss."
+  effect: '−2 på att Fly och Slåss.'
   healingTime: 2
-'35':
+35:
   name: Bruten Underarm
   lethal: false
   healMalus: 0
   timeLimit: 0
   effect: Inga tvåhandsvapen kan användas.
   healingTime: 3
-'36':
+36:
   name: Brutet Ben
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−2 på att Fly och Smyga."
+  effect: '−2 på att Fly och Smyga.'
   healingTime: 3
-'41':
+41:
   name: Förstört Öra
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "-1 på Speja, Sonar fungerar ej."
+  effect: '-1 på Speja, Sonar fungerar ej.'
   healingTime: 3
-'42':
+42:
   name: Mosat Öga
   lethal: false
   healMalus: 0
   timeLimit: 0
-  effect: "−2 på att Skjuta och Speja."
+  effect: '−2 på att Skjuta och Speja.'
   healingTime: 3
-'43':
+43:
   name: Punkterad Lunga
   lethal: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: dagar
   healingTime: 2
-  effect: "−2 på att Kämpa på och Fly."
-'44':
+  effect: '−2 på att Kämpa på och Fly.'
+44:
   name: Njurskada
   lethal: true
   healMalus: 0
@@ -157,31 +156,31 @@ _roll: true
   timeLimitUnit: dagar
   healingTime: 3
   effect: En poäng skada vid varje slag för att Ta krafttag, Fly eller Slåss.
-'45':
+45:
   name: Krossat Knä
   lethal: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: dagar
-  effect: "−2 på att Fly och Smyga."
+  effect: '−2 på att Fly och Smyga.'
   healingTime: 4
-'46':
+46:
   name: Krossad Armbåge
   lethal: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: dagar
   healingTime: 4
-  effect: "-2 på Ta krafttag och Slåss, inga tvåhandsvapen kan användas."
-'51':
+  effect: '-2 på Ta krafttag och Slåss, inga tvåhandsvapen kan användas.'
+51:
   name: Krossad Fot
   lethal: true
   healMalus: 0
   timeLimit: 1
   timeLimitUnit: dagar
-  effect: "-3 på att Fly och Smyga."
+  effect: '-3 på att Fly och Smyga.'
   healingTime: 4
-'52':
+52:
   name: Blödande Buk
   lethal: true
   healMalus: 0
@@ -189,15 +188,15 @@ _roll: true
   timeLimitUnit: Timmar
   healingTime: 1
   effect: En poäng skada vid varje slag för att Ta krafttag, Fly eller Slåss.
-'53':
+53:
   name: Krossat Ansikte
   lethal: true
   healMalus: 0
   timeLimit: 1
-  effect: "-2 på att Manipulera."
+  effect: '-2 på att Manipulera.'
   healingTime: 4
   timeLimitUnit: timmar
-'54':
+54:
   name: Perforerad Tarm
   lethal: true
   healMalus: 0
@@ -205,23 +204,21 @@ _roll: true
   effect: Varje timme som går innan du blir Vårdad ger en rötpoäng.
   healingTime: 2
   timeLimitUnit: timmar
-'55':
+55:
   name: Skadad Ryggrad
   lethal: false
   healMalus: 0
   timeLimit: 0
   healingTime: 4
-  effect: Förlamad från midjan nedåt. Blir du inte Vårdad under läkestiden blir effekten
-    permanent.
-'56':
+  effect: Förlamad från midjan nedåt. Blir du inte Vårdad under läkestiden blir effekten permanent.
+56:
   name: Nackskada
   lethal: false
   healMalus: 0
   timeLimit: 0
   healingTime: 4
-  effect: Förlamad från nacken nedåt. Blir du inte Vårdad under läkestiden blir effekten
-    permanent.
-'61':
+  effect: Förlamad från nacken nedåt. Blir du inte Vårdad under läkestiden blir effekten permanent.
+61:
   name: Inre Blödning
   lethal: true
   healMalus: -1
@@ -229,77 +226,41 @@ _roll: true
   timeLimitUnit: minuter
   healingTime: 2
   effect: En poäng skada vid varje slag för att Ta krafttag, Fly eller Slåss.
-'62':
+62:
   name: Avskuren Armpulsåder
   lethal: true
   healMalus: -1
   timeLimit: 1
   timeLimitUnit: minuter
   healingTime: 1
-  effect: "−1 på att Kämpa på och Fly."
-'63':
+  effect: '−1 på att Kämpa på och Fly.'
+63:
   name: Avskuren Benpulsåder
   lethal: true
   healMalus: -1
   timeLimit: 1
   timeLimitUnit: minuter
   healingTime: 1
-  effect: "−1 på att Kämpa på och Fly."
-'64':
+  effect: '−1 på att Kämpa på och Fly.'
+64:
   name: Avskuren Halspulsåder
   lethal: true
   healMalus: -1
   timeLimit: 1
   timeLimitUnit: turns
   healingTime: 1
-  effect: "−1 på att Kämpa på och Fly."
-'65':
+  effect: '−1 på att Kämpa på och Fly.'
+65:
   name: Hjärtstopp
   lethal: true
   healMalus: 0
   timeLimit: 0
   effect: Ditt hjärta slår sitt sista slag. Dags att skapa en ny rollperson.
   healingTime: 0
-'66':
+66:
   name: Krossad Skalle
   lethal: true
   healMalus: 0
   timeLimit: 0
   effect: Du dör på fläcken, och kommer aldrig att se Eden.
   healingTime: 0
-11: {}
-12: {}
-13: {}
-14: {}
-15: {}
-16: {}
-21: {}
-22: {}
-23: {}
-24: {}
-25: {}
-26: {}
-31: {}
-32: {}
-33: {}
-34: {}
-35: {}
-36: {}
-41: {}
-42: {}
-43: {}
-44: {}
-45: {}
-46: {}
-51: {}
-52: {}
-53: {}
-54: {}
-55: {}
-56: {}
-61: {}
-62: {}
-63: {}
-64: {}
-65: {}
-66: {}

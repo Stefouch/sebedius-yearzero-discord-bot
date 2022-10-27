@@ -1,308 +1,271 @@
----
 _name: vaesen-crit-damage
 _roll: true
-'11':
-  name: Skadad fot
+11:
+  name: Skadad Fot
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Halt, RÖRLIGHET −1'
-'12':
-  name: Brutna fingrar
+  effect: 'Defekt: Halt, RÖRLIGHET −1.'
+12:
+  name: Brutna Fingrar
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Krumma fingrar, NÄRKAMP −1'
-'13':
-  name: " Brusten sena"
+  effect: 'Defekt: Krumma fingrar, NÄRKAMP −1.'
+13:
+  name: Brusten Sena
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Nedsatt rörlighet, RÖRLIGHET −1'
-'14':
+  effect: 'Defekt: Nedsatt rörlighet, RÖRLIGHET −1.'
+14:
   name: Knäskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Sned gång, RÖRLIGHET −1'
-'15':
+  effect: 'Defekt: Sned gång, RÖRLIGHET −1.'
+15:
   name: Benbrott
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Felläkt skelett, KRAFTPROV −1'
-'16':
-  name: Splitter i kroppen
+  effect: 'Defekt: Felläkt skelett, KRAFTPROV −1.'
+16:
+  name: Splitter I Kroppen
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Varande sår, INSPIRERA −1'
-'21':
+  effect: 'Defekt: Varande sår, INSPIRERA −1.'
+21:
   name: Hudskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Vanställd, MANIPULERA −1'
-'22':
-  name: " Skadad strupe"
+  effect: 'Defekt: Vanställd, MANIPULERA −1.'
+22:
+  name: Skadad Strupe
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Väsande andning, LÖNNDOM −1'
-'23':
+  effect: 'Defekt: Väsande andning, LÖNNDOM −1.'
+23:
   name: Ögonskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Nedsatt syn, VAKSAMHET −1'
-'24':
-  name: Skadad arm
+  effect: 'Defekt: Nedsatt syn, VAKSAMHET −1.'
+24:
+  name: Skadad Arm
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Sned arm, SKYTTE −1'
-'25':
-  name: Skada i ansiktet
+  effect: 'Defekt: Sned arm, SKYTTE −1.'
+25:
+  name: Skada I Ansiktet
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Deformerat ansikte, MANIPULERA −1'
-'26':
+  effect: 'Defekt: Deformerat ansikte, MANIPULERA −1.'
+26:
   name: Krosskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Tremor, SKYTTE −1'
-'31':
-  name: " Utslagna tänder"
+  effect: 'Defekt: Tremor, SKYTTE −1.'
+31:
+  name: Utslagna Tänder
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Tandlös, INSPIRERA −1'
-'32':
+  effect: 'Defekt: Tandlös, INSPIRERA −1.'
+32:
   name: Öronskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Nedsatt balans, NÄRKAMP −1'
-'33':
+  effect: 'Defekt: Nedsatt balans, NÄRKAMP −1.'
+33:
   name: Käkskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Dreglar, INSPIRERA −1'
-'34':
+  effect: 'Defekt: Dreglar, INSPIRERA −1.'
+34:
   name: Ryggskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Puckelrygg, RÖRLIGHET −1'
-'35':
-  name: " Avslitna fingrar"
+  effect: 'Defekt: Puckelrygg, RÖRLIGHET −1.'
+35:
+  name: Avslitna Fingrar
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Fingerstumpar, SKYTTE −1'
-'36':
+  effect: 'Defekt: Fingerstumpar, SKYTTE −1.'
+36:
   name: Nervskada
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Smärttillstånd, KRAFTPROV −1'
-'41':
-  name: Sönderslitet öra
+  effect: 'Defekt: Smärttillstånd, KRAFTPROV −1.'
+41:
+  name: Sönderslitet Öra
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Defekt: Nedsatt hörsel, VAKSAMHET −1'
-'42':
+  effect: 'Defekt: Nedsatt hörsel, VAKSAMHET −1.'
+42:
   name: Bukskada
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: dag
-  effect: 'Defekt: Stel kropp, NÄRKAMP −1'
-'43':
-  name: Smutsigt sår
+  effect: 'Defekt: Stel kropp, NÄRKAMP −1.'
+43:
+  name: Smutsigt Sår
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: day
-  effect: 'Defekt: Förgiftad, KRAFTPROV −1'
-'44':
-  name: Blödande sår
+  effect: 'Defekt: Förgiftad, KRAFTPROV −1.'
+44:
+  name: Blödande Sår
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: dag
-  effect: 'Defekt: Kallbrand, RÖRLIGHET −1'
-'45':
-  name: Krosskada på könet
+  effect: 'Defekt: Kallbrand, RÖRLIGHET −1.'
+45:
+  name: Krosskada På Könet
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: dag
-  effect: 'Defekt: Inkontinent, RÖRLIGHET −1'
-'46':
-  name: Punkterat öga
+  effect: 'Defekt: Inkontinent, RÖRLIGHET −1.'
+46:
+  name: Punkterat Öga
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: timme
-  effect: 'Defekt: Enögd, VAKSAMHET −1'
-'51':
-  name: Brusten tarm
+  effect: 'Defekt: Enögd, VAKSAMHET −1.'
+51:
+  name: Brusten Tarm
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: timme
-  effect: 'Defekt: Bär stomipåse, RÖRLIGHET −1'
-'52':
-  name: Djupt sår i armen
+  effect: 'Defekt: Bär stomipåse, RÖRLIGHET −1.'
+52:
+  name: Djupt Sår I Armen
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: timme
-  effect: 'Defekt: Enarmad, KRAFTPROV −1 (kan inte använda tvåhandsvapen)'
-'53':
-  name: Spräckt pulsåder
+  effect: 'Defekt: Enarmad, KRAFTPROV −1 (kan inte använda tvåhandsvapen).'
+53:
+  name: Spräckt Pulsåder
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: runda
-  effect: 'Defekt: Blodfobi, Skräckslag −2'
-'54':
-  name: Inre blödningar
+  effect: 'Defekt: Blodfobi, Skräckslag −2.'
+54:
+  name: Inre Blödningar
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: runda
-  effect: 'Defekt: Anemi, KRAFTPROV −2'
-'55':
-  name: Inslagen panna
+  effect: 'Defekt: Anemi, KRAFTPROV −2.'
+55:
+  name: Inslagen Panna
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: runda
-  effect: 'Defekt: Personlighetsförändrad, GENOMSKÅDA −2'
-'56':
-  name: Krossad skalle
+  effect: 'Defekt: Personlighetsförändrad, GENOMSKÅDA −2.'
+56:
+  name: Krossad Skalle
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: runda
-  effect: 'Defekt: Hjärnskadad, BILDNING −2'
-'61':
+  effect: 'Defekt: Hjärnskadad, BILDNING −2.'
+61:
   name: Koma
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: dag
-  effect: 'Insikt: Sannsyn, UNDERSÖKNING +3'
-'62':
+  effect: 'Insikt: Sannsyn, UNDERSÖKNING +3.'
+62:
   name: Ryggradsskada
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: timme
-  effect: 'Insikt: Levande och död, LÖNNDOM +3'
-'63':
-  name: Uppsliten buk
+  effect: 'Insikt: Levande och död, LÖNNDOM +3.'
+63:
+  name: Uppsliten Buk
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: timme
-  effect: 'Insikt: Övernaturligt fokus, SKYTTE +3'
-'64':
-  name: Söndersliten kropp
+  effect: 'Insikt: Övernaturligt fokus, SKYTTE +3.'
+64:
+  name: Söndersliten Kropp
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: minut
-  effect: 'Insikt: Förkämpe, NÄRKAMP +3'
-'65':
-  name: Punkterade lungor
+  effect: 'Insikt: Förkämpe, NÄRKAMP +3.'
+65:
+  name: Punkterade Lungor
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: runda
-  effect: 'Insikt: Änglavakt, RÖRLIGHET +4'
-'66':
-  name: " Krosskada över bröstet"
+  effect: 'Insikt: Änglavakt, RÖRLIGHET +4.'
+66:
+  name: Krosskada Över Bröstet
   lethal: true
   healMalus: 0
   healingTime: 0
-  timeLimit: "[[1D6]]"
+  timeLimit: '[[1D6]]'
   timeLimitUnit: runda
-  effect: 'Insikt: Övernaturlig styrka, KRAFTPROV +4'
-11: {}
-12: {}
-13: {}
-14: {}
-15: {}
-16: {}
-21: {}
-22: {}
-23: {}
-24: {}
-25: {}
-26: {}
-31: {}
-32: {}
-33: {}
-34: {}
-35: {}
-36: {}
-41: {}
-42: {}
-43: {}
-44: {}
-45: {}
-46: {}
-51: {}
-52: {}
-53: {}
-54: {}
-55: {}
-56: {}
-61: {}
-62: {}
-63: {}
-64: {}
-65: {}
-66: {}
+  effect: 'Insikt: Övernaturlig styrka, KRAFTPROV +4.'
