@@ -243,6 +243,11 @@ module.exports = class RollCommand extends SebediusCommand {
       roll.addDice(ArtifactDie, 1, { faces: 12 });
     }
 
+    // Adds a single base die if the roll is empty.
+    if (roll.size === 0) {
+      roll.addBaseDice(1);
+    }
+
     // Adds the modifier, if any.
     if (modifier) roll.modify(modifier);
 
