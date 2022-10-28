@@ -5,33 +5,68 @@ _roll: true
 '1':
   lethal: false
   effect: "`AUFKLÄRUNG` –1."
+  name: Ohr aufgeschlitzt
+  timeLimit: 0
+  healingTime: "[[D6]]"
 '2':
   lethal: false
+  name: Gehirnerschütterung
+  timeLimit: 0
+  effect: CUF –1.
+  healingTime: "[[D6]]"
 '3':
   lethal: false
   effect: "`AUFKLÄRUNG` und `ÜBERZEUGEN` –1."
+  name: Nase gequetscht
+  timeLimit: 0
+  healingTime: "[[2D6]]"
 '4':
   lethal: false
   effect: "`ÜBERZEUGEN` –2."
+  name: Zerschmetterte Zähne
+  timeLimit: 0
+  healingTime: "[[3D6]]"
 '5':
   lethal: true
   timeLimitUnit: Schicht
+  name: Gebrochener Schädel
+  timeLimit: 1
+  effect: CUF –2.
+  healingTime: "[[2D6]]"
 '6':
   lethal: true
   timeLimitUnit: Schicht
   effect: "`FERNKAMPF` und `AUFKLÄRUNG` –2."
+  name: Ausgestochenes Auge
+  timeLimit: 1
+  healingTime: -1
 '7':
   lethal: true
   effect: "-2 auf alle `INT` Fähigkeiten."
+  name: Hirnblutung
+  timeLimit: 1
+  timeLimitUnit: Strecken
+  healingTime: "[[3D6]]"
 '8':
   lethal: true
   effect: Hinfallen, bewegungslos.
+  name: Zerschmetterter Hals
+  timeLimit: 1
+  timeLimitUnit: Strecken
+  healingTime: "[[4D6]]"
 '9':
   lethal: true
   effect: "`AUSDAUER` und `MOBILITÄT` –2."
+  name: Gequetschte Luftröhre
+  timeLimit: 1
+  timeLimitUnit: Runden
+  healingTime: "[[3D6]]"
 '10':
   name: Hirn ausgepustet
   lethal: true
+  timeLimit: 0
+  effect: Sofortiger Tod.
+  healingTime: 0
 1: {}
 2: {}
 3: {}
