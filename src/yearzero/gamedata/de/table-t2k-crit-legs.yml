@@ -1,0 +1,43 @@
+---
+_name: t2k-crit-legs
+_roll: true
+'1':
+  lethal: false
+  timeLimit: 0
+  healingTime: "[[2D6]]"
+'2':
+  lethal: false
+'3':
+  lethal: false
+  effect: Laufen ist langsames Handeln, `BEWEGLICHKEIT` –2.
+'4':
+  lethal: false
+'5':
+  lethal: false
+  effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
+'6':
+  lethal: false
+  effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
+'7':
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: Laufen ist langsames Handeln, `BEWEGLICHKEIT` –2.
+'8':
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
+'9':
+  lethal: true
+'10':
+  lethal: true
+  effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
+1: {}
+2: {}
+3: {}
+4: {}
+5: {}
+6: {}
+7: {}
+8: {}
+9: {}
+10: {}
