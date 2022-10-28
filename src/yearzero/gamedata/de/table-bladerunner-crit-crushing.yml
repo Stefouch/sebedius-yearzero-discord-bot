@@ -1,0 +1,52 @@
+---
+_name: bladerunner-crit-crushing
+_roll: true
+'1':
+  lethal: false
+  effect: Nachteil auf `MANIPULATION`.
+'2':
+  lethal: false
+  effect: Nachteil auf `OBSERVATION`-Würfe.
+'3':
+  lethal: false
+  effect: Nachteil auf `FEUERWAFFEN` und `NAHKAMPF`.
+'4':
+  lethal: false
+  effect: Nachteil auf `FEUERWAFFEN` und `OBSERVATION`.
+'5':
+  lethal: false
+  effect: Nachteil auf `BEWEGLICHKEIT`.
+'6':
+  lethal: false
+  effect: Nachteil auf `OBSERVATION` und `TECH`.
+'7':
+  lethal: false
+'8':
+  lethal: false
+  effect: Einer deiner Arme kann nicht verwendet werden.
+'9':
+  name: Innere Blutungen
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: Nachteil auf `AUSDAUER` und `BEWEGLICHKEIT`.
+'10':
+  lethal: true
+  timeLimit: Schicht
+  effect: Du kannst dich überhaupt nicht bewegen.
+'11':
+  lethal: true
+'12':
+  name: Zerquetschter Schädel
+  lethal: true
+1: {}
+2: {}
+3: {}
+4: {}
+5: {}
+6: {}
+7: {}
+8: {}
+9: {}
+10: {}
+11: {}
+12: {}
