@@ -7,133 +7,133 @@ _roll: true
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Benommen, `ERMITTLUNG` -1'
+  effect: 'Gebrechen: Benommen, `ERMITTLUNG` -1.'
 12:
   name: Überwältigt
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Stressempfindlich, `HEIMLICHKEIT` -1'
+  effect: 'Gebrechen: Stressempfindlich, `HEIMLICHKEIT` -1.'
 13:
   name: Zu weit gegangen
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Fanatiker, `MANIPULATION` -1'
+  effect: 'Gebrechen: Fanatiker, `MANIPULATION` -1.'
 14:
   name: Unfähig
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Unbeholfen, `BEWEGLICHKEIT` -1'
+  effect: 'Gebrechen: Unbeholfen, `BEWEGLICHKEIT` -1.'
 15:
   name: Erschöpft
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Raumangst, `HEIMLICHKEIT` -1'
+  effect: 'Gebrechen: Raumangst, `HEIMLICHKEIT` -1.'
 16:
   name: Panikattacke
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Schreckhaft, Furcht -1'
+  effect: 'Gebrechen: Schreckhaft, Furcht -1.'
 21:
   name: Sieh dein wahres Selbst
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Zwanghafter Lügner, `INSPIRATION` -1'
+  effect: 'Gebrechen: Zwanghafter Lügner, `INSPIRATION` -1.'
 22:
   name: Verkrampfte Gesichtsmuskeln
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Maske des Schreckens, `MANIPULATION` -1'
+  effect: 'Gebrechen: Maske des Schreckens, `MANIPULATION` -1.'
 23:
   name: Weiß gewordenes Haar
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Gealtert, `BEOBACHTUNG` -1'
+  effect: 'Gebrechen: Gealtert, `BEOBACHTUNG` -1.'
 24:
   name: Gefühl der Wertlosigkeit
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Erschüttertes Selbstvertrauen, `INSPIRATION` -1'
+  effect: 'Gebrechen: Erschüttertes Selbstvertrauen, `INSPIRATION` -1.'
 25:
   name: Gelähmt
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Mangelnde Initiative, `ERMITTLUNG` -1'
+  effect: 'Gebrechen: Mangelnde Initiative, `ERMITTLUNG` -1.'
 26:
   name: Zittern
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Tremor, `FERNKAMPF` -1'
+  effect: 'Gebrechen: Tremor, `FERNKAMPF` -1.'
 31:
   name: Mit der Sterblichkeit konfrontiert
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Angst vor dem Tod, `NAHKAMPF` -1'
+  effect: 'Gebrechen: Angst vor dem Tod, `NAHKAMPF` -1.'
 32:
   name: Wüten und schreien
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Gestörte Impulskontrolle, `HEIMLICHKEIT` -1'
+  effect: 'Gebrechen: Gestörte Impulskontrolle, `HEIMLICHKEIT` -1.'
 33:
   name: Geteilte Aufmerksamkeit
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Hört Stimmen, `BILDUNG` -1'
+  effect: 'Gebrechen: Hört Stimmen, `BILDUNG` -1.'
 34:
   name: Angeekelt
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Hasst Dreck, `MEDIZIN` -1'
+  effect: 'Gebrechen: Hasst Dreck, `MEDIZIN` -1.'
 35:
   name: Erschüttert
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Sentimental, `MANIPULATION` -1'
+  effect: 'Gebrechen: Sentimental, `MANIPULATION` -1.'
 36:
   name: Gestresst
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Geschwächtes Immunsystem, `KRAFT` -1'
+  effect: 'Gebrechen: Geschwächtes Immunsystem, `KRAFT` -1.'
 41:
   name: Extreme Anspannung
   lethal: false
   healMalus: 0
   healingTime: 0
   timeLimit: 0
-  effect: 'Gebrechen: Nervös, `BEWEGLICHKEIT` -1'
+  effect: 'Gebrechen: Nervös, `BEWEGLICHKEIT` -1.'
 42:
   name: Traumatisiert
   lethal: true
@@ -141,7 +141,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Tage
-  effect: 'Gebrechen: Posttraumatische Belastungsstörung, Furcht -1'
+  effect: 'Gebrechen: Posttraumatische Belastungsstörung, Furcht -1.'
 43:
   name: Rasend
   lethal: true
@@ -149,7 +149,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Tage
-  effect: 'Gebrechen: Launisch, `MANIPULATION` -1'
+  effect: 'Gebrechen: Launisch, `MANIPULATION` -1.'
 44:
   name: Verlassenheitsgefühl
   lethal: true
@@ -157,7 +157,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Tage
-  effect: 'Gebrechen: Mangel an Vertrauen, `MANIPULATION` -1'
+  effect: 'Gebrechen: Mangel an Vertrauen, `MANIPULATION` -1.'
 45:
   name: Von Verwundbarkeit überwältigt
   lethal: true
@@ -165,7 +165,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Tage
-  effect: 'Gebrechen: Paranoid, `WACHSAMKEIT` -1'
+  effect: 'Gebrechen: Paranoid, `WACHSAMKEIT` -1.'
 46:
   name: Erdrückt
   lethal: true
@@ -173,7 +173,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Stunden
-  effect: 'Gebrechen: Beeinträchtigte Empathie, `INSPIRATION` -1'
+  effect: 'Gebrechen: Beeinträchtigte Empathie, `INSPIRATION` -1.'
 51:
   name: Beschämt
   lethal: true
@@ -181,7 +181,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Stunden
-  effect: 'Gebrechen: Selbsthass, `MANIPULATION` -1'
+  effect: 'Gebrechen: Selbsthass, `MANIPULATION` -1.'
 52:
   name: Abgehoben
   lethal: true
@@ -189,7 +189,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Stunden
-  effect: 'Gebrechen: Egozentrisch, `MEDIZIN` -1'
+  effect: 'Gebrechen: Egozentrisch, `MEDIZIN` -1.'
 53:
   name: Außerkörperliche Erfahrung
   lethal: true
@@ -197,7 +197,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Runden
-  effect: 'Gebrechen: Dissoziiert, `FERNKAMPF` -2'
+  effect: 'Gebrechen: Dissoziiert, `FERNKAMPF` -2.'
 54:
   name: Traumzustand
   lethal: true
@@ -205,7 +205,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Runden
-  effect: 'Gebrechen: Alpträume, Furcht -2'
+  effect: 'Gebrechen: Alpträume, Furcht -2.'
 55:
   name: Rückkehr in die Kindheit
   lethal: true
@@ -213,7 +213,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Runden
-  effect: 'Gebrechen: Regression, `BILDUNG` -2'
+  effect: 'Gebrechen: Regression, `BILDUNG` -2.'
 56:
   name: Schreckliche Epiphanie
   lethal: true
@@ -221,7 +221,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Runden
-  effect: 'Gebrechen: Beschämt, `MEDIZIN` -2'
+  effect: 'Gebrechen: Beschämt, `MEDIZIN` -2.'
 61:
   name: Überempfindlich
   lethal: true
@@ -229,7 +229,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Tage
-  effect: 'Erkenntnis: Heiler, `MEDIZIN` +3'
+  effect: 'Erkenntnis: Heiler, `MEDIZIN` +3.'
 62:
   name: Besessen
   lethal: true
@@ -237,7 +237,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Minuten
-  effect: 'Erkenntnis: Heimgesucht, `BILDUNG` +3'
+  effect: 'Erkenntnis: Heimgesucht, `BILDUNG` +3.'
 63:
   name: Obsession für ein Detail
   lethal: true
@@ -245,7 +245,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Minuten
-  effect: 'Erkenntnis: Allsehend, `ERMITTLUNG` +3'
+  effect: 'Erkenntnis: Allsehend, `ERMITTLUNG` +3.'
 64:
   name: Übernatürliche Erfahrung
   lethal: true
@@ -253,7 +253,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Minuten
-  effect: 'Erkenntnis: Göttlicher Bote, `INSPIRATION` +3'
+  effect: 'Erkenntnis: Göttlicher Bote, `INSPIRATION` +3.'
 65:
   name: Von Gefühlen Anderer überwältigt
   lethal: true
@@ -261,7 +261,7 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Runden
-  effect: 'Erkenntnis: Absolute Empathie, `BEOBACHTUNG` +4'
+  effect: 'Erkenntnis: Absolute Empathie, `BEOBACHTUNG` +4.'
 66:
   name: Bewusstseinsspaltung
   lethal: true
@@ -269,4 +269,4 @@ _roll: true
   healingTime: 0
   timeLimit: "[[1D6]]"
   timeLimitUnit: Runden
-  effect: 'Erkenntnis: Erleuchtet, `BILDUNG` +4'
+  effect: 'Erkenntnis: Erleuchtet, `BILDUNG` +4.'
