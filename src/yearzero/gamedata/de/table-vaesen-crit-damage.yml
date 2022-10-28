@@ -1,0 +1,310 @@
+---
+_name: vaesen-crit-damage
+_roll: true
+'11':
+  name: Fußverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Hinken, `BEWEGLICHKEIT` -1'
+'12':
+  name: Gebrochene Finger
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Krumme Finger, `NAHKAMPF` -1'
+'13':
+  name: Gerissene Sehne
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Eingeschränkte Mobilität, `BEWEGLICHKEIT` -1'
+'14':
+  name: Knieverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Humpeln, `BEWEGLICHKEIT` -1'
+'15':
+  name: Bruch
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Falsch zusammengewachsen, `KRAFT` -1'
+'16':
+  name: Splitter im Körper
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Geschwür, `INSPIRATION` -1'
+'21':
+  name: Hautläsion
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Entstellt, `MANIPULATION` -1'
+'22':
+  name: Halsverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Keuchen, `HEIMLICHKEIT` -1'
+'23':
+  name: Augenverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Eingeschränkte Sehkraft, `WACHSAMKEIT` -1'
+'24':
+  name: Verletzter Arm
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Verkrümmter Arm, `FERNKAMPF` -1'
+'25':
+  name: Gesichtsverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Deformiertes Gesicht, `MANIPULATION` -1'
+'26':
+  name: Quetschverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Tremor, `FERNKAMPF` -1'
+'31':
+  name: Verlorene Zähne
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Zahnlos, `INSPIRATION` -1'
+'32':
+  name: Ohrverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Gleichgewichtsstörung, `NAHKAMPF` -1'
+'33':
+  name: Kieferverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Sabbern, `INSPIRATION` -1'
+'34':
+  name: Rückenverletzung
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Buckel, `BEWEGLICHKEIT` -1'
+'35':
+  name: Abgetrennte Finger
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Fingerstümpfe, `FERNKAMPF` -1'
+'36':
+  name: Nervenschaden
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Schmerzen, `KRAFT` -1'
+'41':
+  name: Abgerissenes Ohr
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  effect: 'Gebrechen: Eingeschränktes Hörvermögen, `WACHSAMKEIT` -1'
+'42':
+  name: Bauchverletzung
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Tage
+  effect: 'Gebrechen: Steifer Körper, `NAHKAMPF` -1'
+'43':
+  name: Verdreckte Wunde
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Tage
+  effect: 'Gebrechen: Sepsis, `KRAFT` -1'
+'44':
+  name: Blutende Wunde
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Tage
+  effect: 'Gebrechen: Gewebenekrose, `BEWEGLICHKEIT` -1'
+'45':
+  name: Zerquetschte Genitalien
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Tage
+  effect: 'Gebrechen: Inkontinenz, `BEWEGLICKEIT` -1'
+'46':
+  name: Punktiertes Auge
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Stunden
+  effect: 'Gebrechen: Einäugig, `WACHSAMKEIT` -1'
+'51':
+  name: Darmbruch
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Stunden
+  effect: 'Gebrechen: Trägt einen Kolostomiebeutel, `BEWEGLICHKEIT` -1'
+'52':
+  name: Tiefe Armwunde
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Stunden
+  effect: |-
+    Gebrechen: Einarmig, `KRAFT` -1
+    (kann keine zweihändigen Waffen benutzen)
+'53':
+  name: Gerissene Arterie
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Runden
+  effect: 'Gebrechen: Blutphobie, Furcht -2'
+'54':
+  name: Innere Blutungen
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Runden
+  effect: 'Gebrechen: Blutarmut, `KRAFT` -2'
+'55':
+  name: Eingedrückte Stirn
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Runden
+  effect: 'Gebrechen: Veränderte Persönlichkeit, `BEOBACHTUNG` -2'
+'56':
+  name: Schädelbruch
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Runden
+  effect: 'Gebrechen: Hirnschaden, `BILDUNG` -2'
+'61':
+  name: Koma
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Tage
+  effect: 'Erkenntnis: Prophetische Vision, `ERMITTLUNG` +3'
+'62':
+  name: Wirbelsäulenverletzung
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Stunden
+  effect: 'Erkenntnis: Lebender Toter, `HEIMLICHKEIT` +3'
+'63':
+  name: Aufgerrissener Bauch
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Stunden
+  effect: 'Erkenntnis: Übernatürlicher Fokus, `FERNKAMPF` +3'
+'64':
+  name: Zerrissener Körper
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Minuten
+  effect: 'Erkenntnis: Champion, `NAHKAMPF` +3'
+'65':
+  name: Punktierte Lunge
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Runden
+  effect: 'Erkenntnis: Schutzengel, `BEWEGLICHKEIT` +4'
+'66':
+  name: Zerquetschte Brust
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: "[[1D6]]"
+  timeLimitUnit: Runden
+  effect: 'Erkenntnis: Übernatürliche Stärke, `KRAFT` +4'
+11: {}
+12: {}
+13: {}
+14: {}
+15: {}
+16: {}
+21: {}
+22: {}
+23: {}
+24: {}
+25: {}
+26: {}
+31: {}
+32: {}
+33: {}
+34: {}
+35: {}
+36: {}
+41: {}
+42: {}
+43: {}
+44: {}
+45: {}
+46: {}
+51: {}
+52: {}
+53: {}
+54: {}
+55: {}
+56: {}
+61: {}
+62: {}
+63: {}
+64: {}
+65: {}
+66: {}
