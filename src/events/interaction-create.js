@@ -94,7 +94,7 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
   async respondAutocomplete(interaction) {
     if (interaction.commandName === 'help') {
       const focusedValue = interaction.options.getFocused();
-      const choices = this.bot.commands.map(c => c.name);
+      const choices = this.bot.commands.filter(c => !c.ownerOnly).map(c => c.name);
       const filtered = choices.filter(c => c.includes(focusedValue));
       await interaction.respond(filtered.map(c => ({ name: c, value: c })));
     }
@@ -110,11 +110,11 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
   logInteraction(interaction) {
     let logMsg = `${interaction.commandName} • ${interaction.user.tag} (${interaction.user.id})`;
     if (interaction.inGuild()) {
-      logMsg += ` # ${interaction.channel.name} (${interaction.channelId})`
-        + ` @ ${interaction.guild.name} (${interaction.guild.id})`;
+      logMsg += ` #${interaction.channel.name} (${interaction.channelId})`
+        + ` ∈ ${interaction.guild.name} (${interaction.guild.id})`;
     }
     else {
-      logMsg += '@ DM';
+      logMsg += '∩ DM';
     }
     Logger.command(logMsg);
     return logMsg;
