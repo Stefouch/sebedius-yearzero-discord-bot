@@ -51,8 +51,8 @@ async function commitTagPush() {
   await execa('git', ['add', '-A'], { stdio });
   await execa('git', ['commit', '--message', commitMsg], { stdio });
   await execa('git', ['tag', `v${version}`], { stdio });
-  await execa('git', ['push', 'upstream'], { stdio });
-  await execa('git', ['push', 'upstream', '--tags'], { stdio });
+  await execa('git', ['push'], { stdio });
+  await execa('git', ['push', '--tags'], { stdio });
 }
 
 /* ------------------------------------------ */
@@ -101,4 +101,4 @@ async function bumpVersion(cb) {
 /* ------------------------------------------ */
 
 module.exports.bump = gulp.series(bumpVersion, changelog);
-module.exports.release = commitTagPush;
+module.exports.release = gulp.series(commitTagPush);
