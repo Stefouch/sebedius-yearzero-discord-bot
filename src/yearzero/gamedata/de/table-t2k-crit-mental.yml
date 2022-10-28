@@ -1,46 +1,36 @@
 ---
 _name: t2k-crit-mental
 _roll: true
-'1':
+1:
   effect: "`FERNKAMPF` und `FAHREN` –1."
   name: Nervöses Zittern
-'2':
+2:
   effect: "`AUFKLÄRUNG` und `ÜBERLEBEN` –1."
   name: Ängstlich
-'3':
+3:
   effect: "`KOMMANDO` und `ÜBERZEUGUNG` –1."
   name: Mürrisch
-'4':
+4:
   effect: CUF-Wurf für jede Schicht, die geschlafen wird – bei Misserfolg zählt der
     Schlaf nicht.
   name: Alpträume
-'9':
-  effect: "`EMP`-Wurf (nur Attribut) in Stresssituationen, Misserfolg löst heftigen
-    Amoklauf aus."
-  name: Psychose
-'10':
-  effect: Bewegungslos und nicht ansprechbar.
-  name: Katatonisch
-'5':
+5:
   name: Nachtaktiv
   effect: Schlaf nur während der Früh- und Tagschicht möglich.
-'6':
+6:
   name: Phobie
   effect: 1 Stress pro Runde im selben Feld wie das Objekt der Phobie (bezogen auf
     ein Trauma).
-'7':
+7:
   name: Alkoholismus
   effect: 1 Stresspunkt und keine Stresserholung pro Schicht ohne Alkoholkonsum.
-'8':
+8:
   name: Paranoia
   effect: Effekte sollen im Rollenspiel gespielt werden.
-1: {}
-2: {}
-3: {}
-4: {}
-5: {}
-6: {}
-7: {}
-8: {}
-9: {}
-10: {}
+9:
+  effect: "`EMP`-Wurf (nur Attribut) in Stresssituationen, Misserfolg löst heftigen
+    Amoklauf aus."
+  name: Psychose
+10:
+  effect: Bewegungslos und nicht ansprechbar.
+  name: Katatonisch

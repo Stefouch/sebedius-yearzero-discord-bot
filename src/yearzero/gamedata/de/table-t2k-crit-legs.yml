@@ -1,77 +1,67 @@
 ---
 _name: t2k-crit-legs
 _roll: true
-'1':
+1:
   lethal: false
   timeLimit: 0
   healingTime: "[[2D6]]"
   name: Gequetschte Zehen
   effect: Laufen wird zu einer langsamen Aktion.
-'2':
+2:
   lethal: false
   name: Ausgekugeltes Knie
   timeLimit: 0
   effect: Kann nicht rennen, nur kriechen.
   healingTime: "[[D6]]"
-'3':
+3:
   lethal: false
   effect: Laufen ist langsames Handeln, `BEWEGLICHKEIT` –2.
   name: Durchtrennte Sehnen
   timeLimit: 0
   healingTime: "[[2D6]]"
-'4':
+4:
   lethal: false
   name: Gebrochenes Schienbein
   timeLimit: 0
   effect: Kann nicht rennen, nur kriechen.
   healingTime: "[[3D6]]"
-'5':
+5:
   lethal: false
   effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
   name: Gequetschter Knöchel
   timeLimit: 0
   healingTime: "[[2D6]]"
-'6':
+6:
   lethal: false
   effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
   name: Gebrochene Hüfte
   timeLimit: 0
   healingTime: "[[3D6]]"
-'7':
+7:
   lethal: true
   timeLimitUnit: Schicht
   effect: Laufen ist langsames Handeln, `BEWEGLICHKEIT` –2.
   name: Oberschenkelwunde
   timeLimit: 1
   healingTime: "[[D6]]"
-'8':
+8:
   lethal: true
   timeLimitUnit: Schicht
   effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
   name: Zerschmettertes Knie
   timeLimit: 1
   healingTime: "[[3D6]]"
-'9':
+9:
   lethal: true
   name: Arterielle Blutung
   timeLimit: 1
   timeLimitUnit: Strecken
   effect: Laufen wird zu einer langsamen Aktion.
   healingTime: "[[2D6]]"
-'10':
+10:
   lethal: true
   effect: Kann nicht rennen, `BEWEGLICHKEIT` –2.
   name: Abgetrenntes Bein
   timeLimit: 1
   timeLimitUnit: Strecken
   healingTime: -1
-1: {}
-2: {}
-3: {}
-4: {}
-5: {}
-6: {}
-7: {}
-8: {}
-9: {}
-10: {}
