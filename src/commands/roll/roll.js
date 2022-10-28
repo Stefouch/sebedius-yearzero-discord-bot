@@ -59,7 +59,6 @@ const SlashCommandOptions = {
   base: {
     description: 'Quantity of Base dice',
     type: ApplicationCommandOptionType.Integer,
-    required: true,
     min: 1,
   },
   skill: {
