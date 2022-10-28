@@ -4,40 +4,77 @@ _roll: true
 '1':
   lethal: false
   effect: Nachteil auf `MANIPULATION`.
+  name: Zähne ausgeschlagen
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '2':
   lethal: false
   effect: Nachteil auf `OBSERVATION`-Würfe.
+  name: Gebrochene Nase
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '3':
   lethal: false
   effect: Nachteil auf `FEUERWAFFEN` und `NAHKAMPF`.
+  name: Gebrochene Finger
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '4':
   lethal: false
   effect: Nachteil auf `FEUERWAFFEN` und `OBSERVATION`.
+  name: Ausgestochenes Auge
+  timeLimit: 0
+  healingTimeBeforePermanent: Monat
 '5':
   lethal: false
   effect: Nachteil auf `BEWEGLICHKEIT`.
+  name: Gebrochene Rippen
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '6':
   lethal: false
   effect: Nachteil auf `OBSERVATION` und `TECH`.
+  name: Gehirnerschütterung
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '7':
   lethal: false
+  name: Gebrochenes Bein
+  timeLimit: 0
+  healingTimeBeforePermanent: Monat
+  effect: Du kannst nicht aufrecht stehen. Krabbeln ist die einzig mögliche Fortbewegungsart.
 '8':
   lethal: false
   effect: Einer deiner Arme kann nicht verwendet werden.
+  name: Gebrochener Arm
+  timeLimit: 0
+  healingTimeBeforePermanent: Monat
 '9':
   name: Innere Blutungen
   lethal: true
   timeLimitUnit: Schicht
   effect: Nachteil auf `AUSDAUER` und `BEWEGLICHKEIT`.
+  timeLimit: 1
+  healingTimeBeforePermanent: Woche
 '10':
   lethal: true
   timeLimit: Schicht
   effect: Du kannst dich überhaupt nicht bewegen.
+  name: Gebrochenes Genick
+  healingTime: -1
 '11':
   lethal: true
+  name: Zerschmettertes Becken
+  timeLimit: 1
+  timeLimitUnit: Runden
+  healingTimeBeforePermanent: Monat
+  effect: Du kannst nicht aufrecht stehen. Krabbeln ist die einzig mögliche Fortbewegungsart.
 '12':
   name: Zerquetschter Schädel
   lethal: true
+  timeLimit: 0
+  healingTime: 0
+  effect: Sofortiger Tod.
 1: {}
 2: {}
 3: {}
