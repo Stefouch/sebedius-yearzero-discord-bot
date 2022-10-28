@@ -4,7 +4,7 @@ _roll: true
 1:
   lethal: false
   effect: Nachteil auf `MANIPULATION`.
-  name: Zähne ausgeschlagen
+  name: Ausgeschlagene Zähne
   timeLimit: 0
   healingTimeBeforePermanent: Woche
 2:

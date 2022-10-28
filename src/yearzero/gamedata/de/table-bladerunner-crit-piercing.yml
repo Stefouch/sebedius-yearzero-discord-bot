@@ -4,13 +4,13 @@ _roll: true
 1:
   lethal: false
   effect: Nachteil auf `OBSERVATION`.
-  name: Ohr abgerissen
+  name: Abgerissenes Ohr
   timeLimit: 0
   healingTimeBeforePermanent: Woche
 2:
   lethal: false
   effect: Nachteil auf `FEUERWAFFEN` und `NAHKAMPF`.
-  name: Hand aufgespießt
+  name: Aufgespießte Hand
   timeLimit: 0
   healingTimeBeforePermanent: Woche
 3:
@@ -20,7 +20,7 @@ _roll: true
   timeLimit: 0
   healingTimeBeforePermanent: Monat
 4:
-  name: Schulter getroffen
+  name: Getroffene Schulter
   lethal: false
   effect: Nachteil auf `BEWEGLICHKEIT` und `FEUERWAFFEN`.
   timeLimit: 0
@@ -47,7 +47,7 @@ _roll: true
   timeLimit: 1
   healingTimeBeforePermanent: Monat
 8:
-  name: Hirn ausgepustet
+  name: Ausgepustetes Hirn
   lethal: true
   timeLimit: 0
   healingTime: -1

@@ -5,7 +5,7 @@ _roll: true
 1:
   lethal: false
   effect: "`AUFKLÄRUNG` –1."
-  name: Ohr aufgeschlitzt
+  name: Aufgeschlitztes Ohr
   timeLimit: 0
   healingTime: "[[D6]]"
 2:
@@ -17,7 +17,7 @@ _roll: true
 3:
   lethal: false
   effect: "`AUFKLÄRUNG` und `ÜBERZEUGEN` –1."
-  name: Nase gequetscht
+  name: Gequetschte Nase
   timeLimit: 0
   healingTime: "[[2D6]]"
 4:
@@ -62,7 +62,7 @@ _roll: true
   timeLimitUnit: Runden
   healingTime: "[[3D6]]"
 10:
-  name: Hirn ausgepustet
+  name: Ausgepustetes Hirn
   lethal: true
   timeLimit: 0
   effect: Sofortiger Tod.
