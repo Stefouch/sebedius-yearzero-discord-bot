@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.0...v6.5.1) (2022-10-28)
+
+### Bug Fixes
+
+- **Help:** 🐛 Hide owner-only commands from the Help autocomplete ([#186](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/186)) ([51a18a1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/51a18a1f6eefac3aa7ac6a2f40e7c54b31037278))
+
 ## [6.5.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.4.1...v6.5.0) (2022-10-27)
 
 ### Features
