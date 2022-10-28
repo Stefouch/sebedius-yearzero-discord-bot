@@ -41,7 +41,7 @@ describe('TABLES', function () {
                   // Checks name.
                   expect(r.name, `${lang}/${tableName}: name of ${i}`)
                     .to.be.a('string')
-                    .and.to.match(/^[A-ZÄÅÖÜ]{1}/);
+                    .and.to.match(/^[A-ZÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{1}/);
 
                   // Checks effect.
                   expect(r.effect, `${lang}/${tableName}: effect of ${i}`)
