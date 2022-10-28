@@ -4,40 +4,80 @@ _roll: true
 '1':
   lethal: false
   effect: Nachteil auf `OBSERVATION`.
+  name: Ohr abgerissen
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '2':
   lethal: false
   effect: Nachteil auf `FEUERWAFFEN` und `NAHKAMPF`.
+  name: Hand aufgespießt
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '3':
   lethal: false
   effect: Nachteil auf `FEUERWAFFEN` und `OBSERVATION`.
+  name: Durchbohrtes Auge
+  timeLimit: 0
+  healingTimeBeforePermanent: Monat
 '4':
   name: Schulter getroffen
   lethal: false
   effect: Nachteil auf `BEWEGLICHKEIT` und `FEUERWAFFEN`.
+  timeLimit: 0
+  healingTimeBeforePermanent: Woche
 '5':
   lethal: true
   timeLimitUnit: Schicht
   effect: Jeder Wurf auf `BEWEGLICHKEIT` öffnet die Wunde wieder.
+  name: Blutender Darm
+  timeLimit: 1
+  healingTimeBeforePermanent: Woche
 '6':
   lethal: true
   timeLimitUnit: Schicht
   effect: Nachteil auf `OBSERVATION` und `TECH`.
+  name: Gebrochener Schädel
+  timeLimit: 1
+  healingTimeBeforePermanent: Woche
 '7':
   lethal: true
   timeLimitUnit: Schicht
   effect: Nachteil auf `AUSDAUER` und `BEWEGLICHKEIT`.
+  name: Punktierte Lunge
+  timeLimit: 1
+  healingTimeBeforePermanent: Monat
 '8':
   name: Hirn ausgepustet
   lethal: true
+  timeLimit: 0
+  healingTime: -1
+  effect: Sofortiger Tod.
 '9':
   lethal: true
+  name: Massive innere Organschäden
+  timeLimit: 1
+  timeLimitUnit: Runden
+  healingTimeBeforePermanent: Monat
+  effect: Du kannst nicht aufrecht stehen. Krabbeln ist die einzig mögliche Fortbewegungsart.
 '10':
   lethal: true
+  name: Durchbohrtes Herz
+  timeLimit: 0
+  healingTime: 0
+  effect: Sofortiger Tod.
 '11':
   lethal: true
   timeLimitUnit: Schicht
+  name: Abgetrenntes Bein
+  timeLimit: 1
+  healingTime: -1
+  effect: Du kannst nicht aufrecht stehen. Krabbeln ist die einzig mögliche Fortbewegungsart.
 '12':
   lethal: true
+  name: Zerschmetterter Kopf
+  timeLimit: 0
+  healingTime: 0
+  effect: Sofortiger Tod.
 1: {}
 2: {}
 3: {}
