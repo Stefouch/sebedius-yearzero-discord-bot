@@ -1,0 +1,52 @@
+---
+_name: bladerunner-crit-piercing
+_roll: true
+'1':
+  lethal: false
+  effect: Nachteil auf `OBSERVATION`.
+'2':
+  lethal: false
+  effect: Nachteil auf `FEUERWAFFEN` und `NAHKAMPF`.
+'3':
+  lethal: false
+  effect: Nachteil auf `FEUERWAFFEN` und `OBSERVATION`.
+'4':
+  name: Schulter getroffen
+  lethal: false
+  effect: Nachteil auf `BEWEGLICHKEIT` und `FEUERWAFFEN`.
+'5':
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: Jeder Wurf auf `BEWEGLICHKEIT` öffnet die Wunde wieder.
+'6':
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: Nachteil auf `OBSERVATION` und `TECH`.
+'7':
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: Nachteil auf `AUSDAUER` und `BEWEGLICHKEIT`.
+'8':
+  name: Hirn ausgepustet
+  lethal: true
+'9':
+  lethal: true
+'10':
+  lethal: true
+'11':
+  lethal: true
+  timeLimitUnit: Schicht
+'12':
+  lethal: true
+1: {}
+2: {}
+3: {}
+4: {}
+5: {}
+6: {}
+7: {}
+8: {}
+9: {}
+10: {}
+11: {}
+12: {}
