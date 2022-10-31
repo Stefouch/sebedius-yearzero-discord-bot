@@ -60,7 +60,6 @@ const SlashCommandOptions = {
   base: {
     description: 'Quantity of Base dice',
     type: ApplicationCommandOptionType.Integer,
-    required: true,
     min: 1,
     max: 666,
   },
@@ -250,6 +249,11 @@ module.exports = class RollCommand extends SebediusCommand {
     // FBL Pride
     if (interaction.options.getBoolean('pride')) {
       roll.addDice(ArtifactDie, 1, { faces: 12 });
+    }
+
+    // Adds a single base die if the roll is empty.
+    if (roll.size === 0) {
+      roll.addBaseDice(1);
     }
 
     // Adds the modifier, if any.
