@@ -253,3 +253,55 @@ initiative:
   drawEvents: Ereignisse
   remainingCards: Verbleibende Karten
   noDatabaseConnection: Keine Datenbankverbindung!
+crit:
+  name: krit
+  description: Würfelt eine zufällige kritische Verletzung
+  options:
+    table_alien:
+      name: tabelle
+      desription: Wähle die Tabelle
+    table_bladerunner:
+      name: tabelle
+      desription: Wähle die Tabelle
+    table_fbl:
+      name: tabelle
+      desription: Wähle die Tabelle
+    table_myz:
+      name: tabelle
+      desription: Wähle die Tabelle
+    table_twilight2k:
+      name: tabelle
+      desription: Wähle die Tabelle
+    table_vaesen:
+      name: tabelle
+      desription: Wähle die Tabelle
+    reference:
+      name: festwert
+      description: Nutze einen festen Wert statt zu würfeln
+    lucky:
+      name: glückspilz
+      description: Nutze das Talent *Glückspilz* und wähle Stufe 1, 2 oder 3
+    severity:
+      name: härte
+      description: Wie viele Würfel sollen geworfen werden? *(Nutzt den höchsten Wert)*
+    private:
+      name: privat
+      description: Soll das Ergebnis vor anderen Spielern verborgen werden
+  embed:
+    permanent: Permanent
+    permanentEffects: Diese Effekte sind permanent.
+    healingTime: Heilungsdauer
+    healingTimeDescription: "{{text}} Tag bis zum Ende der Effekte."
+    healingTimeDescription_plural: "{{text}} Tage bis zum Ende der Effekte."
+    healingTimeBeforePermanentDescription: Die Verletzung dauert **1 {{unit}}**. Irgendwann
+      während der Heilungszeit musst du medizinisch versorgt werden oder die Verletzung
+      bleibt permanent *(vgl. Grundregelwerk, Seite 072)*.
+    lethality: Tödlichkeit
+    lethalityDescription: Diese kritische Verletzung ist **TÖDLICH** und muss innerhalb
+      {{time}} `GEHEILT` werden {{modifier}} oder der Charakter wird sterben.
+    modifiedBy: um {{mod}} modifiziert
+    timeLimit: 1 **{{unit}}**
+    timeLimit_plural: der nächsten {{number}} **{{unit}}**
+    luckyResults: 'Glückspilz nutzte die folgenden Werte: {{values}}'
+    severe: Schwere Verletzung
+    severeResults: 'Würfelte die folgenden Werte: {{values}}'

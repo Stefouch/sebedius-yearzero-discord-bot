@@ -1,0 +1,33 @@
+---
+_name: bladerunner-crit-mental
+_roll: true
+1:
+  effect: Du bist gelähmt vor Angst oder Unentschlossenheit. Du kannst dich einfach
+    zu nichts zwingen, sogar bis zu dem Punkt, an dem du dein eigenes Leben aufgrund
+    deiner Untätigkeit aufs Spiel setzt.
+  name: In Angst leben
+2:
+  effect: Du bricht verzweifelt zusammen – spiele diesen Effekt je nach Situation
+    im Rollenspiel. Während des Zusammenbruchs kannst du dich in Sicherheit bringen,
+    allerdings keine Aktionen ausführen, die einen Fertigkeitswurf erfordern würden.
+  name: Schade, dass sie nicht leben wird
+3:
+  effect: Du ergibst dich jedem Hindernis, dem du gegenüberstehst. Im Kampf oder Konflikt
+    ergibst du dich deinem Gegner. In anderen Situationen gibst du einfach auf – siehe
+    Ergebnis Nr. 2 in dieser Tabelle.
+  name: Keine Wahl, Kumpel
+  _call: 2
+4:
+  name: Sag ihm, dass ich futtere
+  effect: Du greifst einen freundlichen oder neutralen Charakter in der Nähe an. Dies
+    könnte sehr wahrscheinlich auch ein anderer SC sein, und der Streit könnte sogar
+    gewalttätig werden. Der Effekt muss im Rollenspiel gespielt werden.
+5:
+  effect: Du kannst es nicht mehr ertragen und verlässt die Szene, um nach Hause zu
+    gehen, dich zu betrinken, flachgelegt zu werden oder einfach durch die Straßen
+    zu wandern. Du kannst nicht aktiv an dem Fall arbeiten oder Fertigkeitswürfe machen.
+  name: Doppelt so viel
+6:
+  name: Am Zittern? Ich auch
+  effect: Du zitterst, ganz schwer. Du funktionierst zwar noch, hast aber einen Nachteil
+    bei allen Fertigkeitswürfen, und es können keine Würfe strapaziert werden.

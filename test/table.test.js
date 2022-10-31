@@ -40,9 +40,8 @@ describe('TABLES', function () {
 
                   // Checks name.
                   expect(r.name, `${lang}/${tableName}: name of ${i}`)
-                    .to.be.a('string');
-                  expect(r.name, `${lang}/${tableName}: title case name of ${i}`)
-                    .to.match(/^(?:[A-ZÄÅÖ][^\s]*\s?\(?)+$/);
+                    .to.be.a('string')
+                    .and.to.match(/^[A-ZÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ]{1}/);
 
                   // Checks effect.
                   expect(r.effect, `${lang}/${tableName}: effect of ${i}`)

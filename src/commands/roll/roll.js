@@ -60,7 +60,6 @@ const SlashCommandOptions = {
   base: {
     description: 'Quantity of Base dice',
     type: ApplicationCommandOptionType.Integer,
-    required: true,
     min: 1,
     max: 666,
   },
@@ -198,27 +197,29 @@ module.exports = class RollCommand extends SebediusCommand {
     // Parses roll string input (for Twilight 2000 & Blade Runner).
     if (game === YearZeroGames.TWILIGHT_2K || game === YearZeroGames.BLADE_RUNNER) {
       const input = interaction.options.getString('abcd')?.toLowerCase();
-      const Die = game === YearZeroGames.TWILIGHT_2K ? TwilightDie : BladeRunnerDie;
 
-      const inputRegex = /(?:(\d+)?d?(6|8|10|12))|([abcd])/g;
-      let result;
-      // https://stackoverflow.com/a/27753327
-      while ((result = inputRegex.exec(input)) !== null) {
-        // This is necessary to avoid infinite loops with zero-width matches
-        if (result.index === inputRegex.lastIndex) inputRegex.lastIndex++;
+      if (input) {
+        const Die = game === YearZeroGames.TWILIGHT_2K ? TwilightDie : BladeRunnerDie;
+        const inputRegex = /(?:(\d+)?d?(6|8|10|12))|([abcd])/g;
+        let result;
+        // https://stackoverflow.com/a/27753327
+        while ((result = inputRegex.exec(input)) !== null) {
+          // This is necessary to avoid infinite loops with zero-width matches
+          if (result.index === inputRegex.lastIndex) inputRegex.lastIndex++;
 
-        // $0 = whole match
-        // $1 = qty, digit before "d"
-        // $2 = faces, digit after "d"
-        // $3 = letter
-        const n = +result[1] || 1;
-        const d = result[2] || result[3];
-        switch (d) {
-          case '6': case 'd': roll.addDice(Die, n, { faces: 6 }); break;
-          case '8': case 'c': roll.addDice(Die, n, { faces: 8 }); break;
-          case '10': case 'b': roll.addDice(Die, n, { faces: 10 }); break;
-          case '12': case 'a': roll.addDice(Die, n, { faces: 12 }); break;
-          default: Logger.warn(`Roll Builder | Unknown roll string: "${d}"`);
+          // $0 = whole match
+          // $1 = qty, digit before "d"
+          // $2 = faces, digit after "d"
+          // $3 = letter
+          const n = +result[1] || 1;
+          const d = result[2] || result[3];
+          switch (d) {
+            case '6': case 'd': roll.addDice(Die, n, { faces: 6 }); break;
+            case '8': case 'c': roll.addDice(Die, n, { faces: 8 }); break;
+            case '10': case 'b': roll.addDice(Die, n, { faces: 10 }); break;
+            case '12': case 'a': roll.addDice(Die, n, { faces: 12 }); break;
+            default: Logger.warn(`Roll Builder | Unknown roll string: "${d}"`);
+          }
         }
       }
     }
@@ -250,6 +251,11 @@ module.exports = class RollCommand extends SebediusCommand {
     // FBL Pride
     if (interaction.options.getBoolean('pride')) {
       roll.addDice(ArtifactDie, 1, { faces: 12 });
+    }
+
+    // Adds a single base die if the roll is empty.
+    if (roll.size === 0) {
+      roll.addBaseDice(1);
     }
 
     // Adds the modifier, if any.
