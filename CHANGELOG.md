@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.2](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.1...v6.5.2) (2022-10-31)
+
+### Features
+
+- **Locales:** 🌐🇩🇪 Add German translation for the new `/crit` command.
+- **Roll:** ♻️ Remove requirement for Base Dice in MYZ & FBL games, as requested in #170.
+
+### Bug Fixes
+
+- **Roll:** 🩹 Add a single Base Die if the roll is empty (before modification).
+- **Roll:** 🐛 Fix bad regex execution for T2K undefined inputs ([#190](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/190)) ([391b91f](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/391b91f2185796eb6b571068ccd50cebac4c2325))
+- **Gamedata:** Conforming some entry names ([d1d03bb](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/d1d03bb1b8621a48b94e1699143a86f8def42267))
+- **Gamedata:** Fix punctuation in effects of vaesen crit tables ([6b5881d](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/6b5881da3d5181b875efdf84ab4c4cc7ac047a9f))
+
 ## [6.5.1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.0...v6.5.1) (2022-10-28)
 
 ### Bug Fixes
