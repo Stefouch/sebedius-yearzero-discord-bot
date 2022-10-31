@@ -73,7 +73,7 @@ roll:
     fanaticPush: Prier les Icônes (+2D)
   notYourRoll: Vous ne pouvez interagir qu'avec vos propres lancers !
   genericRollParseError: Impossible d'analyser les instructions du lancer ! {{input}}
-  description: Lancer les dés pour n'importe quel jeu de rôle Year Zero
+  description: Lancer les dés pour un jeu de rôle Year Zero
   name: lancer
   options:
     abcd:
@@ -256,3 +256,57 @@ initiative:
         chaque nouvelle rencontre)*
   deckShuffled: Mélangé un nouveau deck de cartes d'initiative.
   remainingCards: Cartes restantes
+crit:
+  name: crit
+  description: Pioche une blessure critique au hasard
+  options:
+    table_alien:
+      name: table
+      desription: Choisir une table
+    table_bladerunner:
+      name: table
+      desription: Choisir une table
+    table_fbl:
+      name: table
+      desription: Choisir une table
+    table_myz:
+      name: table
+      desription: Choisir une table
+    table_twilight2k:
+      name: table
+      desription: Choisir une table
+    table_vaesen:
+      name: table
+      desription: Choisir une table
+    reference:
+      name: reference
+      description: Utiliser une référence fixe à la place (pas de lancer de dés)
+    lucky:
+      name: chance
+      description: Appliquer le talent *Chanceux*, et choisir le rang I, II ou III
+    severity:
+      name: sévèrité
+      description: Combien de dés critiques à lancer? *(Utilise le résultat le plus élevé)*
+    private:
+      name: cacher
+      description: S'il faut cacher le résultat aux autres joueurs
+  embed:
+    permanent: Permanent
+    permanentEffects: Ces effets sont permanents.
+    healingTime: Temps de rétablissement
+    healingTimeDescription: '{{text}} jour avant la fin des effets.'
+    healingTimeDescription_plural: '{{text}} jours avant la fin des effets.'
+    healingTimeBeforePermanentDescription: >-
+      Les effets de la blessure dureront **un {{unit}}**. 
+      A un certain moment pendant la période de rétablissement, vous devrez recevoir des soins ou la blessure deviendra permanente *(voir le livre des règles, page 072)*.
+    lethality: Létalité
+    lethalityDescription: >-
+      Cette blessure critique est **LÉTALE** et doit être `SOIGNÉE`
+      {{modifier}}
+      endéans {{time}} ou le personnage va mourir.
+    modifiedBy: modifié de {{mod}}
+    timeLimit: une **{{unit}}**
+    timeLimit_plural: les prochains {{number}} **{{unit}}s**
+    luckyResults: 'Chanceux avec les valeurs suivantes : {{values}}'
+    severe: Blessure sévère
+    severeResults: 'Avec les valeurs suivantes : {{values}}'

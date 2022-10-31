@@ -1,0 +1,154 @@
+_name: fbl-crit-slash
+_roll: true
+12:
+  name: Bleeding Forehead
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: No effect.
+  healingTime: 0
+14:
+  name: Severed Nose
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION -1.
+  healingTime: 1
+16:
+  name: Severed Finger
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Two-handed weapons cannot be used.
+  healingTime: 1
+22:
+  name: Severed Toe
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+  healingTime: 1
+24:
+  name: Bleeding Thigh
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+  healingTime: 1
+26:
+  name: Slashed Mouth
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MANIPULATION -1.
+  healingTime: 1
+32:
+  name: Severed Tendon
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: To RUN becomes a slow action.
+  healingTime: 2
+34:
+  name: Wounded Shoulder
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Two-handed weapons cannot be used.
+  healingTime: 2
+36:
+  name: Severed Ear
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SCOUTING -1.
+  healingTime: 1
+42:
+  name: Slashed Eye
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: MARKSMANSHIP and SCOUTING -2.
+  healingTime: 2
+44:
+  name: Punctured Lung
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: ENDURANCE and MOVE -2.
+  healingTime: 1
+46:
+  name: Severed Foot
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: days
+  effect: To RUN becomes a slow action.
+  healingTime: -1
+52:
+  name: Bleeding Gut
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: 1 point of damage at each roll for MIGHT, MOVE and MELEE.
+  healingTime: 1
+54:
+  name: Ruptured Intestines
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Disease with Virulence 6.
+  healingTime: 2
+56:
+  name: Severed Arm
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: Two-handed weapons cannot be used.
+  healingTime: -1
+62:
+  name: Severed Leg
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: hours
+  effect: To RUN becomes a slow action.
+  healingTime: -1
+64:
+  name: Slit Throat
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: turns
+  effect: ENDURANCE -2.
+  healingTime: 1
+65:
+  name: Cleft Skull
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: You die immediately.
+  healingTime: 0
+66:
+  name: Decapitation
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Your head leaves your body.
+  healingTime: 0

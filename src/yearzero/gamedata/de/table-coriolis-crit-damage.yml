@@ -1,0 +1,290 @@
+_name: coriolis-crit-damage
+_roll: true
+11:
+  name: Atemnot
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt.
+12:
+  name: Desorientiert
+  lethal: false
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt.
+13:
+  name: Verstauchtes Handgelenk
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Lässt gehaltenen Gegenstand fallen, dann -1 auf Fernkampf und Nahkampf.
+14:
+  name: Verstauchter Knöchel
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Fällt zu Boden, dann -1 auf Beweglichkeit und Infiltration.
+15:
+  name: Gehirnerschütterung
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -1 auf alle speziellen Fertigkeiten.
+16:
+  name: Verletztes Schienbein
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Fällt zu Boden, dann -1 auf Beweglichkeit und Infiltration.
+21:
+  name: Gebrochene Nase
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -2 auf Manipulation.
+22:
+  name: Gebrochene Finger
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Lässt gehaltenen Gegenstand fallen, dann -2 auf Fernkampf und Nahkampf.
+23:
+  name: Gebrochene Zehen
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -2 auf Beweglichkeit und Infiltration.
+24:
+  name: Ausgeschlagene Zähne
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -2 auf Manipulation.
+25:
+  name: Schritt
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für zwei Runden betäubt, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.
+26:
+  name: Ausgerenkte Schulter
+  lethal: false
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -3 auf Kraftakt und Nahkampf.
+31:
+  name: Gebrochene Rippen
+  lethal: false
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -2 auf Beweglichkeit und Nahkampf.
+32:
+  name: Gebrochener Arm
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -3 auf Fernkampf und Nahkampf.
+33:
+  name: Gebrochenes Bein
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Fällt zu Boden, dann Bewegungsrate halbiert und -2 auf Beweglichkeit und Infiltration.
+34:
+  name: Abgerissenes Ohr
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -2 auf Beobachtung. `Dauerhafte hässliche Narbe`.
+35:
+  name: Ausgestochenes Auge
+  lethal: false
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Für eine Runde betäubt, dann -2 auf Fernkampf und Beobachtung.
+36:
+  name: Punktierte Lunge
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: Für eine Runde betäubt, dann -3 auf Beweglichkeit.
+41:
+  name: Verletzte Niere
+  lethal: true
+  healMalus: 0
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: Für zwei Runden betäubt, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.
+42:
+  name: Zertrümmerter Fuß
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: Fällt zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.
+43:
+  name: Zertrümmerter Ellbogen
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: Für eine Runde betäubt, dann -2 auf Kraftakt und Nahkampf. Verwendung von zweihändigen Waffen unmöglich.
+44:
+  name: Zertrümmertes Knie
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Für eine Runde betäubt, geht zu Boden, dann Bewegungsrate halbiert und -3 auf Beweglichkeit und Infiltration.
+45:
+  name: Zerschmettertes Gesicht
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: '[[D6]] Stunden bewusstlos, dann -2 auf Manipulation.'
+46:
+  name: Durchbohrte Eingeweide
+  lethal: true
+  healMalus: 0
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Für eine Runde betäubt, dann 1 Punkt Schaden pro Stunde, bis erste Hilfe geleistet wird.
+51:
+  name: Gebrochenes Rückgrat
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Für [[D6]] Stunden bewusstlos, dann von der Hüfte ab gelähmt. Wird keine medizinische Hilfe während der Heilungszeit geleistet, wird die Lähmung permanent.
+52:
+  name: Gebrochener Hals
+  lethal: true
+  healMalus: 0
+  healingTime: 4
+  timeLimit: 1
+  timeLimitUnit: Stunden
+  effect: Für [[D6]] Stunden bewusstlos, dann vom Hals ab gelähmt. Wird keine medizinische Hilfe während der Heilungszeit geleistet, wird die Lähmung permanent.
+53:
+  name: Blutender Bauch
+  lethal: true
+  healMalus: 0
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: 1 Schadenspunkt pro Runde, bis erste Hilfe geleistet wird.
+54:
+  name: Innere Blutungen
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann 1 Punkt Schaden pro Wurf auf Kraftakt, Beweglichkeit und Nahkampf.'
+55:
+  name: Durchtrennte Armarterie
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann -1 auf Beweglichkeit.'
+56:
+  name: Durchtrennte Beinarterie
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann -2 auf Beweglichkeit.'
+61:
+  name: Zerstörter Arm
+  lethal: true
+  healMalus: -1
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann -2 auf Beweglichkeit. Der Arm wird dauerhaft zerstört. Verwendung von zweihändigen Waffen unmöglich.'
+62:
+  name: Zerstörtes Bein
+  lethal: true
+  healMalus: -1
+  healingTime: 3
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann -2 auf Beweglichkeit. Das Bein wird dauerhaft zerstört. Bewegung wird halbiert.'
+63:
+  name: Durchtrennte Halsschlagader
+  lethal: true
+  healMalus: -1
+  healingTime: 1
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann -1 auf Beweglichkeit.'
+64:
+  name: Durchtrennte Aorta
+  lethal: true
+  healMalus: -1
+  healingTime: 2
+  timeLimit: 1
+  timeLimitUnit: Minuten
+  effect: '[[D6]] Stunden bewusstlos, dann -2 auf Beweglichkeit.'
+65:
+  name: Durchbohrtes Herz
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Herz schlägt ein allerletztes Mal. Erschaffe einen neuen SC.
+66:
+  name: Zermalmter Schädel
+  lethal: true
+  healMalus: 0
+  healingTime: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du wirst augenblicklich getötet. Dein Abenteuer endet hier. Erschaffe einen neuen SC.

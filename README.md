@@ -3,7 +3,7 @@
   <a href="https://discordbots.org/bot/543445246143365130" target="_blank">
     <img alt="Status" src="https://top.gg/api/widget/status/543445246143365130.svg"/>
   </a>
-  <img alt="Version" src="https://img.shields.io/badge/dynamic/json?color=blue&label=version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FStefouch%2Fsebedius-yearzero-discord-bot%2Fmaster%2Fpackage.json&cacheSeconds=2592000"/>
+  <img alt="Version" src="https://img.shields.io/badge/dynamic/json?color=blue&label=version&query=version&url=https%3A%2F%2Fraw.githubusercontent.com%2FStefouch%2Fsebedius-yearzero-discord-bot%2Fmaster%2Fpackage.json&cacheSeconds=3600"/>
   <a href="https://discord.js.org/" target="_blank">
     <img alt="Discord.js" src="https://img.shields.io/badge/Discord.JS-v14-informational?logo=discord"/>
   </a>
@@ -57,11 +57,14 @@ The supported games are:
 
 By default, Sebedius will use the locale defined in your server, if it is supported (otherwise, english).
 
-With the command `/conf locale:<language_code>` you can translate Sebedius into another language. Supported localisations are:
+With the command `/conf locale:<language>` you can translate Sebedius into another language. Supported localisations are:
 
-- `en` – English (default)
-- `de` – German [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)
-- `fr` – French [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)
+| Language | Commands | Gamedata | Progress                                                                                                                     |
+| :------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| Engish   | –        | –        | _Default language_                                                                                                           |
+| German   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)    |
+| French   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)    |
+| Swedish  | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/sv-SE/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge) |
 
 Your language isn't supported yet? See _Contributing_ below!
 
@@ -71,7 +74,9 @@ Contributions, translations, issues and feature requests are welcome!<br/>Take a
 
 ### Top Contributors
 
-- [@mprangenberg](https://github.com/mprangenberg)
+- [@mprangenberg](https://github.com/mprangenberg) (Code & German translation)
+- [@LordDredger](https://github.com/LordDreger) (French translation with @Stefouch)
+- [@SnakeOfMidgaard](https://github.com/SnakeOfMidgaard) (Swedish translation)
 
 # 🔬 Author
 

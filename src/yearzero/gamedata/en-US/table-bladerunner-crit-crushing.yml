@@ -1,0 +1,76 @@
+_name: bladerunner-crit-crushing
+_roll: true
+1:
+  name: Teeth Knocked Out
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `MANIPULATION` rolls.
+2:
+  name: Broken Nose
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `OBSERVATION` rolls.
+3:
+  name: Broken Fingers
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `FIREARMS` and `HAND-TO-HAND COMBAT`.
+4:
+  name: Gouged Eye
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Month
+  effect: Disadvantage to `FIREARMS` and `OBSERVATION`.
+5:
+  name: Cracked Ribs
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `MOBILITY` rolls.
+6:
+  name: Concussion
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `OBSERVATION` and `TECH`.
+7:
+  name: Broken Leg
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Month
+  effect: You can’t stand upright. Crawling is the only possible mode of movement.
+8:
+  name: Broken Arm
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Month
+  effect: One of your arms cannot be used.
+9:
+  name: Internal Bleeding
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `STAMINA` and `MOBILITY`.
+10:
+  name: Broken Neck
+  lethal: Yes
+  timeLimit: Shift
+  healingTime: -1
+  effect: You cannot move at all.
+11:
+  name: Shattered Pelvis
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Round
+  healingTimeBeforePermanent: Month
+  effect: You can’t stand upright. Crawling is the only possible mode of movement.
+12:
+  name: Crushed Skull
+  lethal: Yes
+  timeLimit: 0
+  healingTime: 0
+  effect: Instant death.

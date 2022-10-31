@@ -1,0 +1,13 @@
+all: allt
+D: '{{number}}D{{faces}}'
+missingPermissionsError: >-
+  'Botten {{member}} saknar följande behörigheter och kanske
+  inte fungerar som den ska: {{perms}}'
+commandError: |-
+  Ett fel uppstod med detta kommando: {{name}} {{code}}
+  {{message}}
+talents:
+  alien:
+    nervesOfSteel: Nerves of Steel
+  fbl:
+    lucky: Turlig

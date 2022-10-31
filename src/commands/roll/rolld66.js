@@ -35,6 +35,15 @@ module.exports = class RollD66Command extends SebediusCommand {
     const game = interaction.options.getString('game') || guildOptions.game;
     const die = interaction.options.getString('die') ?? 'D66';
 
+    return this.rollD66(game, die, interaction, t);
+  }
+  /**
+   * @param {string} game
+   * @param {string} die "D66" or "D666"
+   * @param {SebediusCommand.SebediusCommandInteraction} interaction
+   * @param {SebediusCommand.SebediusTranslationCallback} t
+   */
+  async rollD66(game, die, interaction, t) {
     const n = die.split('6').length - 1;
 
     const roll = new YearZeroRoll({

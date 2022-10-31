@@ -20,6 +20,9 @@ SebediusConfig.Colors = {
   favoriteColor: 0x1aa29b,
   brown: 0x775353,
   green: 0x63be7b,
+  isoProhibit: 0x9b2423,
+  isoSafe: 0x237f52,
+  isoWarn: 0xf9a800,
   rare: 0xffff77,
   red: 0xff4d4d,
   teal: 0x1aa29b,
@@ -34,6 +37,7 @@ SebediusConfig.SupportedLocales = [
   { name: 'English', value: 'en-US' },
   { name: 'Français', value: 'fr' },
   { name: 'Deutsch', value: 'de' },
+  { name: 'Svenska', value: 'sv-SE' },
 ];
 
 SebediusConfig.defaultLocale = 'en-US';
@@ -44,7 +48,26 @@ SebediusConfig.defaultLocale = 'en-US';
 
 /** @enum {Object} */
 SebediusConfig.Commands = {};
-SebediusConfig.Commands.init = { expires: '10d' };
+SebediusConfig.Commands.crit = {
+  fatalEmoji: '💀💀💀',
+  deadEmoji: '🪦', // Headstone
+};
+SebediusConfig.Commands.initiative = {
+  expires: '10d',
+  colorGradient: [
+    0x000000,
+    0x63be7b,
+    0x7bb966,
+    0x90b253,
+    0xa5ab44,
+    0xb8a23b,
+    0xca9839,
+    0xda8d3e,
+    0xe78149,
+    0xf27458,
+    0xf8696b,
+  ],
+};
 SebediusConfig.Commands.scrap = { max: 20 };
 SebediusConfig.Commands.stats = { start: '2022-09-03' };
 SebediusConfig.Commands.roll = {
@@ -56,14 +79,14 @@ SebediusConfig.Commands.roll = {
 
 /**
  * @typedef {Object} DiceRenderOptions
- * @property {YearZeroGames}          [template]           Force rendering with another game template
- * @property {string}                 [successIcon]        Default icon for successes
- * @property {boolean}                [hasBlankDice=false] Whether the dice have blank faces
- * @property {boolean}                [trauma=false]       Whether to display the trauma result
- * @property {boolean}                [gearDamage=false]   Whether to display the gear damage quantity
- * @property {boolean}                [panic=false]        Whether the roll can trigger panic check
- * @property {boolean}                [mishap=false]       Whether to display mishap
- * @property {boolean}                [detailed=false]     Whether to display additional details for the roll
+ * @property {YearZeroGames} [template]           Force rendering with another game template
+ * @property {string}        [successIcon]        Default icon for successes
+ * @property {boolean}       [hasBlankDice=false] Whether the dice have blank faces
+ * @property {boolean}       [trauma=false]       Whether to display the trauma result
+ * @property {boolean}       [gearDamage=false]   Whether to display the gear damage quantity
+ * @property {boolean}       [panic=false]        Whether the roll can trigger panic check
+ * @property {boolean}       [mishap=false]       Whether to display mishap
+ * @property {boolean}       [detailed=false]     Whether to display additional details for the roll
  * @property {(typeof import('./yearzero/roller/dice/yzdie'))[]} [extraPushDice=[]]
  *   Additional dice rolled when pushed
  * @property {{
@@ -164,15 +187,15 @@ SebediusConfig.Emojis = {
 
 SebediusConfig.CardsIcons = [
   '0️⃣',
-  ':one:',
-  ':two:',
-  ':three:',
-  ':four:',
-  ':five:',
-  ':six:',
-  ':seven:',
-  ':eight:',
-  ':nine:',
+  '1️⃣',
+  '2️⃣',
+  '3️⃣',
+  '4️⃣',
+  '5️⃣',
+  '6️⃣',
+  '7️⃣',
+  '8️⃣',
+  '9️⃣',
   '🔟',
 ];
 

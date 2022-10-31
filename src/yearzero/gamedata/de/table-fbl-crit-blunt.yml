@@ -1,0 +1,138 @@
+_name: fbl-crit-blunt
+_roll: true
+12:
+  name: Betäubt
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+  healingTime: 0
+14:
+  name: Atemlos
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Kein Effekt.
+  healingTime: 0
+16:
+  name: Gehirnerschütterung
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -2 auf AUSKUNDSCHAFTEN.
+  healingTime: 1
+22:
+  name: Gebrochene Nase
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf MANIPULATION.
+  healingTime: 1
+24:
+  name: Gebrochene Finger
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Zweihändige Waffen können nicht benutzt werden.
+  healingTime: 1
+26:
+  name: Gebrochene Zehen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: 1
+33:
+  name: Ausgeschlagene Zähne
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -1 auf MANIPULATION.
+  healingTime: 1
+36:
+  name: Schlag In Die Leiste
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: 1 Punkt Schaden bei jedem Wurf auf BEWEGEN oder NAHKAMPF.
+  healingTime: 1
+43:
+  name: Gebrochene Rippen
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -2 auf BEWEGEN und NAHKAMPF.
+  healingTime: 2
+45:
+  name: Gebrochener Arm
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Zweihändige Waffen können nicht benutzt werden.
+  healingTime: 2
+51:
+  name: Gebrochenes Bein
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: 2
+53:
+  name: Zerquetschtes Auge
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: -2 auf FERNKAMPF und AUSKUNDSCHAFTEN.
+  healingTime: 2
+55:
+  name: Zertrümmerter Fuß
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: 3
+61:
+  name: Zertrümmerter Ellbogen
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: Zweihändige Waffen können nicht benutzt werden.
+  healingTime: -1
+63:
+  name: Zertrümmertes Knie
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Tage
+  effect: RENNEN wird zu einer langsamen Aktion.
+  healingTime: -1
+64:
+  name: Gebrochenes Genick
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Vom Hals abwärts gelähmt. Falls nicht rechtzeitig geheilt, wird die Wirkung permanent.
+  healingTime: 3
+66:
+  name: Zertrümmerter Schädel
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Dein Abenteuer und dein Leben enden hier.
+  healingTime: 0

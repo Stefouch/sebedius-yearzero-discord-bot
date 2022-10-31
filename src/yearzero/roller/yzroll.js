@@ -463,17 +463,31 @@ class YearZeroRoll {
         this.dice = this.dice.filter(d => d.id !== lowestDie.id);
       }
     }
-    // === MUTANT YEAR ZERO & FORBIDDEN LANDS
-    else if ([YearZeroGames.MUTANT_YEAR_ZERO, YearZeroGames.FORBIDDEN_LANDS].includes(this.game)) {
+    // === MUTANT YEAR ZERO, FORBIDDEN LANDS & ALIEN RPG
+    else if ([
+      YearZeroGames.MUTANT_YEAR_ZERO,
+      YearZeroGames.FORBIDDEN_LANDS,
+      YearZeroGames.ALIEN_RPG,
+    ].includes(this.game)
+    ) {
       const skillDiceQty = this.countDice(YearZeroDieTypes.SKILL);
-      const negDiceQty = Math.max(-mod - skillDiceQty);
-      // Note: A negative modifier actually removes that many dice from the roll with this function.
+      const negQty = Math.min(skillDiceQty + mod, 0);
+      // Note: A negative modifier actually removes that many dice from the roll with this method.
       this.addSkillDice(mod);
-      if (negDiceQty > 0) this.addNegDice(negDiceQty);
+      if (negQty < 0) {
+        // For ALIEN RPG, we must also reduces the quantity of stress dice, if any.
+        if (this.game === YearZeroGames.ALIEN_RPG) {
+          this.addStressDice(negQty);
+        }
+        // For MYZ & FBL, we add negative dice.
+        else {
+          this.addNegDice(-negQty);
+        }
+      }
     }
     // === ALL OTHER GAMES
     else {
-      // Note: A negative modifier actually removes that many dice from the roll with this function.
+      // Note: A negative modifier actually removes that many dice from the roll with this method.
       this.addSkillDice(mod);
     }
     return this;
@@ -481,7 +495,7 @@ class YearZeroRoll {
 
   /* ------------------------------------------ */
 
-  async modifyT2K(mod) {
+  modifyT2K(mod) {
     const diceMap = [null, 6, 8, 10, 12, Infinity];
     // const typesMap = ['d', 'd', 'c', 'b', 'a', 'a'];
     const refactorRange = (range, n) => diceMap[diceMap.indexOf(range) + n];

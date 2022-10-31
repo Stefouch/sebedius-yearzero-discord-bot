@@ -1,0 +1,67 @@
+---
+_name: t2k-crit-arms
+_roll: true
+1:
+  name: Ausgerenkte Schulter
+  timeLimit: 0
+  healingTime: "[[D6]]"
+  lethal: false
+  effect: "-2 auf `FERNKAMPF` mit Zweihandwaffen."
+2:
+  name: Aufgeschlitzter Unterarm
+  timeLimit: 0
+  healingTime: "[[2D6]]"
+  lethal: false
+  effect: "-2 auf `FERNKAMPF` mit Zweihandwaffen."
+3:
+  name: Gequetschte Finger
+  timeLimit: 0
+  healingTime: "[[3D6]]"
+  lethal: false
+  effect: "-2 auf `FERNKAMPF` mit Zweihandwaffen."
+4:
+  name: Ausgekugelter Ellenbogen
+  timeLimit: 0
+  effect: Zweihandwaffen können nicht verwendet werden.
+  healingTime: "[[D6]]"
+  lethal: false
+5:
+  name: Gebrochener Unterarm
+  timeLimit: 0
+  effect: Zweihandwaffen können nicht verwendet werden.
+  healingTime: "[[2D6]]"
+  lethal: false
+6:
+  name: Gequetschtes Handgelenk
+  timeLimit: 0
+  effect: Zweihandwaffen können nicht verwendet werden.
+  healingTime: "[[3D6]]"
+  lethal: false
+7:
+  name: Blutende Schulter
+  timeLimit: 1
+  healingTime: "[[D6]]"
+  lethal: true
+  timeLimitUnit: Schicht
+  effect: "-2 auf `FERNKAMPF` mit Zweihandwaffen."
+8:
+  name: Zerschmetterter Ellbogen
+  timeLimit: 1
+  effect: Zweihandwaffen können nicht verwendet werden.
+  healingTime: "[[3D6]]"
+  lethal: true
+  timeLimitUnit: Schicht
+9:
+  name: Arterielle Blutung
+  timeLimit: 1
+  timeLimitUnit: Strecken
+  healingTime: "[[2D6]]"
+  lethal: true
+  effect: "-2 auf `FERNKAMPF` mit Zweihandwaffen."
+10:
+  name: Abgetrennter Arm
+  timeLimit: 1
+  timeLimitUnit: Strecken
+  effect: Zweihandwaffen können nicht verwendet werden.
+  healingTime: -1
+  lethal: true

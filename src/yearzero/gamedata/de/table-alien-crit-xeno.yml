@@ -1,0 +1,17 @@
+_name: alien-crit-xeno
+_roll: true
+16:
+  name: Steht Wieder Auf
+  effect: Der Xenomorph fällt scheinbar tödlich getroffen zu Boden, allerdings nur um sein Opfer näher heranzulocken. Wenn er erneut angegriffen wird oder das nächste Mal an der Reihe ist, erhält er 1 Gesundheitspunkt zurück und steht wieder auf, um seine Beute in Stücke zu reißen.
+26:
+  name: Verwundet
+  effect: Der Xenomorph gerät ins Wanken und blutet stark. Seine Geschwindigkeit sinkt um 1 (bis zu einem Minimum von 1), wobei er die niedrigste Initiativekarte verliert. Dafür erhält er 1 Gesundheitspunkt zurück. Würfele zu Beginn jeder Runde mit einem [[D6]]. Bei einer 1-3 versucht die Kreatur zu entkommen.
+36:
+  name: Verzweiflungstat
+  effect: 'Der Xenomorph ist schwer verwundet und stößt einen schrillen Schrei der Wut aus. Er darf sofort (außerhalb der normalen Handlungsreihenfolge) eine schnelle und eine langsame Aktion ausführen. Würfele mit einem [[D6]]: Bei einer 1-3 versucht die Kreatur zu entkommen (gelingt ihr dies, erhält sie die Hälfte ihrer Gesundheitspunkte zurück). Bei einer 4-6 greift sie sofort den Gegner an, der ihr am nächsten ist. Kann sie dabei keinen Schaden verursachen, stirbt die Kreatur, ansonsten erhält sie 1 Gesundheitspunkt zurück.'
+46:
+  name: Letzter Atemzug
+  effect: Der Xenomorph word tödlich verwundet und windet sich wild. Ist die Kreatur das nächste Mal an der Reihe, versucht sie, den Gegner zu töten, der ihr am nächsten ist. Anschließend stirbt sie. Wird sie vorher ein weiteres Mal verwundet, stirbt sie sofort.
+66:
+  name: Zerfetzt
+  effect: Sofortiger Tod. Der Xenomorph wird zerfetzt oder auseinandergerissen und stößt dabei ein markerschütterndes Kreischen aus. Der Körper der Bestie ist schwer verstümmelt und kann nur mit WAHRNEHMUNUG -2 analysiert werden (siehe Talent des Wissenschaftlers).

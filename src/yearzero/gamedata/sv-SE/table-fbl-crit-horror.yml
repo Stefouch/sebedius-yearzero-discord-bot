@@ -1,0 +1,138 @@
+_name: fbl-crit-horror
+_roll: true
+16:
+  name: Skakningar
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Avdrag –1 på alla slag för SMI.
+  healingTime: 1
+21:
+  name: Vitt Hår
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du blir vithårig.
+  healingTime: -1
+24:
+  name: Förskrämd
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Avdrag –1 på alla slag för INT.
+  healingTime: 1
+31:
+  name: Vresig
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Avdrag –1 på alla slag för KAR.
+  healingTime: 1
+35:
+  name: Mardrömmar
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Slå för GENOMSKÅDA varje kvartsdygn du SOVER. Misslyckande innebär att sömnen inte räknas.
+  healingTime: 1
+41:
+  name: Ljusskygg
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du kan bara SOVA under dygnets ljusa timmar.
+  healingTime: 2
+43:
+  name: Fobi
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du blir skräckslagen av något som relaterar till det som gjorde dig bruten. SL avgör vad det är. Du tar 1 poäng i skada på INT varje runda inom NÄRA avstånd av föremålet för fobin.
+  healingTime: 2
+45:
+  name: Suput
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du måste dricka vin eller mjöd varje dygn, annars tar du 1 poäng skada på SMI.
+  healingTime: 3
+51:
+  name: Klaustrofob
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Varje kvartstimme i trånga utrymmen tar du 1 poäng skada på INT.
+  healingTime: 2
+52:
+  name: Mytomani
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du kan inte låta bli att ljuga. Effekten rollspelas.
+  healingTime: 2
+54:
+  name: Förföljelsemani
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du är säker på att någon är ute efter dig. Effekten rollspelas.
+  healingTime: 2
+55:
+  name: Vanföreställninga
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du är totalt övertygad om ett faktum som är totalt osant, exempelvis att ett släkte inte finns.
+  healingTime: 3
+56:
+  name: Hallucinationer
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Slå för GENOMSKÅDA varje kvartsdygn. Vid misslyckande drabbas du av en stark hallucination. SL avgör detaljerna.
+  healingTime: 3
+62:
+  name: Personlighetsförändring
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Din personlighet förändras i grunden. Avgör hur tillsammans med SL. Effekten rollspelas.
+  healingTime: -1
+63:
+  name: Minnesförlust
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du förlorar allt minne, och vet varken vem du själv eller de andra äventyrarna är. Effekten rollspelas.
+  healingTime: 1
+65:
+  name: Katatonisk
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du stirrar tomt in i evigheten och är helt okontaktbar.
+  healingTime: 1
+66:
+  name: Hjärtattack
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Ditt hjärta stannar, och du dör av skräck.
+  healingTime: 0

@@ -13,9 +13,8 @@ module.exports = class HelpCommand extends SebediusCommand {
         .addStringOption(opt => opt
           .setName('command')
           // eslint-disable-next-line max-len
-          .setDescription('Print more information about a specific command or type "all" to see a list of all commands'),
-          // TODO autocomplete
-          // .setAutocomplete(true),
+          .setDescription('Print more information about a specific command or type "all" to see a list of all commands')
+          .setAutocomplete(true),
         ),
     });
   }

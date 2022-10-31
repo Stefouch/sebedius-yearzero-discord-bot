@@ -78,7 +78,29 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
       // 3.5. Checks permissions (put after because we only have 3 seconds to respond to an interaction).
       this.checkPermissions(interaction, t);
     }
+    // 4. Autocomplete
+    // @ts-ignore
+    else if (interaction.isAutocomplete()) {
+      await this.respondAutocomplete(interaction);
+    }
   }
+
+  /** ------------------------------------------ */
+
+  /**
+   * Prepares and sends the response for the autocompletions.
+   * @param {import('discord.js').AutocompleteInteraction} interaction
+   */
+  async respondAutocomplete(interaction) {
+    if (interaction.commandName === 'help') {
+      const focusedValue = interaction.options.getFocused();
+      const choices = this.bot.commands.filter(c => !c.ownerOnly).map(c => c.name);
+      const filtered = choices.filter(c => c.includes(focusedValue));
+      await interaction.respond(filtered.map(c => ({ name: c, value: c })));
+    }
+  }
+
+  /** ------------------------------------------ */
 
   /**
    * Logs the interaction in the console.
@@ -88,15 +110,17 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
   logInteraction(interaction) {
     let logMsg = `${interaction.commandName} • ${interaction.user.tag} (${interaction.user.id})`;
     if (interaction.inGuild()) {
-      logMsg += ` # ${interaction.channel.name} (${interaction.channelId})`
-        + ` @ ${interaction.guild.name} (${interaction.guild.id})`;
+      logMsg += ` #${interaction.channel.name} (${interaction.channelId})`
+        + ` ∈ ${interaction.guild.name} (${interaction.guild.id})`;
     }
     else {
-      logMsg += '@ DM';
+      logMsg += '∩ DM';
     }
     Logger.command(logMsg);
     return logMsg;
   }
+
+  /** ------------------------------------------ */
 
   /**
    * Gets the options of the guild from the database.
@@ -117,6 +141,8 @@ module.exports = class InteractionCreateEvent extends SebediusEvent {
     if (!guildOptions.game) guildOptions.game = YearZeroGames.MUTANT_YEAR_ZERO;
     return guildOptions;
   }
+
+  /** ------------------------------------------ */
 
   // TODO check permissions
   async checkPermissions(interaction, t) {

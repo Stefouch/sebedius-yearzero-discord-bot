@@ -55,11 +55,13 @@ const SlashCommandOptions = {
     type: ApplicationCommandOptionType.Integer,
     required: true,
     min: 1,
+    max: 666,
   },
   base: {
     description: 'Quantity of Base dice',
     type: ApplicationCommandOptionType.Integer,
     min: 1,
+    max: 666,
   },
   skill: {
     description: 'Quantity of Skill dice',
@@ -149,7 +151,7 @@ module.exports = class RollCommand extends SebediusCommand {
     });
     this.data = this.createSlashCommandBuilder(
       'roll',
-      'Roll dice for any Year Zero roleplaying game',
+      'Roll dice for a Year Zero roleplaying game',
       GameSubcommandsList,
       SlashCommandOptions,
     );
@@ -171,6 +173,13 @@ module.exports = class RollCommand extends SebediusCommand {
     const maxPush = interaction.options.getInteger('maxpush');
 
     const artosInput = interaction.options.getString('artifacts');
+
+    // Detects D66 & D666.
+    const d66 = dice ?? base;
+    if (d66 === 66 || d66 === 666) {
+      // @ts-ignore
+      return this.bot.commands.get('rolld66').rollD66(game, `D${d66}`, interaction, t);
+    }
 
     // Generic rolls are parsed by another library.
     if (game === YearZeroGames.BLANK) {
@@ -298,7 +307,7 @@ module.exports = class RollCommand extends SebediusCommand {
       });
     }
 
-    if (roll.rolls.length > this.bot.config.Commands.roll.max) {
+    if (roll.rolls.length > this.config.max) {
       return interaction.reply({
         content: `${Emojis.warning} ${t('commands:roll.tooManyDiceError')}`,
         ephemeral: true,
@@ -332,14 +341,14 @@ module.exports = class RollCommand extends SebediusCommand {
    */
   async render(roll, t) {
     /** @type {import('$config').DiceRenderOptions} */
-    const options = this.bot.config.Commands.roll.options[roll.game];
+    const options = this.config.options[roll.game];
     if (!options) throw new ReferenceError(`[roll:${roll.game}] Command Options Not Found!`);
 
     if (roll.size < 1) {
       throw new RollError(t('commands:help.noDiceError'), roll);
     }
 
-    if (roll.size > this.bot.config.Commands.roll.max) {
+    if (roll.size > this.config.max) {
       throw new RollError(t('commands:roll.tooManyDiceError'), roll);
     }
 
@@ -386,11 +395,11 @@ module.exports = class RollCommand extends SebediusCommand {
    */
   async awaitPush(roll, interaction, t) {
     const message = await interaction.fetchReply();
-    const gameOptions = this.bot.config.Commands.roll.options[roll.game];
+    const gameOptions = this.config.options[roll.game];
 
     const collector = message.createMessageComponentCollector({
       componentType: ComponentType.Button,
-      time: this.bot.config.Commands.roll.pushCooldown,
+      time: this.config.pushCooldown,
     });
 
     // *** COLLECTOR:COLLECT
@@ -422,7 +431,7 @@ module.exports = class RollCommand extends SebediusCommand {
         }
 
         // Stops if too many dice.
-        if (roll.size > this.bot.config.Commands.roll.max) {
+        if (roll.size > this.config.max) {
           collector.stop();
           await i.reply({
             content: `${Emojis.warning} ${t('commands:roll.tooManyDiceError')}`,
@@ -471,17 +480,17 @@ module.exports = class RollCommand extends SebediusCommand {
   /* ------------------------------------------ */
 
   #createButtons(game, t) {
-    const gameOptions = this.bot.config.Commands.roll.options[game];
+    const gameOptions = this.config.options[game];
 
     const pushButton = new ButtonBuilder()
       .setCustomId('push-button')
-      .setEmoji(gameOptions?.successIcon || this.bot.config.Commands.roll.pushIcon)
+      .setEmoji(gameOptions?.successIcon || this.config.pushIcon)
       .setLabel(t('commands:roll.buttons.push'))
       .setStyle(ButtonStyle.Primary);
 
     const cancelButton = new ButtonBuilder()
       .setCustomId('cancel-button')
-      .setEmoji(this.bot.config.Commands.roll.cancelIcon)
+      .setEmoji(this.config.cancelIcon)
       .setLabel(t('commands:roll.buttons.cancel'))
       .setStyle(ButtonStyle.Secondary);
 
@@ -536,7 +545,7 @@ module.exports = class RollCommand extends SebediusCommand {
   /* ------------------------------------------ */
 
   isPanic(roll) {
-    return this.bot.config.Commands.roll.options[roll.game]?.panic && roll.panic;
+    return this.config.options[roll.game]?.panic && roll.panic;
   }
 
   /* ------------------------------------------ */

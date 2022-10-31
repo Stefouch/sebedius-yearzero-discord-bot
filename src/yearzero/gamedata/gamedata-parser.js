@@ -8,12 +8,12 @@ const Logger = require('../../utils/logger');
 const GAMEDATA_PATH = './src/yearzero/gamedata';
 const EXT = 'yml';
 
-async function parseGamedata(lang, fileName) {
+function parseGamedata(lang, fileName) {
   let filePath = `${GAMEDATA_PATH}/${lang}/${fileName}.${EXT}`;
 
   if (!existsSync(filePath)) {
     Logger.warn(`"${filePath}" → GamedataParser: Path Not Found! Using default...`);
-    filePath = `${GAMEDATA_PATH}/en-US/${fileName}.${EXT}`;
+    filePath = filePath.replace(`/${lang}/`, '/en-US/');
     if (!existsSync(filePath)) {
       throw new SyntaxError(`GamedataParserError: Resource Not Found!\nFile → ${filePath}`);
     }
@@ -35,7 +35,7 @@ function parseRollTable(data, depth = 100) {
   if (depth < 0) {
     throw new RangeError('GamedataParserError: Maximum Call Stack Depth Exceeded!');
   }
-  const table = new RollTable(data.$name, data.$roll);
+  const table = new RollTable(data._name, data._roll);
 
   for (const [key, value] of Object.entries(data)) {
     if (_validateRollTable(value)) {
@@ -51,7 +51,7 @@ function parseRollTable(data, depth = 100) {
 
 function _validateRollTable(data) {
   if (!isObject(data)) return false;
-  return ('$roll' in data) && Object.keys(data).some(key => {
+  return ('_roll' in data) && Object.keys(data).some(key => {
     const k = +key;
     if (typeof k === 'number' && !isNaN(k)) return true;
   });

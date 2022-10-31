@@ -1,0 +1,154 @@
+_name: fbl-crit-slash
+_roll: true
+12:
+  name: Blödande Panna
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Ingen Effekt.
+  healingTime: 0
+14:
+  name: Kapad Näsa
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: –1 på MANIPULERA.
+  healingTime: 1
+16:
+  name: Kapat Finger
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Tvåhandsvapen kan inte användas.
+  healingTime: 1
+22:
+  name: Kapad Tå
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SPRINGA blir lång handling.
+  healingTime: 1
+24:
+  name: Blödande Lår
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SPRINGA blir lång handling.
+  healingTime: 1
+26:
+  name: Uppskuren Mun
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: –2 på MANIPULERA.
+  healingTime: 1
+32:
+  name: Avskuren Hälsena
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: SPRINGA blir lång handling.
+  healingTime: 2
+34:
+  name: Sargad Axel
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Tvåhandsvapen kan inte användas.
+  healingTime: 2
+36:
+  name: Kapat Öra
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: –1 på SPEJA.
+  healingTime: 1
+42:
+  name: Sargat Öga
+  lethal: false
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: –2 på SKJUTA, SPEJA.
+  healingTime: 2
+44:
+  name: Punkterad Lunga
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Dagar
+  effect: –2 på UTHÅLLIGHET och RÖRLIGHET.
+  healingTime: 1
+46:
+  name: Kapad Fot
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Dagar
+  effect: SPRINGA blir lång handling.
+  healingTime: -1
+52:
+  name: Blödande Buk
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Timmar
+  effect: 1 poäng skada vid varje slag för STYRKEPROV, RÖRLIGHET och NÄRKAMP.
+  healingTime: 1
+54:
+  name: Perforerad Tarm
+  lethal: true
+  healMalus: 0
+  timeLimit: 1
+  timeLimitUnit: Timmar
+  effect: Sjukdom med Smittvärde 6.
+  healingTime: 2
+56:
+  name: Kapad Arm
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Timmar
+  effect: Tvåhandsvapen kan inte användas.
+  healingTime: -1
+62:
+  name: Kapat Ben
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Timmar
+  effect: SPRINGA blir lång handling.
+  healingTime: -1
+64:
+  name: Uppskuren Hals
+  lethal: true
+  healMalus: -1
+  timeLimit: 1
+  timeLimitUnit: Rundor
+  effect: –2 på UTHÅLLIGHET.
+  healingTime: 1
+65:
+  name: Kluven Skalle
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Du dör på fläcken.
+  healingTime: 0
+66:
+  name: Avhugget Huvud
+  lethal: true
+  healMalus: 0
+  timeLimit: 0
+  timeLimitUnit:
+  effect: Ditt huvud lämnar din kropp.
+  healingTime: 0

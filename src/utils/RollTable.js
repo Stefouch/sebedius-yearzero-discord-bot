@@ -56,27 +56,33 @@ class RollTable extends Map {
    * @readonly
    */
   get min() {
-    return Math.min(...this.keys());
+    if (this.max === 66) return 11;
+    if (this.max === 666) return 111;
+    return 1;
   }
 
-  // /**
-  //  * The highest reference.
-  //  * @type {number}
-  //  * @readonly
-  //  */
-  // get max() {
-  //   return this.rollFn();
-  // }
+  /**
+   * The highest reference.
+   * @type {number}
+   * @readonly
+   */
+  get max() {
+    return Math.max(...this.keys());
+  }
 
   /* ------------------------------------------ */
   /*  Map Methods                               */
   /* ------------------------------------------ */
 
   /**
+   * A number, or a string that can be resolved into a number.
+   * @typedef {number|string} NumberResolvable
+   */
+  /**
    * Sets an entry in the table at a defined index.
-   * @param {number}   key        The numbered index for the table value
-   * @param {any}      value      The value to return at this index
-   * @param {boolean} [sort=true] Whether to sort the table after setting this entry
+   * @param {NumberResolvable} key        The numbered index for the table value
+   * @param {any}              value      The value to return at this index
+   * @param {boolean}         [sort=true] Whether to sort the table after setting this entry
    * @returns {this}
    */
   set(key, value, sort = true) {
@@ -109,6 +115,9 @@ class RollTable extends Map {
   get(reference, log = false) {
     if (typeof reference !== 'number') {
       throw new TypeError(`RollTableError[${this.name}]: Reference "${reference}" Not A Number!`);
+    }
+    if (reference > this.max) {
+      return super.get(this.max);
     }
     for (const [key] of this) {
       if (reference <= key) {
@@ -157,8 +166,8 @@ class RollTable extends Map {
    */
   roll(rollFn) {
     const fn = rollFn || this.rollFn;
-    if (typeof rollFn === 'undefined' || typeof rollFn !== 'function') {
-      throw new TypeError('RollTableError[${this.name}]: rollFn Is Not A Function!');
+    if (typeof fn === 'undefined' || typeof fn !== 'function') {
+      throw new TypeError(`RollTableError[${this.name}]: rollFn Is Not A Function!`);
     }
     const seed = fn();
     const value = this.get(seed);
@@ -188,14 +197,28 @@ class RollTable extends Map {
     /** @type {RandFunction} */
     let fn;
 
-    if (hasSameDigits(max)) {
+    if (max === 66) {
+      fn = () => {
+        let result = mod;
+        for (let i = 0; i < qty; i++) result += rand(1, 6) * 10 + rand(1, 6);
+        return result;
+      };
+    }
+    else if (max === 666) {
+      fn = () => {
+        let result = mod;
+        for (let i = 0; i < qty; i++) result += rand(1, 6) * 100 + rand(1, 6) * 10 + rand(1, 6);
+        return result;
+      };
+    }
+    else if (max > 66 && hasSameDigits(max)) {
       // Gets the actual Base. D66 = 6; D88 = 8;
       const digit = max % 10;
       // Creates sequence for the Base <digit>
       const seq = Array(digit).fill().map((x, n) => n + 1).join('');
 
       fn = () => {
-        let result = 0;
+        let result = mod;
         for (let i = 0; i < qty; i++) {
           let seed = rand(1, max);
           // Adjusts the seed.
@@ -204,14 +227,14 @@ class RollTable extends Map {
           // Converts the seed into a valid reference.
           result += +convertToBijective(seed, seq);
         }
-        return result + mod;
+        return result;
       };
     }
     else if (max > 0) {
       fn = () => {
-        let result = 0;
+        let result = mod;
         for (let i = 0; i < qty; i++) result += rand(1, max);
-        return result + mod;
+        return result;
       };
     }
     else {

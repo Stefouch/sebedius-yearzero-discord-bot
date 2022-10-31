@@ -1,6 +1,7 @@
----
 all: alle
-missingPermissionsError: 'Dem Bot {{member}} fehlen die folgenden Berechtigungen und
+D: '{{number}}D{{faces}}'
+missingPermissionsError: >-
+  'Dem Bot {{member}} fehlen die folgenden Berechtigungen und
   er funktioniert möglicherweise nicht richtig: {{perms}}'
 commandError: |-
   Bei diesem Befehl ist ein Fehler aufgetreten: {{name}} {{code}}
@@ -8,3 +9,5 @@ commandError: |-
 talents:
   alien:
     nervesOfSteel: Nerven aus Stahl
+  fbl:
+    lucky: Glückspilz

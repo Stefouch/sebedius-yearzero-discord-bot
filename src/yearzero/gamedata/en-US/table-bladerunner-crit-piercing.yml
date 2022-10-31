@@ -1,0 +1,79 @@
+_name: bladerunner-crit-piercing
+_roll: true
+1:
+  name: Ear Torn Off
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to all `OBSERVATION` rolls.
+2:
+  name: Hand Impaled
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `FIREARMS` and `HAND-TO-HAND COMBAT`.
+3:
+  name: Pierced Eye
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Month
+  effect: Disadvantage to `FIREARMS` and `OBSERVATION`.
+4:
+  name: Shoulder Hit
+  lethal: No
+  timeLimit: 0
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `MOBILITY` and `FIREARMS` rolls.
+5:
+  name: Bleeding Gut
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  healingTimeBeforePermanent: Week
+  effect: Any `MOBILITY` roll re-opens the wound.
+6:
+  name: Cracked Skull
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  healingTimeBeforePermanent: Week
+  effect: Disadvantage to `OBSERVATION` and `TECH`.
+7:
+  name: Punctured Lung
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  healingTimeBeforePermanent: Month
+  effect: Disadvantage to `STAMINA` and `MOBILITY`.
+8:
+  name: Brains Blown Out
+  lethal: Yes
+  timeLimit: 0
+  healingTime: -1
+  effect: Instant death.
+9:
+  name: Massive Internal Organ Damage
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Round
+  healingTimeBeforePermanent: Month
+  effect: You can’t stand upright. Crawling is the only possible mode of movement.
+10:
+  name: Pierced Heart
+  lethal: Yes
+  timeLimit: 0
+  healingTime: 0
+  effect: Instant death.
+11:
+  name: Severed Leg
+  lethal: Yes
+  timeLimit: 1
+  timeLimitUnit: Shift
+  healingTime: -1
+  effect: You can’t stand upright. Crawling is the only possible mode of movement.
+12:
+  name: Shattered Head
+  lethal: Yes
+  timeLimit: 0
+  healingTime: 0
+  effect: Instant death.

@@ -1,0 +1,20 @@
+_name: alien-crit-synthetic
+_roll: true
+16:
+  name: Ruptured Fluid Pump
+  effect: The android loses its next slow action.
+26:
+  name: Detroyed Leg Servos
+  effect: Both legs are non-functional. The android must stay prone and can only crawl.
+36:
+  name: Destroyed Arm Servos
+  effect: One arm is non-functional. The android can only use one-handed gear.
+46:
+  name: Head Dislocation
+  effect: "The android's artificial neck is severely fractured and its head placed in an unnatural position. All fast actions become slow actions."
+56:
+  name: Severe Chassis Breach
+  effect: Internal organs spill out and the android is completely immobilized.
+66:
+  name: System Shutdown
+  effect: The android is torn to shreds or crushed. Core systems are severely damaged and a `COMTECH` roll is required to communicate with the android.

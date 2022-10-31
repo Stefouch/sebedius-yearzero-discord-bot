@@ -109,6 +109,7 @@ module.exports = class InitiativeCommand extends SebediusCommand {
       .setTitle(t('commands:initiative.drawTitle'))
       .setThumbnail(user.avatarURL())
       .setDescription(this.#createDrawDescription(alias, selectedCards, drawnCards, t))
+      .setColor(this.config.colorGradient[Math.min(...selectedCards)])
       .addFields({
         name: t('commands:initiative.drawEvents'),
         value: out.join('\n'),

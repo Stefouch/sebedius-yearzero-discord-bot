@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.0...v6.5.1) (2022-10-28)
+
+### Bug Fixes
+
+- **Help:** 🐛 Hide owner-only commands from the Help autocomplete ([#186](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/186)) ([51a18a1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/51a18a1f6eefac3aa7ac6a2f40e7c54b31037278))
+
+## [6.5.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.4.1...v6.5.0) (2022-10-27)
+
+### Features
+
+- **Commands:** Add `/crit` command ([#183](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/183)) ([b720344](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/b720344b9dd2793306752c7eab2eb60dc3afcd01))
+- **Help:** ✨ Add autocompletion for the `command` argument of the `/help` command ([ecc212f](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/ecc212f13e62bf4894e801cddb014a3b43b7b047))
+- **Locales:** 🌐🇸🇪 Add Swedish translations ([#184](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/184)) ([cdeb2bb](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/cdeb2bb1ade5b1bc9b773255b12de909fbe14f20))
+
+## [6.4.1](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.4.0+a...v6.4.1) (2022-10-18)
+
+### Features
+
+- **Initiative:** ✨ Add color gradient to the embed result ([faa422f](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/faa422fc3baa7398e9b1bc6a5af9747e64a62d4f))
+- **ready-event:** ✨ Add version when ready ([1ea77d3](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/1ea77d3ed695164726567e961cc2c6ddfdf82b59))
+- **Roll:** ✨ Roll a D66 from `/roll` ([#165](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/165)) ([88c3d20](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/88c3d2028567023971b653a98c20954eeb46ab83))
+
+### Bug Fixes
+
+- **Panic:** negative modifiers not reducing stress dice ([#182](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/182)) ([67bf23b](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/67bf23be059cd919d531e69900a2c9f2b81d6996)), closes [#180](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/180) [#180](https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues/180)
+- **Panic:** 🐛 Patch panicValue minimum ([e3284b3](https://github.com/Stefouch/sebedius-yearzero-discord-bot/commit/e3284b35c7b923a675073335d92ee11023a60175))
+
 ## [6.4.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.3.0...v6.4.0) (2022-09-24)
 
 ### Features

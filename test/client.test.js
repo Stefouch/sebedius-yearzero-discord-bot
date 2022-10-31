@@ -5,6 +5,7 @@ const Discord = require('discord.js');
 const Sebedius = require('../src/structures/sebedius-client');
 const loadLocales = require('../src/locales/i18n');
 const handleCommands = require('../src/structures/handlers/command-handler');
+const { YearZeroGames, YearZeroGameNames } = require('../src/constants');
 
 const commandPattern = './src/commands/**/*.js';
 const size = require('glob').sync(commandPattern).length;
@@ -41,6 +42,22 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
         .then(() => handleCommands(bot, commandPattern)
           .then(() => resolve()));
     });
+  });
+
+  describe('❯ Check all games are correctly configured', function () {
+    for (const game of Object.values(YearZeroGames)) {
+      describe(`${game}: ${YearZeroGameNames[game]}`, function () {
+        it('Should have a name', function () {
+          expect(YearZeroGameNames[game]).to.exist;
+        });
+        it('Should have roll options', function () {
+          expect(bot.config.Commands.roll.options[game], `bot.config.Commands.roll.options.${game}`).to.not.be.empty;
+        });
+        it('Should have emoji dice icons', function () {
+          expect(bot.config.DiceIcons[game], `bot.config.DiceIcons.${game}`).to.not.be.empty;
+        });
+      });
+    }
   });
 
   it(`Sebedius is successfully created with ${size} commands`, function () {
@@ -81,6 +98,17 @@ describe('DISCORD BOT CLIENT "SEBEDIUS"', function () {
           let option = {};
           if (cmdName === 'conf') {
             this.skip();
+          }
+          else if (cmdName === 'crit') {
+            option = {
+              name: 'fbl',
+              type: Discord.ApplicationCommandOptionType.Subcommand,
+              options: [{
+                name: 'lucky',
+                value: 2,
+                type: Discord.ApplicationCommandOptionType.Integer,
+              }],
+            };
           }
           else if (cmdName === 'help') {
             option = { name: 'command', value: 'help', type: Discord.ApplicationCommandOptionType.String };
