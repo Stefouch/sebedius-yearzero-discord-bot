@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [6.5.3](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.2...v6.5.3) (2023-04-01)
+
+### Bug Fixes
+
+- Fixed critical issue #195.
+
 ## [6.5.2](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.1...v6.5.2) (2022-10-31)
 
 ### Features
