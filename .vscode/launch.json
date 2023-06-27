@@ -35,6 +35,16 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"name": "Launch Shards",
+			"skipFiles": [
+				"<node_internals>/**",
+				"**/q.js"
+			],
+			"program": "${workspaceFolder}\\index.js"
+		},
+		{
+			"type": "node",
+			"request": "launch",
 			"name": "Register Commands",
 			"skipFiles": [
 				"<node_internals>/**",
