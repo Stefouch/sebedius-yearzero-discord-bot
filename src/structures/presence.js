@@ -68,12 +68,15 @@ module.exports = function (client, delay) {
   if (!delay) delay = client.config.activityLoopDelay;
   if (delay < 30) delay = 30;
 
-  return setInterval(() => {
+  return setInterval(async () => {
     let activity;
     const seed = Math.random();
     if (seed > 0.5) {
+      /** @type {number[]} */ // @ts-ignore
+      const guildCounts = await client.shard.fetchClientValues('guilds.cache.size');
+      const guildTotal = guildCounts.reduce((sum, n) => sum + n, 0);
       activity = {
-        name: `Year Zero on ${client.guilds.cache.size} servers`,
+        name: `Year Zero on ${guildTotal} servers`,
         type: ActivityType.Playing,
       };
     }

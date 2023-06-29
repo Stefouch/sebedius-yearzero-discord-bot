@@ -109,13 +109,14 @@ class Sebedius extends Client {
   /* ------------------------------------------ */
 
   async getGuildCount() {
-    await this.guilds.fetch();
-    return this.guilds.cache.size;
+    /** @type {number[]} */ // @ts-ignore
+    const counts = await this.shard.fetchClientValues('guilds.cache.size');
+    return counts.reduce((sum, n) => sum + n, 0);
   }
 
   async getUserCount() {
-    await this.getGuildCount();
-    return this.guilds.cache.reduce((sum, g) => sum + g.memberCount, 0);
+    const counts = await this.shard.broadcastEval(c => c.guilds.cache.reduce((sum, g) => sum + g.memberCount, 0));
+    return counts.reduce((sum, n) => sum + n, 0);
   }
 
   async getUser(userId) {

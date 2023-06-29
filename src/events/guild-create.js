@@ -4,8 +4,7 @@ const Logger = require('../utils/logger');
 module.exports = class GuildCreateEvent extends SebediusEvent {
   name = 'guildCreate';
   async execute(guild) {
-    const total = this.bot.guilds.cache.size;
-    const msg = `✨ Guild #${total} | Joined: ${guild.name} (${guild.id})`;
+    const msg = `✨ Guild | Joined: ${guild.name} (${guild.id})`;
     Logger.event(msg);
     this.bot.webhookManager.guildCreate(guild);
     const guildOptions = await this.bot.database.guilds.findByIdAndUpdate(

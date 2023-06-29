@@ -4,8 +4,7 @@ const Logger = require('../utils/logger');
 module.exports = class GuilDeleteEvent extends SebediusEvent {
   name = 'guildDelete';
   async execute(guild) {
-    const total = this.bot.guilds.cache.size;
-    const msg = `🚪 Guild #${total} | Left: ${guild.name} (${guild.id})`;
+    const msg = `🚪 Guild | Left: ${guild.name} (${guild.id})`;
     Logger.event(msg);
     this.bot.webhookManager.guildDelete(guild);
     await this.bot.database.guilds.findByIdAndUpdate(
