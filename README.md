@@ -76,7 +76,7 @@ Contributions, translations, issues and feature requests are welcome!<br/>Take a
 
 - [@mprangenberg](https://github.com/mprangenberg) (Code & German translation)
 - [@LordDredger](https://github.com/LordDreger) (French translation with @Stefouch)
-- [@SnakeOfMidgaard](https://github.com/SnakeOfMidgaard) (Swedish translation)
+- [@Zonrotan](https://github.com/zonrotan) (Swedish translation)
 
 # 🔬 Author
 
