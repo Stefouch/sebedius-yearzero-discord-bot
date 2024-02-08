@@ -9,13 +9,6 @@ const PLAYING_ACTIVITIES = [
   { name: '🤖 Mechatron', type: ActivityType.Playing },
   { name: '🎓 Elysium', type: ActivityType.Playing },
   { name: '🚀 Ad Astra', type: ActivityType.Playing },
-  { name: '🚀 Wen Ad Astra?', type: ActivityType.Listening },
-  { name: '🚀 When Ad Astra?', type: ActivityType.Listening },
-  { name: '🚀 When Ad Astra?', type: ActivityType.Listening },
-  { name: '🚀 When Ad Astra?', type: ActivityType.Listening },
-  { name: '🚀 When Ad Astra?', type: ActivityType.Listening },
-  { name: '🚀 When Ad Astra?', type: ActivityType.Listening },
-  { name: '🚀 When Ad Astra?', type: ActivityType.Listening },
   { name: '🐲 Forbidden Lands', type: ActivityType.Playing },
   { name: '❄ Bitter Reach', type: ActivityType.Playing },
   { name: '🏴‍☠️ Forbidden Pirates', type: ActivityType.Playing },
@@ -26,6 +19,7 @@ const PLAYING_ACTIVITIES = [
   { name: '🐙 Cthulhu Year Zero', type: ActivityType.Playing },
   { name: '🪖 Twilight 2K', type: ActivityType.Playing },
   { name: '🦄 Blade Runner RPG', type: ActivityType.Playing },
+  { name: '🧟‍♂️ The Walking Dead RPG', type: ActivityType.Playing },
 ];
 
 const OTHER_ACTIVITIES = [
