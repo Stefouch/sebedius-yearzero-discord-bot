@@ -58,10 +58,10 @@ With the command `/conf locale:<language>` you can translate Sebedius into anoth
 
 | Language | Commands | Gamedata | Progress                                                                                                                     |
 | :------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| Engish   | –        | –        | _Default language_                                                                                                           |
+| English   | –        | –        | _Default language_                                                                                                           |
 | German   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)    |
 | French   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)    |
-| Swedish  | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/sv-SE/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge) |
+| Swedish  | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/sv-SE/badge.svg)](https://gitlocalize.com/repo/7923/sv-SE?utm_source=badge) |
 
 Your language isn't supported yet? See _Contributing_ below!
 
@@ -73,7 +73,7 @@ Contributions, translations, issues and feature requests are welcome!<br/>Take a
 
 - [@mprangenberg](https://github.com/mprangenberg) (Code & German translation)
 - [@LordDredger](https://github.com/LordDreger) (French translation with @Stefouch)
-- [@SnakeOfMidgaard](https://github.com/SnakeOfMidgaard) (Swedish translation)
+- [@Zonrotan](https://github.com/zonrotan) (Swedish translation)
 
 # 🔬 Author
 
