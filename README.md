@@ -56,11 +56,11 @@ By default, Sebedius will use the locale defined in your server, if it is suppor
 
 With the command `/conf locale:<language>` you can translate Sebedius into another language. Supported localisations are:
 
-| Language | Commands | Gamedata | Progress                                                                                                                     |
-| :------- | -------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
-| English   | –        | –        | _Default language_                                                                                                           |
-| German   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)    |
-| French   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)    |
+| Language | Commands | Gamedata | Progress                                                                                                                        |
+| :------- | -------- | -------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| English  | –        | –        | _Default language_                                                                                                              |
+| German   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/de/badge.svg)](https://gitlocalize.com/repo/7923/de?utm_source=badge)       |
+| French   | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/fr/badge.svg)](https://gitlocalize.com/repo/7923/fr?utm_source=badge)       |
 | Swedish  | OK       | Partial  | [![gitlocalized ](https://gitlocalize.com/repo/7923/sv-SE/badge.svg)](https://gitlocalize.com/repo/7923/sv-SE?utm_source=badge) |
 
 Your language isn't supported yet? See _Contributing_ below!
@@ -96,7 +96,17 @@ Give a ⭐️ if this project helped you!
   <img src="https://c5.patreon.com/external/logo/become_a_patron_button@2x.png" width="160">
 </a>
 
-Let's thank **Joe Guilmette, Narcomed and all my other patrons** and generous donators who are supporting this project and are making it possible! _May the bot be merciful with their rolls._
+I want to specifically thanks my patrons who are generous donators and supporting this project, making it possible.
+
+_May the bot be merciful with their rolls._
+
+- Foxy Foundry
+- Jonathan Barber
+- Dale Chenault
+- Kevin K
+- Mel Ellis
+- Oats
+- _And many others_
 
 # 📜 List of Changes
 
