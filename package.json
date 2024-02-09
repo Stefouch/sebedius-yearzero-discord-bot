@@ -1,6 +1,6 @@
 {
   "name": "sebedius-yearzero-discord-bot",
-  "version": "6.5.3",
+  "version": "7.0.0",
   "description": "A bot companion for running Year Zero roleplaying games over Discord.",
   "author": "Stefouch",
   "license": "GPL-3.0-or-later",
@@ -95,7 +95,7 @@
     "test:client": "mocha ./test/client.test.js --exit",
     "test:db": "mocha ./test/db.test.js --exit",
     "precommit-msg": "devmoji -e --lint",
-    "pm2:watch": "pm2 start bot.js --watch & pm2 log",
+    "pm2:watch": "pm2 start index.js --watch & pm2 log",
     "release": "gulp release",
     "register": "node register.js",
     "bump": "npm run lint:fix && gulp bump --r"

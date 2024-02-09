@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.3...v7.0.0) (2024-02-09)
+
+### Sharding
+
+This version adds support for [Sharding](https://discordjs.guide/sharding/#how-does-sharding-work) and allows the bot to be invited on more than 2500 servers.
+
 ## [6.5.3](https://github.com/Stefouch/sebedius-yearzero-discord-bot/compare/v6.5.2...v6.5.3) (2023-04-01)
 
 ### Bug Fixes
