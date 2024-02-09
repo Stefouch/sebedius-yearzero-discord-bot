@@ -213,6 +213,7 @@ function fakeDiscord(client) {
         id: Discord.SnowflakeUtil.generate(),
         type: 0,
       },
+      client,
     ),
     {
       send: async msg => fakeSimpleMessage(client, channel, msg),
@@ -319,7 +320,7 @@ function createFakeInteraction(client, commandName, options) {
       type: Discord.ApplicationCommandType.ChatInput,
       guild_id: client.guilds.cache.at(0).id,
       options,
-      resolved: null,
+      resolved: {},
     },
   });
   i.reply = async () => true;

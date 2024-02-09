@@ -25,7 +25,7 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch Program",
+			"name": "Launch Bot",
 			"skipFiles": [
 				"<node_internals>/**",
 				"**/q.js"
