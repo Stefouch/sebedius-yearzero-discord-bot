@@ -5,6 +5,7 @@
   "author": "Stefouch",
   "license": "GPL-3.0-or-later",
   "homepage": "https://stefouch.be/",
+  "main": "index.js",
   "keywords": [
     "year zero",
     "year zero engine",
@@ -44,27 +45,6 @@
   "bugs": {
     "url": "https://github.com/Stefouch/sebedius-yearzero-discord-bot/issues"
   },
-  "main": "bot.js",
-  "scripts": {
-    "prestart": "node register.js",
-    "start": "node .",
-    "lint": "eslint .",
-    "lint:fix": "eslint --ext .js --fix .",
-    "lines": "bash count-lines-of-code.sh",
-    "upd": "npm list -g --depth=0 & npm outdated -g & npm outdated & npx npm-check -u",
-    "husky:install": "npx husky install",
-    "test": "mocha ./test/*.test.js --exit",
-    "test:roll": "mocha ./test/roll.test.js --exit",
-    "test:table": "mocha ./test/table.test.js --exit",
-    "test:locale": "mocha ./test/locale.test.js --exit",
-    "test:client": "mocha ./test/client.test.js --exit",
-    "test:db": "mocha ./test/db.test.js --exit",
-    "precommit-msg": "devmoji -e --lint",
-    "pm2:watch": "pm2 start bot.js --watch & pm2 log",
-    "release": "gulp release",
-    "register": "node register.js",
-    "bump": "npm run lint:fix && gulp bump --r"
-  },
   "pre-commit": [
     "precommit-msg"
   ],
@@ -99,5 +79,25 @@
     "semver": "^7.6.0",
     "sinon": "^17.0.1",
     "standard-version": "^9.5.0"
+  },
+  "scripts": {
+    "prestart": "node register.js",
+    "start": "node .",
+    "lint": "eslint .",
+    "lint:fix": "eslint --ext .js --fix .",
+    "lines": "bash count-lines-of-code.sh",
+    "upd": "npm list -g --depth=0 & npm outdated -g & npm outdated & npx npm-check -u",
+    "husky:install": "npx husky install",
+    "test": "mocha ./test/*.test.js --exit",
+    "test:roll": "mocha ./test/roll.test.js --exit",
+    "test:table": "mocha ./test/table.test.js --exit",
+    "test:locale": "mocha ./test/locale.test.js --exit",
+    "test:client": "mocha ./test/client.test.js --exit",
+    "test:db": "mocha ./test/db.test.js --exit",
+    "precommit-msg": "devmoji -e --lint",
+    "pm2:watch": "pm2 start bot.js --watch & pm2 log",
+    "release": "gulp release",
+    "register": "node register.js",
+    "bump": "npm run lint:fix && gulp bump --r"
   }
 }

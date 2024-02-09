@@ -9,12 +9,12 @@ const Logger = require('./src/utils/logger');
 // }
 
 const manager = new ShardingManager('./bot.js', {
-  totalShards: 2,
+  totalShards: 'auto',
   // token: PRODUCTION ? process.env.DISCORD_TOKEN : process.env.BETA_DISCORD_TOKEN,
   // execArgv: ['--trace-warnings'],
   // shardArgs: ['--ansi', '--color'],
 });
 
-manager.on('shardCreate', shard => Logger.client(`Launched shard ${shard.id}`));
+manager.on('shardCreate', shard => Logger.client(`🚀 Launched shard ${shard.id}`));
 
 manager.spawn();
