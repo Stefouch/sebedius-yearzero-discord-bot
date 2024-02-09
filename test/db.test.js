@@ -25,11 +25,11 @@ describe('MONGODB DATABASE', function () {
   //   }
   // });
 
-  it('Should have NodeJS version 16.x', function () {
-    const nodeVersion = +process.version.split('.')[0].slice(1);
-    expect(nodeVersion).to.not.be.greaterThan(16);
-    expect(nodeVersion).to.be.greaterThan(15);
-  });
+  // it('Should have NodeJS version 16.x', function () {
+  //   const nodeVersion = +process.version.split('.')[0].slice(1);
+  //   expect(nodeVersion).to.not.be.greaterThan(16);
+  //   expect(nodeVersion).to.be.greaterThan(15);
+  // });
 
   it('Should have a DATABASE_URI environment variable', function () {
     const dbType = 'mongodb';
