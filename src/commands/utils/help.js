@@ -48,10 +48,6 @@ module.exports = class HelpCommand extends SebediusCommand {
           value: `${(await this.bot.getUser(this.bot.ownerId)).toString()}\n${hyperlink('stefouch.be', 'https://www.stefouch.be')}`,
           inline: true,
         }, {
-          name: '🐦 Twitter',
-          value: hyperlink('@stefouch', 'https://twitter.com/stefouch'),
-          inline: true,
-        }, {
           name: `🔗 ${t('commands:help.usefulLinks')}`,
           value: `• ${hyperlink(t('commands:help.addToServer'), this.bot.inviteURL)}`
             + `\n• ${hyperlink(t('commands:help.readTheWiki'), this.bot.config.wikiURL)}`

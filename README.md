@@ -19,9 +19,6 @@
   <a href="https://www.patreon.com/Stefouch">
     <img src="https://img.shields.io/badge/donate-patreon-F96854.svg" alt="Patreon">
   </a>
-  <a href="https://twitter.com/stefouch" target="_blank">
-    <img alt="Twitter: stefouch" src="https://img.shields.io/twitter/follow/stefouch.svg?style=social"/>
-  </a>
 </p>
 
 > **Warning**: **Important Changes!**<br/>
@@ -89,7 +86,6 @@ Contributions, translations, issues and feature requests are welcome!<br/>Take a
 ### 👤 Stefouch
 
 - **Github:** [@Stefouch](https://github.com/Stefouch)
-- **Twitter:** [@stefouch](https://twitter.com/stefouch)
 - **Discord:** Stefouch on [Year Zero Worlds](https://discord.gg/RnaydHR)
 
 # ❤️ Sponsoring
