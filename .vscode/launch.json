@@ -25,12 +25,22 @@
 		{
 			"type": "node",
 			"request": "launch",
-			"name": "Launch Program",
+			"name": "Launch Bot",
 			"skipFiles": [
 				"<node_internals>/**",
 				"**/q.js"
 			],
 			"program": "${workspaceFolder}\\bot.js"
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Launch Shards",
+			"skipFiles": [
+				"<node_internals>/**",
+				"**/q.js"
+			],
+			"program": "${workspaceFolder}\\index.js"
 		},
 		{
 			"type": "node",

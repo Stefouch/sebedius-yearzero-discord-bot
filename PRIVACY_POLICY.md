@@ -34,8 +34,8 @@ With the command `/conf` you can set the default `locale` and `game` for your Di
 
 Typing a command will increment a counter and refresh the last use timestamp in our database. This is the only information that are saved.
 
-The usage statistics are shared with our [Patreon](https://patreon.com/Stefouch) members and [Free League Publishing](https://frialigan.se).
+The usage statistics are shared in the form of an annual report with our [Patreon](https://patreon.com/Stefouch) members and [Free League Publishing](https://frialigan.se).
 
 ## Questions
 
-If you have any additional questions regarding this document, you can of course reach me on Twitter [@stefouch](https://twitter.com/stefouch) or in the public [Year Zero Worlds](https://discord.gg/RnaydHR) Discord server.
+If you have any additional questions regarding this document, you can of course reach me `@stefouch` in the public [Year Zero Worlds](https://discord.gg/RnaydHR) Discord server.
