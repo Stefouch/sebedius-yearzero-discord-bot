@@ -25,6 +25,13 @@ module.exports = class BotInfoCommand extends SebediusCommand {
 
     await interaction.deferReply({ ephemeral:true });
 
+    const channelCount = (await this.bot.shard.fetchClientValues('this.bot.channels.cache.size'))
+      // @ts-ignore
+      .reduce((n, sum) => sum + n, 0);
+    const emojiCount = (await this.bot.shard.fetchClientValues('this.bot.emojis.cache.size'))
+      // @ts-ignore
+      .reduce((n, sum) => sum + n, 0);
+
     const npmv = await worker.process('npm -v').death();
     const embed = new EmbedBuilder()
       .setTitle('`Sebedius Statistics`')
@@ -51,11 +58,11 @@ module.exports = class BotInfoCommand extends SebediusCommand {
         inline: true,
       }, {
         name: 'Channels',
-        value: '' + this.bot.channels.cache.size,
+        value: '' + channelCount,
         inline: true,
       }, {
         name: 'Emojis',
-        value: '' + this.bot.emojis.cache.size,
+        value: '' + emojiCount,
         inline: true,
       }, {
         name: 'Library',
