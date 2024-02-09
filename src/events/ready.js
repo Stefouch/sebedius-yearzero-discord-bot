@@ -7,6 +7,9 @@ module.exports = class ReadyEvent extends SebediusEvent {
   name = 'ready';
   once = true;
   async execute() {
+    if (!this.bot.shard) {
+      return Logger.client(`✅ Sebedius v${this.bot.version} with sharding disabled`);
+    }
     Logger.client(`✅ Sebedius v${this.bot.version} shard ${this.bot.shard.ids} is ready!`);
     Logger.client(`  ├ Logged in as: ${this.bot.user.tag} (${this.bot.user.id})`);
     Logger.client(`  └ # Guilds: ${this.bot.guilds.cache.size}`);
@@ -16,7 +19,8 @@ module.exports = class ReadyEvent extends SebediusEvent {
       const guildCounts = await this.bot.shard.fetchClientValues('guilds.cache.size');
       const guildTotal = guildCounts.reduce((sum, n) => sum + n, 0);
       this.bot.webhookManager.sendLog(
-        `👨‍🔬 **Sebedius** v${this.bot.version} is \`ready\` ! (\`${guildTotal}\` guilds)`,
+        `👨‍🔬 **Sebedius** v${this.bot.version} is \`ready\` ! (\`${guildTotal}\` guilds)`
+        + ` - ${this.bot.shard.count} shards`,
       );
 
       // Sets presence.
